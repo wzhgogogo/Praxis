@@ -1,0 +1,1564 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-p3b-holdout-05-r2-1794326036705-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "[PRIVATE_TURN_SHA256:79ffc23e534124cf277f83e28623cdc806780a9c271d86bebf88371331364b3d]",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "We're 4 people looking for Neapolitan pizza near Nishi-Ogikubo on Sat…",
+          "status": "COMPLETED",
+          "phase": "NO_VERIFIED_RESULT",
+          "taskVersion": 6,
+          "updatedAt": "2026-11-10T15:55:44.977Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "[PRIVATE_TURN_SHA256:79ffc23e534124cf277f83e28623cdc806780a9c271d86bebf88371331364b3d]",
+              "createdAt": "2026-11-10T15:54:01.211Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Nishi-Ogikubo Station.\nThis bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.\nピッツェリア ダ マルコ Pizzeria da Marco: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED\nPizzeria Bar 31: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED\nDa Masa Pizza al Forno: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED (WEBSITE_FACT_READ_FAILED)\nCandidate praxis:restaurant:52d6c58a0f5b36c1509326e9 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:6cd5ba27ab43da2167a67827 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:85691231c0cd9b05f971bf6e lacks fresh evidenced availability for the authoritative request\nThe bounded discovery plan ended without a grounded result; wider source coverage was not evaluated; last source failure: DISCOVERY_SOURCE_INCOMPLETE\nYou can refine the request to start a new investigation.",
+              "createdAt": "2026-11-10T15:55:45.015Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Nishi-Ogikubo"
+            },
+            "date": "2026-11-21",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Neapolitan pizza near Nishi-Ogikubo",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "Neapolitan pizza",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 4,
+            "timeWindow": {
+              "latest": "18:30",
+              "earliest": "18:30"
+            },
+            "schemaVersion": "3",
+            "budgetPerPerson": {
+              "max": 4000,
+              "currency": "JPY"
+            },
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Saturday, November 21",
+                "resolvedDate": "2026-11-21"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "6:30 PM",
+                "resolvedTimeWindow": {
+                  "latest": "18:30",
+                  "earliest": "18:30"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:53:58.618Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Nishi-Ogikubo Station",
+            "latitude": 35.7036961,
+            "longitude": 139.600182,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              },
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Suginami City",
+                "shortText": "Suginami City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 2,
+          "readyCandidateIds": [],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 3,
+            "checkedCount": 3
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                "sourceIds": {
+                  "phone": "03-6913-6276",
+                  "googlePlaces": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                  "googleMapsUri": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://pizzeria-da-marco.com/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:a72e19a86c507ac8e60eaf57",
+                  "sourceIds": "evidence:restaurant:google-discovery:a72e19a86c507ac8e60eaf57",
+                  "outletName": "evidence:restaurant:google-discovery:a72e19a86c507ac8e60eaf57"
+                },
+                "coordinates": {
+                  "lat": 35.7045773,
+                  "lng": 139.59725799999998
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nishi-Ogikubo"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 282,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                "sourceIds": {
+                  "googlePlaces": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                  "googleMapsUri": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Pizzeria Bar 31",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:62cdbc2620d1935cee290d93",
+                  "sourceIds": "evidence:restaurant:google-discovery:62cdbc2620d1935cee290d93",
+                  "outletName": "evidence:restaurant:google-discovery:62cdbc2620d1935cee290d93"
+                },
+                "coordinates": {
+                  "lat": 35.703680899999995,
+                  "lng": 139.6016546
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nishi-Ogikubo"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 133,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                "sourceIds": {
+                  "phone": "03-6913-9858",
+                  "googlePlaces": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                  "googleMapsUri": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Da Masa Pizza al Forno",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:a3c86dbd3d643ae9db6efe7c",
+                  "sourceIds": "evidence:restaurant:google-discovery:a3c86dbd3d643ae9db6efe7c",
+                  "outletName": "evidence:restaurant:google-discovery:a3c86dbd3d643ae9db6efe7c"
+                },
+                "coordinates": {
+                  "lat": 35.7118507,
+                  "lng": 139.603996
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nishi-Ogikubo"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 971,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            }
+          ],
+          "availability": {
+            "praxis:restaurant:52d6c58a0f5b36c1509326e9": [],
+            "praxis:restaurant:6cd5ba27ab43da2167a67827": [],
+            "praxis:restaurant:85691231c0cd9b05f971bf6e": []
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:52d6c58a0f5b36c1509326e9": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T15:54:46.104Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}"
+            },
+            "praxis:restaurant:6cd5ba27ab43da2167a67827": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T15:55:01.352Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}"
+            },
+            "praxis:restaurant:85691231c0cd9b05f971bf6e": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T15:55:04.252Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7036961,
+                "longitude": 139.600182,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJ_TGT1A_uGGARr-etOu_Oe30",
+                "resolvedPlaceName": "Nishi-Ogikubo Station",
+                "resolvedPlaceTypes": [
+                  "transit_station",
+                  "point_of_interest",
+                  "transportation_service",
+                  "establishment"
+                ],
+                "locationNameExactMatch": false,
+                "locationResolutionQuery": "Nishi-Ogikubo",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "44e94dfa1056c02922a6624c051a01bf8ff1f92757c63143c38388972762e501",
+              "observedAt": "2026-11-10T15:54:03.674Z",
+              "sourceEntityId": "ChIJ_TGT1A_uGGARr-etOu_Oe30",
+              "requestFingerprint": "226d3412d9f5adec5b582a9c49d094d1df74dd1a341d45dcb1a69b8f725976fb"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "pizza_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                "placeId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                "areaMatch": true,
+                "areaQuery": "near Nishi-Ogikubo",
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                "primaryType": "pizza_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 282,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Tuesday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Friday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:30 – 9:00 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:30 – 8:00 PM"
+                ],
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:a72e19a86c507ac8e60eaf57",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                "placeId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:a72e19a86c507ac8e60eaf57",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://pizzeria-da-marco.com/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Tuesday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Friday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:30 – 9:00 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:30 – 8:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "pizza restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:2ec1a8cd9e0bb8cc717d1d95",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "italian_restaurant",
+                  "european_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                "placeId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                "areaMatch": true,
+                "areaQuery": "near Nishi-Ogikubo",
+                "outletName": "Pizzeria Bar 31",
+                "primaryType": "italian_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 133,
+                "availabilityPath": "NAME_RESOLUTION",
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:62cdbc2620d1935cee290d93",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                "placeId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                "outletName": "Pizzeria Bar 31"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:62cdbc2620d1935cee290d93",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:3bdb74cee3ed588462728e63",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "italian_restaurant",
+                  "european_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                "placeId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                "areaMatch": true,
+                "areaQuery": "near Nishi-Ogikubo",
+                "outletName": "Da Masa Pizza al Forno",
+                "primaryType": "italian_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 971,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM"
+                ],
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:a3c86dbd3d643ae9db6efe7c",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                "placeId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                "outletName": "Da Masa Pizza al Forno"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:a3c86dbd3d643ae9db6efe7c",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:fb252360127509098cd450e0",
+              "observedAt": "2026-11-10T15:54:44.336Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "c9165c12720c0a1489e9839f926922554377d812adf81510be2e715e6711c4e8"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                "placeId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:a6526275e15008ae074bf191",
+              "observedAt": "2026-11-10T15:55:07.089Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "8c0a8c18cae35d2e634c1f500c48a94056cc2b287dc7c3ab782a7c6b15067ad4"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://pizzeria-da-marco.com/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Tuesday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Friday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:30 – 9:00 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:30 – 8:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "pizza restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:b4bcd9707652264a0af3f39a",
+              "observedAt": "2026-11-10T15:55:07.089Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "8c0a8c18cae35d2e634c1f500c48a94056cc2b287dc7c3ab782a7c6b15067ad4"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                "observationKind": "PUBLIC_PAGE",
+                "sourceAssociation": "GOOGLE_LISTED_WEBSITE_URI",
+                "officialWebsiteVerified": false
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://pizzeria-da-marco.com/",
+              "evidenceId": "evidence:restaurant:website-entity:8e589313133e0fbce049d703",
+              "observedAt": "2026-11-10T15:55:08.070Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:47cf83cc750086bffb8dbf3f425a63ba9271aec23b9964de3f6c68dca3e25f3a"
+              },
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:77b20ada57d70fea55a07385",
+              "requestFingerprint": "fbb69fb46bb3259d10395f7015dd50878614c0f15392ed7df0a485b886e3851d"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "listedCourseDetails": [
+                  "コース(８名様以上)\n３，０００円(税込)～\n内容はお気軽にお問い合わせください\n※要予約(土日祝日・店休日を除く3日前まで)"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://pizzeria-da-marco.com/",
+              "evidenceId": "quoted-source:cf53e4a5cd0b8a62d28258da",
+              "observedAt": "2026-11-10T15:55:13.327Z",
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "コース(８名様以上)\n３，０００円(税込)～\n内容はお気軽にお問い合わせください\n※要予約(土日祝日・店休日を除く3日前まで)",
+                    "amount": 3000,
+                    "sourceUrl": "https://pizzeria-da-marco.com/"
+                  }
+                ]
+              },
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:47cf83cc750086bffb8dbf3f425a63ba9271aec23b9964de3f6c68dca3e25f3a"
+              },
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:77b20ada57d70fea55a07385",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "ピッツェリア ダ マルコのピッツァは薪を使った窯焼き。本格的なナポリピッツァをお楽しみください。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "コース(８名様以上)\n３，０００円(税込)～\n内容はお気軽にお問い合わせください\n※要予約(土日祝日・店休日を除く3日前まで)",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                }
+              ],
+              "requestFingerprint": "{\"identity\":\"evidence:restaurant:website-entity:8e589313133e0fbce049d703\",\"facts\":{\"readAt\":\"2026-11-10T15:55:13.327Z\",\"sourceUrl\":\"https://pizzeria-da-marco.com/\",\"listedCourseDetails\":[\"コース(８名様以上)\\n３，０００円(税込)～\\n内容はお気軽にお問い合わせください\\n※要予約(土日祝日・店休日を除く3日前まで)\"],\"sourceFieldQuotes\":[{\"field\":\"CATEGORY\",\"quote\":\"西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。\",\"sourceUrl\":\"https://pizzeria-da-marco.com/\"},{\"field\":\"CATEGORY\",\"quote\":\"ピッツェリア ダ マルコのピッツァは薪を使った窯焼き。本格的なナポリピッツァをお楽しみください。\",\"sourceUrl\":\"https://pizzeria-da-marco.com/\"},{\"field\":\"COURSE_DESCRIPTION\",\"quote\":\"コース(８名様以上)\\n３，０００円(税込)～\\n内容はお気軽にお問い合わせください\\n※要予約(土日祝日・店休日を除く3日前まで)\",\"sourceUrl\":\"https://pizzeria-da-marco.com/\",\"meal\":\"UNSPECIFIED\"}],\"priceFacts\":{\"schemaVersion\":\"restaurant-price-facts@1\",\"listedCoursePricesYen\":[{\"amount\":3000,\"sourceUrl\":\"https://pizzeria-da-marco.com/\",\"quote\":\"コース(８名様以上)\\n３，０００円(税込)～\\n内容はお気軽にお問い合わせください\\n※要予約(土日祝日・店休日を除く3日前まで)\",\"tax\":\"INCLUDED\",\"meal\":\"UNSPECIFIED\",\"kind\":\"MEAL\"}]}}}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "8",
+                  "13",
+                  "7"
+                ],
+                "restaurantTypeFacts": [
+                  "薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "ピッツェリア ダ マルコのピッツァは薪を使った窯焼き。本格的なナポリピッツァをお楽しみください。",
+                  "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://pizzeria-da-marco.com/",
+              "evidenceId": "website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0",
+              "observedAt": "2026-11-10T15:55:08.070Z",
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "コース(８名様以上)\n３，０００円(税込)～\n内容はお気軽にお問い合わせください\n※要予約(土日祝日・店休日を除く3日前まで)",
+                    "amount": 3000,
+                    "sourceUrl": "https://pizzeria-da-marco.com/"
+                  }
+                ]
+              },
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0"
+              },
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:77b20ada57d70fea55a07385",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "ピッツェリア ダ マルコのピッツァは薪を使った窯焼き。本格的なナポリピッツァをお楽しみください。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0\",\"statementIds\":[\"8\",\"13\",\"7\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Neapolitan pizza"
+                ],
+                "supportingEvidenceIds": [
+                  "website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:52d6c58a0f5b36c1509326e9:2026-11-10T15:55:16.052Z:website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0",
+              "observedAt": "2026-11-10T15:55:16.052Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:52d6c58a0f5b36c1509326e9\",\"criteria\":[\"Neapolitan pizza\"],\"cited\":[\"website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                "placeId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                "outletName": "Pizzeria Bar 31"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:5789a012abeb9b00db69a3c3",
+              "observedAt": "2026-11-10T15:55:16.091Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "26b716e28f46fbf7184ef8fc87725fc6a2214e7c35fad5fa5ff0271270f31f37"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:4fe4c9c9e6c7d6de1f1ce058",
+              "observedAt": "2026-11-10T15:55:16.091Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "26b716e28f46fbf7184ef8fc87725fc6a2214e7c35fad5fa5ff0271270f31f37"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                "placeId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                "outletName": "Da Masa Pizza al Forno"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:86d645d6a6d690d5b3d87a9a",
+              "observedAt": "2026-11-10T15:55:18.394Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "65e672e3878790886e53a86b878d2e1f56000d65d2a77aa21fe01cc3fdfbcd90"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:2737f40e7bb20cd094232021",
+              "observedAt": "2026-11-10T15:55:18.394Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "65e672e3878790886e53a86b878d2e1f56000d65d2a77aa21fe01cc3fdfbcd90"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://pizzeria-da-marco.com/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Tuesday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Friday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:30 – 9:00 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:30 – 8:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "pizza restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:b4bcd9707652264a0af3f39a",
+              "observedAt": "2026-11-10T15:55:07.089Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "8c0a8c18cae35d2e634c1f500c48a94056cc2b287dc7c3ab782a7c6b15067ad4"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "listedCourseDetails": [
+                  "コース(８名様以上)\n３，０００円(税込)～\n内容はお気軽にお問い合わせください\n※要予約(土日祝日・店休日を除く3日前まで)"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://pizzeria-da-marco.com/",
+              "evidenceId": "quoted-source:cf53e4a5cd0b8a62d28258da",
+              "observedAt": "2026-11-10T15:55:13.327Z",
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "コース(８名様以上)\n３，０００円(税込)～\n内容はお気軽にお問い合わせください\n※要予約(土日祝日・店休日を除く3日前まで)",
+                    "amount": 3000,
+                    "sourceUrl": "https://pizzeria-da-marco.com/"
+                  }
+                ]
+              },
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:47cf83cc750086bffb8dbf3f425a63ba9271aec23b9964de3f6c68dca3e25f3a"
+              },
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:77b20ada57d70fea55a07385",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "ピッツェリア ダ マルコのピッツァは薪を使った窯焼き。本格的なナポリピッツァをお楽しみください。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "コース(８名様以上)\n３，０００円(税込)～\n内容はお気軽にお問い合わせください\n※要予約(土日祝日・店休日を除く3日前まで)",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                }
+              ],
+              "requestFingerprint": "{\"identity\":\"evidence:restaurant:website-entity:8e589313133e0fbce049d703\",\"facts\":{\"readAt\":\"2026-11-10T15:55:13.327Z\",\"sourceUrl\":\"https://pizzeria-da-marco.com/\",\"listedCourseDetails\":[\"コース(８名様以上)\\n３，０００円(税込)～\\n内容はお気軽にお問い合わせください\\n※要予約(土日祝日・店休日を除く3日前まで)\"],\"sourceFieldQuotes\":[{\"field\":\"CATEGORY\",\"quote\":\"西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。\",\"sourceUrl\":\"https://pizzeria-da-marco.com/\"},{\"field\":\"CATEGORY\",\"quote\":\"ピッツェリア ダ マルコのピッツァは薪を使った窯焼き。本格的なナポリピッツァをお楽しみください。\",\"sourceUrl\":\"https://pizzeria-da-marco.com/\"},{\"field\":\"COURSE_DESCRIPTION\",\"quote\":\"コース(８名様以上)\\n３，０００円(税込)～\\n内容はお気軽にお問い合わせください\\n※要予約(土日祝日・店休日を除く3日前まで)\",\"sourceUrl\":\"https://pizzeria-da-marco.com/\",\"meal\":\"UNSPECIFIED\"}],\"priceFacts\":{\"schemaVersion\":\"restaurant-price-facts@1\",\"listedCoursePricesYen\":[{\"amount\":3000,\"sourceUrl\":\"https://pizzeria-da-marco.com/\",\"quote\":\"コース(８名様以上)\\n３，０００円(税込)～\\n内容はお気軽にお問い合わせください\\n※要予約(土日祝日・店休日を除く3日前まで)\",\"tax\":\"INCLUDED\",\"meal\":\"UNSPECIFIED\",\"kind\":\"MEAL\"}]}}}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "8",
+                  "13",
+                  "7"
+                ],
+                "restaurantTypeFacts": [
+                  "薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "ピッツェリア ダ マルコのピッツァは薪を使った窯焼き。本格的なナポリピッツァをお楽しみください。",
+                  "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://pizzeria-da-marco.com/",
+              "evidenceId": "website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0",
+              "observedAt": "2026-11-10T15:55:08.070Z",
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "コース(８名様以上)\n３，０００円(税込)～\n内容はお気軽にお問い合わせください\n※要予約(土日祝日・店休日を除く3日前まで)",
+                    "amount": 3000,
+                    "sourceUrl": "https://pizzeria-da-marco.com/"
+                  }
+                ]
+              },
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0"
+              },
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:77b20ada57d70fea55a07385",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "ピッツェリア ダ マルコのピッツァは薪を使った窯焼き。本格的なナポリピッツァをお楽しみください。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "西荻窪駅徒歩5分。薪窯焼きピッツァのお店です。\n薪窯で一枚一枚、心を込めて丁寧に焼き上げたナポリピッツァを、広々とした飾らない空間でゆったりと…。",
+                  "sourceUrl": "https://pizzeria-da-marco.com/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0\",\"statementIds\":[\"8\",\"13\",\"7\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Neapolitan pizza"
+                ],
+                "supportingEvidenceIds": [
+                  "website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:52d6c58a0f5b36c1509326e9:2026-11-10T15:55:16.052Z:website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0",
+              "observedAt": "2026-11-10T15:55:16.052Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:52d6c58a0f5b36c1509326e9\",\"criteria\":[\"Neapolitan pizza\"],\"cited\":[\"website-document:969e55e859f7ced91da556ce9fefca91dfa95735bb1dad71fe8377569e5814f0\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:4fe4c9c9e6c7d6de1f1ce058",
+              "observedAt": "2026-11-10T15:55:16.091Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "26b716e28f46fbf7184ef8fc87725fc6a2214e7c35fad5fa5ff0271270f31f37"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:2737f40e7bb20cd094232021",
+              "observedAt": "2026-11-10T15:55:18.394Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "65e672e3878790886e53a86b878d2e1f56000d65d2a77aa21fe01cc3fdfbcd90"
+            }
+          ],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-10T15:53:58.617Z"
+          },
+          "bookingHandoffs": []
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:2",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 6,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                    "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                    "sourceIds": {
+                      "phone": "03-6913-6276",
+                      "googlePlaces": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                      "googleMapsUri": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://pizzeria-da-marco.com/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:a72e19a86c507ac8e60eaf57",
+                      "sourceIds": "evidence:restaurant:google-discovery:a72e19a86c507ac8e60eaf57",
+                      "outletName": "evidence:restaurant:google-discovery:a72e19a86c507ac8e60eaf57"
+                    },
+                    "coordinates": {
+                      "lat": 35.7045773,
+                      "lng": 139.59725799999998
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nishi-Ogikubo"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 282,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                    "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                    "sourceIds": {
+                      "googlePlaces": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                      "googleMapsUri": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Pizzeria Bar 31",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:62cdbc2620d1935cee290d93",
+                      "sourceIds": "evidence:restaurant:google-discovery:62cdbc2620d1935cee290d93",
+                      "outletName": "evidence:restaurant:google-discovery:62cdbc2620d1935cee290d93"
+                    },
+                    "coordinates": {
+                      "lat": 35.703680899999995,
+                      "lng": 139.6016546
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nishi-Ogikubo"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 133,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+                    "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                    "sourceIds": {
+                      "phone": "03-6913-9858",
+                      "googlePlaces": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                      "googleMapsUri": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Da Masa Pizza al Forno",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:a3c86dbd3d643ae9db6efe7c",
+                      "sourceIds": "evidence:restaurant:google-discovery:a3c86dbd3d643ae9db6efe7c",
+                      "outletName": "evidence:restaurant:google-discovery:a3c86dbd3d643ae9db6efe7c"
+                    },
+                    "coordinates": {
+                      "lat": 35.7118507,
+                      "lng": 139.603996
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nishi-Ogikubo"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 971,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                }
+              ],
+              "availability": {
+                "praxis:restaurant:52d6c58a0f5b36c1509326e9": [],
+                "praxis:restaurant:6cd5ba27ab43da2167a67827": [],
+                "praxis:restaurant:85691231c0cd9b05f971bf6e": []
+              }
+            }
+          },
+          {
+            "artifactId": "artifact:outcome:restaurant:adfd4a4bd5922ec763f289d8:6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "OUTCOME",
+            "sourceVersion": 6,
+            "data": {
+              "outcome": {
+                "status": "NO_VERIFIED_RESULT",
+                "remainingGaps": [
+                  "ピッツェリア ダ マルコ Pizzeria da Marco: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED",
+                  "Pizzeria Bar 31: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED",
+                  "Da Masa Pizza al Forno: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED (WEBSITE_FACT_READ_FAILED)",
+                  "Candidate praxis:restaurant:52d6c58a0f5b36c1509326e9 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:6cd5ba27ab43da2167a67827 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:85691231c0cd9b05f971bf6e lacks fresh evidenced availability for the authoritative request",
+                  "The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated; last source failure: DISCOVERY_SOURCE_INCOMPLETE"
+                ],
+                "unresolvedCandidateIds": [
+                  "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                  "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                  "praxis:restaurant:85691231c0cd9b05f971bf6e"
+                ],
+                "investigatedCandidateIds": [
+                  "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                  "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                  "praxis:restaurant:85691231c0cd9b05f971bf6e"
+                ]
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-10T15:54:01.207Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:3b2bf0fa-3ec8-4879-be57-0382024f327b",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:3b2bf0fa-3ec8-4879-be57-0382024f327b"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "3 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T15:54:44.340Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:1e22900d-81fe-4480-bf64-7f92d944928e",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:1e22900d-81fe-4480-bf64-7f92d944928e"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "0 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T15:55:05.485Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:d93c5b4e-1e12-4b35-8b80-be2f548ff2c5",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:d93c5b4e-1e12-4b35-8b80-be2f548ff2c5"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T15:55:20.603Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:ee998293-491b-4c5e-ba09-e2359546eeea",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:ee998293-491b-4c5e-ba09-e2359546eeea"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "0 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T15:55:43.383Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:dc212a1a-c3bc-4c20-97ee-2654034739cd",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:dc212a1a-c3bc-4c20-97ee-2654034739cd"
+            },
+            "type": "READ_ENDED_NO_VERIFIED_RESULT",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T15:55:44.977Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794326038617,
+      "deadlineAtMs": 1794326538617,
+      "elapsedMs": 106405.06449999986,
+      "modelCalls": 32,
+      "googleRequests": 5,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "[PRIVATE_TURN_SHA256:79ffc23e534124cf277f83e28623cdc806780a9c271d86bebf88371331364b3d]",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                "sourceIds": {
+                  "phone": "03-6913-6276",
+                  "googlePlaces": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                  "googleMapsUri": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://pizzeria-da-marco.com/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                "outletName": "Pizzeria Bar 31",
+                "sourceIds": {
+                  "googlePlaces": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                  "googleMapsUri": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+                "outletName": "Da Masa Pizza al Forno",
+                "sourceIds": {
+                  "phone": "03-6913-9858",
+                  "googlePlaces": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                  "googleMapsUri": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "kind": "ENTITY_MATCH",
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceEntityId": "website:77b20ada57d70fea55a07385",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:3b2bf0fa-3ec8-4879-be57-0382024f327b",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:1e22900d-81fe-4480-bf64-7f92d944928e",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:d93c5b4e-1e12-4b35-8b80-be2f548ff2c5",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:ee998293-491b-4c5e-ba09-e2359546eeea",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:dc212a1a-c3bc-4c20-97ee-2654034739cd",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_ENDED_NO_VERIFIED_RESULT"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

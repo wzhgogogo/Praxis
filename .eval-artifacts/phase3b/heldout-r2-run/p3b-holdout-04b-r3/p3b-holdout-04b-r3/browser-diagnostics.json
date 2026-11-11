@@ -1,0 +1,5948 @@
+{
+  "schemaVersion": "phase3b-g6-browser-diagnostics@1",
+  "runId": "g6-p3b-holdout-04b-r3-1794325379511-0",
+  "events": [
+    {
+      "sequence": 1,
+      "at": "2026-11-10T15:43:08.907Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "elapsedMs": 4339,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-11-10T15:43:08.907Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 4339,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-11-10T15:43:08.907Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "elapsedMs": 4339,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OPEN_SESSION"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-11-10T15:43:09.026Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "elapsedMs": 4458,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 119,
+        "providerElapsedMs": 119,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "LOCAL_PLAYWRIGHT_CHROMIUM"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-11-10T15:43:09.026Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 4458,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 119,
+        "providerElapsedMs": 119,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-11-10T15:43:12.695Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 8127,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3788,
+        "providerElapsedMs": 3788,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-11-10T15:43:13.459Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 8891,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 4552,
+        "providerElapsedMs": 4552,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-11-10T15:43:13.459Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 8891,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 4552,
+        "providerElapsedMs": 4552,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-11-10T15:43:13.553Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 8985,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 4646,
+        "providerElapsedMs": 4646,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-11-10T15:43:13.553Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 8985,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 4646,
+        "providerElapsedMs": 4646,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 11,
+      "at": "2026-11-10T15:43:13.553Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 8985,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 4646,
+        "providerElapsedMs": 4646,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-11-10T15:43:13.649Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 9081,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 4742,
+        "providerElapsedMs": 4742,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-11-10T15:43:13.649Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 9081,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 4742,
+        "providerElapsedMs": 4742,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-11-10T15:43:15.076Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 10508,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6169,
+        "providerElapsedMs": 6169,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-11-10T15:43:15.076Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 10508,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6169,
+        "providerElapsedMs": 6169,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-11-10T15:43:15.077Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 10509,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 6170,
+        "providerElapsedMs": 6170,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-11-10T15:43:15.219Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 10651,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6312,
+        "providerElapsedMs": 6312,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-11-10T15:43:15.219Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 10651,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6312,
+        "providerElapsedMs": 6312,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 19,
+      "at": "2026-11-10T15:43:15.219Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 10651,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 6312,
+        "providerElapsedMs": 6312,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 20,
+      "at": "2026-11-10T15:43:16.142Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 11574,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 7235,
+        "providerElapsedMs": 7235,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-11-10T15:43:16.150Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SKILL_STARTED",
+      "elapsedMs": 11582,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 7243,
+        "providerElapsedMs": 7243,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 22,
+      "at": "2026-11-10T15:43:16.150Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 11582,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 7243,
+        "providerElapsedMs": 7243,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 23,
+      "at": "2026-11-10T15:43:17.302Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 12734,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 8395,
+        "providerElapsedMs": 8395,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 24,
+      "at": "2026-11-10T15:43:17.303Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 12735,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 8396,
+        "providerElapsedMs": 8396,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 25,
+      "at": "2026-11-10T15:43:17.303Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 12735,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 8396,
+        "providerElapsedMs": 8396,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-11-10T15:43:17.305Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 12737,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 8398,
+        "providerElapsedMs": 8398,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-11-10T15:43:17.360Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 12792,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 8453,
+        "providerElapsedMs": 8453,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-11-10T15:43:17.361Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 12793,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 8454,
+        "providerElapsedMs": 8454,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-11-10T15:43:18.261Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 13693,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 9354,
+        "providerElapsedMs": 9354,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-11-10T15:43:18.261Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 13693,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 9354,
+        "providerElapsedMs": 9354,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-11-10T15:43:18.261Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 13693,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 9354,
+        "providerElapsedMs": 9354,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-11-10T15:43:18.420Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 13852,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 9513,
+        "providerElapsedMs": 9513,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-11-10T15:43:18.420Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 13852,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 9513,
+        "providerElapsedMs": 9513,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 34,
+      "at": "2026-11-10T15:43:18.420Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 13852,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 9513,
+        "providerElapsedMs": 9513,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 35,
+      "at": "2026-11-10T15:43:19.405Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 14837,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 10498,
+        "providerElapsedMs": 10498,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 36,
+      "at": "2026-11-10T15:43:19.406Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 14838,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 10499,
+        "providerElapsedMs": 10499,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 37,
+      "at": "2026-11-10T15:43:19.414Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 14846,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 10507,
+        "providerElapsedMs": 10507,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-11-10T15:43:19.414Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 14846,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 10507,
+        "providerElapsedMs": 10507,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 39,
+      "at": "2026-11-10T15:43:20.254Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 15686,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 11347,
+        "providerElapsedMs": 11347,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 40,
+      "at": "2026-11-10T15:43:20.254Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 15686,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 11347,
+        "providerElapsedMs": 11347,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 41,
+      "at": "2026-11-10T15:43:20.254Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 15686,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 11347,
+        "providerElapsedMs": 11347,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "MODEL_FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-11-10T15:43:20.256Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 15688,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 11349,
+        "providerElapsedMs": 11349,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-11-10T15:43:20.275Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 15707,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 11368,
+        "providerElapsedMs": 11368,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-11-10T15:43:20.275Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 15707,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 11368,
+        "providerElapsedMs": 11368,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-11-10T15:43:21.620Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 17052,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 12713,
+        "providerElapsedMs": 12713,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-11-10T15:43:21.620Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 17052,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 12713,
+        "providerElapsedMs": 12713,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-11-10T15:43:21.620Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 17052,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 12713,
+        "providerElapsedMs": 12713,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-11-10T15:43:21.786Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 17218,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 12879,
+        "providerElapsedMs": 12879,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-11-10T15:43:21.786Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 17218,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 12879,
+        "providerElapsedMs": 12879,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 50,
+      "at": "2026-11-10T15:43:21.786Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 17218,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 12879,
+        "providerElapsedMs": 12879,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 51,
+      "at": "2026-11-10T15:43:22.767Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 18199,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 13860,
+        "providerElapsedMs": 13860,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 52,
+      "at": "2026-11-10T15:43:22.768Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 18200,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 13861,
+        "providerElapsedMs": 13861,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 53,
+      "at": "2026-11-10T15:43:22.773Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 18205,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 13866,
+        "providerElapsedMs": 13866,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 54,
+      "at": "2026-11-10T15:43:22.773Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 18205,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 13866,
+        "providerElapsedMs": 13866,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 55,
+      "at": "2026-11-10T15:43:24.160Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 19592,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15253,
+        "providerElapsedMs": 15253,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 56,
+      "at": "2026-11-10T15:43:24.160Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 19592,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15253,
+        "providerElapsedMs": 15253,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 57,
+      "at": "2026-11-10T15:43:24.160Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 19592,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15253,
+        "providerElapsedMs": 15253,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 58,
+      "at": "2026-11-10T15:43:24.162Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 19594,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 15255,
+        "providerElapsedMs": 15255,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK"
+    },
+    {
+      "sequence": 59,
+      "at": "2026-11-10T15:43:24.261Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 19693,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15354,
+        "providerElapsedMs": 15354,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK"
+    },
+    {
+      "sequence": 60,
+      "at": "2026-11-10T15:43:24.262Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 19694,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 15355,
+        "providerElapsedMs": 15355,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 16,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 61,
+      "at": "2026-11-10T15:43:24.595Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 20027,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15688,
+        "providerElapsedMs": 15688,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 16,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 62,
+      "at": "2026-11-10T15:43:24.595Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 20027,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15688,
+        "providerElapsedMs": 15688,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 16,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 63,
+      "at": "2026-11-10T15:43:24.595Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 20027,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 15688,
+        "providerElapsedMs": 15688,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 17,
+        "providerRuntimeOperations": 17,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 64,
+      "at": "2026-11-10T15:43:24.752Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 20184,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15845,
+        "providerElapsedMs": 15845,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 17,
+        "providerRuntimeOperations": 17,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 65,
+      "at": "2026-11-10T15:43:24.752Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 20184,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15845,
+        "providerElapsedMs": 15845,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 17,
+        "providerRuntimeOperations": 17,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 66,
+      "at": "2026-11-10T15:43:24.752Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 20184,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 15845,
+        "providerElapsedMs": 15845,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 18,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 67,
+      "at": "2026-11-10T15:43:25.679Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 21111,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 16772,
+        "providerElapsedMs": 16772,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 18,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 68,
+      "at": "2026-11-10T15:43:25.680Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 21112,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 16773,
+        "providerElapsedMs": 16773,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 18,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 69,
+      "at": "2026-11-10T15:43:25.687Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 21119,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 16780,
+        "providerElapsedMs": 16780,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 18,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 70,
+      "at": "2026-11-10T15:43:25.687Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 21119,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 16780,
+        "providerElapsedMs": 16780,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 18,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 71,
+      "at": "2026-11-10T15:43:26.770Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 22202,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 17863,
+        "providerElapsedMs": 17863,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 18,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 72,
+      "at": "2026-11-10T15:43:26.770Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 22202,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 17863,
+        "providerElapsedMs": 17863,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 18,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 73,
+      "at": "2026-11-10T15:43:26.770Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 22202,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 17863,
+        "providerElapsedMs": 17863,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 18,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 74,
+      "at": "2026-11-10T15:43:26.773Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 22205,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 17866,
+        "providerElapsedMs": 17866,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 19,
+        "providerRuntimeOperations": 19,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK"
+    },
+    {
+      "sequence": 75,
+      "at": "2026-11-10T15:43:26.822Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 22254,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 17915,
+        "providerElapsedMs": 17915,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 19,
+        "providerRuntimeOperations": 19,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK"
+    },
+    {
+      "sequence": 76,
+      "at": "2026-11-10T15:43:26.822Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 22254,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 17915,
+        "providerElapsedMs": 17915,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 20,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 77,
+      "at": "2026-11-10T15:43:27.154Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 22586,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 18247,
+        "providerElapsedMs": 18247,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 20,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 78,
+      "at": "2026-11-10T15:43:27.154Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 22586,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 18247,
+        "providerElapsedMs": 18247,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 20,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 79,
+      "at": "2026-11-10T15:43:27.154Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 22586,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 18247,
+        "providerElapsedMs": 18247,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 21,
+        "providerRuntimeOperations": 21,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 80,
+      "at": "2026-11-10T15:43:27.320Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 22752,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 18413,
+        "providerElapsedMs": 18413,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 21,
+        "providerRuntimeOperations": 21,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 81,
+      "at": "2026-11-10T15:43:27.320Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 22752,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 18413,
+        "providerElapsedMs": 18413,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 21,
+        "providerRuntimeOperations": 21,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 82,
+      "at": "2026-11-10T15:43:27.320Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 22752,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 18413,
+        "providerElapsedMs": 18413,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 83,
+      "at": "2026-11-10T15:43:28.300Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 23732,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 19393,
+        "providerElapsedMs": 19393,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 84,
+      "at": "2026-11-10T15:43:28.301Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 23733,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 19394,
+        "providerElapsedMs": 19394,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 85,
+      "at": "2026-11-10T15:43:28.306Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 23738,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 19399,
+        "providerElapsedMs": 19399,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 86,
+      "at": "2026-11-10T15:43:28.306Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 23738,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 19399,
+        "providerElapsedMs": 19399,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 87,
+      "at": "2026-11-10T15:43:29.613Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 25045,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20706,
+        "providerElapsedMs": 20706,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 88,
+      "at": "2026-11-10T15:43:29.614Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 25046,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20707,
+        "providerElapsedMs": 20707,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 89,
+      "at": "2026-11-10T15:43:29.614Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 25046,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20707,
+        "providerElapsedMs": 20707,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "MODEL_FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 90,
+      "at": "2026-11-10T15:43:29.616Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 25048,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20709,
+        "providerElapsedMs": 20709,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 23,
+        "providerRuntimeOperations": 23,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 91,
+      "at": "2026-11-10T15:43:29.635Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 25067,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20728,
+        "providerElapsedMs": 20728,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 23,
+        "providerRuntimeOperations": 23,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 92,
+      "at": "2026-11-10T15:43:29.635Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 25067,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20728,
+        "providerElapsedMs": 20728,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 24,
+        "providerRuntimeOperations": 24,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 93,
+      "at": "2026-11-10T15:43:30.273Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 25705,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21366,
+        "providerElapsedMs": 21366,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 24,
+        "providerRuntimeOperations": 24,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 94,
+      "at": "2026-11-10T15:43:30.273Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 25705,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21366,
+        "providerElapsedMs": 21366,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 24,
+        "providerRuntimeOperations": 24,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 95,
+      "at": "2026-11-10T15:43:30.273Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 25705,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 21366,
+        "providerElapsedMs": 21366,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 25,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 96,
+      "at": "2026-11-10T15:43:30.419Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 25851,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21512,
+        "providerElapsedMs": 21512,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 25,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 97,
+      "at": "2026-11-10T15:43:30.419Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 25851,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21512,
+        "providerElapsedMs": 21512,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 25,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 98,
+      "at": "2026-11-10T15:43:30.419Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 25851,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 21512,
+        "providerElapsedMs": 21512,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 26,
+        "providerRuntimeOperations": 26,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 99,
+      "at": "2026-11-10T15:43:31.390Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 26822,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 22483,
+        "providerElapsedMs": 22483,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 26,
+        "providerRuntimeOperations": 26,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 100,
+      "at": "2026-11-10T15:43:31.391Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 26823,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 22484,
+        "providerElapsedMs": 22484,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 26,
+        "providerRuntimeOperations": 26,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 101,
+      "at": "2026-11-10T15:43:31.396Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 26828,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 22489,
+        "providerElapsedMs": 22489,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 5,
+        "candidateRuntimeOperations": 26,
+        "providerRuntimeOperations": 26,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 102,
+      "at": "2026-11-10T15:43:31.396Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 26828,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 22489,
+        "providerElapsedMs": 22489,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 26,
+        "providerRuntimeOperations": 26,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 103,
+      "at": "2026-11-10T15:43:32.536Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 27968,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 23629,
+        "providerElapsedMs": 23629,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 26,
+        "providerRuntimeOperations": 26,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 104,
+      "at": "2026-11-10T15:43:32.536Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 27968,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 23629,
+        "providerElapsedMs": 23629,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 26,
+        "providerRuntimeOperations": 26,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 105,
+      "at": "2026-11-10T15:43:32.536Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 27968,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 23629,
+        "providerElapsedMs": 23629,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 26,
+        "providerRuntimeOperations": 26,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 106,
+      "at": "2026-11-10T15:43:32.539Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 27971,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 23632,
+        "providerElapsedMs": 23632,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 27,
+        "providerRuntimeOperations": 27,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK"
+    },
+    {
+      "sequence": 107,
+      "at": "2026-11-10T15:43:32.609Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 28041,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 23702,
+        "providerElapsedMs": 23702,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 27,
+        "providerRuntimeOperations": 27,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK"
+    },
+    {
+      "sequence": 108,
+      "at": "2026-11-10T15:43:32.609Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 28041,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 23702,
+        "providerElapsedMs": 23702,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 28,
+        "providerRuntimeOperations": 28,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 109,
+      "at": "2026-11-10T15:43:32.942Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 28374,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24035,
+        "providerElapsedMs": 24035,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 28,
+        "providerRuntimeOperations": 28,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 110,
+      "at": "2026-11-10T15:43:32.942Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 28374,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24035,
+        "providerElapsedMs": 24035,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 28,
+        "providerRuntimeOperations": 28,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 111,
+      "at": "2026-11-10T15:43:32.942Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 28374,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 24035,
+        "providerElapsedMs": 24035,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 29,
+        "providerRuntimeOperations": 29,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 112,
+      "at": "2026-11-10T15:43:33.102Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 28534,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24195,
+        "providerElapsedMs": 24195,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 29,
+        "providerRuntimeOperations": 29,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 113,
+      "at": "2026-11-10T15:43:33.102Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 28534,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24195,
+        "providerElapsedMs": 24195,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 29,
+        "providerRuntimeOperations": 29,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 114,
+      "at": "2026-11-10T15:43:33.102Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 28534,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 24195,
+        "providerElapsedMs": 24195,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 115,
+      "at": "2026-11-10T15:43:34.042Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 29474,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25135,
+        "providerElapsedMs": 25135,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 116,
+      "at": "2026-11-10T15:43:34.043Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 29475,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25136,
+        "providerElapsedMs": 25136,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 117,
+      "at": "2026-11-10T15:43:34.048Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 29480,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25141,
+        "providerElapsedMs": 25141,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 118,
+      "at": "2026-11-10T15:43:34.048Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 29480,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 25141,
+        "providerElapsedMs": 25141,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 119,
+      "at": "2026-11-10T15:43:35.103Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 30535,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 26196,
+        "providerElapsedMs": 26196,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 120,
+      "at": "2026-11-10T15:43:35.103Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 30535,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 26196,
+        "providerElapsedMs": 26196,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 121,
+      "at": "2026-11-10T15:43:35.103Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 30535,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 26196,
+        "providerElapsedMs": 26196,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 122,
+      "at": "2026-11-10T15:43:35.105Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "REJECTED",
+      "elapsedMs": 30537,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 26198,
+        "providerElapsedMs": 26198,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 30,
+        "providerRuntimeOperations": 30,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "REPEATED_FROM_SAME_STATE"
+    },
+    {
+      "sequence": 123,
+      "at": "2026-11-10T15:43:35.105Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 30537,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 26198,
+        "providerElapsedMs": 26198,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 124,
+      "at": "2026-11-10T15:43:36.025Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 31457,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27118,
+        "providerElapsedMs": 27118,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 125,
+      "at": "2026-11-10T15:43:36.027Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 31459,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27120,
+        "providerElapsedMs": 27120,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 126,
+      "at": "2026-11-10T15:43:36.027Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 31459,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 27120,
+        "providerElapsedMs": 27120,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 127,
+      "at": "2026-11-10T15:43:37.134Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 32566,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28227,
+        "providerElapsedMs": 28227,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 128,
+      "at": "2026-11-10T15:43:37.134Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 32566,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28227,
+        "providerElapsedMs": 28227,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 129,
+      "at": "2026-11-10T15:43:37.134Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 32566,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28227,
+        "providerElapsedMs": 28227,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 130,
+      "at": "2026-11-10T15:43:37.136Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "REJECTED",
+      "elapsedMs": 32568,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28229,
+        "providerElapsedMs": 28229,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "REPEATED_FROM_SAME_STATE"
+    },
+    {
+      "sequence": 131,
+      "at": "2026-11-10T15:43:37.136Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "METHOD_INCOMPLETE",
+      "elapsedMs": 32568,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28229,
+        "providerElapsedMs": 28229,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      },
+      "operation": "NO_PROGRESS"
+    },
+    {
+      "sequence": 132,
+      "at": "2026-11-10T15:43:37.136Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 32568,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 28229,
+        "providerElapsedMs": 28229,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 32,
+        "providerRuntimeOperations": 32,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 133,
+      "at": "2026-11-10T15:43:37.302Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 32734,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28395,
+        "providerElapsedMs": 28395,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 32,
+        "providerRuntimeOperations": 32,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 134,
+      "at": "2026-11-10T15:43:37.302Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 32734,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28395,
+        "providerElapsedMs": 28395,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 32,
+        "providerRuntimeOperations": 32,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search"
+      }
+    },
+    {
+      "sequence": 135,
+      "at": "2026-11-10T15:43:37.305Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 32737,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 28398,
+        "providerElapsedMs": 28398,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 33,
+        "providerRuntimeOperations": 33,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 136,
+      "at": "2026-11-10T15:43:39.147Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 34579,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 30240,
+        "providerElapsedMs": 30240,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 33,
+        "providerRuntimeOperations": 33,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 137,
+      "at": "2026-11-10T15:43:39.861Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 35293,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 30954,
+        "providerElapsedMs": 30954,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 33,
+        "providerRuntimeOperations": 33,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/tokyo-sumo"
+      },
+      "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+    },
+    {
+      "sequence": 138,
+      "at": "2026-11-10T15:43:39.861Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 35293,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 30954,
+        "providerElapsedMs": 30954,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 34,
+        "providerRuntimeOperations": 34,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 139,
+      "at": "2026-11-10T15:43:40.001Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 35433,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31094,
+        "providerElapsedMs": 31094,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 34,
+        "providerRuntimeOperations": 34,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 140,
+      "at": "2026-11-10T15:43:40.001Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "elapsedMs": 35433,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31094,
+        "providerElapsedMs": 31094,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 34,
+        "providerRuntimeOperations": 34,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/tokyo-sumo"
+      }
+    },
+    {
+      "sequence": 141,
+      "at": "2026-11-10T15:43:40.004Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 35436,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 31097,
+        "providerElapsedMs": 31097,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 35,
+        "providerRuntimeOperations": 35,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 142,
+      "at": "2026-11-10T15:43:43.226Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 38658,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 34319,
+        "providerElapsedMs": 34319,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 35,
+        "providerRuntimeOperations": 35,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 143,
+      "at": "2026-11-10T15:43:43.936Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 39368,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 35029,
+        "providerElapsedMs": 35029,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 35,
+        "providerRuntimeOperations": 35,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/wakanui-tokyo"
+      },
+      "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+    },
+    {
+      "sequence": 144,
+      "at": "2026-11-10T15:43:43.936Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 39368,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 35029,
+        "providerElapsedMs": 35029,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 36,
+        "providerRuntimeOperations": 36,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 145,
+      "at": "2026-11-10T15:43:44.051Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 39483,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 35144,
+        "providerElapsedMs": 35144,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 36,
+        "providerRuntimeOperations": 36,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 146,
+      "at": "2026-11-10T15:43:44.051Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "elapsedMs": 39483,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 35144,
+        "providerElapsedMs": 35144,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 36,
+        "providerRuntimeOperations": 36,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/wakanui-tokyo"
+      }
+    },
+    {
+      "sequence": 147,
+      "at": "2026-11-10T15:43:44.052Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 39484,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 35145,
+        "providerElapsedMs": 35145,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 37,
+        "providerRuntimeOperations": 37,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 148,
+      "at": "2026-11-10T15:43:45.623Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 41055,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 36716,
+        "providerElapsedMs": 36716,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 37,
+        "providerRuntimeOperations": 37,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 149,
+      "at": "2026-11-10T15:43:46.338Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 41770,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 37431,
+        "providerElapsedMs": 37431,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 37,
+        "providerRuntimeOperations": 37,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/towershita"
+      },
+      "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+    },
+    {
+      "sequence": 150,
+      "at": "2026-11-10T15:43:46.339Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 41771,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 37432,
+        "providerElapsedMs": 37432,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 38,
+        "providerRuntimeOperations": 38,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 151,
+      "at": "2026-11-10T15:43:46.484Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 41916,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 37577,
+        "providerElapsedMs": 37577,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 38,
+        "providerRuntimeOperations": 38,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 152,
+      "at": "2026-11-10T15:43:46.484Z",
+      "source": "TABLECHECK",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "elapsedMs": 41916,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 37577,
+        "providerElapsedMs": 37577,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 38,
+        "providerRuntimeOperations": 38,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://www.tablecheck.com/en/towershita"
+      }
+    },
+    {
+      "sequence": 153,
+      "at": "2026-11-10T15:43:46.485Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 41917,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 37578,
+        "providerElapsedMs": 37578,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 38,
+        "providerRuntimeOperations": 38,
+        "runModelCalls": 8,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 154,
+      "at": "2026-11-10T15:43:46.485Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 41917,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 37578,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 38,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 155,
+      "at": "2026-11-10T15:43:46.485Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "elapsedMs": 41917,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 37578,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 38,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OPEN_SESSION"
+    },
+    {
+      "sequence": 156,
+      "at": "2026-11-10T15:43:46.598Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "elapsedMs": 42030,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 37691,
+        "providerElapsedMs": 113,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 38,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "LOCAL_PLAYWRIGHT_CHROMIUM"
+    },
+    {
+      "sequence": 157,
+      "at": "2026-11-10T15:43:46.600Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 42032,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 37693,
+        "providerElapsedMs": 115,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 39,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 158,
+      "at": "2026-11-10T15:43:51.289Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 46720,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42381,
+        "providerElapsedMs": 4803,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 39,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 159,
+      "at": "2026-11-10T15:43:51.599Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 47031,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42692,
+        "providerElapsedMs": 5114,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 39,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 160,
+      "at": "2026-11-10T15:43:51.600Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 47032,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 42693,
+        "providerElapsedMs": 5115,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 40,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 161,
+      "at": "2026-11-10T15:43:51.703Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 47135,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42796,
+        "providerElapsedMs": 5218,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 40,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 162,
+      "at": "2026-11-10T15:43:51.703Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 47135,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42796,
+        "providerElapsedMs": 5218,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 40,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 163,
+      "at": "2026-11-10T15:43:51.703Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 47135,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 42796,
+        "providerElapsedMs": 5218,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 41,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 164,
+      "at": "2026-11-10T15:43:52.177Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 47609,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43270,
+        "providerElapsedMs": 5692,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 41,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 165,
+      "at": "2026-11-10T15:43:52.184Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SKILL_STARTED",
+      "elapsedMs": 47616,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43277,
+        "providerElapsedMs": 5699,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 41,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 166,
+      "at": "2026-11-10T15:43:52.184Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 47616,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 43277,
+        "providerElapsedMs": 5699,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 41,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 167,
+      "at": "2026-11-10T15:43:53.297Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 48729,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 44390,
+        "providerElapsedMs": 6812,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 41,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 168,
+      "at": "2026-11-10T15:43:53.297Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 48729,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 44390,
+        "providerElapsedMs": 6812,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 41,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 169,
+      "at": "2026-11-10T15:43:53.297Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 48729,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 44390,
+        "providerElapsedMs": 6812,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 41,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "MODEL_FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 170,
+      "at": "2026-11-10T15:43:53.298Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 48730,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 44391,
+        "providerElapsedMs": 6813,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 42,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 171,
+      "at": "2026-11-10T15:43:53.329Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 48761,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 44422,
+        "providerElapsedMs": 6844,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 42,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 172,
+      "at": "2026-11-10T15:43:53.330Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 48762,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 44423,
+        "providerElapsedMs": 6845,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 43,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 173,
+      "at": "2026-11-10T15:43:54.676Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 50108,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 45769,
+        "providerElapsedMs": 8191,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 43,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 174,
+      "at": "2026-11-10T15:43:54.676Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 50108,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 45769,
+        "providerElapsedMs": 8191,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 43,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 175,
+      "at": "2026-11-10T15:43:54.676Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 50108,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 45769,
+        "providerElapsedMs": 8191,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 44,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 176,
+      "at": "2026-11-10T15:43:54.753Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 50185,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 45846,
+        "providerElapsedMs": 8268,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 44,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 177,
+      "at": "2026-11-10T15:43:54.753Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 50185,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 45846,
+        "providerElapsedMs": 8268,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 44,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 178,
+      "at": "2026-11-10T15:43:54.753Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 50185,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 45846,
+        "providerElapsedMs": 8268,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 45,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 179,
+      "at": "2026-11-10T15:43:55.285Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 50717,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46378,
+        "providerElapsedMs": 8800,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 45,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 180,
+      "at": "2026-11-10T15:43:55.286Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 50718,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46379,
+        "providerElapsedMs": 8801,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 45,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 181,
+      "at": "2026-11-10T15:43:55.294Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 50726,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46387,
+        "providerElapsedMs": 8809,
+        "candidateModelCalls": 9,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 45,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 182,
+      "at": "2026-11-10T15:43:55.294Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 50726,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 46387,
+        "providerElapsedMs": 8809,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 45,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 183,
+      "at": "2026-11-10T15:43:56.329Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 51761,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47422,
+        "providerElapsedMs": 9844,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 45,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 184,
+      "at": "2026-11-10T15:43:56.329Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 51761,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47422,
+        "providerElapsedMs": 9844,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 45,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 185,
+      "at": "2026-11-10T15:43:56.329Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 51761,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47422,
+        "providerElapsedMs": 9844,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 45,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 186,
+      "at": "2026-11-10T15:43:56.330Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 51762,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 47423,
+        "providerElapsedMs": 9845,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 46,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SUBMIT_PUBLIC_QUERY"
+    },
+    {
+      "sequence": 187,
+      "at": "2026-11-10T15:43:57.328Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 52760,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 48421,
+        "providerElapsedMs": 10843,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 46,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SUBMIT_PUBLIC_QUERY"
+    },
+    {
+      "sequence": 188,
+      "at": "2026-11-10T15:43:57.328Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 52760,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 48421,
+        "providerElapsedMs": 10843,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 47,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 189,
+      "at": "2026-11-10T15:43:58.781Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 54213,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49874,
+        "providerElapsedMs": 12296,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 47,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 190,
+      "at": "2026-11-10T15:43:58.781Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 54213,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49874,
+        "providerElapsedMs": 12296,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 47,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 191,
+      "at": "2026-11-10T15:43:58.781Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 54213,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 49874,
+        "providerElapsedMs": 12296,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 48,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 192,
+      "at": "2026-11-10T15:43:58.870Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 54302,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49963,
+        "providerElapsedMs": 12385,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 48,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 193,
+      "at": "2026-11-10T15:43:58.870Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 54302,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49963,
+        "providerElapsedMs": 12385,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 48,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 194,
+      "at": "2026-11-10T15:43:58.870Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 54302,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 49963,
+        "providerElapsedMs": 12385,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 49,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 195,
+      "at": "2026-11-10T15:43:59.096Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 54528,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 50189,
+        "providerElapsedMs": 12611,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 49,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 196,
+      "at": "2026-11-10T15:43:59.097Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 54529,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 50190,
+        "providerElapsedMs": 12612,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 49,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 197,
+      "at": "2026-11-10T15:43:59.100Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 54532,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 50193,
+        "providerElapsedMs": 12615,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 49,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 10
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 198,
+      "at": "2026-11-10T15:43:59.100Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 54532,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 50193,
+        "providerElapsedMs": 12615,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 49,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 199,
+      "at": "2026-11-10T15:44:00.347Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 55779,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 51440,
+        "providerElapsedMs": 13862,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 49,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 200,
+      "at": "2026-11-10T15:44:00.347Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 55779,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 51440,
+        "providerElapsedMs": 13862,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 49,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 201,
+      "at": "2026-11-10T15:44:00.347Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_STOP",
+      "elapsedMs": 55779,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 51440,
+        "providerElapsedMs": 13862,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 49,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "MODEL_COMPLETE"
+    },
+    {
+      "sequence": 202,
+      "at": "2026-11-10T15:44:00.349Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 55781,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 51442,
+        "providerElapsedMs": 13864,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 50,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 203,
+      "at": "2026-11-10T15:44:00.401Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 55833,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 51494,
+        "providerElapsedMs": 13916,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 50,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 204,
+      "at": "2026-11-10T15:44:00.401Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 55833,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 51494,
+        "providerElapsedMs": 13916,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 50,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 205,
+      "at": "2026-11-10T15:44:00.402Z",
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 55834,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 51495,
+        "providerElapsedMs": 13917,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 51,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 206,
+      "at": "2026-11-10T15:44:01.544Z",
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 56976,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52637,
+        "providerElapsedMs": 15059,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 51,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 207,
+      "at": "2026-11-10T15:44:02.253Z",
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 57685,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53346,
+        "providerElapsedMs": 15768,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 51,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      },
+      "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+    },
+    {
+      "sequence": 208,
+      "at": "2026-11-10T15:44:02.253Z",
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 57685,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 53346,
+        "providerElapsedMs": 15768,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 52,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 209,
+      "at": "2026-11-10T15:44:02.367Z",
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 57799,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53460,
+        "providerElapsedMs": 15882,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 52,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 210,
+      "at": "2026-11-10T15:44:02.367Z",
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "elapsedMs": 57799,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53460,
+        "providerElapsedMs": 15882,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 52,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 211,
+      "at": "2026-11-10T15:44:02.373Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 57805,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 53466,
+        "providerElapsedMs": 15888,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 53,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 212,
+      "at": "2026-11-10T15:44:02.435Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 57867,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53528,
+        "providerElapsedMs": 15950,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 53,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 213,
+      "at": "2026-11-10T15:44:02.435Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OBSERVED",
+      "elapsedMs": 57867,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53528,
+        "providerElapsedMs": 15950,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 53,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 214,
+      "at": "2026-11-10T15:44:03.010Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 58442,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 54103,
+        "providerElapsedMs": 16525,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 54,
+        "providerRuntimeOperations": 16,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 215,
+      "at": "2026-11-10T15:44:03.101Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 58533,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 54194,
+        "providerElapsedMs": 16616,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 54,
+        "providerRuntimeOperations": 16,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 216,
+      "at": "2026-11-10T15:44:03.101Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OBSERVED",
+      "elapsedMs": 58533,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 54194,
+        "providerElapsedMs": 16616,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 54,
+        "providerRuntimeOperations": 16,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 217,
+      "at": "2026-11-10T15:44:03.101Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 58533,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 54194,
+        "providerElapsedMs": 16616,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 55,
+        "providerRuntimeOperations": 17,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 218,
+      "at": "2026-11-10T15:44:03.678Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 59110,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 54771,
+        "providerElapsedMs": 17193,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 55,
+        "providerRuntimeOperations": 17,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 219,
+      "at": "2026-11-10T15:44:03.837Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 59269,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 54930,
+        "providerElapsedMs": 17352,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 56,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 220,
+      "at": "2026-11-10T15:44:04.163Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 59595,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 55256,
+        "providerElapsedMs": 17678,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 56,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 221,
+      "at": "2026-11-10T15:44:04.163Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 59595,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 55256,
+        "providerElapsedMs": 17678,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 56,
+        "providerRuntimeOperations": 18,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 222,
+      "at": "2026-11-10T15:44:04.163Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 59595,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 55256,
+        "providerElapsedMs": 17678,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 57,
+        "providerRuntimeOperations": 19,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 223,
+      "at": "2026-11-10T15:44:04.285Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 59717,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 55378,
+        "providerElapsedMs": 17800,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 57,
+        "providerRuntimeOperations": 19,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 224,
+      "at": "2026-11-10T15:44:04.285Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OBSERVED",
+      "elapsedMs": 59717,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 55378,
+        "providerElapsedMs": 17800,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 57,
+        "providerRuntimeOperations": 19,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 225,
+      "at": "2026-11-10T15:44:04.285Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 59717,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 55378,
+        "providerElapsedMs": 17800,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 58,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 226,
+      "at": "2026-11-10T15:44:04.865Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 60297,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 55958,
+        "providerElapsedMs": 18380,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 58,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 227,
+      "at": "2026-11-10T15:44:05.189Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "SKILL_STARTED",
+      "elapsedMs": 60621,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 56282,
+        "providerElapsedMs": 18704,
+        "candidateModelCalls": 11,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 58,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 11
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 228,
+      "at": "2026-11-10T15:44:05.189Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 60621,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 56282,
+        "providerElapsedMs": 18704,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 58,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 229,
+      "at": "2026-11-10T15:44:06.380Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 61812,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 57473,
+        "providerElapsedMs": 19895,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 58,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 230,
+      "at": "2026-11-10T15:44:06.380Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 61812,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 57473,
+        "providerElapsedMs": 19895,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 58,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 231,
+      "at": "2026-11-10T15:44:06.380Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 61812,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 57473,
+        "providerElapsedMs": 19895,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 58,
+        "providerRuntimeOperations": 20,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      },
+      "operation": "MODEL_CLICK_AUTHORITATIVE"
+    },
+    {
+      "sequence": 232,
+      "at": "2026-11-10T15:44:06.382Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 61814,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 57475,
+        "providerElapsedMs": 19897,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 59,
+        "providerRuntimeOperations": 21,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK_AUTHORITATIVE"
+    },
+    {
+      "sequence": 233,
+      "at": "2026-11-10T15:44:06.430Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 61862,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 57523,
+        "providerElapsedMs": 19945,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 59,
+        "providerRuntimeOperations": 21,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CLICK_AUTHORITATIVE"
+    },
+    {
+      "sequence": 234,
+      "at": "2026-11-10T15:44:06.430Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 61862,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 57523,
+        "providerElapsedMs": 19945,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 60,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 235,
+      "at": "2026-11-10T15:44:07.420Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 62852,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 58513,
+        "providerElapsedMs": 20935,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 60,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 236,
+      "at": "2026-11-10T15:44:07.420Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 62852,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 58513,
+        "providerElapsedMs": 20935,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 60,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 237,
+      "at": "2026-11-10T15:44:07.420Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 62852,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 58513,
+        "providerElapsedMs": 20935,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 61,
+        "providerRuntimeOperations": 23,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 238,
+      "at": "2026-11-10T15:44:07.535Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 62967,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 58628,
+        "providerElapsedMs": 21050,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 61,
+        "providerRuntimeOperations": 23,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 239,
+      "at": "2026-11-10T15:44:07.535Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OBSERVED",
+      "elapsedMs": 62967,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 58628,
+        "providerElapsedMs": 21050,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 61,
+        "providerRuntimeOperations": 23,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 240,
+      "at": "2026-11-10T15:44:07.535Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 62967,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 58628,
+        "providerElapsedMs": 21050,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 62,
+        "providerRuntimeOperations": 24,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 241,
+      "at": "2026-11-10T15:44:08.120Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 63552,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 59213,
+        "providerElapsedMs": 21635,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 62,
+        "providerRuntimeOperations": 24,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 242,
+      "at": "2026-11-10T15:44:08.121Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 63553,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 59214,
+        "providerElapsedMs": 21636,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 62,
+        "providerRuntimeOperations": 24,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 243,
+      "at": "2026-11-10T15:44:08.355Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 63787,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 59448,
+        "providerElapsedMs": 21870,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 63,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 244,
+      "at": "2026-11-10T15:44:08.434Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 63866,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 59527,
+        "providerElapsedMs": 21949,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 63,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 245,
+      "at": "2026-11-10T15:44:08.434Z",
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OBSERVED",
+      "elapsedMs": 63866,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 59527,
+        "providerElapsedMs": 21949,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 63,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 12
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 246,
+      "at": "2026-11-10T15:44:08.516Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 63948,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 59609,
+        "providerElapsedMs": 22031,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 63,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 12,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 247,
+      "at": "2026-11-10T15:44:08.517Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 63949,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 59610,
+        "providerElapsedMs": 22032,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 63,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 12,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 248,
+      "at": "2026-11-10T15:44:09.804Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "elapsedMs": 65236,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 60897,
+        "providerElapsedMs": 23319,
+        "candidateModelCalls": 12,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 63,
+        "providerRuntimeOperations": 25,
+        "runModelCalls": 0
+      },
+      "operation": "SESSION_RETIRED"
+    },
+    {
+      "sequence": 249,
+      "at": "2026-11-10T15:44:09.883Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "CANDIDATE_STARTED",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 250,
+      "at": "2026-11-10T15:44:09.883Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 251,
+      "at": "2026-11-10T15:44:09.883Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "SESSION_OPENING",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OPEN_SESSION"
+    },
+    {
+      "sequence": 252,
+      "at": "2026-11-10T15:44:09.969Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "SESSION_OPENED",
+      "elapsedMs": 86,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 86,
+        "providerElapsedMs": 86,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "LOCAL_PLAYWRIGHT_CHROMIUM"
+    },
+    {
+      "sequence": 253,
+      "at": "2026-11-10T15:44:09.969Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 86,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 86,
+        "providerElapsedMs": 86,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 254,
+      "at": "2026-11-10T15:44:13.053Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 3170,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3170,
+        "providerElapsedMs": 3170,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 255,
+      "at": "2026-11-10T15:44:13.770Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 3887,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3887,
+        "providerElapsedMs": 3887,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+    },
+    {
+      "sequence": 256,
+      "at": "2026-11-10T15:44:13.771Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 3887,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 3887,
+        "providerElapsedMs": 3887,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 257,
+      "at": "2026-11-10T15:44:13.867Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 3984,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3984,
+        "providerElapsedMs": 3984,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 258,
+      "at": "2026-11-10T15:44:13.867Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OBSERVED",
+      "elapsedMs": 3984,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3984,
+        "providerElapsedMs": 3984,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 259,
+      "at": "2026-11-10T15:44:13.867Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 3984,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 3984,
+        "providerElapsedMs": 3984,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 260,
+      "at": "2026-11-10T15:44:14.341Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 4458,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 4458,
+        "providerElapsedMs": 4458,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 261,
+      "at": "2026-11-10T15:44:14.341Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 4458,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 4458,
+        "providerElapsedMs": 4458,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 262,
+      "at": "2026-11-10T15:44:14.417Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 4534,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 4534,
+        "providerElapsedMs": 4534,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 263,
+      "at": "2026-11-10T15:44:14.417Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OBSERVED",
+      "elapsedMs": 4534,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 4534,
+        "providerElapsedMs": 4534,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 264,
+      "at": "2026-11-10T15:44:14.417Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 4534,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 4534,
+        "providerElapsedMs": 4534,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 265,
+      "at": "2026-11-10T15:44:14.904Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 5021,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 5021,
+        "providerElapsedMs": 5021,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 266,
+      "at": "2026-11-10T15:44:14.905Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "REJECTED",
+      "elapsedMs": 5022,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 5022,
+        "providerElapsedMs": 5022,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      },
+      "operation": "COMPLETION_RESULT_BUSY"
+    },
+    {
+      "sequence": 267,
+      "at": "2026-11-10T15:44:14.905Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 5022,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 5022,
+        "providerElapsedMs": 5022,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 268,
+      "at": "2026-11-10T15:44:15.224Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 5340,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 5340,
+        "providerElapsedMs": 5340,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 269,
+      "at": "2026-11-10T15:44:15.224Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 5341,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 5341,
+        "providerElapsedMs": 5341,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 270,
+      "at": "2026-11-10T15:44:15.224Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 5341,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 5341,
+        "providerElapsedMs": 5341,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 271,
+      "at": "2026-11-10T15:44:15.335Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 5452,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 5452,
+        "providerElapsedMs": 5452,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 272,
+      "at": "2026-11-10T15:44:15.335Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OBSERVED",
+      "elapsedMs": 5452,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 5452,
+        "providerElapsedMs": 5452,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 273,
+      "at": "2026-11-10T15:44:15.335Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 5452,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 5452,
+        "providerElapsedMs": 5452,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 274,
+      "at": "2026-11-10T15:44:15.822Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 5939,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 5939,
+        "providerElapsedMs": 5939,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 275,
+      "at": "2026-11-10T15:44:15.831Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 5948,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 5948,
+        "providerElapsedMs": 5948,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 276,
+      "at": "2026-11-10T15:44:16.330Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 6447,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6447,
+        "providerElapsedMs": 6447,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 277,
+      "at": "2026-11-10T15:44:16.635Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 6752,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6752,
+        "providerElapsedMs": 6752,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 278,
+      "at": "2026-11-10T15:44:16.635Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 6752,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 6752,
+        "providerElapsedMs": 6752,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 279,
+      "at": "2026-11-10T15:44:16.718Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 6835,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6835,
+        "providerElapsedMs": 6835,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 280,
+      "at": "2026-11-10T15:44:16.718Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OBSERVED",
+      "elapsedMs": 6835,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6835,
+        "providerElapsedMs": 6835,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "page": {
+        "url": "https://tabelog.com/tokyo/A1303/A130303/13210936/"
+      }
+    },
+    {
+      "sequence": 281,
+      "at": "2026-11-10T15:44:16.718Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 6835,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 6835,
+        "providerElapsedMs": 6835,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 282,
+      "at": "2026-11-10T15:44:16.741Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 6858,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6858,
+        "providerElapsedMs": 6858,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 283,
+      "at": "2026-11-10T15:44:16.741Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 6858,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6858,
+        "providerElapsedMs": 6858,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 284,
+      "at": "2026-11-10T15:44:16.741Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "CLOSED",
+      "elapsedMs": 6858,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6858,
+        "providerElapsedMs": 6858,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "SESSION_RETIRED"
+    },
+    {
+      "sequence": 285,
+      "at": "2026-11-10T15:44:16.741Z",
+      "source": "TABELOG",
+      "stage": "FACTS",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 6858,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 6858,
+        "providerElapsedMs": 6858,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "operation": "CANDIDATE_SCOPE"
+    }
+  ]
+}
