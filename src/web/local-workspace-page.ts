@@ -3,7 +3,7 @@ import { WORKSPACE_CLIENT_SCRIPT } from "./workspace-client.js";
 export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
 <html lang="en">
 <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>praxis — Your plans</title>
+<title>Praxis — Your plans</title>
 <style>
 @font-face{font-family:Geist;src:url('/assets/geist.woff2') format('woff2');font-weight:100 900;font-display:swap}
 @font-face{font-family:'Geist Mono';src:url('/assets/geist-mono.woff2') format('woff2');font-weight:100 900;font-display:swap}
@@ -27,6 +27,7 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke
 #backdrop{position:fixed;inset:76px 0 0;background:rgba(21,23,43,.12);z-index:7}
 main{max-width:660px;margin:auto;padding:32px 24px 40px}#home{min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:32px}
 #home h1{text-align:center}html{scroll-padding-bottom:var(--composer-clearance,120px)}#case-workspace{padding-bottom:var(--composer-clearance,120px)}.workspace-head{display:flex;align-items:flex-start;gap:12px;justify-content:space-between;margin-bottom:16px}
+.workspace-head,#request-conditions{margin-left:16px;margin-right:16px}
 #case-title{font-size:24px;max-width:420px;line-height:1.3}#saved{background:#fff;box-shadow:0 2px 8px rgba(21,23,43,.08);font-size:13px;white-space:nowrap}
 #saved{display:inline-flex;align-items:center;gap:8px}#saved-count{color:#5F6275}
 #request-conditions{font-size:13px;color:#5F6275;line-height:1.7;margin-bottom:24px}#progress{margin:20px 0 28px}
@@ -38,10 +39,10 @@ main{max-width:660px;margin:auto;padding:32px 24px 40px}#home{min-height:62vh;di
 .photo{height:220px;background:#F5F6F9;border-radius:8px;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;margin-bottom:22px}
 .initial{font-size:24px;font-weight:600;color:#5F6275}.photo small{font-size:13px;color:#5F6275}
 #bookmark{position:absolute;top:12px;right:12px;width:42px;height:42px;background:#fff;padding:9px;box-shadow:0 2px 8px rgba(21,23,43,.08)}
-#bookmark[aria-pressed=true] svg{fill:#15172B}#restaurant-name{margin:0 4px 12px}#key-facts{margin:0 4px 18px;color:#5F6275;font-size:13px;display:flex;flex-wrap:wrap;gap:16px}
-#availability{margin:0 4px 4px;font-size:15px}#evidence{margin:0 4px 18px;font-size:13px;color:#5F6275}
-#availability::before{content:'';display:inline-block;height:6px;width:6px;box-shadow:inset 0 0 0 1px #5F6275;margin:0 8px 2px 0}#availability[data-status=available]::before{background:#15172B;box-shadow:none}
-#recommendation{margin:0 4px 22px;line-height:1.55}#card-actions{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+#bookmark[aria-pressed=true] svg{fill:#15172B}#restaurant-name{margin:0 0 12px}#key-facts{margin:0 0 18px;color:#5F6275;font-size:13px;display:flex;flex-wrap:wrap;gap:16px}
+#availability{margin:0 0 4px;font-size:15px}#evidence{margin:0 0 18px;font-size:13px;color:#5F6275}
+
+#recommendation{margin:0 0 22px;line-height:1.55}#card-actions{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 #card-actions button,#card-counter{font-size:13px}#card-counter{color:#5F6275}#details-button{padding-left:4px}#choose{margin-bottom:2px}
 .view-back{padding:8px 0;margin-bottom:18px;font-size:13px}#details h2,#handoff h2{margin:0 0 20px}
 #details-content,#handoff-terms{display:flex;flex-direction:column;gap:18px;font-size:15px;line-height:1.55}
@@ -53,7 +54,7 @@ main{max-width:660px;margin:auto;padding:32px 24px 40px}#home{min-height:62vh;di
 #handoff-terms{margin:20px 0 28px}#departure{display:block;text-align:center}.hint{font-size:13px;color:#5F6275;line-height:1.55;margin-top:7px}
 #direct-source{display:block;text-align:center;font-size:13px;margin:20px 0 4px;text-decoration:underline}#handoff-unavailable{line-height:1.6;font-size:13px;color:#5F6275}
 #messages{margin-top:24px;line-height:1.6;font-size:15px;white-space:pre-wrap}
-#request-conditions{display:flex;flex-wrap:wrap;gap:8px}#request-conditions button{font-size:13px;padding:7px 12px;background:#fff;box-shadow:0 2px 8px rgba(21,23,43,.08)}
+#request-conditions{display:flex;flex-wrap:wrap;gap:8px}#request-conditions button{font-size:13px;min-height:40px;padding:9px 12px;background:#fff;box-shadow:0 2px 8px rgba(21,23,43,.08)}
 #reconnecting{position:sticky;top:0;z-index:7;background:#F5F6F9;padding:7px 20px;font-size:13px}
 #answer-backdrop{position:fixed;inset:0;z-index:9;background:transparent}
 #answer-sheet{position:fixed;left:20px;right:20px;bottom:0;z-index:10;max-width:612px;margin:auto;max-height:65vh;overflow:auto;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -8px 24px rgba(21,23,43,.08);padding:0 20px 24px;overscroll-behavior:contain}
@@ -80,11 +81,11 @@ main{max-width:660px;margin:auto;padding:32px 24px 40px}#home{min-height:62vh;di
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
 </style></head>
 <body>
-<section id="login" hidden><h1>Welcome to praxis</h1><p>Sign in to continue your plans.</p>
+<section id="login" hidden><h1>Welcome to Praxis</h1><p>Sign in to continue your plans.</p>
 <form id="login-form"><label for="access-token">Access token</label><input id="access-token" autocomplete="off" required/><button class="primary">Sign in</button></form>
 <p id="login-error" role="alert" hidden></p><p>Local Fixture access: praxis-fixture-a. No real reservations.</p></section>
 <div id="app" hidden>
-<header id="topbar"><button id="menu" aria-label="My plans" aria-expanded="false" aria-controls="plans"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a href="#" id="brand" class="brand" aria-label="praxis home">praxis<span class="cursor"></span></a><button id="new-case">New plan <span aria-hidden="true">+</span></button></header>
+<header id="topbar"><button id="menu" aria-label="My plans" aria-expanded="false" aria-controls="plans"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a href="#" id="brand" class="brand" aria-label="Praxis home">Praxis<span class="cursor"></span></a><button id="new-case">New plan <span aria-hidden="true">+</span></button></header>
 <div id="backdrop" hidden></div><aside id="plans" aria-label="My plans"><h2>My plans</h2><nav id="case-list"></nav><details id="profile"><summary>Profile</summary><p id="profile-name"></p><button id="logout">Sign out</button></details></aside>
 <div id="reconnecting" role="status" hidden>Reconnecting…</div>
 <main><section id="home"><h1>What do you want to plan?</h1><div id="home-composer"></div></section>

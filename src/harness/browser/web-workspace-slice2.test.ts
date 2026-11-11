@@ -29,6 +29,11 @@ for(const size of sizes){
     page.on("request",r=>{if(r.method()==="POST")posts.push({path:new URL(r.url()).pathname,body:r.postDataJSON()});});
     try{
       await start(page,host,"Dinner for two couples");
+      assert.equal((await page.locator('#brand').innerText()).trim(),'Praxis');
+      const title=await page.locator('#case-title').boundingBox(),chip=await page.locator('#request-conditions button').first().boundingBox(),name=await page.locator('#restaurant-name').boundingBox(),evidence=await page.locator('#evidence').boundingBox();
+      assert.ok(title&&chip&&name&&evidence);
+      for(const box of [chip,name,evidence])assert.ok(Math.abs(box.x-title.x)<1,'workspace content shares a left edge');
+
       assert.equal(await page.locator("#request-conditions").getByRole("button",{name:"4 guests?",exact:true}).count(),1);
       assert.equal(await page.locator("#request-conditions").getByRole("button",{name:"Mon, Nov 2",exact:true}).count(),1);
       await page.locator("#request-conditions").getByRole("button",{name:"4 guests?",exact:true}).click();
@@ -267,14 +272,15 @@ for(const size of sizes)test("Workspace 3c "+size.name+": each observed booking 
  const browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:size}),page=await context.newPage();
  try{
   await start(page,host,"Dinner for two");
-  assert.equal(await page.locator('#delivery-slots p').count(),2);
+  assert.equal(await page.locator('#delivery-slots p').count(),1);
+  assert.match(await page.locator('#availability').innerText(),/19:00/);
   await page.locator('#choose').click();const selector=page.getByLabel('Booking time',{exact:true});
   assert.equal(await selector.locator('option').count(),2);
   const initial=await page.locator('#departure').getAttribute('href');
   const choices=await selector.locator('option').evaluateAll(nodes=>nodes.map(n=>(n as HTMLOptionElement).value));
   await selector.selectOption(choices[1]!);
   const later=await page.locator('#departure').getAttribute('href');assert.notEqual(later,initial);
-  assert.equal(await page.locator('#direct-source').getAttribute('href'),later);
+  assert.equal(await page.locator('#direct-source').isVisible(),false);
   assert.match(later!,/start_time=19%3A30/);
   await page.reload();await page.locator('#handoff').waitFor({state:'visible'});
   assert.equal(await page.locator('#departure').getAttribute('href'),later);

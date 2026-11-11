@@ -74,7 +74,7 @@ function preserveSources(target,build){const open=new Set([...target.querySelect
 function renderDelivery(){
  const r=state.view.restaurant,id=state.ui.candidateId;
  const offers=(r.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());
- $('delivery-slots').replaceChildren(...offers.map(o=>element('p',availabilityTime(o.dateTime)+'　'+o.partySize+' guests')));
+ $('delivery-slots').replaceChildren(...offers.slice(1).map(o=>element('p',availabilityTime(o.dateTime)+'　'+o.partySize+' guests')));
  preserveSources($('delivery-conditions'),target=>{for(const item of r.conditionStates&&r.conditionStates[id]||[]){
   const row=element('div',undefined,'fact');row.append(element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status]));
   for(const source of item.sources||[]){row.append(element('p',source.quote,'muted'),link('Source',source.sourceUrl));
@@ -123,7 +123,7 @@ function renderConditions(){
   if(draft.budgetPerPerson)parts.push([money(draft.budgetPerPerson.max)+' per guest']);
   for(const criterion of draft.criteria||[])parts.push([criterion.text]);
   $('request-conditions').replaceChildren(...parts.map(([label,inferred])=>{
-    const button=element('button',label+(inferred?'?':''));button.onclick=()=>{setView('CANDIDATES');$('message').value='Change '+label+' to ';$('message').focus({preventScroll:true});};return button;
+    const button=element('button',label+(inferred?'?':''));button.title='Change '+label;button.onclick=()=>{setView('CANDIDATES');$('message').value='Change '+label+' to ';$('message').focus({preventScroll:true});};return button;
   }));
 }
 function changeReason(code){return ({OVER_BUDGET:'Over budget',NEW_TIME_MISMATCH:"Doesn't match the new time",NO_LONGER_MATCHES:'No longer matches'})[code]||'No longer matches';}
@@ -166,7 +166,7 @@ function renderHandoff(){
   if(h){
     const parts=h.continueLabel.split(' — ');
     text('departure-title',parts[0]+' ↗');const fields=parts[1]||'';text('departure-fields',fields.charAt(0).toUpperCase()+fields.slice(1));
-    $('departure').href=h.url;text('selection-hint',h.selectionHint||'');text('verification-hint',h.verificationHint||'');
+    $('departure').href=h.url;text('selection-hint',h.selectionHint||'');text('verification-hint',h.verificationHint==='Check date and guests'?'Check date and guests on the website':h.verificationHint||'');
   }
   const signature=JSON.stringify([c.restaurant.id,h||null]);
   if(signature!==state.handoffKey){
@@ -188,7 +188,7 @@ function renderHandoff(){
     });
   }
   const href=h&&h.url||source&&safeLink(source.sourceUrl);
-  show('direct-source',!!href);if(href)$('direct-source').href=href;
+  show('direct-source',!h&&!!href);if(href)$('direct-source').href=href;
 }
 function updateComposerClearance(){const host=$('workspace-composer');if(host.hidden)return;const bottom=parseFloat(getComputedStyle(host).bottom)||0;document.documentElement.style.setProperty('--composer-clearance',(host.getBoundingClientRect().height+bottom+24)+'px');}
 new ResizeObserver(updateComposerClearance).observe($('workspace-composer'));window.addEventListener('resize',updateComposerClearance);

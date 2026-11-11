@@ -201,7 +201,7 @@ for(const size of sizes){
     }finally{host.release();await browser.close();await host.close();}
   });
 }
-for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms keep both source actions above the composer",{timeout:25_000},async()=>{
+for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms keep the departure visible without a duplicate source action",{timeout:25_000},async()=>{
   const host=await startWorkspaceFixture({provider:"TABELOG",cancellationConflict:true});
   const browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:size.width,height:size.height}}),page=await context.newPage();
   let departures=0;
@@ -217,15 +217,16 @@ for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms ke
     assert.equal(await page.locator("#verification-hint").isVisible(),false);
     assert.doesNotMatch(await page.locator("#selection-hint").innerText(),/cancellation|selected|booked/i);
     for(const summary of await page.locator("#handoff-terms summary").all())await summary.click();
-    await page.locator("#direct-source").scrollIntoViewIfNeeded();
-    await aboveComposer(page,["departure","direct-source"]);
-    await capture(page,size.name+"-cancellation-actions","#direct-source");
-    for(const id of ["departure","direct-source"]){
+    await page.locator("#departure").scrollIntoViewIfNeeded();
+    assert.equal(await page.locator("#direct-source").isVisible(),false);
+    await aboveComposer(page,["departure"]);
+    await capture(page,size.name+"-cancellation-actions","#departure");
+    for(const id of ["departure"]){
       await page.locator("#"+id).scrollIntoViewIfNeeded();await aboveComposer(page,[id]);
       const popupPromise=page.waitForEvent("popup");await page.locator("#"+id).click();const popup=await popupPromise;
       await popup.getByRole("heading",{name:"Fixture destination",exact:true}).waitFor();await popup.close();await page.bringToFront();
     }
-    assert.equal(departures,2,"both explicit actions must reach only the local source receiver");
+    assert.equal(departures,1,"the single departure must reach only the local source receiver");
     await capture(page,size.name+"-cancellation-conflict");
   }finally{await context.close();await browser.close();await host.close();}
 });
