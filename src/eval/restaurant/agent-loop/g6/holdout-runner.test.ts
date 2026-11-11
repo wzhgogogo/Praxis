@@ -90,7 +90,7 @@ for(const remainingS0 of [false,true])test(`reevaluation preserves original scor
  const root=await mkdtemp(join(tmpdir(),'reevaluate-fiction-'));const git=(...args:string[])=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['pipe','pipe','pipe']}).trim();
  try{
   git('init');git('config','user.name','Fixture');git('config','user.email','fixture@example.invalid');const evaluator='src/eval/restaurant/agent-loop/g6/evaluator.ts';await mkdir(join(root,evaluator,'..'),{recursive:true});await writeFile(join(root,evaluator),'before');git('add','.');git('commit','-m','before');const old=git('rev-parse','HEAD');await writeFile(join(root,evaluator),'after');git('add','.');git('commit','-m','after');const current=git('rev-parse','HEAD');
-  await writeFile(join(root,'input-hashes.json'),JSON.stringify({sourceSHA:old}));
+  const output=join(root,'nested-output');await mkdir(output);await writeFile(join(output,'input-hashes.json'),JSON.stringify({sourceSHA:old}));
   const state:import('./holdout-checkpoint.js').HoldoutCheckpoint={schema:'phase3b-holdout-batch@2',serial:true,status:'FAILED_S0',stopReason:'S0_STOP',receipts:[],healthyCases:[]};
   for(const [index,url] of ['http://official.example/',...(remainingS0?['http://official.example/payment']:[])].entries()){
    const key='fiction-'+index,path=join(root,key),slot=join(path,key);await mkdir(slot,{recursive:true});
@@ -99,10 +99,10 @@ for(const remainingS0 of [false,true])test(`reevaluation preserves original scor
    await writeFile(join(slot,'evaluation.json'),JSON.stringify(score));await writeFile(join(slot,'evaluation.input.json'),JSON.stringify(input));state.receipts.push({id:key,key,repetition:1,path,status:'STOPPED',environmentReplacement:false});
   }
   const original=await readFile(join(state.receipts[0]!.path,state.receipts[0]!.key,'evaluation.json'));
-  await reevaluateSavedHoldout(root,state,current,v=>v,async()=>{});
+  await reevaluateSavedHoldout(output,state,current,v=>v,async()=>{});
   assert.equal(state.status,remainingS0?'FAILED_S0':undefined);assert.equal(state.stopReason,remainingS0?'S0_STOP':null);assert.equal(state.reevaluations?.length,remainingS0?2:1);
   assert.deepEqual(await readFile(join(state.receipts[0]!.path,state.receipts[0]!.key,'evaluation.json')),original);
-  await reevaluateSavedHoldout(root,state,current,v=>v,async()=>{});assert.equal(state.reevaluations?.length,remainingS0?2:1);
-  await writeFile(join(state.receipts[0]!.path,'evaluation.reevaluated.json'),'changed');await assert.rejects(reevaluateSavedHoldout(root,state,current,v=>v,async()=>{}),/HOLDOUT_REEVALUATION_CHANGED/);
+  await reevaluateSavedHoldout(output,state,current,v=>v,async()=>{});assert.equal(state.reevaluations?.length,remainingS0?2:1);
+  await writeFile(join(state.receipts[0]!.path,'evaluation.reevaluated.json'),'changed');await assert.rejects(reevaluateSavedHoldout(output,state,current,v=>v,async()=>{}),/HOLDOUT_REEVALUATION_CHANGED/);
  }finally{await rm(root,{recursive:true,force:true});}
 });

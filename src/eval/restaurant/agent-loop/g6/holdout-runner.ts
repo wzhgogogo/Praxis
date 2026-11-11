@@ -65,7 +65,7 @@ export function checkHTTPReevaluation(input:G6EvaluationInput,previous:G6Evaluat
 export async function reevaluateSavedHoldout(root:string,state:HoldoutCheckpoint,sourceSHA:string,transform:(v:unknown)=>unknown,save:()=>Promise<void>){
  const saved=(await readJSON<HoldoutRunAudit>(join(root,'input-hashes.json')))!;
  if(saved.sourceSHA===sourceSHA)return;
- const changed=execFileSync('git',['diff','--name-only',saved.sourceSHA,sourceSHA,'--','src/eval/restaurant/agent-loop/g6/evaluator.ts'],{cwd:root,encoding:'utf8'}).trim();
+ const changed=execFileSync('git',['diff','--name-only',saved.sourceSHA,sourceSHA,'--',':(top)src/eval/restaurant/agent-loop/g6/evaluator.ts'],{cwd:root,encoding:'utf8'}).trim();
  if(!changed)return;
  const evaluatorSHA256=holdoutHash(await readFile(new URL('./evaluator.ts',import.meta.url)));
  const pending:Array<{attempt:HoldoutAttempt;score:G6Evaluation;row:NonNullable<HoldoutCheckpoint['reevaluations']>[number]}> = [];
