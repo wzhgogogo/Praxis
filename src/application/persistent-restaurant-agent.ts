@@ -201,6 +201,18 @@ function assistantSummary(state: RestaurantTaskState): string {
       return `Please add: ${(state.intentDraft?.target?.goal === "AVAILABILITY"
         ? missingBlockingFields(state.intentDraft ?? {})
         : missingSearchFields(state.intentDraft ?? {})).join(", ")}.`;
+    case "PRESENT_RESULTS": {
+      const presented=new Set(state.presentedResults?.candidateIds??[]);
+      const restaurants=state.candidates.filter(c=>presented.has(c.restaurant.id));
+      return [`Found ${restaurants.length} restaurant${restaurants.length===1?"":"s"}.`,...restaurants.map(candidate=>{
+        const slots=state.availability[candidate.restaurant.id]??[];
+        const details=slots.map(slot=>{
+          const local=new Intl.DateTimeFormat("en-CA",{timeZone:slot.timezone,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(new Date(slot.dateTime));
+          return `${local} for ${slot.partySize} guests`;
+        });
+        return `${candidate.restaurant.outletName}${details.length?": "+details.join("; "):""}.`;
+      })].join("\n");
+    }
     case "AWAITING_AUTHORIZATION":
       return state.proposal
         ? `A booking proposal for ${state.proposal.target.counterparty ?? state.proposal.target.id} is ready. Your one-time authorization is required before any booking attempt.`
@@ -229,7 +241,7 @@ function assistantSummary(state: RestaurantTaskState): string {
         : `The read-only investigation stopped. No ${resultKind} was presented.`;
       }
     default:
-      return `The case is now ${state.phase.toLowerCase().replaceAll("_", " ")}.`;
+      return "Your restaurant request has been updated.";
   }
   })();
 }

@@ -33,7 +33,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean}={}) {
+export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;cuisineDisagreement?:boolean}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -95,6 +95,12 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
       const sourceUrl=provider==="TABLECHECK"?"https://www.tablecheck.com/en/shops/"+sourceEntityId+"/reserve":"https://tabelog.com/en/tokyo/A1301/A130101/"+sourceEntityId+"/";
       const ground=provider==="TABLECHECK"?groundTableCheckAvailability:groundTabelogAvailability;
       const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),requestedDate:"2026-11-02",requestedPartySize:request.partySize,visibleSlots:["19:00"],pageState:"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]}},clock.now().toISOString());
+      if(options.cuisineDisagreement){
+        const at=clock.now().toISOString(),placeId='fixture-place:'+id;
+        result.evidence.push({evidenceId:'google-identity:'+id,kind:'ENTITY_MATCH',provider:'GOOGLE_PLACES',candidateId:id,sourceEntityId:placeId,observedAt:at,requestFingerprint:'fixture',claims:{},entityMatch:{confidence:'HIGH',matchedBy:['SYNTHETIC_SAME_OUTLET']}},
+          {evidenceId:'google-category:'+id,kind:'RESTAURANT_FACT',provider:'GOOGLE_PLACES',candidateId:id,sourceEntityId:placeId,sourceUrl:'https://maps.google.com/?cid=123',observedAt:at,requestFingerprint:'fixture',claims:{restaurantTypeFacts:['cantonese restaurant','dim sum restaurant']}},
+          {evidenceId:'source-category:'+id,kind:'RESTAURANT_FACT',provider,candidateId:id,sourceEntityId,sourceUrl,observedAt:at,requestFingerprint:'fixture',claims:{},sourceFieldQuotes:[{field:'CATEGORY',quote:'Chinese, Dumpling, Izakaya',sourceUrl}]});
+      }
       const entity=result.evidence.find(e=>e.kind==="ENTITY_MATCH")!,availability=result.evidence.find(e=>e.kind==="AVAILABILITY")!;
       let source:BookingHandoffSource={...structuredClone(raw.source),candidateId:id,sourceEntityId,offerId:result.offers[0]!.id,availabilityEvidenceId:availability.evidenceId,
         url:index===0&&request.partySize===2?raw.source.url:"https://tabelog.com/en/booking/form_course/new?rcd="+sourceEntityId+"&member="+request.partySize+"&visit_date=20261102&visit_time=1900"};

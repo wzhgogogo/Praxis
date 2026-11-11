@@ -60,6 +60,19 @@ function safeWebsiteUrl(value: string | undefined): URL | undefined {
   }
 }
 
+/** Only connection/TLS establishment failure permits the authoritative HTTP
+ * URL. An HTTP response, Guard rejection, elapsed deadline or partial body does not. */
+function secureConnectionFailed(error:unknown):boolean {
+  const seen=new Set<unknown>();
+  for(let item=error;item&&typeof item==="object"&&!seen.has(item);){
+    seen.add(item);const e=item as {message?:unknown;code?:unknown;cause?:unknown};
+    if(typeof e.code==="string"&&/^(?:ECONNREFUSED|ENOTFOUND|EAI_AGAIN|CERT_HAS_EXPIRED|DEPTH_ZERO_SELF_SIGNED_CERT|ERR_TLS_CERT_ALTNAME_INVALID|ERR_SSL_PROTOCOL_ERROR)$/.test(e.code))return true;
+    if(typeof e.message==="string"&&/net::ERR_(?:CONNECTION_REFUSED|NAME_NOT_RESOLVED|CERT_[A-Z_]+|SSL_[A-Z_]+)\b/.test(e.message))return true;
+    item=e.cause;
+  }
+  return false;
+}
+
 function recordsFromJsonLd(html: string): Record<string, unknown>[] {
   const scripts = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
   const values: unknown[] = [];
@@ -323,7 +336,9 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
     const factChecks: RestaurantCandidateFactRead["factChecks"] = {};
     let modelCalls = 0;
     for (const candidate of request.candidates) {
-      const listed = safeWebsiteUrl(candidate.restaurant.sourceIds.googleWebsiteUri);
+      const authoritative = safeWebsiteUrl(candidate.restaurant.sourceIds.googleWebsiteUri);
+      let listed = authoritative ? new URL(authoritative) : undefined;
+      if(listed?.protocol==="http:")listed.protocol="https:";
       const checkedAt = this.now();
       if (!listed) {
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_LISTED_WEBSITE_URL_MISSING" };
@@ -343,7 +358,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
       const pages = new Map<string, { observation: UntrustedRestaurantWebsiteObservation; text: string; snapshot: BrowserSnapshot; observedAt: string }>();
       const remember = (snapshot: BrowserSnapshot): void => {
         const landed = safeWebsiteUrl(snapshot.url);
-        if (landed?.origin !== listed.origin) return;
+        if (!listed || landed?.origin !== listed.origin) return;
         const observation = mergeObservations(
           candidateStructuredObservation(candidate, landed.toString(), checkedAt, snapshot.html),
           candidateVisibleObservation(candidate, landed.toString(), checkedAt, snapshot.text, snapshot.html),
@@ -399,8 +414,18 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
       try {
         executor.beginCandidate(candidate.restaurant.id);
         executor.beginProvider(candidate.restaurant.id, "WEBSITE", "FACTS");
-        const session = await executor.acquire(signal, "WEBSITE", "FACTS", this.networkPolicy);
-        await executor.navigate({ source: "WEBSITE", stage: "FACTS", signal, allowedOrigins: [listed.origin], session, url: listed.toString(), observed: true });
+        let session = await executor.acquire(signal, "WEBSITE", "FACTS", this.networkPolicy);
+        try {
+          await executor.navigate({ source: "WEBSITE", stage: "FACTS", signal, allowedOrigins: [listed.origin], session, url: listed.toString(), observed: true });
+        } catch(error) {
+          if(authoritative?.protocol!=="http:"||!secureConnectionFailed(error))throw error;
+          // Same executor, candidate, operation/model counters and provider clock.
+          // Only the original Google-listed HTTP URL is a fallback destination.
+          await executor.close("RUNTIME_FAILURE");
+          listed=authoritative;
+          session=await executor.acquire(signal,"WEBSITE","FACTS",this.networkPolicy,true);
+          await executor.navigate({source:"WEBSITE",stage:"FACTS",signal,allowedOrigins:[listed.origin],session,url:listed.toString(),observed:true});
+        }
         const generic = await executor.runSkill({
           taskId: request.readRunId ?? candidate.restaurant.id,
           source: "WEBSITE", stage: "FACTS", signal, session, allowedOrigins: [listed.origin],

@@ -1,3 +1,5 @@
+2026-11-11 CET — 用户03:28 CET签收3b：R2标准1查位、2 B1、4安全通过，标准3 G1未达，列为种子用户前阻塞；R2结果完整保留在证据分支codex/heldout-r2-evidence-09@ac980ef2，18次最终均已评价、s0=0（9合格交付/3交付不合格/3诚实无结果/3能力未命中，严格按冻结标准）。七用例已暴露，可用录制开发，私有题面仍不人工读。当前工作分支候选A1–A4：核对入口重置、同run HIGH唯一已读来源页进入G1、响应确认日期/人数后避免重复选择、自然结果摘要/官网HTTPS优先/来源分类并列。仅组件/本地Chromium验证，不代表修后Live成本或真实10人已通过；待完整门禁和复核，不合main、不调用真实来源。余额6Live/66GET/708模型不动。[本轮报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
+
 2026-11-10 CET — 用户真实浏览器核对D01 Bar014与D02 Sumika的B1均正确；D01/D02独立补评均QUALIFIED_DELIVERY/s0=0，D02五时段经同源原链接/后验和资格审查。仅作为已暴露开发检查，不代表Clean Holdout通过。R2尚未运行。
 
 2026-11-10 CET — B1多时段评测修复e373d557净树全门禁PASS：type/arch/default1571/build/Chromium274+G6 115/strictG2全12、scan0、产品diff0。按offerId或精确日期/时间/人数唯一配对，重复/伪造原链接仍S0；来源日历按店/日/人数及原返回链接核对。D02离线recovery-2为PENDING_REVIEW/s0=0/stopBatch=false，仅资格注释待复核；5B1均逐字存在svt1900/6人原响应。D01/D8结论不变，旧failure/s0=9保留；真实调用0，原425/账本保持。先main发布再按用户文件原样入库R2承诺，停止不跑held-out。[报告](../../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。

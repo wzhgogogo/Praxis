@@ -1,3 +1,7 @@
+<a id="seed-readiness-20261111"></a>
+
+2026-11-11 CET — draft / not integrated：3b签收标准1/2/4、G1列种子前必修。A1通用搜索入口由现有startupDocuments和当前可见搜索控件决定，旧店页/无搜索结果不继承；保留HIGH唯一和查询收据。A2生产availability组装把本次实际捕获、解析实体一致、唯一HIGH页面交给G1；不完整时只重观察确切来源URL，旧run/LOW/歧义不复用。A3录制证明07只从1–6翻到2–7，未选10；现有find_vacancy确认日期后不重复点日，精确日期/人数响应可核验选中，PENDING/错人数不算。A4自然结果摘要替代状态名，Google给HTTP时先HTTPS，仅建立连接/TLS失败才回原HTTP（响应/Guard拒绝不回落），同executor保留操作/模型/45秒时钟；卡片并列当前HIGH来源分类，不改语义资格。私有题面/账本、425与249执行树均不改；工作分支推送后等复核，不合main。 [报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
+
 <a id="calendar-day-normalization-20261110"></a>
 
 2026-11-10 CET — 源码50bd3349全门禁通过：用户确认跨午夜含义并授权转换，eval认证保留营业日/原始时间并派生实际日期时间，24:30→次日00:30，不能算原日00:30。07原录制正常同日19:00离线认证true，六证书离线重解释符合05=false其余true，旧证书不改，不冒充新GET。62项转换/反例/真实回归绿，Evaluator@9；type/arch/default1572/build/Chromium274+G6 126/strictG2全12通过，scan0，产品diff0。仅eval、真实调用0，原a91执行工作区/425和账本保持。[报告](../../.eval-artifacts/phase3b/calendar-day-normalization-20261110/report.md)。

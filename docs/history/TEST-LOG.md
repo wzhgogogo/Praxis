@@ -1,3 +1,7 @@
+<a id="seed-readiness-20261111"></a>
+
+2026-11-11 CET — draft / not integrated：先红后绿日志见报告：A1真实07入口DOM红→连续三次入口及原有身份反例绿；A2真实03英文页红→生产createLiveReadAssembly查位至G1 NOT_STATED，答案为明确构造替身，LOW/歧义/错实体/旧run/PENDING反例绿；A3真实07日期/控件红→数据确认进度绿，本地Chromium构造12月/10人续翻及20:30来源slot，错人数/PENDING拒绝；该后续不冒充真实录制。A4旧状态文案、HTTP优先、分类缺失红→HTTP接口/传输与两尺寸Chromium绿，已人工检查两张截图。120项目标集通过，另HTTPS窗口/操作预算5项通过。首次夹具路径/类型、遗漏Guard、构造请求无尾斜线被旧合同拒绝的输出均保留，改夹具不改Guard。完整门禁待冻结后附日志；本轮真实模型/Live/来源GET均0。 [报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
+
 <a id="calendar-day-normalization-20261110"></a>
 
 2026-11-10 CET — 源码50bd3349全门禁通过：用户确认跨午夜含义并授权转换，eval认证保留营业日/原始时间并派生实际日期时间，24:30→次日00:30，不能算原日00:30。07原录制正常同日19:00离线认证true，六证书离线重解释符合05=false其余true，旧证书不改，不冒充新GET。62项转换/反例/真实回归绿，Evaluator@9；type/arch/default1572/build/Chromium274+G6 126/strictG2全12通过，scan0，产品diff0。仅eval、真实调用0，原a91执行工作区/425和账本保持。[报告](../../.eval-artifacts/phase3b/calendar-day-normalization-20261110/report.md)。
