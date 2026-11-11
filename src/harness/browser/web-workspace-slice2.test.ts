@@ -279,5 +279,10 @@ for(const size of sizes)test("Workspace 3c "+size.name+": each observed booking 
   await page.reload();await page.locator('#handoff').waitFor({state:'visible'});
   assert.equal(await page.locator('#departure').getAttribute('href'),later);
   await capture(page,size.name+'-3c-multiple-slots');
+  await context.route('https://**/*',route=>route.abort());
+  const outgoing=page.waitForRequest(r=>r.method()==='POST'&&r.url().endsWith('/booking-departures'));
+  await page.locator('#departure').click();
+  assert.equal((await outgoing).postDataJSON().offerId,choices[1]);
+
  }finally{await context.close();await browser.close();await host.close();}
 });
