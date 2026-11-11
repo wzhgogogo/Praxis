@@ -59,10 +59,12 @@ export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:
       if(text===options.semanticFailureMessage)throw new ModelGatewayError("Fixture semantic transport failure","NETWORK",false);
       const lines=request.messages[0]!.content.split("\n"),contextLine=lines[lines.findIndex(line=>line.startsWith("Current authoritative context"))+1];
       const semanticContext=contextLine?JSON.parse(contextLine):{},viewed=semanticContext.viewingContext?.candidate;
-      const edit=Object.keys(semanticContext).some(key=>key!=="viewingContext")&&/three|3 guests/i.test(text);
+      const inlineParty=text.match(/^Change \d+ guests to (\d+)(?: guests)?$/i);
+      const edit=Object.keys(semanticContext).some(key=>key!=="viewingContext")&&(/three|3 guests/i.test(text)||!!inlineParty);
+      const editedParty=inlineParty?Number(inlineParty[1]):3;
       const refer=/this one/i.test(text);
       const facts:RestaurantSemanticProposal["facts"]=edit?[
-        {field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:3,source:"EXPLICIT"}},
+        {field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:editedParty,source:"EXPLICIT"}},
         ...(options.revisionScenario?[
           {field:"TARGET",operation:"CORRECT",value:{kind:"TARGET",goal:"AVAILABILITY",query:"sushi in Tokyo",selectionScope:"OPEN_ENDED",requestedResultCount:2,goalBasis:{type:"BOOKING_WORDING",reason:"Fixed updated request",quotes:[text]}}},
           {field:"TIME_WINDOW",operation:"CORRECT",value:{kind:"TIME_WINDOW",earliest:"20:00",latest:"20:30",raw:"20:00"}},

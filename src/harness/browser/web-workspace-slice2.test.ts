@@ -37,9 +37,11 @@ for(const size of sizes){
       assert.equal(await page.locator("#request-conditions").getByRole("button",{name:"4 guests?",exact:true}).count(),1);
       assert.equal(await page.locator("#request-conditions").getByRole("button",{name:"Mon, Nov 2",exact:true}).count(),1);
       await page.locator("#request-conditions").getByRole("button",{name:"4 guests?",exact:true}).click();
-      assert.equal(await page.locator("#message").inputValue(),"Change 4 guests to ");
-      assert.equal(await page.locator("#message").evaluate(n=>n===document.activeElement),true);
+      assert.equal(await page.locator("#message").inputValue(),"");
+      const inline=page.getByRole("textbox",{name:"Edit 4 guests",exact:true});assert.equal(await inline.inputValue(),"4 guests");
+      assert.equal(await inline.evaluate(n=>n===document.activeElement),true);
       await capture(page,size.name+"-slice2-conditions");
+      await inline.press("Escape");
       await page.locator("#bookmark").click();
       const card=await page.locator("#candidate-card").elementHandle(),first=await page.locator("#restaurant-name").innerText();
       await page.locator("#details-button").click();
@@ -290,5 +292,22 @@ for(const size of sizes)test("Workspace 3c "+size.name+": each observed booking 
   await page.locator('#departure').click();
   assert.equal((await outgoing).postDataJSON().offerId,choices[1]);
 
+ }finally{await context.close();await browser.close();await host.close();}
+});
+
+for(const size of sizes)test('Workspace inline condition '+size.name+': capped local edit survives SSE and routes changes without touching composer',{timeout:45_000},async()=>{
+ const host=await startWorkspaceFixture({questions:true});const browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:size}),page=await context.newPage();
+ try{
+  await start(page,host,'Dinner for two');await page.locator('#message').fill('Keep my unsent question');
+  await page.getByRole('button',{name:'2 guests',exact:true}).click();const editor=page.getByRole('textbox',{name:'Edit 2 guests',exact:true});
+  assert.equal(await editor.getAttribute('maxlength'),'30');await editor.fill('x'.repeat(30));await editor.press('End');await page.keyboard.insertText('y');assert.equal((await editor.inputValue()).length,30);
+  await editor.fill('3');const handle=await editor.elementHandle();await page.locator('#bookmark').click();await page.waitForFunction(()=>document.getElementById('saved-count')?.textContent==='1');
+  assert.equal(await handle!.evaluate(n=>n===document.querySelector('.condition-editor input')),true);assert.equal(await editor.inputValue(),'3');
+  await capture(page,size.name+'-inline-condition');await editor.press('Escape');assert.equal(await page.locator('#message').inputValue(),'Keep my unsent question');
+  await page.locator('#details-button').click();await page.getByRole('button',{name:'2 guests',exact:true}).click();await editor.fill('3');
+  const sent=page.waitForRequest(r=>r.method()==='POST'&&new URL(r.url()).pathname.endsWith('/messages'));
+  await page.getByRole('button',{name:'Save',exact:true}).click();assert.equal((await sent).postDataJSON().message,'Change 2 guests to 3');
+  await page.getByRole('button',{name:'3 guests',exact:true}).waitFor();assert.equal(host.questionRequests.length,0);assert.equal(await page.locator('#message').inputValue(),'Keep my unsent question');
+  assert.equal(await page.locator('.condition-editor').count(),0);
  }finally{await context.close();await browser.close();await host.close();}
 });

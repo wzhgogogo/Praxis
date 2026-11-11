@@ -55,6 +55,7 @@ main{max-width:660px;margin:auto;padding:32px 24px 40px}#home{min-height:62vh;di
 #direct-source{display:block;text-align:center;font-size:13px;margin:20px 0 4px;text-decoration:underline}#handoff-unavailable{line-height:1.6;font-size:13px;color:#5F6275}
 #messages{margin-top:24px;line-height:1.6;font-size:15px;white-space:pre-wrap}
 #request-conditions{display:flex;flex-wrap:wrap;gap:8px}#request-conditions button{font-size:13px;min-height:40px;padding:9px 12px;background:#fff;box-shadow:0 2px 8px rgba(21,23,43,.08)}
+.condition-editor{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:4px 8px;background:#fff;border-radius:999px;box-shadow:0 2px 8px #15172b14}.condition-editor input{border:0;background:transparent;font-size:13px;min-width:0;width:120px;flex:1;padding:8px 4px}.condition-editor button{box-shadow:none!important;padding:8px!important;min-height:40px}.condition-editor .muted{white-space:nowrap}
 #reconnecting{position:sticky;top:0;z-index:7;background:#F5F6F9;padding:7px 20px;font-size:13px}
 #answer-backdrop{position:fixed;inset:0;z-index:9;background:transparent}
 #answer-sheet{position:fixed;left:20px;right:20px;bottom:0;z-index:10;max-width:612px;margin:auto;max-height:65vh;overflow:auto;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -8px 24px rgba(21,23,43,.08);padding:0 20px 24px;overscroll-behavior:contain}
