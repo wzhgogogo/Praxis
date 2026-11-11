@@ -1,0 +1,682 @@
+{
+  "harFile": ".eval-artifacts/phase3b/seed-dev-D02V-r1-attempt4-20261111/runtime/dev-d02v-paging-r1/recordings/g6-dev-d02v-paging-r1-1794389304118-0/replay.har",
+  "responses": [
+    {
+      "harEntryIndex": 33,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13309182&svd=20261210&svps=2&svt=1900&exclude_unavailable_time=1",
+      "status": 200,
+      "base_date": {
+        "year": 2026,
+        "month": 12,
+        "day": 10,
+        "dow": "Thu"
+      },
+      "members": 2,
+      "time": "19:00",
+      "times": [
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "17:00",
+        "17:30",
+        "18:00",
+        "18:30",
+        "19:00",
+        "19:30",
+        "20:00",
+        "20:30",
+        "21:00"
+      ],
+      "2030Rows": [
+        {
+          "time": "20:30",
+          "url": "/en/booking/form_course/new?member=2&rcd=13309182&visit_date=20261210&visit_time=2030"
+        }
+      ],
+      "bodySHA256": "7872d91503eee613921752bab3e3a2311d1e62f906fed5d035f4ecbc6b801e32"
+    },
+    {
+      "harEntryIndex": 34,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date?rst_id=13309182&svd=20261210",
+      "status": 200,
+      "base_date": null,
+      "members": null,
+      "time": null,
+      "times": [],
+      "2030Rows": [],
+      "bodySHA256": "9d4abda0c760fc34f7e50dde9de62c431f42f53eae939c021664cb3b10f9c0bd"
+    },
+    {
+      "harEntryIndex": 46,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date?rst_id=13287727&svd=20261210",
+      "status": 200,
+      "base_date": null,
+      "members": null,
+      "time": null,
+      "times": [],
+      "2030Rows": [],
+      "bodySHA256": "4c072499ce090224ba9329a3fc1dac2a52ae51918d1b630955b4d35cc4d083d3"
+    },
+    {
+      "harEntryIndex": 47,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13287727&svd=20261210&svps=2&svt=1900&exclude_unavailable_time=1",
+      "status": 200,
+      "base_date": {
+        "year": 2026,
+        "month": 12,
+        "day": 10,
+        "dow": "Thu"
+      },
+      "members": 2,
+      "time": "19:00",
+      "times": [
+        "17:00",
+        "17:15",
+        "17:30",
+        "17:45",
+        "18:00",
+        "18:15",
+        "18:30",
+        "18:45",
+        "19:00",
+        "19:15",
+        "19:30",
+        "19:45",
+        "20:00",
+        "20:15",
+        "20:30",
+        "20:45",
+        "21:00",
+        "21:15",
+        "21:30",
+        "21:45",
+        "22:00"
+      ],
+      "2030Rows": [
+        {
+          "time": "20:30",
+          "url": "/en/booking/form_course/new?member=2&rcd=13287727&visit_date=20261210&visit_time=2030"
+        }
+      ],
+      "bodySHA256": "9e53cfc00f3af7e8360947188344fd783782db8989c60c12f623cb1a3a7b6002"
+    },
+    {
+      "harEntryIndex": 48,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13287727&svd=20261210&svps=8&svt=1900&exclude_unavailable_time=1",
+      "status": 200,
+      "base_date": {
+        "year": 2026,
+        "month": 12,
+        "day": 10,
+        "dow": "Thu"
+      },
+      "members": 8,
+      "time": "19:00",
+      "times": [
+        "17:00",
+        "17:15",
+        "17:30",
+        "17:45",
+        "18:00",
+        "18:15",
+        "18:30",
+        "18:45",
+        "19:00",
+        "19:15",
+        "19:30",
+        "19:45",
+        "20:00",
+        "20:15",
+        "20:30",
+        "20:45",
+        "21:00",
+        "21:15",
+        "21:30",
+        "21:45",
+        "22:00"
+      ],
+      "2030Rows": [
+        {
+          "time": "20:30",
+          "url": "/en/booking/form_course/new?member=8&rcd=13287727&visit_date=20261210&visit_time=2030"
+        }
+      ],
+      "bodySHA256": "4a4a36eeeddd9fff26d92cb396805c79dde2494b01ac6f14ae2114e26ce649ed"
+    }
+  ],
+  "decisions": [
+    {
+      "sequence": 4,
+      "startedAt": "2026-11-11T09:28:40.606Z",
+      "browser": {
+        "observationRevision": 1,
+        "url": "https://tabelog.com/en/",
+        "recordingSnapshot": 1
+      },
+      "output": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:1:target:178",
+        "authoritativeField": "LOCATION",
+        "requestedState": "NONE",
+        "reason": "Set authoritative location Nakano City in the search input before searching."
+      }
+    },
+    {
+      "sequence": 5,
+      "startedAt": "2026-11-11T09:28:47.848Z",
+      "browser": {
+        "observationRevision": 2,
+        "url": "https://tabelog.com/en/",
+        "recordingSnapshot": 2
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:2:target:137",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Submit the search with the established Nakano City location to reach the result list."
+      }
+    },
+    {
+      "sequence": 6,
+      "startedAt": "2026-11-11T09:28:54.205Z",
+      "browser": {
+        "observationRevision": 3,
+        "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+City&search_mode=",
+        "recordingSnapshot": 3
+      },
+      "output": {
+        "action": "OPEN_LINK",
+        "targetRef": "observation:3:target:19",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Keyword search for \"Nakano City\" returned no matches; open the observed Nakano City area listing to establish the authoritative location."
+      }
+    },
+    {
+      "sequence": 7,
+      "startedAt": "2026-11-11T09:29:02.896Z",
+      "browser": {
+        "observationRevision": 4,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+        "recordingSnapshot": 4
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:4:target:17",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open Search by category panel to find a robatayaki category within Nakano."
+      }
+    },
+    {
+      "sequence": 8,
+      "startedAt": "2026-11-11T09:29:10.137Z",
+      "browser": {
+        "observationRevision": 5,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+        "recordingSnapshot": 5
+      },
+      "output": {
+        "action": "COMPLETE",
+        "targetRef": "observation:5:target:14",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Current list is scoped to Nakano (breadcrumb Nakano, \"Restaurants in Nakano\", Nakano Sta. distances); hand off for verification."
+      }
+    },
+    {
+      "sequence": 9,
+      "startedAt": "2026-11-11T09:29:15.186Z",
+      "browser": {
+        "observationRevision": 6,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+        "recordingSnapshot": 6
+      },
+      "output": {
+        "action": "COMPLETE",
+        "targetRef": "observation:6:target:14",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Current list is scoped to Nakano (breadcrumb \"Nakano Restaurants\", heading \"Restaurants in Nakano\", area control \"Nakano\"), confirming the authoritative location."
+      }
+    },
+    {
+      "sequence": 11,
+      "startedAt": "2026-11-11T09:29:30.017Z",
+      "browser": {
+        "observationRevision": 1,
+        "url": "https://tabelog.com/en/",
+        "recordingSnapshot": 7
+      },
+      "output": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:1:target:178",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the public search input with the authoritative retrieval expression."
+      }
+    },
+    {
+      "sequence": 12,
+      "startedAt": "2026-11-11T09:29:36.702Z",
+      "browser": {
+        "observationRevision": 2,
+        "url": "https://tabelog.com/en/",
+        "recordingSnapshot": 8
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:2:target:137",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Submit the filled authoritative query via the observed Search button."
+      }
+    },
+    {
+      "sequence": 13,
+      "startedAt": "2026-11-11T09:29:46.651Z",
+      "browser": {
+        "observationRevision": 3,
+        "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+Robata+Sumika&search_mode=",
+        "recordingSnapshot": 9
+      },
+      "output": {
+        "action": "COMPLETE",
+        "targetRef": "observation:3:target:14",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Search results list for \"Nakano Robata Sumika\" is displayed (1 result), with the query shown as the active scope."
+      }
+    },
+    {
+      "sequence": 14,
+      "startedAt": "2026-11-11T09:29:56.238Z",
+      "browser": {
+        "observationRevision": 5,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+        "recordingSnapshot": 14
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:5:target:114",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Advance calendar to December 2026 to reach requested date."
+      }
+    },
+    {
+      "sequence": 15,
+      "startedAt": "2026-11-11T09:30:01.360Z",
+      "browser": {
+        "observationRevision": 6,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+        "recordingSnapshot": 15
+      },
+      "output": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:6:target:10",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "Select requested date 2026-12-10"
+      }
+    },
+    {
+      "sequence": 16,
+      "startedAt": "2026-11-11T09:30:09.536Z",
+      "browser": {
+        "observationRevision": 8,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+        "recordingSnapshot": 16
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:8:target:149",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Guests list shows only 1-6; advance to reveal 8"
+      }
+    },
+    {
+      "sequence": 17,
+      "startedAt": "2026-11-11T09:30:14.728Z",
+      "browser": {
+        "observationRevision": 9,
+        "url": "https://tabelog.com/en/",
+        "recordingSnapshot": 17
+      },
+      "output": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:9:target:178",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the public search input with the authoritative retrieval term Okajoki."
+      }
+    },
+    {
+      "sequence": 18,
+      "startedAt": "2026-11-11T09:30:20.679Z",
+      "browser": {
+        "observationRevision": 10,
+        "url": "https://tabelog.com/en/",
+        "recordingSnapshot": 18
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:10:target:132",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Submit the filled authoritative query via the observed Search button."
+      }
+    },
+    {
+      "sequence": 19,
+      "startedAt": "2026-11-11T09:30:27.606Z",
+      "browser": {
+        "observationRevision": 11,
+        "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Okajoki&search_mode=",
+        "recordingSnapshot": 19
+      },
+      "output": {
+        "action": "COMPLETE",
+        "targetRef": "observation:11:target:14",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Search results list for query Okajoki is displayed (47 results, scope label \"Okajoki\")."
+      }
+    },
+    {
+      "sequence": 20,
+      "startedAt": "2026-11-11T09:30:46.923Z",
+      "browser": {
+        "observationRevision": 13,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+        "recordingSnapshot": 26
+      },
+      "output": {
+        "action": "REQUEST_HUMAN_HELP",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Page states reservations unavailable; no date or guest calendar controls observed."
+      }
+    },
+    {
+      "sequence": 21,
+      "startedAt": "2026-11-11T09:30:53.540Z",
+      "browser": {
+        "observationRevision": 14,
+        "url": "https://tabelog.com/en/",
+        "recordingSnapshot": 28
+      },
+      "output": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:14:target:178",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the public search input with the authoritative retrieval expression."
+      }
+    },
+    {
+      "sequence": 22,
+      "startedAt": "2026-11-11T09:30:58.612Z",
+      "browser": {
+        "observationRevision": 15,
+        "url": "https://tabelog.com/en/",
+        "recordingSnapshot": 29
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:15:target:129",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Submit the filled authoritative query via the observed Search button."
+      }
+    },
+    {
+      "sequence": 23,
+      "startedAt": "2026-11-11T09:31:05.162Z",
+      "browser": {
+        "observationRevision": 16,
+        "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=%E4%B8%AD%E9%87%8E%E8%A3%BD%E4%BD%9C%E6%89%80+%E3%81%BE%E3%82%93%E3%81%A6%E3%82%93%E5%88%A5%E9%A4%A8&search_mode=",
+        "recordingSnapshot": 30
+      },
+      "output": {
+        "action": "COMPLETE",
+        "targetRef": "observation:16:target:14",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Result list shows 1 match for the query term; scope label visible."
+      }
+    },
+    {
+      "sequence": 24,
+      "startedAt": "2026-11-11T09:31:14.083Z",
+      "browser": {
+        "observationRevision": 18,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+        "recordingSnapshot": 35
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:18:target:110",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Advance calendar from Nov 2026 toward requested December 2026 date."
+      }
+    },
+    {
+      "sequence": 25,
+      "startedAt": "2026-11-11T09:31:18.919Z",
+      "browser": {
+        "observationRevision": 19,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+        "recordingSnapshot": 36
+      },
+      "output": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:19:target:10",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "Select requested date 2026-12-10 in calendar"
+      }
+    },
+    {
+      "sequence": 26,
+      "startedAt": "2026-11-11T09:31:24.078Z",
+      "browser": {
+        "observationRevision": 21,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+        "recordingSnapshot": 37
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:21:target:126",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Guests list shows 1-6; advance to reveal 8"
+      }
+    },
+    {
+      "sequence": 27,
+      "startedAt": "2026-11-11T09:31:27.000Z",
+      "browser": {
+        "observationRevision": 22,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+        "recordingSnapshot": 38
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:22:target:126",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Advance guest carousel to reveal higher guest counts toward 8."
+      }
+    },
+    {
+      "sequence": 28,
+      "startedAt": "2026-11-11T09:31:30.628Z",
+      "browser": {
+        "observationRevision": 23,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+        "recordingSnapshot": 39
+      },
+      "output": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:23:target:17",
+        "authoritativeField": "PARTY_SIZE",
+        "requestedState": "NONE",
+        "reason": "Select Guests 8 as the authoritative party size."
+      }
+    },
+    {
+      "sequence": 30,
+      "startedAt": "2026-11-11T09:31:41.917Z",
+      "browser": {
+        "observationRevision": 1,
+        "url": "https://babytattoo.jp/robata",
+        "recordingSnapshot": 41
+      },
+      "output": {
+        "action": "WAIT",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Page text is empty; wait for content to render."
+      }
+    },
+    {
+      "sequence": 31,
+      "startedAt": "2026-11-11T09:31:44.666Z",
+      "browser": {
+        "observationRevision": 3,
+        "url": "https://babytattoo.jp/robata",
+        "recordingSnapshot": 42
+      },
+      "output": {
+        "action": "COMPLETE",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Page has no visible text or actionable targets; hand off current source state for interpretation."
+      }
+    },
+    {
+      "sequence": 32,
+      "startedAt": "2026-11-11T09:31:46.720Z",
+      "browser": {
+        "observationRevision": 4,
+        "url": "https://babytattoo.jp/robata",
+        "recordingSnapshot": 43
+      },
+      "output": {
+        "action": "REQUEST_HUMAN_HELP",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Page shows no visible text, controls, or outlet-specific links; cannot confirm candidate identity or read relevant facts."
+      }
+    },
+    {
+      "sequence": 38,
+      "startedAt": "2026-11-11T09:32:11.414Z",
+      "browser": {
+        "observationRevision": 2,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+        "recordingSnapshot": 46
+      },
+      "output": {
+        "action": "WAIT",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Page still loading; wait for results to settle."
+      }
+    },
+    {
+      "sequence": 39,
+      "startedAt": "2026-11-11T09:32:16.301Z",
+      "browser": {
+        "observationRevision": 3,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+        "recordingSnapshot": 47
+      },
+      "output": {
+        "action": "CLICK",
+        "targetRef": "observation:3:target:4",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open destination control to set authoritative location Nakano City."
+      }
+    },
+    {
+      "sequence": 40,
+      "startedAt": "2026-11-11T09:32:20.814Z",
+      "browser": {
+        "observationRevision": 4,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+        "recordingSnapshot": 48
+      },
+      "output": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:4:target:13",
+        "authoritativeField": "LOCATION",
+        "requestedState": "NONE",
+        "reason": "Set authoritative location Nakano City in the Destination field."
+      }
+    },
+    {
+      "sequence": 41,
+      "startedAt": "2026-11-11T09:32:25.861Z",
+      "browser": {
+        "observationRevision": 5,
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+        "recordingSnapshot": 49
+      },
+      "output": {
+        "action": "REQUEST_HUMAN_HELP",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Source reports no matching station/area/venue for \"Nakano City\" and search is unavailable; no matching route observed."
+      }
+    }
+  ],
+  "snapshotState": [
+    {
+      "file": "snapshot-0016.html",
+      "sha256": "0d7676af907d4cf1ab578b47397b6f8be9526cc9b36c035468402af24308dcbb",
+      "activeParty": [
+        "2"
+      ],
+      "activeTime": [
+        "1900"
+      ],
+      "visibleGuestBlock": ">Guests</p><div class=\"p-booking-calendar__select-item\"><div class=\"p-booking-calendar__select-item-inner\"><button type=\"button\" class=\"p-booking-calendar__navi-target p-booking-calendar__navi-target--prev is-disabled\" disabled=\"\" data-testid=\"headcount-select-prev\" aria-label=\"Previous\"></button><div class=\"p-booking-calendar__people-button-box\"><button type=\"button\" class=\"p-booking-calendar__people-button is-disabled\" data-value=\"1\" disabled=\"\">1</button><button type=\"button\" class=\"p-booking-calendar__people-button is-active\" data-value=\"2\">2</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"3\">3</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"4\">4</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"5\">5</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"6\">6</button></div><button type=\"button\" class=\"p-booking-calendar__navi-target p-booking-calendar__navi-target--next\" data-testid=\"headcount-select-next\" aria-label=\"Next\"></button></div></div></div><div class=\"p-booking-calendar__select booking-form-controls__select\"><p class=\"p-booking-calendar__select-label booking-form-controls__select-label\">Time</p>"
+    },
+    {
+      "file": "snapshot-0039.html",
+      "sha256": "2f3b87ce2a8af4f1f18718f87fc8f1bcbc318b6b2b509443a6fa2a67cb59843b",
+      "activeParty": [],
+      "activeTime": [
+        "1900"
+      ],
+      "visibleGuestBlock": ">Guests</p><div class=\"p-booking-calendar__select-item\"><div class=\"p-booking-calendar__select-item-inner\"><button type=\"button\" class=\"p-booking-calendar__navi-target p-booking-calendar__navi-target--prev\" data-testid=\"headcount-select-prev\" aria-label=\"Previous\"></button><div class=\"p-booking-calendar__people-button-box\"><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"3\">3</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"4\">4</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"5\">5</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"6\">6</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"7\">7</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"8\">8</button></div><button type=\"button\" class=\"p-booking-calendar__navi-target p-booking-calendar__navi-target--next\" data-testid=\"headcount-select-next\" aria-label=\"Next\"></button></div></div></div><div class=\"p-booking-calendar__select booking-form-controls__select\"><p class=\"p-booking-calendar__select-label booking-form-controls__select-label\">Time</p>"
+    },
+    {
+      "file": "snapshot-0040.html",
+      "sha256": "71cda9f43e0bd6588a1e6ab42020e961d3c90f5002dfe56cef8ba59a79f3568a",
+      "activeParty": [
+        "8"
+      ],
+      "activeTime": [
+        "1900"
+      ],
+      "visibleGuestBlock": ">Guests</p><div class=\"p-booking-calendar__select-item\"><div class=\"p-booking-calendar__select-item-inner\"><button type=\"button\" class=\"p-booking-calendar__navi-target p-booking-calendar__navi-target--prev\" data-testid=\"headcount-select-prev\" aria-label=\"Previous\"></button><div class=\"p-booking-calendar__people-button-box\"><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"5\">5</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"6\">6</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"7\">7</button><button type=\"button\" class=\"p-booking-calendar__people-button is-active\" data-value=\"8\">8</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"9\">9</button><button type=\"button\" class=\"p-booking-calendar__people-button\" data-value=\"10\">10</button></div><button type=\"button\" class=\"p-booking-calendar__navi-target p-booking-calendar__navi-target--next\" data-testid=\"headcount-select-next\" aria-label=\"Next\"></button></div></div></div><div class=\"p-booking-calendar__select booking-form-controls__select\"><p class=\"p-booking-calendar__select-label booking-form-controls__select-label\">Time</p>"
+    }
+  ],
+  "noActionableDecisionSequences": [],
+  "SOURCE_DATE_CONFIRMED_Mentions": 4
+}

@@ -1,0 +1,215 @@
+{
+  "sourceSHA": "bb55aa4dc16780a8b45d818c56473dca00fedbfe",
+  "verdict": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "deadline": {
+    "elapsedMs": 245661.43458300002,
+    "turns": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794389304858,
+        "deadlineAtMs": 1794389804858,
+        "elapsedMs": 244918.79950000002,
+        "modelCalls": 42,
+        "googleRequests": 5,
+        "exceeded500Seconds": false
+      }
+    ],
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "boundaryPass": 257,
+  "modelsStarted": 42,
+  "modelsSucceeded": 42,
+  "recording": {
+    "status": "RECORDED",
+    "qualifiedPages": 37,
+    "totalPages": 49,
+    "replayStatus": "PARTIALLY_REPLAYABLE"
+  },
+  "remainingGaps": [
+    "Nakano Robata Sumika: availability UNKNOWN (BROWSER_TIMEOUT); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)",
+    "Okajoki: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts COMPLETED",
+    "中野製作所 まんてん別館: availability UNKNOWN (BROWSER_TIMEOUT); facts COMPLETED",
+    "Candidate praxis:restaurant:b8153abad1f84fa5c19c239f lacks fresh evidenced availability for the authoritative request",
+    "Candidate praxis:restaurant:c3ac690aea8a7ef8076ac19b lacks fresh evidenced availability for the authoritative request",
+    "Candidate praxis:restaurant:8e3a09511d095d01aa3a3746 lacks fresh evidenced availability for the authoritative request",
+    "The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated; last source failure: DISCOVERY_SOURCE_INCOMPLETE"
+  ],
+  "providerFinishes": [
+    {
+      "sequence": 98,
+      "at": "2026-11-11T09:29:19.790Z",
+      "source": "DIRECTORY",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 44380,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 44379,
+        "providerElapsedMs": 44379,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 7,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "candidateId": "native-discovery:DIRECTORY",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 212,
+      "at": "2026-11-11T09:30:09.896Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 100418,
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 45006,
+        "providerElapsedMs": 45006,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 29,
+        "providerRuntimeOperations": 29,
+        "runModelCalls": 13,
+        "reason": "DEADLINE_EXCEEDED"
+      },
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 307,
+      "at": "2026-11-11T09:30:50.157Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 140679,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 40227,
+        "providerElapsedMs": 40227,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 24,
+        "providerRuntimeOperations": 24,
+        "runModelCalls": 17,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 468,
+      "at": "2026-11-11T09:31:35.162Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 185684,
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 45000,
+        "providerElapsedMs": 45000,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 43,
+        "providerRuntimeOperations": 43,
+        "runModelCalls": 25,
+        "reason": "DEADLINE_EXCEEDED"
+      },
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 519,
+      "at": "2026-11-11T09:31:48.310Z",
+      "source": "WEBSITE",
+      "stage": "FACTS",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 8816,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 8816,
+        "providerElapsedMs": 8815,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 28,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 534,
+      "at": "2026-11-11T09:32:00.650Z",
+      "source": "WEBSITE",
+      "stage": "FACTS",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 8167,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 8167,
+        "providerElapsedMs": 8167,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 29,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 609,
+      "at": "2026-11-11T09:32:27.376Z",
+      "source": "VENUE_SEARCH",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 23977,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 23977,
+        "providerElapsedMs": 23977,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 17,
+        "providerRuntimeOperations": 17,
+        "runModelCalls": 33,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "candidateId": "native-discovery:VENUE_SEARCH",
+      "operation": "PROVIDER_SCOPE"
+    }
+  ],
+  "thisAttemptUsage": {
+    "Live": 1,
+    "GET": 6,
+    "models": 42,
+    "environmentReruns": 1
+  },
+  "cumulative": {
+    "fullLive": 36,
+    "evaluationPublicGET": 185,
+    "realModelCalls": 2325,
+    "environmentReruns": 2,
+    "googleRequests": 128,
+    "restaurantWebsiteRequests": 9261
+  },
+  "remaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 35,
+    "realModelCalls": 475,
+    "environmentReruns": 2
+  },
+  "noFurtherLive": true
+}
