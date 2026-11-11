@@ -1,0 +1,100 @@
+[
+  {
+    "attempt": 1,
+    "supplementaryDiscovery": {
+      "status": "COMPLETED",
+      "sourceId": "google-places",
+      "candidateCount": 37
+    },
+    "calls": [
+      {
+        "harEntry": 67,
+        "query": {
+          "textQuery": "yakiniku Koenjikita",
+          "pageSize": 20,
+          "locationRestriction": {
+            "rectangle": {
+              "low": {
+                "latitude": 35.698915288250085,
+                "longitude": 139.6354215964064
+              },
+              "high": {
+                "latitude": 35.71688151174991,
+                "longitude": 139.65754740359358
+              }
+            }
+          }
+        },
+        "status": 200,
+        "bodySHA256": "6724ae48f54bbf265fb65ac830cfdd496406ba842a73f4186188a3c79f4f54c0",
+        "bodyKeys": [
+          "places",
+          "nextPageToken"
+        ],
+        "places": 20,
+        "emptyObject": false
+      },
+      {
+        "harEntry": 68,
+        "query": {
+          "textQuery": "yakiniku Koenjikita",
+          "pageSize": 20,
+          "locationRestriction": {
+            "rectangle": {
+              "low": {
+                "latitude": 35.698915288250085,
+                "longitude": 139.6354215964064
+              },
+              "high": {
+                "latitude": 35.71688151174991,
+                "longitude": 139.65754740359358
+              }
+            }
+          }
+        },
+        "status": 200,
+        "bodySHA256": "03c75475841d679f7726a2a1cd3cbf49503500f8d2fc2f9ae9917e66cacffc45",
+        "bodyKeys": [
+          "places",
+          "nextPageToken"
+        ],
+        "places": 20,
+        "emptyObject": false
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "supplementaryDiscovery": {
+      "status": "COMPLETED",
+      "sourceId": "google-places",
+      "candidateCount": 0
+    },
+    "calls": [
+      {
+        "harEntry": 48,
+        "query": {
+          "textQuery": "yakiniku Koenjikita",
+          "pageSize": 20,
+          "locationRestriction": {
+            "rectangle": {
+              "low": {
+                "latitude": 35.698915288250085,
+                "longitude": 139.6354215964064
+              },
+              "high": {
+                "latitude": 35.71688151174991,
+                "longitude": 139.65754740359358
+              }
+            }
+          }
+        },
+        "status": 200,
+        "bodySHA256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+        "bodyKeys": [],
+        "places": 0,
+        "emptyObject": true
+      }
+    ]
+  }
+]
