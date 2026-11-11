@@ -108,15 +108,15 @@ function checkpointMetadata(reads: Array<{metadata: RestaurantReadExecutionMetad
   return metadata;
 }
 
-function mergedFacts(completed: Array<{candidateId:string;read:RestaurantCandidateFactRead}>, request: RestaurantCandidateFactRequest, fallback: RestaurantReadExecutionMetadata, now: string, reserve?: "MODEL_CALL"|"DELIVERY_TIME"): RestaurantCandidateFactRead {
+function mergedFacts(completed: Array<{candidateId:string;read:RestaurantCandidateFactRead}>, request: RestaurantCandidateFactRequest, fallback: RestaurantReadExecutionMetadata, now: string, reserve?: "MODEL_CALL"|"DELIVERY_TIME", failureCode?: RestaurantFailureCode): RestaurantCandidateFactRead {
   const reads=completed.map(x=>x.read), metadata=checkpointMetadata(reads,fallback);
   const factChecks: RestaurantCandidateFactRead["factChecks"]=Object.fromEntries(reads.flatMap(read=>Object.entries(read.factChecks).map(([id,check])=>[id,{
     ...check, ...(!check.evidenceIds.length && !check.sourceProvider && !check.sourceAttempts ? {sourceProvider:read.metadata.provider} : {}),
   }])));
-  if(reserve){
-    for(const id of request.candidateIds) if(!completed.some(x=>x.candidateId===id)) factChecks[id]={status:"UNKNOWN",checkedAt:now,evidenceIds:[],reasonCode:"RESERVE_REACHED"};
-    metadata.failureCode=reserve==="MODEL_CALL"?"BUDGET_RESERVED_FOR_DELIVERY":"DELIVERY_RESERVE_REACHED";
-    metadata.reserveReached={reason:reserve,completedCandidateIds:completed.map(x=>x.candidateId)};
+  if(reserve || failureCode){
+    for(const id of request.candidateIds) if(!completed.some(x=>x.candidateId===id)) factChecks[id]={status:"UNKNOWN",checkedAt:now,evidenceIds:[],reasonCode:reserve?"RESERVE_REACHED":failureCode!};
+    metadata.failureCode=failureCode ?? (reserve==="MODEL_CALL"?"BUDGET_RESERVED_FOR_DELIVERY":"DELIVERY_RESERVE_REACHED");
+    if(reserve) metadata.reserveReached={reason:reserve,completedCandidateIds:completed.map(x=>x.candidateId)};
   }
   return {evidence:reads.flatMap(x=>x.evidence),factChecks,metadata,...(reads.some(x=>x.sourceDocuments)?{sourceDocuments:reads.flatMap(x=>x.sourceDocuments??[])}:{})};
 }
@@ -375,17 +375,16 @@ export class RestaurantExecutionRouter {
           if (parentSignal?.aborted || (error && typeof error === "object" && "code" in error && (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "MODEL_CALL_BUDGET_EXHAUSTED"))) throw error;
           const reason = error instanceof Error ? error.message : "Unknown candidate fact investigation failure";
           const code = stableFailureCode(error, "FACT_INVESTIGATION_FAILED");
+          const read=mergedFacts(completed,request,{...fallback,...googleUsageMetadata(this.facts,readRunId)},now,undefined,code);
           return {
             route: this.facts.executionRoute,
             event: {
               type: "CANDIDATE_FACTS_CHECKED",
               request,
-              evidence: [],
-              factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: now, evidenceIds: [], reasonCode: code }])),
-              metadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...googleUsageMetadata(this.facts, readRunId), ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
+              ...read,
             },
-            observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason, candidateIds: request.candidateIds },
-            executionMetadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...googleUsageMetadata(this.facts, readRunId), ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
+            observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason, candidateIds: request.candidateIds, evidenceIds: read.evidence.map(evidence=>evidence.evidenceId) },
+            executionMetadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
             failure: { source: "PROVIDER", code, reason, scope: "PROVIDER" },
           };
         }

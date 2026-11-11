@@ -117,6 +117,8 @@ export interface BrowserSkillReadInput {
   onQuerySubmitted?(owner: string): void;
   /** Code-owned cut immediately before a validated observed button click. */
   onBeforeClick?(snapshot:BrowserSnapshot,controls:BrowserPageControl[],controlId:string):void|(()=>void);
+  /** Current same-session observation already captured by the source caller; no intervening action. */
+  initialObservation?: { snapshot: BrowserSnapshot; controls: BrowserPageControl[] };
   completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): BrowserCompletionAssessment;
 }
 
@@ -647,12 +649,13 @@ export class BrowserTaskExecutor {
       this.record({ source: input.source, stage: input.stage, event: "POST_ACTION_VERIFIED", url: next.url, detail: "BOUND_RESULT_STABLE" });
       return second;
     };
-    let snapshot = await this.snapshot(input);
+    const initial = !this.pageUnsettled && input.initialObservation?.snapshot.settlement !== "PENDING" ? input.initialObservation : undefined;
+    let snapshot = initial?.snapshot ?? await this.snapshot(input);
     // A request-shaped HTML link can be stale while the live control carrying
     // the same URL is disabled. Read both representations before accepting a
     // completion, including on the initial snapshot and after a source-owned
     // shortcut. HTML alone is never a shortcut around current DOM evidence.
-    let verifiedObservation: Observation | undefined = await this.observe(input, snapshot);
+    let verifiedObservation: Observation | undefined = await this.observe(input, snapshot, initial?.controls);
     if (this.disabledRequestedParty(input, verifiedObservation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: verifiedObservation.controls};
     let completion = await assess(snapshot, verifiedObservation.controls);
     if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
@@ -950,11 +953,15 @@ export class BrowserTaskExecutor {
       const postActionObservation = await this.observe(input, snapshot);
       const visibleStateChanged = visibleBefore !== visibleProgressKey(snapshot.url, postActionObservation.controls);
       const observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
-      const changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
-      const publicQueryWaitChanged = changed && snapshot.settlement !== "PENDING";
+      const observedPageChange = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
       if (pendingOption && this.optionSelectionObserved(pendingOption, postActionObservation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, postActionObservation.controls)) pendingRadio = undefined;
+      const priorConfirmedFields = completion.confirmedFields ?? [];
       completion = await assess(snapshot, postActionObservation.controls);
+      const confirmedFieldsChanged = completion.confirmedFields?.some(field=>!priorConfirmedFields.includes(field)) === true;
+      const changed = observedPageChange || confirmedFieldsChanged;
+      const publicQueryWaitChanged = changed && snapshot.settlement !== "PENDING";
+      const stateChanged = visibleStateChanged || confirmedFieldsChanged;
       if (pendingParty && (partyGroupConfirmed(postActionObservation, input.goal, pendingParty.groupKey) || completion.confirmedFields?.includes("PARTY_SIZE"))) pendingParty = undefined;
       const optionConfirmed = !pendingOption && !pendingRadio;
       // A source that did not show an async page change may still be settling
@@ -964,11 +971,11 @@ export class BrowserTaskExecutor {
       const monthChanged = !!priorMonth && !!currentMonth && (priorMonth.year !== currentMonth.year || priorMonth.month !== currentMonth.month);
       const monthUnconfirmed = calendarNavigation && !monthChanged;
       const partyUnconfirmed = partyClick && pendingParty !== undefined;
-      const effectVerified = partyClick ? !partyUnconfirmed : calendarNavigation ? monthChanged : changed || observedControlChange;
+      const effectVerified = confirmedFieldsChanged || (partyClick ? !partyUnconfirmed : calendarNavigation ? monthChanged : changed || observedControlChange);
       remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
         ...("field" in action ? { field: action.field } : {}), outcome: effectVerified ? "PAGE_CHANGED" : "NO_CHANGE",
         ...(partyUnconfirmed ? { reason: "PARTY_SIZE_NOT_CONFIRMED" } : monthUnconfirmed ? { reason: "CALENDAR_MONTH_UNCHANGED" } : {}),
-        urlChanged: priorSnapshot.url !== snapshot.url, stateChanged:visibleStateChanged });
+        urlChanged: priorSnapshot.url !== snapshot.url, stateChanged });
       this.record({
         source: input.source,
         stage: input.stage,
@@ -978,7 +985,7 @@ export class BrowserTaskExecutor {
         observation: this.diagnosticObservation(postActionObservation),
       });
       if (completion.complete && optionConfirmed && !monthUnconfirmed && !pendingParty) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
-      if (!visibleStateChanged && visibleProgress.noProgress()) {
+      if (!stateChanged && visibleProgress.noProgress()) {
         this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:snapshot.url,detail:"NO_PROGRESS"});
         return {status:"NO_SAFE_ACTION",reasonCode:"NO_PROGRESS",snapshot,controls:postActionObservation.controls};
       }
@@ -1094,11 +1101,11 @@ export class BrowserTaskExecutor {
     return result.status === "COMPLETED" ? selected : undefined;
   }
 
-  private async observe(input: BrowserSkillReadInput, snapshot: BrowserSnapshot): Promise<Observation> {
+  private async observe(input: BrowserSkillReadInput, snapshot: BrowserSnapshot, initialControls?: BrowserPageControl[]): Promise<Observation> {
     this.observationRevision += 1;
-    const controls = input.session.observeControls
+    const controls = initialControls ?? (input.session.observeControls
       ? await this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!(input.controlHints?.(snapshot)))
-      : [];
+      : []);
     const exact=input.stage==="DISCOVERY"&&input.goal.retrievalExpression&&input.session.metadata.readNetworkBoundary==="INSTALLED"
       ?controls.filter(control=>control.visible&&!control.disabled&&!control.blockedByActiveLayer&&control.kind==="BUTTON"&&control.role==="option"
         &&["DIV","LI","SPAN"].includes(control.structure?.tag??"")&&normalizedTextKey(control.label)===normalizedTextKey(input.goal.retrievalExpression!)):[];

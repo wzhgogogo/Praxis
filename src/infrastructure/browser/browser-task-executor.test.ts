@@ -1260,3 +1260,11 @@ test('source-confirmed date stays observable without another permitted action, e
   const acquired=await executor.acquire(new AbortController().signal,'TABLECHECK','AVAILABILITY');
   try{const result=await executor.runSkill({...input(acquired),stage:'AVAILABILITY',completion:()=>({complete:false,confirmedFields:['DATE'],reason:'Source date confirmed; guests still unknown'})});assert.equal(result.status,'REQUESTED_HUMAN_HELP');assert.equal(session.clicks,0);}finally{await executor.close();}
 });
+
+test('new completion confirmation is verified progress even when DOM and controls are unchanged',async()=>{
+ const page={url:'https://public.example/filter',title:'Public query',text:'Apply filter',html:'<button type="button" formmethod="get">Apply filter</button>'};
+ const session=new FixtureSession([page],false,true);let confirmed=false,observes=0,models=0;
+ const originalObserve=session.observeControls.bind(session);session.observeControls=async()=>{observes++;return originalObserve();};session.click=async()=>{confirmed=true;};
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:90000,maxModelCallsPerCandidate:3,maxModelCallsTotal:3,maxOperationsPerCandidate:30,modelDecision:{async decide(value){models++;if(models===1)return{type:'CLICK',targetRef:value.observation.targets.find(t=>t.label==='Apply filter')!.ref,reason:'Observed public filter'};assert.equal(value.progress,'Source-confirmed field; another field remains');return{type:'REQUEST_HUMAN_HELP',reason:'Component stops after checking observation reuse'};}}});
+ try{const signal=new AbortController().signal;await executor.acquire(signal,'PUBLIC','AVAILABILITY');const result=await executor.runSkill({taskId:'confirmation-progress',source:'PUBLIC',stage:'AVAILABILITY',signal,session,allowedOrigins:['https://public.example'],goal:{outlet:{name:'Public outlet'},date:'2030-01-02',partySize:8,timeWindow:{earliest:'20:30',latest:'20:30'},hardCriteria:[]},objective:'Apply authoritative fields',completion:()=>({complete:false,reason:confirmed?'Source-confirmed field; another field remains':'Await source',confirmedFields:confirmed?['DATE']:[]})});assert.equal(result.status,'REQUESTED_HUMAN_HELP');assert.equal(observes,2,'same post-action snapshot must reuse its controls');}finally{await executor.closeAll();}
+});

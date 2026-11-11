@@ -656,7 +656,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (detectExternalReservationRedirect(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "SOURCE_UNSUPPORTED", failureCode: "EXTERNAL_BOOKING_PROVIDER_REQUIRED", excerpt: pageExcerpt(page) });
       if (!hasReservationControls(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "SOURCE_UNSUPPORTED", failureCode: "ONLINE_AVAILABILITY_UNSUPPORTED", excerpt: pageExcerpt(page) });
       {
-        page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
+        page = await this.retryBusyPage(candidate.restaurant.id, session, signal, page, "AVAILABILITY");
         const visibleQueryControls = await session.observeControls?.(tabelogQueryControlHints(page)) ?? [];
         if (tabelogQueryControlsRestricted(page, visibleQueryControls, request.partySize)) {
           return finish({
@@ -667,6 +667,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         const query = await this.executor.runSkill({
           taskId: `browser-read:${candidate.restaurant.id}`, source: "TABELOG", ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}), stage: "AVAILABILITY",
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
+          initialObservation: { snapshot: page, controls: visibleQueryControls },
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
           completion: current => tabelogAvailabilityCompletion(current, request),
@@ -676,8 +677,9 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         if (structureChanged || !hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return finish({
           candidate, observedAt: this.now(), ...activeSource(), sourceUrl: querySnapshot.url, entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: structureChanged ? "SOURCE_STRUCTURE_CHANGED" : query.reasonCode ?? "REQUEST_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(querySnapshot),
         });
+        page = query.status === "COMPLETED" && querySnapshot.settlement !== "PENDING" && !hasBotChallenge(querySnapshot)
+          ? querySnapshot : await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
       }
-      page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
       page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
       if (hasBotChallenge(page) && !alternateRecoveryUsed) {
         alternateRecoveryUsed = true;
