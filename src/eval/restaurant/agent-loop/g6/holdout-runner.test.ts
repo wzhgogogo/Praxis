@@ -14,7 +14,7 @@ test('fictional held-out schedule runs three real Live-assembly fixture slots wi
  // LOCAL_CONSTRUCTION. Runtime, interpreter, budgets and evaluator are real;
  // only source/model transports and network health observations are replaced.
  const base=resolve('.eval-artifacts');await mkdir(base,{recursive:true});const dir=await mkdtemp(join(base,'g6-private-assembly-')),seed=await g6Fixture(),s=seed.source,budgetPath=join(dir,'budget.json');
- await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:126,fullLive:22,realModelCalls:2500,environmentReruns:4},cumulative:{evaluationPublicGET:0,fullLive:0,realModelCalls:849,environmentReruns:0,restaurantWebsiteRequests:0,googleRequests:0}}));
+ await writeFile(budgetPath,JSON.stringify({entries:[{id:'fictional-assembly-r1:HEALTH:1:tablecheck',evaluationPublicGET:1}],limits:{evaluationPublicGET:126,fullLive:22,realModelCalls:2500,environmentReruns:4},cumulative:{evaluationPublicGET:1,fullLive:0,realModelCalls:849,environmentReruns:0,restaurantWebsiteRequests:1,googleRequests:0}}));
  const id='witness-fiction',manifest:PrivateHoldoutManifest={schema:'phase3b-private-run-manifest@1',cases:[{id:'fictional-assembly',fillings:{},request:s.initialRequest,
   followups:[{id:'room',kind:'PAGE_QUESTION',text:s.question,condition:{type:'PRESENTED_WITH_SLOT'}},{id:'date',kind:'MESSAGE',text:'2030-12-01',condition:{type:'ASKED_FOR_DATE'}}],
   witness:{candidateId:id,name:s.outlet.name,address:s.outlet.address,phone:s.outlet.phone,provider:'TABELOG',sourceEntityId:new URL(s.pageUrl).pathname.split("/").filter(Boolean).at(-1)!,date:s.date,time:s.time,partySize:2,detailUrl:s.pageUrl,identityText:[s.outlet.name]},
@@ -35,7 +35,7 @@ test('fictional held-out schedule runs three real Live-assembly fixture slots wi
     const body=await readFile(p,'utf8');assert.ok(!body.includes(s.initialRequest),e.name+' must not contain the private request');assert.ok(!body.includes(JSON.stringify(s.initialRequest).slice(1,-1)),e.name+' must not contain escaped private request');
    }}};await walk(slot);
   }
-  const budget=JSON.parse(await readFile(budgetPath,'utf8'));assert.equal(budget.cumulative.fullLive,3,'Fixture-local charges only');assert.ok(budget.cumulative.evaluationPublicGET<=21);
+  const budget=JSON.parse(await readFile(budgetPath,'utf8'));assert.equal(budget.cumulative.fullLive,3,'Fixture-local charges only');assert.deepEqual(budget.entries[0],{id:'fictional-assembly-r1:HEALTH:1:tablecheck',evaluationPublicGET:1});assert.equal(new Set(budget.entries.map((e:{id:string})=>e.id)).size,budget.entries.length,'Inherited health IDs cannot collide with a new development output root');assert.ok(budget.cumulative.evaluationPublicGET<=21);
  }finally{await rm(dir,{recursive:true,force:true});}
 });
 test('health requires two consecutive complete browser script downloads per source, cancels on first failed source, without model calls',async()=>{

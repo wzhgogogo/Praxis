@@ -219,7 +219,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
     }
     const spec:G6Case={id:key,request:item.request,oracle:{...structuredClone(item.oracle),reviewedReadRules:structuredClone(rules)},witness:item.witness,followups:item.followups.map(f=>({id:f.id,kind:f.kind,text:f.text,trigger:f.condition.type==='PRESENTED_ANY'?'DISPLAYED_RESULTS':f.condition.type==='PRESENTED_WITH_SLOT'?'DISPLAYED_AVAILABLE':f.condition.type,...(f.condition.type==='TARGET_PRESENTED_WITH_SLOT'?{target:f.condition.target,...(f.condition.time?{time:f.condition.time}:{})}:{}),...(f.allowOtherOutlets?{allowOtherOutlets:true}:{})}))};
     if(!healthy||previous){
-     const health=await deps.health(spec,async(source,round)=>{await interval();await chargeG6(budget.path,`${key}:HEALTH:${round}:${source}`,'evaluationPublicGET','Held-out health per case/recovery, two rounds, no Live/model');lastGET=now();});
+     const health=await deps.health(spec,async(source,round)=>{await interval();await chargeG6(budget.path,`${holdoutHash(root)}:${key}:HEALTH:${round}:${source}`,'evaluationPublicGET','Held-out health per case/recovery, two rounds, no Live/model');lastGET=now();});
      await writeFile(join(attempt.path,'network-health.json'),JSON.stringify(health,null,2)+'\n',{flag:'wx'});
      if(!health.passed){state.healthyCases=state.healthyCases.filter(id=>id!==item.id);attempt.status='CANCELLED_BEFORE_LIVE';state.stopReason='NETWORK_HEALTH_FAILED';await save();break outer;}
      healthy=true;if(!state.healthyCases.includes(item.id))state.healthyCases.push(item.id);await save();
