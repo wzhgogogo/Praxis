@@ -261,3 +261,23 @@ for(const size of sizes){
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{host.release();await context.close();await browser.close();await host.close();}
   });
 }
+
+for(const size of sizes)test("Workspace 3c "+size.name+": each observed booking slot retains its own departure link",{timeout:30_000},async()=>{
+ const host=await startWorkspaceFixture({multiSlot:true});
+ const browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:size}),page=await context.newPage();
+ try{
+  await start(page,host,"Dinner for two");
+  assert.equal(await page.locator('#delivery-slots p').count(),2);
+  await page.locator('#choose').click();const selector=page.getByLabel('Booking time',{exact:true});
+  assert.equal(await selector.locator('option').count(),2);
+  const initial=await page.locator('#departure').getAttribute('href');
+  const choices=await selector.locator('option').evaluateAll(nodes=>nodes.map(n=>(n as HTMLOptionElement).value));
+  await selector.selectOption(choices[1]!);
+  const later=await page.locator('#departure').getAttribute('href');assert.notEqual(later,initial);
+  assert.equal(await page.locator('#direct-source').getAttribute('href'),later);
+  assert.match(later!,/start_time=19%3A30/);
+  await page.reload();await page.locator('#handoff').waitFor({state:'visible'});
+  assert.equal(await page.locator('#departure').getAttribute('href'),later);
+  await capture(page,size.name+'-3c-multiple-slots');
+ }finally{await context.close();await browser.close();await host.close();}
+});

@@ -911,3 +911,21 @@ test("ADR0045 median admission uses the same inclusive thresholds in context and
     }
   }
 });
+
+
+test("3c explicit empty continuation preserves source exhaustion and every later read still passes the ordinary budget and evidence guards",()=>{
+ const {budgetPerPerson:_budget,...intent}=fixtureIntent;
+ const state:RestaurantTaskState={...incompleteState,phase:"NO_VERIFIED_RESULT",searchRevision:1,
+  intentDraft:{...intent,schemaVersion:"3",criteria:[]},intent:{...intent,criteria:[]},
+  candidates:fixtureCandidates.slice(0,1),sourceReadState:{googlePlacesSearchBudget:"EXHAUSTED"}};
+ const before=structuredClone(state);assert.equal(canContinueRestaurantRead(state,now),true);
+ assert.deepEqual(state,before,"projection alone cannot resume or schedule a read");
+ const resumed=restaurantBookingTaskDefinition.transition(state,{type:"NEXT_BATCH_REPLENISHMENT_REQUESTED",targetCandidateCount:3},{taskId:"explicit-more",runId:"same-run",now,createId:p=>p});
+ assert.deepEqual(resumed.commands,[]);assert.deepEqual(resumed.state.sourceReadState,state.sourceReadState);
+ assert.equal(validateRestaurantAction(resumed.state,{type:"SEARCH_RESTAURANTS"},now).status,"REJECTED");
+ const read={type:"CHECK_AVAILABILITY" as const,candidateIds:[fixtureCandidates[0]!.restaurant.id]};
+ for(const budget of [{remainingModelCalls:0},{browserModelBudgetExhausted:true},{remainingAutomaticMs:0}]){
+  assert.equal(validateRestaurantAction(resumed.state,read,now,budget).status,"REJECTED");
+ }
+ assert.equal(validateRestaurantAction(resumed.state,{type:"PRESENT_RESULTS",candidateIds:read.candidateIds},now).status,"REJECTED","continuation grants no TableCheck identity or inventory evidence");
+});

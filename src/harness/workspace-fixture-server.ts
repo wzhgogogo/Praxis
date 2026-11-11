@@ -36,7 +36,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -118,19 +118,20 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
       const failed=!failuresRecovered&&(options.outcome==="all-sources-failed"||(options.outcome==="partial"&&index===1)||(reserve&&options.continuation==="pool"));
       const noSlot=reserve||options.outcome==="empty"||(changed&&id==="fixture-restaurant-3");
       const amount=changed&&id==="fixture-restaurant-2"?20_000:5_000;
-      const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),...(options.sourceValidityMs?{sourceExpiresAt:new Date(clock.now().valueOf()+options.sourceValidityMs).toISOString()}:{}),requestedDate:"2026-11-02",requestedPartySize:request.partySize,visibleSlots:noSlot||failed?[]:[request.timeWindow.earliest],pageState:failed?"BOT_CHALLENGE":noSlot?"NO_MATCHING_SLOT":"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
+      const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),...(options.sourceValidityMs?{sourceExpiresAt:new Date(clock.now().valueOf()+options.sourceValidityMs).toISOString()}:{}),requestedDate:"2026-11-02",requestedPartySize:request.partySize,visibleSlots:noSlot||failed?[]:options.multiSlot?[request.timeWindow.earliest,request.timeWindow.latest]:[request.timeWindow.earliest],pageState:failed?"BOT_CHALLENGE":noSlot?"NO_MATCHING_SLOT":"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
         ...(options.revisionScenario?{priceFacts:{schemaVersion:"restaurant-price-facts@1" as const,listedCoursePricesYen:[{amount,kind:"MEAL" as const,meal:"DINNER" as const,tax:"INCLUDED" as const,quote:"Dinner course ¥"+amount,sourceUrl}]}}:{})},clock.now().toISOString());
       const check={...result.check,sourceProvider:provider,requestFingerprint:restaurantAvailabilityRequestFingerprint(request),...(failed?{sourceAttempts:[{source:provider,outcome:"FAILED" as const,reasonCode:"BOT_CHALLENGE"}]}:{})};
       if(!result.offers.length){if(reserve){reserveUsed=true;clock.advance(readLimits.maxAutomaticBrowserMs-19_000);}call.completed=true;return {...result,availabilityChecks:{[id]:check},metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};}
       const entity=result.evidence.find(e=>e.kind==="ENTITY_MATCH")!,availability=result.evidence.find(e=>e.kind==="AVAILABILITY")!;
-      let source:BookingHandoffSource={...structuredClone(raw.source),observedAt:clock.now().toISOString(),candidateId:id,sourceEntityId,offerId:result.offers[0]!.id,availabilityEvidenceId:availability.evidenceId,
-        url:index===0&&request.partySize===2?raw.source.url:"https://tabelog.com/en/booking/form_course/new?rcd="+sourceEntityId+"&member="+request.partySize+"&visit_date=20261102&visit_time="+result.offers[0]!.dateTime.slice(11,16).replace(":","")};
+      for(const offer of result.offers){
+      let source:BookingHandoffSource={...structuredClone(raw.source),observedAt:clock.now().toISOString(),candidateId:id,sourceEntityId,offerId:offer.id,availabilityEvidenceId:availability.evidenceId,
+        url:index===0&&request.partySize===2?raw.source.url:"https://tabelog.com/en/booking/form_course/new?rcd="+sourceEntityId+"&member="+request.partySize+"&visit_date=20261102&visit_time="+offer.dateTime.slice(11,16).replace(":","")};
       // The source-cache preparation uses the same request binding that the
       // real reducer will independently attach to the returned availability event.
       if(index!==0)delete source.terms;
       if(provider==="TABLECHECK"){
         const shop=sourceEntityId,entrance="https://www.tablecheck.com/en/shops/"+shop+"/reserve";
-        source={...source,provider:"TABLECHECK",linkBasis:"VERIFIED_PARAMETERS",sourceEntityId:shop,observedEntranceUrl:entrance,url:entrance+"?start_date=2026-11-02&start_time="+encodeURIComponent(result.offers[0]!.dateTime.slice(11,16))+"&num_people="+request.partySize};
+        source={...source,provider:"TABLECHECK",linkBasis:"VERIFIED_PARAMETERS",sourceEntityId:shop,observedEntranceUrl:entrance,url:entrance+"?start_date=2026-11-02&start_time="+encodeURIComponent(offer.dateTime.slice(11,16))+"&num_people="+request.partySize};
       }
       if(source.terms){
         if(options.cancellationConflict&&provider==="TABELOG"){
@@ -147,10 +148,11 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
         if(source.terms.plan)source.terms.plan.readAt=clock.now().toISOString();
         if(source.terms.plan){source.terms.plan.identityEvidenceId=entity.evidenceId;if(provider==="TABLECHECK")source.terms.plan.url=source.terms.pages[0]!.url;}
       }
-      const prepared=prepareBookingHandoff(source,{candidate,offer:result.offers[0]!,check,request:{...raw.context.request,date:request.date,timeWindow:request.timeWindow,partySize:request.partySize},evidence:result.evidence,now:clock.now().toISOString()});
+      const prepared=prepareBookingHandoff(source,{candidate,offer:offer,check,request:{...raw.context.request,date:request.date,timeWindow:request.timeWindow,partySize:request.partySize},evidence:result.evidence,now:clock.now().toISOString()});
       if(source.terms?.card?.answer)answers.set(id,structuredClone(source.terms.card.answer));
-      if(prepared)cache.set(id,prepared);
+      if(prepared)cache.set(id+":"+offer.id,prepared);
       else throw new Error("Fixture B1 source was not admitted for "+id);
+      }
       call.completed=true;
       return {...result,availabilityChecks:{[id]:check},metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
     },
