@@ -1,0 +1,106 @@
+{
+  "sourceSHA": "ead289450092ccc30798b754d1e0771462bf08bd",
+  "mainIntegrationSHA": "1bc8ec31f49dc06b73a838f716c518e1fa63cd6d",
+  "executionPlan": {
+    "caseIds": [
+      "p3b-holdout-03",
+      "p3b-holdout-07"
+    ],
+    "repetitions": 2
+  },
+  "stopReason": "INDEPENDENT_EVIDENCE_REVIEW_REQUIRED",
+  "receipts": [
+    {
+      "key": "p3b-holdout-03-r1",
+      "verdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "NOT_EVALUATED",
+        "stopBatch": true
+      },
+      "turnBudgets": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1794371740065,
+          "deadlineAtMs": 1794372240065,
+          "elapsedMs": 210194.477583,
+          "modelCalls": 47,
+          "googleRequests": 6,
+          "exceeded500Seconds": false
+        },
+        {
+          "id": "OWN_CAKE",
+          "startedAtMs": 1794371950267,
+          "deadlineAtMs": 1794372450267,
+          "elapsedMs": 1823.4470830000064,
+          "modelCalls": 1,
+          "googleRequests": 0,
+          "exceeded500Seconds": false
+        }
+      ],
+      "G1": {
+        "status": "NOT_STATED",
+        "reason": null,
+        "checkedPages": [
+          {
+            "url": "https://tabelog.com/en/tokyo/A1304/A130401/13304101/",
+            "readAt": "2026-11-11T04:37:19.905Z"
+          }
+        ]
+      },
+      "nonPassChecks": [
+        {
+          "rule": "COMPLETE_REQUEST_QUALIFICATION",
+          "status": "NOT_EVALUATED",
+          "subject": "praxis:restaurant:e9841bdc0fc64494a0335102",
+          "severity": "S0",
+          "reviewReason": "INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING"
+        },
+        {
+          "rule": "G1_NOT_STATED",
+          "status": "NOT_EVALUATED",
+          "subject": "praxis:restaurant:e9841bdc0fc64494a0335102",
+          "severity": "CAPABILITY",
+          "reviewReason": null
+        }
+      ]
+    }
+  ],
+  "notRun": [
+    "p3b-holdout-03-r2",
+    "p3b-holdout-07-r1",
+    "p3b-holdout-07-r2"
+  ],
+  "usedThisBatch": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 48,
+    "environmentReruns": 0
+  },
+  "cumulative": {
+    "fullLive": 31,
+    "evaluationPublicGET": 160,
+    "realModelCalls": 2140,
+    "environmentReruns": 0,
+    "googleRequests": 109,
+    "restaurantWebsiteRequests": 7726
+  },
+  "remaining": {
+    "fullLive": 5,
+    "evaluationPublicGET": 60,
+    "realModelCalls": 660,
+    "environmentReruns": 4
+  },
+  "recording": {
+    "enabled": {
+      "browser": true,
+      "decisions": true,
+      "googleResponses": true
+    },
+    "decisions": 48,
+    "qualifiedPages": 52,
+    "totalPages": 78
+  }
+}

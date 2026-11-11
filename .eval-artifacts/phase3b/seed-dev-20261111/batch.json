@@ -1,0 +1,61 @@
+{
+  "schema": "phase3b-holdout-batch@2",
+  "serial": true,
+  "stopReason": "INDEPENDENT_EVIDENCE_REVIEW_REQUIRED",
+  "executionPlan": {
+    "caseIds": [
+      "p3b-holdout-03",
+      "p3b-holdout-07"
+    ],
+    "repetitions": 2
+  },
+  "witnessPolicies": [
+    {
+      "id": "p3b-holdout-03",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-07",
+      "policy": "POSITIVE_REQUIRED"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1",
+      "path": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-03-r1",
+      "status": "STOPPED",
+      "environmentReplacement": false,
+      "finishedAtMs": 1794371955216,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "f811bd7f35deca4b090f152794332cea71a99af640da974b1aba1d79813160a4"
+    }
+  ],
+  "healthyCases": [
+    "p3b-holdout-03"
+  ],
+  "sourceSHAHistory": [
+    {
+      "sourceSHA": "ead289450092ccc30798b754d1e0771462bf08bd",
+      "attemptKeys": [
+        "p3b-holdout-03-r1"
+      ]
+    }
+  ],
+  "pendingReviewCount": 0,
+  "passRateReportable": false,
+  "budgetCheckpoint": {
+    "entries": 56,
+    "sha256": "5b2919031794e5e569602e24b36202b4d982aa4ec6c1fe32b124e3e331dad81e",
+    "cumulative": {
+      "fullLive": 31,
+      "evaluationPublicGET": 160,
+      "realModelCalls": 2140,
+      "environmentReruns": 0,
+      "googleRequests": 109,
+      "restaurantWebsiteRequests": 7726
+    }
+  }
+}
