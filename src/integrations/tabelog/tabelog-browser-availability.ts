@@ -677,8 +677,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         if (structureChanged || !hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return finish({
           candidate, observedAt: this.now(), ...activeSource(), sourceUrl: querySnapshot.url, entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: structureChanged ? "SOURCE_STRUCTURE_CHANGED" : query.reasonCode ?? "REQUEST_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(querySnapshot),
         });
-        page = query.status === "COMPLETED" && querySnapshot.settlement !== "PENDING" && !hasBotChallenge(querySnapshot)
-          ? querySnapshot : await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
+        page = querySnapshot;
+        if (query.status !== "COMPLETED" || querySnapshot.settlement === "PENDING" || hasBotChallenge(querySnapshot)) {
+          page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
+        }
       }
       page = await this.resumeAfterUserIntervention(candidate, request, session, page, "AVAILABILITY", signal);
       if (hasBotChallenge(page) && !alternateRecoveryUsed) {
