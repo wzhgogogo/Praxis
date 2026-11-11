@@ -1,0 +1,44 @@
+{
+  "sourceSHA": "6ca80a4cf6a5b8af9d487a248184e41f941f3813",
+  "calls": 1,
+  "Live": 0,
+  "GET": 0,
+  "results": [
+    {
+      "case": "07-r1-original-decision32",
+      "answer": {
+        "status": "PROPOSED",
+        "action": {
+          "type": "INVESTIGATE_CANDIDATE_FACTS",
+          "candidateIds": [
+            "praxis:restaurant:4ee0fa1e7015bba172121d0a"
+          ]
+        },
+        "decisionSummary": "Yakiniku Hormone Arai-ya Koenji has fresh matching 10-person slots on 2026-11-18 within 18:30–20:30 but lacks evidence for the HARD yakiniku criterion; verify that fact first before further availability batches.",
+        "modelAttempt": {
+          "invocationId": "58a4888f-4ad5-4f0a-9dad-972f15fda5a2",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-flash",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "32",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "finishReason": "TOOL_CALLS",
+          "latencyMs": 4118,
+          "usage": {
+            "inputTokens": 20484,
+            "outputTokens": 236,
+            "totalTokens": 20720
+          },
+          "providerRequestId": "5b2eed8e-b1a2-407d-9b50-ba255d3cd6ba"
+        }
+      },
+      "availableCandidateIds": [
+        "praxis:restaurant:4ee0fa1e7015bba172121d0a"
+      ],
+      "passed": true
+    }
+  ]
+}

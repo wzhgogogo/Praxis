@@ -1,0 +1,77 @@
+[
+  {
+    "taskId": "recorded07-prompt",
+    "purpose": "restaurant_agent_decide",
+    "promptVersion": "32",
+    "messages": {
+      "sha256": "c54891f4fcfd3a609a03e8acba58d99fb9ebbabf513faad81c240d3fe157a930"
+    },
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "restaurant_agent_action",
+      "version": "5",
+      "jsonSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "question",
+          "relatedFields",
+          "retrievalHint",
+          "candidateIds",
+          "candidateId",
+          "offerId",
+          "decisionSummary"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ASK_USER",
+              "SEARCH_RESTAURANTS",
+              "INVESTIGATE_CANDIDATE_FACTS",
+              "CHECK_AVAILABILITY",
+              "PRESENT_RESULTS",
+              "END_READ",
+              "ANSWER_PAGE_QUESTION",
+              "SELECT_CANDIDATE",
+              "BOOK_RESERVATION"
+            ]
+          },
+          "question": {
+            "type": "string"
+          },
+          "relatedFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "retrievalHint": {
+            "type": "string"
+          },
+          "candidateIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "candidateId": {
+            "type": "string"
+          },
+          "offerId": {
+            "type": "string"
+          },
+          "decisionSummary": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "timeoutMs": 30000,
+    "fallback": "FAIL_CLOSED",
+    "maxOutputTokens": 512,
+    "temperature": 0,
+    "thinking": "disabled"
+  }
+]

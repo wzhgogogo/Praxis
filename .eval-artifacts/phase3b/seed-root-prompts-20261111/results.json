@@ -1,0 +1,55 @@
+{
+  "sourceSHA": "110e24caec81f1b5f6c42ef63e13864436a739b6",
+  "calls": 2,
+  "Live": 0,
+  "GET": 0,
+  "results": [
+    {
+      "case": "07-r1-original-decision32",
+      "answer": {
+        "status": "PROPOSED",
+        "action": {
+          "type": "CHECK_AVAILABILITY",
+          "candidateIds": [
+            "praxis:restaurant:ae4ca4e70761cb9085769a9e",
+            "praxis:restaurant:31c80a4e5fdae4e8323e8c23",
+            "praxis:restaurant:bbcb46d46f4519eb4bcd3e74"
+          ]
+        },
+        "decisionSummary": "No eligible candidates yet; one candidate has AVAILABLE offers but lacks yakiniku HARD evidence. Check availability for the nearest yakiniku-categorized outlets (287m, 288m, 318m) to build the 3-result batch.",
+        "modelAttempt": {
+          "invocationId": "3d41f74d-f2b7-4a60-b8fc-ee827aae767c",
+          "provider": "DEEPSEEK",
+          "model": "deepseek-flash",
+          "purpose": "restaurant_agent_decide",
+          "promptVersion": "31",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "finishReason": "TOOL_CALLS",
+          "latencyMs": 3895,
+          "usage": {
+            "inputTokens": 20407,
+            "outputTokens": 271,
+            "totalTokens": 20678
+          },
+          "providerRequestId": "30435252-4bd6-46e6-bd22-0b1fcc374834"
+        }
+      },
+      "availableCandidateIds": [
+        "praxis:restaurant:4ee0fa1e7015bba172121d0a"
+      ],
+      "passed": false
+    },
+    {
+      "case": "D02V-original-decision8",
+      "answer": {
+        "type": "CLICK",
+        "targetRef": "observation:5:target:80",
+        "reason": "Open More filters to find a keyword/cuisine search input for the retrieval expression."
+      },
+      "passed": false
+    }
+  ]
+}
