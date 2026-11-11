@@ -1,0 +1,32 @@
+{
+  "status": "STOPPED_BEFORE_HEALTH_REQUEST",
+  "cause": "RECONSTRUCTED_BUDGET_ATTEMPT_ID_COLLISION",
+  "basis": "No typed exception saved by CLI catch; deterministic cause independently reconstructed from frozen caller and existing ledger ID. Not a recorded new network failure.",
+  "existingRow": {
+    "id": "seed:D02V-r1:HEALTH:tablecheck:1",
+    "conversation": "A",
+    "recordedAtUTC": "2026-11-11T06:04:40.599Z",
+    "mode": "G6_CONTROLLED_ATTEMPT",
+    "fullLive": 0,
+    "realModelCalls": 0,
+    "evaluationPublicGET": 1,
+    "environmentReruns": 0,
+    "restaurantWebsiteRequests": 1,
+    "note": "User2026-11-11 development health, unchanged60s window"
+  },
+  "callerFile": "src/eval/restaurant/agent-loop/g6/run-seed-remaining.ts",
+  "callerExpression": "'seed:'+mode+':HEALTH:'+source+':'+round",
+  "mode": "D02V-r1",
+  "source": "tablecheck",
+  "round": 1,
+  "computedID": "seed:D02V-r1:HEALTH:tablecheck:1",
+  "budgetGuardFile": "src/eval/restaurant/agent-loop/g6/budget.ts",
+  "guard": "Duplicate budget attempt id; no request was sent",
+  "healthOutputExists": false,
+  "runtimeDirectoryExists": false,
+  "Live": 0,
+  "models": 0,
+  "GET": 1,
+  "environmentRerunsCharged": 1,
+  "notRetried": true
+}
