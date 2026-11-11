@@ -1,0 +1,2182 @@
+[
+  {
+    "logicalRun": "D02V-r1",
+    "storagePath": ".eval-artifacts/phase3b/seed-r3-20261111/D02V-r1/runtime/dev-d02v-paging-r1",
+    "originalVerdict": {
+      "status": "EVALUATED",
+      "qualified": false,
+      "outcome": "CAPABILITY_MISS",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "effectiveVerdict": {
+      "status": "EVALUATED",
+      "qualified": false,
+      "outcome": "CAPABILITY_MISS",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "elapsedMs": 210459,
+    "modelCalls": 42,
+    "boundary": {
+      "pass": 242,
+      "total": 242
+    },
+    "delivered": [],
+    "handoffs": [],
+    "sources": [
+      {
+        "provider": "TABELOG",
+        "nativeFunnel": {
+          "source": "TABELOG",
+          "accepted": 0,
+          "batchCap": 5,
+          "rejected": [],
+          "pagesRead": 2,
+          "retrieval": {
+            "history": [],
+            "rewrites": 0,
+            "selection": {
+              "reason": "No observation or supplied categories yet; retrieve by the single HARD criterion keyword in Nakano City.",
+              "keyword": "robatayaki",
+              "accepted": true,
+              "criterionRef": "criterion:0"
+            },
+            "regionPages": 1,
+            "retrievalPages": 1
+          },
+          "batchEnded": true,
+          "sourceEnded": true,
+          "parsedOutlets": 0,
+          "sourcePageCap": 7,
+          "rawSourceLinks": 2,
+          "sourceDetailCap": 10,
+          "sourceElapsedMs": 25994,
+          "sourceExhausted": "UNKNOWN",
+          "inspectedOutlets": 0,
+          "batchLimitReached": false,
+          "progressionReason": "SOURCE_FAILURE",
+          "deferredByBatchCap": [],
+          "sourceElapsedCapMs": 90000,
+          "listingObservations": [],
+          "sourceDetailAttempts": 0,
+          "sourceTimeLimitReached": false
+        },
+        "supplementaryDiscovery": {
+          "status": "COMPLETED",
+          "sourceId": "google-places",
+          "candidateCount": 3
+        },
+        "candidateEntrances": [
+          {
+            "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "name": "Nakano Robata Sumika",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "name": "Okajoki",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "name": "中野製作所 まんてん別館",
+            "nativeURI": null
+          }
+        ]
+      },
+      {
+        "provider": "TABLECHECK",
+        "nativeFunnel": {
+          "source": "TABLECHECK",
+          "accepted": 0,
+          "batchCap": 5,
+          "rejected": [],
+          "pagesRead": 1,
+          "retrieval": {
+            "history": [],
+            "rewrites": 0,
+            "selection": {
+              "reason": "No observation or supplied categories yet; retrieve by the single HARD criterion keyword in Nakano City.",
+              "keyword": "robatayaki",
+              "accepted": true,
+              "criterionRef": "criterion:0"
+            },
+            "regionPages": 1,
+            "retrievalPages": 0
+          },
+          "batchEnded": true,
+          "sourceEnded": true,
+          "parsedOutlets": 0,
+          "sourcePageCap": 3,
+          "rawSourceLinks": 2,
+          "sourceDetailCap": 10,
+          "sourceElapsedMs": 19802,
+          "sourceExhausted": "UNKNOWN",
+          "inspectedOutlets": 0,
+          "batchLimitReached": false,
+          "progressionReason": "SOURCE_FAILURE",
+          "deferredByBatchCap": [],
+          "sourceElapsedCapMs": 90000,
+          "listingObservations": [],
+          "sourceDetailAttempts": 0,
+          "sourceTimeLimitReached": false
+        },
+        "supplementaryDiscovery": null,
+        "candidateEntrances": []
+      }
+    ],
+    "initialScanAudit": [
+      {
+        "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+        "from": "2026-11-11T15:51:09.118Z",
+        "to": "2026-11-11T15:51:11.481Z",
+        "count": 1,
+        "traceSequences": [
+          789
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+        "from": "2026-11-11T15:52:00.190Z",
+        "to": "2026-11-11T15:52:04.742Z",
+        "count": 1,
+        "traceSequences": [
+          1675
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+        "from": "2026-11-11T15:52:32.695Z",
+        "to": "2026-11-11T15:52:35.215Z",
+        "count": 1,
+        "traceSequences": [
+          2184
+        ]
+      }
+    ],
+    "capturedVacancyData": [
+      {
+        "harEntry": 30,
+        "rst_id": "13309182",
+        "svd": "20261210",
+        "svps": "2",
+        "bodyMembers": 2,
+        "bodyDate": {
+          "year": 2026,
+          "month": 12,
+          "day": 10,
+          "dow": "Thu"
+        },
+        "sameDateTimes": [
+          "11:00",
+          "11:30",
+          "12:00",
+          "12:30",
+          "13:00",
+          "17:00",
+          "17:30",
+          "18:00",
+          "18:30",
+          "19:00",
+          "19:30",
+          "20:00",
+          "20:30",
+          "21:00"
+        ]
+      },
+      {
+        "harEntry": 43,
+        "rst_id": "13287727",
+        "svd": "20261210",
+        "svps": "2",
+        "bodyMembers": 2,
+        "bodyDate": {
+          "year": 2026,
+          "month": 12,
+          "day": 10,
+          "dow": "Thu"
+        },
+        "sameDateTimes": [
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00",
+          "21:15",
+          "21:30",
+          "21:45",
+          "22:00"
+        ]
+      }
+    ],
+    "availabilityChecks": {
+      "praxis:restaurant:8e3a09511d095d01aa3a3746": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T15:52:53.021Z",
+        "reasonCode": "BROWSER_TIMEOUT",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:f7613987f2cb993f88984f32"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      },
+      "praxis:restaurant:b8153abad1f84fa5c19c239f": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T15:51:30.279Z",
+        "reasonCode": "BROWSER_TIMEOUT",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:d845ab430550060276937457"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      },
+      "praxis:restaurant:c3ac690aea8a7ef8076ac19b": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T15:52:07.990Z",
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:4e409a9b16f24db799305de0"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      }
+    },
+    "noActionableTargetLiteralCount": 0
+  },
+  {
+    "logicalRun": "D02V-r2",
+    "storagePath": ".eval-artifacts/phase3b/seed-r3-20261111/D02V-r2/runtime/dev-d02v-paging-r2",
+    "originalVerdict": {
+      "status": "EVALUATED",
+      "qualified": false,
+      "outcome": "CAPABILITY_MISS",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "effectiveVerdict": {
+      "status": "EVALUATED",
+      "qualified": false,
+      "outcome": "CAPABILITY_MISS",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "elapsedMs": 217139,
+    "modelCalls": 42,
+    "boundary": {
+      "pass": 241,
+      "total": 241
+    },
+    "delivered": [],
+    "handoffs": [],
+    "sources": [
+      {
+        "provider": "TABELOG",
+        "nativeFunnel": {
+          "source": "TABELOG",
+          "accepted": 0,
+          "batchCap": 5,
+          "rejected": [],
+          "pagesRead": 2,
+          "retrieval": {
+            "history": [],
+            "rewrites": 0,
+            "selection": {
+              "reason": "No observation or supplied categories yet; retrieve by the single HARD criterion keyword in Nakano City.",
+              "keyword": "robatayaki",
+              "accepted": true,
+              "criterionRef": "criterion:0"
+            },
+            "regionPages": 1,
+            "retrievalPages": 1
+          },
+          "batchEnded": true,
+          "sourceEnded": true,
+          "parsedOutlets": 0,
+          "sourcePageCap": 7,
+          "rawSourceLinks": 2,
+          "sourceDetailCap": 10,
+          "sourceElapsedMs": 26428,
+          "sourceExhausted": "UNKNOWN",
+          "inspectedOutlets": 0,
+          "batchLimitReached": false,
+          "progressionReason": "SOURCE_FAILURE",
+          "deferredByBatchCap": [],
+          "sourceElapsedCapMs": 90000,
+          "listingObservations": [],
+          "sourceDetailAttempts": 0,
+          "sourceTimeLimitReached": false
+        },
+        "supplementaryDiscovery": {
+          "status": "COMPLETED",
+          "sourceId": "google-places",
+          "candidateCount": 3
+        },
+        "candidateEntrances": [
+          {
+            "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "name": "Nakano Robata Sumika",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "name": "Okajoki",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "name": "中野製作所 まんてん別館",
+            "nativeURI": null
+          }
+        ]
+      },
+      {
+        "provider": "TABLECHECK",
+        "nativeFunnel": {
+          "source": "TABLECHECK",
+          "accepted": 0,
+          "batchCap": 5,
+          "rejected": [],
+          "pagesRead": 1,
+          "retrieval": {
+            "history": [],
+            "rewrites": 0,
+            "selection": {
+              "reason": "No observation or supplied categories yet; retrieve by the single HARD criterion keyword in Nakano City.",
+              "keyword": "robatayaki",
+              "accepted": true,
+              "criterionRef": "criterion:0"
+            },
+            "regionPages": 1,
+            "retrievalPages": 0
+          },
+          "batchEnded": true,
+          "sourceEnded": true,
+          "parsedOutlets": 0,
+          "sourcePageCap": 3,
+          "rawSourceLinks": 2,
+          "sourceDetailCap": 10,
+          "sourceElapsedMs": 20468,
+          "sourceExhausted": "UNKNOWN",
+          "inspectedOutlets": 0,
+          "batchLimitReached": false,
+          "progressionReason": "SOURCE_FAILURE",
+          "deferredByBatchCap": [],
+          "sourceElapsedCapMs": 90000,
+          "listingObservations": [],
+          "sourceDetailAttempts": 0,
+          "sourceTimeLimitReached": false
+        },
+        "supplementaryDiscovery": null,
+        "candidateEntrances": []
+      }
+    ],
+    "initialScanAudit": [
+      {
+        "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+        "from": "2026-11-11T15:57:24.280Z",
+        "to": "2026-11-11T15:57:26.692Z",
+        "count": 1,
+        "traceSequences": [
+          789
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+        "from": "2026-11-11T15:58:14.144Z",
+        "to": "2026-11-11T15:58:18.508Z",
+        "count": 1,
+        "traceSequences": [
+          1675
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+        "from": "2026-11-11T15:58:48.032Z",
+        "to": "2026-11-11T15:58:50.500Z",
+        "count": 1,
+        "traceSequences": [
+          2184
+        ]
+      }
+    ],
+    "capturedVacancyData": [
+      {
+        "harEntry": 31,
+        "rst_id": "13309182",
+        "svd": "20261210",
+        "svps": "2",
+        "bodyMembers": 2,
+        "bodyDate": {
+          "year": 2026,
+          "month": 12,
+          "day": 10,
+          "dow": "Thu"
+        },
+        "sameDateTimes": [
+          "11:00",
+          "11:30",
+          "12:00",
+          "12:30",
+          "13:00",
+          "17:00",
+          "17:30",
+          "18:00",
+          "18:30",
+          "19:00",
+          "19:30",
+          "20:00",
+          "20:30",
+          "21:00"
+        ]
+      },
+      {
+        "harEntry": 44,
+        "rst_id": "13287727",
+        "svd": "20261210",
+        "svps": "2",
+        "bodyMembers": 2,
+        "bodyDate": {
+          "year": 2026,
+          "month": 12,
+          "day": 10,
+          "dow": "Thu"
+        },
+        "sameDateTimes": [
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00",
+          "21:15",
+          "21:30",
+          "21:45",
+          "22:00"
+        ]
+      }
+    ],
+    "availabilityChecks": {
+      "praxis:restaurant:8e3a09511d095d01aa3a3746": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T15:59:07.154Z",
+        "reasonCode": "BROWSER_TIMEOUT",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:ce031c5b4889da5a0a0733e7"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      },
+      "praxis:restaurant:b8153abad1f84fa5c19c239f": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T15:57:42.764Z",
+        "reasonCode": "BROWSER_TIMEOUT",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:c2619ef8d469a0bfbadf7ab4"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      },
+      "praxis:restaurant:c3ac690aea8a7ef8076ac19b": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T15:58:22.138Z",
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:3854dd0f1575ae6f291eb83b"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      }
+    },
+    "noActionableTargetLiteralCount": 0
+  },
+  {
+    "logicalRun": "07-r3",
+    "storagePath": ".eval-artifacts/phase3b/seed-r3-20261111/07-r3/p3b-holdout-07-r1/p3b-holdout-07-r1",
+    "originalVerdict": {
+      "status": "PENDING_REVIEW",
+      "qualified": null,
+      "outcome": null,
+      "s0": 0,
+      "s0Status": "NOT_EVALUATED",
+      "stopBatch": false
+    },
+    "effectiveVerdict": {
+      "status": "EVALUATED",
+      "qualified": true,
+      "outcome": "QUALIFIED_DELIVERY",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "elapsedMs": 269676,
+    "modelCalls": 47,
+    "boundary": {
+      "pass": 355,
+      "total": 355
+    },
+    "delivered": [
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:18:30:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "18:30",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:18:45:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "18:45",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:19:00:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "19:00",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:19:15:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "19:15",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:19:30:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "19:30",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:19:45:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "19:45",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:20:00:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "20:00",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:20:15:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "20:15",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:20:30:10",
+        "name": "和牛焼肉 あおき屋",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F",
+        "phone": "03-5913-8823",
+        "googlePlaceId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+        "sourceIds": {
+          "TABELOG": "13231218"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13231218",
+        "date": "2026-11-18",
+        "time": "20:30",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:18:30:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "18:30",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:18:45:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "18:45",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:19:00:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "19:00",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:19:15:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "19:15",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:19:30:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "19:30",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:19:45:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "19:45",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:20:00:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "20:00",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:20:15:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "20:15",
+        "partySize": 10
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:20:30:10",
+        "name": "Yakiniku Hormone Arai-ya Koenji",
+        "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F",
+        "phone": "03-3315-3508",
+        "googlePlaceId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+        "sourceIds": {
+          "TABELOG": "13156488"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+        "date": "2026-11-18",
+        "time": "20:30",
+        "partySize": 10
+      }
+    ],
+    "handoffs": [
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:18:30:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=1830",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:18:45:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=1845",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:19:00:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=1900",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:19:15:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=1915",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:19:30:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=1930",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:19:45:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=1945",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:20:00:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=2000",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:20:15:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=2015",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "offerId": "offer:tabelog:praxis:restaurant:4ee0fa1e7015bba172121d0a:2026-11-18:20:30:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13156488&visit_date=20261118&visit_time=2030",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:18:30:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=1830",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:18:45:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=1845",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:19:00:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=1900",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:19:15:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=1915",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:19:30:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=1930",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:19:45:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=1945",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:20:00:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=2000",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:20:15:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=2015",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "offerId": "offer:tabelog:praxis:restaurant:e885b9d551198fe6df3dec63:2026-11-18:20:30:10",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?member=10&rcd=13231218&visit_date=20261118&visit_time=2030",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 10 guests filled in",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      }
+    ],
+    "sources": [
+      {
+        "provider": "TABELOG",
+        "nativeFunnel": {
+          "source": "TABELOG",
+          "accepted": 5,
+          "batchCap": 5,
+          "rejected": [],
+          "pagesRead": 2,
+          "retrieval": {
+            "history": [],
+            "rewrites": 0,
+            "selection": {
+              "reason": "No observation yet; retrieve the HARD criterion \"yakiniku\" in Koenjikita.",
+              "keyword": "yakiniku",
+              "accepted": true,
+              "criterionRef": "criterion:0"
+            },
+            "regionPages": 1,
+            "retrievalPages": 1
+          },
+          "batchEnded": true,
+          "sourceEnded": false,
+          "parsedOutlets": 20,
+          "sourcePageCap": 7,
+          "rawSourceLinks": 20,
+          "sourceDetailCap": 10,
+          "sourceElapsedMs": 41969,
+          "sourceExhausted": false,
+          "inspectedOutlets": 5,
+          "batchLimitReached": true,
+          "progressionReason": "FIRST_SOURCE_BATCH",
+          "deferredByBatchCap": [
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13284185/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13283206/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13191150/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13299645/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13302846/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13324830/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13323320/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13141584/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13133031/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13163847/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13063660/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13276788/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13089198/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13312748/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            },
+            {
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13293466/",
+              "reasonCode": "DETAIL_BATCH_CAP"
+            }
+          ],
+          "sourceElapsedCapMs": 90000,
+          "listingObservations": [
+            {
+              "sourceUrl": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Koenji&search_mode=",
+              "parsedOutlets": 20
+            }
+          ],
+          "sourceDetailAttempts": 5,
+          "sourceTimeLimitReached": false
+        },
+        "supplementaryDiscovery": {
+          "status": "COMPLETED",
+          "sourceId": "google-places",
+          "candidateCount": 37
+        },
+        "candidateEntrances": [
+          {
+            "id": "tabelog:en/tokyo/A1319/A131904/13284595",
+            "name": "Koenji Yakiniku Kokochi Ichiba ten",
+            "nativeURI": "https://tabelog.com/en/tokyo/A1319/A131904/13284595/"
+          },
+          {
+            "id": "tabelog:en/tokyo/A1319/A131904/13231226",
+            "name": "KOENJI HIGH",
+            "nativeURI": "https://tabelog.com/en/tokyo/A1319/A131904/13231226/"
+          },
+          {
+            "id": "tabelog:en/tokyo/A1319/A131904/13259484",
+            "name": "Koenji Tomochin Ramen",
+            "nativeURI": "https://tabelog.com/en/tokyo/A1319/A131904/13259484/"
+          },
+          {
+            "id": "tabelog:en/tokyo/A1319/A131904/13245273",
+            "name": "ERICK SOUTH KOENJI CURRY&amp;BIRYANI CENTRE Kouenji karē＆biriyani sentā",
+            "nativeURI": "https://tabelog.com/en/tokyo/A1319/A131904/13245273/"
+          },
+          {
+            "id": "tabelog:en/tokyo/A1319/A131904/13120771",
+            "name": "Koenji Beer Kobo",
+            "nativeURI": "https://tabelog.com/en/tokyo/A1319/A131904/13120771/"
+          },
+          {
+            "id": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+            "name": "三宝苑 koenji",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:e885b9d551198fe6df3dec63",
+            "name": "和牛焼肉 あおき屋",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:9658b9dacb8b2b31419c447f",
+            "name": "焼肉 幸あれ 高円寺店",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+            "name": "Yakiniku Hormone Arai-ya Koenji",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:9ea4701cee4b404402862249",
+            "name": "大衆焼肉コグマヤ高円寺店",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:4b364b3d594fd1941f3c20b0",
+            "name": "焼肉すだち亭",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:e8244fa0783820ab0861dec4",
+            "name": "Shimonya",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:613c32686b7250c4177ab1b4",
+            "name": "Yakinikushokudokaburi Koenji Apatchiten",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:6ea2687526819a2f902edc0c",
+            "name": "ホルモン焼肉 天竜 高円寺",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:1921b3f756a9e7c7a652c4fb",
+            "name": "炭火村 高円寺店",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:bbcb46d46f4519eb4bcd3e74",
+            "name": "Yakiniku Cocochi Ichiba Store",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:1fdfaef20edf84936dd3ba49",
+            "name": "オホーツク北見焼肉のっけ 高円寺本店",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:900aedf4b30ce41f2af16a4c",
+            "name": "焼肉一式 道盛",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:31c80a4e5fdae4e8323e8c23",
+            "name": "Tamaniwayakiniku Koenji",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:128029c6bd82f64dae917d4e",
+            "name": "Gyu-shige",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:ae4ca4e70761cb9085769a9e",
+            "name": "Yakiniku Nikuichi Koenji",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:c50ba5b6d5929b6bfa10e234",
+            "name": "Yakiniku Cocochi Main Store",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:1f76faed70e1b06e61e508c9",
+            "name": "焼肉ホルモン ミリネヤンコプチャン 高円寺店",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:98b23785000f45fa57a77481",
+            "name": "Yakiniku LIKE - Koenji Branch",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:f0515b57755463ab9f6e18e9",
+            "name": "ジンギスカン酒場 焼肉 山田屋 高円寺",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:f4793cc21a51c19ace005796",
+            "name": "もつ焼き 陸",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:dee2a370898f7ca62be62284",
+            "name": "ゆきんこ",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:947c8c7672ed90a1cfb60902",
+            "name": "塩ホルモン 獅子丸",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:e90113266a642b06111a1744",
+            "name": "Hasegawa",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:7cb75be329041f6d1e9d102c",
+            "name": "炭火 焼きとん 焼鳥 出陣 高円寺店",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:bee32a35b44f1e18bc05732b",
+            "name": "SATOブリアンにごう / Sato-Briand 2nd",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:334455feb86511187dcb6243",
+            "name": "タンタンパート３",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:66b25a34acd041f4f6324b7f",
+            "name": "阿佐ヶ谷 ホルモン小屋",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:e0bd483a23c59cce42041ff3",
+            "name": "Red Grill",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:6aaa21debd7c2770996c27c0",
+            "name": "ジンギスカン羊はち 高円寺店",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:1fee9a09441485084368dc11",
+            "name": "やきとん長良 NAGARA",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:2b97eafaaa6e577f79ddaa94",
+            "name": "Sato-Briand Sango",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:6b2b5f593bd6596c2b44bcef",
+            "name": "焼肉 からし亭",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:60049eb5845639925b477ebb",
+            "name": "焼肉大門",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:f3c93b350d35da2071502623",
+            "name": "Jump",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:7c81aab1c43b183ef9ed4cb0",
+            "name": "Tsukishima Monja Tamatoya Koenji",
+            "nativeURI": null
+          },
+          {
+            "id": "praxis:restaurant:dd3e3b1a8e813fc5bbbc38de",
+            "name": "焼鳥うなぎ大八",
+            "nativeURI": null
+          }
+        ]
+      }
+    ],
+    "initialScanAudit": [
+      {
+        "candidateId": "tabelog:en/tokyo/A1319/A131904/13284595",
+        "from": "2026-11-11T16:04:57.590Z",
+        "to": "2026-11-11T16:04:59.486Z",
+        "count": 1,
+        "traceSequences": [
+          1353
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:9ea4701cee4b404402862249",
+        "from": "2026-11-11T16:05:11.600Z",
+        "to": "2026-11-11T16:05:13.213Z",
+        "count": 1,
+        "traceSequences": [
+          1810
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "from": "2026-11-11T16:05:22.402Z",
+        "to": "2026-11-11T16:05:24.609Z",
+        "count": 1,
+        "traceSequences": [
+          2274
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "from": "2026-11-11T16:06:24.868Z",
+        "to": "2026-11-11T16:06:26.902Z",
+        "count": 1,
+        "traceSequences": [
+          2923
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:9658b9dacb8b2b31419c447f",
+        "from": "2026-11-11T16:07:13.102Z",
+        "to": "2026-11-11T16:07:15.215Z",
+        "count": 1,
+        "traceSequences": [
+          3545
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+        "from": "2026-11-11T16:08:03.208Z",
+        "to": "2026-11-11T16:08:05.295Z",
+        "count": 1,
+        "traceSequences": [
+          4156
+        ]
+      }
+    ],
+    "capturedVacancyData": [
+      {
+        "harEntry": 41,
+        "rst_id": "13156488",
+        "svd": "20261118",
+        "svps": "2",
+        "bodyMembers": 2,
+        "bodyDate": {
+          "year": 2026,
+          "month": 11,
+          "day": 18,
+          "dow": "Wed"
+        },
+        "sameDateTimes": [
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00"
+        ]
+      },
+      {
+        "harEntry": 42,
+        "rst_id": "13156488",
+        "svd": "20261118",
+        "svps": "10",
+        "bodyMembers": 10,
+        "bodyDate": {
+          "year": 2026,
+          "month": 11,
+          "day": 18,
+          "dow": "Wed"
+        },
+        "sameDateTimes": [
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00"
+        ]
+      },
+      {
+        "harEntry": 48,
+        "rst_id": "13231218",
+        "svd": "20261118",
+        "svps": "2",
+        "bodyMembers": 2,
+        "bodyDate": {
+          "year": 2026,
+          "month": 11,
+          "day": 18,
+          "dow": "Wed"
+        },
+        "sameDateTimes": [
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00"
+        ]
+      },
+      {
+        "harEntry": 49,
+        "rst_id": "13231218",
+        "svd": "20261118",
+        "svps": "10",
+        "bodyMembers": 10,
+        "bodyDate": {
+          "year": 2026,
+          "month": 11,
+          "day": 18,
+          "dow": "Wed"
+        },
+        "sameDateTimes": [
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00"
+        ]
+      },
+      {
+        "harEntry": 55,
+        "rst_id": "13053435",
+        "svd": "20261118",
+        "svps": "2",
+        "bodyMembers": 2,
+        "bodyDate": {
+          "year": 2026,
+          "month": 11,
+          "day": 18,
+          "dow": "Wed"
+        },
+        "sameDateTimes": [
+          "17:00",
+          "17:15",
+          "17:30",
+          "17:45",
+          "18:00",
+          "18:15",
+          "18:30",
+          "18:45",
+          "19:00",
+          "19:15",
+          "19:30",
+          "19:45",
+          "20:00",
+          "20:15",
+          "20:30",
+          "20:45",
+          "21:00",
+          "21:15",
+          "21:30",
+          "21:45",
+          "22:00",
+          "22:15",
+          "22:30",
+          "22:45",
+          "23:00"
+        ]
+      },
+      {
+        "harEntry": 63,
+        "rst_id": "13306197",
+        "svd": "20261118",
+        "svps": "2",
+        "bodyMembers": 2,
+        "bodyDate": {
+          "year": 2026,
+          "month": 11,
+          "day": 18,
+          "dow": "Wed"
+        },
+        "sameDateTimes": [
+          "17:00",
+          "19:00",
+          "21:00",
+          "21:30",
+          "22:00",
+          "22:30",
+          "23:00",
+          "23:30",
+          "24:00",
+          "24:30",
+          "25:00",
+          "25:30",
+          "26:00",
+          "26:30",
+          "27:00"
+        ]
+      }
+    ],
+    "availabilityChecks": {
+      "tabelog:en/tokyo/A1319/A131904/13284595": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T16:05:05.571Z",
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:89b3931b407c17b1c6bd2989"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}"
+      },
+      "praxis:restaurant:4ee0fa1e7015bba172121d0a": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-11-11T16:05:56.646Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:c11d7795c1c464de27b60ffb",
+          "evidence:restaurant:tabelog-hard-criteria:c248476b29c34fc45b791638",
+          "evidence:restaurant:tabelog-availability:ed4b582aa7b68d632a5eb72f"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "displayExpiresAt": "2026-11-11T16:15:56.646Z",
+        "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      },
+      "praxis:restaurant:9658b9dacb8b2b31419c447f": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T16:07:35.877Z",
+        "reasonCode": "BROWSER_TIMEOUT",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:2614c3c3fdcaa7a36aad9653"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}"
+      },
+      "praxis:restaurant:9ea4701cee4b404402862249": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T16:05:16.574Z",
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:d5c7dd8c2aef031b486d16d0"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}"
+      },
+      "praxis:restaurant:e885b9d551198fe6df3dec63": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-11-11T16:06:50.843Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:f225f394608a86e23cf02cd8",
+          "evidence:restaurant:tabelog-hard-criteria:8cf708b1fa3a5ff4ad897168",
+          "evidence:restaurant:tabelog-availability:2af36e764c89da6076ef891f"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "displayExpiresAt": "2026-11-11T16:16:50.843Z",
+        "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      },
+      "praxis:restaurant:ee89773c093549a6c7bb6b3f": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-11T16:08:20.917Z",
+        "reasonCode": "BROWSER_TIMEOUT",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:45d3d7c8b85f6214cf60f604"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}"
+      }
+    },
+    "noActionableTargetLiteralCount": 0
+  }
+]
