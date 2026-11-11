@@ -1,3 +1,5 @@
+2026-11-11 CET — 修后开发Live证据 / frozen source dafc2278：07-r1交付あおき屋10人9时段/B1，完整资格PENDING_REVIEW；07-r2及D02-V两次CAPABILITY_MISS，均s0=0，边界382/318/256/256全部PASS。D02仍在45秒窗内未完成8人，不宣称修后Live通过；no actionable target旧日历报错0。新增4Live/20GET/155模型，余额0Live/15GET/317模型，旧账本及主工作区草稿不变。仅证据分支留档，后续不追加Live。[报告](../../.eval-artifacts/phase3b/seed-post-fix-evidence-20261111/report.md)。
+
 2026-11-11 CET — seed post-fix preparation / verified：用户接受前三项修复并要求回退地区发现Prompt；两文件恢复ead28945、浏览器Prompt24，Agent32保持。仅eval把Live40及新07-only前序校验接好；旧种子账本281条和所有计数不变，派生新账本继承并清除旧输出绑定。源码ae851693净树门禁type/arch/build、默认1590、Chromium281+G6 159全绿，产品扫描新增0；下一步独立净树合入origin/main、冻结，再跑07两次与D02-V最多两次；S0/环境/未知异常立即停。见 [计划](../../.eval-artifacts/phase3b/seed-post-fix-preparation-20261111/plan.md)。
 
 <a id="seed-root-causes-20261111"></a>

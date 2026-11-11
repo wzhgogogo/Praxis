@@ -1,0 +1,1687 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-p3b-holdout-07-r2-1794397558032-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "[PRIVATE_TURN_SHA256:a3cbf0ce7ab7ce4265aeefb236aff1f5dad3a7fb7d6c28409bcf3f3bfd734d07]",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "There are 10 of us. Any yakiniku place near Koenji with a table on We…",
+          "status": "COMPLETED",
+          "phase": "NO_VERIFIED_RESULT",
+          "taskVersion": 8,
+          "updatedAt": "2026-11-11T11:48:51.061Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "[PRIVATE_TURN_SHA256:a3cbf0ce7ab7ce4265aeefb236aff1f5dad3a7fb7d6c28409bcf3f3bfd734d07]",
+              "createdAt": "2026-11-11T11:46:04.404Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Koenjikita.\nThis bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.\nPoint Kouenji kitaguchi ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nBochibochi Kouenji kitaguchi ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nGyoza no Toriichizu Sakaba Kouenji kitaguchi ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nMenya Hanabi Kouenji kitaguchi ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nCandidate tabelog:en/tokyo/A1319/A131904/13243347 lacks fresh evidenced availability for the authoritative request\nCandidate tabelog:en/tokyo/A1319/A131904/13052207 lacks fresh evidenced availability for the authoritative request\nCandidate tabelog:en/tokyo/A1319/A131904/13240114 lacks fresh evidenced availability for the authoritative request\nCandidate tabelog:en/tokyo/A1319/A131904/13265323 lacks fresh evidenced availability for the authoritative request\nThe bounded discovery plan ended without a grounded result; wider source coverage was not evaluated; last source failure: DISCOVERY_SOURCE_INCOMPLETE\nYou can refine the request to start a new investigation.",
+              "createdAt": "2026-11-11T11:48:51.109Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Koenji"
+            },
+            "date": "2026-11-18",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "yakiniku place near Koenji with a table",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 10,
+            "timeWindow": {
+              "latest": "20:30",
+              "earliest": "18:30"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Wednesday, November 18",
+                "resolvedDate": "2026-11-18"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "between 6:30 and 8:30 PM",
+                "resolvedTimeWindow": {
+                  "latest": "20:30",
+                  "earliest": "18:30"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-11T11:46:00.023Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Koenjikita",
+            "latitude": 35.7078984,
+            "longitude": 139.64648449999999,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "longText": "Koenjikita",
+                "shortText": "Koenjikita"
+              },
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Suginami City",
+                "shortText": "Suginami City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              },
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              },
+              {
+                "types": [
+                  "postal_code"
+                ],
+                "longText": "166-0002",
+                "shortText": "166-0002"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 2,
+          "readyCandidateIds": [],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 4,
+            "checkedCount": 4
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131904/13243347",
+                "address": "1660002 東京都杉並区高円寺北2-3-1 ライオンズマンション高円寺北 B1F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1319/A131904/13243347",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                "outletName": "Point Kouenji kitaguchi ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:443c6360257dbb4f7d2dbce1",
+                  "sourceIds": "evidence:restaurant:native-discovery:443c6360257dbb4f7d2dbce1",
+                  "outletName": "evidence:restaurant:native-discovery:443c6360257dbb4f7d2dbce1"
+                },
+                "coordinates": {
+                  "lat": 35.70567642481696,
+                  "lng": 139.65183908633674
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Koenjikita"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 544,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131904/13052207",
+                "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル２Ｆ",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1319/A131904/13052207",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                },
+                "outletName": "Bochibochi Kouenji kitaguchi ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:32b39210ec696fbd3f02e695",
+                  "sourceIds": "evidence:restaurant:native-discovery:32b39210ec696fbd3f02e695",
+                  "outletName": "evidence:restaurant:native-discovery:32b39210ec696fbd3f02e695"
+                },
+                "coordinates": {
+                  "lat": 35.705921437857704,
+                  "lng": 139.64941278355408
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Koenjikita"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 344,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131904/13240114",
+                "address": "1660002 東京都杉並区高円寺北3-22-18 たちばなビル B1F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1319/A131904/13240114",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                },
+                "outletName": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:4925d476857762385c1d34bd",
+                  "sourceIds": "evidence:restaurant:native-discovery:4925d476857762385c1d34bd",
+                  "outletName": "evidence:restaurant:native-discovery:4925d476857762385c1d34bd"
+                },
+                "coordinates": {
+                  "lat": 35.70567363785784,
+                  "lng": 139.6493748835516
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Koenjikita"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 360,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131904/13265323",
+                "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル 2F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1319/A131904/13265323",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                },
+                "outletName": "Menya Hanabi Kouenji kitaguchi ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:2acad105589e37f36de0d22c",
+                  "sourceIds": "evidence:restaurant:native-discovery:2acad105589e37f36de0d22c",
+                  "outletName": "evidence:restaurant:native-discovery:2acad105589e37f36de0d22c"
+                },
+                "coordinates": {
+                  "lat": 35.70592718976905,
+                  "lng": 139.6494598279438
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Koenjikita"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 347,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            }
+          ],
+          "availability": {
+            "tabelog:en/tokyo/A1319/A131904/13052207": [],
+            "tabelog:en/tokyo/A1319/A131904/13240114": [],
+            "tabelog:en/tokyo/A1319/A131904/13243347": [],
+            "tabelog:en/tokyo/A1319/A131904/13265323": []
+          },
+          "availabilityChecks": {
+            "tabelog:en/tokyo/A1319/A131904/13052207": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-11T11:47:05.390Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:613ce53a693921f82e4d531a"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}"
+            },
+            "tabelog:en/tokyo/A1319/A131904/13240114": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-11T11:47:14.063Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:b3104406138f122b00e9cc8e"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}"
+            },
+            "tabelog:en/tokyo/A1319/A131904/13243347": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-11T11:46:55.389Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:6ff869891522b21ee7363450"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}"
+            },
+            "tabelog:en/tokyo/A1319/A131904/13265323": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-11T11:47:25.723Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:891a82c842c87e269f3c6ed4"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"18:30\"},\"partySize\":10}"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7078984,
+                "longitude": 139.64648449999999,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJb_sgAX7yGGARxVrgA881DRE",
+                "resolvedPlaceName": "Koenjikita",
+                "resolvedPlaceTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "locationNameExactMatch": false,
+                "locationResolutionQuery": "Koenji",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "2c0495fe2ace6675ae507de65d3598f8aec2a1d5dbfad213efd5b82357e04304",
+              "observedAt": "2026-11-11T11:46:07.389Z",
+              "sourceEntityId": "ChIJb_sgAX7yGGARxVrgA881DRE",
+              "requestFingerprint": "391d8ae17c24a9022e79ec8286c246ac0d77c377929ab7b69b156bc018f69630"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1660002 東京都杉並区高円寺北2-3-1 ライオンズマンション高円寺北 B1F",
+                "areaMatch": true,
+                "areaQuery": "near Koenji",
+                "outletName": "Point Kouenji kitaguchi ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 544,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Koenji Sta. 195m / Bar"
+                ],
+                "discoveryScopeRef": "observation:3:target:14",
+                "discoveryScopeUrl": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Koenjikita&search_mode=",
+                "discoveryScopeText": "Koenjikita",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Koenjikita"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/",
+              "evidenceId": "evidence:restaurant:native-discovery:443c6360257dbb4f7d2dbce1",
+              "observedAt": "2026-11-11T11:46:31.553Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13243347",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13243347",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"yakiniku place near Koenji with a table\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":10,\\\"area\\\":{\\\"query\\\":\\\"near Koenji\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"yakiniku\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7078984,\"longitude\":139.64648449999999,\"radiusMeters\":1000,\"label\":\"Koenjikita\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Koenjikita\",\"shortText\":\"Koenjikita\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"166-0002\",\"shortText\":\"166-0002\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル２Ｆ",
+                "areaMatch": true,
+                "areaQuery": "near Koenji",
+                "outletName": "Bochibochi Kouenji kitaguchi ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 344,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Koenji Sta. 71m / Okonomiyaki (Japanese savory pancake), Teppanyaki, Izakaya (Japanese style tavern)"
+                ],
+                "discoveryScopeRef": "observation:3:target:14",
+                "discoveryScopeUrl": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Koenjikita&search_mode=",
+                "discoveryScopeText": "Koenjikita",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Koenjikita"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/",
+              "evidenceId": "evidence:restaurant:native-discovery:32b39210ec696fbd3f02e695",
+              "observedAt": "2026-11-11T11:46:34.586Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13052207",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13052207",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"yakiniku place near Koenji with a table\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":10,\\\"area\\\":{\\\"query\\\":\\\"near Koenji\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"yakiniku\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7078984,\"longitude\":139.64648449999999,\"radiusMeters\":1000,\"label\":\"Koenjikita\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Koenjikita\",\"shortText\":\"Koenjikita\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"166-0002\",\"shortText\":\"166-0002\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1660002 東京都杉並区高円寺北3-22-18 たちばなビル B1F",
+                "areaMatch": true,
+                "areaQuery": "near Koenji",
+                "outletName": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 360,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Koenji Sta. 49m / Izakaya (Japanese style tavern), Dumpling, Mizutaki"
+                ],
+                "discoveryScopeRef": "observation:3:target:14",
+                "discoveryScopeUrl": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Koenjikita&search_mode=",
+                "discoveryScopeText": "Koenjikita",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Koenjikita"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/",
+              "evidenceId": "evidence:restaurant:native-discovery:4925d476857762385c1d34bd",
+              "observedAt": "2026-11-11T11:46:37.517Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13240114",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13240114",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"yakiniku place near Koenji with a table\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":10,\\\"area\\\":{\\\"query\\\":\\\"near Koenji\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"yakiniku\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7078984,\"longitude\":139.64648449999999,\"radiusMeters\":1000,\"label\":\"Koenjikita\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Koenjikita\",\"shortText\":\"Koenjikita\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"166-0002\",\"shortText\":\"166-0002\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル 2F",
+                "areaMatch": true,
+                "areaQuery": "near Koenji",
+                "outletName": "Menya Hanabi Kouenji kitaguchi ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 347,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Koenji Sta. 70m / Taiwanese mixed noodles"
+                ],
+                "discoveryScopeRef": "observation:3:target:14",
+                "discoveryScopeUrl": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Koenjikita&search_mode=",
+                "discoveryScopeText": "Koenjikita",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Koenjikita"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/",
+              "evidenceId": "evidence:restaurant:native-discovery:2acad105589e37f36de0d22c",
+              "observedAt": "2026-11-11T11:46:40.501Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13265323",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13265323",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"yakiniku place near Koenji with a table\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":10,\\\"area\\\":{\\\"query\\\":\\\"near Koenji\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"yakiniku\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7078984,\"longitude\":139.64648449999999,\"radiusMeters\":1000,\"label\":\"Koenjikita\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Koenjikita\",\"shortText\":\"Koenjikita\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"166-0002\",\"shortText\":\"166-0002\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Point Kouenji kitaguchi ten",
+                "observedOutletName": "Point Kouenji kitaguchi ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:6ff869891522b21ee7363450",
+              "observedAt": "2026-11-11T11:46:55.389Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13243347",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13243347",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Point Kouenji kitaguchi ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                }
+              ],
+              "requestFingerprint": "10eccd88bf4acf1a50e64a816ace3552b85286f85387c022b0acee63c3275b74"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Bochibochi Kouenji kitaguchi ten",
+                "observedOutletName": "Bochibochi Kouenji kitaguchi ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:613ce53a693921f82e4d531a",
+              "observedAt": "2026-11-11T11:47:05.390Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13052207",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13052207",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Bochibochi Kouenji kitaguchi ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                }
+              ],
+              "requestFingerprint": "55577777864f472afeedcea0306f702c57200adc6b6af1a5ee816d620d888652"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten",
+                "observedOutletName": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:b3104406138f122b00e9cc8e",
+              "observedAt": "2026-11-11T11:47:14.063Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13240114",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13240114",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                }
+              ],
+              "requestFingerprint": "8272ed1d878101d0642fbdb0f9a17dbf8bc12b49939c40e125a95c345dc66caf"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Menya Hanabi Kouenji kitaguchi ten",
+                "observedOutletName": "Menya Hanabi Kouenji kitaguchi ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:891a82c842c87e269f3c6ed4",
+              "observedAt": "2026-11-11T11:47:25.723Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13265323",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13265323",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Menya Hanabi Kouenji kitaguchi ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                }
+              ],
+              "requestFingerprint": "b40de69aa6e65c57e1d44378f4f75413799e1c49617e4e20542f5c4f6c84c8c4"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1660002 東京都杉並区高円寺北2-3-1 ライオンズマンション高円寺北 B1F",
+                "outletName": "Point Kouenji kitaguchi ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Point Kouenji kitaguchi ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:c6b30d916284c0a4fa25aace",
+              "observedAt": "2026-11-11T11:47:27.760Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13243347",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13243347",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Point Kouenji kitaguchi ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131904/13243347\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131904/13243347/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13243347:statement:1",
+                  "tabelog:en/tokyo/A1319/A131904/13243347:statement:19",
+                  "tabelog:en/tokyo/A1319/A131904/13243347:statement:37"
+                ],
+                "restaurantTypeFacts": [
+                  "Point Kouenji kitaguchi ten（ポイント） - Koenji(Bar)",
+                  "Bar",
+                  "Categories\tBar"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131904/13243347:document:741c3c8e71f2e2b7",
+              "observedAt": "2026-11-11T11:47:27.760Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131904/13243347:document:741c3c8e71f2e2b7"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13243347",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13243347",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Point Kouenji kitaguchi ten（ポイント） - Koenji(Bar)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "field": "NAME",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "NAME",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131904/13243347:document:741c3c8e71f2e2b7\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131904/13243347:statement:1\",\"tabelog:en/tokyo/A1319/A131904/13243347:statement:19\",\"tabelog:en/tokyo/A1319/A131904/13243347:statement:37\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル２Ｆ",
+                "outletName": "Bochibochi Kouenji kitaguchi ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Bochibochi Kouenji kitaguchi ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:68c64233b36f1233a349424c",
+              "observedAt": "2026-11-11T11:47:40.653Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13052207",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13052207",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Bochibochi Kouenji kitaguchi ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131904/13052207\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131904/13052207/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13052207:statement:19",
+                  "tabelog:en/tokyo/A1319/A131904/13052207:statement:20",
+                  "tabelog:en/tokyo/A1319/A131904/13052207:statement:21"
+                ],
+                "restaurantTypeFacts": [
+                  "Okonomiyaki (Japanese savory pancake)",
+                  "Teppanyaki",
+                  "Izakaya (Japanese style tavern)"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131904/13052207:document:b96091b1ab412711",
+              "observedAt": "2026-11-11T11:47:40.653Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131904/13052207:document:b96091b1ab412711"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13052207",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13052207",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Okonomiyaki (Japanese savory pancake)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Teppanyaki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131904/13052207:document:b96091b1ab412711\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131904/13052207:statement:19\",\"tabelog:en/tokyo/A1319/A131904/13052207:statement:20\",\"tabelog:en/tokyo/A1319/A131904/13052207:statement:21\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1660002 東京都杉並区高円寺北3-22-18 たちばなビル B1F",
+                "outletName": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:e5aed1eb6fb05a1696d93f1c",
+              "observedAt": "2026-11-11T11:47:56.067Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13240114",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13240114",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131904/13240114\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131904/13240114/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13240114:statement:19",
+                  "tabelog:en/tokyo/A1319/A131904/13240114:statement:20",
+                  "tabelog:en/tokyo/A1319/A131904/13240114:statement:21"
+                ],
+                "restaurantTypeFacts": [
+                  "Izakaya (Japanese style tavern)",
+                  "Dumpling",
+                  "Mizutaki"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131904/13240114:document:fd7f353e51429a98",
+              "observedAt": "2026-11-11T11:47:56.067Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131904/13240114:document:fd7f353e51429a98"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13240114",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13240114",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Izakaya (Japanese style tavern)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Dumpling",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Mizutaki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131904/13240114:document:fd7f353e51429a98\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131904/13240114:statement:19\",\"tabelog:en/tokyo/A1319/A131904/13240114:statement:20\",\"tabelog:en/tokyo/A1319/A131904/13240114:statement:21\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル 2F",
+                "outletName": "Menya Hanabi Kouenji kitaguchi ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Menya Hanabi Kouenji kitaguchi ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:2e7b5c9c881191968d7a63b3",
+              "observedAt": "2026-11-11T11:48:13.347Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13265323",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13265323",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Menya Hanabi Kouenji kitaguchi ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131904/13265323\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131904/13265323/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13265323:statement:1",
+                  "tabelog:en/tokyo/A1319/A131904/13265323:statement:19",
+                  "tabelog:en/tokyo/A1319/A131904/13265323:statement:46"
+                ],
+                "restaurantTypeFacts": [
+                  "Menya Hanabi Kouenji kitaguchi ten - Koenji(Taiwanese mixed noodles)",
+                  "Taiwanese mixed noodles",
+                  "This is a Mazesoba restaurant. I ordered the Negi Mori Taiwan (JPY 1,180) and chose a spic...View details"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131904/13265323:document:746970496d1ceae6",
+              "observedAt": "2026-11-11T11:48:13.347Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131904/13265323:document:746970496d1ceae6"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13265323",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13265323",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Menya Hanabi Kouenji kitaguchi ten - Koenji(Taiwanese mixed noodles)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                },
+                {
+                  "field": "NAME",
+                  "quote": "Taiwanese mixed noodles",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "This is a Mazesoba restaurant. I ordered the Negi Mori Taiwan (JPY 1,180) and chose a spic...View details",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131904/13265323:document:746970496d1ceae6\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131904/13265323:statement:1\",\"tabelog:en/tokyo/A1319/A131904/13265323:statement:19\",\"tabelog:en/tokyo/A1319/A131904/13265323:statement:46\"]}"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13243347:statement:1",
+                  "tabelog:en/tokyo/A1319/A131904/13243347:statement:19",
+                  "tabelog:en/tokyo/A1319/A131904/13243347:statement:37"
+                ],
+                "restaurantTypeFacts": [
+                  "Point Kouenji kitaguchi ten（ポイント） - Koenji(Bar)",
+                  "Bar",
+                  "Categories\tBar"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131904/13243347:document:741c3c8e71f2e2b7",
+              "observedAt": "2026-11-11T11:47:27.760Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131904/13243347:document:741c3c8e71f2e2b7"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13243347",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13243347",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Point Kouenji kitaguchi ten（ポイント） - Koenji(Bar)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "field": "NAME",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "NAME",
+                  "quote": "Bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131904/13243347:document:741c3c8e71f2e2b7\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131904/13243347:statement:1\",\"tabelog:en/tokyo/A1319/A131904/13243347:statement:19\",\"tabelog:en/tokyo/A1319/A131904/13243347:statement:37\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13052207:statement:19",
+                  "tabelog:en/tokyo/A1319/A131904/13052207:statement:20",
+                  "tabelog:en/tokyo/A1319/A131904/13052207:statement:21"
+                ],
+                "restaurantTypeFacts": [
+                  "Okonomiyaki (Japanese savory pancake)",
+                  "Teppanyaki",
+                  "Izakaya (Japanese style tavern)"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131904/13052207:document:b96091b1ab412711",
+              "observedAt": "2026-11-11T11:47:40.653Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131904/13052207:document:b96091b1ab412711"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13052207",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13052207",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Okonomiyaki (Japanese savory pancake)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Teppanyaki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131904/13052207:document:b96091b1ab412711\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131904/13052207:statement:19\",\"tabelog:en/tokyo/A1319/A131904/13052207:statement:20\",\"tabelog:en/tokyo/A1319/A131904/13052207:statement:21\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13240114:statement:19",
+                  "tabelog:en/tokyo/A1319/A131904/13240114:statement:20",
+                  "tabelog:en/tokyo/A1319/A131904/13240114:statement:21"
+                ],
+                "restaurantTypeFacts": [
+                  "Izakaya (Japanese style tavern)",
+                  "Dumpling",
+                  "Mizutaki"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131904/13240114:document:fd7f353e51429a98",
+              "observedAt": "2026-11-11T11:47:56.067Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131904/13240114:document:fd7f353e51429a98"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13240114",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13240114",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Izakaya (Japanese style tavern)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Dumpling",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Mizutaki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131904/13240114:document:fd7f353e51429a98\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131904/13240114:statement:19\",\"tabelog:en/tokyo/A1319/A131904/13240114:statement:20\",\"tabelog:en/tokyo/A1319/A131904/13240114:statement:21\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13265323:statement:1",
+                  "tabelog:en/tokyo/A1319/A131904/13265323:statement:19",
+                  "tabelog:en/tokyo/A1319/A131904/13265323:statement:46"
+                ],
+                "restaurantTypeFacts": [
+                  "Menya Hanabi Kouenji kitaguchi ten - Koenji(Taiwanese mixed noodles)",
+                  "Taiwanese mixed noodles",
+                  "This is a Mazesoba restaurant. I ordered the Negi Mori Taiwan (JPY 1,180) and chose a spic...View details"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131904/13265323:document:746970496d1ceae6",
+              "observedAt": "2026-11-11T11:48:13.347Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131904/13265323:document:746970496d1ceae6"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13265323",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131904/13265323",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Menya Hanabi Kouenji kitaguchi ten - Koenji(Taiwanese mixed noodles)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                },
+                {
+                  "field": "NAME",
+                  "quote": "Taiwanese mixed noodles",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "This is a Mazesoba restaurant. I ordered the Negi Mori Taiwan (JPY 1,180) and chose a spic...View details",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131904/13265323:document:746970496d1ceae6\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131904/13265323:statement:1\",\"tabelog:en/tokyo/A1319/A131904/13265323:statement:19\",\"tabelog:en/tokyo/A1319/A131904/13265323:statement:46\"]}"
+            }
+          ],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-11T11:46:00.022Z"
+          },
+          "bookingHandoffs": []
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:2",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 8,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131904/13243347",
+                    "address": "1660002 東京都杉並区高円寺北2-3-1 ライオンズマンション高円寺北 B1F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1319/A131904/13243347",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                    },
+                    "outletName": "Point Kouenji kitaguchi ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:443c6360257dbb4f7d2dbce1",
+                      "sourceIds": "evidence:restaurant:native-discovery:443c6360257dbb4f7d2dbce1",
+                      "outletName": "evidence:restaurant:native-discovery:443c6360257dbb4f7d2dbce1"
+                    },
+                    "coordinates": {
+                      "lat": 35.70567642481696,
+                      "lng": 139.65183908633674
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Koenjikita"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 544,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131904/13052207",
+                    "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル２Ｆ",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1319/A131904/13052207",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                    },
+                    "outletName": "Bochibochi Kouenji kitaguchi ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:32b39210ec696fbd3f02e695",
+                      "sourceIds": "evidence:restaurant:native-discovery:32b39210ec696fbd3f02e695",
+                      "outletName": "evidence:restaurant:native-discovery:32b39210ec696fbd3f02e695"
+                    },
+                    "coordinates": {
+                      "lat": 35.705921437857704,
+                      "lng": 139.64941278355408
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Koenjikita"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 344,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131904/13240114",
+                    "address": "1660002 東京都杉並区高円寺北3-22-18 たちばなビル B1F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1319/A131904/13240114",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                    },
+                    "outletName": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:4925d476857762385c1d34bd",
+                      "sourceIds": "evidence:restaurant:native-discovery:4925d476857762385c1d34bd",
+                      "outletName": "evidence:restaurant:native-discovery:4925d476857762385c1d34bd"
+                    },
+                    "coordinates": {
+                      "lat": 35.70567363785784,
+                      "lng": 139.6493748835516
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Koenjikita"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 360,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131904/13265323",
+                    "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル 2F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1319/A131904/13265323",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                    },
+                    "outletName": "Menya Hanabi Kouenji kitaguchi ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:2acad105589e37f36de0d22c",
+                      "sourceIds": "evidence:restaurant:native-discovery:2acad105589e37f36de0d22c",
+                      "outletName": "evidence:restaurant:native-discovery:2acad105589e37f36de0d22c"
+                    },
+                    "coordinates": {
+                      "lat": 35.70592718976905,
+                      "lng": 139.6494598279438
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Koenjikita"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 347,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                }
+              ],
+              "availability": {
+                "tabelog:en/tokyo/A1319/A131904/13052207": [],
+                "tabelog:en/tokyo/A1319/A131904/13240114": [],
+                "tabelog:en/tokyo/A1319/A131904/13243347": [],
+                "tabelog:en/tokyo/A1319/A131904/13265323": []
+              }
+            }
+          },
+          {
+            "artifactId": "artifact:outcome:restaurant:adfd4a4bd5922ec763f289d8:8",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "OUTCOME",
+            "sourceVersion": 8,
+            "data": {
+              "outcome": {
+                "status": "NO_VERIFIED_RESULT",
+                "remainingGaps": [
+                  "Point Kouenji kitaguchi ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Bochibochi Kouenji kitaguchi ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Menya Hanabi Kouenji kitaguchi ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Candidate tabelog:en/tokyo/A1319/A131904/13243347 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate tabelog:en/tokyo/A1319/A131904/13052207 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate tabelog:en/tokyo/A1319/A131904/13240114 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate tabelog:en/tokyo/A1319/A131904/13265323 lacks fresh evidenced availability for the authoritative request",
+                  "The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated; last source failure: DISCOVERY_SOURCE_INCOMPLETE"
+                ],
+                "unresolvedCandidateIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13243347",
+                  "tabelog:en/tokyo/A1319/A131904/13052207",
+                  "tabelog:en/tokyo/A1319/A131904/13240114",
+                  "tabelog:en/tokyo/A1319/A131904/13265323"
+                ],
+                "investigatedCandidateIds": [
+                  "tabelog:en/tokyo/A1319/A131904/13243347",
+                  "tabelog:en/tokyo/A1319/A131904/13052207",
+                  "tabelog:en/tokyo/A1319/A131904/13240114",
+                  "tabelog:en/tokyo/A1319/A131904/13265323"
+                ]
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-11T11:46:04.397Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:6ff6d3b3-1c97-464d-8f36-c3eb23ffde12",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:6ff6d3b3-1c97-464d-8f36-c3eb23ffde12"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "4 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-11T11:46:42.373Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:9007e4f6-34d1-46ea-a0e4-305d2ebaad41",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:9007e4f6-34d1-46ea-a0e4-305d2ebaad41"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "0 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-11T11:47:14.067Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:77b4b996-2b70-4822-a490-7ea4b46030a4",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:77b4b996-2b70-4822-a490-7ea4b46030a4"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "0 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-11T11:47:25.728Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:8343955d-6d83-48e7-ab59-42f070ff65ed",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:8343955d-6d83-48e7-ab59-42f070ff65ed"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-11T11:48:11.347Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:99be3315-2476-4ee5-9b15-5f9b01c78560",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:99be3315-2476-4ee5-9b15-5f9b01c78560"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-11T11:48:26.690Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:a245cfc9-16c2-42d4-a4b0-da37bc7484cd",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:a245cfc9-16c2-42d4-a4b0-da37bc7484cd"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "0 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-11T11:48:48.978Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:28171ac3-caec-4abf-a028-fdf9dfffe941",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:28171ac3-caec-4abf-a028-fdf9dfffe941"
+            },
+            "type": "READ_ENDED_NO_VERIFIED_RESULT",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-11T11:48:51.061Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794397560022,
+      "deadlineAtMs": 1794398060022,
+      "elapsedMs": 171097.34516599996,
+      "modelCalls": 27,
+      "googleRequests": 2,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "[PRIVATE_TURN_SHA256:a3cbf0ce7ab7ce4265aeefb236aff1f5dad3a7fb7d6c28409bcf3f3bfd734d07]",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131904/13243347",
+                "outletName": "Point Kouenji kitaguchi ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1319/A131904/13243347",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13243347/"
+                },
+                "address": "1660002 東京都杉並区高円寺北2-3-1 ライオンズマンション高円寺北 B1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131904/13052207",
+                "outletName": "Bochibochi Kouenji kitaguchi ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1319/A131904/13052207",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13052207/"
+                },
+                "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル２Ｆ"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131904/13240114",
+                "outletName": "Gyoza no Toriichizu Sakaba Kouenji kitaguchi ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1319/A131904/13240114",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13240114/"
+                },
+                "address": "1660002 東京都杉並区高円寺北3-22-18 たちばなビル B1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131904/13265323",
+                "outletName": "Menya Hanabi Kouenji kitaguchi ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1319/A131904/13265323",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131904/13265323/"
+                },
+                "address": "1660002 東京都杉並区高円寺北3-22-16 松屋高円寺ビル 2F"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13243347",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13243347",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13052207",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13052207",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13240114",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13240114",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13265323",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13265323",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13243347",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13243347",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13052207",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13052207",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13240114",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13240114",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131904/13265323",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13265323",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:6ff6d3b3-1c97-464d-8f36-c3eb23ffde12",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:9007e4f6-34d1-46ea-a0e4-305d2ebaad41",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:77b4b996-2b70-4822-a490-7ea4b46030a4",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:8343955d-6d83-48e7-ab59-42f070ff65ed",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:99be3315-2476-4ee5-9b15-5f9b01c78560",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:a245cfc9-16c2-42d4-a4b0-da37bc7484cd",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:28171ac3-caec-4abf-a028-fdf9dfffe941",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_ENDED_NO_VERIFIED_RESULT"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

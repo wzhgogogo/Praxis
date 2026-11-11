@@ -1,0 +1,371 @@
+@charset "UTF-8";
+*{
+	box-sizing: border-box;
+	word-break: break-all;
+}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, section, summary,
+time, mark, audio, video {
+ margin: 0;
+ padding: 0;
+ border: 0;
+ font-size: 100%;
+ font: inherit;
+ vertical-align: baseline;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body,
+header,
+nav,
+footer {
+	font-family: "Sawarabi Mincho", "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "游明朝", YuMincho, "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+	font-size: 14px;
+	color: #303030;
+}
+div {
+	line-height: 1.6;
+}
+a img:hover,
+a:hover {
+	opacity: .7;
+}
+/*-------------------------------------------
+header footer nav
+-------------------------------------------*/
+.pageTopChcopy {}
+nav {
+}
+h1.pageTopTitle {
+	color: #000000;
+	padding: 3px;
+	font-size: 12px;
+	font-weight: 400;
+	text-align: right;
+}
+footer {
+	background-color: #000;
+	padding: 10px;
+}
+.footerMenuTitle {
+	color: #000;
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 2;
+	border-bottom: 1px dashed #000;
+	padding: 5px 0 5px;
+	margin: 10px 0 20px 0;
+}
+.footerMenuArea {
+	line-height: 1.6;
+
+}
+.footerMenu {
+	text-align: center;
+	padding: 10px 0;
+}
+.footerMenu li {
+	display: inline-block;
+}
+.footerMenu li a {
+	padding: 0 15px;
+	border-right: 1px solid #fff;
+}
+.footerMenu li:first-child a {
+	border-left: 1px solid #fff;
+}
+.footerMenu a {
+	color: #fff;
+}
+.footerMenu a:hover {
+	text-decoration: underline;
+}
+#pagetopN {
+	background: #f7f7f7;
+	border: 3px solid #fff;
+	color: #ffffff;
+	transition: all .25s ease-in-out;
+	font-family: FontAwesome;
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	height: 42px;
+	line-height: 32px;
+	width: 42px;
+	font-size: 16px;
+	border-radius: 50%;
+	text-align: center;
+	z-index: 99999;
+}
+
+/*-------------------------------------------
+content
+-------------------------------------------*/
+.contentN {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	/*margin-bottom: 60px;*/
+	box-sizing: border-box;
+	max-width: 1240px;
+}
+.contentN-body {
+	color: #0c0101;
+	overflow: hidden;
+	padding: 20px;
+}
+.contentN + .contentN {
+	margin-top: 60px;
+}
+.contentN-body + .contentN-body {
+margin-top: 40px;
+}
+.contentTopHeadTitle {
+	width: 100%;
+	display: block;
+	text-align: center;
+	margin-bottom: 40px;
+}
+.contentTopHeadTitle > img {
+	width: 100%;
+}
+.contentTop-body {
+	width: 100%;
+}
+.contentN-body-Detail {
+	margin-bottom: 40px;
+}
+.contentN-body-Detail-Wapper {
+	display: flex;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+}
+.contentN-body-Detail-Wapper.Detail-WapperW {
+	flex-wrap: wrap;
+}
+.contentN-body-Detail-Wapper .Detail-Wapper50 {
+	width: 48%;
+}
+.Detail-Wapper50 > div {
+	padding: 1em;
+}
+.Detail-Wapper50 img {
+	width: 100%;
+}
+.Detail-WapperW > div {
+	margin-bottom: 20px;
+}
+/*-------------------------------------------
+H1 H2 H3 H4 H5
+-------------------------------------------*/
+h1.pageTitle_ul,
+h2.pageTitle_ul {
+	width: 100%;
+	font-size: 20px;
+	padding: 5px 0 5px;
+	margin:0 0 20px 0;
+	border-bottom: 1px dashed #0c0101;
+	font-weight: bold;
+}
+h1.pageTitle_ul.colorTitle,
+h2.pageTitle_ul.colorTitle {
+	color:#9b3434;
+	border-bottom: 1px dashed #9b3434;
+}
+/*-------------------------------------------
+COMMON
+-------------------------------------------*/
+.pcOnry {
+	display: block;
+}
+.padOnry,
+.spOnry {
+	display: none;
+}
+.taL {
+	text-align: left;
+}
+.taC {
+	text-align: center;
+}
+.taR {
+	text-align: right;
+}
+.fwB {
+	font-weight: 700;
+}
+/*-------------------------------------------
+リクルート / Web予約 CommingSoon
+-------------------------------------------*/
+.reserveMemo,
+.recruitMemo {
+
+}
+.reserveMemo a,
+.recruitMemo a {
+	display: block;
+	padding: 1em;
+	width: 100%;
+	background: #9b3434;
+	text-align: center;
+	color:#fff;
+	font-size: 120%;
+	font-weight: bold;
+	margin-bottom: 40px;
+	cursor: pointer;
+}
+.reserveMemo a,
+.recruitMemo a,
+.reserveMemo a:visited,
+.recruitMemo a:visited {
+	color:#fff;
+}
+.reserveMemo a:hover,
+.recruitMemo a:hover {
+	background: #9b343460;
+	color:#000;
+}
+/*LINE*/
+.lineRecruitingBox {
+	display: block;
+	width: 100%;
+	padding: 1em;
+	text-align: center;
+	background-color: #07b53b;
+	color:#fff;
+	font-family:Meiryo, sans-serif;
+	border-top: 1px solid #07b53b;
+	border-bottom: 1px solid #07b53b;
+	line-height: 1;
+}
+.lineRecruitingBox:visited,
+.lineRecruitingBox:active,
+.lineRecruitingBox:focus {
+	color:#fff;
+}
+.lineRecruitingBox:hover {
+	opacity: 1;
+	background-color: #fff;
+	color:#07b53b;
+}
+.lineRecruitingTitle {
+	font-size: 140%;
+	font-weight: bold;
+	padding: 5px 0;
+}
+.lineBanner {
+	position: fixed;
+	right: 50px;
+	bottom: 10%;
+	z-index: 100;
+}
+@media screen and (min-width: 1240px){
+	.content {
+		width: 1240px;
+	}
+	.contentN-body {
+		padding-left: 40px;
+		padding-right: 40px;
+	}
+	.pcNone {
+		display: none;
+	}
+}
+@media only screen and (max-width: 820px) {
+	.padOnry {
+		display: block;
+	}
+	.pcOnry,
+	.spOnry {
+		display: none;
+	}
+	.contentN-body,
+	.contentN-body-sp {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.contentN + .contentN,
+	.contentN-body + .contentN-body {
+		margin-top: 20px;
+	}
+	.lineBannerSp .lineRecruitingTitle {
+		padding-bottom: 0;
+	}
+}
+@media only screen and (max-width: 640px) {
+	.spOnry {
+		display: block;
+	}
+	.pcOnry,
+	.padOnry {
+		display: none;
+	}	.contentN-body,
+	.contentN-body-sp {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.footerMenuTitle {
+		margin: 0 0 20px 0;
+		font-size: 18px;
+		line-height: 1.2;
+		padding: 5px 0;
+	}
+	.footerMenu {
+		width: 100%;
+		text-align: left;
+	}
+	.footerMenu li {
+		width: 50%;
+		margin-bottom: 10px;
+	}
+	.footerMenu li a {
+		border-right:none;
+	}
+	.footerMenu li:first-child a {
+		border-left: none;
+	}
+	.contentN-body-Detail-Wapper {
+		display: block;
+	}
+	.contentN-body-Detail-Wapper .Detail-Wapper50 {
+		width: 100%;
+		display: block;
+	}
+	.contentN-body-Detail-Wapper .Detail-Wapper50 + .Detail-Wapper50 {
+		margin-top: 40px;
+	}
+	.Detail-Wapper50 > div {
+		padding: 0.5em;
+	}
+}

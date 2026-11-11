@@ -1,0 +1,74 @@
+{
+  "schema": "phase3b-holdout-batch@2",
+  "serial": true,
+  "stopReason": null,
+  "executionPlan": {
+    "caseIds": [
+      "p3b-holdout-07"
+    ],
+    "repetitions": 2
+  },
+  "witnessPolicies": [
+    {
+      "id": "p3b-holdout-07",
+      "policy": "POSITIVE_REQUIRED"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "p3b-holdout-07",
+      "repetition": 1,
+      "key": "p3b-holdout-07-r1",
+      "path": "/private/tmp/praxis-seed-post-fix-live/.eval-artifacts/phase3b/seed-dev-post-fix-20261111/p3b-holdout-07-r1",
+      "status": "PENDING_REVIEW",
+      "environmentReplacement": false,
+      "finishedAtMs": 1794397320052,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "c73b983276222a110533ace021df6ffb56d7e74f9695f46a0f2c547112ece79d"
+    },
+    {
+      "id": "p3b-holdout-07",
+      "repetition": 2,
+      "key": "p3b-holdout-07-r2",
+      "path": "/private/tmp/praxis-seed-post-fix-live/.eval-artifacts/phase3b/seed-dev-post-fix-20261111/p3b-holdout-07-r2",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 237975,
+        "waitedMs": 237968,
+        "previousFinishedAtMs": 1794397320052
+      },
+      "finishedAtMs": 1794397733278,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "4b0e89dd428318ddd15d8034300274095b17ac62dc7d9f3b6a21b2003312dc7c"
+    }
+  ],
+  "healthyCases": [
+    "p3b-holdout-07"
+  ],
+  "sourceSHAHistory": [
+    {
+      "sourceSHA": "dafc2278267dd248e36a1f3c5f13fdeb1b81bb19",
+      "attemptKeys": [
+        "p3b-holdout-07-r1",
+        "p3b-holdout-07-r2"
+      ]
+    }
+  ],
+  "pendingReviewCount": 1,
+  "passRateReportable": false,
+  "budgetCheckpoint": {
+    "entries": 367,
+    "sha256": "6d6ff52522b2b118b38ce41865f529cce9966733b0d26d4b00dfada2c5f80ced",
+    "cumulative": {
+      "fullLive": 38,
+      "evaluationPublicGET": 193,
+      "realModelCalls": 2402,
+      "environmentReruns": 2,
+      "googleRequests": 133,
+      "restaurantWebsiteRequests": 9969
+    }
+  }
+}
