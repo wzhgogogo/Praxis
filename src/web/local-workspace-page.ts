@@ -48,7 +48,8 @@ main{max-width:660px;margin:auto;padding:32px 24px 40px}#home{min-height:62vh;di
 .fact{display:flex;flex-direction:column;gap:6px}.fact a,.fact blockquote{font-size:13px;color:#5F6275}.fact blockquote{margin:0;white-space:pre-wrap}
 .fact details{font-size:13px}summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}.fact summary{text-decoration:underline}#refresh{font-size:13px;margin-top:16px;text-decoration:underline;padding-left:0}
 .saved-row{width:100%;display:flex;text-align:left;align-items:center;justify-content:space-between;gap:12px;padding:18px 4px;border-radius:12px}
-#saved-empty{padding:32px 0;color:#5F6275;font-size:13px}#handoff-provider{font-size:13px;color:#15172B;display:flex;gap:12px;margin-bottom:12px}#handoff-recommended{color:#3D5AFE;font-weight:600}
+#saved-empty{padding:32px 0;color:#5F6275;font-size:13px}#handoff-slot-label{display:flex;align-items:center;gap:12px;margin:0 0 24px;font-size:13px;color:#5F6275}#handoff-slot{font:inherit;color:#15172B;border:0;border-radius:14px;padding:10px 12px;background:#fff;box-shadow:0 3px 14px #15172B0b;max-width:100%}
+#handoff-provider{font-size:13px;color:#15172B;display:flex;gap:12px;margin-bottom:12px}#handoff-recommended{color:#3D5AFE;font-weight:600}
 #handoff-terms{margin:20px 0 28px}#departure{display:block;text-align:center}.hint{font-size:13px;color:#5F6275;line-height:1.55;margin-top:7px}
 #direct-source{display:block;text-align:center;font-size:13px;margin:20px 0 4px;text-decoration:underline}#handoff-unavailable{line-height:1.6;font-size:13px;color:#5F6275}
 #messages{margin-top:24px;line-height:1.6;font-size:15px;white-space:pre-wrap}

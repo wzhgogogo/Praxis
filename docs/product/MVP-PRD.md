@@ -191,6 +191,10 @@ If the user books a displayed restaurant and then supplies the party size or ano
 A named request with several possible branches may inspect the original-order first three identities under the same read budget, even if five possible candidates exist. It proceeds only after those three are investigated and exactly one identity-bound full source name matches; otherwise it asks which branch. This investigation never selects or presents the other branches. Selected-outlet terms may be omitted when a page remains incomplete or the read budget/reserve/cancellation blocks them; the current verified departure link remains available. Exportable reasons distinguish these cases from a page that genuinely does not state terms. This is offline evidence awaiting review, not a new Live completion claim.
 
 
-## 2026-11-11 CET — slice2同步补充（draft / not integrated）
+## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
 
-保留main的3b行为与证据。slice2新增单输入框按视图路由G1、条件胶囊及服务端候选差异、备选保留、批末与错误状态；NO_VERIFIED_RESULT续查仅经用户显式操作且服务端canContinue证明未查工作。70447893需独立预算/冷却/证据门槛复核，未被3b held-out覆盖。计划与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`；分支离线验证与手机实测完成并复核通过前不合main。原slice2历史证据保留，不能当作本次验证。
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+
+14. 首家合格候选就绪后自动显示，其余逐家出现；只展示流程实际知道的进度数值，不编造百分比。前端第一段已复核并快进合main4cbc521b，本地Fixture及视觉证据见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)；不代表Live或Pilot验收。
+17. 前端第2段由视图确定唯一输入框的路由：详情问当前店，候选/对话调整需求；已问记录按店展示。可点条件只预填需求输入；候选变化及不匹配备选原因来自服务端投影，未知不编；新增和移除均0时不显示变化行。空结果只在服务端证明仍有未查工作时提供Find more；已失败/不合格对象不再调查。全部来源失败的Try again走显式刷新，不能伪装为续查。工作分支实现与短状态验收见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，不代表Live或Pilot。
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.

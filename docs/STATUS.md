@@ -1160,6 +1160,12 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-11-10 CET — main9572d99b（产品12deae74）D01/D02各一次结束：均EVALUATED/CAPABILITY_MISS/qualified=false/s0=0，无交付；46调用189.8s、47调用156.8s，93次API均返回。原生发现5调用30.4s/5候选、7调用29.9s/0候选；TC地区均未执行。查位5/6家，各2家AVAILABLE但HARD未闭合；skips各2；通用NO_PROGRESS 0/2；两类入口重试均0。发现成本降，交付未改善；不追加Live。三轮health-only实际15分钟间隔，12/12均200且<10s。新增2Live/24GET/93模型，累计10/26、73/126、1332/2500。原425/871files/账本保持，held-out仍暂停。来源/限制和网络表：[一页报告](../.eval-artifacts/phase3b/discovery-progress-20261110/report.md)。
 
 
-## 2026-11-11 CET — slice2同步补充（draft / not integrated）
+## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
 
-保留main的3b行为与证据。slice2新增单输入框按视图路由G1、条件胶囊及服务端候选差异、备选保留、批末与错误状态；NO_VERIFIED_RESULT续查仅经用户显式操作且服务端canContinue证明未查工作。70447893需独立预算/冷却/证据门槛复核，未被3b held-out覆盖。计划与验收见 [3c同步计划](WEB-WORKSPACE-SLICE2-SYNC-PLAN.md)；分支离线验证与手机实测完成并复核通过前不合main。原slice2历史证据保留，不能当作本次验证。
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+
+- **2026-10-30 第2段合入前同步/小修复验通过，待合入复核：** 用户通过9ca34bea后，de9e73bc将main7c83e02e/G3合入工作分支，四份冲突文档保留双方正文，6文件/两父12项核对缺失0；共享read-assessment精确等于main加既有续查排除行。0/0变化行隐藏，原反例2红→相关6绿，0/3及2/1仍显示。最终冻结55d70963、763 SHA不变，五门禁默认1246/1246、Chromium208/208全绿，各项前后净树；390×844与1280×900本段十项、追加五项、第1段十一项及零变化行均通过。63图校验尺寸/SHA：59与前轮相同、2批末更新、2零变化新增，四图已自查。结构化条件方案仍draft无实施，TaskDefinition23/State24不变；相对main未改G3/集成/评测或phase3b证据。真实模型/Google/来源GET/Live/Holdout0，只推工作分支交合入复核，本轮未更新main，后续ff-only。[计划](WEB-WORKSPACE-SLICE2-PLAN.md) · [报告与截图](reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+
+
+- **2026-10-30 第1段已合main，第2段本地Fixture验收通过、待复核：** 按批准将main404a766e快进至4cbc521bb9e4fb177e247266561bd90eb5d34e3f并回读一致，无新合并/内容或为快进重跑门禁；STATUS只随第2段更新。codex/feat-web-workspace-slice2已完成唯一输入框/完整问答历史、条件胶囊、服务端差异/备选原因、批末及六种短状态。用户批准的canContinue仅放行已知未查工作，保留检查/游标、不重查失败/不合格店；全部失败Try again单走refresh。TaskDefinition23/State24。最终冻结cbcd667b、742 SHA不变，五门禁1215默认/203 Chromium全绿、六步前后净树；390×844与1280×900十项/新增五项及第1段十一项通过，40张新画面加21张回归图。截图自查发现的失败提示首屏不可见以两尺寸红→绿关闭。不改A评测/B搜索G3/C客户端/G1/B1执行，无新条件事件或问答存储。真实模型/Google/来源GET/Live/Holdout0，工作分支交复核、不合main。[计划](WEB-WORKSPACE-SLICE2-PLAN.md) · [报告与截图](reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+

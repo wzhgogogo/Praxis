@@ -6136,6 +6136,43 @@ First723191af default failure preserved; fictional chain responses now explicitl
 2026-11-10 CET — main9572d99b（产品12deae74）D01/D02各一次结束：均EVALUATED/CAPABILITY_MISS/qualified=false/s0=0，无交付；46调用189.8s、47调用156.8s，93次API均返回。原生发现5调用30.4s/5候选、7调用29.9s/0候选；TC地区均未执行。查位5/6家，各2家AVAILABLE但HARD未闭合；skips各2；通用NO_PROGRESS 0/2；两类入口重试均0。发现成本降，交付未改善；不追加Live。三轮health-only实际15分钟间隔，12/12均200且<10s。新增2Live/24GET/93模型，累计10/26、73/126、1332/2500。原425/871files/账本保持，held-out仍暂停。来源/限制和网络表：[一页报告](../../.eval-artifacts/phase3b/discovery-progress-20261110/report.md)。
 
 
-## 2026-11-11 CET — slice2同步补充（draft / not integrated）
+## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
 
-保留main的3b行为与证据。slice2新增单输入框按视图路由G1、条件胶囊及服务端候选差异、备选保留、批末与错误状态；NO_VERIFIED_RESULT续查仅经用户显式操作且服务端canContinue证明未查工作。70447893需独立预算/冷却/证据门槛复核，未被3b held-out覆盖。计划与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`；分支离线验证与手机实测完成并复核通过前不合main。原slice2历史证据保留，不能当作本次验证。
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+
+
+<a id="dev-2026-10-30-web-slice2-start"></a>
+
+## 2026-10-30 第1段快进合主线与第2段开始
+
+用户批准快进且不重跑门禁。拉取后远端main仍404a766e且是4cbc521b祖先，净树；本地main登记在失效工作树（无.git），仅在当前工作树checkout忽略失效登记，不清理其他目录。ff-only至origin/codex/feat-web-workspace-slice1并推main，远端回读等于4cbc521bb9e4fb177e247266561bd90eb5d34e3f，无新合并提交、无额外内容。随后从该main建立codex/feat-web-workspace-slice2，STATUS记录随第2段，不新增main提交。
+
+第2段只读预检确认G1展示候选绑定和最近单条问答、旧候选完整事件及现有消息/续批/refresh；无模型结构化条件接口，按指令仅预填。空结果NO_VERIFIED_RESULT被another-batch应用/Reducer拒绝，已询问是否授权最小只读续查扩展；未获准不改。按[计划](../WEB-WORKSPACE-SLICE2-PLAN.md)推进不依赖它的前端；真实业务/模型/Google/来源/Live/Holdout0。
+
+<a id="dev-2026-10-30-web-slice2-implementation"></a>
+
+## 2026-10-30 第2段局部实现与空结果续查停止点
+
+主输入框按视图确定路由、回答底部面板与按店完整问答历史、条件胶囊预填、服务端需求差异/备选原因、正常批末续批、短失败文案、原生SSE恢复、过期refresh已接通。原State只投影最后一问，但既有PAGE_QUESTION事件可恢复完整历史，因此复用原事件而不新增存储或改G1路径。服务端投影复用原project已读取的事件与状态，无额外数据库/模型/来源调用；原因未知为No longer matches，重复保存不抹除原需求版本关联。误名requestRevision更名searchRevision并更新全部当前调用方，需求版本另投影，不新增兼容字段。Domain/Runtime、Prompt28、Proposal4、State24、TaskDefinition22、A评测/B搜索G3/C客户端未改。
+
+开发旧第1段/新两尺寸21条通过，另空结果Adjust两尺寸2条通过；来源分类混合成功反例红→绿，未知/未查不冒充全部失败。冻结后的完整五门禁、全部新短状态与截图待执行。NO_VERIFIED_RESULT的Find more和全部来源失败后的Try again缺少原接口准入，已询问未获准，不伪造可用动作。整段未完成，最小后端方案及当前证据见[报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)；新真实调用/Holdout0。
+
+<a id="dev-2026-10-30-web-slice2-continuation"></a>
+
+## 2026-10-30 用户批准有未查工作才续接
+
+此前cbe036f5冻结741项的局部五门禁1213/197全部通过、逐项净树；empty/all-failed两项another-batch400证据保留，不当作新允许行为的验收。用户批准后，TaskDefinition22→23、State24形状不变，NO_VERIFIED_RESULT只有完整条件及已知池内未查对象/同条件观察游标或计划剩余工作时才接受NEXT_BATCH_REPLENISHMENT_REQUESTED。保留旧检查/游标/备选，Context和Validator排除上一轮已调查对象；全部失败单走原refresh事件，不调用语义。两个入口复用版本、requestId幂等、有界预算、Stop和迟到丢弃，不重置发现计划，无新条件事件或问答存储。
+
+新增两尺寸续查/取消/失败恢复开发10/10、领域/投影37/37通过；最终全量冻结门禁及截图待执行。B来源搜索/G3、C Google、A评测、G1/B1执行及通用Runtime不改。只推第2段分支停复核，新增真实调用/Holdout0。[实现与验收](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+最终交付验证：cbcd667b67e1c9592cb7f737a907a93181139afc冻结742项SHA，五门禁1215/1215默认、203/203 Chromium（含G2 5）全绿，六步前后净树/HEAD一致。第2段22条+原工作区/G1脚本9条通过，两尺寸十项/新增五项和第1段十一项均覆盖。版本旧断言22已同步批准的23，原失败保留；首次卡片截图淡入中间帧改capture原生结束动画，不改产品动画。截图自查又发现模型失败提示在长卡下面，补同一视口断言两尺寸红→绿，将原节点移到条件下，草稿/卡片保持；40张新图仅此两图较已审查前轮变化，另21张回归图均留存。产品/输入不再变，补报告/附件后只推工作分支停复核，不合main；真实模型/Google/来源GET/Live/外写/Holdout0，无生产凭据或数据库重置。[最终报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+<a id="dev-2026-10-30-web-slice2-main-sync"></a>
+
+## 2026-10-30 第2段复核后同步G3与零变化行
+
+用户复核通过9ca34bea，要求合入前同步main7c83e02e；本轮已核对远端精确SHA。de9e73bc将其合入工作分支，四份文档冲突保留双方正文、冲突元数据统一下一revision；六份文档对两父提交12项非元数据行核对缺失0。read-assessment.ts自动保留G3的等时戳因果证据修复和本段续查排除，不改来源/G3规则。
+
+唯一产品改动为新增/移除均0隐藏整行。复用两尺寸完整HTTP问答→需求修改场景，服务端先确认0/0，隐藏行断言原2红；修复后连同非0差异、原因、备选相关6/6绿。待冻结新组合跑五门禁与两尺寸全部验收，不能用旧门禁代替。结构化条件修改方案仍draft / not integrated，不新增事件/状态，TaskDefinition23/State24及Prompt不因本修复变化。真实模型/Google/来源GET/Live/Holdout0，只推工作分支交合入复核，后续main ff-only，本轮不更新main。[报告](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+
+最终复验：55d7096353b270f4ac3765ede224f3e17c512991冻结763项SHA，五门禁1246/1246默认、208/208 Chromium全绿，各项前后净树/HEAD一致；390×844与1280×900本段十项、追加五项、第1段十一项和零变化行通过。0/0隐藏，0/3及2/1保留；共享read-assessment精确等于7c83e02e加既有续查排除，G3/集成/评测/phase3b内容相对main不变。63张PNG核对尺寸/SHA，59张与原交付相同、2批末更新、2零变化新增，四图目视通过。门禁后仅报告/附件，结构化方案仍draft无实施，真实模型/Google/来源GET/Live/外写/Holdout0。本轮只推工作分支交合入复核，main未更新，后续ff-only。[最终报告与截图](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。

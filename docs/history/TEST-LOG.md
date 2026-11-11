@@ -6842,6 +6842,47 @@ First723191af default failure preserved; fictional chain responses now explicitl
 2026-11-10 CET — main9572d99b（产品12deae74）D01/D02各一次结束：均EVALUATED/CAPABILITY_MISS/qualified=false/s0=0，无交付；46调用189.8s、47调用156.8s，93次API均返回。原生发现5调用30.4s/5候选、7调用29.9s/0候选；TC地区均未执行。查位5/6家，各2家AVAILABLE但HARD未闭合；skips各2；通用NO_PROGRESS 0/2；两类入口重试均0。发现成本降，交付未改善；不追加Live。三轮health-only实际15分钟间隔，12/12均200且<10s。新增2Live/24GET/93模型，累计10/26、73/126、1332/2500。原425/871files/账本保持，held-out仍暂停。来源/限制和网络表：[一页报告](../../.eval-artifacts/phase3b/discovery-progress-20261110/report.md)。
 
 
-## 2026-11-11 CET — slice2同步补充（draft / not integrated）
+## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
 
-保留main的3b行为与证据。slice2新增单输入框按视图路由G1、条件胶囊及服务端候选差异、备选保留、批末与错误状态；NO_VERIFIED_RESULT续查仅经用户显式操作且服务端canContinue证明未查工作。70447893需独立预算/冷却/证据门槛复核，未被3b held-out覆盖。计划与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`；分支离线验证与手机实测完成并复核通过前不合main。原slice2历史证据保留，不能当作本次验证。
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+
+
+<a id="test-2026-10-30-web-slice2-start"></a>
+
+## 2026-10-30 第1段快进合主线与第2段开始
+
+用户批准快进且不重跑门禁。拉取后远端main仍404a766e且是4cbc521b祖先，净树；本地main登记在失效工作树（无.git），仅在当前工作树checkout忽略失效登记，不清理其他目录。ff-only至origin/codex/feat-web-workspace-slice1并推main，远端回读等于4cbc521bb9e4fb177e247266561bd90eb5d34e3f，无新合并提交、无额外内容。随后从该main建立codex/feat-web-workspace-slice2，STATUS记录随第2段，不新增main提交。
+
+第2段只读预检确认G1展示候选绑定和最近单条问答、旧候选完整事件及现有消息/续批/refresh；无模型结构化条件接口，按指令仅预填。空结果NO_VERIFIED_RESULT被another-batch应用/Reducer拒绝，已询问是否授权最小只读续查扩展；未获准不改。按[计划](../WEB-WORKSPACE-SLICE2-PLAN.md)推进不依赖它的前端；真实业务/模型/Google/来源/Live/Holdout0。
+
+<a id="test-2026-10-30-web-slice2-implementation"></a>
+
+## 2026-10-30 第2段开发验收，最终冻结门禁待执行
+
+旧详情主输入框placeholder目标反例红，改接现有G1后按店引用/敏感确认和新历史顺序通过。真实Chromium→HTTP/SSE→生产Application/Interpreter/Compiler/Validator/Router/Runtime/PGlite，仅替换模型/来源/问答传输；两尺寸旧第1段与新脚本开发21/21通过，另空结果Adjust2/2。显式失败attempt混合AVAILABLE成功但无attempt细节的反例曾误归全失败，同一断言红→绿；UNKNOWN/正常UNAVAILABLE/未查反例保留。Fixture错误的已展示排除集和20:00查询却19:00链接均由原门禁正确拒绝，修正只在Fixture；过期正常控制用来源明确60秒有效期，在原500秒预算内完成。
+
+上述是开发证据，不是最终净树门禁或Live结果。准备冻结代码、Fixture、脚本SHA，在净树运行五门禁并产出两尺寸截图；另用仅localhost fetch的探针保存empty/all-sources-failed两种原接口拒绝证据。第8项两种再次查找动作未完成，不能用全仓绿替代用户验收。真实模型/Google/来源GET/Live/外写/Holdout0，不读.env。[报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+<a id="test-2026-10-30-web-slice2-continuation"></a>
+
+## 2026-10-30 批准续查后的开发控制与再冻结
+
+首轮探针误写登录200，既有接口201导致业务前失败；原件保留。修正输入后cbe036f5净树五门禁1213默认/197 Chromium全绿，六步前后净树，741 SHA不变；它是用户批准续查前检查点。新续查Fixture通过原500秒收尾窗口留下未查对象，不手填中间State；池内未查（首店FAILED）及观察游标续接（首店UNAVAILABLE）均取得实际新结果，旧对象各只读一次。双击一个POST、requestId重复不再读取、旧版本409；Stop后释放真实迟到响应仍无新卡片，刷新也不复活。全部来源失败Try again经原refresh恢复三家结果，语义次数不增。两尺寸10/10开发通过，领域/投影37/37绿。
+
+固定新代码/Fixture/脚本后重跑五门禁及全部两尺寸脚本，补异用户/缺字段/耗尽游标和跨目的旧对象拒绝控制，结果待最终冻结运行。真实模型/Google/来源GET/Live/外写/Holdout0，不加载.env；A/B/C受保护路径不改。[报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+最终结果：cbcd667b/742 SHA不变，typecheck/arch:check/npm test/build/test:browser:fixture全PASS；默认1215/1215约28.401s，Chromium203/203约140.106s（含G2 5/5），无skip/todo，六步前后净树且HEAD一致。22新场景加9旧工作区/G1场景覆盖390×844、1280×900的原十项/新增五项及第1段十一项。Source未查pool与观察游标均实际取得新结果，旧FAILED/UNAVAILABLE不重查；全部失败Try again经refresh恢复，旧版本409、异用户404、重复请求与Stop迟到均有实际链路控制。
+
+失败原件全保留：初探登录201/200错误、旧TaskDefinition22断言、淡入中间帧截图，以及视觉新发现的模型失败提示首屏不可见；后者两尺寸视口断言2红→2绿，最终短文案完整在固定输入框上方。61份最终PNG校验尺寸/SHA，20移动新画面目视（19字节相同复用，1新错误提示复核），桌面5关键画面和两尺寸长条款两入口抽查；旧图与旧门禁另存不覆盖。门禁后只有报告/附件，产品及输入SHA保持；业务模型/Google/来源GET/Live/外写/Holdout0，未加载.env或执行DB迁移/重置，工作分支交复核不合main。[最终原件/截图/边界](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+<a id="test-2026-10-30-web-slice2-main-sync"></a>
+
+## 2026-10-30 第2段合入前同步与零变化行反例
+
+de9e73bc合并已核对的main7c83e02e/G3，四份冲突文档正文保留；读证据因果规则和续查排除同时存在。新增断言复用原两尺寸真实Chromium→HTTP/SSE→生产Application/Interpreter/Compiler/Validator/Router/Runtime/PGlite，只替换模型/来源/问答传输。服务端revisionDiff确认0/0后，旧行仍显示，目标断言两尺寸均红；只改renderChanges可见性后，原两场景及四个非0差异/原因/备选控制6/6绿。未改Gold/评分、来源规则或验收输入，原失败保留。
+
+下一步在净树冻结新组合及全部源/Fixture输入SHA，重跑五门禁和390×844、1280×900原十项/追加五项/第1段十一项及本轮零变化行，结果待运行。结构化修改仍draft，真实模型/Google/来源GET/Live/外写/Holdout0，不加载.env；只推工作分支交ff-only合入复核，不更新main。[同步报告](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+
+最终新组合：55d70963/763 SHA不变，五门禁全绿，默认1246/1246约31.070s、Chromium208/208约148.923s（含G2 5/5），无skip/todo，各项前后净树、HEAD一致。两尺寸28条完整production composition及3条旧UI展示回归全部通过，覆盖原十项/追加五项/第1段十一项及本轮0/0隐藏；同一流程0/3仍显示，2/1与备选原因保留。共享读证据因果/旧对象排除及两个父提交正文保留有独立字节核对，不修改主线G3/评测输入或断言。
+
+63张新PNG全校验尺寸/SHA，59与原交付逐字节一致，仅2批末图更新、2零变化图新增，四图重新目视；旧失败/旧图片保留。门禁后仅补报告/附件，所有代码与输入仍同冻结；真实模型/Google/来源GET/Live/外写/Holdout0，无.env或数据库迁移/重置。结构化方案仍draft，本轮只推工作分支交合入复核，不改main，后续ff-only。[原件与截图](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
