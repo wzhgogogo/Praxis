@@ -1,0 +1,33 @@
+✔ LOCAL legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1790.686166ms)
+✔ LOCAL current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1699.713833ms)
+✔ CLOUDFLARE_SESSION legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1650.373833ms)
+✔ CLOUDFLARE_SESSION current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1649.727125ms)
+✖ G1 fresh Google page capture keeps the real Guard ahead of an unreviewed checkout, with a public-page control (300.8555ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7114.670708
+
+✖ failing tests:
+
+test at src/harness/browser/page-question-budget.test.ts:1:2550
+✖ G1 fresh Google page capture keeps the real Guard ahead of an unreviewed checkout, with a public-page control (300.8555ms)
+  AssertionError [ERR_ASSERTION]: the same guarded acquisition can read a permitted merchant page
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/page-question-budget.test.ts:62:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }

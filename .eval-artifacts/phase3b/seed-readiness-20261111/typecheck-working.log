@@ -1,0 +1,6 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/workspace-fixture-server.ts(102,189): error TS2741: Property 'sourceUrl' is missing in type '{ field: "CATEGORY"; quote: string; }' but required in type 'RestaurantSourceFieldQuote'.
+src/integrations/restaurant-facts/google-listed-website-facts.ts(361,32): error TS18048: 'listed' is possibly 'undefined'.

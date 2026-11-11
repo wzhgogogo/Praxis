@@ -1,0 +1,11 @@
+G1_TRANSPORT {"error":{"name":"BrowserRuntimeError","message":"Local Playwright Chromium operation failed","cause":{"name":"Error","message":"page.goto: net::ERR_FAILED at [URL]"}},"requests":[{"outcome":"FAILED","error":{"name":"Error","message":"route.fetch: write EPROTO 802126EF01000000:error:0A00010B:SSL routines:tls_validate_record_header:wrong version number:ssl/record/methods/tlsany_meth.c:78:"},"origin":"https://127.0.0.1:58333","pathname":"/merchant","method":"GET","resourceType":"document","transport":"NODE_FETCH","resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"document"},"queryKeys":[],"queryValues":[]}]}
+G1_ANSWER {"status":"ANSWERED","candidateId":"capture-merchant","answer":"The page states that Visa and MasterCard are accepted.","sensitiveCategory":"NONE","confirmationRequired":false,"citations":[{"text":"Credit cards accepted: Visa and MasterCard.","url":"http://127.0.0.1:58333/merchant","readAt":"2026-11-01T10:00:00.000Z","identityEvidenceId":"evidence:restaurant:website-entity:9cdd77b80d2a127e77bb6009"}],"checkedPages":[{"url":"http://127.0.0.1:58333/merchant","readAt":"2026-11-01T10:00:00.000Z"}],"modelUsage":{"calls":1}}
+✔ G1 fresh Google page capture keeps the real Guard ahead of an unreviewed checkout, with a public-page control (727.949958ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 999.162458

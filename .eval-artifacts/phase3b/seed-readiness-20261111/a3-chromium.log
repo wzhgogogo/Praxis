@@ -1,0 +1,61 @@
+✖ seed readiness Chromium: month and guest pagination EXACT_RESPONSE (3.331166ms)
+✖ seed readiness Chromium: month and guest pagination WRONG_PARTY (9.329708ms)
+✖ seed readiness Chromium: month and guest pagination PENDING (1.076042ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 305.157875
+
+✖ failing tests:
+
+test at src/harness/browser/seed-readiness-selection.test.ts:1:750
+✖ seed readiness Chromium: month and guest pagination EXACT_RESPONSE (3.331166ms)
+  Error [BrowserRuntimeError]: Browser replay requires an installed read network boundary
+      at LocalPlaywrightChromium.openSession (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/local-playwright-chromium.ts:302:15)
+      at Object.openSession (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/seed-readiness-selection.test.ts:25:65)
+      at <anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/browser-task-executor.ts:395:63)
+      at async BrowserTaskExecutor.acquire (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/browser-task-executor.ts:407:17)
+      at async TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/seed-readiness-selection.test.ts:36:17)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_RUNTIME_UNAVAILABLE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/seed-readiness-selection.test.ts:1:750
+✖ seed readiness Chromium: month and guest pagination WRONG_PARTY (9.329708ms)
+  Error [BrowserRuntimeError]: Browser replay requires an installed read network boundary
+      at LocalPlaywrightChromium.openSession (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/local-playwright-chromium.ts:302:15)
+      at Object.openSession (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/seed-readiness-selection.test.ts:25:65)
+      at <anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/browser-task-executor.ts:395:63)
+      at async BrowserTaskExecutor.acquire (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/browser-task-executor.ts:407:17)
+      at async TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/seed-readiness-selection.test.ts:36:17)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'BROWSER_RUNTIME_UNAVAILABLE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/seed-readiness-selection.test.ts:1:750
+✖ seed readiness Chromium: month and guest pagination PENDING (1.076042ms)
+  Error [BrowserRuntimeError]: Browser replay requires an installed read network boundary
+      at LocalPlaywrightChromium.openSession (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/local-playwright-chromium.ts:302:15)
+      at Object.openSession (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/seed-readiness-selection.test.ts:25:65)
+      at <anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/browser-task-executor.ts:395:63)
+      at async BrowserTaskExecutor.acquire (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/browser-task-executor.ts:407:17)
+      at async TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/seed-readiness-selection.test.ts:36:17)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'BROWSER_RUNTIME_UNAVAILABLE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }

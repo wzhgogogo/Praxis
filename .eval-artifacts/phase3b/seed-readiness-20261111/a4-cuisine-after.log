@@ -1,0 +1,48 @@
+✖ Workspace mobile: cuisine source disagreement remains visible without changing qualification (1073.361208ms)
+✖ Workspace desktop: cuisine source disagreement remains visible without changing qualification (799.946917ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2293.201417
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace.test.ts:1:17131
+✖ Workspace mobile: cuisine source disagreement remains visible without changing qualification (1073.361208ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Google: cantonese restaurant, dim sum restaurant/. Input:
+  
+  'Google Maps: cantonese restaurant, dim sum restaurant Source\n' +
+    '\n' +
+    'Tabelog: Chinese, Dumpling, Izakaya Source'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/web-workspace.test.ts:255:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Google Maps: cantonese restaurant, dim sum restaurant Source\n\nTabelog: Chinese, Dumpling, Izakaya Source',
+    expected: /Google: cantonese restaurant, dim sum restaurant/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:17131
+✖ Workspace desktop: cuisine source disagreement remains visible without changing qualification (799.946917ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Google: cantonese restaurant, dim sum restaurant/. Input:
+  
+  'Google Maps: cantonese restaurant, dim sum restaurant Source\n' +
+    '\n' +
+    'Tabelog: Chinese, Dumpling, Izakaya Source'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/web-workspace.test.ts:255:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Google Maps: cantonese restaurant, dim sum restaurant Source\n\nTabelog: Chinese, Dumpling, Izakaya Source',
+    expected: /Google: cantonese restaurant, dim sum restaurant/,
+    operator: 'match'
+  }

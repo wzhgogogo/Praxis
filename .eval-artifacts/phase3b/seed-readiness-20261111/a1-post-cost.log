@@ -1,0 +1,15 @@
+✔ one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions (3043.536958ms)
+✔ missing observed search controls never construct a query URL and retain honest no-result conclusions (7.245417ms)
+✔ a failed reused session retires without retry; the next candidate gets a fresh source session (10.927583ms)
+✔ a completed run never lends its source contexts to a later run; cancellation still closes every context (2017.627833ms)
+SESSION_REUSE_RESULT {"mode":"LOCAL_CONSTRUCTION_PRODUCTION_FACT_COMPOSITION","costs":[{"name":"Alpha Sushi","calls":3,"elapsedMs":517.2807500000008},{"name":"Beta Sushi","calls":3,"elapsedMs":506.7468749999998},{"name":"Wrong Sushi","calls":3,"elapsedMs":508.2484999999997},{"name":"Ambiguous Sushi","calls":3,"elapsedMs":506.15908299999955}],"conclusions":[{"name":"Alpha Sushi","status":"COMPLETED"},{"name":"Beta Sushi","status":"COMPLETED"},{"name":"Wrong Sushi","status":"UNKNOWN"},{"name":"Ambiguous Sushi","status":"UNKNOWN"}],"sessionOpens":1,"entranceNavigations":4,"submissions":["Alpha Sushi","Beta Sushi","Wrong Sushi","Ambiguous Sushi"],"sourceModelCalls":2,"externalCalls":0}
+✔ ordinary assembly retains correct source identities while a reused search refuses a wrong shop and two HIGH identities (2040.907833ms)
+✔ recorded R2-07 stale detail and absent search each return to the reviewed entrance before the next named query (18.419916ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7313.648708
