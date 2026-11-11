@@ -7,7 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {checkResumeIdentity,saveHoldoutCheckpoint,type HoldoutCheckpoint} from './holdout-checkpoint.js';
 
 // LOCAL_CONSTRUCTION, real Git repositories: no private or network inputs.
-for(const change of ['health','checkpoint','test','artifact','product','other-doc','artifact-code'] as const){
+for(const change of ['health','checkpoint','test','evaluator','runner','cli','artifact','product','other-doc','artifact-code'] as const){
  test(`resume source transition uses actual Git diff: ${change}`,async()=>{
   const root=await mkdtemp(join(tmpdir(),'health-sha-'));
   const git=(...args:string[])=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['pipe','pipe','pipe']}).trim();
@@ -15,7 +15,7 @@ for(const change of ['health','checkpoint','test','artifact','product','other-do
   try{
    git('init');git('config','user.email','fixture@example.invalid');git('config','user.name','Fixture');
    await put('baseline.txt','baseline');git('add','.');git('commit','-m','baseline');const old=git('rev-parse','HEAD');
-   const target={health:'src/eval/restaurant/agent-loop/g6/holdout-health.ts',checkpoint:'src/eval/restaurant/agent-loop/g6/holdout-checkpoint.ts',test:'src/eval/restaurant/agent-loop/g6/holdout-health.test.ts',artifact:'.eval-artifacts/health/report.md',product:'src/product.ts','other-doc':'docs/STATUS.md','artifact-code':'.eval-artifacts/health/run.ts'}[change];
+   const target={health:'src/eval/restaurant/agent-loop/g6/holdout-health.ts',checkpoint:'src/eval/restaurant/agent-loop/g6/holdout-checkpoint.ts',test:'src/eval/restaurant/agent-loop/g6/holdout-health.test.ts',evaluator:'src/eval/restaurant/agent-loop/g6/evaluator.ts',runner:'src/eval/restaurant/agent-loop/g6/holdout-runner.ts',cli:'src/eval/restaurant/agent-loop/g6/run-holdout.ts',artifact:'.eval-artifacts/health/report.md',product:'src/product.ts','other-doc':'docs/STATUS.md','artifact-code':'.eval-artifacts/health/run.ts'}[change];
    await put(target,'change');git('add','.');git('commit','-m','change');const current=git('rev-parse','HEAD');
    const audit={originalSHA256:'original',manifestSHA256:'manifest',commitmentSHA256:'commitment',sourceSHA:old};
    const budget={path:join(root,'ledger.json'),ledgerId:'same-ledger'};await writeFile(budget.path,JSON.stringify({entries:[],cumulative:{}}));

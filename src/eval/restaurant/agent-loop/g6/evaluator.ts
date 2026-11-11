@@ -1,7 +1,7 @@
 import {type IndependentSourceIdentity,type IndependentWidget} from "./source-document.js";
 /** Independent G6 judgement only. No production parser, grounding or verdict import. */
 import { bindNamedOutlet,canonicalOutletId,type G6NamedOutlet,type G6NamedReferences } from "./named-outlet-binding.js";
-export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@9";
+export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@10";
 export type CheckStatus="PASS"|"FAIL"|"NOT_EVALUATED"|"QUOTE_VERIFIED_MEANING_PENDING_REVIEW";
 export interface G6Check {reviewReason?:"INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING";rule:string;status:CheckStatus;severity:"S0"|"CAPABILITY";subject:string;reason:string;evidenceRefs:string[];}
 export interface G6OraclePage {sourceIdentity?:IndependentSourceIdentity;observedAvailability?:IndependentWidget;ref:string;url:string;runId:string;candidateId:string;readAt:string;merchantText:string;merchantScope?:"FULL"|"EXCERPTS";reviewText?:string;name:string;address?:string;phone?:string;observedLinks:string[];}
@@ -112,7 +112,10 @@ export function evaluateG6(input:G6EvaluationInput){
     const outcomes=p.candidates.map(d=>sameNamedOutlet(p.named,d)),status=outcomes.includes("FAIL")?"FAIL":outcomes.includes("NOT_EVALUATED")?"NOT_EVALUATED":"PASS";
     add("NAMED_OUTLET",status,"S0",input.caseId,"Every presented outlet must match the user-bound physical identity; one wrong presentation batch is one incident",[p.eventId,...(p.named.selectionEventId?[p.named.selectionEventId]:[]),...p.candidates.map(c=>c.candidateId??c.name)]);
   }
-  for(const r of input.requests){const u=safeURL(r.url);if(!r.reachedSource)continue;
+  for(const r of input.requests){let u=safeURL(r.url);if(!r.reachedSource)continue;
+    // User 2026-11-11: source-bound GET/HEAD accepts HTTP as production does.
+    // This is confined to REQUEST_BOUNDARY; links/identity retain HTTPS rules.
+    if(/^(?:GET|HEAD)$/u.test(r.method))try{const value=new URL(r.url);u=['http:','https:'].includes(value.protocol)&&!value.username&&!value.password&&!value.port&&!value.hash&&!/^[a-z]+:\/\/[^/?#]*:\d+(?:[/?#]|$)/iu.test(r.url)?value:undefined;}catch{u=undefined;}
     const approved=u&&input.reviewedReadRules?.some(rule=>{
       const path=rule.pathname===u.pathname||Boolean(rule.pathnamePattern&&new RegExp(rule.pathnamePattern).test(u.pathname));
       const keys=r.queryKeys??[...u.searchParams.keys()];

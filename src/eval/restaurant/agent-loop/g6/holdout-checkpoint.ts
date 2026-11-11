@@ -5,7 +5,7 @@ import {randomUUID} from 'node:crypto';
 import {holdoutHash} from '../holdout-protocol.js';
 export interface HoldoutRunAudit {originalSHA256:string;manifestSHA256:string;sourceSHA:string;[key:string]:unknown;}
 export interface HoldoutAttempt {id:string;repetition:number;key:string;path:string;finishedAtMs?:number;startSpacing?:{delayMs:number;waitedMs:number;previousFinishedAtMs:number};status:'STARTED'|'CANCELLED_BEFORE_LIVE'|'EVALUATED'|'EVALUATED_BY_REVIEW'|'ENVIRONMENT_FAILURE'|'INTERRUPTED'|'STOPPED'|'PENDING_REVIEW';environmentReplacement:boolean;certificationMode?:"STANDARD_G6"|"NO_POSITIVE_WITNESS_DIAGNOSTIC";witnessExists?:boolean|null;environmentChargeId?:string;evaluationSHA256?:string;review?:{file:string;sha256:string;evidenceSHA256:string;evaluationSHA256?:string};}
-export interface HoldoutCheckpoint {sourceSHAHistory?:Array<{sourceSHA:string;attemptKeys:string[]}>;schema:'phase3b-holdout-batch@2';serial:true;status?:'FAILED_S0';pendingReviewCount?:number;passRateReportable?:boolean;stopReason:string|null;witnessPolicies?:Array<{id:string;policy:'ALLOW_KNOWN_UNAVAILABLE'|'POSITIVE_REQUIRED'}>;receipts:HoldoutAttempt[];healthyCases:string[];budgetCheckpoint?:{entries:number;sha256:string;cumulative:Record<string,number>};}
+export interface HoldoutCheckpoint {reevaluations?:Array<{key:string;originalSHA256:string;newSHA256:string;inputSHA256:string;evaluatorSHA256:string;changedChecks:string[]}>;sourceSHAHistory?:Array<{sourceSHA:string;attemptKeys:string[]}>;schema:'phase3b-holdout-batch@2';serial:true;status?:'FAILED_S0';pendingReviewCount?:number;passRateReportable?:boolean;stopReason:string|null;witnessPolicies?:Array<{id:string;policy:'ALLOW_KNOWN_UNAVAILABLE'|'POSITIVE_REQUIRED'}>;receipts:HoldoutAttempt[];healthyCases:string[];budgetCheckpoint?:{entries:number;sha256:string;cumulative:Record<string,number>};}
 export async function readJSON<T>(path:string):Promise<T|undefined>{
  try{return JSON.parse(await readFile(path,'utf8'))as T;}catch(error){if((error as NodeJS.ErrnoException).code==='ENOENT')return;throw Error('HOLDOUT_SAVED_EVIDENCE_INVALID');}
 }
@@ -32,14 +32,14 @@ export async function bindHoldoutLedger(path:string,resume:boolean,root:string){
  return {path:canonicalPath,ledgerId:ledger.ledgerId};
 }
 const activeCheckpointSources=new WeakMap<HoldoutCheckpoint,string>();
-/** User 2026-11-10: only health-window/checkpoint implementation, their tests,
+/** User 2026-11-10: health-window/checkpoint plus approved 2026-11-11 evaluator/runner changes, their tests,
  * and explanatory artifacts may cross the frozen SHA boundary. Git is the oracle. */
 function healthOnlySourceTransition(root:string,previous:string,current:string){
  try{
   if(execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()!==current)return false;
   execFileSync('git',['merge-base','--is-ancestor',previous,current],{cwd:root,stdio:'pipe'});
   const paths=execFileSync('git',['diff','--name-only','-z',previous,current],{cwd:root,encoding:'utf8'}).split('\0').filter(Boolean);
-  const files=new Set(['holdout-health.ts','holdout-checkpoint.ts','holdout-health.test.ts','holdout-checkpoint.test.ts'].map(f=>'src/eval/restaurant/agent-loop/g6/'+f));
+  const files=new Set(['holdout-health.ts','holdout-checkpoint.ts','holdout-health.test.ts','holdout-checkpoint.test.ts','evaluator.ts','evaluator.test.ts','holdout-runner.ts','holdout-runner.test.ts','run-holdout.ts','run-holdout.test.ts'].map(f=>'src/eval/restaurant/agent-loop/g6/'+f));
   return paths.length>0&&paths.every(p=>files.has(p)||p.startsWith('.eval-artifacts/')&&/\.(?:md|json|log|txt)$/u.test(p));
  }catch{return false;}
 }

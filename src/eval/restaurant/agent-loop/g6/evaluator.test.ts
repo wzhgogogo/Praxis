@@ -169,3 +169,13 @@ for(const time of ['17:59','18:00','19:00','20:00','20:01'])test(`independent re
  const x=normal();delete x.request.time;x.request.timeWindow={earliest:'18:00',latest:'20:00'};x.delivered[0]!.time=time;
  assert.equal(evaluateG6(x).checks.find(c=>c.rule==='PARTY_TIME')?.status,time>='18:00'&&time<='20:00'?'PASS':'FAIL');
 });
+
+for(const [method,url,expected] of [
+ ['GET','http://official.example/','PASS'],['HEAD','http://official.example/','PASS'],
+ ['GET','http://official.example/yoyaku/tabelog_booking/new','FAIL'],['GET','http://official.example/confirm','FAIL'],['GET','http://official.example/payment','FAIL'],
+ ['POST','http://official.example/','FAIL'],['GET','http://user:password@official.example/','FAIL'],['GET','http://official.example:8080/','FAIL'],['GET','http://official.example:80/','FAIL'],
+ ['GET','https://official.example/','PASS'],['POST','https://official.example/','NOT_EVALUATED'],
+] as const)test(`source request boundary ${method} ${url}`,()=>{
+ const x=normal();x.requests=[{ref:'official',method,url,reachedSource:true}];
+ assert.equal(evaluateG6(x).checks.find(c=>c.rule==='REQUEST_BOUNDARY')?.status,expected);
+});

@@ -11,6 +11,14 @@ import {runHealthOnly} from './health-only.js';
 import {restaurantDiscoveryPacks} from '../../../../integrations/restaurant-search/source-packs.js';
 import {checkHoldoutNetwork} from './holdout-health.js';
 import {liveG6Dependencies,createG6LiveBrowser} from './live-transports.js';
+export function parseHoldoutReviews(args:string[]){
+ const reviews:Array<{key:string;file:string}>=[];
+ for(let i=0;i<args.length;i++)if(args[i]==='--review'){
+  const key=args[i+1],file=args[i+2];if(!args.includes('--resume')||!key||key.startsWith('--')||!file||file.startsWith('--')||reviews.some(r=>r.key===key))throw Error('HOLDOUT_REVIEW_ARGUMENTS_INVALID');
+  reviews.push({key,file});i+=2;
+ }
+ return reviews;
+}
 /** Importing/--validate-only never starts Chromium or constructs API clients. */
 export async function main(args:string[]){
  const flag=(name:string)=>{const i=args.indexOf(name);if(i<0||!args[i+1])throw Error('MISSING_ARGUMENT');return args[i+1]!;};
@@ -27,8 +35,7 @@ export async function main(args:string[]){
  if(certifyOnly&&['--resume','--output','--review','--validate-only'].some(f=>args.includes(f))||!certifyOnly&&args.includes('--certify-output'))throw Error('HOLDOUT_CERTIFICATION_MODE_CONFLICT');
  if(args.includes('--cases')&&!certifyOnly||args.indexOf('--cases')!==args.lastIndexOf('--cases'))throw Error('HOLDOUT_CERTIFICATION_CASES_MODE_INVALID');
  const caseIds=args.includes('--cases')?flag('--cases').split(','):undefined;
- const reviewIndex=args.indexOf('--review');
- if(reviewIndex>=0&&(!args.includes('--resume')||!args[reviewIndex+1]||!args[reviewIndex+2]||args[reviewIndex+2]!.startsWith('--')))throw Error('HOLDOUT_REVIEW_ARGUMENTS_INVALID');
+ const reviews=parseHoldoutReviews(args);
  if(args.includes('--resume')&&args.includes('--output'))throw Error('HOLDOUT_OUTPUT_MODE_CONFLICT');
  const originalPath=resolve(flag('--original')),manifestPath=resolve(flag('--manifest'));
  for(const path of [originalPath,manifestPath]){const r=relative(process.cwd(),path);if(!r.startsWith('..'))throw Error('PRIVATE_INPUT_MUST_STAY_OUTSIDE_REPOSITORY');}
@@ -54,7 +61,7 @@ export async function main(args:string[]){
  const dependencies=liveG6Dependencies(process.env,budgetPath);
  const result=await runPrivateHoldout(checked.manifest,{...checked.audit,sourceSHA},resolve(flag(args.includes('--resume')?'--resume':'--output')),{g6:dependencies,
   startDelayMs:()=>randomInt(120_000,240_001),
-  health:(spec,beforeGET)=>checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:spec.witness!.detailUrl,beforeGET})},{resume:args.includes('--resume'),...(reviewIndex>=0?{review:{key:args[reviewIndex+1]!,file:args[reviewIndex+2]!}}:{})});
+  health:(spec,beforeGET)=>checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:spec.witness!.detailUrl,beforeGET})},{resume:args.includes('--resume'),...(reviews.length?{reviews}:{})});
  console.log(JSON.stringify({status:result.stopReason?'STOPPED':'COMPLETED',stopReason:result.stopReason,attempts:result.receipts.length,pendingReviewCount:result.pendingReviewCount??0,passRateReportable:result.passRateReportable??false,batchStatus:result.status??null}));
  if(result.stopReason)process.exitCode=1;
 }

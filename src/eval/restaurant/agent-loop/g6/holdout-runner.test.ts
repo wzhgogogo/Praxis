@@ -73,3 +73,36 @@ test('environment attribution requires explicit transport diagnostics and does n
   for(const [error,expected]of [[{code:'ENOTFOUND'},true],[{message:'page.goto: net::ERR_CONNECTION_RESET at [URL]'},true],[{code:'MODEL_SCHEMA_INVALID',message:'Bad JSON'},false],[{message:'HTTP 403'},false]]as const){await writeFile(join(dir,'failure.json'),JSON.stringify({transportError:error}));assert.equal(await recordedEnvironmentFailure(dir),expected);}
  }finally{await rm(dir,{recursive:true,force:true});}
 });
+
+test('HTTP re-evaluation only permits the original HTTP GET/HEAD boundary and derived verdict to change',async()=>{
+ const {evaluateG6}=await import('./evaluator.js');const {checkHTTPReevaluation}=await import('./holdout-runner.js');
+ const input:import('./evaluator.js').G6EvaluationInput={runId:'fiction',caseId:'fiction',mode:'FIXTURE',artifactRefs:[],request:{dates:[]},delivered:[],handoffs:[],answers:[],pages:[],vacancy:[],boundedNoResult:true,requests:[{ref:'http',url:'http://official.example/',method:'GET',reachedSource:true}]};
+ const next=evaluateG6(input),old=structuredClone(next);old.schemaVersion='phase3b-g6-evaluation@9';old.checks.find(c=>c.rule==='REQUEST_BOUNDARY')!.status='FAIL';old.verdict={...old.verdict,s0:1,s0Status:'FAIL',stopBatch:true};
+ assert.deepEqual(checkHTTPReevaluation(input,old,next),['http']);
+ const unrelated=structuredClone(next);unrelated.checks.find(c=>c.rule!=='REQUEST_BOUNDARY')!.status='FAIL';assert.throws(()=>checkHTTPReevaluation(input,old,unrelated),/HOLDOUT_REEVALUATION_DRIFT/);
+ const badVerdict=structuredClone(next);badVerdict.verdict.outcome='QUALIFIED_DELIVERY';assert.throws(()=>checkHTTPReevaluation(input,old,badVerdict),/HOLDOUT_REEVALUATION_DRIFT/);
+ const https=structuredClone(input);https.requests[0]!.url='https://official.example/';assert.throws(()=>checkHTTPReevaluation(https,old,next),/HOLDOUT_REEVALUATION_DRIFT/);
+ assert.deepEqual(checkHTTPReevaluation(input,next,next),[]);
+});
+
+for(const remainingS0 of [false,true])test(`reevaluation preserves original scores and clears FAILED_S0 only after all scores are zero (${remainingS0})`,async()=>{
+ const {execFileSync}=await import('node:child_process');const {tmpdir}=await import('node:os');const {evaluateG6}=await import('./evaluator.js');const {reevaluateSavedHoldout}=await import('./holdout-runner.js');
+ const root=await mkdtemp(join(tmpdir(),'reevaluate-fiction-'));const git=(...args:string[])=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['pipe','pipe','pipe']}).trim();
+ try{
+  git('init');git('config','user.name','Fixture');git('config','user.email','fixture@example.invalid');const evaluator='src/eval/restaurant/agent-loop/g6/evaluator.ts';await mkdir(join(root,evaluator,'..'),{recursive:true});await writeFile(join(root,evaluator),'before');git('add','.');git('commit','-m','before');const old=git('rev-parse','HEAD');await writeFile(join(root,evaluator),'after');git('add','.');git('commit','-m','after');const current=git('rev-parse','HEAD');
+  await writeFile(join(root,'input-hashes.json'),JSON.stringify({sourceSHA:old}));
+  const state:import('./holdout-checkpoint.js').HoldoutCheckpoint={schema:'phase3b-holdout-batch@2',serial:true,status:'FAILED_S0',stopReason:'S0_STOP',receipts:[],healthyCases:[]};
+  for(const [index,url] of ['http://official.example/',...(remainingS0?['http://official.example/payment']:[])].entries()){
+   const key='fiction-'+index,path=join(root,key),slot=join(path,key);await mkdir(slot,{recursive:true});
+   const input:import('./evaluator.js').G6EvaluationInput={runId:key,caseId:key,mode:'FIXTURE',artifactRefs:[],request:{dates:[]},delivered:[],handoffs:[],answers:[],pages:[],vacancy:[],boundedNoResult:true,requests:[{ref:'http',url,method:'GET',reachedSource:true}]};
+   const score=evaluateG6(input);score.checks.find(c=>c.rule==='REQUEST_BOUNDARY')!.status='FAIL';score.verdict={...score.verdict,s0:1,s0Status:'FAIL',stopBatch:true};
+   await writeFile(join(slot,'evaluation.json'),JSON.stringify(score));await writeFile(join(slot,'evaluation.input.json'),JSON.stringify(input));state.receipts.push({id:key,key,repetition:1,path,status:'STOPPED',environmentReplacement:false});
+  }
+  const original=await readFile(join(state.receipts[0]!.path,state.receipts[0]!.key,'evaluation.json'));
+  await reevaluateSavedHoldout(root,state,current,v=>v,async()=>{});
+  assert.equal(state.status,remainingS0?'FAILED_S0':undefined);assert.equal(state.stopReason,remainingS0?'S0_STOP':null);assert.equal(state.reevaluations?.length,remainingS0?2:1);
+  assert.deepEqual(await readFile(join(state.receipts[0]!.path,state.receipts[0]!.key,'evaluation.json')),original);
+  await reevaluateSavedHoldout(root,state,current,v=>v,async()=>{});assert.equal(state.reevaluations?.length,remainingS0?2:1);
+  await writeFile(join(state.receipts[0]!.path,'evaluation.reevaluated.json'),'changed');await assert.rejects(reevaluateSavedHoldout(root,state,current,v=>v,async()=>{}),/HOLDOUT_REEVALUATION_CHANGED/);
+ }finally{await rm(root,{recursive:true,force:true});}
+});
