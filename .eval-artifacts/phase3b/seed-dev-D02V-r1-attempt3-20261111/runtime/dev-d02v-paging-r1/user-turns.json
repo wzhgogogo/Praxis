@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-dev-d02v-paging-r1-1794386689112-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Looking for a robatayaki place near Nakano for 8 people on Thursday, …",
+          "status": "COMPLETED",
+          "phase": "FAILED",
+          "taskVersion": 1,
+          "pendingUserAction": "REVIEW_ATTENTION",
+          "updatedAt": "2026-11-11T08:44:51.221Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.",
+              "createdAt": "2026-11-11T08:44:51.230Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "The read-only investigation stopped: Restaurant Semantic Interpreter did not produce a proposal: MODEL_FAILURE No verified availability result was presented.",
+              "createdAt": "2026-11-11T08:44:51.236Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "missingRequiredFields": [
+            "date",
+            "timeWindow",
+            "partySize",
+            "area"
+          ],
+          "requestRevision": 0,
+          "readyCandidateIds": [],
+          "progress": {
+            "active": false,
+            "stopped": false
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "readEvidence": [],
+          "currentFactEvidence": [],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:0",
+            "startedAt": "2026-11-11T08:44:49.957Z"
+          },
+          "bookingHandoffs": []
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:outcome:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "OUTCOME",
+            "sourceVersion": 1,
+            "data": {
+              "outcome": {
+                "reason": "Restaurant Semantic Interpreter did not produce a proposal: MODEL_FAILURE",
+                "status": "FAILED"
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_INTERPRETATION_FAILED",
+            "display": {
+              "title": "Request interpretation failed",
+              "detail": "Restaurant Semantic Interpreter did not produce a proposal: MODEL_FAILURE"
+            },
+            "occurredAt": "2026-11-11T08:44:51.221Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794386689957,
+      "deadlineAtMs": 1794387189957,
+      "elapsedMs": 1291.0060830000002,
+      "modelCalls": 1,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [],
+          "readEvidence": []
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_INTERPRETATION_FAILED"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

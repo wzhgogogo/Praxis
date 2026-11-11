@@ -1,0 +1,122 @@
+{
+  "status": "OPERATOR_STOPPED_MODEL_NETWORK_FAILURE",
+  "originalDevelopmentReceiptStopReason": null,
+  "note": "Original invocation detects browser transport errors only and returned null stopReason. At run boundary, operator obeyed explicit model/environment failure stop; r2 not started. No evaluation or receipt rewritten.",
+  "firstModel": {
+    "sequence": 1,
+    "purpose": "restaurant_semantic_interpret",
+    "startedAt": "2026-11-11T08:44:49.962Z",
+    "latencyMs": 1258,
+    "outcome": "FAILED",
+    "errorCode": "NETWORK",
+    "outputText": null
+  },
+  "health": {
+    "passed": true,
+    "observations": [
+      {
+        "windowMs": 60000,
+        "source": "tablecheck",
+        "round": 1,
+        "complete": true,
+        "elapsedMs": 2145.465542,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 1282.9556250000005,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tabelog",
+        "round": 1,
+        "complete": true,
+        "elapsedMs": 3970.7090000000007,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 2264.711625,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "28e0abb2451f80059c0ad7fac6b44b4efc9192a2d003c385d32774bbaa01a281"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tablecheck",
+        "round": 2,
+        "complete": true,
+        "elapsedMs": 13538.1235,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 12690.996459000002,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tabelog",
+        "round": 2,
+        "complete": true,
+        "elapsedMs": 4423.956333000002,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 2337.8041249999987,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "28e0abb2451f80059c0ad7fac6b44b4efc9192a2d003c385d32774bbaa01a281"
+      }
+    ]
+  },
+  "verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "deadline": {
+    "elapsedMs": 2136.7582909999983,
+    "turns": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794386689957,
+        "deadlineAtMs": 1794387189957,
+        "elapsedMs": 1291.0060830000002,
+        "modelCalls": 1,
+        "googleRequests": 0,
+        "exceeded500Seconds": false
+      }
+    ],
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "usage": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 1,
+    "environmentReruns": 0
+  },
+  "cumulative": {
+    "fullLive": 35,
+    "evaluationPublicGET": 179,
+    "realModelCalls": 2283,
+    "environmentReruns": 1,
+    "googleRequests": 123,
+    "restaurantWebsiteRequests": 8998
+  },
+  "remaining": {
+    "fullLive": 1,
+    "evaluationPublicGET": 41,
+    "realModelCalls": 517,
+    "environmentReruns": 3
+  },
+  "pagingChecks": {
+    "monthDateFromData": "NOT_EXECUTED_PRODUCT_SEMANTIC_NETWORK_FAILURE",
+    "2030TimePaging": "NOT_EXECUTED_PRODUCT_SEMANTIC_NETWORK_FAILURE",
+    "8GuestSelection": "NOT_EXECUTED_PRODUCT_SEMANTIC_NETWORK_FAILURE",
+    "noActionableTarget": "NOT_EXECUTED_PRODUCT_SEMANTIC_NETWORK_FAILURE"
+  },
+  "noRetry": true
+}

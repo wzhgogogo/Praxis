@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "phase3b-g6-boundary-observation@1",
+  "elapsedMs": 2136.7582909999983,
+  "exceeded500Seconds": false,
+  "sourceReadsStartedInReserve": 0,
+  "termsWorkStartedInReserve": 0,
+  "forbiddenRequestsReachedSource": 0,
+  "readStarts": [
+    {
+      "kind": "READ",
+      "purpose": "restaurant_semantic_interpret",
+      "turnId": "INITIAL",
+      "atMs": 1794386689962,
+      "deadlineAtMs": 1794387189957
+    }
+  ],
+  "limits": {
+    "perTurn": {
+      "milliseconds": 500000,
+      "models": 50,
+      "google": 40
+    },
+    "slot": {
+      "turns": 3,
+      "models": 150,
+      "google": 120
+    }
+  },
+  "turnBudgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794386689957,
+      "deadlineAtMs": 1794387189957,
+      "elapsedMs": 1291.0060830000002,
+      "modelCalls": 1,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    }
+  ],
+  "googleRequests": 0,
+  "modelCalls": 1,
+  "semanticAttemptsByTurn": {
+    "INITIAL": 1
+  },
+  "semanticSchemaRetries": 0
+}
