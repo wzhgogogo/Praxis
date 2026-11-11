@@ -1,3 +1,5 @@
+2026-11-11 CET — seed post-fix preparation / draft：用户接受前三项修复并要求回退地区发现Prompt；两文件恢复ead28945、浏览器Prompt24，Agent32保持。仅eval把Live40及新07-only前序校验接好；旧种子账本281条和所有计数不变，派生新账本继承并清除旧输出绑定。完整门禁后在独立净树合入origin/main、冻结，再跑07两次与D02-V最多两次；S0/环境/未知异常立即停。见 [计划](../.eval-artifacts/phase3b/seed-post-fix-preparation-20261111/plan.md)。
+
 <a id="seed-root-causes-20261111"></a>
 
 2026-11-11 CET — draft / not integrated：07/D02-V通用根因修复候选，基线main ead28945并吸收bb55aa4d体检修补。普通单店事实失败保留批处理中已完成候选与证据；Agent优先补齐已有请求匹配AVAILABLE候选的必查事实，地区发现先应用仍可操作的retrievalExpression（仅Prompt）；新增来源确认字段视为进展，复用同会话观察及完成快照。07-r2真实组件红绿两家恢复可交付，D02-V真实DOM/HAR组件在原45s窗内44.508s完成12-10/8人/20:30；最后扫描耗时复用同店上一录制值，不能代表新Live。真实网站0Live/0GET；纯模型共3次：07首轮仍CHECK，Prompt32澄清后转为FACTS；D02转More filters而非COMPLETE，完整筛选仍未验证。首轮结果保留。源码6ca80a4c同版本完整门禁通过：type/arch/build、默认1590、Chromium281及G6 158，D4/D8回归保持；相对ead28945新增产品写死命中0。strict G2全12 PASS。仅工作分支候选，待复核，不合main。

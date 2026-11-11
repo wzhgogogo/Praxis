@@ -22,6 +22,13 @@ export function developmentReviewOnly(e:G6Evaluation){
   (c.rule==='COMPLETE_REQUEST_QUALIFICATION'&&c.reviewReason==='INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING'&&(c.status==='NOT_EVALUATED'||c.status==='QUOTE_VERIFIED_MEANING_PENDING_REVIEW'))
   ||c.rule==='G1_NOT_STATED'&&c.status==='NOT_EVALUATED');
 }
+/** User2026-11-11: the new prior batch may contain only the two 07 checks;
+ * the reviewed 03 checks remain in the original immutable development batch. */
+export function seedPriorReviewed(prior:{status?:string;receipts:Array<{key:string;status:string}>}){
+ const reviewed03=prior.receipts.some(r=>r.key==='p3b-holdout-03-r2'&&r.status==='EVALUATED_BY_REVIEW');
+ const only07=prior.receipts.length===2&&['p3b-holdout-07-r1','p3b-holdout-07-r2'].every(key=>prior.receipts.some(r=>r.key===key&&['EVALUATED','EVALUATED_BY_REVIEW','PENDING_REVIEW'].includes(r.status)));
+ return prior.status!=='FAILED_S0'&&(reviewed03||only07);
+}
 export function d02vSpec(id:string):G6Case{return {id,request:'Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.',followups:[],
  oracle:{request:{dates:['2026-12-10'],time:'20:30',partySize:8,requiresIndependentQualification:true},pages:[],qualificationOracles:[]},
  witness:{candidateId:'witness-D02V',name:'Nakano Robata Sumika',provider:'TABELOG',sourceEntityId:'13309182',date:'2026-12-10',time:'20:30',partySize:8,
@@ -41,9 +48,9 @@ export async function main(args:string[]){
  if(args.includes('--validate-only')){console.log(JSON.stringify(audit));return;}
  if(process.env.PRAXIS_RUN_SEED_REMAINING!=='1'||!process.execArgv.some(a=>a.startsWith('--env-file')))throw Error('AUTHORIZATION_AND_ENV_FILE_REQUIRED');
  const budgetPath=resolve(flag('--budget')),ledger=JSON.parse(await readFile(budgetPath,'utf8'));
- if(ledger.status!=='APPROVED_FOR_EXECUTION'||ledger.limits.fullLive!==36||ledger.limits.evaluationPublicGET!==220||ledger.limits.realModelCalls!==2800||ledger.limits.environmentReruns!==4||ledger.cumulative.fullLive>=36||ledger.cumulative.evaluationPublicGET+7>220||ledger.cumulative.realModelCalls+50>2800)throw Error('SEED_BUDGET_INSUFFICIENT');
+ if(ledger.status!=='APPROVED_FOR_EXECUTION'||ledger.limits.fullLive!==40||ledger.limits.evaluationPublicGET!==220||ledger.limits.realModelCalls!==2800||ledger.limits.environmentReruns!==4||ledger.cumulative.fullLive>=40||ledger.cumulative.evaluationPublicGET+7>220||ledger.cumulative.realModelCalls+50>2800)throw Error('SEED_BUDGET_INSUFFICIENT');
  const priorRoot=resolve(flag('--prior-root')),prior=JSON.parse(await readFile(join(priorRoot,'batch.json'),'utf8'));
- if(prior.status==='FAILED_S0'||!prior.receipts.some((r:{key:string;status:string})=>r.key==='p3b-holdout-03-r2'&&r.status==='EVALUATED_BY_REVIEW'))throw Error('SEED_PRIOR_REVIEW_REQUIRED');
+ if(!seedPriorReviewed(prior))throw Error('SEED_PRIOR_REVIEW_REQUIRED');
  for(const r of prior.receipts){const p=join(r.path,r.key),e=await readFile(join(p,'evaluation.json'),'utf8').then(t=>JSON.parse(t)).catch(()=>null);
   if(r.status==='ENVIRONMENT_FAILURE'||r.status==='CANCELLED_BEFORE_LIVE'||e?.verdict.s0)throw Error('SEED_PRIOR_STOP_OR_DUPLICATE');
   if(r.key.startsWith('p3b-holdout-07-')&&(!e||e.verdict.stopBatch&&!developmentReviewOnly(e)))throw Error('SEED_PRIOR_STOP_REQUIRES_REVIEW');

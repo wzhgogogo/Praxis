@@ -17,8 +17,6 @@ import { BrowserReadDecisionError, type BrowserReadActionDecisionPort } from "..
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
 import { restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
 
-export const NATIVE_DISCOVERY_OBJECTIVE = "Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. If the goal also contains retrievalExpression, establishing location is only the first part: while current observed controls offer applying that expression through public search or a visible matching category, apply it and observe the resulting filter/list scope before choosing COMPLETE. Complete only when the current list visibly confirms the requested scope. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.";
-
 type Location = NonNullable<NonNullable<RestaurantSearchRequest["continuation"]>["locationContext"]>;
 type SourceFlow = "DIRECTORY" | "VENUE_SEARCH";
 type NativeSourceProgress = NonNullable<RestaurantSearchRequest["continuation"]>["sourceProgress"] extends infer Progress
@@ -331,7 +329,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           const result=await executor.runSkill({taskId:request.readRunId??`native-discovery:${source}`,source,stage:"DISCOVERY",signal,session,allowedOrigins:pack.documentOrigins,
             ...(pack.skillPath?{sourceSkillPath:pack.skillPath}:{}),requireModelConfirmation:true,
             goal:{outlet:{name:request.intent.target?.query??""},location:{...location,name:location.label},...(expression?{retrievalExpression:expression,retrievalSource:"CUISINE" as const}:{}),hardCriteria:request.intent.criteria.filter(c=>c.polarity==="POSITIVE"&&c.strength==="HARD").map(c=>c.text)},
-            objective:NATIVE_DISCOVERY_OBJECTIVE,
+            objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list visibly confirms that location and is relevant. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
             onQuerySubmitted: owner => { submittedOwners.add(owner); },
             completion:(page,controls)=>{
               const document = new URL(page.url); document.hash = "";

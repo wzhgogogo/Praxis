@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
-import {developmentReviewOnly,d02vSpec,seedInvocation} from './run-seed-remaining.js';
+import {developmentReviewOnly,d02vSpec,seedInvocation,seedPriorReviewed} from './run-seed-remaining.js';
 import type {G6Evaluation} from './evaluator.js';
 test('development continuation preserves evaluation; only missing qualification/G1 may continue',()=>{
  const e={verdict:{s0:0},checks:[{rule:'COMPLETE_REQUEST_QUALIFICATION',status:'NOT_EVALUATED',reviewReason:'INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING'},{rule:'G1_NOT_STATED',status:'NOT_EVALUATED'}]}as G6Evaluation;
@@ -29,4 +29,14 @@ test('spacing includes latest ledger timestamp even without a development receip
  const latest=Date.parse('2030-01-01T00:05:00Z'),old=latest-300000;
  assert.equal(seedInvocation('D02V-r1',[{recordedAtUTC:'invalid'},{recordedAtUTC:new Date(latest).toISOString()}],old,latest+1).previousFinishedAtMs,latest);
  assert.equal(seedInvocation('D02V-r2',[{recordedAtUTC:new Date(old).toISOString()}],latest,latest+1).previousFinishedAtMs,latest);
+});
+
+test('D02V may follow only the two completed post-fix 07 attempts without rerunning reviewed 03',()=>{
+ const receipts=[{key:'p3b-holdout-07-r1',status:'EVALUATED'},{key:'p3b-holdout-07-r2',status:'PENDING_REVIEW'}];
+ assert.equal(seedPriorReviewed({receipts}),true);
+ assert.equal(seedPriorReviewed({status:'FAILED_S0',receipts}),false);
+ assert.equal(seedPriorReviewed({receipts:receipts.slice(0,1)}),false);
+ assert.equal(seedPriorReviewed({receipts:[receipts[0]!,receipts[0]!]}),false);
+ assert.equal(seedPriorReviewed({receipts:[receipts[0]!,{...receipts[1]!,status:'ENVIRONMENT_FAILURE'}]}),false);
+ assert.equal(seedPriorReviewed({receipts:[{key:'p3b-holdout-03-r2',status:'EVALUATED_BY_REVIEW'},...receipts]}),true);
 });

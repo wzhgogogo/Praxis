@@ -54,9 +54,9 @@ export async function main(args:string[]){
  if(process.env.PRAXIS_RUN_HOLDOUT_LIVE!=='1'||!process.execArgv.some(a=>a.startsWith('--env-file')))throw Error('HELDOUT_AUTHORIZATION_AND_ENV_FILE_REQUIRED');
  const sourceSHA=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
  if(sourceSHA!==flag('--source-sha')||execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim())throw Error('FROZEN_CLEAN_SOURCE_REQUIRED');
- // User approved 2026-11-10: R2 limits models2800 / GET220 / Live36 / environment4.
+ // User approved 2026-11-11: seed revalidation models2800 / GET220 / Live40 / environment4.
  const budgetPath=resolve(flag('--budget')),ledger=JSON.parse(await readFile(budgetPath,'utf8'));
- if(ledger.status!=='APPROVED_FOR_EXECUTION'||!Number.isSafeInteger(ledger.cumulative?.realModelCalls)||ledger.cumulative.realModelCalls<849||ledger.limits?.realModelCalls!==2800||ledger.limits?.evaluationPublicGET!==220||ledger.limits?.fullLive!==36||ledger.limits?.environmentReruns!==4)throw Error('HELDOUT_BUDGET_SCOPE_MISMATCH');
+ if(ledger.status!=='APPROVED_FOR_EXECUTION'||!Number.isSafeInteger(ledger.cumulative?.realModelCalls)||ledger.cumulative.realModelCalls<849||ledger.limits?.realModelCalls!==2800||ledger.limits?.evaluationPublicGET!==220||ledger.limits?.fullLive!==40||ledger.limits?.environmentReruns!==4)throw Error('HELDOUT_BUDGET_SCOPE_MISMATCH');
  if(certifyOnly){
   const result=await certifyPrivateHoldout(checked.manifest,{...checked.audit,sourceSHA},resolve(flag('--certify-output')),{budgetPath,fetch,
    ...(caseIds?{caseIds}:{}),ownCredentials:[process.env.GOOGLE_MAPS_API_KEY??'',process.env.DEEPSEEK_API_KEY??'']});
