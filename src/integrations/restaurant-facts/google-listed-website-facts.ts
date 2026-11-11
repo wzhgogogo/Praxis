@@ -1,3 +1,4 @@
+import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import { readQuotedRestaurantSourceFacts, quotedRestaurantSourceEvidence, type QuotedRestaurantSourceFacts } from "./model-source-facts.js";
 import { bindRestaurantFactSourceRoles, createRestaurantFactSourceDocument, type RestaurantFactPageObserver } from "./fact-source-document.js";
@@ -62,15 +63,27 @@ function safeWebsiteUrl(value: string | undefined): URL | undefined {
 
 /** Only connection/TLS establishment failure permits the authoritative HTTP
  * URL. An HTTP response, Guard rejection, elapsed deadline or partial body does not. */
-function secureConnectionFailed(error:unknown):boolean {
+function secureConnectionError(error:unknown):boolean {
   const seen=new Set<unknown>();
   for(let item=error;item&&typeof item==="object"&&!seen.has(item);){
     seen.add(item);const e=item as {message?:unknown;code?:unknown;cause?:unknown};
-    if(typeof e.code==="string"&&/^(?:ECONNREFUSED|ENOTFOUND|EAI_AGAIN|CERT_HAS_EXPIRED|DEPTH_ZERO_SELF_SIGNED_CERT|ERR_TLS_CERT_ALTNAME_INVALID|ERR_SSL_PROTOCOL_ERROR)$/.test(e.code))return true;
+    if(typeof e.code==="string"&&/^(?:ECONNREFUSED|ENOTFOUND|EAI_AGAIN|CERT_HAS_EXPIRED|DEPTH_ZERO_SELF_SIGNED_CERT|ERR_TLS_CERT_ALTNAME_INVALID|ERR_SSL_[A-Z_]+)$/.test(e.code))return true;
     if(typeof e.message==="string"&&/net::ERR_(?:CONNECTION_REFUSED|NAME_NOT_RESOLVED|CERT_[A-Z_]+|SSL_[A-Z_]+)\b/.test(e.message))return true;
+    // Playwright route.fetch preserves this OpenSSL handshake failure as text,
+    // rather than an Error.code (verified with the local HTTP-only receiver).
+    if(typeof e.message==="string"&&/\bEPROTO\b.*:SSL routines:[^:]+:wrong version number:/.test(e.message))return true;
     item=e.cause;
   }
   return false;
+}
+
+function secureConnectionFailed(error:unknown,attempted:URL):boolean {
+  if(secureConnectionError(error))return true;
+  // Node-forwarded TLS failures surface to Chromium as ERR_FAILED. Attribute
+  // only the failed main-document GET for this exact attempted origin/path;
+  // an unrelated resource failure or Guard denial cannot authorize fallback.
+  return error instanceof BrowserRuntimeError&&Boolean(error.networkFailures?.some(row=>row.outcome==="FAILED"&&row.method==="GET"&&row.resourceType==="document"
+    &&row.origin===attempted.origin&&row.pathname===attempted.pathname&&secureConnectionError(row.error)));
 }
 
 function recordsFromJsonLd(html: string): Record<string, unknown>[] {
@@ -418,7 +431,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         try {
           await executor.navigate({ source: "WEBSITE", stage: "FACTS", signal, allowedOrigins: [listed.origin], session, url: listed.toString(), observed: true });
         } catch(error) {
-          if(authoritative?.protocol!=="http:"||!secureConnectionFailed(error))throw error;
+          if(authoritative?.protocol!=="http:"||!secureConnectionFailed(error,listed))throw error;
           // Same executor, candidate, operation/model counters and provider clock.
           // Only the original Google-listed HTTP URL is a fallback destination.
           await executor.close("RUNTIME_FAILURE");

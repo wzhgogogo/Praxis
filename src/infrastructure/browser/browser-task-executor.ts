@@ -749,9 +749,10 @@ export class BrowserTaskExecutor {
       // cannot fix a different missing field such as guest count.
       const alreadySelected = observation.controls.filter(control => control.visible && control.selected === true
         && (matchesAuthoritativeControl(control, "DATE", input.goal) || matchesAuthoritativeControl(control, "PARTY_SIZE", input.goal)));
-      const actionTargets = [...observation.targets.values()].filter(target => !(completion.confirmedFields?.includes("DATE") && matchesAuthoritativeControl(target,"DATE",input.goal))
-        && (!pendingControlKeys.has(target.stableKey) || target.selected === true)
-        && !(target.role === "combobox" && observation.controls.some(control => control.id === target.controlId && control.expanded === true)));
+      const confirmedDate = (target:ObservedTarget) => completion.confirmedFields?.includes("DATE") && matchesAuthoritativeControl(target,"DATE",input.goal);
+      const actionTargets = [...observation.targets.values()].filter(target => confirmedDate(target)
+        || ((!pendingControlKeys.has(target.stableKey) || target.selected === true)
+          && !(target.role === "combobox" && observation.controls.some(control => control.id === target.controlId && control.expanded === true))));
       if (pendingParty) progress = "PARTY_SIZE_NOT_CONFIRMED: no unique selected value in the clicked control group confirms the requested guest count. Read the current selected values; unrelated page changes are not confirmation.";
       let action: BrowserReadAction;
       const month = displayedCalendarMonth(observation.controls);
@@ -777,7 +778,7 @@ export class BrowserTaskExecutor {
             controlGroups: observedControlGroups(observation),
             pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
             targets: actionTargets.map(({ exactSuggestion:_exactSuggestion, controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
-              ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
+              ...target, ...(confirmedDate(observation.targets.get(target.ref)!)?{availableActions:[],rejectionReason:"SOURCE_DATE_CONFIRMED"}:this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined)),
             })),
           },
         }));
@@ -884,6 +885,7 @@ export class BrowserTaskExecutor {
         return { status: "BUDGET_EXCEEDED", snapshot, controls: observation.controls };
       }
       try {
+        if (target && confirmedDate(target)) throw new Error("SOURCE_DATE_CONFIRMED: the current source response already confirms the requested date");
         if (pendingOption && action.type === "CHOOSE_OPTION") {
           throw new Error("A previous option is still unconfirmed; WAIT for its selected value before choosing another option");
         }

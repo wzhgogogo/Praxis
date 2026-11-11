@@ -442,3 +442,11 @@ test('HTTPS connection fallback retains the candidate operation ceiling and prov
     const restarted=events.filter(e=>e.event==='PROVIDER_STARTED')[1];assert.ok(restarted&&restarted.lifecycle!.providerElapsedMs>=10_000,'fallback never resets the elapsed provider clock');
   }
 });
+
+for(const failure of ['OTHER_DOCUMENT','STATIC_RESOURCE','GUARD_BLOCKED'] as const)test('HTTPS fallback ignores unrelated or rejected TLS diagnostics: '+failure,async()=>{
+  const {BrowserRuntimeError}=await import('../../infrastructure/browser/browser-runtime-errors.js');
+  const urls:string[]=[],original=await multiCandidateRuntime({},[]).openSession({signal:new AbortController().signal});
+  const browser:BrowserRuntime={openSession:async()=>({...original,navigate:async url=>{urls.push(url);throw new BrowserRuntimeError('BROWSER_RUNTIME_FAILED','page.goto net::ERR_FAILED',undefined,undefined,[{outcome:failure==='GUARD_BLOCKED'?'BLOCKED':'FAILED',method:'GET',resourceType:failure==='STATIC_RESOURCE'?'script':'document',origin:'https://cafe.example',pathname:failure==='OTHER_DOCUMENT'?'/different':'/about',queryKeys:[],error:{name:'Error',message:'route.fetch: write EPROTO:SSL routines:tls_validate_record_header:wrong version number:'}}]);}})};
+  const input=structuredClone(request);input.capturePagesOnly=true;input.candidates[0]!.restaurant.sourceIds.googleWebsiteUri='http://cafe.example/about';
+  await reader(browser).inspectFacts(input,new AbortController().signal);assert.deepEqual(urls,['https://cafe.example/about']);
+});
