@@ -1,0 +1,668 @@
+{
+  "mode": "POSTHOC_EXPOSED_RECORDING_ANALYSIS",
+  "method": "Only candidate-bound TABELOG/TABLECHECK PROVIDER_STARTED to PROVIDER_FINISHED windows ending in DISCOVERY; excludes native DIRECTORY discovery and availability. Count actual execution.decisions.jsonl rows browser_read_decide and restaurant_named_source_query by startedAt within each window; failed/charged rows count, a local executor attempt with no model row does not. Aggregate by candidateId. Help count uses explicit no/missing search/query-control reasons within those windows. Different candidate sets; not paired speed evidence.",
+  "runs": [
+    {
+      "run": "R2-03-r1",
+      "candidateCount": 18,
+      "providerScopes": 18,
+      "actualNamedCalls": 32,
+      "browserCalls": 31,
+      "queryPlannerCalls": 1,
+      "elapsedMs": 100978,
+      "meanCallsPerCandidate": 1.7777777777777777,
+      "meanElapsedMsPerCandidate": 5609.888888888889,
+      "missingSearchHelpCount": 13,
+      "unassignedQueryPlannerSequences": [],
+      "details": [
+        {
+          "candidateId": "praxis:restaurant:9bc87243da7f08763feed95d",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            86,
+            150
+          ],
+          "actualCalls": 5,
+          "browserCalls": 4,
+          "queryPlannerCalls": 1,
+          "executorDecisionAttempts": 4,
+          "elapsedMs": 13473,
+          "decisionSequences": [
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:565be5f0ed64f6084f7a74ca",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            153,
+            167
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 2298,
+          "decisionSequences": [
+            15
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 15,
+              "reason": "Page shows 0 results for a different term (Chinese Cafe Eight Shinjuku); no search input or matching route for the authoritative query is observed."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:e9841bdc0fc64494a0335102",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            170,
+            184
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 2017,
+          "decisionSequences": [
+            16
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 16,
+              "reason": "Current page shows 0 results for a different query and no search input or matching suggestion for \"Dim Dim Sum\" is observed."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:a883ccd31370fe31c0a9c940",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            187,
+            201
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1904,
+          "decisionSequences": [
+            18
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 18,
+              "reason": "Page shows 0 results for a different term and no search input or matching route for the authoritative query."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:8bc13135a7cd2940aadfe414",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            204,
+            218
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1832,
+          "decisionSequences": [
+            19
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 19,
+              "reason": "Page shows 0 results for a different term and no search input or matching route for \"Long tang\" is observed."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:a5e486b8d174c37bff4eae97",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            221,
+            235
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1817,
+          "decisionSequences": [
+            20
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 20,
+              "reason": "Current page shows 0 results for a different term and no search input or matching suggestion for the authoritative query is observed."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:7e6d0cec61f82128a835346e",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            238,
+            252
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1629,
+          "decisionSequences": [
+            22
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 22,
+              "reason": "Source reports 0 results for the query with no matching option or route; no search input observed to refill."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:0dfbc5c14fa2ff9eb69b2a5f",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            255,
+            269
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1367,
+          "decisionSequences": [
+            23
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:e739245effb513261c7e714b",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            272,
+            286
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1949,
+          "decisionSequences": [
+            24
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 24,
+              "reason": "Page shows 0 results for the current query and no search input or matching suggestion is available to submit the authoritative term."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:c67668ac473f0f562e6d1284",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            289,
+            303
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1283,
+          "decisionSequences": [
+            26
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 26,
+              "reason": "Page shows 0 results for the current query and no search input or matching suggestion route is available."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:8d5986412716812a7589ad8c",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            306,
+            320
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1349,
+          "decisionSequences": [
+            27
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 27,
+              "reason": "Page shows 0 results for a different term and no search input or matching suggestion for the authoritative query."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:2026774d9d59b29b5852a6ab",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            323,
+            337
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 1550,
+          "decisionSequences": [
+            28
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 28,
+              "reason": "Page shows 0 results for a different term and no search input or matching suggestion for the authoritative query."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:1712aafcd45e34803d80dc11",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            340,
+            408
+          ],
+          "actualCalls": 2,
+          "browserCalls": 2,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 2,
+          "elapsedMs": 14516,
+          "decisionSequences": [
+            30,
+            31
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:870aa300190464f7542a8a5c",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            411,
+            518
+          ],
+          "actualCalls": 5,
+          "browserCalls": 5,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 5,
+          "elapsedMs": 22683,
+          "decisionSequences": [
+            32,
+            33,
+            34,
+            35,
+            36
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:ce29cc8158e68ca3ef3e4073",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            521,
+            628
+          ],
+          "actualCalls": 5,
+          "browserCalls": 5,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 5,
+          "elapsedMs": 22301,
+          "decisionSequences": [
+            37,
+            38,
+            39,
+            40,
+            41
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:0ff781f37ca22d9d65221a9e",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            631,
+            645
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 2011,
+          "decisionSequences": [
+            43
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 43,
+              "reason": "Current page is a restaurant detail page with no public search input or exact-match suggestion for the query; no matching route to a result list."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:239361f38bf384f0f51c4a7f",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            648,
+            662
+          ],
+          "actualCalls": 1,
+          "browserCalls": 1,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 1,
+          "elapsedMs": 2250,
+          "decisionSequences": [
+            44
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 44,
+              "reason": "Current page is a restaurant detail page with no public search input or query control; no route to submit the authoritative query."
+            }
+          ]
+        },
+        {
+          "candidateId": "praxis:restaurant:5b5e9a6e8a4f631967613e8b",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            665,
+            693
+          ],
+          "actualCalls": 2,
+          "browserCalls": 2,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 2,
+          "elapsedMs": 4749,
+          "decisionSequences": [
+            45,
+            46
+          ],
+          "missingSearchHelp": [
+            {
+              "decisionSequence": 46,
+              "reason": "Current page is a single restaurant detail page with no public search input or query result list; no observed control can bind the authoritative query."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": "seed-03-r1",
+      "candidateCount": 5,
+      "providerScopes": 5,
+      "actualNamedCalls": 36,
+      "browserCalls": 33,
+      "queryPlannerCalls": 3,
+      "elapsedMs": 179822,
+      "meanCallsPerCandidate": 7.2,
+      "meanElapsedMsPerCandidate": 35964.4,
+      "missingSearchHelpCount": 0,
+      "unassignedQueryPlannerSequences": [],
+      "details": [
+        {
+          "candidateId": "praxis:restaurant:9bc87243da7f08763feed95d",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            86,
+            261
+          ],
+          "actualCalls": 10,
+          "browserCalls": 9,
+          "queryPlannerCalls": 1,
+          "executorDecisionAttempts": 9,
+          "elapsedMs": 42606,
+          "decisionSequences": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:e9841bdc0fc64494a0335102",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            264,
+            384
+          ],
+          "actualCalls": 5,
+          "browserCalls": 5,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 5,
+          "elapsedMs": 30301,
+          "decisionSequences": [
+            20,
+            21,
+            22,
+            23,
+            24
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:565be5f0ed64f6084f7a74ca",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            387,
+            560
+          ],
+          "actualCalls": 10,
+          "browserCalls": 9,
+          "queryPlannerCalls": 1,
+          "executorDecisionAttempts": 9,
+          "elapsedMs": 43596,
+          "decisionSequences": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:a883ccd31370fe31c0a9c940",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            563,
+            689
+          ],
+          "actualCalls": 5,
+          "browserCalls": 5,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 5,
+          "elapsedMs": 30363,
+          "decisionSequences": [
+            36,
+            37,
+            38,
+            39,
+            40
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:8bc13135a7cd2940aadfe414",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            692,
+            810
+          ],
+          "actualCalls": 6,
+          "browserCalls": 5,
+          "queryPlannerCalls": 1,
+          "executorDecisionAttempts": 6,
+          "elapsedMs": 32956,
+          "decisionSequences": [
+            41,
+            42,
+            43,
+            44,
+            45,
+            46
+          ],
+          "missingSearchHelp": []
+        }
+      ]
+    },
+    {
+      "run": "seed-03-r2",
+      "candidateCount": 5,
+      "providerScopes": 5,
+      "actualNamedCalls": 36,
+      "browserCalls": 33,
+      "queryPlannerCalls": 3,
+      "elapsedMs": 171638,
+      "meanCallsPerCandidate": 7.2,
+      "meanElapsedMsPerCandidate": 34327.6,
+      "missingSearchHelpCount": 0,
+      "unassignedQueryPlannerSequences": [],
+      "details": [
+        {
+          "candidateId": "praxis:restaurant:9bc87243da7f08763feed95d",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            86,
+            261
+          ],
+          "actualCalls": 10,
+          "browserCalls": 9,
+          "queryPlannerCalls": 1,
+          "executorDecisionAttempts": 9,
+          "elapsedMs": 42053,
+          "decisionSequences": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:565be5f0ed64f6084f7a74ca",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            264,
+            450
+          ],
+          "actualCalls": 10,
+          "browserCalls": 9,
+          "queryPlannerCalls": 1,
+          "executorDecisionAttempts": 9,
+          "elapsedMs": 45067,
+          "decisionSequences": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:e9841bdc0fc64494a0335102",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            453,
+            573
+          ],
+          "actualCalls": 5,
+          "browserCalls": 5,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 5,
+          "elapsedMs": 28797,
+          "decisionSequences": [
+            30,
+            31,
+            32,
+            33,
+            34
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:a883ccd31370fe31c0a9c940",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            576,
+            702
+          ],
+          "actualCalls": 5,
+          "browserCalls": 5,
+          "queryPlannerCalls": 0,
+          "executorDecisionAttempts": 5,
+          "elapsedMs": 32504,
+          "decisionSequences": [
+            36,
+            37,
+            38,
+            39,
+            40
+          ],
+          "missingSearchHelp": []
+        },
+        {
+          "candidateId": "praxis:restaurant:a5e486b8d174c37bff4eae97",
+          "provider": "TABELOG",
+          "sourceSequences": [
+            705,
+            811
+          ],
+          "actualCalls": 6,
+          "browserCalls": 5,
+          "queryPlannerCalls": 1,
+          "executorDecisionAttempts": 6,
+          "elapsedMs": 23217,
+          "decisionSequences": [
+            41,
+            42,
+            43,
+            44,
+            45,
+            46
+          ],
+          "missingSearchHelp": []
+        }
+      ]
+    }
+  ]
+}

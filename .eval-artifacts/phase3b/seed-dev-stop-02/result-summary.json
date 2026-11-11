@@ -1,0 +1,147 @@
+{
+  "sourceSHA": "ead289450092ccc30798b754d1e0771462bf08bd",
+  "stopReason": "INDEPENDENT_EVIDENCE_REVIEW_REQUIRED",
+  "results": [
+    {
+      "key": "p3b-holdout-03-r1",
+      "status": "EVALUATED_BY_REVIEW",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": true,
+        "outcome": "QUALIFIED_DELIVERY",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "nonPassChecks": [],
+      "turnBudgets": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1794371740065,
+          "deadlineAtMs": 1794372240065,
+          "elapsedMs": 210194.477583,
+          "modelCalls": 47,
+          "googleRequests": 6,
+          "exceeded500Seconds": false
+        },
+        {
+          "id": "OWN_CAKE",
+          "startedAtMs": 1794371950267,
+          "deadlineAtMs": 1794372450267,
+          "elapsedMs": 1823.4470830000064,
+          "modelCalls": 1,
+          "googleRequests": 0,
+          "exceeded500Seconds": false
+        }
+      ],
+      "G1": {
+        "status": "NOT_STATED",
+        "reason": null,
+        "checkedPages": [
+          {
+            "url": "https://tabelog.com/en/tokyo/A1304/A130401/13304101/",
+            "readAt": "2026-11-11T04:37:19.905Z"
+          }
+        ]
+      },
+      "requestBoundaryPASS": 535,
+      "recording": {
+        "status": "RECORDED",
+        "qualifiedPages": 52,
+        "totalPages": 78
+      }
+    },
+    {
+      "key": "p3b-holdout-03-r2",
+      "status": "STOPPED",
+      "verdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "NOT_EVALUATED",
+        "stopBatch": true
+      },
+      "nonPassChecks": [
+        {
+          "rule": "COMPLETE_REQUEST_QUALIFICATION",
+          "status": "NOT_EVALUATED",
+          "severity": "S0",
+          "reviewReason": "INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING"
+        },
+        {
+          "rule": "G1_NOT_STATED",
+          "status": "NOT_EVALUATED",
+          "severity": "CAPABILITY",
+          "reviewReason": null
+        }
+      ],
+      "turnBudgets": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1794374426185,
+          "deadlineAtMs": 1794374926185,
+          "elapsedMs": 206501.79208400002,
+          "modelCalls": 47,
+          "googleRequests": 5,
+          "exceeded500Seconds": false
+        },
+        {
+          "id": "OWN_CAKE",
+          "startedAtMs": 1794374632695,
+          "deadlineAtMs": 1794375132695,
+          "elapsedMs": 1808.7942089999851,
+          "modelCalls": 1,
+          "googleRequests": 0,
+          "exceeded500Seconds": false
+        }
+      ],
+      "G1": {
+        "status": "NOT_STATED",
+        "reason": null,
+        "checkedPages": [
+          {
+            "url": "https://tabelog.com/en/tokyo/A1304/A130401/13304101/",
+            "readAt": "2026-11-11T05:22:52.744Z"
+          }
+        ]
+      },
+      "requestBoundaryPASS": 516,
+      "recording": {
+        "status": "RECORDED",
+        "qualifiedPages": 53,
+        "totalPages": 79
+      }
+    }
+  ],
+  "notRun": [
+    "p3b-holdout-07-r1",
+    "p3b-holdout-07-r2",
+    "dev-d02v-paging"
+  ],
+  "resumeUsed": {
+    "fullLive": 1,
+    "evaluationPublicGET": 2,
+    "realModelCalls": 48,
+    "environmentReruns": 0
+  },
+  "developmentTotalUsed": {
+    "fullLive": 2,
+    "evaluationPublicGET": 8,
+    "realModelCalls": 96
+  },
+  "cumulative": {
+    "fullLive": 32,
+    "evaluationPublicGET": 162,
+    "realModelCalls": 2188,
+    "environmentReruns": 0,
+    "googleRequests": 114,
+    "restaurantWebsiteRequests": 8244
+  },
+  "remaining": {
+    "fullLive": 4,
+    "evaluationPublicGET": 58,
+    "realModelCalls": 612,
+    "environmentReruns": 4
+  }
+}

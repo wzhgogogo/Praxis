@@ -1,0 +1,85 @@
+{
+  "schema": "phase3b-holdout-batch@2",
+  "serial": true,
+  "stopReason": "INDEPENDENT_EVIDENCE_REVIEW_REQUIRED",
+  "executionPlan": {
+    "caseIds": [
+      "p3b-holdout-03",
+      "p3b-holdout-07"
+    ],
+    "repetitions": 2
+  },
+  "witnessPolicies": [
+    {
+      "id": "p3b-holdout-03",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-07",
+      "policy": "POSITIVE_REQUIRED"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1",
+      "path": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-03-r1",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "finishedAtMs": 1794371955216,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "f811bd7f35deca4b090f152794332cea71a99af640da974b1aba1d79813160a4",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-seed-dev-03-r1.json",
+        "sha256": "529e41bd2fc830e88e46fd617cf83fd7f4baf7034509fdb1c4561dd837ca96c3",
+        "evidenceSHA256": "ded31358db0c6c2a5b07b928654534b59264434b2e1d40dc206e53bc73cc5c6b",
+        "evaluationSHA256": "748150c1d4b582454a193894a2bc25c8352c8b1d48c3a13f3f8a1ecac20e48fd"
+      }
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 2,
+      "key": "p3b-holdout-03-r2",
+      "path": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-03-r2",
+      "status": "STOPPED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 182623,
+        "waitedMs": 0,
+        "previousFinishedAtMs": 1794371955216
+      },
+      "finishedAtMs": 1794374637326,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "0a200554b8aa6b0c3b25cde30cb8d2b6d7d0418310ef50af0239ad0324564280"
+    }
+  ],
+  "healthyCases": [
+    "p3b-holdout-03"
+  ],
+  "sourceSHAHistory": [
+    {
+      "sourceSHA": "ead289450092ccc30798b754d1e0771462bf08bd",
+      "attemptKeys": [
+        "p3b-holdout-03-r1",
+        "p3b-holdout-03-r2"
+      ]
+    }
+  ],
+  "pendingReviewCount": 0,
+  "passRateReportable": false,
+  "budgetCheckpoint": {
+    "entries": 108,
+    "sha256": "e66451fb698bce5effe416526916bb8901e1eb49f514f5a284adb6956888f181",
+    "cumulative": {
+      "fullLive": 32,
+      "evaluationPublicGET": 162,
+      "realModelCalls": 2188,
+      "environmentReruns": 0,
+      "googleRequests": 114,
+      "restaurantWebsiteRequests": 8244
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# DRAFT / NOT EXECUTED; user supplied public development case 2026-11-11 CET.
+id: dev-d02v-paging
+content: |
+  Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.
+semantic:
+  target: { goal: AVAILABILITY }
+  location: { value: Nakano, relation: NEAR }
+  party_size: 8
+  date: "2026-12-10"
+  time: { value: "20:30" }
+  criteria:
+    - { value: robatayaki, polarity: POSITIVE, strength: HARD }
+witness:
+  tabelog: "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+  slot: "2026-12-10 20:30 JST, 8 guests"
+  checked_by_user: "2026-11-11 05:14 CET: Sumika / December 10, 2026 (Thu) 8:30 PM / 8 guests; no booking submitted"
+execution:
+  state: NOT_RUN_WAITING_CURRENT_BATCH_REVIEW
+  maximum_live: 2
+  order: witness_one_vacancy_GET_then_health
+  diagnostics: [month_response_confirms_date, no_actionable_calendar_target, eight_guests_confirmed, repeated_selection, exact_B1_parameters]
