@@ -1,0 +1,11 @@
+ .../restaurant/agent-loop/g6/evaluator.test.ts     | 10 +++
+ src/eval/restaurant/agent-loop/g6/evaluator.ts     |  7 +-
+ .../agent-loop/g6/holdout-checkpoint.test.ts       | 42 ++++++++++
+ .../restaurant/agent-loop/g6/holdout-checkpoint.ts | 27 +++++-
+ .../agent-loop/g6/holdout-health.test.ts           | 22 ++---
+ .../restaurant/agent-loop/g6/holdout-health.ts     | 11 +--
+ .../agent-loop/g6/holdout-runner.test.ts           | 33 ++++++++
+ .../restaurant/agent-loop/g6/holdout-runner.ts     | 98 ++++++++++++++++++++--
+ .../restaurant/agent-loop/g6/run-holdout.test.ts   |  8 ++
+ src/eval/restaurant/agent-loop/g6/run-holdout.ts   | 13 ++-
+ 10 files changed, 240 insertions(+), 31 deletions(-)
