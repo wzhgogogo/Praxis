@@ -1,4 +1,4 @@
-2026-11-11 CET — seed post-fix preparation / draft：用户接受前三项修复并要求回退地区发现Prompt；两文件恢复ead28945、浏览器Prompt24，Agent32保持。仅eval把Live40及新07-only前序校验接好；旧种子账本281条和所有计数不变，派生新账本继承并清除旧输出绑定。完整门禁后在独立净树合入origin/main、冻结，再跑07两次与D02-V最多两次；S0/环境/未知异常立即停。见 [计划](../.eval-artifacts/phase3b/seed-post-fix-preparation-20261111/plan.md)。
+2026-11-11 CET — seed post-fix preparation / verified：用户接受前三项修复并要求回退地区发现Prompt；两文件恢复ead28945、浏览器Prompt24，Agent32保持。仅eval把Live40及新07-only前序校验接好；旧种子账本281条和所有计数不变，派生新账本继承并清除旧输出绑定。源码ae851693净树门禁type/arch/build、默认1590、Chromium281+G6 159全绿，产品扫描新增0；下一步独立净树合入origin/main、冻结，再跑07两次与D02-V最多两次；S0/环境/未知异常立即停。见 [计划](../.eval-artifacts/phase3b/seed-post-fix-preparation-20261111/plan.md)。
 
 <a id="seed-root-causes-20261111"></a>
 
