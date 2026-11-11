@@ -1,6 +1,6 @@
 <a id="seed-readiness-20261111"></a>
 
-2026-11-11 CET — draft / not integrated：3b签收标准1/2/4、G1列种子前必修。A1通用搜索入口由现有startupDocuments和当前可见搜索控件决定，旧店页/无搜索结果不继承；保留HIGH唯一和查询收据。A2生产availability组装把本次实际捕获、解析实体一致、唯一HIGH页面交给G1；不完整时只重观察确切来源URL，旧run/LOW/歧义不复用。A3录制证明07只从1–6翻到2–7，未选10；现有find_vacancy确认日期后不重复点日，精确日期/人数响应可核验选中，PENDING/错人数不算。A4自然结果摘要替代状态名，Google给HTTP时先HTTPS，仅建立连接/TLS失败才回原HTTP（响应/Guard拒绝不回落），同executor保留操作/模型/45秒时钟；卡片并列当前HIGH来源分类，不改语义资格。私有题面/账本、425与249执行树均不改；工作分支推送后等复核，不合main。 [报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
+2026-11-11 CET — draft / not integrated：3b签收标准1/2/4、G1列种子前必修。A1通用搜索入口由现有startupDocuments和当前可见搜索控件决定，旧店页/无搜索结果不继承；保留HIGH唯一和查询收据。A2生产availability组装把本次实际捕获、解析实体一致、唯一HIGH页面交给G1；不完整时只重观察确切来源URL，旧run/LOW/歧义不复用。A3录制证明07只从1–6翻到2–7，未选10；现有find_vacancy确认日期后不重复点日，精确日期/人数响应可核验选中，PENDING/错人数不算。A4自然结果摘要替代状态名，Google给HTTP时先HTTPS，仅建立连接/TLS失败才回原HTTP（响应/Guard拒绝不回落），同executor保留操作/模型/45秒时钟；卡片并列当前HIGH来源分类，不改语义资格。私有题面/账本、425与249执行树均不改；工作分支推送后等复核，不合main。 [报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。 初次冻结49792135全量默认测试暴露9项自动条款回归，原输出保留；修为单缓存保留采集来源：availability页可供明确G1，但自动条款仍用原fact/language采集；已接纳的明确G1答案可继续复用。未删除/放宽业务断言，原组合24项全部通过，重新冻结全门禁。
 
 <a id="calendar-day-normalization-20261110"></a>
 

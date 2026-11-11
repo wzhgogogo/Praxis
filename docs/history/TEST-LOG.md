@@ -1,6 +1,6 @@
 <a id="seed-readiness-20261111"></a>
 
-2026-11-11 CET — draft / not integrated：先红后绿日志见报告：A1真实07入口DOM红→连续三次入口及原有身份反例绿；A2真实03英文页红→生产createLiveReadAssembly查位至G1 NOT_STATED，答案为明确构造替身，LOW/歧义/错实体/旧run/PENDING反例绿；A3真实07日期/控件红→数据确认进度绿，本地Chromium构造12月/10人续翻及20:30来源slot，错人数/PENDING拒绝；该后续不冒充真实录制。A4旧状态文案、HTTP优先、分类缺失红→HTTP接口/传输与两尺寸Chromium绿，已人工检查两张截图。120项目标集通过，另HTTPS窗口/操作预算5项通过。首次夹具路径/类型、遗漏Guard、构造请求无尾斜线被旧合同拒绝的输出均保留，改夹具不改Guard。完整门禁待冻结后附日志；本轮真实模型/Live/来源GET均0。 [报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
+2026-11-11 CET — draft / not integrated：先红后绿日志见报告：A1真实07入口DOM红→连续三次入口及原有身份反例绿；A2真实03英文页红→生产createLiveReadAssembly查位至G1 NOT_STATED，答案为明确构造替身，LOW/歧义/错实体/旧run/PENDING反例绿；A3真实07日期/控件红→数据确认进度绿，本地Chromium构造12月/10人续翻及20:30来源slot，错人数/PENDING拒绝；该后续不冒充真实录制。A4旧状态文案、HTTP优先、分类缺失红→HTTP接口/传输与两尺寸Chromium绿，已人工检查两张截图。120项目标集通过，另HTTPS窗口/操作预算5项通过。首次夹具路径/类型、遗漏Guard、构造请求无尾斜线被旧合同拒绝的输出均保留，改夹具不改Guard。完整门禁待冻结后附日志；本轮真实模型/Live/来源GET均0。 [报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。 初次冻结49792135全量默认测试暴露9项自动条款回归，原输出保留；修为单缓存保留采集来源：availability页可供明确G1，但自动条款仍用原fact/language采集；已接纳的明确G1答案可继续复用。未删除/放宽业务断言，原组合24项全部通过，重新冻结全门禁。
 
 <a id="calendar-day-normalization-20261110"></a>
 
