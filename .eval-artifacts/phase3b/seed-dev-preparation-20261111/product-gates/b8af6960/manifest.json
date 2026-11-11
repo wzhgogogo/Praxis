@@ -1,0 +1,55 @@
+{
+  "sourceSHA": "b8af6960e2eb8a50ee692cd812540e57efe1c0eb",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "sourceSHA": "b8af6960e2eb8a50ee692cd812540e57efe1c0eb",
+      "startedAtCET": "2026-11-11T05:28:41.105789+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-11T05:28:42.428469+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "architecture",
+      "command": "npm run arch:check",
+      "sourceSHA": "b8af6960e2eb8a50ee692cd812540e57efe1c0eb",
+      "startedAtCET": "2026-11-11T05:28:42.583169+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-11T05:28:43.117597+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "default",
+      "command": "npm test",
+      "sourceSHA": "b8af6960e2eb8a50ee692cd812540e57efe1c0eb",
+      "startedAtCET": "2026-11-11T05:28:43.275877+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-11T05:29:57.678151+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "build",
+      "command": "npm run build",
+      "sourceSHA": "b8af6960e2eb8a50ee692cd812540e57efe1c0eb",
+      "startedAtCET": "2026-11-11T05:29:57.777803+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-11T05:29:58.295574+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "g6-assembly",
+      "command": "npm run test:g6:assembly",
+      "sourceSHA": "b8af6960e2eb8a50ee692cd812540e57efe1c0eb",
+      "startedAtCET": "2026-11-11T05:29:58.385791+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-11T05:30:35.132788+01:00",
+      "cleanAfter": true
+    }
+  ]
+}
