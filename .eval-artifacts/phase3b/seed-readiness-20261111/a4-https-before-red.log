@@ -1,0 +1,94 @@
+✖ official HTTP-listed website tries HTTPS first: OK (7.738417ms)
+✖ official HTTP-listed website tries HTTPS first: NETWORK_ERROR (0.717417ms)
+✖ official HTTP-listed website tries HTTPS first: HTTP_403 (0.512167ms)
+✖ official HTTP-listed website tries HTTPS first: GUARD_BLOCKED (0.367208ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 122.323625
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/google-listed-website-facts.test.ts:7:4160
+✖ official HTTP-listed website tries HTTPS first: OK (7.738417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'http://cafe.example/about'
+  -   'https://cafe.example/about'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/restaurant-facts/google-listed-website-facts.test.ts:429:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'http://cafe.example/about' ],
+    expected: [ 'https://cafe.example/about' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/restaurant-facts/google-listed-website-facts.test.ts:7:4160
+✖ official HTTP-listed website tries HTTPS first: NETWORK_ERROR (0.717417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  -   'https://cafe.example/about',
+      'http://cafe.example/about'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/restaurant-facts/google-listed-website-facts.test.ts:429:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'http://cafe.example/about' ],
+    expected: [ 'https://cafe.example/about', 'http://cafe.example/about' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/restaurant-facts/google-listed-website-facts.test.ts:7:4160
+✖ official HTTP-listed website tries HTTPS first: HTTP_403 (0.512167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'http://cafe.example/about'
+  -   'https://cafe.example/about'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/restaurant-facts/google-listed-website-facts.test.ts:429:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'http://cafe.example/about' ],
+    expected: [ 'https://cafe.example/about' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/restaurant-facts/google-listed-website-facts.test.ts:7:4160
+✖ official HTTP-listed website tries HTTPS first: GUARD_BLOCKED (0.367208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'http://cafe.example/about'
+  -   'https://cafe.example/about'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/restaurant-facts/google-listed-website-facts.test.ts:429:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'http://cafe.example/about' ],
+    expected: [ 'https://cafe.example/about' ],
+    operator: 'deepStrictEqual'
+  }

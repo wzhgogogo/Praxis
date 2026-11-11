@@ -1,0 +1,31 @@
+✖ recorded 07 date response remains confirmed while the guest carousel is still below ten (420.892667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 518.224833
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-public-selection.test.ts:1:3365
+✖ recorded 07 date response remains confirmed while the guest carousel is still below ten (420.892667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'DATE'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/tabelog/tabelog-public-selection.test.ts:47:50)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'DATE' ],
+    operator: 'deepStrictEqual'
+  }

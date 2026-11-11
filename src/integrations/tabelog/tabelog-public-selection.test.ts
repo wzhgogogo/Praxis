@@ -38,3 +38,14 @@ test("Tabelog class-only state is unknown; a precisely bound response works with
   }, "C-facing response output retains the validated original link and response provenance");
   assert.equal(hasTabelogSelectedQuery(snapshot("", [response]), date, 3), false);
 });
+
+test("recorded 07 date response remains confirmed while the guest carousel is still below ten",async()=>{
+  const {readFile}=await import('node:fs/promises');const {tabelogAvailabilityCompletion}=await import('./tabelog-browser-availability.js');
+  const recorded=JSON.parse(await readFile('src/harness/fixtures/seed-readiness/calendar-record.json','utf8')),html=await readFile('src/harness/fixtures/seed-readiness/calendar-before-paging.html','utf8');
+  const page:BrowserSnapshot={url:recorded.pageUrl,title:'Recorded calendar',text:'Recorded calendar',html,settlement:'SETTLED',responses:[recorded.response]};
+  const assessment=tabelogAvailabilityCompletion(page,{date:'2026-11-18',partySize:10,timeWindow:{earliest:'19:00',latest:'19:00'}});
+  assert.equal(assessment.complete,false);assert.deepEqual(assessment.confirmedFields,['DATE']);assert.match(assessment.reason,/10/);
+  const groups=recorded.controls.map((row:{detail:{controls:Array<{label:string;value:string}>}})=>row.detail.controls.filter(c=>c.label.startsWith('Guests ')).map(c=>c.value));
+  assert.deepEqual(groups[0],['1','2','3','4','5','6']);assert.deepEqual(groups[1],['2','3','4','5','6','7']);
+  assert.ok(groups.every((g:string[])=>!g.includes('10')),'recording never reached or selected ten');
+});

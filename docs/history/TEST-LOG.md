@@ -1,3 +1,9 @@
+2026-11-11 CET — 用户复核接受种子前A1–A4工作分支84d70fb2（源码f385191e）：允许从main249826cc快进合入；产品源码不改，原同SHA完整门禁1586/Chromium279+G6 154/strictG2全12复用。下一步仅eval选择03/07各2次开发检查，旧R2结果/账本保持；新账本继承30/154/2092，剩余6Live/66GET/708模型，其中2Live留D02。前端slice2需同步main并重跑冒烟。真实调用尚未新增。
+
+<a id="seed-readiness-20261111"></a>
+
+2026-11-11 CET — working branch verified / not integrated：先红后绿日志见报告：A1真实07入口DOM红→连续三次入口及原有身份反例绿；A2真实03英文页红→生产createLiveReadAssembly查位至G1 NOT_STATED，答案为明确构造替身，LOW/歧义/错实体/旧run/PENDING反例绿；A3真实07日期/控件红→数据确认进度绿，本地Chromium构造12月/10人续翻及20:30来源slot，错人数/PENDING拒绝；该后续不冒充真实录制。A4旧状态文案、HTTP优先、分类缺失红→HTTP接口/传输与两尺寸Chromium绿，已人工检查两张截图。120项目标集通过，另HTTPS窗口/操作预算5项通过。首次夹具路径/类型、遗漏Guard、构造请求无尾斜线被旧合同拒绝的输出均保留，改夹具不改Guard。完整门禁待冻结后附日志；本轮真实模型/Live/来源GET均0。 [报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。 初次冻结49792135全量默认测试暴露9项自动条款回归，原输出保留；修为单缓存保留采集来源：availability页可供明确G1，但自动条款仍用原fact/language采集；已接纳的明确G1答案可继续复用。未删除/放宽业务断言，原组合24项全部通过，重新冻结全门禁。 fd823159默认1582项通过后Chromium暴露5项回归：4项日期观察被隐藏、1项Node TLS错误包装；改为日期保留只读动作提示，并只用同一确切主文档FAILED诊断识别SSL握手失败（非其他资源/Guard），原断言恢复。目标91项与本地Chromium5项/翻页3项绿，保留所有失败输出。 最终源码f385191e同SHA净树全部门禁绿：type/arch/default1586/build/Chromium279+G6 154/strictG2全12；D4/D8保持。扫描9条已分类，无业务写死；0真实调用，余额6Live/66GET/708模型。工作分支推送后停下待复核，不合main。
+
 <a id="calendar-day-normalization-20261110"></a>
 
 2026-11-10 CET — 源码50bd3349全门禁通过：用户确认跨午夜含义并授权转换，eval认证保留营业日/原始时间并派生实际日期时间，24:30→次日00:30，不能算原日00:30。07原录制正常同日19:00离线认证true，六证书离线重解释符合05=false其余true，旧证书不改，不冒充新GET。62项转换/反例/真实回归绿，Evaluator@9；type/arch/default1572/build/Chromium274+G6 126/strictG2全12通过，scan0，产品diff0。仅eval、真实调用0，原a91执行工作区/425和账本保持。[报告](../../.eval-artifacts/phase3b/calendar-day-normalization-20261110/report.md)。

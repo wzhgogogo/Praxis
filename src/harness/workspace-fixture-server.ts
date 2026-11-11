@@ -36,7 +36,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -120,6 +120,12 @@ export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:
       const amount=changed&&id==="fixture-restaurant-2"?20_000:5_000;
       const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),...(options.sourceValidityMs?{sourceExpiresAt:new Date(clock.now().valueOf()+options.sourceValidityMs).toISOString()}:{}),requestedDate:"2026-11-02",requestedPartySize:request.partySize,visibleSlots:noSlot||failed?[]:options.multiSlot?[request.timeWindow.earliest,request.timeWindow.latest]:[request.timeWindow.earliest],pageState:failed?"BOT_CHALLENGE":noSlot?"NO_MATCHING_SLOT":"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
         ...(options.revisionScenario?{priceFacts:{schemaVersion:"restaurant-price-facts@1" as const,listedCoursePricesYen:[{amount,kind:"MEAL" as const,meal:"DINNER" as const,tax:"INCLUDED" as const,quote:"Dinner course ¥"+amount,sourceUrl}]}}:{})},clock.now().toISOString());
+      if(options.cuisineDisagreement){
+        const at=clock.now().toISOString(),placeId='fixture-place:'+id;
+        result.evidence.push({evidenceId:'google-identity:'+id,kind:'ENTITY_MATCH',provider:'GOOGLE_PLACES',candidateId:id,sourceEntityId:placeId,observedAt:at,requestFingerprint:'fixture',claims:{},entityMatch:{confidence:'HIGH',matchedBy:['SYNTHETIC_SAME_OUTLET']}},
+          {evidenceId:'google-category:'+id,kind:'RESTAURANT_FACT',provider:'GOOGLE_PLACES',candidateId:id,sourceEntityId:placeId,sourceUrl:'https://maps.google.com/?cid=123',observedAt:at,requestFingerprint:'fixture',claims:{restaurantTypeFacts:['cantonese restaurant','dim sum restaurant']}},
+          {evidenceId:'source-category:'+id,kind:'RESTAURANT_FACT',provider,candidateId:id,sourceEntityId,sourceUrl,observedAt:at,requestFingerprint:'fixture',claims:{},sourceFieldQuotes:[{field:'CATEGORY',quote:'Chinese, Dumpling, Izakaya',sourceUrl}]});
+      }
       const check={...result.check,sourceProvider:provider,requestFingerprint:restaurantAvailabilityRequestFingerprint(request),...(failed?{sourceAttempts:[{source:provider,outcome:"FAILED" as const,reasonCode:"BOT_CHALLENGE"}]}:{})};
       if(!result.offers.length){if(reserve){reserveUsed=true;clock.advance(readLimits.maxAutomaticBrowserMs-19_000);}call.completed=true;return {...result,availabilityChecks:{[id]:check},metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};}
       const entity=result.evidence.find(e=>e.kind==="ENTITY_MATCH")!,availability=result.evidence.find(e=>e.kind==="AVAILABILITY")!;

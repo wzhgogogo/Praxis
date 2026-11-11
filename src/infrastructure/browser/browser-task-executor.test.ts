@@ -1250,3 +1250,13 @@ test("named query receipts bind unnamed inputs, normalized values and complete f
   }finally{await executor.closeAll();}
  }
 });
+
+test('source-confirmed date stays observable without another permitted action, even if a model insists',async()=>{
+  const session=new FixtureSession([{url:'https://www.tablecheck.com/en/sushi',title:'Calendar',text:'Choose guests',html:'<button type="button" data-date="2026-9-10">Date 2026-09-10</button>'}]);
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:3,maxModelCallsTotal:3,maxOperationsPerCandidate:24,modelDecision:decisions(
+    async value=>{const date=value.observation.targets.find(t=>t.label==='Date 2026-09-10')!;assert.deepEqual(date.availableActions,[]);assert.equal(date.rejectionReason,'SOURCE_DATE_CONFIRMED');return{type:'CLICK_AUTHORITATIVE',targetRef:date.ref,field:'DATE',reason:'LOCAL_CONSTRUCTION malicious repeated date'};},
+    async()=>({type:'REQUEST_HUMAN_HELP',reason:'No unconfirmed action selected'}),
+  )});
+  const acquired=await executor.acquire(new AbortController().signal,'TABLECHECK','AVAILABILITY');
+  try{const result=await executor.runSkill({...input(acquired),stage:'AVAILABILITY',completion:()=>({complete:false,confirmedFields:['DATE'],reason:'Source date confirmed; guests still unknown'})});assert.equal(result.status,'REQUESTED_HUMAN_HELP');assert.equal(session.clicks,0);}finally{await executor.close();}
+});

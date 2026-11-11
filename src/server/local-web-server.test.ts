@@ -1842,6 +1842,8 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const cookie=await login(running.baseUrl,"token-a");
       const view=await createCase(running.baseUrl,cookie,"b1-create",message);
       assert.equal(view.case.phase,"PRESENT_RESULTS");
+      const summary=view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)!.content;
+      assert.match(summary,/Found 1 restaurant/);assert.match(summary,/Fixture Sushi/);assert.match(summary,/19:00/);assert.match(summary,/2 guests/);assert.doesNotMatch(summary,/present results/i);
       assert.equal(view.restaurant.bookingHandoffs?.[0]?.url,"https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900");
       assert.equal(view.restaurant.selectedCandidateId,"fixture:outlet");
       const path="/api/cases/"+encodeURIComponent(view.case.caseId);

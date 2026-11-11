@@ -1,0 +1,34 @@
+✖ recorded R2-07 stale detail and absent search each return to the reviewed entrance before the next named query (10.874834ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 164.464917
+
+✖ failing tests:
+
+test at src/integrations/restaurant-availability/named-search-session-reuse.test.ts:1:11459
+✖ recorded R2-07 stale detail and absent search each return to the reviewed entrance before the next named query (10.874834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'https://tabelog.com/en/',
+  +   'https://tabelog.com/en/tokyo/A1319/A131904/13231218/',
+  +   'https://tabelog.com/en/tokyo/rstLst/?sw=prior'
+  -   'https://tabelog.com/en/',
+  -   'https://tabelog.com/en/'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/restaurant-availability/named-search-session-reuse.test.ts:166:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'https://tabelog.com/en/', 'https://tabelog.com/en/tokyo/A1319/A131904/13231218/', 'https://tabelog.com/en/tokyo/rstLst/?sw=prior' ],
+    expected: [ 'https://tabelog.com/en/', 'https://tabelog.com/en/', 'https://tabelog.com/en/' ],
+    operator: 'deepStrictEqual'
+  }

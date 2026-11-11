@@ -1,0 +1,102 @@
+{
+  "sourceSHA": "f385191e596acfb679e4097e227f30df8691833e",
+  "baseSHA": "249826cc330544f732b8316bf853983ed63d31a0",
+  "status": "OFFLINE_VERIFIED_NOT_INTEGRATED",
+  "modes": {
+    "MOCK": "PASS; constructed model/source transports",
+    "RECORDED_COMPONENT": "PASS; exposed R2 source DOM/data retained; unobserved continuation and model replies explicitly constructed",
+    "LOCAL_CHROMIUM": "PASS; no remote source I/O",
+    "LIVE_READ_ONLY": "NOT_RUN",
+    "CONTROLLED_LIVE_WRITE": "NOT_RUN"
+  },
+  "gates": {
+    "sourceSHA": "f385191e596acfb679e4097e227f30df8691833e",
+    "gates": [
+      {
+        "gate": "typecheck",
+        "command": "npm run typecheck",
+        "sourceSHA": "f385191e596acfb679e4097e227f30df8691833e",
+        "startedAtCET": "2026-11-11T04:56:02.797828+01:00",
+        "cleanBefore": true,
+        "exitCode": 0,
+        "finishedAtCET": "2026-11-11T04:56:03.447427+01:00",
+        "cleanAfter": true
+      },
+      {
+        "gate": "architecture",
+        "command": "npm run arch:check",
+        "sourceSHA": "f385191e596acfb679e4097e227f30df8691833e",
+        "startedAtCET": "2026-11-11T04:56:03.558754+01:00",
+        "cleanBefore": true,
+        "exitCode": 0,
+        "finishedAtCET": "2026-11-11T04:56:03.788855+01:00",
+        "cleanAfter": true
+      },
+      {
+        "gate": "default",
+        "command": "npm test",
+        "sourceSHA": "f385191e596acfb679e4097e227f30df8691833e",
+        "startedAtCET": "2026-11-11T04:56:03.879589+01:00",
+        "cleanBefore": true,
+        "exitCode": 0,
+        "finishedAtCET": "2026-11-11T04:57:08.499105+01:00",
+        "cleanAfter": true
+      },
+      {
+        "gate": "build",
+        "command": "npm run build",
+        "sourceSHA": "f385191e596acfb679e4097e227f30df8691833e",
+        "startedAtCET": "2026-11-11T04:57:08.605969+01:00",
+        "cleanBefore": true,
+        "exitCode": 0,
+        "finishedAtCET": "2026-11-11T04:57:09.274332+01:00",
+        "cleanAfter": true
+      },
+      {
+        "gate": "browser",
+        "command": "npm run test:browser:fixture",
+        "sourceSHA": "f385191e596acfb679e4097e227f30df8691833e",
+        "startedAtCET": "2026-11-11T04:57:09.382112+01:00",
+        "cleanBefore": true,
+        "exitCode": 0,
+        "finishedAtCET": "2026-11-11T05:01:19.337260+01:00",
+        "cleanAfter": true
+      },
+      {
+        "gate": "strict-g2",
+        "command": "PRAXIS_G2_REQUIRE_PASS=1 npm run test:dom-change",
+        "sourceSHA": "f385191e596acfb679e4097e227f30df8691833e",
+        "startedAtCET": "2026-11-11T05:01:19.451855+01:00",
+        "cleanBefore": true,
+        "exitCode": 0,
+        "finishedAtCET": "2026-11-11T05:01:45.204623+01:00",
+        "cleanAfter": true
+      }
+    ]
+  },
+  "counts": {
+    "default": 1586,
+    "chromium": 279,
+    "g6": 154,
+    "strictG2SavedPages": 12
+  },
+  "hardcoded": {
+    "total": 9,
+    "fixture": 2,
+    "genericTransportFormat": 3,
+    "existingProviderDispatch": 2,
+    "inputTypes": 1,
+    "existingG3Enum": 1,
+    "businessOverrides": 0
+  },
+  "assertions": "No existing business/safety assertion removed. A1 entrance navigation counts intentionally changed to require re-entry when search is absent.",
+  "priorFailures": [
+    "49792135 default: 9 automatic terms regressions; fixed without removing assertions",
+    "fd823159 browser: 4 readonly date evidence regressions and 1 TLS wrapping regression; fixed without removing assertions"
+  ],
+  "realCalls": {
+    "live": 0,
+    "publicGET": 0,
+    "models": 0
+  }
+}

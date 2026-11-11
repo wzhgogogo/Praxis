@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.33
-- Last updated: 2026-11-03
+- Document revision: 0.34
+- Last updated: 2026-11-11
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Visual Direction](VISUAL-DIRECTION.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -194,6 +194,10 @@ If the user books a displayed restaurant and then supplies the party size or ano
 ## 2026-11-03 near-name branch investigation (offline implementation candidate)
 
 For an explicit full outlet name with multiple possible branches, Praxis can investigate the first three in source order within the current read's budget. One full source name match after all three identity checks permits the existing availability → presentation → B1 flow; zero/multiple matches keep the clarification prompt. The remaining candidates are not alternatives offered without user agreement. Selected-outlet policy capture observes bounded page readiness before asking the two G1 questions. Missing or unverified policy text stays absent; a still-valid B1 link is unaffected, with task/run-bound omission diagnostics available outside the user's Task State.
+
+## 来源分类对照（2026-11-11，工作分支候选）
+
+候选卡片并列显示Google及已核对来源页的当前分类原文和来源链接；两者不同也分别呈现，不合并成一个结论，不因此改变HARD资格判断。结果回复说明找到几家及来源时段，避免把内部状态名当作用户文案。当前只经本地Fixture浏览器验证，待种子前修复复核。
 
 
 ## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）

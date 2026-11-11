@@ -1,0 +1,32 @@
+✔ one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions (3045.474125ms)
+✖ missing observed search controls never construct a query URL and retain honest no-result conclusions (11.012458ms)
+✔ a failed reused session retires without retry; the next candidate gets a fresh source session (13.368292ms)
+✔ a completed run never lends its source contexts to a later run; cancellation still closes every context (2022.838042ms)
+✔ ordinary assembly retains correct source identities while a reused search refuses a wrong shop and two HIGH identities (2042.804334ms)
+✔ recorded R2-07 stale detail and absent search each return to the reviewed entrance before the next named query (23.558917ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7323.324917
+
+✖ failing tests:
+
+test at src/integrations/restaurant-availability/named-search-session-reuse.test.ts:1:4352
+✖ missing observed search controls never construct a query URL and retain honest no-result conclusions (11.012458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  6 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/restaurant-availability/named-search-session-reuse.test.ts:62:42)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 2,
+    operator: 'strictEqual'
+  }

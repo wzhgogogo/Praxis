@@ -1,0 +1,31 @@
+G1_TRANSPORT {"error":{"name":"BrowserRuntimeError","message":"Local Playwright Chromium operation failed","cause":{"name":"Error","message":"page.goto: net::ERR_FAILED at [URL]"}},"requests":[{"outcome":"FAILED","error":{"name":"Error","message":"route.fetch: write EPROTO 802126EF01000000:error:0A00010B:SSL routines:tls_validate_record_header:wrong version number:ssl/record/methods/tlsany_meth.c:78:"},"origin":"https://127.0.0.1:58215","pathname":"/merchant","method":"GET","resourceType":"document","transport":"NODE_FETCH","resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"document"},"queryKeys":[],"queryValues":[]}]}
+G1_ANSWER {"status":"UNVERIFIED","candidateId":"capture-merchant","reason":"NO_BOUND_PAGE","checkedPages":[]}
+✖ G1 fresh Google page capture keeps the real Guard ahead of an unreviewed checkout, with a public-page control (247.593625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 555.586583
+
+✖ failing tests:
+
+test at src/harness/browser/page-question-budget.test.ts:1:2550
+✖ G1 fresh Google page capture keeps the real Guard ahead of an unreviewed checkout, with a public-page control (247.593625ms)
+  AssertionError [ERR_ASSERTION]: the same guarded acquisition can read a permitted merchant page
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/page-question-budget.test.ts:64:112)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }

@@ -63,7 +63,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
   }
   private pages(view:RestaurantCaseView,source:BookingHandoffSource):RestaurantFactPageObservation[] {
     const context=view.restaurant.sourceReadContext;
-    return context?this.questions.currentPages(context,source.candidateId).filter(page=>bookingHandoffPageMatches(source,page.snapshot.url)):[];
+    return context?this.questions.currentBookingPages(context,source.candidateId).filter(page=>bookingHandoffPageMatches(source,page.snapshot.url)):[];
   }
   private current(value:Answer|undefined,view:RestaurantCaseView,source:BookingHandoffSource):value is Answer {
     if(!value)return false;

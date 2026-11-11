@@ -92,8 +92,8 @@ export interface BrowserExecutionBudget {
 }
 
 export type BrowserCompletionAssessment =
-  | { complete: true; reason: string; resultKey: string; resultBusy: boolean; resultUrls?: readonly string[] }
-  | { complete: false; reason: string; resultKey?: string; resultBusy?: boolean; resultUrls?: readonly string[] };
+  | { complete: true; reason: string; resultKey: string; resultBusy: boolean; resultUrls?: readonly string[]; confirmedFields?: readonly ("DATE" | "PARTY_SIZE")[] }
+  | { complete: false; reason: string; resultKey?: string; resultBusy?: boolean; resultUrls?: readonly string[]; confirmedFields?: readonly ("DATE" | "PARTY_SIZE")[] };
 
 export interface BrowserSkillReadInput {
   taskId: string;
@@ -362,7 +362,7 @@ export class BrowserTaskExecutor {
 
   private networkPolicy: BrowserReadNetworkPolicy | undefined;
 
-  async acquire(signal: AbortSignal, source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"], networkPolicy?: BrowserReadNetworkPolicy): Promise<BrowserSession> {
+  async acquire(signal: AbortSignal, source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"], networkPolicy?: BrowserReadNetworkPolicy, preserveProviderWindow = false): Promise<BrowserSession> {
     if (this.options.reuseSourceSessions && this.sessionSource !== source) {
       if (this.session && this.sessionSource) this.parkedSessions.set(this.sessionSource, {
         session:this.session,signal:this.sessionSignal,cleanup:this.sessionAbortCleanup,unsettled:this.pageUnsettled,
@@ -373,7 +373,7 @@ export class BrowserTaskExecutor {
       this.pageUnsettled=parked?.unsettled??false;
       this.sessionSource=source;
     }
-    this.ensureLifecycle(source, stage);
+    this.ensureLifecycle(source, stage, preserveProviderWindow);
     try {
       this.assertActive(signal);
     } catch (error) {
@@ -449,9 +449,9 @@ export class BrowserTaskExecutor {
   }
 
   /** The source-pack seed is the only navigation made without a current model
-   * action. Reusing a source session never reopens it. */
-  async start(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; timeoutMs?: number }): Promise<void> {
-    if (this.startedSessions.has(input.session)) return;
+   * action. A named query may reopen that reviewed entrance when the current page lacks search controls. */
+  async start(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; timeoutMs?: number; reopen?: boolean }): Promise<void> {
+    if (this.startedSessions.has(input.session) && !input.reopen) return;
     const url = this.allowedUrl(input.url, input.allowedOrigins);
     if (!url || !this.networkPolicy?.startupDocuments?.includes(url)) throw this.rejected(input.source, input.stage, "The source start is not configured");
     this.startedSessions.add(input.session);
@@ -485,10 +485,18 @@ export class BrowserTaskExecutor {
    * loaded page, are chosen by the ordinary observation loop. */
   async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; query: string; querySource?: "SPECIFIC_OUTLET" | "G4_SOURCE_TERM"; completion: BrowserSkillReadInput["completion"] }): Promise<BrowserGenericReadResult> {
     const scoped = { ...input, stage: "DISCOVERY" as const };
-    if (!this.startedSessions.has(input.session)) {
-      const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
-      if (seeds.length !== 1) throw this.rejected(input.source, "DISCOVERY", "Source start is missing or ambiguous");
-      await this.start({ ...scoped, url: seeds[0]! });
+    const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
+    if (seeds.length !== 1) throw this.rejected(input.source, "DISCOVERY", "Source start is missing or ambiguous");
+    if (!this.startedSessions.has(input.session)) await this.start({ ...scoped, url: seeds[0]! });
+    else {
+      const current = await this.snapshot(scoped), controls = await this.observeControls(scoped);
+      // Public semantic search controls or a text field in an observed GET
+      // form may be reused. A previous detail/no-control result is not an entry.
+      const queryControls = controls.filter(c => c.visible && !c.disabled && c.kind === "INPUT" && (!c.type || ["text","search"].includes(c.type)));
+      const hasSearch = queryControls.some(c => c.role === "searchbox" || c.type === "search"
+        || c.formObservation && controls.some(submit => submit.visible && !submit.disabled && submit.formMethod === "GET" && submit.formObservation?.owner === c.formObservation!.owner)
+        || current.url === seeds[0]);
+      if (!hasSearch) await this.start({ ...scoped, url: seeds[0]!, reopen: true });
     }
     const queryFields = new Set<string>();
     let queryConflict = false;
@@ -741,8 +749,10 @@ export class BrowserTaskExecutor {
       // cannot fix a different missing field such as guest count.
       const alreadySelected = observation.controls.filter(control => control.visible && control.selected === true
         && (matchesAuthoritativeControl(control, "DATE", input.goal) || matchesAuthoritativeControl(control, "PARTY_SIZE", input.goal)));
-      const actionTargets = [...observation.targets.values()].filter(target => (!pendingControlKeys.has(target.stableKey) || target.selected === true)
-        && !(target.role === "combobox" && observation.controls.some(control => control.id === target.controlId && control.expanded === true)));
+      const confirmedDate = (target:ObservedTarget) => completion.confirmedFields?.includes("DATE") && matchesAuthoritativeControl(target,"DATE",input.goal);
+      const actionTargets = [...observation.targets.values()].filter(target => confirmedDate(target)
+        || ((!pendingControlKeys.has(target.stableKey) || target.selected === true)
+          && !(target.role === "combobox" && observation.controls.some(control => control.id === target.controlId && control.expanded === true))));
       if (pendingParty) progress = "PARTY_SIZE_NOT_CONFIRMED: no unique selected value in the clicked control group confirms the requested guest count. Read the current selected values; unrelated page changes are not confirmation.";
       let action: BrowserReadAction;
       const month = displayedCalendarMonth(observation.controls);
@@ -768,7 +778,7 @@ export class BrowserTaskExecutor {
             controlGroups: observedControlGroups(observation),
             pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
             targets: actionTargets.map(({ exactSuggestion:_exactSuggestion, controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
-              ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
+              ...target, ...(confirmedDate(observation.targets.get(target.ref)!)?{availableActions:[],rejectionReason:"SOURCE_DATE_CONFIRMED"}:this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined)),
             })),
           },
         }));
@@ -875,6 +885,7 @@ export class BrowserTaskExecutor {
         return { status: "BUDGET_EXCEEDED", snapshot, controls: observation.controls };
       }
       try {
+        if (target && confirmedDate(target)) throw new Error("SOURCE_DATE_CONFIRMED: the current source response already confirms the requested date");
         if (pendingOption && action.type === "CHOOSE_OPTION") {
           throw new Error("A previous option is still unconfirmed; WAIT for its selected value before choosing another option");
         }
@@ -943,7 +954,8 @@ export class BrowserTaskExecutor {
       const publicQueryWaitChanged = changed && snapshot.settlement !== "PENDING";
       if (pendingOption && this.optionSelectionObserved(pendingOption, postActionObservation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, postActionObservation.controls)) pendingRadio = undefined;
-      if (pendingParty && partyGroupConfirmed(postActionObservation, input.goal, pendingParty.groupKey)) pendingParty = undefined;
+      completion = await assess(snapshot, postActionObservation.controls);
+      if (pendingParty && (partyGroupConfirmed(postActionObservation, input.goal, pendingParty.groupKey) || completion.confirmedFields?.includes("PARTY_SIZE"))) pendingParty = undefined;
       const optionConfirmed = !pendingOption && !pendingRadio;
       // A source that did not show an async page change may still be settling
       // its controls. Reobserve on the next turn in that case.
@@ -965,7 +977,6 @@ export class BrowserTaskExecutor {
         detail: partyUnconfirmed ? "PARTY_SIZE_NOT_CONFIRMED" : partyClick ? "PARTY_SIZE_CONFIRMED" : monthUnconfirmed ? "CALENDAR_MONTH_UNCHANGED" : optionConfirmed ? effectVerified ? "OBSERVED_CHANGE_AFTER_MODEL_ACTION" : "ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION" : "OPTION_VALUE_NOT_CONFIRMED",
         observation: this.diagnosticObservation(postActionObservation),
       });
-      completion = await assess(snapshot, postActionObservation.controls);
       if (completion.complete && optionConfirmed && !monthUnconfirmed && !pendingParty) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
       if (!visibleStateChanged && visibleProgress.noProgress()) {
         this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:snapshot.url,detail:"NO_PROGRESS"});
@@ -1605,7 +1616,7 @@ export class BrowserTaskExecutor {
     return new BrowserRuntimeError("BROWSER_TIMEOUT", `Browser ${label} exceeded the ${scope} deadline`, undefined, typedScope);
   }
 
-  private ensureLifecycle(source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"]): void {
+  private ensureLifecycle(source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"], preserveProviderWindow = false): void {
     if (!this.candidateLifecycleOpen) {
       this.candidateLifecycleOpen = true;
       this.record({ source, stage, event: "CANDIDATE_STARTED", detail: "CANDIDATE_SCOPE" });
@@ -1613,7 +1624,7 @@ export class BrowserTaskExecutor {
     if (!this.providerLifecycleOpen) {
       this.providerLifecycleOpen = true;
       this.activeLifecycle = { source, stage };
-      this.providerStartedAt = Date.now();
+      if (!preserveProviderWindow) this.providerStartedAt = Date.now();
       this.providerModelCallsAtStart = this.modelCalls;
       this.providerOperationCountAtStart = this.operationCount;
       this.record({ source, stage, event: "PROVIDER_STARTED", detail: "PROVIDER_SCOPE" });

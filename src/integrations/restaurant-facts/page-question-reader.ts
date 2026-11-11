@@ -11,13 +11,14 @@ import { isDeepStrictEqual } from "node:util";
 import { isRestaurantFactPageBound } from "./fact-page-binding.js";
 import type { RestaurantPageQuestionState } from "../../domains/restaurant/page-question.js";
 
-/** The existing fact readers are the sole producers of identity-bound pages. */
+/** Fact and availability readers supply already HIGH-bound, observed pages. */
 export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort {
   readonly executionRoute = "GENERIC_BROWSER" as const;
   readonly facts: RestaurantCandidateFactPort;
   private readonly questionModel: RunBoundedModelGateway;
   private readonly observe: RestaurantFactPageObserver;
   private readonly pages = new Map<string, RestaurantFactPageObservation>();
+  private readonly factPageKeys = new Set<string>();
   private readonly answered = new Map<string, {input:RestaurantPageQuestionRequest; answer:RestaurantPageAnswer; pages:RestaurantFactPageObservation[]}>();
 
   constructor(
@@ -31,14 +32,32 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
     this.questionModel = new RunBoundedModelGateway(model, limits.maxModelCalls, limits.maxElapsedMs, () => Date.parse(this.now()));
     this.observe = page => {
       this.expire();
-      if (page.readRunId) this.pages.set(JSON.stringify([page.readRunId, page.candidateId, page.requestedSourceUrl, page.snapshot.url]), structuredClone(page));
+      if (page.readRunId) {const key=this.pageKey(page);this.pages.set(key, structuredClone(page));this.factPageKeys.add(key);}
     };
     this.facts = createFacts(this.observe,browserBudget);
   }
 
+  /** Assembly-owned hook; no URL/name/identity is supplied by a model. */
+  retainBoundPage(page:RestaurantFactPageObservation):void {
+    if(page.readRunId&&isRestaurantFactPageBound(page,{candidateId:page.candidateId,sourceUrl:page.requestedSourceUrl,readRunId:page.readRunId,startedAt:page.identity.observedAt},this.now())){
+      this.observe(page);
+      // Availability capture supports an explicit G1 question. It does not
+      // replace the automatic terms reader's existing language/source acquisition.
+      this.factPageKeys.delete(this.pageKey(page));
+    }
+  }
+
+  private pageKey(page:RestaurantFactPageObservation):string{return JSON.stringify([page.readRunId,page.candidateId,page.requestedSourceUrl,page.snapshot.url]);}
+
+  /** Automatic terms preserve their existing fact/language acquisition path.
+   * An actual admitted explicit G1 answer may promote its used pages below. */
+  currentBookingPages(context:{runId:string;startedAt:string},candidateId:string):RestaurantFactPageObservation[] {
+    return this.currentPages(context,candidateId).filter(page=>this.factPageKeys.has(this.pageKey(page)));
+  }
+
   private expire(): void {
     const cutoff = Date.parse(this.now()) - this.retentionMs;
-    for (const [key, page] of this.pages) if (Date.parse(page.observedAt) < cutoff) this.pages.delete(key);
+    for (const [key, page] of this.pages) if (Date.parse(page.observedAt) < cutoff) {this.pages.delete(key);this.factPageKeys.delete(key);}
     for (const [key, answer] of this.answered) if (answer.pages.every(page=>Date.parse(page.observedAt)<cutoff)) this.answered.delete(key);
   }
 
@@ -55,6 +74,7 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
     if(!saved || q.readRunId!==context.runId || !isDeepStrictEqual(q.result,saved.answer))return undefined;
     const current=this.currentPages(context,q.candidateId);
     if(!saved.pages.every(page=>current.some(item=>isDeepStrictEqual(item,page))))return undefined;
+    for(const page of saved.pages)this.factPageKeys.add(this.pageKey(page));
     return structuredClone(saved);
   }
 
@@ -118,7 +138,13 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
         if (!pages.length || pages.some(page => page.snapshot.settlement === "PENDING")) {
           // The same identity-producing source chain, with fresh question-only counters.
           const reader = this.createFacts(this.observe, {totalModelCalls:0,maxModelCalls:this.limits.maxModelCalls}, model, visits);
-          await reader.inspectFacts({capturePagesOnly:true,...(pages.length?{reobservePageOnce:true as const}:{}),candidateIds:[id],candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},combined);
+          const candidate=structuredClone(input.candidate);
+          const bound=pages.find(page=>isRestaurantFactPageBound(page,{candidateId:id,sourceUrl:page.requestedSourceUrl,readRunId:input.readContext.runId,startedAt:input.readContext.startedAt},this.now()));
+          // A fresh read is a navigation hint from the same HIGH proof, not a
+          // rewritten Google URL or a new identity assertion. Native reader rechecks it.
+          if(bound?.identity.sourceEntityId&&bound.identity.provider==="TABELOG"){candidate.restaurant.sourceIds.tabelog=bound.identity.sourceEntityId;candidate.restaurant.sourceIds.tabelogNativeDetailUri=bound.requestedSourceUrl;}
+          else if(bound?.identity.sourceEntityId&&bound.identity.provider==="TABLECHECK"){candidate.restaurant.sourceIds.tablecheck=bound.identity.sourceEntityId;candidate.restaurant.sourceIds.tablecheckNativeGuideUri=bound.requestedSourceUrl;}
+          await reader.inspectFacts({capturePagesOnly:true,...(pages.length?{reobservePageOnce:true as const}:{}),candidateIds:[id],candidates:[candidate],intent:structuredClone(input.intent),readRunId:input.readContext.runId},combined);
           combined.throwIfAborted();
           pages = cached();
         }

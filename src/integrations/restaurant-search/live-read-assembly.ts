@@ -102,7 +102,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     endReadRun: () => sourceAvailability.endReadRun(),
     browserModelBudgetExhausted: () => sourceAvailability.browserModelBudgetExhausted(),
     check: async (request: Parameters<LiveBrowserAvailability["check"]>[0], signal: AbortSignal, readRunId?: string) => {
-      const read = await sourceNames.capture(()=>bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal, readRunId)));
+      const read = await sourceNames.capture(()=>bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal, readRunId)),{readRunId,observe:page=>native.questions.retainBoundPage(page)});
       return {...read,evidence:[...read.evidence,...await google.observedSourceNames(request.candidates,readRunId)],metadata:{...read.metadata,googleRequests:google.googleRequestUsage(readRunId)}};
     },
   };

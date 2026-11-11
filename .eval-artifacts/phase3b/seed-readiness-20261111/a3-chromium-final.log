@@ -1,0 +1,31 @@
+✖ seed readiness Chromium: month and guest pagination EXACT_RESPONSE (1707.1215ms)
+✔ seed readiness Chromium: month and guest pagination WRONG_PARTY (1660.096458ms)
+✔ seed readiness Chromium: month and guest pagination PENDING (1666.482ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5326.141959
+
+✖ failing tests:
+
+test at src/harness/browser/seed-readiness-selection.test.ts:1:845
+✖ seed readiness Chromium: month and guest pagination EXACT_RESPONSE (1707.1215ms)
+  AssertionError [ERR_ASSERTION]: {"events":[{"event":"POST_ACTION_VERIFIED","detail":"OBSERVED_CHANGE_AFTER_MODEL_ACTION"},{"event":"POST_ACTION_VERIFIED","detail":"NEW_OBSERVATION_AFTER_MODEL_ACTION"},{"event":"POST_ACTION_VERIFIED","detail":"OBSERVED_CHANGE_AFTER_MODEL_ACTION"},{"event":"POST_ACTION_VERIFIED","detail":"NEW_OBSERVATION_AFTER_MODEL_ACTION"},{"event":"REJECTED","detail":"REPEATED_FROM_SAME_STATE"},{"event":"METHOD_INCOMPLETE","detail":"NO_PROGRESS"}],"status":"NO_SAFE_ACTION","responses":[{"url":"https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13231218&svd=20261218&svps=2","status":200,"observedAt":"2026-11-11T03:50:04.567Z","sequence":1,"body":{"base_date":{"year":2026,"month":12,"day":18},"members":2,"selection":[{"time":"20:30","url":"/en/booking/form_course/new?rcd=13231218&member=2&visit_date=20261218&visit_time=2030"}]}}]}
+  + actual - expected
+  
+  + 'NO_SAFE_ACTION'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/seed-readiness-selection.test.ts:39:38)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_SAFE_ACTION',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }

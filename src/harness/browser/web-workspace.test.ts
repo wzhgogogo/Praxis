@@ -247,3 +247,16 @@ async function assertEventually(predicate:()=>boolean){
   const deadline=Date.now()+5_000;
   while(!predicate()){if(Date.now()>deadline)assert.fail("fixture source transition did not complete");await new Promise(resolve=>setTimeout(resolve,10));}
 }
+
+for(const size of sizes)test('Workspace '+size.name+': cuisine source disagreement remains visible without changing qualification',{timeout:60_000},async()=>{
+  const host=await startWorkspaceFixture({provider:'TABELOG',cuisineDisagreement:true});const browser=await chromium.launch({headless:true});
+  const context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:size.width,height:size.height}});const page=await context.newPage();
+  try{await signIn(page,host.baseUrl,host.clock.now());const plan=await createPlan(page,'Dinner with friends');await ready(page);
+    const statements=page.locator('#source-categories');await statements.waitFor({state:'visible'});
+    assert.match(await statements.innerText(),/Google Maps: cantonese restaurant, dim sum restaurant/);
+    assert.match(await statements.innerText(),/Tabelog: Chinese, Dumpling, Izakaya/);
+    assert.equal(await statements.locator('a').count(),2);
+    assert.equal((await current(page,plan.case.caseId)).case.phase,'PRESENT_RESULTS');
+    await capture(page,size.name+'-source-categories');
+  }finally{await context.close();await browser.close();await host.close();}
+});
