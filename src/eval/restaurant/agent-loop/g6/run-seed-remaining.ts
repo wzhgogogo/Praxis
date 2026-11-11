@@ -48,7 +48,7 @@ export async function main(args:string[]){
  if(args.includes('--validate-only')){console.log(JSON.stringify(audit));return;}
  if(process.env.PRAXIS_RUN_SEED_REMAINING!=='1'||!process.execArgv.some(a=>a.startsWith('--env-file')))throw Error('AUTHORIZATION_AND_ENV_FILE_REQUIRED');
  const budgetPath=resolve(flag('--budget')),ledger=JSON.parse(await readFile(budgetPath,'utf8'));
- if(ledger.status!=='APPROVED_FOR_EXECUTION'||ledger.limits.fullLive!==40||ledger.limits.evaluationPublicGET!==220||ledger.limits.realModelCalls!==2800||ledger.limits.environmentReruns!==4||ledger.cumulative.fullLive>=40||ledger.cumulative.evaluationPublicGET+7>220||ledger.cumulative.realModelCalls+50>2800)throw Error('SEED_BUDGET_INSUFFICIENT');
+ if(ledger.status!=='APPROVED_FOR_EXECUTION'||ledger.limits.fullLive!==43||ledger.limits.evaluationPublicGET!==235||ledger.limits.realModelCalls!==2800||ledger.limits.environmentReruns!==4||ledger.cumulative.fullLive>=43||ledger.cumulative.evaluationPublicGET+7>235||ledger.cumulative.realModelCalls+50>2800)throw Error('SEED_BUDGET_INSUFFICIENT');
  const priorRoot=resolve(flag('--prior-root')),prior=JSON.parse(await readFile(join(priorRoot,'batch.json'),'utf8'));
  if(!seedPriorReviewed(prior))throw Error('SEED_PRIOR_REVIEW_REQUIRED');
  for(const r of prior.receipts){const p=join(r.path,r.key),e=await readFile(join(p,'evaluation.json'),'utf8').then(t=>JSON.parse(t)).catch(()=>null);
