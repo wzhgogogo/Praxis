@@ -67,7 +67,9 @@ test('fictional full manifest selects only requested IDs in manifest order; unkn
   const hashes=JSON.parse(await readFile(join(f.root,'selected','certification-hashes.json'),'utf8'));assert.equal(hashes.manifestSHA256,audit.manifestSHA256);assert.deepEqual(hashes.selectedCaseIds,['fictional-0','fictional-2','fictional-4']);
   for(const caseIds of [['missing'],['fictional-0','fictional-0'],[],['']])await assert.rejects(certifyPrivateHoldout(full,audit,join(f.root,'rejected'),{...deps,caseIds}),/HOLDOUT_CERTIFICATION_CASE_SELECTION_INVALID/);
   assert.equal(requests,3);assert.equal((await f.ledger()).cumulative.evaluationPublicGET,3);
-  await assert.rejects(main(['--cases','fictional-0']),/HOLDOUT_CERTIFICATION_CASES_MODE_INVALID/);
+  // User2026-11-11 permits --cases for runs too; private input arguments remain mandatory.
+  await assert.rejects(main(['--cases','fictional-0']),/MISSING_ARGUMENT/);
+  await assert.rejects(main(['--certify-only','--repetitions','2']),/HOLDOUT_RUN_SELECTION_INVALID/);
   await assert.rejects(main(['--certify-only','--cases','a','--cases','b']),/HOLDOUT_CERTIFICATION_CASES_MODE_INVALID/);
  }finally{await f.close();}
 });

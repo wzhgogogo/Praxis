@@ -6,7 +6,7 @@ import {pathToFileURL} from 'node:url';
 import {validatePrivateManifest,holdoutHash} from '../holdout-protocol.js';
 import {verifyHoldoutCommitment,type HoldoutCommitment} from '../holdout-commitment.js';
 import {certifyPrivateHoldout} from './holdout-certify.js';
-import {runPrivateHoldout} from './holdout-runner.js';
+import {runPrivateHoldout,holdoutExecutionPlan} from './holdout-runner.js';
 import {runHealthOnly} from './health-only.js';
 import {restaurantDiscoveryPacks} from '../../../../integrations/restaurant-search/source-packs.js';
 import {checkHoldoutNetwork} from './holdout-health.js';
@@ -25,7 +25,7 @@ export async function main(args:string[]){
  const healthOnly=args.includes('--health-only');
  if(!healthOnly&&['--rounds','--interval-minutes','--health-output','--tabelog-url'].some(f=>args.includes(f)))throw Error('HEALTH_ONLY_ARGUMENT_MODE_INVALID');
  if(healthOnly){
-  if(['--original','--manifest','--manifest-sha256','--commitment','--resume','--review','--certify-only','--cases','--output','--validate-only'].some(f=>args.includes(f)))throw Error('HEALTH_ONLY_ARGUMENT_MODE_INVALID');
+  if(['--original','--manifest','--manifest-sha256','--commitment','--resume','--review','--certify-only','--cases','--repetitions','--output','--validate-only'].some(f=>args.includes(f)))throw Error('HEALTH_ONLY_ARGUMENT_MODE_INVALID');
   if(process.env.PRAXIS_RUN_HEALTH_ONLY!=='1'||!process.execArgv.some(a=>a.startsWith('--env-file')))throw Error('HEALTH_ONLY_AUTHORIZATION_AND_ENV_FILE_REQUIRED');
   const sourceSHA=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();if(sourceSHA!==flag('--source-sha')||execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim())throw Error('FROZEN_CLEAN_SOURCE_REQUIRED');
   const result=await runHealthOnly({sourceSHA,directory:resolve(flag('--health-output')),budgetPath:resolve(flag('--budget')),rounds:Number(flag('--rounds')),intervalMinutes:Number(flag('--interval-minutes')),tabelogUrl:args.includes('--tabelog-url')?flag('--tabelog-url'):restaurantDiscoveryPacks.find(p=>p.meta.id==='tabelog')!.browser!.startupUrl!},{browser:createG6LiveBrowser(process.env)});
@@ -33,8 +33,12 @@ export async function main(args:string[]){
  }
  const certifyOnly=args.includes('--certify-only');
  if(certifyOnly&&['--resume','--output','--review','--validate-only'].some(f=>args.includes(f))||!certifyOnly&&args.includes('--certify-output'))throw Error('HOLDOUT_CERTIFICATION_MODE_CONFLICT');
- if(args.includes('--cases')&&!certifyOnly||args.indexOf('--cases')!==args.lastIndexOf('--cases'))throw Error('HOLDOUT_CERTIFICATION_CASES_MODE_INVALID');
+ if(args.indexOf('--cases')!==args.lastIndexOf('--cases'))throw Error('HOLDOUT_CERTIFICATION_CASES_MODE_INVALID');
  const caseIds=args.includes('--cases')?flag('--cases').split(','):undefined;
+ const repetitions=args.includes('--repetitions')?Number(flag('--repetitions')):undefined;
+ if(args.indexOf('--repetitions')!==args.lastIndexOf('--repetitions')||certifyOnly&&repetitions!==undefined
+   ||repetitions!==undefined&&(!/^[1-3]$/.test(flag('--repetitions'))))throw Error('HOLDOUT_RUN_SELECTION_INVALID');
+ const selection={...(caseIds?{caseIds}:{}),...(repetitions!==undefined?{repetitions}:{})};
  const reviews=parseHoldoutReviews(args);
  if(args.includes('--resume')&&args.includes('--output'))throw Error('HOLDOUT_OUTPUT_MODE_CONFLICT');
  const originalPath=resolve(flag('--original')),manifestPath=resolve(flag('--manifest'));
@@ -45,7 +49,7 @@ export async function main(args:string[]){
  const manifestBytes=await readFile(manifestPath);
  if(holdoutHash(manifestBytes)!==flag('--manifest-sha256'))throw Error('HOLDOUT_MANIFEST_SHA_MISMATCH');
  const checked=validatePrivateManifest(original,commitment,manifestBytes);
- Object.assign(checked.audit,{commitmentSHA256:holdoutHash(commitmentBytes)});
+ Object.assign(checked.audit,{commitmentSHA256:holdoutHash(commitmentBytes)},certifyOnly?{}:holdoutExecutionPlan(checked.manifest,selection).audit);
  if(args.includes('--validate-only')){console.log(JSON.stringify(checked.audit));return;}
  if(process.env.PRAXIS_RUN_HOLDOUT_LIVE!=='1'||!process.execArgv.some(a=>a.startsWith('--env-file')))throw Error('HELDOUT_AUTHORIZATION_AND_ENV_FILE_REQUIRED');
  const sourceSHA=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
@@ -61,7 +65,7 @@ export async function main(args:string[]){
  const dependencies=liveG6Dependencies(process.env,budgetPath);
  const result=await runPrivateHoldout(checked.manifest,{...checked.audit,sourceSHA},resolve(flag(args.includes('--resume')?'--resume':'--output')),{g6:dependencies,
   startDelayMs:()=>randomInt(120_000,240_001),
-  health:(spec,beforeGET)=>checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:spec.witness!.detailUrl,beforeGET})},{resume:args.includes('--resume'),...(reviews.length?{reviews}:{})});
+  health:(spec,beforeGET)=>checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:spec.witness!.detailUrl,beforeGET})},{resume:args.includes('--resume'),...(reviews.length?{reviews}:{}),...selection});
  console.log(JSON.stringify({status:result.stopReason?'STOPPED':'COMPLETED',stopReason:result.stopReason,attempts:result.receipts.length,pendingReviewCount:result.pendingReviewCount??0,passRateReportable:result.passRateReportable??false,batchStatus:result.status??null}));
  if(result.stopReason)process.exitCode=1;
 }

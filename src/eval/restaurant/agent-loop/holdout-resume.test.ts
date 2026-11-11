@@ -184,3 +184,20 @@ test('outer 2–4 minute randomized cooldown is persisted, precedes next attempt
   await runPrivateHoldout(c.manifest,c.audit,c.output,deps,{resume:true});assert.equal(c.execs,3);assert.equal(draws,2);assert.ok(waits.includes(120_000)&&waits.includes(240_000));
  }finally{await c.close();}
 });
+
+test('development selection runs two of three fictional cases twice, binds plan and never repeats completed slots',async()=>{
+ const c=await control();try{
+  const seed=c.manifest.cases[0]!;c.manifest.cases=['alpha','beta','gamma'].map(id=>({...structuredClone(seed),id}));c.audit.manifestSHA256=holdoutHash(JSON.stringify(c.manifest));
+  const selection={caseIds:['gamma','alpha'],repetitions:2};
+  const run=(options=selection,resume=false)=>runPrivateHoldout(c.manifest,c.audit,c.output,c.deps,{...options,resume});
+  for(const bad of [{caseIds:['missing'],repetitions:2},{caseIds:['alpha','alpha'],repetitions:2},{caseIds:[],repetitions:2},{caseIds:['alpha'],repetitions:4},{caseIds:['alpha'],repetitions:1.5}])await assert.rejects(run(bad),/HOLDOUT_RUN_SELECTION_INVALID/);
+  assert.equal(c.execs,0);assert.equal((await c.ledger()).cumulative.fullLive,0);
+  const result=await run();assert.equal(result.stopReason,null);assert.deepEqual(c.seen,['alpha-r1','alpha-r2','gamma-r1','gamma-r2']);assert.equal(c.healths,2);assert.equal((await c.ledger()).cumulative.fullLive,4);
+  const audit=JSON.parse(await readFile(join(c.output,'input-hashes.json'),'utf8'));
+  assert.deepEqual(audit.executionPlan,{caseIds:['alpha','gamma'],repetitions:2});assert.equal(audit.executionPlanSHA256,holdoutHash(JSON.stringify({caseIds:['alpha','gamma'],repetitions:2})));
+  assert.deepEqual(result.executionPlan,audit.executionPlan);
+  await run({caseIds:['alpha','gamma'],repetitions:2},true);assert.equal(c.execs,4);
+  await assert.rejects(run({...selection,repetitions:3},true),/HOLDOUT_RESUME_INPUT_MISMATCH/);
+  await assert.rejects(run({caseIds:['alpha','beta'],repetitions:2},true),/HOLDOUT_RESUME_INPUT_MISMATCH/);assert.equal(c.execs,4);
+ }finally{await c.close();}
+});

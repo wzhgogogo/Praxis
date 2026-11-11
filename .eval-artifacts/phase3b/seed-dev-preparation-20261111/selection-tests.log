@@ -1,0 +1,59 @@
+✔ repeated --review retains every independently keyed annotation file (0.776208ms)
+✔ certify-only records available, unavailable, failure and later success with one charged vacancy GET each, no formal binding or private turn (33.793084ms)
+✔ certification twelve-GET cap follows the same ledger across changed manifests and output directories, within GET126 (13.79325ms)
+✔ non-200, unknown JSON and unsafe response recording stay observable without retries, unsafe bodies never reach disk (5.474791ms)
+✔ certify-only CLI rejects incompatible formal modes before reading private inputs or constructing clients (0.304375ms)
+✖ fictional full manifest selects only requested IDs in manifest order; unknown/duplicate/empty selection rejects without GETs or charges (5.152166ms)
+✔ CLI custom fictional commitment uses unchanged file/preamble/case hashes, default still refuses different original (20.414083ms)
+✔ CLI validates the entire fictional commitment before selecting cases/repetitions and audits only hashes (4.64575ms)
+✔ resume preserves evaluated slots, only one health per case, and refuses original/manifest/source/ledger mismatches (53.25925ms)
+✔ health cancellation resumes the same planned slot with fresh health, no duplicate Live, original health evidence retained (13.234625ms)
+✔ environment failure replacement is charged on resumed Live only, stored separately and stops before a fifth replacement (23.062625ms)
+✔ successful environment replacement completes later slots, without rerunning prior Live or repeating case health (11.299292ms)
+✔ S0 forbids resume even if a checkpoint did not record the stop; evaluation after a crash is recovered without another Live (11.981167ms)
+✔ already charged unknown interruption cannot silently spend another Live; plan and append-only ledger guards reject before transmission (12.917709ms)
+✔ resume denies simultaneous writers; independent cases each get one health, and rules cannot be supplied privately (11.419334ms)
+✔ a prepaid environment ticket survives interruption before Live without being charged twice (12.369375ms)
+✔ six cases keep eighteen planned slots and admit four replacements within fullLive22 and GET126 (58.387459ms)
+✔ a ledger symlink resolves to one canonical file for health, Live charges and resume (8.853917ms)
+✔ resume restores the last charged GET time before sending its first health request (8.988416ms)
+✔ STOPPED independent evidence can be supplemented, original stays immutable, reviewed slot counts once and review hash cannot change (23.413458ms)
+✔ supplement S0 remains stopped and is sticky even without another --review (10.912125ms)
+✔ charged product failure is independently audited and graded as one failed plan, with no replacement or environment ticket (12.640625ms)
+✔ ungraded failure with independent boundary violation or missing evidence cannot be supplemented past the stop (16.494916ms)
+✔ pending slot completes without rerun, late review PENDING (22.986208ms)
+✔ pending slot completes without rerun, late review PENDING_S0 (12.618708ms)
+✔ commitment bytes SHA is part of resume identity (6.283458ms)
+✔ outer 2–4 minute randomized cooldown is persisted, precedes next attempt, and completed slots do not wait on resume (9.046625ms)
+✔ development selection runs two of three fictional cases twice, binds plan and never repeats completed slots (11.186708ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 27
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1026.507458
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/holdout-certify.test.ts:1:6806
+✖ fictional full manifest selects only requested IDs in manifest order; unknown/duplicate/empty selection rejects without GETs or charges (5.152166ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /HOLDOUT_CERTIFICATION_CASES_MODE_INVALID/. Input:
+  
+  'Error: MISSING_ARGUMENT'
+  
+      at async TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/eval/restaurant/agent-loop/holdout-certify.test.ts:70:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: MISSING_ARGUMENT
+        at flag (/private/tmp/praxis-seed-readiness-fixes/src/eval/restaurant/agent-loop/g6/run-holdout.ts:24:81)
+        at main (/private/tmp/praxis-seed-readiness-fixes/src/eval/restaurant/agent-loop/g6/run-holdout.ts:44:29)
+        at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/eval/restaurant/agent-loop/holdout-certify.test.ts:70:24)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:752:7),
+    expected: /HOLDOUT_CERTIFICATION_CASES_MODE_INVALID/,
+    operator: 'rejects'
+  }
