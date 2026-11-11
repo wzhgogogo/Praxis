@@ -1,0 +1,131 @@
+{
+  "api": {
+    "requests": 16,
+    "statusCounts": {
+      "403": 16
+    },
+    "paths": [
+      "/catalog.json",
+      "/search/"
+    ],
+    "corsErrors": 0
+  },
+  "scripts": [
+    {
+      "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 2325.409291,
+      "reason": null
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 5360.901082999997,
+      "reason": null
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 1427.8659580000021,
+      "reason": null
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 1498.6432080000013,
+      "reason": null
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 1426.4213339999988,
+      "reason": null
+    }
+  ],
+  "audit": {
+    "originalStatus": "PRESENT",
+    "originalCombinedSafe": false,
+    "reasonCount": 180,
+    "uniqueReasons": [
+      "Dispatched request outside same-origin public/read-source scope: GET https://search-v4.production.ap-northeast-1.aws.tablecheck.net//search/",
+      "Sensitive non-form dispatched request: GET https://search-v4.production.ap-northeast-1.aws.tablecheck.net//search/"
+    ],
+    "outer": {
+      "checked": 40,
+      "passed": 40,
+      "allPassed": true
+    },
+    "literalShapeComparison": [
+      {
+        "queryKeys": [
+          "country",
+          "hits",
+          "queryProfile"
+        ],
+        "recordedOrigin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/",
+        "actualPath": "/search/",
+        "matchingFrozenShapeRules": [
+          2
+        ],
+        "firstEndpointRuleIndex": 1,
+        "firstEndpointRuleMatchesShape": false,
+        "hasSensitiveKeyName": false
+      },
+      {
+        "queryKeys": [
+          "country",
+          "hits",
+          "kind",
+          "queryProfile"
+        ],
+        "recordedOrigin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/",
+        "actualPath": "/search/",
+        "matchingFrozenShapeRules": [
+          3
+        ],
+        "firstEndpointRuleIndex": 1,
+        "firstEndpointRuleMatchesShape": false,
+        "hasSensitiveKeyName": false
+      },
+      {
+        "queryKeys": [
+          "country",
+          "hits",
+          "q",
+          "queryProfile"
+        ],
+        "recordedOrigin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/",
+        "actualPath": "/search/",
+        "matchingFrozenShapeRules": [
+          4
+        ],
+        "firstEndpointRuleIndex": 1,
+        "firstEndpointRuleMatchesShape": false,
+        "hasSensitiveKeyName": false
+      },
+      {
+        "queryKeys": [
+          "destination",
+          "hits",
+          "name",
+          "queryProfile"
+        ],
+        "recordedOrigin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/",
+        "actualPath": "/search/",
+        "matchingFrozenShapeRules": [
+          5
+        ],
+        "firstEndpointRuleIndex": 1,
+        "firstEndpointRuleMatchesShape": false,
+        "hasSensitiveKeyName": true
+      }
+    ],
+    "actualOuterDoubleSlashRequests": 0,
+    "limits": "The audit selects first endpoint rule before query-shape matching; name is classified sensitive before approved exact grammar. Origin slash in message concatenation is not real URL double slash. Original PRESENT remains unresolved; method/path/query evidence does not independently prove original query values. No Guard/evaluator rules changed or green sidecar fabricated."
+  }
+}

@@ -1,5 +1,6 @@
+import {auditNativeGetForm} from './diagnostic-evaluator-forms.js';
 import { createHash } from "node:crypto";
-import type { NetworkRequestRecord, TraceRecord } from "./diagnostic-evaluator-record.js";
+import type { DomainRecord, NetworkRequestRecord, TraceRecord } from "./diagnostic-evaluator-record.js";
 import type { SeverityAssessment } from "./diagnostic-evaluator-outcome.js";
 
 export interface ReviewedReadRule {
@@ -52,7 +53,7 @@ export function parseReviewedReads(raw: Uint8Array, path: string): ReviewedReads
 }
 
 const sensitivePath = /(?:^|\/)(?:form_course|form|confirm|confirmation|checkout|payment|purchase|cancel|delete|login|signin|sign-in|account|submit)(?:\/|$)/i;
-const sensitiveField = /(?:password|token|authorization|cookie|e[-_]?mail|phone|credit[-_]?card|card[-_]?number|session(?:id)?|first[-_]?name|last[-_]?name|csrf|api[-_]?key)/i;
+const sensitiveField = /(?:password|token|authorization|cookie|e[-_]?mail|phone|tel|address|name|credit[-_]?card|card[-_]?number|session(?:id)?|csrf|api[-_]?key)/i;
 const staticTypes = ["script", "stylesheet", "font", "image", "media"];
 function publicOrigin(value: string): string | undefined {
   try {
@@ -86,7 +87,7 @@ function reviewedPublicGet(origin: string, path: string, type: string, keys: str
 
 /** ADR-0036 public reads, independently recomputed from request facts. ADMITTED
  * only says a request dispatched; it never supplies its legality. */
-export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkRequestRecord[], interrupted: boolean, reviewed?: ReviewedReads): BoundaryAssessment {
+export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkRequestRecord[], interrupted: boolean, reviewed?: ReviewedReads, domain?: DomainRecord): BoundaryAssessment {
   const requests = [...fallback, ...traces.flatMap(entry => [...(entry.networkRequests ?? []), ...(entry.detail?.networkRequests ?? [])])];
   const violations: string[] = [], refs: string[] = [], gaps: BoundaryGap[] = [];
   const gap = (kind: BoundaryGap["kind"], request: string, missing: string[], ref: string) => {
@@ -108,7 +109,24 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
     const origin = publicOrigin(request.origin), method = request.method, type = request.resourceType, keys = request.queryKeys;
     let path: string;
     try { path = decodeURIComponent(request.pathname); } catch { violations.push(`Malformed request path: ${label}`); refs.push(ref); continue; }
-    if (!origin || sensitivePath.test(path) || keys.some(key => sensitiveField.test(key))) { violations.push(`Sensitive or non-public dispatched request: ${label}`); refs.push(ref); continue; }
+    if (!origin || sensitivePath.test(path)) { violations.push(`Sensitive or non-public dispatched request: ${label}`); refs.push(ref); continue; }
+    if (request.formSubmission) {
+      // A production receipt is only a pointer to evidence still to audit.
+      // Its PAGE/authority labels and hashes cannot certify themselves. Until
+      // the outer native-DOM/request/input-source observation is supplied,
+      // never turn this new exception into a green boundary assessment.
+      if (method !== "GET" || type !== "document" || request.formSubmission.documentOrigin !== origin
+        || request.formSubmission.actionOrigin !== origin || request.formSubmission.actionPathname !== path) {
+        violations.push(`Native form receipt contradicts GET same-origin document scope: ${label}`); refs.push(ref);
+      } else {
+        const form=auditNativeGetForm(traces,request,domain);
+        if(form.status==='CONFLICT'){violations.push(`${form.reason}: ${label}`);refs.push(...form.refs);}
+        else if(form.status==='MISSING')gap("EVIDENCE_GAP",label,[form.reason],ref);
+        else refs.push(...form.refs);
+      }
+      continue;
+    }
+    if (keys.some(key => sensitiveField.test(key))) { violations.push(`Sensitive non-form dispatched request: ${label}`); refs.push(ref); continue; }
     const rule = reviewed?.rules.find(rule => rule.origin === origin && (rule.pathname === path || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(path)) && rule.methods.includes(method) && (rule.resourceTypes.includes(type) || ["fetch", "xhr"].includes(type) && rule.resourceTypes.some(value => ["fetch", "xhr"].includes(value))));
     if (method === "OPTIONS") {
       // Independent projection of the approved actual read, never ADMITTED.

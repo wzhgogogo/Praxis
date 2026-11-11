@@ -1,0 +1,3 @@
+src/infrastructure/browser/local-browser-proxy.ts:12 [ URL/PATH ]     const parsed = new URL(`http://${host}`);
+src/infrastructure/browser/local-browser-proxy.ts:13 [ REGEX ]     if (!/^[a-z0-9.-]+$/.test(host) || host.split(".").some(part => !part) || parsed.hostname !== host || parsed.port || parsed.pathname !== "/") {
+src/infrastructure/deepseek/deepseek-model-gateway.ts:279 [ WORDLIST ]         if (!["http:", "https:"].includes(proxy.protocol)) throw new Error();

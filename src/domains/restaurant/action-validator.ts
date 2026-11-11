@@ -2,6 +2,7 @@ import {restaurantReadActionFits,restaurantReadClosing} from "./read-time-reserv
 import type { RestaurantAgentAction } from "./agent-action.js";
 import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
+import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate,namedOutletIdentityPrefix} from "./named-outlet-resolution.js";
 import {
   assessRestaurantRead, immediateRequestWindowExpired,
   distinctDiscoveryResultCandidateIds,
@@ -156,6 +157,11 @@ export function validateRestaurantAction(
   if (restaurantReadClosing(state,now) && !['END_READ','PRESENT_RESULTS'].includes(action.type)) return rejected('READ_TIME_RESERVED','The remaining read budget is reserved for an honest conclusion or qualified presentation');
   if (!restaurantReadActionFits(action.type,budget.remainingAutomaticMs)) return rejected('READ_TIME_RESERVED','The remaining time cannot fit this action median plus the twenty-second conclusion reserve');
   if (action.type === "ASK_USER") return defaultBatchDeliveryWindowActive(state,now) ? rejected('PRESENTATION_READY','Present existing qualified results in the closing window') : { status: "ALLOWED" };
+  const namedTargets=action.type==="SELECT_CANDIDATE"?[action.candidateId]
+    :action.type==="CHECK_AVAILABILITY"||action.type==="INVESTIGATE_CANDIDATE_FACTS"?action.candidateIds:[];
+  if(namedTargets.some(id=>!namedOutletCandidateResolved(state,id)
+    &&!((action.type==="INVESTIGATE_CANDIDATE_FACTS"||action.type==="CHECK_AVAILABILITY"&&!namedOutletIdentityPrefix(state).length)
+      &&namedOutletCandidateCanInvestigate(state,id))))return rejected("SELECTION_REQUIRED","Resolve the named branch before selection or availability; a bounded identity prefix only permits fact reads");
   if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && restaurantReadBudgetExhausted(state, budget))
     return rejected("READ_BUDGET_EXHAUSTED", "The current read has no browser/global model budget remaining");
 
@@ -250,7 +256,7 @@ export function validateRestaurantAction(
     const allowedIds = assessRestaurantRead(state, now).checkableCandidateIds;
     return action.candidateIds.every(id => allowedIds.includes(id))
       ? { status: "ALLOWED" }
-      : rejected("AVAILABILITY_NOT_CHECKABLE", "Choose only IDs in the current checkable scope; direct source entrances have priority while at least three unchecked in-radius choices remain");
+      : rejected("AVAILABILITY_NOT_CHECKABLE", "Choose only IDs in the current checkable scope");
   }
 
   if (action.type === "PRESENT_RESULTS") {

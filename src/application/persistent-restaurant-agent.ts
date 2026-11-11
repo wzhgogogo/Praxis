@@ -28,6 +28,7 @@ import type {
 import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import { applyRestaurantIntentPatch, missingBlockingFields, missingSearchFields } from "../domains/restaurant/intent-state.js";
+import {namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
 import {
   type ConversationRecord,
   PostgresAgentWorkspaceStore,
@@ -62,6 +63,7 @@ import {
   type RestaurantSemanticInterpreterPort,
 } from "./restaurant-message-handler.js";
 import { RestaurantAgentLoopCoordinator, type RestaurantAgentLoopOptions, type RestaurantAgentLoopResult } from "./restaurant-agent-loop.js";
+import { bindUserBookingSelection, userBookingSelectionRequest, type UserBookingSelectionRequest } from "./restaurant-user-booking-selection.js";
 
 type RestaurantRuntime = PostgresTaskRuntime<
   RestaurantTaskState,
@@ -208,6 +210,13 @@ function assistantSummary(state: RestaurantTaskState): string {
     case "SELECTION_REQUIRED":
       return "The current candidate cannot continue. The Agent will evaluate another safe option.";
     case "NO_VERIFIED_RESULT":
+      if(state.intentDraft?.target?.selectionScope==="SPECIFIC_OUTLET"){
+        const draft=state.intentDraft;
+        const visit=[draft.date,draft.timeWindow?`${draft.timeWindow.earliest}${draft.timeWindow.latest!==draft.timeWindow.earliest?`–${draft.timeWindow.latest}`:""}`:undefined,
+          draft.partySize?`for ${draft.partySize} guests`:undefined].filter(Boolean).join(" ");
+        return [`I couldn't verify ${draft.target!.goal==="AVAILABILITY"?"availability":"a result"} for ${draft.target!.query}${visit?` on ${visit}`:""}.`,
+          ...(state.noVerifiedResult?.remainingGaps??[]),"Would you like me to look for other nearby restaurants?"].join("\n");
+      }
       return ["This bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.", ...(state.noVerifiedResult?.remainingGaps ?? []), "You can refine the request to start a new investigation."].join("\n");
     case "FAILED":
       {
@@ -291,7 +300,7 @@ export interface PersistentRestaurantAgentOptions {
   restaurantSearch: RestaurantSearchPort;
   restaurantAvailability: RestaurantAvailabilityPort;
   restaurantFacts?: RestaurantCandidateFactPort;
-  restaurantQuestions?: RestaurantPageQuestionPort;
+  restaurantQuestions?: RestaurantPageQuestionPort & Partial<import("./restaurant-booking-handoff.js").RestaurantBookingTermsRead>;
   pageQuestionLimits?: Readonly<RestaurantPageQuestionLimits>;
   workspaceMode?: AgentWorkspaceMode;
   executionRouterOptions: RestaurantExecutionRouterOptions;
@@ -332,6 +341,7 @@ export class PersistentRestaurantAgentApplication {
   private readonly modelRunBudget: PersistentRestaurantAgentOptions["modelRunBudget"];
   private readonly pageQuestionLimits: Readonly<RestaurantPageQuestionLimits>;
   private readonly readTimeoutMs: number;
+  private readonly bookingTerms: PersistentRestaurantAgentOptions["restaurantQuestions"];
   private readonly activeReads = new Map<string, ActiveRead>();
   /** Current-process semantic work owns a task before the asynchronous loop exists. */
   private readonly preparingReads = new Map<string, number>();
@@ -348,6 +358,7 @@ export class PersistentRestaurantAgentApplication {
     this.modelRunBudget = options.modelRunBudget;
     this.pageQuestionLimits = options.pageQuestionLimits ?? RESTAURANT_PAGE_QUESTION_BUDGET;
     this.readTimeoutMs = options.agentLoopOptions.timeoutMs;
+    this.bookingTerms = options.restaurantQuestions;
     this.interpreter = options.semanticInterpreter;
     this.partySizeSupplementResolver = options.partySizeSupplementResolver;
     this.store = new PostgresAgentWorkspaceStore(options.database);
@@ -853,6 +864,7 @@ export class PersistentRestaurantAgentApplication {
       loop: { status: loopStatus },
       resourceUsage: { elapsedMs: modelUsage?.elapsedMs ?? lifecycleElapsedMs, agentDecisions, ...(googleRequests ? { googleRequests } : {}), ...(modelUsage ? { modelCallsStarted: modelUsage.calls } : {}) },
       resourceAccounting: { browserModelCalls: "UNKNOWN", cost: "UNKNOWN" },
+      ...(this.bookingTerms?.readBookingTermsDiagnostics?{bookingTermsDiagnostics:this.bookingTerms.readBookingTermsDiagnostics(caseId)}:{}),
       ...(this.liveReadLimits ? { limits: structuredClone(this.liveReadLimits) } : {}),
       safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
     };
@@ -919,8 +931,9 @@ export class PersistentRestaurantAgentApplication {
     const userEventId = `event:user:${hash(`${snapshot.id}:${requestId}`).slice(0, 32)}`;
     // A retried HTTP request must not repeat an untrusted resolver call before
     // the runtime's ordinary event-id idempotency can take effect.
-    if ((await this.runtime.listEvents(record.rootTaskId)).some((recorded) => recorded.id === userEventId)) return;
-    const event = await restaurantEventForMessage(this.interpreter, {
+    const priorEvents = await this.runtime.listEvents(record.rootTaskId);
+    if (priorEvents.some((recorded) => recorded.id === userEventId)) return;
+    const interpretedEvent = await restaurantEventForMessage(this.interpreter, {
       taskId: record.rootTaskId,
       message,
       referenceTime: this.clock.now().toISOString(),
@@ -930,11 +943,14 @@ export class PersistentRestaurantAgentApplication {
         ? { currentDraft: snapshot.domainState.intentDraft }
         : {}),
     }, this.partySizeSupplementResolver);
+    const event = interpretedEvent.type === "SEMANTIC_PROPOSAL_COMPILED"
+      ? bindUserBookingSelection(interpretedEvent, snapshot.domainState) : interpretedEvent;
     const eventWithPartySource = event.type === "SEMANTIC_PROPOSAL_COMPILED" && event.patch.partySizeSource
       ? { ...event, partySizeSourceMessageRequestId: `user:${requestId}` }
       : event;
+    const envelope = this.userEvent(snapshot, requestId, eventWithPartySource);
     await this.runtime.dispatch(
-      this.userEvent(snapshot, requestId, eventWithPartySource),
+      envelope,
       expectedVersion,
     );
     await this.store.appendMessage({
@@ -952,17 +968,19 @@ export class PersistentRestaurantAgentApplication {
       await this.notifyCaseUpdate(record);
       return;
     }
-    await this.runAfterUserInput(record, requestId, runDeadlineSignal);
+    await this.runAfterUserInput(record, requestId, runDeadlineSignal, undefined,
+      userBookingSelectionRequest([...priorEvents, envelope]));
   }
 
-  private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal, questionDeadline?: Date): Promise<void> {
+  private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal, questionDeadline?: Date, userSelection?: UserBookingSelectionRequest): Promise<void> {
     // Map the enclosing wall-clock deadline to the Runtime clock once; semantic
     // work has already consumed part of this same read, including its reserve.
     const usage = this.modelRunBudget?.usage(record.rootTaskId);
     const clockNow = this.clock.now();
     const readDeadline = questionDeadline ?? new Date(clockNow.valueOf() + (usage ? Math.max(0,usage.deadlineAt-usage.startedAt-usage.elapsedMs) : this.readTimeoutMs));
     if (this.workspaceMode === "FIXTURE") {
-      const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal, readDeadline);
+      const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal, readDeadline, userSelection);
+      if(!questionDeadline)await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), runDeadlineSignal ?? new AbortController().signal);
       await this.notifyReadFinished(record.rootTaskId, result);
       await this.appendAssistant(record, requestId);
       return;
@@ -978,7 +996,10 @@ export class PersistentRestaurantAgentApplication {
     void (async () => {
       try {
         const signal = runDeadlineSignal ? AbortSignal.any([controller.signal, runDeadlineSignal]) : controller.signal;
-        await this.agentLoop.run(record.rootTaskId, signal, readDeadline);
+        await this.agentLoop.run(record.rootTaskId, signal, readDeadline, userSelection);
+        // B1 terms are optional read-only enrichment, before releasing this SAME
+        // run's model scope/deadline. They never dispatch a Task/Outcome event.
+        if(!questionDeadline)await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), signal);
       } catch (error) {
         await this.recordUnexpectedRunFailure(record, error);
       } finally {
@@ -1089,6 +1110,7 @@ export class PersistentRestaurantAgentApplication {
     const requestEvents = events.slice(Math.max(0, requestStart));
     const checked = new Set(requestEvents.flatMap(item => item.event.type === "AVAILABILITY_CHECKED" ? item.event.request.candidateIds : []));
     const readyCandidateIds = state.candidates.filter(candidate => restaurantPresentationEvidenceIds(state, candidate.restaurant.id, this.clock.now().toISOString()) !== undefined).map(candidate => candidate.restaurant.id);
+    const presentedCandidateIds=state.presentedResults?.candidateIds.filter(id=>namedOutletCandidateResolved(state,id));
     const action = state.pageQuestion && !state.pageQuestion.result ? undefined : pendingAction(state.phase);
     const summary: RestaurantCaseSummary = {
       caseId: record.rootTaskId,
@@ -1160,7 +1182,7 @@ export class PersistentRestaurantAgentApplication {
         availabilityChecks: structuredClone(state.availabilityChecks),
         readEvidence: structuredClone(state.readEvidence),
         currentFactEvidence: state.candidates.flatMap(candidate => structuredClone(restaurantCurrentFactEvidence(state, candidate.restaurant.id))),
-        ...(state.presentedResults ? { presentedCandidateIds: [...state.presentedResults.candidateIds], conditionStates: structuredClone(state.presentedResults.conditionStates) } : {}),
+        ...(state.presentedResults ? { presentedCandidateIds: [...presentedCandidateIds!], conditionStates: structuredClone(Object.fromEntries(Object.entries(state.presentedResults.conditionStates).filter(([id])=>presentedCandidateIds!.includes(id)))) } : {}),
         ...(state.selectionSession ? {
           viewedCandidateIds: [...state.selectionSession.viewedCandidateIds],
           shortlistCandidateIds: [...state.selectionSession.shortlistCandidateIds],
@@ -1168,6 +1190,7 @@ export class PersistentRestaurantAgentApplication {
           ...(state.selectionSession.resultBatchTarget ? { resultBatchTarget: structuredClone(state.selectionSession.resultBatchTarget) } : {}),
         } : {}),
         ...(state.pageQuestion ? { pageQuestion: structuredClone(state.pageQuestion) } : {}),
+        sourceReadContext: {runId:snapshot.runId+":investigation:"+String(state.investigationRevision??0),startedAt:snapshot.createdAt},
         ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
       },
       artifacts,

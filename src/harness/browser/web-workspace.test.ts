@@ -27,8 +27,8 @@ async function current(page:Page,id:string):Promise<RestaurantCaseView>{
   const response=await page.request.get("/api/cases/"+encodeURIComponent(id));assert.equal(response.status(),200);
   return (await response.json()).view;
 }
-async function ready(page:Page){
-  await page.waitForFunction(()=>document.getElementById("card-counter")?.textContent==="1 of 3");
+async function ready(page:Page,total=3){
+  await page.waitForFunction(expected=>document.getElementById("card-counter")?.textContent===expected,"1 of "+total);
   await page.locator("#progress").waitFor({state:"hidden"});
 }
 async function signIn(page:Page,baseUrl:string,time:Date){
@@ -141,7 +141,7 @@ for(const size of sizes){
       const viewedId=await page.locator("#candidate-card").getAttribute("data-candidate-id");
       await page.locator("#message").fill("Check this one");
       const messageReply=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith("/messages")&&r.request().method()==="POST");
-      await page.locator("#send").click();assert.equal((await messageReply).status(),200);await ready(page);
+      await page.locator("#send").click();assert.equal((await messageReply).status(),200);await ready(page,1);
       const sent=writes.filter(w=>w.path.endsWith("/messages")).at(-1)!;
       assert.deepEqual(sent.body.viewContext,{view:"CANDIDATES",candidateId:viewedId,comparedCandidateIds:[]});
       const interpretation=host.requests.filter(r=>r.purpose==="restaurant_semantic_interpret").at(-1)!;

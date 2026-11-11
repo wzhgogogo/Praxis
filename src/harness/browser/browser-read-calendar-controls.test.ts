@@ -51,7 +51,7 @@ for (const initialParty of [1, 2]) test(`Matsumoto selected-party ${initialParty
   const signal = new AbortController().signal;
   try {
     const session = await executor.acquire(signal, "TABELOG", "AVAILABILITY");
-    await executor.navigate({ session, source: "TABELOG", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(venue).origin], url: venue });
+    await executor.navigate({ observed: true, session, source: "TABELOG", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(venue).origin], url: venue });
     const result = await executor.runSkill({ taskId: "matsumoto-month-fixture", session, source: "TABELOG", stage: "AVAILABILITY", signal,
       allowedOrigins: [new URL(venue).origin], goal: { outlet: { name: "Matsumoto" }, date: "2026-11-03", partySize: 2, hardCriteria: [] },
       objective: "Reach the requested November date", methodReason: "Calendar initially shows October",
@@ -93,7 +93,7 @@ test("generic selected state requires public ARIA, with independent same-label g
   const signal = new AbortController().signal;
   try {
     const session = await executor.acquire(signal, "FIXTURE", "FACTS");
-    await executor.navigate({ session, source: "FIXTURE", stage: "FACTS", signal, allowedOrigins: [new URL(url).origin], url });
+    await executor.navigate({ observed: true, session, source: "FIXTURE", stage: "FACTS", signal, allowedOrigins: [new URL(url).origin], url });
     const result = await executor.runSkill({ taskId: "generic-selected-fixture", source: "FIXTURE", stage: "FACTS", session, signal,
       allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, hardCriteria: [] }, objective: "Read public selection state",
       completion: () => ({ complete: false, reason: "Read selected states" }) });
@@ -117,7 +117,7 @@ test("party click does not confirm from unrelated page changes or an unchanged g
   const signal = new AbortController().signal;
   try {
     const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
-    await executor.navigate({ session, source: "FIXTURE", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
+    await executor.navigate({ observed: true, session, source: "FIXTURE", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
     const result = await executor.runSkill({ taskId: "party-unconfirmed-fixture", session, source: "FIXTURE", stage: "AVAILABILITY", signal,
       allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, partySize: 2, hardCriteria: [] }, objective: "Confirm two guests",
       completion: snapshot => snapshot.text.includes("Unrelated update") ? { complete: true, reason: "Unrelated UI changed", resultKey: "noise", resultBusy: false } : { complete: false, reason: "Two guests not selected" } });
@@ -167,7 +167,7 @@ test("calendar month postcondition ignores unrelated page changes and feeds NO_C
   const signal = new AbortController().signal;
   try {
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
-    await executor.navigate({ session, source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
+    await executor.navigate({ observed: true, session, source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
     const result = await executor.runSkill({ taskId: "month-unchanged-fixture", session, source: "TABLECHECK", stage: "AVAILABILITY", signal,
       allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Fixture" }, date: "2026-11-03", hardCriteria: [] },
       objective: "Reach November", methodReason: "Reach requested month", completion: () => ({ complete: false, reason: "November not reached" }) });
@@ -304,7 +304,7 @@ test("C2a recorded date controls reject other days without class-derived party c
     }}});
     const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','AVAILABILITY');
     try{
-      await executor.navigate({session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://tabelog.com'],url:sourceUrl!});
+      await executor.navigate({ observed: true,session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://tabelog.com'],url:sourceUrl!});
       const read=await executor.runSkill({taskId:'calendar',session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://tabelog.com'],goal:{outlet:{name:'Recorded outlet'},date:date!,partySize:2,hardCriteria:[]},objective:'Read exact requested date',controlHints:tabelogQueryControlHints,completion:()=>({complete:false,reason:'Requested date cannot be selected'})});
       assert.equal(read.status,'NO_SAFE_ACTION');assert.equal(read.reasonCode,undefined,'a class-only party cannot complete date/party confirmation');assert.ok(calls>=1&&calls<=2);
     }finally{await executor.close();}
@@ -320,7 +320,7 @@ test("C2a selectable requested date retains authoritative click and blocks an or
     return {type:'CLICK_AUTHORITATIVE',field:'DATE',targetRef:requested.ref,reason:'Select current requested date'};
   }}});
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','AVAILABILITY');
-  try{await executor.navigate({session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],url});
+  try{await executor.navigate({ observed: true,session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],url});
     const read=await executor.runSkill({taskId:'selectable',session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://www.tablecheck.com'],goal:{outlet:{name:'Fixture'},date:'2026-10-24',hardCriteria:[]},objective:'Select date',completion:s=>({complete:s.text.includes('Selected'),reason:'Date not selected', resultKey: JSON.stringify([s.url, s.text, s.interactiveState]), resultBusy: false })});assert.equal(read.status,'COMPLETED');
   }finally{await executor.close();}
 });

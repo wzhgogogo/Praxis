@@ -1,0 +1,822 @@
+{
+  "status": "frozen regression / exposed development; actual Live component, not complete Replay or acceptance",
+  "sourceSHA": "22215c6bb451c597d6ab0feb5b25c187a70315e2",
+  "state": {
+    "intentDraft": {
+      "date": "2026-11-11",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Specializing in Nodoguro Ginza Nakamata",
+        "selectionScope": "SPECIFIC_OUTLET"
+      },
+      "criteria": [],
+      "timezone": "Asia/Tokyo",
+      "partySize": 2,
+      "timeWindow": {
+        "latest": "20:00",
+        "earliest": "20:00"
+      },
+      "schemaVersion": "3",
+      "partySizeSource": "EXPLICIT",
+      "temporalResolution": {
+        "date": {
+          "basis": "EXPLICIT_DATE",
+          "expression": "November 11, 2026",
+          "resolvedDate": "2026-11-11"
+        },
+        "timezone": "Asia/Tokyo",
+        "timeWindow": {
+          "basis": "EXPLICIT_CLOCK",
+          "expression": "8 PM",
+          "resolvedTimeWindow": {
+            "latest": "20:00",
+            "earliest": "20:00"
+          }
+        },
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-11-08T05:40:21.565Z"
+      }
+    },
+    "candidates": [
+      {
+        "warnings": [
+          "Confirm which branch or area you mean; the outlet name is not uniquely resolved."
+        ],
+        "restaurant": {
+          "id": "praxis:restaurant:399b940d8930096624424dba",
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+          "sourceIds": {
+            "phone": "050-5385-3420",
+            "googlePlaces": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+            "googleMapsUri": "https://maps.google.com/?cid=17854767023255268637&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "googleWebsiteUri": "https://nakamata-nodoguro.com/ginza/"
+          },
+          "outletName": "Nakamata",
+          "provenance": {
+            "address": "evidence:restaurant:google-discovery:22955d40c587fbba6d7689c7",
+            "sourceIds": "evidence:restaurant:google-discovery:22955d40c587fbba6d7689c7",
+            "outletName": "evidence:restaurant:google-discovery:22955d40c587fbba6d7689c7"
+          },
+          "coordinates": {
+            "lat": 35.6701718,
+            "lng": 139.76696809999999
+          }
+        },
+        "matchReasons": [
+          "Location from named outlet resolution: Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F"
+        ],
+        "executionConfidence": "LOW"
+      },
+      {
+        "warnings": [
+          "Confirm which branch or area you mean; the outlet name is not uniquely resolved."
+        ],
+        "restaurant": {
+          "id": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+          "address": "3-chōme-12-17 Ginza, Chuo City, Tokyo 104-0061, Japan",
+          "sourceIds": {
+            "phone": "050-5385-3421",
+            "googlePlaces": "ChIJU2773eCLGGARq3ervhbV3po",
+            "googleMapsUri": "https://maps.google.com/?cid=11159591220335572907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "googleWebsiteUri": "https://nakamata-nodoguro.com/hanare/"
+          },
+          "outletName": "Nodoguro, Ginza Nakamata Hanare",
+          "provenance": {
+            "address": "evidence:restaurant:google-discovery:d96d033029f1b5accf836c83",
+            "sourceIds": "evidence:restaurant:google-discovery:d96d033029f1b5accf836c83",
+            "outletName": "evidence:restaurant:google-discovery:d96d033029f1b5accf836c83"
+          },
+          "coordinates": {
+            "lat": 35.670777300000005,
+            "lng": 139.7689264
+          }
+        },
+        "matchReasons": [
+          "Location from named outlet resolution: 3-chōme-12-17 Ginza, Chuo City, Tokyo 104-0061, Japan"
+        ],
+        "executionConfidence": "LOW"
+      },
+      {
+        "warnings": [
+          "Confirm which branch or area you mean; the outlet name is not uniquely resolved."
+        ],
+        "restaurant": {
+          "id": "praxis:restaurant:94d9715550e9ca87d301b895",
+          "address": "Central Higashi-Ginza, 2-chōme-15-15-1F Tsukiji, Chuo City, Tokyo 104-0045, Japan",
+          "sourceIds": {
+            "phone": "050-5385-3418",
+            "googlePlaces": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+            "googleMapsUri": "https://maps.google.com/?cid=4576417412335647661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "googleWebsiteUri": "https://nakamata-nodoguro.com/tsukiji/"
+          },
+          "outletName": "Nodoguro Nakamata",
+          "provenance": {
+            "address": "evidence:restaurant:google-discovery:8bd1b34a41112f1c4a2f5f6d",
+            "sourceIds": "evidence:restaurant:google-discovery:8bd1b34a41112f1c4a2f5f6d",
+            "outletName": "evidence:restaurant:google-discovery:8bd1b34a41112f1c4a2f5f6d"
+          },
+          "coordinates": {
+            "lat": 35.667397799999996,
+            "lng": 139.7702798
+          }
+        },
+        "matchReasons": [
+          "Location from named outlet resolution: Central Higashi-Ginza, 2-chōme-15-15-1F Tsukiji, Chuo City, Tokyo 104-0045, Japan"
+        ],
+        "executionConfidence": "LOW"
+      },
+      {
+        "warnings": [
+          "Confirm which branch or area you mean; the outlet name is not uniquely resolved."
+        ],
+        "restaurant": {
+          "id": "praxis:restaurant:1f763627d8ed49192a8b912d",
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−14−１７ ｋｏｂｉｋｉｓｓＧＩＮＺａ２階",
+          "sourceIds": {
+            "phone": "050-5385-3419",
+            "googlePlaces": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+            "googleMapsUri": "https://maps.google.com/?cid=10336165721659673191&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "googleWebsiteUri": "https://nakamata-nodoguro.com/sakananonakamata/"
+          },
+          "outletName": "Sakananonakamata Ginza",
+          "provenance": {
+            "address": "evidence:restaurant:google-discovery:fd7e9d470cb014dc5af3cfe5",
+            "sourceIds": "evidence:restaurant:google-discovery:fd7e9d470cb014dc5af3cfe5",
+            "outletName": "evidence:restaurant:google-discovery:fd7e9d470cb014dc5af3cfe5"
+          },
+          "coordinates": {
+            "lat": 35.6703105,
+            "lng": 139.7695956
+          }
+        },
+        "matchReasons": [
+          "Location from named outlet resolution: Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−14−１７ ｋｏｂｉｋｉｓｓＧＩＮＺａ２階"
+        ],
+        "executionConfidence": "LOW"
+      },
+      {
+        "warnings": [
+          "Confirm which branch or area you mean; the outlet name is not uniquely resolved."
+        ],
+        "restaurant": {
+          "id": "praxis:restaurant:d9f1b81245d47eaa1a3a5806",
+          "address": "Japan, 〒105-0004 Tokyo, Minato City, Shinbashi, 2-chōme−11−１ 1F",
+          "sourceIds": {
+            "phone": "050-5385-3417",
+            "googlePlaces": "ChIJr4iC5uaLGGAR_And1MTEjHU",
+            "googleMapsUri": "https://maps.google.com/?cid=8470361348840950268&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "googleWebsiteUri": "https://nakamata-nodoguro.com/shimbashi/"
+          },
+          "outletName": "Nodogurono Nakamata Shinbashi",
+          "provenance": {
+            "address": "evidence:restaurant:google-discovery:9d25337372529c663091706f",
+            "sourceIds": "evidence:restaurant:google-discovery:9d25337372529c663091706f",
+            "outletName": "evidence:restaurant:google-discovery:9d25337372529c663091706f"
+          },
+          "coordinates": {
+            "lat": 35.6673943,
+            "lng": 139.7554511
+          }
+        },
+        "matchReasons": [
+          "Location from named outlet resolution: Japan, 〒105-0004 Tokyo, Minato City, Shinbashi, 2-chōme−11−１ 1F"
+        ],
+        "executionConfidence": "LOW"
+      }
+    ],
+    "readEvidence": [
+      {
+        "kind": "DISCOVERY",
+        "claims": {
+          "types": [
+            "japanese_izakaya_restaurant",
+            "seafood_restaurant",
+            "japanese_restaurant",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+          ],
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+          "placeId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+          "outletName": "Nakamata",
+          "primaryType": "japanese_izakaya_restaurant",
+          "serviceArea": "Tokyo",
+          "locationBasis": "NAMED_OUTLET_RESOLUTION",
+          "availabilityPath": "NAME_RESOLUTION",
+          "namedOutletStatus": "AMBIGUOUS",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:00 PM",
+            "Sunday: Closed"
+          ],
+          "requestedOutletName": "Specializing in Nodoguro Ginza Nakamata",
+          "namedOutletLocalities": [
+            "10",
+            "10",
+            "4-chōme",
+            "4-chōme",
+            "Ginza",
+            "Ginza",
+            "Chuo City",
+            "Chuo City",
+            "Tokyo",
+            "Tokyo"
+          ],
+          "namedOutletCandidateCount": 5,
+          "namedOutletSearchComplete": true
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=17854767023255268637&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-discovery:22955d40c587fbba6d7689c7",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+        "sourceEntityId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+          "placeId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+          "outletName": "Nakamata"
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=17854767023255268637&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-entity:22955d40c587fbba6d7689c7",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+        "entityMatch": {
+          "matchedBy": [
+            "GOOGLE_PLACE_ID"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "https://nakamata-nodoguro.com/ginza/",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:00 PM",
+            "Sunday: Closed"
+          ],
+          "restaurantTypeFacts": [
+            "japanese izakaya restaurant",
+            "seafood restaurant",
+            "japanese restaurant",
+            "restaurant",
+            "food",
+            "point of interest",
+            "establishment"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=17854767023255268637&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-facts:d2a122439aada1e706701cbd",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+        "sourceEntityId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "DISCOVERY",
+        "claims": {
+          "types": [
+            "japanese_restaurant",
+            "japanese_izakaya_restaurant",
+            "seafood_restaurant",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+          ],
+          "address": "3-chōme-12-17 Ginza, Chuo City, Tokyo 104-0061, Japan",
+          "placeId": "ChIJU2773eCLGGARq3ervhbV3po",
+          "outletName": "Nodoguro, Ginza Nakamata Hanare",
+          "primaryType": "japanese_restaurant",
+          "serviceArea": "Tokyo",
+          "locationBasis": "NAMED_OUTLET_RESOLUTION",
+          "availabilityPath": "NAME_RESOLUTION",
+          "namedOutletStatus": "AMBIGUOUS",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:00 PM",
+            "Sunday: Closed"
+          ],
+          "requestedOutletName": "Specializing in Nodoguro Ginza Nakamata",
+          "namedOutletLocalities": [
+            "12",
+            "12",
+            "3-chōme",
+            "3-chōme",
+            "Ginza",
+            "Ginza",
+            "Chuo City",
+            "Chuo City",
+            "Tokyo",
+            "Tokyo"
+          ],
+          "namedOutletCandidateCount": 5,
+          "namedOutletSearchComplete": true
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=11159591220335572907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-discovery:d96d033029f1b5accf836c83",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+        "sourceEntityId": "ChIJU2773eCLGGARq3ervhbV3po",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "address": "3-chōme-12-17 Ginza, Chuo City, Tokyo 104-0061, Japan",
+          "placeId": "ChIJU2773eCLGGARq3ervhbV3po",
+          "outletName": "Nodoguro, Ginza Nakamata Hanare"
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=11159591220335572907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-entity:d96d033029f1b5accf836c83",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+        "entityMatch": {
+          "matchedBy": [
+            "GOOGLE_PLACE_ID"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "ChIJU2773eCLGGARq3ervhbV3po",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "https://nakamata-nodoguro.com/hanare/",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:00 PM",
+            "Sunday: Closed"
+          ],
+          "restaurantTypeFacts": [
+            "japanese restaurant",
+            "japanese izakaya restaurant",
+            "seafood restaurant",
+            "restaurant",
+            "food",
+            "point of interest",
+            "establishment"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=11159591220335572907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-facts:a81de5e01c9aa3eb444b1309",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+        "sourceEntityId": "ChIJU2773eCLGGARq3ervhbV3po",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "DISCOVERY",
+        "claims": {
+          "types": [
+            "japanese_izakaya_restaurant",
+            "seafood_restaurant",
+            "japanese_restaurant",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+          ],
+          "address": "Central Higashi-Ginza, 2-chōme-15-15-1F Tsukiji, Chuo City, Tokyo 104-0045, Japan",
+          "placeId": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+          "outletName": "Nodoguro Nakamata",
+          "primaryType": "japanese_izakaya_restaurant",
+          "serviceArea": "Tokyo",
+          "locationBasis": "NAMED_OUTLET_RESOLUTION",
+          "availabilityPath": "NAME_RESOLUTION",
+          "namedOutletStatus": "AMBIGUOUS",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:30 PM",
+            "Sunday: Closed"
+          ],
+          "requestedOutletName": "Specializing in Nodoguro Ginza Nakamata",
+          "namedOutletLocalities": [
+            "15",
+            "15",
+            "2-chōme",
+            "2-chōme",
+            "Tsukiji",
+            "Tsukiji",
+            "Chuo City",
+            "Chuo City",
+            "Tokyo",
+            "Tokyo"
+          ],
+          "namedOutletCandidateCount": 5,
+          "namedOutletSearchComplete": true
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=4576417412335647661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-discovery:8bd1b34a41112f1c4a2f5f6d",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+        "sourceEntityId": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "address": "Central Higashi-Ginza, 2-chōme-15-15-1F Tsukiji, Chuo City, Tokyo 104-0045, Japan",
+          "placeId": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+          "outletName": "Nodoguro Nakamata"
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=4576417412335647661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-entity:8bd1b34a41112f1c4a2f5f6d",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+        "entityMatch": {
+          "matchedBy": [
+            "GOOGLE_PLACE_ID"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "https://nakamata-nodoguro.com/tsukiji/",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:30 PM",
+            "Sunday: Closed"
+          ],
+          "restaurantTypeFacts": [
+            "japanese izakaya restaurant",
+            "seafood restaurant",
+            "japanese restaurant",
+            "restaurant",
+            "food",
+            "point of interest",
+            "establishment"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=4576417412335647661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-facts:0b464483ab53aedb14fcdacc",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+        "sourceEntityId": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "DISCOVERY",
+        "claims": {
+          "types": [
+            "japanese_izakaya_restaurant",
+            "seafood_restaurant",
+            "japanese_restaurant",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+          ],
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−14−１７ ｋｏｂｉｋｉｓｓＧＩＮＺａ２階",
+          "placeId": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+          "outletName": "Sakananonakamata Ginza",
+          "primaryType": "japanese_izakaya_restaurant",
+          "serviceArea": "Tokyo",
+          "locationBasis": "NAMED_OUTLET_RESOLUTION",
+          "availabilityPath": "NAME_RESOLUTION",
+          "namedOutletStatus": "AMBIGUOUS",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:30 PM",
+            "Sunday: Closed"
+          ],
+          "requestedOutletName": "Specializing in Nodoguro Ginza Nakamata",
+          "namedOutletLocalities": [
+            "14",
+            "14",
+            "3-chōme",
+            "3-chōme",
+            "Ginza",
+            "Ginza",
+            "Chuo City",
+            "Chuo City",
+            "Tokyo",
+            "Tokyo"
+          ],
+          "namedOutletCandidateCount": 5,
+          "namedOutletSearchComplete": true
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=10336165721659673191&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-discovery:fd7e9d470cb014dc5af3cfe5",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:1f763627d8ed49192a8b912d",
+        "sourceEntityId": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−14−１７ ｋｏｂｉｋｉｓｓＧＩＮＺａ２階",
+          "placeId": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+          "outletName": "Sakananonakamata Ginza"
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=10336165721659673191&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-entity:fd7e9d470cb014dc5af3cfe5",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:1f763627d8ed49192a8b912d",
+        "entityMatch": {
+          "matchedBy": [
+            "GOOGLE_PLACE_ID"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "https://nakamata-nodoguro.com/sakananonakamata/",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:30 PM",
+            "Sunday: Closed"
+          ],
+          "restaurantTypeFacts": [
+            "japanese izakaya restaurant",
+            "seafood restaurant",
+            "japanese restaurant",
+            "restaurant",
+            "food",
+            "point of interest",
+            "establishment"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=10336165721659673191&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-facts:2041561ec0d231a3a88f5fed",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:1f763627d8ed49192a8b912d",
+        "sourceEntityId": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "DISCOVERY",
+        "claims": {
+          "types": [
+            "japanese_izakaya_restaurant",
+            "seafood_restaurant",
+            "japanese_restaurant",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+          ],
+          "address": "Japan, 〒105-0004 Tokyo, Minato City, Shinbashi, 2-chōme−11−１ 1F",
+          "placeId": "ChIJr4iC5uaLGGAR_And1MTEjHU",
+          "outletName": "Nodogurono Nakamata Shinbashi",
+          "primaryType": "japanese_izakaya_restaurant",
+          "serviceArea": "Tokyo",
+          "locationBasis": "NAMED_OUTLET_RESOLUTION",
+          "availabilityPath": "NAME_RESOLUTION",
+          "namedOutletStatus": "AMBIGUOUS",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:30 PM",
+            "Sunday: Closed"
+          ],
+          "requestedOutletName": "Specializing in Nodoguro Ginza Nakamata",
+          "namedOutletLocalities": [
+            "11",
+            "11",
+            "2-chōme",
+            "2-chōme",
+            "Shinbashi",
+            "Shinbashi",
+            "Minato City",
+            "Minato City",
+            "Tokyo",
+            "Tokyo"
+          ],
+          "namedOutletCandidateCount": 5,
+          "namedOutletSearchComplete": true
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=8470361348840950268&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-discovery:9d25337372529c663091706f",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:d9f1b81245d47eaa1a3a5806",
+        "sourceEntityId": "ChIJr4iC5uaLGGAR_And1MTEjHU",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "address": "Japan, 〒105-0004 Tokyo, Minato City, Shinbashi, 2-chōme−11−１ 1F",
+          "placeId": "ChIJr4iC5uaLGGAR_And1MTEjHU",
+          "outletName": "Nodogurono Nakamata Shinbashi"
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=8470361348840950268&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-entity:9d25337372529c663091706f",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:d9f1b81245d47eaa1a3a5806",
+        "entityMatch": {
+          "matchedBy": [
+            "GOOGLE_PLACE_ID"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "ChIJr4iC5uaLGGAR_And1MTEjHU",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "https://nakamata-nodoguro.com/shimbashi/",
+          "regularOpeningHours": [
+            "Monday: 5:00 – 11:00 PM",
+            "Tuesday: 5:00 – 11:00 PM",
+            "Wednesday: 5:00 – 11:00 PM",
+            "Thursday: 5:00 – 11:00 PM",
+            "Friday: 5:00 – 11:00 PM",
+            "Saturday: 5:00 – 10:30 PM",
+            "Sunday: Closed"
+          ],
+          "restaurantTypeFacts": [
+            "japanese izakaya restaurant",
+            "seafood restaurant",
+            "japanese restaurant",
+            "restaurant",
+            "food",
+            "point of interest",
+            "establishment"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=8470361348840950268&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-facts:55f400f37fe2969d5d314540",
+        "observedAt": "2026-11-08T05:40:25.203Z",
+        "candidateId": "praxis:restaurant:d9f1b81245d47eaa1a3a5806",
+        "sourceEntityId": "ChIJr4iC5uaLGGAR_And1MTEjHU",
+        "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Specializing in Nodoguro Ginza Nakamata\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"20:00\"},\"partySize\":2,\"criteria\":[]}"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "outletName": "Nakamata"
+        },
+        "provider": "TABLECHECK",
+        "sourceUrl": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+        "evidenceId": "evidence:restaurant:tablecheck-entity-match:53a908fcb874835e26307de8",
+        "observedAt": "2026-11-08T05:40:28.420Z",
+        "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+        "entityMatch": {
+          "matchedBy": [
+            "NORMALIZED_NAME_AND_ADDRESS"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "nakamata-nodoguro-ginza",
+        "requestFingerprint": "87fbb1a8953ce4a77c59bf2378b8e4e3b4e8160aa5d9f9b41a50aa9b71be2b43"
+      }
+    ]
+  },
+  "page": {
+    "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "title": "Specializing in Nodoguro Ginza Nakamata - Restaurant Guide - TableCheck"
+  },
+  "sourceRefs": {
+    ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/execution.result.json": "e33baa631a783e73e7b816cc87d3325a05d8b41af263b10dbf9007a39313ffe2",
+    ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0006.html": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1"
+  },
+  "snapshots": [
+    {
+      "file": "snapshot-0005.html",
+      "sha256": "e25aba4a7ba45ab6dcb8806d47ac70d095f16bc9c5750062607dd515bbf28062",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0005.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0006.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0006.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0007.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0007.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0008.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0008.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0009.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0009.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0010.html",
+      "sha256": "cdd1665ae2eba9d6709cba6ea7cf559604827fc760756d1d6beae7272dd6db67",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0010.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0011.html",
+      "sha256": "6f13cd8b79d225cfa7fccee95ae7c2de658300e69592d26b2d927d68a38763ae",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0011.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0012.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0012.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0013.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0013.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0014.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0014.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0015.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0015.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0016.html",
+      "sha256": "a51df1b0fad65eeee6f313532fdbf5ab6e6c7699b9ca88f707fe570a3df91ad1",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0016.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    },
+    {
+      "file": "snapshot-0017.html",
+      "sha256": "cdd1665ae2eba9d6709cba6ea7cf559604827fc760756d1d6beae7272dd6db67",
+      "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/recordings/g6-D8-1794116420864-0/diagnostic/snapshot-0017.html",
+      "scope": "REAL_DOM_COMPONENT; dynamic response omitted, not full HAR replay"
+    }
+  ]
+}

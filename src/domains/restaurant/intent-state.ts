@@ -5,35 +5,38 @@ import type {
   RestaurantIntentDraft,
   RestaurantIntentPatch,
 } from "./contracts.js";
+import {namedOutletWithoutArea} from "./named-outlet-resolution.js";
 
 export function missingBlockingFields(input: {
   date?: unknown;
   timeWindow?: unknown;
   partySize?: unknown;
   area?: unknown;
+  target?: RestaurantIntentDraft["target"];
 }): RestaurantBlockingField[] {
   return [
     ...(input.date === undefined ? (["date"] as const) : []),
     ...(input.timeWindow === undefined ? (["timeWindow"] as const) : []),
     ...(input.partySize === undefined ? (["partySize"] as const) : []),
-    ...(input.area === undefined ? (["area"] as const) : []),
+    ...(input.area === undefined&&!namedOutletWithoutArea(input) ? (["area"] as const) : []),
   ];
 }
 
 /**
- * Discovery only needs a usable search area.  The delivery goal controls the
+ * Discovery needs a usable search area or a nonempty explicit outlet name. The delivery goal controls the
  * eventual evidence profile, not whether a candidate lookup may bind its own
  * current parameters.  Availability reads still require their complete,
  * separately-bound date, time window, and party size below.
  */
 export function missingSearchFields(input: {
   area?: { query?: unknown; coordinates?: unknown };
+  target?: RestaurantIntentDraft["target"];
 }): Array<"area"> {
   const nearbyNeedsLocation = typeof input.area?.query === "string"
     && input.area.query.trim().toLocaleLowerCase("en-US") === "nearby"
     && input.area.coordinates === undefined;
   return [
-    ...(input.area === undefined || nearbyNeedsLocation ? (["area"] as const) : []),
+    ...((input.area === undefined&&!namedOutletWithoutArea(input)) || nearbyNeedsLocation ? (["area"] as const) : []),
   ];
 }
 
@@ -158,8 +161,7 @@ export function completeRestaurantIntent(
     missingSearchFields(draft).length > 0 ||
     !draft.date ||
     !draft.timeWindow ||
-    !draft.partySize ||
-    !draft.area
+    !draft.partySize
   ) {
     return null;
   }
@@ -170,7 +172,7 @@ export function completeRestaurantIntent(
     timeWindow: structuredClone(draft.timeWindow),
     ...(draft.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(draft.permittedAlternativeTimeWindow) } : {}),
     partySize: draft.partySize,
-    area: structuredClone(draft.area),
+    ...(draft.area ? {area: structuredClone(draft.area)} : {}),
     criteria: structuredClone(draft.criteria),
     ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),
   };
@@ -181,8 +183,7 @@ export function completeRestaurantSearchIntent(
 ): import("./contracts.js").RestaurantSearchIntent | null {
   if (
     !draft ||
-    missingSearchFields(draft).length > 0 ||
-    !draft.area
+    missingSearchFields(draft).length > 0
   ) {
     return null;
   }
@@ -193,7 +194,7 @@ export function completeRestaurantSearchIntent(
     ...(draft.timeWindow ? { timeWindow: structuredClone(draft.timeWindow) } : {}),
     ...(draft.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(draft.permittedAlternativeTimeWindow) } : {}),
     ...(draft.partySize ? { partySize: draft.partySize } : {}),
-    area: structuredClone(draft.area),
+    ...(draft.area ? {area: structuredClone(draft.area)} : {}),
     criteria: structuredClone(draft.criteria),
     ...(draft.budgetPerPerson ? { budgetPerPerson: structuredClone(draft.budgetPerPerson) } : {}),
   };

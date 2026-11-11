@@ -1,0 +1,25 @@
+{
+  "sourceCommit": "f1f74315b3ebd3dd43e04f054454072e2799a2c7",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "src/application/restaurant-named-outlet-continuity.test.ts",
+    "src/application/restaurant-named-outlet-without-area.test.ts",
+    "src/application/restaurant-named-outlet-source-names.test.ts",
+    "src/application/restaurant-user-booking-selection.test.ts",
+    "src/integrations/google/google-places-restaurant-search.test.ts"
+  ],
+  "stage": "regression-two-options",
+  "exitCode": 0,
+  "seconds": 8.015,
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "logSha256": "0fa58d6ff55aeb97ed34fbdf75d88f7744f1ac2a0eb4fcee39e93f6d063946aa",
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "timeCET": "2026-11-03T05:46:50.898150+01:00"
+}

@@ -1,0 +1,101 @@
+{
+  "sourceSHA": "414c383112aa4e8f99f9937b59b7e5b277e78eab",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sourceSHA": "414c383112aa4e8f99f9937b59b7e5b277e78eab",
+      "startedAtUTC": "2026-11-09T13:41:43.157810+00:00",
+      "finishedAtUTC": "2026-11-09T13:41:43.678648+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": []
+    },
+    {
+      "gate": "architecture",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sourceSHA": "414c383112aa4e8f99f9937b59b7e5b277e78eab",
+      "startedAtUTC": "2026-11-09T13:41:43.725473+00:00",
+      "finishedAtUTC": "2026-11-09T13:41:43.952138+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": []
+    },
+    {
+      "gate": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sourceSHA": "414c383112aa4e8f99f9937b59b7e5b277e78eab",
+      "startedAtUTC": "2026-11-09T13:41:43.997938+00:00",
+      "finishedAtUTC": "2026-11-09T13:42:39.223883+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": [
+        "\u2139 tests 1558",
+        "\u2139 pass 1558",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0"
+      ]
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sourceSHA": "414c383112aa4e8f99f9937b59b7e5b277e78eab",
+      "startedAtUTC": "2026-11-09T13:42:39.270289+00:00",
+      "finishedAtUTC": "2026-11-09T13:42:39.822432+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": []
+    },
+    {
+      "gate": "browser-g6",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sourceSHA": "414c383112aa4e8f99f9937b59b7e5b277e78eab",
+      "startedAtUTC": "2026-11-09T13:42:39.870213+00:00",
+      "finishedAtUTC": "2026-11-09T13:45:17.968467+00:00",
+      "exitCode": 1,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": [
+        "\u2139 tests 5",
+        "\u2139 pass 5",
+        "\u2139 fail 0",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 tests 257",
+        "\u2139 pass 252",
+        "\u2139 fail 5",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0",
+        "\u2139 tests 262",
+        "\u2139 pass 257",
+        "\u2139 fail 5",
+        "\u2139 cancelled 0",
+        "\u2139 skipped 0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+✖ positive HARD source role: merchant Japanese menu (3.282916ms)
+✖ positive HARD source role: observed H1 (0.226625ms)
+✖ positive HARD source role: review title (0.160625ms)
+✖ positive HARD source role: review body (0.13725ms)
+✖ positive HARD source role: name lacks requested type (0.611292ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 102.382042
+
+✖ failing tests:
+
+test at src/domains/restaurant/read-assessment.test.ts:1:6599
+✖ positive HARD source role: merchant Japanese menu (3.282916ms)
+  AssertionError [ERR_ASSERTION]: merchant Japanese menu
+  + actual - expected
+  
+  + 'NOT_CHECKED'
+  - 'MET'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/domains/restaurant/read-assessment.test.ts:84:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_CHECKED',
+    expected: 'MET',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/read-assessment.test.ts:1:6599
+✖ positive HARD source role: observed H1 (0.226625ms)
+  AssertionError [ERR_ASSERTION]: observed H1
+  + actual - expected
+  
+  + 'NOT_CHECKED'
+  - 'MET'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/domains/restaurant/read-assessment.test.ts:84:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_CHECKED',
+    expected: 'MET',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/read-assessment.test.ts:1:6599
+✖ positive HARD source role: review title (0.160625ms)
+  AssertionError [ERR_ASSERTION]: review title
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/domains/restaurant/read-assessment.test.ts:83:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/read-assessment.test.ts:1:6599
+✖ positive HARD source role: review body (0.13725ms)
+  AssertionError [ERR_ASSERTION]: review body
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/domains/restaurant/read-assessment.test.ts:83:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/read-assessment.test.ts:1:6599
+✖ positive HARD source role: name lacks requested type (0.611292ms)
+  AssertionError [ERR_ASSERTION]: name lacks requested type
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/domains/restaurant/read-assessment.test.ts:83:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

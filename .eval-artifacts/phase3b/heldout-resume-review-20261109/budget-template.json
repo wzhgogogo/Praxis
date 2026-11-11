@@ -1,0 +1,33 @@
+{
+  "schema": "phase3b-heldout-budget@1",
+  "status": "DRAFT_NOT_ACTIVATED",
+  "authorization": "User 2026-11-09 held-out review instruction: 18 planned + 4 replacement Live; per-case/recovery health; GET126; model2500. Activate only after final reviewer clearance.",
+  "scope": "18 scheduled slots plus up to4 explicitly resumed environment replacements; no automatic retry; case/recovery health",
+  "baseLedger": ".eval-artifacts/phase3b/d8-direct-outlet-live-20261109/live-runtime/budget-C-live.json",
+  "baseLedgerSHA256": "c3d4b9d78aefde677ab93c93571485a5c3323abdd086f7b45786875bb2519279",
+  "limits": {
+    "fullLive": 22,
+    "evaluationPublicGET": 126,
+    "realModelCalls": 2500,
+    "environmentReruns": 4
+  },
+  "cumulative": {
+    "fullLive": 0,
+    "evaluationPublicGET": 0,
+    "realModelCalls": 849,
+    "environmentReruns": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0
+  },
+  "entries": [
+    {
+      "id": "INHERITED_AUDITED_MODEL_AGGREGATE",
+      "mode": "HISTORICAL_BASELINE_NOT_A_NEW_CALL",
+      "realModelCalls": 849,
+      "fullLive": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "parentSHA256": "c3d4b9d78aefde677ab93c93571485a5c3323abdd086f7b45786875bb2519279"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+[
+  {
+    "ms": 254,
+    "kind": "PAGE"
+  },
+  {
+    "ms": 260,
+    "kind": "Fetch.requestPaused",
+    "session": 1,
+    "frame": "F9C911112B249418D516BCAE19440B82",
+    "path": "/"
+  },
+  {
+    "ms": 265,
+    "kind": "RECEIVER",
+    "path": "/"
+  },
+  {
+    "ms": 277,
+    "kind": "FINISHED",
+    "path": "/"
+  },
+  {
+    "ms": 351,
+    "kind": "Page.windowOpen",
+    "session": 1,
+    "path": "/result"
+  },
+  {
+    "ms": 374,
+    "kind": "PAGE"
+  },
+  {
+    "ms": 376,
+    "kind": "FINISHED",
+    "path": "/result"
+  },
+  {
+    "ms": 380,
+    "kind": "Fetch.requestPaused",
+    "session": 2,
+    "frame": "F66A9DC9CB9ADD5B2A82D47C46BF0F1F",
+    "path": "/result"
+  },
+  {
+    "ms": 381,
+    "kind": "RECEIVER",
+    "path": "/result"
+  },
+  {
+    "ms": 387,
+    "kind": "FINISHED",
+    "path": "/result"
+  },
+  {
+    "ms": 1855,
+    "kind": "GUARD",
+    "requests": [
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:63735",
+        "pathname": "/",
+        "method": "GET",
+        "resourceType": "document",
+        "resourceTypeDetails": {
+          "selectedFrom": "PLAYWRIGHT",
+          "playwright": "document"
+        },
+        "queryKeys": []
+      },
+      {
+        "outcome": "ADMITTED",
+        "origin": "http://127.0.0.1:63735",
+        "pathname": "/result",
+        "method": "GET",
+        "resourceType": "document",
+        "resourceTypeDetails": {
+          "selectedFrom": "PLAYWRIGHT",
+          "playwright": "document"
+        },
+        "queryKeys": [
+          "q"
+        ]
+      }
+    ],
+    "diagnostics": []
+  }
+]

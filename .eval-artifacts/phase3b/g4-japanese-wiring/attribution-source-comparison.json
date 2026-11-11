@@ -1,0 +1,24 @@
+{
+  "status": "UNCHANGED_COMPONENTS_SUPPORT_PREEXISTING_GAP",
+  "files": [
+    {
+      "path": "src/integrations/restaurant-availability/availability-source-resolver.ts",
+      "sha256": "b4651d12af1bdb77c5a55e96c78fca4fe006b33eed1d14038c07bd8cf9d8bc28",
+      "equalsPublishedMain": true
+    },
+    {
+      "path": "src/domains/restaurant/booking-handoff.ts",
+      "sha256": "e365d3b6b68d54e80348db0aebdaa0ee37bd99e79c0b54ecad6b0b44c3ac34c4",
+      "equalsPublishedMain": true
+    },
+    {
+      "path": "src/integrations/tabelog/tabelog-booking-handoff-reader.ts",
+      "sha256": "f2c7a4d99938e8ff47d554a696f6a77dfe42168974d1a4318325e4595ee20202",
+      "equalsPublishedMain": true
+    }
+  ],
+  "runtimeEvidence": "attribution-diagnostic.json",
+  "scope": "No isolated original-main runtime replay was performed. G4 reaches results; the unchanged source attribution/reader/admission paths produce the observed B1 refusal.",
+  "proposedPatch": "source-provider-proposal.patch",
+  "approval": "PENDING_NO_PRODUCT_BINDING_EDIT"
+}

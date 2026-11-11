@@ -1,0 +1,49 @@
+src/core/text-key.ts:3 [ REGEX ]   return value.normalize("NFKC").trim().replace(/\s+/gu, " ").toLocaleLowerCase("en-US");
+src/domains/restaurant/named-outlet-resolution.ts:49 [ REGEX ]   return extra.split(/\s+/u).filter(Boolean).every(term=>{
+src/infrastructure/browser/browser-action-decision.ts:23 [ WORDLIST ]       enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE",
+src/infrastructure/browser/browser-query-values.ts:17 [ REGEX ]   else if(/^-?\d+(?:\.\d+)?$/.test(value))valueClass="NUMERIC";
+src/infrastructure/browser/browser-query-values.ts:18 [ REGEX ]   else if(/^[A-Za-z0-9_-]+$/.test(value))valueClass="SHORT_TOKEN";
+src/infrastructure/browser/browser-query-values.ts:19 [ REGEX ]   else if(key==="destination"&&value.length<=32&&/^[A-Za-z0-9]+(?::[A-Za-z0-9]+)*$/.test(value))valueClass="NAMESPACED_TOKEN";
+src/infrastructure/browser/browser-query-values.ts:24 [ REGEX ]    letters:/\p{L}/u.test(value),digits:/\p{N}/u.test(value),whitespace:/\s/u.test(value),comma:/,/.test(value),period:/\./.test(value),colon:/:/.test(value),brackets:/[\[\]{}()]/.t
+src/infrastructure/browser/browser-runtime-errors.ts:13 [ REGEX ]   const firstLine = typeof item.message === "string" ? item.message.split(/[\r\n]/, 1)[0]! : "Unknown transport failure";
+src/infrastructure/browser/browser-runtime-errors.ts:15 [ REGEX ]     .replace(/https?:\/\/[^\s"'<>]+/gi, "[URL]")
+src/infrastructure/browser/browser-runtime-errors.ts:16 [ REGEX ]     .replace(/(?:\?|&)[^\s"'<>]*/g, "[QUERY]")
+src/infrastructure/browser/browser-runtime-errors.ts:17 [ REGEX ]     .replace(/\b(?:authorization|proxy-authorization|cookie|set-cookie|headers?|body|postData|payload|password|secret|token|api[_-]?key)\b\s*[:=].*/gi, "[REDACTED]")
+src/infrastructure/browser/browser-runtime-errors.ts:18 [ REGEX ]     .replace(/\bBearer\s+\S+|\bsk-[A-Za-z0-9_-]{8,}/gi, "[REDACTED]")
+src/infrastructure/browser/browser-runtime-errors.ts:22 [ REGEX ]   return { name: typeof item.name === "string" && /^[A-Za-z][A-Za-z0-9_.]{0,63}$/.test(item.name) ? item.name : "Error", message,
+src/infrastructure/browser/browser-runtime-errors.ts:23 [ REGEX ]     ...(typeof item.code === "string" && /^(?:E[A-Z0-9_]{1,50}|ERR_[A-Z0-9_]{1,50})$/.test(item.code) ? { code: item.code } : {}),
+src/infrastructure/browser/browser-task-executor.ts:1151 [ WORDLIST ]     if (target.kind !== "INPUT" || target.readOnly || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
+src/infrastructure/browser/browser-task-executor.ts:1155 [ WORDLIST ]     if (field === "DATE") return ["date", "text", "search"].includes(type || "text");
+src/infrastructure/browser/browser-task-executor.ts:1156 [ WORDLIST ]     if (field === "PARTY_SIZE") return ["number", "text", "search"].includes(type || "text");
+src/infrastructure/browser/playwright-browser-controls.ts:190 [ REGEX ]           const text = next.textContent?.replace(/\s+/g, " ").trim();
+src/infrastructure/browser/playwright-observed-get-forms.ts:27 [ WORDLIST ] const inputSources: readonly BrowserPublicInputSource[] = ["AREA", "CUISINE", "DATE", "TIME", "PARTY_SIZE", "SPECIFIC_OUTLET", "G4_SOURCE_TERM"];
+src/infrastructure/browser/playwright-observed-get-forms.ts:35 [ REGEX ]   if (/[@\r\n]|Bearer\s|\bsk-|\b(?:cookie|token|password|authorization)\s*[:=]/iu.test(value)
+src/infrastructure/browser/playwright-observed-get-forms.ts:36 [ REGEX ]     || !/^\d{4}-\d{2}-\d{2}$/.test(value) && /\+?\d[\d()\s-]{8,}\d/u.test(value)) {
+src/infrastructure/browser/playwright-observed-get-forms.ts:60 [ REGEX ]   observePageText(page:Page,text:string):void {this.observedPageValues.set(page,{text:this.observedHashes(page,[text,...text.split(/\r?\n/)]),controls:new Set()});}
+src/infrastructure/browser/playwright-observed-get-forms.ts:104 [ WORDLIST ]           && !["checkbox", "radio", "range", "button", "submit", "reset"].includes(node.type))) events.push({ node, value: node.value });
+src/infrastructure/browser/playwright-observed-get-forms.ts:192 [ REGEX ]       const normalize = (entries: Iterable<[string, string]>) => JSON.stringify([...entries].map(([key, value]) => [key.replace(/\r?\n/g, "\r\n"), value.replace(/\r?\n/g, "\r\n")])
+src/infrastructure/browser/playwright-read-network-guard.ts:355 [ WORDLIST ]               const body = this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method) || !this.recordResponse || status >= 300 && status < 400 || method =
+src/infrastructure/browser/playwright-read-network-guard.ts:357 [ WORDLIST ]               if (!(this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method))) await this.recordResponse?.({ url: url.toString(), method, resourceType: 
+src/infrastructure/browser/playwright-read-network-guard.ts:368 [ WORDLIST ]             } finally { if (!(this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method))) { clearTimeout(entry.timer); this.redirectTimers.delete(entry.t
+src/infrastructure/browser/playwright-read-network-guard.ts:424 [ WORDLIST ]             if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method)) void context.close().catch(() => {});
+src/infrastructure/browser/playwright-read-network-guard.ts:428 [ WORDLIST ]           if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method) && event.networkId) nativeNetworkTimers.set(event.networkId, timer);
+src/infrastructure/browser/playwright-read-network-guard.ts:595 [ WORDLIST ]       if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method)) {
+src/infrastructure/browser/playwright-read-network-guard.ts:649 [ REGEX ]     return this.sensitiveWorkflow(url) || [...url.searchParams.keys()].some(key => /(?:email|e-mail|phone|tel|address|name|password|passcode|token|secret|cookie|api_?key|card|payme
+src/integrations/restaurant-availability/public-browser-read-network-policy.ts:7 [ SITE-BRANCH ]   startupDocuments: [...(tableCheckPublicReadNetworkPolicy.startupDocuments ?? []), ...(tabelogPublicReadNetworkPolicy.startupDocuments ?? [])],
+src/integrations/restaurant-search/native-restaurant-search.ts:94 [ REGEX ]   const words = (text: string) => [...new Intl.Segmenter(undefined, { granularity: "word" }).segment(normalizedTextKey(text.normalize("NFKD").replace(/\p{M}/gu, "")))].filter(segme
+src/integrations/restaurant-search/native-restaurant-search.ts:290 [ WORDLIST ]         if (diagnostic.event === "OPERATION_STARTED" && ["NAVIGATE","OPEN_LINK","SUBMIT_PUBLIC_QUERY"].includes(diagnostic.detail ?? "") && !detailNavigation) {
+src/integrations/tabelog/tabelog-browser-availability.ts:437 [ URL/PATH ]             source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName, completion: tabelogNameSearchCompletion,
+src/integrations/tabelog/tabelog-browser-availability.ts:443 [ URL/PATH ]             searched = await this.executor.search({source:"TABELOG",signal,allowedOrigins:["https://tabelog.com"],session,
+src/integrations/tabelog/tabelog-public-query.ts:5 [ URL/PATH ]   startupDocuments: ["https://tabelog.com/en/"],
+src/integrations/tablecheck/tablecheck-browser-availability.ts:198 [ URL/PATH SITE-BRANCH ]   return new URL(page.url).origin === "https://www.tablecheck.com"
+src/integrations/tablecheck/tablecheck-browser-availability.ts:449 [ SITE-BRANCH ]           pageState: prohibited ? "SOURCE_UNSUPPORTED" : "EXTRACTION_FAILED", failureCode: prohibited ? "SOURCE_UNSUPPORTED" : "TABLECHECK_PARSE_FAILED",
+src/integrations/tablecheck/tablecheck-browser-availability.ts:493 [ URL/PATH ]             source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName, querySource, completion: page => tableCheck
+src/integrations/tablecheck/tablecheck-browser-availability.ts:496 [ SITE-BRANCH ]           handoff = searched.status === "COMPLETED" ? undefined : { reason: "TABLECHECK_DISCOVERY_HAS_NO_EXTRACTABLE_OUTLET_LINK", outcome: searched.status };
+src/integrations/tablecheck/tablecheck-browser-availability.ts:672 [ SITE-BRANCH ]         failureCode: highIdentityWithoutReservation.prohibited ? "SOURCE_UNSUPPORTED" : "TABLECHECK_PARSE_FAILED",
+src/integrations/tablecheck/tablecheck-public-query.ts:10 [ WORDLIST ]     ["country","hits","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:11 [ WORDLIST ]     ["country","hits","kind","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:12 [ WORDLIST ]     ["country","hits","q","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:13 [ WORDLIST ]     ["destination","hits","name","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:14 [ WORDLIST URL/PATH ]   ].map(queryKeys=>({origin:TABLECHECK_PUBLIC_SEARCH_ORIGIN,pathname:"/search/",methods:["GET"] as const,resourceTypes:["fetch","xhr"] as const,
+src/integrations/tablecheck/tablecheck-public-query.ts:17 [ WORDLIST ]       country:["SHORT_TOKEN","NUMERIC"] as const,kind:["SHORT_TOKEN","NUMERIC"] as const,destination:["SHORT_TOKEN","NUMERIC","NAMESPACED_TOKEN"] as const,hits:["NUMERIC"] as const
+src/integrations/tablecheck/tablecheck-public-query.ts:47 [ URL/PATH ]   startupDocuments: ["https://www.tablecheck.com/en/japan/search"],

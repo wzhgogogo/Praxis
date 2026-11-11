@@ -12,7 +12,7 @@ import type { DiscoverySourcePack } from "../restaurant-search/source-packs.js";
 
 /** A pack owns its provider label and candidate affinity; the resolver only orders bindings. */
 export interface AvailabilitySourceBinding {
-  pack: Pick<DiscoverySourcePack, "meta" | "availability">;
+  pack: Pick<DiscoverySourcePack, "meta" | "availability" | "documentOrigins">;
   provider: RestaurantAvailabilityProvider;
 }
 
@@ -57,7 +57,7 @@ export class AvailabilitySourceResolver {
   readonly executionRoute = "GENERIC_BROWSER" as const;
   constructor(
     private readonly bindings: readonly AvailabilitySourceBinding[],
-    private readonly options: { afterRead?: () => Promise<void> } = {},
+    private readonly options: { afterRead?: () => Promise<void>;identityOnly?:boolean } = {},
   ) {
     if (!bindings.length || bindings.some(({ pack, provider }) => !pack.availability || pack.availability.provider !== provider.provider)) {
       throw new Error("Availability source resolver requires each provider to be bound by its Pack metadata");
@@ -71,6 +71,7 @@ export class AvailabilitySourceResolver {
     const resultCandidateFactUpdates = [] as RestaurantCandidateFactUpdate[];
     const availabilityChecks: Record<string, RestaurantAvailabilityCheck> = {};
     const attempts: NonNullable<RestaurantReadExecutionMetadata["providerAttempts"]> = [];
+    const skippedSources:NonNullable<RestaurantReadExecutionMetadata['skippedSources']>=[];
     const providersUsed = new Set<RestaurantAvailabilityProvider["provider"]>();
     let lastBrowser: RestaurantReadExecutionMetadata["browser"];
 
@@ -81,7 +82,9 @@ export class AvailabilitySourceResolver {
         let lastCheck: RestaurantAvailabilityCheck | undefined;
         const candidateEvidence: RestaurantReadEvidence[] = [];
         const accumulatedCandidateFactUpdates: RestaurantCandidateFactUpdate[] = [];
-        for (const provider of hintedProviderOrder(candidateRequest, this.bindings)) {
+        const skipped=this.bindings.filter(binding=>binding.pack.availability?.areaEvidenceRequired&&candidateRequest.selectionScope!=="SPECIFIC_OUTLET"&&binding.pack.availability?.candidatePath(candidateRequest.candidates[0]!.restaurant)==='NAME_RESOLUTION');
+        for(const binding of skipped)skippedSources.push({candidateId,provider:binding.provider.provider,reason:binding.pack.availability!.areaEvidenceRequired!.notEvidencedReason});
+        for (const provider of hintedProviderOrder(candidateRequest, this.bindings.filter(binding=>!skipped.includes(binding)))) {
           try {
             const read = await provider.check(candidateRequest, signal);
             const check = read.availabilityChecks[candidateId];
@@ -94,11 +97,17 @@ export class AvailabilitySourceResolver {
               .filter((item) => item.candidateId === candidateId)
               .map((item) => structuredClone(item)));
             if (check) lastCheck = structuredClone(check);
+            if(this.options.identityOnly&&candidateEvidence.some(e=>e.provider===provider.provider&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH")){
+              conclusive=true;attempts.push({candidateId,provider:provider.provider,outcome:"UNKNOWN"});
+              evidence.push(...candidateEvidence.filter(e=>e.kind==="ENTITY_MATCH"));
+              break;
+            }
             if (usable(check)) {
               conclusive = true;
               attempts.push({ candidateId, provider: provider.provider, outcome: check.status });
               availabilityChecks[candidateId] = {
                 ...structuredClone(check),
+                sourceProvider: provider.provider,
                 sourceAttempts: attempts
                   .filter((attempt) => attempt.candidateId === candidateId)
                   .map((attempt) => ({
@@ -151,7 +160,8 @@ export class AvailabilitySourceResolver {
       }
       const allFailed = request.candidateIds.every((candidateId) => {
         const check = availabilityChecks[candidateId];
-        const expectedSources = hintedProviderOrder(singleCandidateRequest(request, candidateId), this.bindings).length;
+        const one=singleCandidateRequest(request,candidateId);
+        const expectedSources = hintedProviderOrder(one, this.bindings.filter(b=>!b.pack.availability?.areaEvidenceRequired||one.selectionScope==='SPECIFIC_OUTLET'||b.pack.availability.candidatePath(one.candidates[0]!.restaurant)!=='NAME_RESOLUTION')).length;
         return expectedSources > 0 && check?.status === "UNKNOWN" && (check.sourceAttempts?.length ?? 0) >= expectedSources &&
           check?.sourceAttempts?.every((attempt) => attempt.outcome === "FAILED");
       });
@@ -166,6 +176,7 @@ export class AvailabilitySourceResolver {
           latencyMs: Date.now() - startedAt,
           ...(allFailed ? { failureCode: "AVAILABILITY_SOURCES_EXHAUSTED" } : {}),
           providerAttempts: attempts,
+          skippedSources,
           ...(lastBrowser ? { browser: lastBrowser } : {}),
         },
       };

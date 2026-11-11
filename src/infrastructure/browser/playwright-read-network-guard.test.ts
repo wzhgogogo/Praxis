@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import {createHash} from "node:crypto";
+const createHashForTest=(value:string)=>createHash("sha256").update(value.toLowerCase()).digest("hex");
 import { test } from "node:test";
 
 import type { BrowserContext } from "playwright-core";
@@ -23,7 +25,7 @@ const fakePage = {};
 function fakeContext(value: Record<string, unknown>): BrowserContext {
   // These unit ports only test the ordinary route's policy matching. Actual
   // redirects and CDP transport are exercised by the Chromium receiver suite.
-  return { pages: () => [fakePage], newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }), ...value } as unknown as BrowserContext;
+  return { pages: () => [fakePage], newCDPSession: async () => ({ on: () => {}, send: async (method: string) => method === "Page.getFrameTree" ? { frameTree: { frame: { id: "fixture-top-frame" } } } : {} }), ...value } as unknown as BrowserContext;
 }
 
 function fakeRoute(input: { url: string; method?: string; type?: string; status?: number; contentType?: string; body?: string; fetchError?: Error; fetchDelayMs?: number; responseBody?: Uint8Array; responseHeaders?: Record<string, string> }) {
@@ -469,16 +471,16 @@ test("TableCheck permanently rejects reserve documents and descendants, even wit
   await http(redirect.route); assert.deepEqual(redirect.calls, ["fetch:0:5000", "abort"]);
 });
 
-test("TableCheck reserve static assets admit only reviewed CDN paths and read resource types", async () => {
+for (const retain of [false, true]) test(`TableCheck CDN admission and declarative retention remain separate (${retain})`, async () => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
-  const guard = new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);
+  const guard = new PlaywrightReadNetworkGuard({...tableCheckPublicReadNetworkPolicy, retainedResources: retain ? tableCheckPublicReadNetworkPolicy.staticResources : []});
   await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
   for (let cdn = 0; cdn <= 3; cdn++) {
     for (const type of ["script", "stylesheet", "font", "image"]) {
       const url = `https://cdn${cdn}.tablecheck.com/assets/table_check/public-file`;
       const allowed = fakeRoute({ url, type });
       await http(allowed.route);
-      assert.deepEqual(allowed.calls, ["fetch:0:5000", "fulfill"], `${cdn}/${type}`);
+      assert.deepEqual(allowed.calls, !retain && ["font", "image"].includes(type) ? ["abort"] : ["fetch:0:5000", "fulfill"], `${cdn}/${type}`);
       for (const shape of [{ url, method: "POST" }, { url: url.replace("table_check/", "private/") }, { url, type: "fetch" }]) {
         const denied = fakeRoute({ type, ...shape });
         await http(denied.route); assert.deepEqual(denied.calls, ["abort"]);
@@ -509,4 +511,82 @@ test("C3b settlement counts only short data requests and diagnoses all outstandi
     assert.equal(guard.settlementActivity().pendingByType.fetch, 1);
     assert.equal(guard.settlementActivity().oldestPendingMs, 3_001);
   } finally { Date.now = original; }
+});
+
+test("default resource suppression blocks admitted images media fonts without suppressing CSS scripts or data", async () => {
+ let http:(route:any)=>Promise<void>=async()=>assert.fail('handler');
+ const guard=new PlaywrightReadNetworkGuard({...policy,genericPublicRead:true});
+ await guard.install(fakeContext({route:async(_p:string,h:typeof http)=>{http=h},routeWebSocket:async()=>{}}));
+ guard.prepareNavigation('https://public.example/guide');
+ for(const type of ['image','media','font']){
+  const r=fakeRoute({url:`https://public.example/${type}`,type});await http(r.route);
+  assert.deepEqual(r.calls,['abort'],type);
+  assert.equal(guard.snapshotRequests().at(-1)?.outcome,'BLOCKED');
+ }
+ for(const type of ['script','stylesheet','xhr','fetch']){const r=fakeRoute({url:`https://public.example/${type}`,type});await http(r.route);assert.ok(r.calls.some(c=>c.startsWith('fetch:')),type);}
+});
+
+test('resource retention cannot authorize an unreviewed origin or prohibited path',async()=>{
+ let http:(route:any)=>Promise<void>=async()=>assert.fail('missing route');
+ const guard=new PlaywrightReadNetworkGuard({...policy,genericPublicRead:true,prohibitedPaths:[{hostname:'public.example',pathSegment:'private'}],retainedResources:[
+  {origin:'https://other.example',pathnamePrefix:'/',resourceTypes:['image']},
+  {origin:'https://public.example',pathnamePrefix:'/',resourceTypes:['image']},
+ ]});
+ await guard.install(fakeContext({route:async(_p:string,h:typeof http)=>{http=h},routeWebSocket:async()=>{}}));guard.prepareNavigation('https://public.example/');
+ for(const url of ['https://other.example/picture','https://public.example/private/picture']){
+  const r=fakeRoute({url,type:'image'});await http(r.route);assert.deepEqual(r.calls,['abort']);
+ }
+ assert.ok(guard.snapshotDiagnostics().every(d=>d.code==='BLOCKED_ENDPOINT'));
+});
+
+test("read transport diagnostics retain failure cause without query values, headers or body", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const guard = new PlaywrightReadNetworkGuard(policy);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
+  guard.prepareNavigation("https://public.example/guide?public=QUERY_PRIVATE", 20000);
+  const cause = Object.assign(new Error("socket hang up"), { code: "ECONNRESET" });
+  const failure = new Error("apiRequestContext.fetch: socket hang up https://public.example/guide?public=QUERY_PRIVATE\nCall log:\nCookie: COOKIE_PRIVATE\nAuthorization: Bearer AUTH_PRIVATE\nbody: BODY_PRIVATE", { cause });
+  await http(fakeRoute({ url: "https://public.example/guide?public=QUERY_PRIVATE", fetchError: failure }).route);
+  const diagnostic = guard.snapshotDiagnostics()[0] as any;
+  assert.equal(diagnostic.error?.name, "Error");
+  assert.match(diagnostic.error?.message ?? "", /socket hang up/);
+  assert.equal(diagnostic.error?.cause?.code, "ECONNRESET");
+  assert.equal((guard.snapshotRequests().find(row => row.outcome === "FAILED") as any).error?.cause?.code, "ECONNRESET");
+  assert.doesNotMatch(JSON.stringify(guard.snapshotDiagnostics()), /QUERY_PRIVATE|COOKIE_PRIVATE|AUTH_PRIVATE|BODY_PRIVATE/);
+});
+
+test('TableCheck text search uses four exact query shapes and current authoritative text only',async t=>{
+ const origin='https://search-v4.production.ap-northeast-1.aws.tablecheck.net';
+ const shapes:Record<string,string>[]=[{country:'jp',hits:'10',queryProfile:'destination'},{country:'jp',hits:'10',kind:'shop',queryProfile:'destination'},{country:'jp',hits:'10',q:'Blue Restaurant',queryProfile:'destination'},{destination:'jp',hits:'10',name:'Blue Restaurant',queryProfile:'destination'}];
+ const cases:Array<{name:string;query:Record<string,string>;admitted:boolean;method?:string;type?:string;origin?:string;path?:string;old?:boolean;authority?:string}>=[
+  ...shapes.map((query,i)=>({name:'valid-shape-'+(i+1),query,admitted:true})),
+  {name:'extra',query:{...shapes[2],extra:'x'},admitted:false},
+  {name:'missing',query:{q:'Blue Restaurant',queryProfile:'destination'},admitted:false},
+  {name:'wrong-origin',query:shapes[2]!,origin:'https://elsewhere.example',admitted:false},
+  {name:'wrong-path',query:shapes[2]!,path:'/unreviewed/',admitted:false},
+  {name:'post',query:shapes[2]!,method:'POST',admitted:false},
+  {name:'other-type',query:shapes[2]!,type:'other',admitted:false},
+  {name:'old-read',query:shapes[2]!,old:true,admitted:false},
+  ...['q','name'].flatMap(key=>['Other Person','Blue Rest','+81 90 1234 5678','person@example.com','token=secret'].map(value=>({name:key+'-'+value,query:{...(key==='q'?shapes[2]:shapes[3]),[key]:value},admitted:false}))),
+  {name:'hits-not-number',query:{...shapes[0],hits:'many'},admitted:false},
+  {name:'country-other',query:{...shapes[0],country:'unapproved country'},admitted:false},
+  {name:'kind-sensitive',query:{...shapes[1],kind:'token=secret'},admitted:false},
+  {name:'destination-other',query:{...shapes[3],destination:'unapproved destination'},admitted:false},
+  {name:'namespaced-letter-colon',query:{...shapes[3],destination:'region:jp'},admitted:true},
+  {name:'namespaced-segments',query:{...shapes[3],destination:'A1:B2:c3'},admitted:true},
+  {name:'namespaced-32',query:{...shapes[3],destination:'a:'.padEnd(32,'b')},admitted:true},
+  ...['region jp','region.jp','region/jp','a:'.padEnd(33,'b'),'a::b','a:jp_x','a:jp-x','ns:0123456789',':ab','ab:','a:日本','ns:+81 90 1234 5678','ns:person@example.com','token=secret','Blue Restaurant','Blue Rest'].map(value=>({name:'destination-invalid-'+value,query:{...shapes[3],destination:value},admitted:false})),
+  {name:'namespace-authority-equal',query:{...shapes[3],destination:'region:jp'},authority:'region:jp',admitted:false},
+  {name:'namespace-authority-prefix',query:{...shapes[3],destination:'region:jp'},authority:'region:jp restaurant',admitted:false},
+  ...['country','kind','hits'].map(key=>({name:'namespace-other-field-'+key,query:{...(key==='kind'?shapes[1]:shapes[0]),[key]:'region:jp'},admitted:false})),
+ ];
+ for(const c of cases)await t.test(c.name,async()=>{
+  const guard=new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);let handler:any;
+  guard.forms.authoritativeInputs=async()=>c.old?[]:['Blue Restaurant',...(c.authority?[c.authority]:[])];
+  guard.forms.observedPageValueHashes=()=>new Set([createHashForTest('unapproved destination'),createHashForTest('Other Person')]);
+  await guard.install(fakeContext({route:async(_p:string,h:any)=>{handler=h;},routeWebSocket:async()=>{}}));
+  const url=new URL(c.path??'/search/',c.origin??origin);for(const [key,value]of Object.entries(c.query))url.searchParams.set(key,value);
+  const request=fakeRoute({url:url.toString(),type:c.type??'fetch',method:c.method??'GET'});await handler(request.route);
+  assert.equal(request.calls.includes('fulfill'),c.admitted,c.name);assert.equal(request.calls.includes('abort'),!c.admitted,c.name);
+ });
 });

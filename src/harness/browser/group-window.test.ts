@@ -17,7 +17,8 @@ import {tabelogQueryControlHints} from "../../integrations/tabelog/tabelog-query
 const guide="https://www.tablecheck.com/en/window-fixture";
 const identity='<h1>Window fixture</h1><p class="address">1-1 Fixture Street</p><a href="tel:03-1111-2222">Call</a>';
 const candidate={restaurant:{id:"tablecheck:window-fixture",outletName:"Window fixture",address:"1-1 Fixture Street",sourceIds:{tablecheck:"window-fixture",tablecheckNativeGuideUri:guide},provenance:{}},matchReasons:[],warnings:[],executionConfidence:"HIGH" as const};
-const request={candidateIds:[candidate.restaurant.id],candidates:[candidate],date:"2026-11-06",partySize:6,timeWindow:{earliest:"18:00",latest:"20:00"},hardCriteria:[]};
+// A direct named-outlet widget control, not an area-discovery scenario.
+const request={selectionScope:"SPECIFIC_OUTLET" as const,candidateIds:[candidate.restaurant.id],candidates:[candidate],date:"2026-11-06",partySize:6,timeWindow:{earliest:"18:00",latest:"20:00"},hardCriteria:[]};
 async function fixture(html:string, source=guide, extraPages:Record<string,string>={}){
  const directory=await mkdtemp(join(tmpdir(),"praxis-group-window-")),har=join(directory,"source.har");
  await writeFile(har,JSON.stringify({log:{version:"1.2",creator:{name:"offline-group-window",version:"1"},entries:Object.entries({[source]:html,...extraPages}).map(([url,body])=>({startedDateTime:"2026-10-22T00:00:00Z",request:{method:"GET",url,headers:[],queryString:[],cookies:[],httpVersion:"HTTP/1.1",headersSize:-1,bodySize:-1},response:{status:200,statusText:"OK",httpVersion:"HTTP/1.1",headers:[{name:"content-type",value:body.startsWith('{')?"application/json":"text/html"}],content:{text:body,mimeType:body.startsWith('{')?"application/json":"text/html",size:Buffer.byteLength(body)},cookies:[],redirectURL:"",headersSize:-1,bodySize:Buffer.byteLength(body)},cache:{},timings:{send:0,wait:0,receive:0}}))}}));
@@ -40,11 +41,18 @@ for(const mode of ["available","all-empty","wrong-party"] as const)test(`group-w
  const f=await fixture(widget(mode));
  let modelTransportCalls=0,googleCalls=0;
  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxGoogleRequests:40},{browser:f.runtime,clock:{now:()=>new Date("2026-10-22T00:00:00Z")},
-  model:{async complete(){modelTransportCalls++;return{invocationId:"group-window-scripted",provider:"FIXTURE",model:"scripted",outputText:JSON.stringify({action:"REQUEST_HUMAN_HELP",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"A different party is selected; no current request result"}),finishReason:"TOOL_CALLS" as const,latencyMs:0};}},
+  model:{async complete(request){modelTransportCalls++;const input=JSON.parse(request.messages.find(m=>m.role==="user")!.content);
+    const checked=JSON.parse(input.objective.match(/Already checked times: (\[[^\]]*\])/u)?.[1]??"[]") as string[];
+    const current=input.observation.targets.find((t:{role:string;value?:string})=>t.role==="combobox"&&t.value)?.value;
+    const next=input.observation.targets.find((t:{label:string;availableActions?:string[]})=>t.availableActions?.includes("CHOOSE_OPTION:TIME")&&!checked.includes(t.label));
+    const action=checked.length&&current&&!checked.includes(current)?{action:"COMPLETE",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"Read back a newly selected source time"}
+      :next?{action:"CHOOSE_OPTION",targetRef:next.ref,authoritativeField:"TIME",requestedState:"NONE",reason:"Choose the next currently observed permitted time"}
+      :{action:"REQUEST_HUMAN_HELP",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"No permitted new time or a changed request"};
+    return{invocationId:"group-window-scripted",provider:"FIXTURE",model:"scripted",outputText:JSON.stringify(action),finishReason:"TOOL_CALLS" as const,latencyMs:0};}},
   google:new GooglePlacesClient({apiKey:"fixture-only",fetchImplementation:async()=>{googleCalls++;throw Error("Native outlet must not issue a Google request");}})});
  try{
  const result=await assembly.availability.check(request,new AbortController().signal);
- assert.equal(modelTransportCalls,mode === "wrong-party" ? 1 : 0);assert.equal(googleCalls,0);assert.equal(assembly.browserBudget.totalModelCalls,modelTransportCalls);
+ assert.ok(modelTransportCalls<=8,"observed choices retain the existing shared run ceiling");assert.equal(googleCalls,0);assert.equal(assembly.browserBudget.totalModelCalls,modelTransportCalls);
  const check=result.availabilityChecks[candidate.restaurant.id]!;
  assert.equal(check.status,mode==='available'?"AVAILABLE":"UNKNOWN",JSON.stringify(result));
  assert.equal(f.navigations.some(url=>url.includes('/reserve')),false);
@@ -76,7 +84,7 @@ test("group-window Chromium: disabled exact party stops without clicking or chan
  let decisions=0;const executor=new BrowserTaskExecutor(f.runtime,{maxAutomaticElapsedMs:20000,maxModelCallsPerCandidate:1,maxModelCallsTotal:1,maxOperationsPerCandidate:30,modelDecision:{async decide(){decisions++;return{type:"REQUEST_HUMAN_HELP",reason:"unexpected"};}}});
  try{
  const session=await executor.acquire(new AbortController().signal,"FIXTURE","AVAILABILITY",tableCheckPublicReadNetworkPolicy);
- await executor.navigate({source:"FIXTURE",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:[new URL(guide).origin],url:guide});
+ await executor.navigate({ observed: true,source:"FIXTURE",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:[new URL(guide).origin],url:guide});
  const result=await executor.runSkill({taskId:"disabled-ten",source:"FIXTURE",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:[new URL(guide).origin],goal:{outlet:{name:"Fixture",address:"Fixture"},partySize:10,hardCriteria:[]},objective:"Read exact party",controlHints:tabelogQueryControlHints,completion:()=>({complete:false,reason:"Exact party unselected"})});
  assert.equal(result.reasonCode,"PARTY_SIZE_NOT_SELECTABLE",JSON.stringify(result.controls));assert.equal(decisions,0);
  assert.match((await session.snapshot()).html,/is-selected[^>]*data-value="2"/);

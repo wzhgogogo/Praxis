@@ -1,0 +1,24 @@
+{
+  "phase": "red",
+  "sourceCommit": "e2de4d996b3ab21ebee6828552a419815090247b",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "src/eval/restaurant/agent-loop/g6-booking-composition.test.ts"
+  ],
+  "startedAtCET": "2026-11-01T10:07:33.633000+01:00",
+  "seconds": 2.513,
+  "exitCode": 1,
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "logSHA256": "ef66406465e1ba8bbd5550c399280beb18882625fa4bc1a8a4dfa8df90929805",
+  "realExternalCalls": 0,
+  "envFileLoaded": false,
+  "status": "EXPECTED_PRODUCT_RED",
+  "actualRecordSHA256": "eb08a94f8edb6b2b47b60a94f075a05ce5478b8fd6f8828b4c959d8c2d47c2e2",
+  "firstFailure": "Initial ordinary source cache must produce B1\n+ actual - expected\n\n+ undefined\n- 'praxis:restaurant:bd287442c716ac7439273cc9'\n"
+}

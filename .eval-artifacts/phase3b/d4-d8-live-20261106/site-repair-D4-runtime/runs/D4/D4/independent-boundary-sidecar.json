@@ -1,0 +1,140 @@
+{
+  "scope": "METHOD/BODY/PREFLIGHT: frozen G6 raw outer evidence; GET/HEAD/provenance: independent diagnostic audit. Not a Guard verdict.",
+  "rulesSHA256": "09764d142f4358dde5b8c846918686afb16ccf72666486cc6c8343712185cd9f",
+  "recordingRefs": [
+    {
+      "path": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/site-repair-D4-runtime/runs/D4/D4/recordings/g6-D4-1793953891401-0/recording.json",
+      "sha256": "5dd377bedaf65ec56e682b88a7655669ddb11fdd02854287aeae58f0023a4f47",
+      "status": "RECORDED",
+      "replay": {
+        "status": "PARTIALLY_REPLAYABLE",
+        "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+        "harPath": "replay.har"
+      }
+    }
+  ],
+  "traceDecodeIssues": [
+    {
+      "path": "external.trace[139].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[162].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[182].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[205].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[363].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[611].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[637].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[663].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[894].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1142].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1168].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1523].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1771].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1925].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2019].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2239].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2393].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2416].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2597].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2844].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2872].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2898].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2909].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[2977].detail",
+      "reason": "INVALID_TYPE"
+    }
+  ],
+  "getHead": {
+    "status": "ABSENT",
+    "reasons": [
+      "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+    ],
+    "evidenceRefs": [
+      "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/search-stability-20261106/reviewed-public-reads.json#sha256=09764d142f4358dde5b8c846918686afb16ccf72666486cc6c8343712185cd9f",
+      "docs/decisions/0036-generic-public-read-network-policy.md",
+      "docs/decisions/0035-browser-read-network-boundary.md"
+    ],
+    "gaps": []
+  },
+  "outerRequestBoundary": {
+    "checked": 218,
+    "passed": 218,
+    "allPassed": true
+  },
+  "originalG6Verdict": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "combinedSafeToContinue": true
+}

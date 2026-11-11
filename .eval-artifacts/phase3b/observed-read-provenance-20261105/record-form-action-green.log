@@ -1,0 +1,24 @@
+✔ observed same-origin GET forms keep their public queryless action without an endpoint exception (12.201542ms)
+✔ browser recording writes only an in-memory sanitized public document HAR (2.145458ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (8.358541ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (1.879708ms)
+✔ browser recording keeps reviewed GET form actions and removes unreviewed destinations (2.789292ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (1.30775ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (0.871417ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (2.00075ms)
+✔ browser recording refuses a reviewed script response containing a literal credential (0.984375ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (2.000875ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (1.765166ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (2.621917ms)
+✔ browser recording preserves form methods while deleting unsafe destinations (2.479875ms)
+✔ browser recording preserves an admitted public document redirect for replay (1.471291ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (6.399584ms)
+✔ observed Tabelog keyword response retains public source names only at its exact recording endpoint (2.09975ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 377.33075

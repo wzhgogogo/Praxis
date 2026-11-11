@@ -1,0 +1,145 @@
+{
+  "scope": "Real local Chromium/no automatic retry, eligibility feasibility only; short200ms diagnostic threshold, production not modified",
+  "results": [
+    {
+      "mode": "SUCCESS_STALL",
+      "eligible": true,
+      "headerStatus": 200,
+      "finished": false,
+      "dataEvents": 1,
+      "serverCount": 1,
+      "events": [
+        {
+          "kind": "START",
+          "at": 386.006708
+        },
+        {
+          "kind": "HEADERS",
+          "status": 200,
+          "at": 388.431833
+        },
+        {
+          "kind": "DATA",
+          "bytes": 18,
+          "at": 388.437292
+        }
+      ]
+    },
+    {
+      "mode": "HTTP403",
+      "eligible": false,
+      "headerStatus": 403,
+      "finished": true,
+      "dataEvents": 0,
+      "serverCount": 1,
+      "events": [
+        {
+          "kind": "START",
+          "at": 887.391958
+        },
+        {
+          "kind": "HEADERS",
+          "status": 403,
+          "at": 890.864375
+        }
+      ]
+    },
+    {
+      "mode": "HTTP500",
+      "eligible": false,
+      "headerStatus": 500,
+      "finished": true,
+      "dataEvents": 0,
+      "serverCount": 1,
+      "events": [
+        {
+          "kind": "START",
+          "at": 1332.041667
+        },
+        {
+          "kind": "HEADERS",
+          "status": 500,
+          "at": 1334.258833
+        }
+      ]
+    },
+    {
+      "mode": "NO_HEADERS",
+      "eligible": false,
+      "headerStatus": null,
+      "finished": false,
+      "dataEvents": 0,
+      "serverCount": 1,
+      "events": [
+        {
+          "kind": "START",
+          "at": 1811.365292
+        }
+      ]
+    },
+    {
+      "mode": "STEADY",
+      "eligible": false,
+      "headerStatus": 200,
+      "finished": true,
+      "dataEvents": 9,
+      "serverCount": 1,
+      "events": [
+        {
+          "kind": "START",
+          "at": 2295.995208
+        },
+        {
+          "kind": "HEADERS",
+          "status": 200,
+          "at": 2297.935583
+        },
+        {
+          "kind": "DATA",
+          "bytes": 18,
+          "at": 2297.939792
+        },
+        {
+          "kind": "DATA",
+          "bytes": 16005,
+          "at": 2347.704375
+        },
+        {
+          "kind": "DATA",
+          "bytes": 16005,
+          "at": 2399.223292
+        },
+        {
+          "kind": "DATA",
+          "bytes": 16005,
+          "at": 2451.733583
+        },
+        {
+          "kind": "DATA",
+          "bytes": 16005,
+          "at": 2504.134375
+        },
+        {
+          "kind": "DATA",
+          "bytes": 16005,
+          "at": 2556.767625
+        },
+        {
+          "kind": "DATA",
+          "bytes": 16005,
+          "at": 2608.349375
+        },
+        {
+          "kind": "DATA",
+          "bytes": 16005,
+          "at": 2659.124125
+        },
+        {
+          "kind": "DATA",
+          "bytes": 16005,
+          "at": 2710.722
+        }
+      ]
+    }
+  ]
+}

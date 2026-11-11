@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/domains/restaurant/named-outlet-resolution.test.ts(16,15): error TS2352: Conversion of type '{ intentDraft: { schemaVersion: "3"; timezone: "Asia/Tokyo"; criteria: never[]; target: { goal: "AVAILABILITY"; selectionScope: "SPECIFIC_OUTLET"; query: string; }; }; candidates: { restaurant: { id: string; outletName: string; address: string; sourceIds: {}; }; matchReasons: never[]; executionConfidence: "LOW"; }[]...' to type 'State' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Types of property 'candidates' are incompatible.
+    Type '{ restaurant: { id: string; outletName: string; address: string; sourceIds: {}; }; matchReasons: never[]; executionConfidence: "LOW"; }[]' is not comparable to type 'RestaurantCandidate[]'.
+      Property 'warnings' is missing in type '{ restaurant: { id: string; outletName: string; address: string; sourceIds: {}; }; matchReasons: never[]; executionConfidence: "LOW"; }' but required in type 'RestaurantCandidate'.

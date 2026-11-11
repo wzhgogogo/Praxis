@@ -1,0 +1,109 @@
+▶ TableCheck text search uses four exact query shapes and current authoritative text only
+  ✖ valid-shape-1 (3.375458ms)
+  ✖ valid-shape-2 (0.997666ms)
+  ✖ valid-shape-3 (0.278708ms)
+  ✖ valid-shape-4 (0.183875ms)
+  ✔ extra (0.188792ms)
+  ✔ missing (0.129375ms)
+  ✔ wrong-origin (0.133083ms)
+  ✔ wrong-path (0.150042ms)
+  ✔ post (0.156208ms)
+  ✔ other-type (0.168166ms)
+  ✔ old-read (0.122375ms)
+  ✔ q-Other Person (0.098583ms)
+  ✔ q-Blue Rest (0.091542ms)
+  ✔ q-+81 90 1234 5678 (0.127625ms)
+  ✔ q-person@example.com (0.100083ms)
+  ✔ q-token=secret (0.102708ms)
+  ✔ name-Other Person (0.093584ms)
+  ✔ name-Blue Rest (0.100208ms)
+  ✔ name-+81 90 1234 5678 (0.1025ms)
+  ✔ name-person@example.com (0.077917ms)
+  ✔ name-token=secret (0.117875ms)
+  ✔ hits-not-number (0.100459ms)
+  ✔ country-other (0.085667ms)
+  ✔ kind-sensitive (0.078292ms)
+  ✔ destination-other (0.102291ms)
+✖ TableCheck text search uses four exact query shapes and current authoritative text only (8.008542ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 21
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 187.688167
+
+✖ failing tests:
+
+test at src/infrastructure/browser/playwright-read-network-guard.test.ts:1:37164
+✖ valid-shape-1 (3.375458ms)
+  AssertionError [ERR_ASSERTION]: valid-shape-1
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:580:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:574:23)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/infrastructure/browser/playwright-read-network-guard.test.ts:1:37164
+✖ valid-shape-2 (0.997666ms)
+  AssertionError [ERR_ASSERTION]: valid-shape-2
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:580:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:574:23)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/infrastructure/browser/playwright-read-network-guard.test.ts:1:37164
+✖ valid-shape-3 (0.278708ms)
+  AssertionError [ERR_ASSERTION]: valid-shape-3
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:580:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:574:23)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/infrastructure/browser/playwright-read-network-guard.test.ts:1:37164
+✖ valid-shape-4 (0.183875ms)
+  AssertionError [ERR_ASSERTION]: valid-shape-4
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:580:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:574:23)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

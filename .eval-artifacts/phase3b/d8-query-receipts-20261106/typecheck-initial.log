@@ -1,0 +1,7 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/browser/browser-read-named-query.test.ts(69,65): error TS2322: Type 'Promise<{ metadata: BrowserSessionMetadata; navigate(): Promise<void>; snapshot(): Promise<{ url: any; title: any; text: any; html: string; networkRequests: BrowserReadNetworkObservation[]; }>; ... 6 more ...; waitForSettled(): Promise<...>; }>' is not assignable to type 'Promise<BrowserSession>'.
+  Property 'waitFor' is missing in type '{ metadata: BrowserSessionMetadata; navigate(): Promise<void>; snapshot(): Promise<{ url: any; title: any; text: any; html: string; networkRequests: BrowserReadNetworkObservation[]; }>; ... 6 more ...; waitForSettled(): Promise<...>; }' but required in type 'BrowserSession'.
+src/harness/browser/browser-read-named-query.test.ts(78,64): error TS2741: Property 'waitFor' is missing in type '{ metadata: BrowserSessionMetadata; navigate(): Promise<void>; snapshot(): Promise<{ url: any; title: any; text: any; html: string; networkRequests: BrowserReadNetworkObservation[]; }>; ... 6 more ...; waitForSettled(): Promise<...>; }' but required in type 'BrowserSession'.

@@ -1,0 +1,1249 @@
+{
+  "id": "fixture-main",
+  "sha": "1802d986d56580ff76e69b3e375e7ce978e520b3",
+  "fixture": true,
+  "mainRevision": "22415b57740256be8dfd3614cc7f2227c2f0856b",
+  "startedAtCET": "2026-11-04T02:27:42+01:00",
+  "completedAtCET": "2026-11-04T02:27:42+01:00",
+  "kind": "BROWSER",
+  "configuration": "main",
+  "url": "http://127.0.0.1:53312/",
+  "metadata": {
+    "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+    "engine": "CHROMIUM",
+    "sessionId": "local:f7160b9c-2870-4355-aea7-b7a85e39df17",
+    "startedAt": "2026-11-04T01:27:42.590Z",
+    "readNetworkBoundary": "INSTALLED"
+  },
+  "browserVersion": "151.0.7922.34",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+  "pageLifecycle": [
+    {
+      "event": "DOMCONTENTLOADED_OBSERVER",
+      "monotonicMs": 565.047459
+    },
+    {
+      "event": "DOMCONTENTLOADED_CDP",
+      "browserTimestamp": 505884.322963,
+      "monotonicMs": 565.431625
+    },
+    {
+      "event": "LOAD_OBSERVER",
+      "monotonicMs": 566.011834
+    },
+    {
+      "event": "LOAD_CDP",
+      "browserTimestamp": 505884.323469,
+      "monotonicMs": 566.319875
+    }
+  ],
+  "navigationStartMonotonicMs": 544.966875,
+  "documentClock": "A browser CDP timestamps; Guard route.fetch separate transport",
+  "dcl": {
+    "observedMonotonicMs": 565.050125,
+    "elapsedMs": 20.085417000000007,
+    "browserTimestamp": 505884.322963
+  },
+  "load": {
+    "observedMonotonicMs": 566.012417,
+    "elapsedMs": 21.045875000000024,
+    "browserTimestamp": 505884.323469
+  },
+  "navigationEndReason": "COMPLETED",
+  "navError": null,
+  "loadError": null,
+  "inspectionError": null,
+  "title": "W1 fixture",
+  "busy": false,
+  "challenge": false,
+  "bodyTextLength": 17,
+  "bodyTextSha256": "d1dd03056ae54dd14cef2bd2959b212bffc42c18e0b1035dd36c9fbd25388b96",
+  "scripts": [
+    {
+      "src": "http://127.0.0.1:53312/required.js",
+      "async": false,
+      "defer": false,
+      "type": "",
+      "inHead": false,
+      "srcSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188"
+    }
+  ],
+  "captureCutoff": {
+    "atCET": "2026-11-04T02:27:42+01:00",
+    "monotonicMs": 575.60575,
+    "elapsedMs": 30.641459000000054
+  },
+  "traceBeforeClose": [
+    {
+      "sequence": 1,
+      "kind": "REQUEST_TIMELINE_READY",
+      "detail": {
+        "pageId": "capture:1:page:1",
+        "observationPoint": "BROWSER_CDP_AND_GUARD_ROUTE",
+        "at": "2026-11-04T01:27:42.589Z",
+        "monotonicMs": 543.609959
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "sessionId": "[REDACTED]",
+        "startedAt": "2026-11-04T01:27:42.590Z",
+        "readNetworkBoundary": "INSTALLED"
+      }
+    },
+    {
+      "sequence": 3,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "http://127.0.0.1:53312/",
+          {
+            "waitUntil": "domcontentloaded",
+            "timeoutMs": 20000
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "NAVIGATION_START",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GOTO",
+        "remainingReadBudgetMs": 19999.781625,
+        "navigationAllowanceMs": 20000,
+        "configuredTimeoutMs": 20000,
+        "timeoutSource": "EXPLICIT",
+        "waitUntil": "domcontentloaded",
+        "at": "2026-11-04T01:27:42.591Z",
+        "monotonicMs": 545.14025
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-04T01:27:42.593Z",
+        "startedMonotonicMs": 546.833834,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.592Z",
+        "browserTimestamp": 505884.305185,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "cdpTimestamp": 505884.305185,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 6,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:1",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GET",
+        "resourceType": "document",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-04T01:27:42.595Z",
+        "monotonicMs": 548.891167
+      }
+    },
+    {
+      "sequence": 7,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:1",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GET",
+        "resourceType": "document",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-04T01:27:42.595Z",
+        "endedAt": "2026-11-04T01:27:42.598Z",
+        "startedMonotonicMs": 548.891167,
+        "endedMonotonicMs": 551.815584,
+        "elapsedMs": 2.9244169999999485,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 8,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-04T01:27:42.600Z",
+        "monotonicMs": 553.858917,
+        "cdpTimestamp": 505884.311494,
+        "browserHeadersAt": "2026-11-04T01:27:42.598Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 9,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/required.js",
+        "urlSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-04T01:27:42.606Z",
+        "startedMonotonicMs": 560.065709,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.600Z",
+        "browserTimestamp": 505884.312931,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "75662.2",
+        "cdpTimestamp": 505884.312931,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 10,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/image.png",
+        "urlSha256": "1010701359b513550403bc0cce070f836da3f66e88f420faeaad8ba4911eb2ff",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-04T01:27:42.606Z",
+        "startedMonotonicMs": 560.145417,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.600Z",
+        "browserTimestamp": 505884.313024,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "75662.3",
+        "cdpTimestamp": 505884.313024,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 11,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-04T01:27:42.593Z",
+        "startedMonotonicMs": 546.833834,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.592Z",
+        "browserTimestamp": 505884.305185,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-04T01:27:42.606Z",
+        "endedMonotonicMs": 560.28325,
+        "elapsedMs": 13.449415999999928,
+        "browserEndedAt": "2026-11-04T01:27:42.597Z",
+        "browserElapsedMs": 5.95899997279048,
+        "browserEndTimestamp": 505884.311144,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    },
+    {
+      "sequence": 12,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:2",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/required.js",
+        "urlSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188",
+        "method": "GET",
+        "resourceType": "script",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-04T01:27:42.607Z",
+        "monotonicMs": 561.14525
+      }
+    },
+    {
+      "sequence": 13,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:3",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/image.png",
+        "urlSha256": "1010701359b513550403bc0cce070f836da3f66e88f420faeaad8ba4911eb2ff",
+        "method": "GET",
+        "resourceType": "image",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-04T01:27:42.607Z",
+        "monotonicMs": 561.408084
+      }
+    },
+    {
+      "sequence": 14,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:2",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/required.js",
+        "urlSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188",
+        "method": "GET",
+        "resourceType": "script",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-04T01:27:42.607Z",
+        "endedAt": "2026-11-04T01:27:42.609Z",
+        "startedMonotonicMs": 561.14525,
+        "endedMonotonicMs": 562.994917,
+        "elapsedMs": 1.849666999999954,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 15,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:3",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/image.png",
+        "urlSha256": "1010701359b513550403bc0cce070f836da3f66e88f420faeaad8ba4911eb2ff",
+        "method": "GET",
+        "resourceType": "image",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-04T01:27:42.607Z",
+        "endedAt": "2026-11-04T01:27:42.610Z",
+        "startedMonotonicMs": 561.408084,
+        "endedMonotonicMs": 563.909084,
+        "elapsedMs": 2.5009999999999764,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 16,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-04T01:27:42.611Z",
+        "monotonicMs": 564.952209,
+        "cdpTimestamp": 505884.322593,
+        "browserHeadersAt": "2026-11-04T01:27:42.609Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 17,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/required.js",
+        "urlSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-04T01:27:42.606Z",
+        "startedMonotonicMs": 560.065709,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.600Z",
+        "browserTimestamp": 505884.312931,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-04T01:27:42.611Z",
+        "endedMonotonicMs": 564.969875,
+        "elapsedMs": 4.904166000000032,
+        "browserEndedAt": "2026-11-04T01:27:42.609Z",
+        "browserElapsedMs": 9.304999955929816,
+        "browserEndTimestamp": 505884.322236,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    },
+    {
+      "sequence": 18,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/data",
+        "urlSha256": "3a0df3a4ef9232af32442783ccd54609175669d5ae550a725a554ea412f77dc8",
+        "method": "GET",
+        "resourceType": "Fetch",
+        "startedAt": "2026-11-04T01:27:42.611Z",
+        "startedMonotonicMs": 564.994167,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.610Z",
+        "browserTimestamp": 505884.322822,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "75662.5",
+        "cdpTimestamp": 505884.322822,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 19,
+      "kind": "NAVIGATION_END",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "startedAt": "2026-11-04T01:27:42.591Z",
+        "endedAt": "2026-11-04T01:27:42.611Z",
+        "startedMonotonicMs": 545.14025,
+        "endedMonotonicMs": 565.061084,
+        "elapsedMs": 19.920834000000013,
+        "endReason": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 20,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 21,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-04T01:27:42.612Z",
+        "monotonicMs": 565.836667,
+        "cdpTimestamp": 505884.323349,
+        "browserHeadersAt": "2026-11-04T01:27:42.610Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 22,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/image.png",
+        "urlSha256": "1010701359b513550403bc0cce070f836da3f66e88f420faeaad8ba4911eb2ff",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-04T01:27:42.606Z",
+        "startedMonotonicMs": 560.145417,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.600Z",
+        "browserTimestamp": 505884.313024,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-04T01:27:42.612Z",
+        "endedMonotonicMs": 565.851125,
+        "elapsedMs": 5.705708000000072,
+        "browserEndedAt": "2026-11-04T01:27:42.610Z",
+        "browserElapsedMs": 10.202000034041703,
+        "browserEndTimestamp": 505884.323226,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    },
+    {
+      "sequence": 23,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:4",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/data",
+        "urlSha256": "3a0df3a4ef9232af32442783ccd54609175669d5ae550a725a554ea412f77dc8",
+        "method": "GET",
+        "resourceType": "fetch",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-04T01:27:42.613Z",
+        "monotonicMs": 566.951334
+      }
+    },
+    {
+      "sequence": 24,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:4",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/data",
+        "urlSha256": "3a0df3a4ef9232af32442783ccd54609175669d5ae550a725a554ea412f77dc8",
+        "method": "GET",
+        "resourceType": "fetch",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-04T01:27:42.613Z",
+        "endedAt": "2026-11-04T01:27:42.614Z",
+        "startedMonotonicMs": 566.951334,
+        "endedMonotonicMs": 567.90525,
+        "elapsedMs": 0.9539160000000493,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 25,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-04T01:27:42.615Z",
+        "monotonicMs": 569.734125,
+        "cdpTimestamp": 505884.32723,
+        "browserHeadersAt": "2026-11-04T01:27:42.614Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 26,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/data",
+        "urlSha256": "3a0df3a4ef9232af32442783ccd54609175669d5ae550a725a554ea412f77dc8",
+        "method": "GET",
+        "resourceType": "Fetch",
+        "startedAt": "2026-11-04T01:27:42.611Z",
+        "startedMonotonicMs": 564.994167,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.610Z",
+        "browserTimestamp": 505884.322822,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-04T01:27:42.616Z",
+        "endedMonotonicMs": 569.758417,
+        "elapsedMs": 4.764250000000061,
+        "browserEndedAt": "2026-11-04T01:27:42.614Z",
+        "browserElapsedMs": 4.259000008460134,
+        "browserEndTimestamp": 505884.327081,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    }
+  ],
+  "trace": [
+    {
+      "sequence": 1,
+      "kind": "REQUEST_TIMELINE_READY",
+      "detail": {
+        "pageId": "capture:1:page:1",
+        "observationPoint": "BROWSER_CDP_AND_GUARD_ROUTE",
+        "at": "2026-11-04T01:27:42.589Z",
+        "monotonicMs": 543.609959
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "sessionId": "[REDACTED]",
+        "startedAt": "2026-11-04T01:27:42.590Z",
+        "readNetworkBoundary": "INSTALLED"
+      }
+    },
+    {
+      "sequence": 3,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "http://127.0.0.1:53312/",
+          {
+            "waitUntil": "domcontentloaded",
+            "timeoutMs": 20000
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "NAVIGATION_START",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GOTO",
+        "remainingReadBudgetMs": 19999.781625,
+        "navigationAllowanceMs": 20000,
+        "configuredTimeoutMs": 20000,
+        "timeoutSource": "EXPLICIT",
+        "waitUntil": "domcontentloaded",
+        "at": "2026-11-04T01:27:42.591Z",
+        "monotonicMs": 545.14025
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-04T01:27:42.593Z",
+        "startedMonotonicMs": 546.833834,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.592Z",
+        "browserTimestamp": 505884.305185,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "cdpTimestamp": 505884.305185,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 6,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:1",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GET",
+        "resourceType": "document",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-04T01:27:42.595Z",
+        "monotonicMs": 548.891167
+      }
+    },
+    {
+      "sequence": 7,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:1",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GET",
+        "resourceType": "document",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-04T01:27:42.595Z",
+        "endedAt": "2026-11-04T01:27:42.598Z",
+        "startedMonotonicMs": 548.891167,
+        "endedMonotonicMs": 551.815584,
+        "elapsedMs": 2.9244169999999485,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 8,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-04T01:27:42.600Z",
+        "monotonicMs": 553.858917,
+        "cdpTimestamp": 505884.311494,
+        "browserHeadersAt": "2026-11-04T01:27:42.598Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 9,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/required.js",
+        "urlSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-04T01:27:42.606Z",
+        "startedMonotonicMs": 560.065709,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.600Z",
+        "browserTimestamp": 505884.312931,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "75662.2",
+        "cdpTimestamp": 505884.312931,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 10,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/image.png",
+        "urlSha256": "1010701359b513550403bc0cce070f836da3f66e88f420faeaad8ba4911eb2ff",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-04T01:27:42.606Z",
+        "startedMonotonicMs": 560.145417,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.600Z",
+        "browserTimestamp": 505884.313024,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "75662.3",
+        "cdpTimestamp": 505884.313024,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 11,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/",
+        "urlSha256": "488a44732b86c4f87b6f223da82649af91b7410e1e16498d90052e42743befde",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-04T01:27:42.593Z",
+        "startedMonotonicMs": 546.833834,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.592Z",
+        "browserTimestamp": 505884.305185,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-04T01:27:42.606Z",
+        "endedMonotonicMs": 560.28325,
+        "elapsedMs": 13.449415999999928,
+        "browserEndedAt": "2026-11-04T01:27:42.597Z",
+        "browserElapsedMs": 5.95899997279048,
+        "browserEndTimestamp": 505884.311144,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    },
+    {
+      "sequence": 12,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:2",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/required.js",
+        "urlSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188",
+        "method": "GET",
+        "resourceType": "script",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-04T01:27:42.607Z",
+        "monotonicMs": 561.14525
+      }
+    },
+    {
+      "sequence": 13,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:3",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/image.png",
+        "urlSha256": "1010701359b513550403bc0cce070f836da3f66e88f420faeaad8ba4911eb2ff",
+        "method": "GET",
+        "resourceType": "image",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-04T01:27:42.607Z",
+        "monotonicMs": 561.408084
+      }
+    },
+    {
+      "sequence": 14,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:2",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/required.js",
+        "urlSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188",
+        "method": "GET",
+        "resourceType": "script",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-04T01:27:42.607Z",
+        "endedAt": "2026-11-04T01:27:42.609Z",
+        "startedMonotonicMs": 561.14525,
+        "endedMonotonicMs": 562.994917,
+        "elapsedMs": 1.849666999999954,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 15,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:3",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/image.png",
+        "urlSha256": "1010701359b513550403bc0cce070f836da3f66e88f420faeaad8ba4911eb2ff",
+        "method": "GET",
+        "resourceType": "image",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-04T01:27:42.607Z",
+        "endedAt": "2026-11-04T01:27:42.610Z",
+        "startedMonotonicMs": 561.408084,
+        "endedMonotonicMs": 563.909084,
+        "elapsedMs": 2.5009999999999764,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 16,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-04T01:27:42.611Z",
+        "monotonicMs": 564.952209,
+        "cdpTimestamp": 505884.322593,
+        "browserHeadersAt": "2026-11-04T01:27:42.609Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 17,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/required.js",
+        "urlSha256": "083412403c238e8dcadde63752c9b32add7d58c392ba96aa0e73f9a2ef2fb188",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-04T01:27:42.606Z",
+        "startedMonotonicMs": 560.065709,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.600Z",
+        "browserTimestamp": 505884.312931,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-04T01:27:42.611Z",
+        "endedMonotonicMs": 564.969875,
+        "elapsedMs": 4.904166000000032,
+        "browserEndedAt": "2026-11-04T01:27:42.609Z",
+        "browserElapsedMs": 9.304999955929816,
+        "browserEndTimestamp": 505884.322236,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    },
+    {
+      "sequence": 18,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/data",
+        "urlSha256": "3a0df3a4ef9232af32442783ccd54609175669d5ae550a725a554ea412f77dc8",
+        "method": "GET",
+        "resourceType": "Fetch",
+        "startedAt": "2026-11-04T01:27:42.611Z",
+        "startedMonotonicMs": 564.994167,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.610Z",
+        "browserTimestamp": 505884.322822,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "75662.5",
+        "cdpTimestamp": 505884.322822,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 19,
+      "kind": "NAVIGATION_END",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "startedAt": "2026-11-04T01:27:42.591Z",
+        "endedAt": "2026-11-04T01:27:42.611Z",
+        "startedMonotonicMs": 545.14025,
+        "endedMonotonicMs": 565.061084,
+        "elapsedMs": 19.920834000000013,
+        "endReason": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 20,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 21,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-04T01:27:42.612Z",
+        "monotonicMs": 565.836667,
+        "cdpTimestamp": 505884.323349,
+        "browserHeadersAt": "2026-11-04T01:27:42.610Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 22,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/image.png",
+        "urlSha256": "1010701359b513550403bc0cce070f836da3f66e88f420faeaad8ba4911eb2ff",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-04T01:27:42.606Z",
+        "startedMonotonicMs": 560.145417,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.600Z",
+        "browserTimestamp": 505884.313024,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-04T01:27:42.612Z",
+        "endedMonotonicMs": 565.851125,
+        "elapsedMs": 5.705708000000072,
+        "browserEndedAt": "2026-11-04T01:27:42.610Z",
+        "browserElapsedMs": 10.202000034041703,
+        "browserEndTimestamp": 505884.323226,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    },
+    {
+      "sequence": 23,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:4",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/data",
+        "urlSha256": "3a0df3a4ef9232af32442783ccd54609175669d5ae550a725a554ea412f77dc8",
+        "method": "GET",
+        "resourceType": "fetch",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-04T01:27:42.613Z",
+        "monotonicMs": 566.951334
+      }
+    },
+    {
+      "sequence": 24,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:4",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:53312/data",
+        "urlSha256": "3a0df3a4ef9232af32442783ccd54609175669d5ae550a725a554ea412f77dc8",
+        "method": "GET",
+        "resourceType": "fetch",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-04T01:27:42.613Z",
+        "endedAt": "2026-11-04T01:27:42.614Z",
+        "startedMonotonicMs": 566.951334,
+        "endedMonotonicMs": 567.90525,
+        "elapsedMs": 0.9539160000000493,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 25,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-04T01:27:42.615Z",
+        "monotonicMs": 569.734125,
+        "cdpTimestamp": 505884.32723,
+        "browserHeadersAt": "2026-11-04T01:27:42.614Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 26,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "9153E12914CAEEAECED85D3634DBE8EB",
+        "frameId": "F2897165B60D721A3B67A5855DB731C9",
+        "url": "http://127.0.0.1:53312/data",
+        "urlSha256": "3a0df3a4ef9232af32442783ccd54609175669d5ae550a725a554ea412f77dc8",
+        "method": "GET",
+        "resourceType": "Fetch",
+        "startedAt": "2026-11-04T01:27:42.611Z",
+        "startedMonotonicMs": 564.994167,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-04T01:27:42.610Z",
+        "browserTimestamp": 505884.322822,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-04T01:27:42.616Z",
+        "endedMonotonicMs": 569.758417,
+        "elapsedMs": 4.764250000000061,
+        "browserEndedAt": "2026-11-04T01:27:42.614Z",
+        "browserElapsedMs": 4.259000008460134,
+        "browserEndTimestamp": 505884.327081,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    }
+  ],
+  "guardBeforeClose": [
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:53312",
+      "pathname": "/",
+      "method": "GET",
+      "resourceType": "document",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "document"
+      },
+      "queryKeys": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:53312",
+      "pathname": "/required.js",
+      "method": "GET",
+      "resourceType": "script",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:53312",
+      "pathname": "/image.png",
+      "method": "GET",
+      "resourceType": "image",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "image"
+      },
+      "queryKeys": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:53312",
+      "pathname": "/data",
+      "method": "GET",
+      "resourceType": "fetch",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "fetch"
+      },
+      "queryKeys": []
+    }
+  ],
+  "guardAfterClose": [
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:53312",
+      "pathname": "/",
+      "method": "GET",
+      "resourceType": "document",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "document"
+      },
+      "queryKeys": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:53312",
+      "pathname": "/required.js",
+      "method": "GET",
+      "resourceType": "script",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:53312",
+      "pathname": "/image.png",
+      "method": "GET",
+      "resourceType": "image",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "image"
+      },
+      "queryKeys": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:53312",
+      "pathname": "/data",
+      "method": "GET",
+      "resourceType": "fetch",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "fetch"
+      },
+      "queryKeys": []
+    }
+  ],
+  "websiteAdmitted": 4
+}

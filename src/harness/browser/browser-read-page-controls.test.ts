@@ -45,7 +45,7 @@ test("generic controlled browser path completes a local read-only page task with
   const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  modelDecision: decision });
   const session = await executor.acquire(new AbortController().signal, "TABLECHECK", "DISCOVERY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal: new AbortController().signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "DISCOVERY", session, signal: new AbortController().signal, allowedOrigins: ["https://www.tablecheck.com"], url });
   const result = await executor.runSkill({
       taskId: "fixture:generic-browser",
       source: "TABLECHECK",
@@ -87,7 +87,7 @@ test("an observed public target-blank link switches the same session to a new pa
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "FACTS");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     const parent = await session.snapshot();
     const result = await executor.runSkill({
       taskId: "fixture:public-popup-terms", source: "TABLECHECK", stage: "FACTS", session, signal,
@@ -123,7 +123,7 @@ test("real DOM observation exposes an unlabelled-id role button and calendar nav
   } });
   const session = await executor.acquire(new AbortController().signal, "TABLECHECK", "AVAILABILITY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal: new AbortController().signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal: new AbortController().signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({
       taskId: "fixture:calendar", source: "TABLECHECK", stage: "AVAILABILITY", session, signal: new AbortController().signal,
       allowedOrigins: ["https://www.tablecheck.com"],
@@ -162,7 +162,7 @@ test("an active language dialog blocks background calendar actions until the dia
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({
       taskId: "fixture:modal-calendar", source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"],
       goal: { outlet: { name: "Fixture Restaurant" }, date: "2026-09-07", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
@@ -217,7 +217,7 @@ test("shared executor keeps unguarded public filters unavailable", async () => {
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url: searchUrl });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url: searchUrl });
     const result = await executor.runSkill({
       taskId: "fixture:filters", source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"],
       goal: { outlet: { name: "Fixture Restaurant" }, hardCriteria: [] }, objective: "Read a public filtered result without booking.",
@@ -267,7 +267,7 @@ test("a model cannot consent by setting an unclassified checkbox", async () => {
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     await executor.runSkill({ taskId: "fixture:no-consent", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, hardCriteria: [] },
       objective: "Read only; never accept terms", completion: () => ({ complete: false, reason: "No public result" }) });
@@ -326,7 +326,7 @@ for (const field of ["PARTY_SIZE", "TIME"] as const) test(`C5a one choice reveal
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
   try {
-    await executor.navigate({ session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({ taskId: "fixture:clipped-choice", source: "FIXTURE", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, partySize: 10, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
       objective: "Select one observed query option", completion: snapshot => ({ complete: snapshot.html.includes(`data-choice="${expected}"`), reason: "Choice not observed", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
@@ -350,7 +350,7 @@ test("C5a excludes disabled, occluded and noncurrent list options", async () => 
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
   try {
-    await executor.navigate({ session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({ taskId: "fixture:choice-boundary", source: "FIXTURE", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"],
       goal: { outlet: { name: "Fixture" }, partySize: 10, hardCriteria: [] }, objective: "Observe safe choices", completion: () => ({ complete: false, reason: "Requested choice absent" }) });
     assert.equal(result.status, "REQUESTED_HUMAN_HELP", JSON.stringify(observed)); assert.equal(calls, 1);

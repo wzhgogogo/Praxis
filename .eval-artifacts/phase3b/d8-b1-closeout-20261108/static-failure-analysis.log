@@ -1,0 +1,89 @@
+{
+  "entry": {
+    "navigationId": "capture:1:navigation:1",
+    "configuredTimeoutMs": 20000,
+    "htmlStatus": 200,
+    "htmlMs": 1026.5362920000007,
+    "entryOutcome": "TIMEOUT",
+    "entryMs": 20004.597875,
+    "scriptAttempts": [
+      {
+        "requestId": "capture:1:page:1:request:3",
+        "pageId": "capture:1:page:1",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "nativeContinue": true,
+        "headersStatus": null,
+        "outcome": "CANCELLED",
+        "elapsedMs": 18956.279167,
+        "reason": "PAGE_OR_CONTEXT_CLOSED",
+        "wireFinish": "LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH"
+      },
+      {
+        "requestId": "capture:3:page:1:request:3",
+        "pageId": "capture:3:page:1",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "nativeContinue": true,
+        "headersStatus": 200,
+        "outcome": "FINISHED",
+        "elapsedMs": 1840.7568749999991,
+        "reason": null,
+        "wireFinish": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:4:page:1:request:3",
+        "pageId": "capture:4:page:1",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "nativeContinue": true,
+        "headersStatus": null,
+        "outcome": "CANCELLED",
+        "elapsedMs": 19694.845333000005,
+        "reason": "PAGE_OR_CONTEXT_CLOSED",
+        "wireFinish": "LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH"
+      }
+    ]
+  },
+  "firstFourTabelogScripts": [
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "requestId": "capture:2:page:1:request:9",
+      "status": null,
+      "outcome": "FAILED",
+      "elapsedMs": 3043.390166000001,
+      "reason": "net::ERR_NAME_NOT_RESOLVED"
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "requestId": "capture:2:page:1:request:10",
+      "status": null,
+      "outcome": "FAILED",
+      "elapsedMs": 3043.517167000002,
+      "reason": "net::ERR_NAME_NOT_RESOLVED"
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "requestId": "capture:2:page:1:request:12",
+      "status": null,
+      "outcome": "FAILED",
+      "elapsedMs": 3043.619999999999,
+      "reason": "net::ERR_NAME_NOT_RESOLVED"
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "requestId": "capture:2:page:1:request:30",
+      "status": null,
+      "outcome": "FAILED",
+      "elapsedMs": 3090.7847079999992,
+      "reason": "net::ERR_NAME_NOT_RESOLVED"
+    }
+  ],
+  "firstClick": {
+    "sequence": 199,
+    "kind": "BUTTON",
+    "role": "button",
+    "label": "Search",
+    "type": "button",
+    "visible": true,
+    "disabled": false,
+    "afterClickDocumentRequests": 0
+  }
+}

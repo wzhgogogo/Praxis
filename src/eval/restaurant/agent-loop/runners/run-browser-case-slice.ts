@@ -1,3 +1,4 @@
+import { browserProxyForUrl } from "../../../../infrastructure/browser/local-browser-proxy.js";
 import { resolve } from "node:path";
 
 import type { ModelGateway } from "../../../../core/model/contracts.js";
@@ -92,8 +93,8 @@ for (const gate of ["PRAXIS_ALLOW_LIVE_RESTAURANT_READ", "PRAXIS_ALLOW_BROWSER_R
 }
 const effectiveNetwork = resolveEffectiveLiveNetworkConfiguration(process.env);
 const effectiveEnvironment = environmentWithEffectiveLiveNetwork(process.env, effectiveNetwork);
-if (effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM" || effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER) {
-  throw new Error("Use LOCAL_CHROMIUM on its default browser network without a browser proxy");
+if (effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM" || browserProxyForUrl(source.url, { ...(effectiveNetwork.browserProxyServer ? { proxyServer: effectiveNetwork.browserProxyServer } : {}), ...(effectiveNetwork.browserDirectHosts ? { directHosts: effectiveNetwork.browserDirectHosts } : {}) })) {
+  throw new Error("Use LOCAL_CHROMIUM with this source host routed directly");
 }
 if (elapsedWindow) throw new Error(`The materialized ${caseId} request window has elapsed; no stale inventory query was sent`);
 const preflight = await runLivePreflight({
@@ -130,7 +131,7 @@ const modelDecision: BrowserReadActionDecisionPort = { async decide(input) {
   }
 } };
 const underlyingRuntime = LocalPlaywrightChromium.fromEnvironment(effectiveEnvironment);
-const runtime: BrowserRuntime = traceBrowserRuntime(underlyingRuntime, source.provider, record);
+const runtime: BrowserRuntime = traceBrowserRuntime(underlyingRuntime, source.provider, record, undefined, {remainingBudgetMs:()=>Math.max(0,45_000-(Date.now()-startedAt))});
 const executor = new BrowserTaskExecutor(runtime, {
   modelDecision, maxModelCallsPerCandidate: 5, maxModelCallsTotal: 5,
   maxElapsedMsPerCandidate: 45_000, maxElapsedMsPerProvider: 30_000, maxAutomaticElapsedMs: 45_000,

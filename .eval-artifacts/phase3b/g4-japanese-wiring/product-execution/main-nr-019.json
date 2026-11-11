@@ -1,0 +1,63 @@
+{
+  "id": "nr-019",
+  "key": "main-nr-019",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "T nakameguro",
+      "kind": "ORIGINAL",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=T%20nakameguro",
+      "kind": "SEARCH",
+      "query": "T nakameguro",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-081.html",
+      "sha256": "9282078ecba26d53b6424c4fd6b1344772bdc30150bf1aa0c5bc907ce0404398",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "DETAIL:MISSING_SAVED_PAGE"
+  ],
+  "diagnostic": null,
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=T%20nakameguro",
+    "https://tabelog.com/en/tokyo/A1317/A131701/13251507/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

@@ -2,6 +2,7 @@ import { quotedPriceApplicability } from "./quoted-price-applicability.js";
 import policy from "./condition-policy.json" with { type: "json" };
 import type { RestaurantReadEvidence, RestaurantSearchIntent, RestaurantSourceFieldQuote } from "./contracts.js";
 import type { RestaurantQuotedCoursePrice } from "./price-facts.js";
+import { acceptedPositiveHardEvidence } from "./positive-hard-evidence.js";
 
 export type RestaurantConditionStatus = "MET" | "NOT_MET" | "NOT_CHECKED";
 export interface RestaurantConditionState {
@@ -29,7 +30,7 @@ export function priceCondition(text: string, budget?: RestaurantSearchIntent["bu
 }
 
 export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, "criteria" | "budgetPerPerson" | "timeWindow" | "date" | "partySize">,
-  facts: readonly RestaurantReadEvidence[]): RestaurantConditionState[] {
+  facts: readonly RestaurantReadEvidence[], now?: string, admittedFactIds?: readonly string[]): RestaurantConditionState[] {
   if (policy.status !== "USER_APPROVED" || !(policy.aroundPriceTolerance >= 0 && policy.aroundPriceTolerance < 1)) throw Error("Unapproved restaurant price policy");
   const meal = intent.timeWindow?.earliest && intent.timeWindow.earliest >= "17:00" ? "DINNER"
     : intent.timeWindow?.latest && intent.timeWindow.latest <= "15:00" ? "LUNCH" : undefined;
@@ -63,7 +64,12 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
       return { ...base, status, evidenceIds: [...new Set(observations.map(item => item.evidenceId))], sources: observations.map(({ sourceUrl, quote }) => ({ sourceUrl, quote, field: "PRICE" as const })),
         explanation: `Listed ${meal?.toLowerCase() ?? "meal"} prices ${status === "MET" ? "support" : "do not support"} this budget. ${mixedTax ? "Prices mix tax included and excluded; compared as listed without conversion." : "Tax treatment is retained as quoted; no conversion."} Listed-plan availability has not been verified.` };
     }
-    const matches = (key: string) => facts.filter(fact => Array.isArray(fact.claims[key]) && (fact.claims[key] as string[]).some(text => normalize(text) === normalize(criterion.text)));
+    const hardFacts = admittedFactIds ? facts.filter(f => admittedFactIds.includes(f.evidenceId)) : facts;
+    const hardSupport = criterion.strength === "HARD" && criterion.polarity === "POSITIVE"
+      ? acceptedPositiveHardEvidence(criterion.text, hardFacts, now, meal) : undefined;
+    if (criterion.strength === "HARD" && criterion.polarity === "POSITIVE" && !hardSupport) return base;
+    const displayFacts = hardSupport ? hardFacts : facts;
+    const matches = (key: string) => displayFacts.filter(fact => Array.isArray(fact.claims[key]) && (fact.claims[key] as string[]).some(text => normalize(text) === normalize(criterion.text)));
     const positive = matches("verifiedHardCriteria");
     const negative = matches("verifiedNegativeCriteria");
     const conflicts = matches("violatedNegativeCriteria");
@@ -72,7 +78,7 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
     const contradicted = criterion.polarity === "NEGATIVE" ? [...conflicts, ...literal] : [];
     const applicable = contradicted.length ? contradicted : supported;
     const sourceFacts = [...new Map(applicable.flatMap(fact => fact.provider === "MODEL_JUDGMENT"
-      ? facts.filter(source => source.provider !== "MODEL_JUDGMENT" && source.candidateId === fact.candidateId && Array.isArray(fact.claims.supportingEvidenceIds) && fact.claims.supportingEvidenceIds.includes(source.evidenceId)) : [fact]).map(fact => [fact.evidenceId, fact])).values()];
+      ? displayFacts.filter(source => source.provider !== "MODEL_JUDGMENT" && source.candidateId === fact.candidateId && Array.isArray(fact.claims.supportingEvidenceIds) && fact.claims.supportingEvidenceIds.includes(source.evidenceId)) : [fact]).map(fact => [fact.evidenceId, fact])).values()];
     const fieldQuotes: Array<RestaurantSourceFieldQuote & { evidenceId: string }> = sourceFacts.flatMap(fact => [
       ...(fact.sourceFieldQuotes ?? []),
       ...(fact.provider === "GOOGLE_PLACES" && fact.sourceUrl && Array.isArray(fact.claims.restaurantTypeFacts)
@@ -93,6 +99,8 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
       return { ...base, status: contradicted.length ? "NOT_MET" : "MET", evidenceIds: [...new Set([...applicable.map(e => e.evidenceId), ...accepted.map(q => q.evidenceId)])], sources,
         explanation: `Merchant source fields support this restaurant offering${meals.length ? `, limited to ${meals.join("/")} where stated` : ""}. Requested-time course availability has not been verified.` };
     }
+    if (hardSupport) return { ...base, status: "MET", evidenceIds: hardSupport.evidenceIds, sources: hardSupport.sources,
+      explanation: `Based on ${hardSupport.basis.join("; ")}. Requested-time course availability has not been verified.` };
     const weak: RestaurantSourceFieldQuote[] = fieldQuotes.length ? fieldQuotes : sourceFacts.flatMap(fact => fact.sourceUrl && Array.isArray(fact.claims.restaurantTypeFacts)
       ? (fact.claims.restaurantTypeFacts as string[]).map(quote => ({ field: "SOURCE_TEXT" as const, quote, sourceUrl: fact.sourceUrl! })) : []);
     return { ...base, evidenceIds: applicable.map(e => e.evidenceId), sources: weak.slice(0, 3).map(({ field, quote, sourceUrl, meal }) => ({ field, quote, sourceUrl, ...(meal ? { meal } : {}) })),

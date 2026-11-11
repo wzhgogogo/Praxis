@@ -1,0 +1,1099 @@
+{
+  "id": "nr-008",
+  "mode": "FOUR_DIRECTED_PUBLIC_GETS_PLUS_FROZEN_PREFIX_REPLAY_NOT_FULL_LIVE",
+  "observedAcceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+  "diagnostic": {
+    "candidateId": "g4:nr-008",
+    "google": {
+      "placeId": "ChIJdwvXdKqMGGARg-UfEdmCXFE",
+      "outletName": {
+        "value": "Shibuya Kappo Sancho",
+        "normalizedValue": "shibuyakapposancho",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "6-1 Maruyamachō, Shibuya, Tokyo 150-0044, Japan",
+        "normalizedValue": "61maruyamachōshibuyatokyo1500044japan",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "03-6455-1363",
+        "normalizedValue": "0364551363",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13160273",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+        "outletName": {
+          "value": "Kappou Sanchou Shibuya",
+          "normalizedValue": "kappousanchoushibuya",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1500044 東京都渋谷区円山町6-1",
+          "normalizedValue": "1500044東京都渋谷区円山町61",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-6455-1363",
+          "normalizedValue": "0364551363",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "03-6455-1363",
+          "role": "STORE",
+          "quote": "03-6455-1363",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 6
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1303/A130301/13160273",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "Shibuya Kappo Sancho"
+        },
+        {
+          "kind": "FRAGMENT",
+          "query": "Kappo Sancho"
+        },
+        {
+          "kind": "JAPANESE",
+          "query": "割烹 三長 渋谷"
+        }
+      ],
+      "detailLimit": 5,
+      "japanese": {
+        "status": "OBSERVED",
+        "placeId": "ChIJdwvXdKqMGGARg-UfEdmCXFE",
+        "languageCode": "ja"
+      }
+    },
+    "search": {
+      "query": "割烹 三長 渋谷",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%89%B2%E7%83%B9%20%E4%B8%89%E9%95%B7%20%E6%B8%8B%E8%B0%B7",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%89%B2%E7%83%B9%20%E4%B8%89%E9%95%B7%20%E6%B8%8B%E8%B0%B7",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 1,
+      "inspectedResultCount": 1
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13160273",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+        "outletName": "Kappou Sanchou Shibuya"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1303/A130301/13160273",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+        "title": "Kappou Sanchou Shibuya Reservation - Shinsen/Japanese Cuisine | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Kappou Sanchou Shibuya",
+            "normalizedValue": "kappousanchoushibuya",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1500044 東京都渋谷区円山町6-1",
+            "normalizedValue": "1500044東京都渋谷区円山町61",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-6455-1363",
+            "normalizedValue": "0364551363",
+            "source": "DOM"
+          }
+        }
+      }
+    ]
+  },
+  "queries": [
+    {
+      "query": "Shibuya Kappo Sancho",
+      "source": "ORIGINAL",
+      "languageCode": null,
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Kappo%20Sancho",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-026.html",
+      "sha256": "fc94c25948440fa7b582438cca6368deee34c514260041893875f6ee8ec61160",
+      "origin": "FROZEN_REPLAY",
+      "ordered": []
+    },
+    {
+      "query": "Kappo Sancho",
+      "source": "FRAGMENT",
+      "languageCode": null,
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kappo%20Sancho",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-027.html",
+      "sha256": "6e489756b594b7fc11476bb2721ea3e0a90890dc29bce7ff01e023e66e366b05",
+      "origin": "FROZEN_REPLAY",
+      "ordered": []
+    },
+    {
+      "query": "割烹 三長 渋谷",
+      "source": "JAPANESE",
+      "languageCode": "ja",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%89%B2%E7%83%B9%20%E4%B8%89%E9%95%B7%20%E6%B8%8B%E8%B0%B7",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch3/optional/002-nr-008.body.html",
+      "sha256": "059089e56d403ded3ab7aadb2678363087fa22d751b428877963f21801cf8282",
+      "origin": "FROZEN_REPLAY",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13160273",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+          "outletName": "Kappou Sanchou Shibuya"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-01.body.html",
+      "sha256": "3800814636c3064bf7053c13e111c26c789f94f9e731789e5f1d0c0c2e5ac071",
+      "origin": "DIRECTED_GET",
+      "discoveryQuery": "割烹 三長 渋谷",
+      "ordinal": 1
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Kappo%20Sancho",
+      "kind": "SEARCH",
+      "query": "Shibuya Kappo Sancho",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-026.html",
+      "sha256": "fc94c25948440fa7b582438cca6368deee34c514260041893875f6ee8ec61160",
+      "origin": "FROZEN_REPLAY"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kappo%20Sancho",
+      "kind": "SEARCH",
+      "query": "Kappo Sancho",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-027.html",
+      "sha256": "6e489756b594b7fc11476bb2721ea3e0a90890dc29bce7ff01e023e66e366b05",
+      "origin": "FROZEN_REPLAY"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%89%B2%E7%83%B9%20%E4%B8%89%E9%95%B7%20%E6%B8%8B%E8%B0%B7",
+      "kind": "SEARCH",
+      "query": "割烹 三長 渋谷",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch3/optional/002-nr-008.body.html",
+      "sha256": "059089e56d403ded3ab7aadb2678363087fa22d751b428877963f21801cf8282",
+      "origin": "FROZEN_REPLAY"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-01.body.html",
+      "sha256": "3800814636c3064bf7053c13e111c26c789f94f9e731789e5f1d0c0c2e5ac071",
+      "origin": "DIRECTED_GET"
+    }
+  ],
+  "uncertainties": [],
+  "environmentFailures": [],
+  "postIdentity": [],
+  "operations": [
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 1,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 1,
+        "providerElapsedMs": 1,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 1,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 1,
+        "providerElapsedMs": 1,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 1,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 1,
+        "providerElapsedMs": 1,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 93,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 93,
+        "providerElapsedMs": 93,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 93,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 93,
+        "providerElapsedMs": 93,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 93,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 93,
+        "providerElapsedMs": 93,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 93,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 93,
+        "providerElapsedMs": 93,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Kappo%20Sancho",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 93,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 93,
+        "providerElapsedMs": 93,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 96,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 96,
+        "providerElapsedMs": 96,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 147,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 147,
+        "providerElapsedMs": 147,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 147,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 147,
+        "providerElapsedMs": 147,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 147,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 147,
+        "providerElapsedMs": 147,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 147,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 147,
+        "providerElapsedMs": 147,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kappo%20Sancho",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 147,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 147,
+        "providerElapsedMs": 147,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 153,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 153,
+        "providerElapsedMs": 153,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 205,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 205,
+        "providerElapsedMs": 205,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 205,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 205,
+        "providerElapsedMs": 205,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 205,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 205,
+        "providerElapsedMs": 205,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 205,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 205,
+        "providerElapsedMs": 205,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%89%B2%E7%83%B9%20%E4%B8%89%E9%95%B7%20%E6%B8%8B%E8%B0%B7",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 205,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 205,
+        "providerElapsedMs": 205,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 207,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 207,
+        "providerElapsedMs": 207,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 249,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 249,
+        "providerElapsedMs": 249,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 249,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 249,
+        "providerElapsedMs": 249,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 249,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 249,
+        "providerElapsedMs": 249,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 249,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 249,
+        "providerElapsedMs": 249,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 249,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 249,
+        "providerElapsedMs": 249,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 255,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 255,
+        "providerElapsedMs": 255,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FAILED",
+      "detail": "IDENTITY_PREFIX_COMPLETE_NO_WORKFLOW_READ",
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 255,
+        "providerElapsedMs": 255,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0,
+        "reason": "RUNTIME_FAILURE",
+        "failureCode": "BROWSER_RUNTIME_FAILED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 255
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 255,
+        "providerElapsedMs": 255,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 255
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "detail": "SESSION_RETIRED",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 255,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 255,
+        "providerElapsedMs": 255,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 255,
+        "providerElapsedMs": 255,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-008",
+      "elapsedMs": 255
+    }
+  ],
+  "productionReason": "HIGH_EXACT_PHONE",
+  "thirdTermObserved": true,
+  "japaneseOrigin": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-008.raw.json",
+  "fragmentOrigin": "CAPTURED_MODEL_OUTPUT_REPLAY",
+  "actualAcquiredDetails": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:46:12.004+01:00",
+      "headersAtCET": "2026-10-31T06:46:14.203+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:46:15.288+01:00",
+      "finishedAtCET": "2026-10-31T06:46:15.288+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:46:14 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2199,
+      "bodyMs": 1085,
+      "elapsedMs": 3284,
+      "bytesReceived": 141869,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-01",
+      "knownId": "KNOWN-DETAIL-01",
+      "kind": "DETAIL",
+      "subjectId": "nr-008",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-01",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-01.body.html",
+      "sha256": "3800814636c3064bf7053c13e111c26c789f94f9e731789e5f1d0c0c2e5ac071",
+      "bodyComplete": true,
+      "failure": null
+    }
+  ],
+  "modelCalls": 0,
+  "modelAttempts": 0,
+  "modelPortInjected": false,
+  "sourceNetworkCalls": 0,
+  "unexpectedFetchAttempts": 0,
+  "guardCheckpoints": [
+    {
+      "phase": "BEFORE_CHECK",
+      "modelCalls": 0,
+      "modelAttempts": 0,
+      "sourceNetworkCalls": 0
+    },
+    {
+      "phase": "FINALLY",
+      "modelCalls": 0,
+      "modelAttempts": 0,
+      "sourceNetworkCalls": 0
+    },
+    {
+      "phase": "BEFORE_SAVE",
+      "modelCalls": 0,
+      "modelAttempts": 0,
+      "sourceNetworkCalls": 0
+    }
+  ],
+  "internalLimits": {
+    "maxModelCallsPerCandidate": 1,
+    "maxModelCallsTotal": 1,
+    "sharedMaxModelCalls": 1
+  },
+  "browserClosed": true,
+  "rendererBlockedRequests": 92,
+  "inventoryEvaluation": "NOT_EVALUATED"
+}

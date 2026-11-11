@@ -1,0 +1,42 @@
+.eval-artifacts/p1-g-20261012/P1-G2/extract-terminal-states.mjs:27: const enumKeys=new Set(['phase','status','code','reasonCode','failureCode','polarity','strength','goal','selectionScope','basis','partySizeSource','executionConfidence','source','outcome','sourceProvider','receptionMode','kind','provider','locationResolutionSource','areaMatchBasis','confidence','matchedBy','observationKind','inventoryStatus','field']);
+.eval-artifacts/p2-0-hardening-20261015/termination/extract-state.mjs:9: const enumKeys=new Set(['phase','status','code','reasonCode','failureCode','polarity','strength','goal','selectionScope','basis','partySizeSource','executionConfidence','source','outcome','sourceProvider','receptionMode','kind','provider','locationResolutionSource','areaMatchBasis','confidence','matchedBy','observationKind','inventoryStatus','field']);
+.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/integrated/timing-red/W12-shared-semantic-deadline-not-held/challenge.test.ts:453:          sourceProvider: "GOOGLE_PLACES" as const,
+.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/timing-red/W12-shared-semantic-deadline-not-held/challenge.test.ts:452:          sourceProvider: "GOOGLE_PLACES" as const,
+.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/timing-valid-red/W12-shared-semantic-deadline-not-held/challenge.test.ts:452:          sourceProvider: "GOOGLE_PLACES" as const,
+.eval-artifacts/phase3b/g5-b1-followup/verify-web.mjs:24:   input.context.offer.source=provider;input.context.check.sourceProvider=provider;
+.eval-artifacts/phase3b/g5-b1/verify-web.mjs:19:   input.context.offer.source=provider;input.context.check.sourceProvider=provider;
+src/application/restaurant-execution-router.ts:112:    ...check, ...(!check.evidenceIds.length && !check.sourceProvider && !check.sourceAttempts ? {sourceProvider:read.metadata.provider} : {}),
+src/application/restaurant-execution-router.ts:124:  const availabilityChecks: RestaurantAvailabilityRead["availabilityChecks"]=Object.fromEntries(reads.flatMap(read=>Object.entries(read.availabilityChecks).map(([id,check])=>[id,{...check,sourceProvider:check.sourceProvider??read.metadata.provider}])));
+src/application/restaurant-execution-router.ts:353:                return (check.sourceAttempts ?? [{ source: check.sourceProvider ?? read.metadata.provider, outcome: check.status, ...(check.reasonCode ? { reasonCode: check.reasonCode } : {}) }])
+src/application/restaurant-presentation-evidence.test.ts:88:    factChecks: { [candidateId]: { ...priorCheck, checkedAt: now, sourceProvider: "TABELOG", sourceAttempts: [{ source: "TABELOG", outcome: "COMPLETED" }] } },
+src/domains/restaurant/action-validator.test.ts:94:    factChecks: { [candidateId]: { status: "COMPLETED", checkedAt: now, evidenceIds: ["identity", "omakase-fact"], sourceProvider: "TABELOG" } },
+src/domains/restaurant/action-validator.test.ts:674:    factChecks: { a: { status: "COMPLETED", checkedAt: now, evidenceIds: ["old-facts"], sourceProvider: "RESTAURANT_WEBSITE" } },
+src/domains/restaurant/action-validator.test.ts:687:    factChecks: { a: { status: "COMPLETED", checkedAt: "2026-08-05T10:00:00.000Z", evidenceIds: ["new-facts"], sourceProvider: "RESTAURANT_WEBSITE" } },
+src/domains/restaurant/agent-context.test.ts:164:    factChecks: { [candidateId]: { status: "COMPLETED", checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: ["fact-a"], sourceProvider: "RESTAURANT_WEBSITE" } },
+src/domains/restaurant/agent-context.test.ts:192:        status: "COMPLETED", checkedAt: "2026-08-05T09:00:00.000Z", evidenceIds: ["website-current"], sourceProvider: "RESTAURANT_WEBSITE",
+src/domains/restaurant/agent-context.ts:165:      ...(factCheck?.sourceAttempts ?? (factCheck?.sourceProvider ? [{ source: factCheck.sourceProvider, outcome: factCheck.status, ...(factCheck.reasonCode ? { reasonCode: factCheck.reasonCode } : {}) }] : [])),
+src/domains/restaurant/agent-context.ts:167:      ...(availability?.sourceAttempts || !availability?.sourceProvider ? [] : [{ source: availability.sourceProvider, outcome: availability.status, ...(availability.reasonCode ? { reasonCode: availability.reasonCode } : {}) }]),
+src/domains/restaurant/booking-handoff.test.ts:17:  input.context.offer.source="TABLECHECK"; input.context.check.sourceProvider="TABLECHECK";
+src/domains/restaurant/booking-handoff.test.ts:71:    (c:BookingHandoffContext)=>{c.check.sourceProvider="TABLECHECK";},
+src/domains/restaurant/booking-handoff.ts:147:    || check.status !== "AVAILABLE" || check.sourceProvider !== source.provider
+src/domains/restaurant/contracts.ts:187:  sourceProvider?: RestaurantReadExecutionMetadata["provider"];
+src/domains/restaurant/contracts.ts:468:  sourceProvider?: RestaurantReadExecutionMetadata["provider"];
+src/domains/restaurant/read-assessment.test.ts:30:  factChecks: { [candidateId]: { status: unknown ? "UNKNOWN" : "COMPLETED", checkedAt: at, sourceProvider: "TABELOG", evidenceIds: unknown ? [identity.evidenceId] : [identity.evidenceId, "investigation-fact"] } },
+src/domains/restaurant/read-assessment.ts:54:    ?? (check?.sourceProvider ? [check.sourceProvider] : (check?.evidenceIds ?? []).flatMap(id => {
+src/domains/restaurant/task-definition.ts:383:            ...checks.flatMap(check => [...(check.sourceProvider ? [check.sourceProvider] : []), ...(check.sourceAttempts ?? []).map(attempt => attempt.source)])])];
+src/domains/restaurant/task-definition.ts:514:                ? evidenceProviders[0] as NonNullable<RestaurantCandidateFactCheck["sourceProvider"]>
+src/domains/restaurant/task-definition.ts:516:              const sourceProvider: RestaurantCandidateFactCheck["sourceProvider"] = check.sourceProvider
+src/domains/restaurant/task-definition.ts:520:                ?? (sourceProvider ? [sourceProvider] : evidenceProviders.filter((provider) => provider !== "MODEL_JUDGMENT")));
+src/domains/restaurant/task-definition.ts:530:                ...(sourceProvider !== undefined ? { sourceProvider } : {}),
+src/domains/restaurant/task-definition.ts:585:          sourceProvider: event.availabilityChecks[candidateId]!.sourceProvider ?? event.metadata.provider,
+src/harness/browser/browser-read-request-binding.test.ts:471:      evidenceIds: replacement.evidence.map(evidence => evidence.evidenceId), sourceProvider: "TABELOG",
+src/harness/workspace-fixture-server.ts:102:      const check={...result.check,sourceProvider:provider,requestFingerprint:restaurantAvailabilityRequestFingerprint(request)};
+src/integrations/restaurant-availability/availability-source-resolver.test.ts:112:  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.sourceProvider, "TABELOG");
+src/integrations/restaurant-availability/availability-source-resolver.test.ts:137:      assert.equal(check.sourceProvider,row.source);
+src/integrations/restaurant-availability/availability-source-resolver.ts:102:                sourceProvider: provider.provider,
+src/integrations/restaurant-facts/google-then-website-facts.ts:120:        sourceProvider: google.metadata.provider,
+src/integrations/restaurant-facts/native-source-facts.ts:308:          factChecks[candidate.restaurant.id]={status:"COMPLETED",checkedAt,evidenceIds:identities.map(item=>item.evidenceId),sourceProvider:provider};
+src/integrations/restaurant-facts/native-source-facts.ts:386:          evidenceIds: [...identities.map((item) => item.evidenceId), ...judged.evidence.map((item) => item.evidenceId)], sourceProvider: provider,
+src/server/local-web-server.test.ts:477:          sourceProvider: "GOOGLE_PLACES" as const,
+src/server/local-web-server.test.ts:1811:        const prepared=prepareBookingHandoff(source,{candidate:raw.context.candidate,offer:grounded.offers[0]!,check:{...grounded.check,sourceProvider:"TABELOG",requestFingerprint:raw.context.check.requestFingerprint!},request:raw.context.request,evidence:grounded.evidence,now:clock.now().toISOString()});
+src/server/local-web-server.test.ts:1993:            if(useJapanese)assert.equal(view.restaurant.availabilityChecks[view.restaurant.candidates[0]!.restaurant.id]?.sourceProvider,"TABELOG");

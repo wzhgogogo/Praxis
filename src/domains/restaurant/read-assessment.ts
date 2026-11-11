@@ -1,8 +1,9 @@
-import { availabilityCheckSelectionScope, observedCandidateAvailabilityPath, observedCandidateDistance } from "./candidate-read-observations.js";
 import { assessRestaurantConditions, priceCondition } from "./condition-states.js";
 import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
+import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate,namedOutletIdentityPrefix} from "./named-outlet-resolution.js";
+import { acceptedPositiveHardEvidence } from "./positive-hard-evidence.js";
 
 /**
  * A pure, Domain-owned view of what the current read evidence proves and
@@ -87,6 +88,7 @@ function presentationEvidenceIds(
   intent: NonNullable<ReturnType<typeof completeRestaurantSearchIntent>>,
   now: string,
 ): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
+  if(!namedOutletCandidateResolved(state,candidateId))return {valid:false,reason:"The requested outlet name is not uniquely resolved; ask the user which branch or area they mean"};
   const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
   const immediate = state.intentDraft?.temporalResolution?.immediateAvailability;
   if (immediate && new Date(now).valueOf() > new Date(immediate.validUntil).valueOf()) {
@@ -116,9 +118,11 @@ function presentationEvidenceIds(
       && offer.serviceScope.field === scope.field && offer.serviceScope.group === scope.group && offer.serviceScope.value === scope.value;
   };
   const area = candidateEvidence.find((evidence) =>
-    evidence.kind === "DISCOVERY" && evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query),
+    evidence.kind === "DISCOVERY" && (intent.area
+      ? evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query)
+      : namedOutletCandidateResolved(state,candidateId)&&evidence.claims.locationBasis==="NAMED_OUTLET_RESOLUTION"),
   );
-  if (!area) return { valid: false, reason: `Candidate ${candidateId} has no evidence that it satisfies ${intent.area.query}` };
+  if (!area) return { valid: false, reason: `Candidate ${candidateId} has no evidence that it satisfies ${intent.area?.query??"the uniquely named outlet"}` };
   const currentBookingIntent = completeRestaurantIntent(state.intentDraft);
   const currentNoSlot = !restaurantGoalRequiresAvailability(intent) && currentBookingIntent && state.availabilityChecks[candidateId]?.status === "UNAVAILABLE" &&
     state.availabilityChecks[candidateId]?.requestFingerprint === restaurantAvailabilityRequestFingerprint(currentBookingIntent);
@@ -129,9 +133,9 @@ function presentationEvidenceIds(
         if (criterion.status !== "MET") return `Candidate ${candidateId} lacks source-supported HARD price condition ${criterion.text}`;
         continue;
       }
-      const supported = facts.some((evidence) =>
-        stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
-      );
+      const meal = intent.timeWindow?.earliest && intent.timeWindow.earliest >= "17:00" ? "DINNER"
+        : intent.timeWindow?.latest && intent.timeWindow.latest <= "15:00" ? "LUNCH" : undefined;
+      const supported = acceptedPositiveHardEvidence(criterion.text, facts, now, meal);
       if (!supported) return `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}`;
     }
     for (const criterion of intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD")) {
@@ -249,6 +253,16 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
     return { candidateId, eligible: false, missingReason: evidence.reason, ...(hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}) };
   });
+  if(state.candidates.length&&!state.candidates.some(c=>namedOutletCandidateResolved(state,c.restaurant.id))){
+    const possible=state.candidates.filter(c=>namedOutletCandidateCanInvestigate(state,c.restaurant.id)).map(c=>c.restaurant.id);
+    const identityOnly=namedOutletIdentityPrefix(state).length>0;
+    return {presentation,
+      factInvestigableCandidateIds:identityOnly||!completeRestaurantIntent(state.intentDraft)?possible.filter(id=>!state.factChecks?.[id]):[],
+      checkableCandidateIds:!identityOnly&&completeRestaurantIntent(state.intentDraft)?possible.filter(id=>!state.availabilityChecks[id]):[],
+      investigationRecorded:state.searchRevision>0,canEndRead:false,
+      endReadBlockReason:"The named outlet is not confirmed. The first three possible outlets may be read for identity only; finish that scope before accepting exactly one bound source full name. Otherwise ask which branch the user means. No early selection or presentation is allowed.",
+      unresolvedCandidateIds:state.candidates.map(c=>c.restaurant.id)};
+  }
   if (immediateRequestWindowExpired(state, now)) {
     const internalFailure = state.failure && /^(AGENT_|SEMANTIC_|BROWSER_RUNTIME|BROWSER_TIMEOUT)/.test(state.failure.code);
     return { presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [],
@@ -267,11 +281,13 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   const hardConflictedCandidates = new Set(state.candidates.filter((candidate) =>
     hasCurrentHardConflict(state, candidate.restaurant.id, intent)).map((candidate) => candidate.restaurant.id));
   const factInvestigableCandidateIds = presentation.filter((item) => {
+    if(!namedOutletCandidateResolved(state,item.candidateId))return false;
     if (excludedFromPendingBatch.has(item.candidateId)) return false;
     const refreshing = factRefreshTargets.includes(item.candidateId);
     if (hardConflictedCandidates.has(item.candidateId) && !refreshing) return false;
     if (factRefreshTargets.length && !refreshing) return false;
-    if (!refreshing && state.factChecks?.[item.candidateId] !== undefined) return false;
+    if (!refreshing && state.factChecks?.[item.candidateId] !== undefined
+      &&!(state.factChecks[item.candidateId]?.reasonCode==="NAMED_OUTLET_IDENTITY_ONLY"&&intent.criteria.some(c=>c.strength==="HARD"))) return false;
     const candidate = state.candidates.find((value) => value.restaurant.id === item.candidateId);
     return state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED"
       || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri)
@@ -279,15 +295,10 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   }).map((item) => item.candidateId);
   const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
   const eligibleCheckableIds = completeBookingIntent ? presentation.filter((item) =>
-    !excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
+    namedOutletCandidateResolved(state,item.candidateId)&&!excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
       && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
   ).map((item) => item.candidateId) : [];
-  const checkableCandidateIds = state.refreshRequestedCandidateIds?.length ? eligibleCheckableIds : availabilityCheckSelectionScope(eligibleCheckableIds,
-    state.candidates.map(candidate => ({ id: candidate.restaurant.id,
-      availabilityPath: observedCandidateAvailabilityPath(state.readEvidence, candidate.restaurant.id, now),
-      inRadius: observedCandidateDistance(state.readEvidence, candidate.restaurant.id, now).distanceObservation !== undefined,
-      alreadyChecked: state.availabilityChecks[candidate.restaurant.id] !== undefined,
-    })));
+  const checkableCandidateIds = eligibleCheckableIds;
   const investigationRecorded = state.searchRevision > 0 || Object.keys(state.factChecks ?? {}).length > 0 || Object.keys(state.availabilityChecks).length > 0;
   const relevantPresentation = presentation.filter((item) => !excludedFromPendingBatch.has(item.candidateId));
   const unresolvedCandidateIds = relevantPresentation.filter((item) => !item.eligible).map((item) => item.candidateId);

@@ -1,0 +1,27 @@
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (14530.795291ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14976.364667
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/runner.test.ts:1:534
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (14530.795291ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    join(dir,"runs/named/browser-trace.json")
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/runner.test.ts:36:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

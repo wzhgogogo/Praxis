@@ -1,0 +1,113 @@
+{
+  "sourceSHA": "7a73ba845d807ab31555e7507b03b92318c16179",
+  "atCET": "2026-11-06T02:30:01.411773+01:00",
+  "inputs": [
+    {
+      "path": ".eval-artifacts/phase3b/observed-read-provenance-20261105/budget-approved-continuation/live/D4-pack.json",
+      "sha256": "7fb8f6355b1b033328a2cd30355cec8ce1ae0bc4f607aaf281ddba82a86a333a"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/observed-read-provenance-20261105/budget-approved-continuation/live/D8-pack.json",
+      "sha256": "6aa686aa01ac1a47d20a7576c307ade82db868142264e15725cc4f9f3bac2cad"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/runners/run-c-closeout-live.ts",
+      "sha256": "ff070fb5a402dad559cf4bf10b62fd9d0e29917ac6de6d09f697d2679e519d70"
+    }
+  ],
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "env": {},
+      "exitCode": 0,
+      "elapsedSeconds": 0.50142525,
+      "before": "",
+      "after": ""
+    },
+    {
+      "gate": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "env": {},
+      "exitCode": 0,
+      "elapsedSeconds": 0.217066333,
+      "before": "",
+      "after": ""
+    },
+    {
+      "gate": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "env": {},
+      "exitCode": 0,
+      "elapsedSeconds": 52.7674535,
+      "before": "",
+      "after": ""
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "env": {},
+      "exitCode": 0,
+      "elapsedSeconds": 0.7274024170000004,
+      "before": "",
+      "after": ""
+    },
+    {
+      "gate": "browser",
+      "command": [
+        "node",
+        "scripts/run-browser-fixtures.mjs"
+      ],
+      "env": {},
+      "exitCode": 0,
+      "elapsedSeconds": 112.920040875,
+      "before": "",
+      "after": ""
+    },
+    {
+      "gate": "g6",
+      "command": [
+        "npm",
+        "run",
+        "test:g6:assembly"
+      ],
+      "env": {},
+      "exitCode": 0,
+      "elapsedSeconds": 27.00981483299998,
+      "before": "",
+      "after": ""
+    },
+    {
+      "gate": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "env": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "elapsedSeconds": 24.08869066700001,
+      "before": "",
+      "after": ""
+    }
+  ],
+  "networkCallsBeforeThisPoint": 0,
+  "credentialFileLoadedBeforeThisPoint": false
+}

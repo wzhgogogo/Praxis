@@ -1,0 +1,86 @@
+{
+  "status": "frozen regression / exposed actual diagnostic metadata; no raw query values",
+  "source": ".eval-artifacts/phase3b/d8-handoff-live-20261108/diagnostic-runtime/runs/D8/D8/evaluation.input.json",
+  "sha256": "79c99eb54d8df8fabb497701d264953f573e98ef00d8bf7d54ae94267c3ef874",
+  "requests": [
+    {
+      "ref": "C-preflight:14",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:15",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:18",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:19",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    }
+  ]
+}

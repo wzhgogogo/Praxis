@@ -1,0 +1,11 @@
+{
+ "status":"draft / not integrated; independent handwritten source-detail contract",
+ "origin":"https://production.tablecheck.com",
+ "pathnamePattern":"^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
+ "methods":["GET"],"resourceTypes":["fetch","xhr"],
+ "exactQueryKeys":["locale"],"valuePatterns":{"locale":"^[a-z]{2}(?:-[A-Z]{2})?$"},
+ "sensitiveValueCheck":"existing sensitive-format rejection before value category",
+ "corsPreflight":false,
+ "reject":["HEAD","POST","OPTIONS","document/script/Other type","extra/missing/repeated keys","sensitive/free-text/numeric/invalid-locale values","foreign origin","nested/encoded/unbounded-prefix paths","reserved workflow slug"],
+ "proof":"Recorded anonymous rejected URL hash reconstructed from observed HTML language; real detail body was never received. Positives below are local Fixture only."
+}

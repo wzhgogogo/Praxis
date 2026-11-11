@@ -1,0 +1,138 @@
+{
+  "status": "CERTIFICATION_BLOCKED_STOP_BEFORE_LIVE",
+  "reviewMode": "OFFLINE_REVIEW_OF_NEW_PUBLIC_GET_RAW_EVIDENCE",
+  "identities": [
+    {
+      "sourceEntityId": "13108466",
+      "name": "Kushi Katsu Dengana Akabane ten",
+      "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+      "addressEvidence": "saved visible merchant information / Address",
+      "telephone": "+81-3-5249-4011",
+      "telephoneEvidence": "Restaurant JSON-LD $.telephone and visible Phone number agree; reservation tracking number not used",
+      "coordinates": {
+        "@type": "GeoCoordinates",
+        "latitude": 35.77955623783377,
+        "longitude": 139.7211530842476
+      },
+      "cuisine": "Kushi-age (Deep-fried skewers),Izakaya (Japanese style tavern),Tripe",
+      "currentTabelogDetailVerified": true,
+      "tablecheckCrossSourceIdentityVerified": "NOT_REQUIRED"
+    },
+    {
+      "sourceEntityId": "13186922",
+      "name": "Nodoguro Senmon Ginza Nakamata",
+      "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+      "addressEvidence": "saved visible merchant information / Address",
+      "telephone": "+81-3-6264-3229",
+      "telephoneEvidence": "Restaurant JSON-LD $.telephone and visible Phone number agree; reservation tracking number not used",
+      "coordinates": {
+        "@type": "GeoCoordinates",
+        "latitude": 35.670180437917836,
+        "longitude": 139.76697698311065
+      },
+      "cuisine": "Izakaya (Japanese style tavern),Seafood",
+      "currentTabelogDetailVerified": true,
+      "tablecheckCrossSourceIdentityVerified": null
+    }
+  ],
+  "availability": [
+    {
+      "sourceEntityId": "13108466",
+      "date": "2026-11-11",
+      "partySize": 2,
+      "requestedTime": "19:00",
+      "returnedTimes": [
+        "12:00",
+        "12:15",
+        "12:30",
+        "12:45",
+        "13:00",
+        "13:15",
+        "13:30",
+        "13:45",
+        "14:00",
+        "14:15",
+        "14:30",
+        "14:45",
+        "15:00",
+        "15:15",
+        "15:30",
+        "15:45",
+        "16:00",
+        "16:15",
+        "16:30",
+        "16:45",
+        "17:00",
+        "17:15",
+        "17:30",
+        "17:45",
+        "18:00",
+        "18:15",
+        "18:30",
+        "18:45",
+        "19:00",
+        "19:15",
+        "19:30",
+        "19:45",
+        "20:00",
+        "20:15",
+        "20:30",
+        "20:45",
+        "21:00",
+        "21:15",
+        "21:30"
+      ],
+      "requestedTimeReturned": true,
+      "onlineAvailabilityResponseObserved": true,
+      "claimScope": "Only this saved public response; no assertion of all-day/full-platform unavailability."
+    },
+    {
+      "sourceEntityId": "13186922",
+      "date": "2026-11-11",
+      "partySize": 2,
+      "requestedTime": "19:00",
+      "returnedTimes": [
+        "17:00",
+        "17:15",
+        "17:30",
+        "17:45",
+        "18:00",
+        "20:00",
+        "20:15",
+        "20:30",
+        "20:45",
+        "21:00"
+      ],
+      "requestedTimeReturned": false,
+      "onlineAvailabilityResponseObserved": true,
+      "claimScope": "Only this saved public response; no assertion of all-day/full-platform unavailability."
+    }
+  ],
+  "conditions": [
+    {
+      "condition": "W1 same outlet and requested19:00/2 slot",
+      "status": "PASS",
+      "evidence": [
+        "13108466/001-detail.body",
+        "13108466/002-vacancy.body"
+      ]
+    },
+    {
+      "condition": "W2 Tabelog and TableCheck current name/address/phone match",
+      "status": "UNKNOWN_BLOCKING",
+      "reason": "TableCheck public phone-comparison attempt returned no saved response; only TypeError retained."
+    },
+    {
+      "condition": "complete reviewed evidence freeze/import",
+      "status": "NOT_RUN_UPSTREAM_BLOCKED",
+      "reason": "W2 cross-source identity unavailable; W2 requested Tabelog slot also absent. Original execution-evidence.reviewed remains false."
+    }
+  ],
+  "firstBlockingBoundary": "W2 cross-source identity certification before evidence import or Live",
+  "firstAvailabilityDeviation": "Request4: W2 returns other slots but not19:00. This is not DETAIL_ONLY and not proof of no online reservation.",
+  "tablecheckRetryRun": false,
+  "alternateURLGuessed": false,
+  "liveStarted": 0,
+  "modelCalls": 0,
+  "publicGET": 5
+}

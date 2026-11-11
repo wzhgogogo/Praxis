@@ -150,7 +150,6 @@ export async function runDiscoveryProbe(input: DiscoveryProbeInput, witnesses: r
   function observe(snapshot: BrowserSnapshot) {
     snapshotSequence++;
     if (!activePack) return;
-    for(const link of activePack.browser?.directory?.links(snapshot) ?? []) if(link.category) categoryLabels.set(link.url,link.label);
     const outlets = activePack.parseListing(snapshot).outlets;
     listings.push({sourceId:activePack.meta.id,url:snapshot.url,snapshot:snapshotSequence,
       htmlSha256:createHash("sha256").update(snapshot.html).digest("hex"),categoryLabel:categoryLabels.get(snapshot.url)??null,outlets});
@@ -173,29 +172,32 @@ export async function runDiscoveryProbe(input: DiscoveryProbeInput, witnesses: r
   const plan = planDiscoverySources(input.intent,input.locationContext,packs.map(p=>p.meta),input.referenceTime);
   record("DISCOVERY_PLAN",plan);
   let terminationReason = "ALL_PLANNED_FIRST_BATCHES_ATTEMPTED";
+  const attemptedSourceIds:string[]=[];
   for(let cursor=0;cursor<plan.entries.length;cursor++) {
     const entry=plan.entries[cursor]!;
     if (Date.now()>=deadline || signal.aborted) {terminationReason="DISCOVERY_PROBE_TIMEOUT";break;}
     if (calls>=config.maxModelCalls) {terminationReason="MODEL_CALL_BUDGET_EXHAUSTED";break;}
+    attemptedSourceIds.push(entry.sourceId);
     activePack=packs.find(p=>p.meta.id===entry.sourceId);
     try {
       const read=await assembly.search.search({intent:input.intent,readRunId:input.caseId,
         continuation:{intentFingerprint:restaurantSearchIntentFingerprint(input.intent),usedPageTokens:[],pagesRead:0,exhausted:false,
           locationContext:input.locationContext,discoveryPlan:{entries:plan.entries,cursor,...(plan.textRetrieval?{textRetrieval:plan.textRetrieval}:{})}}},signal);
       if(read.continuation?.discoveryPlan?.textRetrieval)plan.textRetrieval=read.continuation.discoveryPlan.textRetrieval;
+      if(read.metadata.supplementaryDiscovery){attemptedSourceIds.push(read.metadata.supplementaryDiscovery.sourceId);cursor=plan.entries.findIndex(e=>e.sourceId===read.metadata.supplementaryDiscovery!.sourceId);}
       reads.push({sourceId:entry.sourceId,read});record("SOURCE_FIRST_BATCH",{sourceId:entry.sourceId,read});
     } catch(error) {
       const partial=error&&typeof error==="object"&&"nativeFunnel" in error ? error.nativeFunnel as ProbeSourceRead["failedFunnel"] : undefined;
       reads.push({sourceId:entry.sourceId,failureCode:code(error),...(partial?{failedFunnel:partial}:{})});record("SOURCE_FAILED",{sourceId:entry.sourceId,failureCode:code(error)});
-      if(signal.aborted || Date.now()>=deadline || calls>=config.maxModelCalls) {terminationReason=signal.aborted?"DISCOVERY_PROBE_TIMEOUT":code(error);break;}
+      if(signal.aborted || Date.now()>=deadline || calls>=config.maxModelCalls) {terminationReason=signal.aborted?"DISCOVERY_PROBE_TIMEOUT":calls>=config.maxModelCalls?"MODEL_CALL_BUDGET_EXHAUSTED":code(error);break;}
     }
   }
   return {schemaVersion:"discovery-probe@1",mode:"LIVE_READ_ONLY_DISCOVERY_PROBE",caseId:input.caseId,role:input.role,
     ...discoveryProbeMetrics(input,witnesses,listings,details,reads,packs),
     resources:{modelCalls:calls,browserModelCalls:assembly.browserBudget.totalModelCalls,
       google:assembly.google.googleRequestUsage(input.caseId),elapsedMs:Date.now()-startedAt,ceilings:assembly.runCeilings},
-    terminationReason,plannedSourceIds:plan.entries.map(e=>e.sourceId),attemptedSourceIds:reads.map(r=>r.sourceId),
-    unattemptedSourceIds:plan.entries.slice(reads.length).map(e=>e.sourceId),
+    terminationReason,plannedSourceIds:plan.entries.map(e=>e.sourceId),attemptedSourceIds,
+    unattemptedSourceIds:plan.entries.filter(e=>!attemptedSourceIds.includes(e.sourceId)).map(e=>e.sourceId),
     failureCodes:reads.flatMap(r=>r.failureCode?[r.failureCode]:r.read?.metadata.failureCode?[r.read.metadata.failureCode]:[]),
     listings,firstBatchDetails:details,diagnostics,
     evidenceLimit:"Discovery probe only; source failure/empty result is not source exhaustion, availability or delivery. Witnesses are eval-only and never passed to production assembly/model.",

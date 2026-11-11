@@ -1,0 +1,661 @@
+
+> praxis-zhixing@0.1.0 test:browser:fixture
+> node scripts/run-browser-fixtures.mjs && npm run test:g6:assembly
+
+[browser fixtures] 47/47 files; G2 never overlaps the remaining fixtures
+[browser fixtures] G2 (exclusive): 3 files, concurrency 1
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change-agent.test.ts"}
+✔ G2 constructed normal control uses observed labels after every private marker changes (3805.439333ms)
+✔ G2 public selection is observable but only a bound source response confirms the request (180.390125ms)
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change-agent.test.ts","elapsedMs":4312.463707999999,"passed":true}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change-mutation.test.ts"}
+✔ G2 extends the F3 class-only mutation to every id and private data attribute (126.886833ms)
+✔ G2 rule two rewrites all bound ID references, leaves dangling/script references and preserves CSS (135.057625ms)
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change-mutation.test.ts","elapsedMs":547.9147499999999,"passed":true}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change.test.ts"}
+✔ G2 saved pages preserve the frozen reference capability and reject new false claims (19054.481417ms)
+ℹ {"id":"tabelog-list-nerima","classification":"PASS","referenceFacts":20,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-list-akabane","classification":"PASS","referenceFacts":1,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-01","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-02","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-teppen","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{"day:2026-09-29":{"before":null,"after":null},"day:2026-09-28":{"before":null,"after":null},"day:2026-09-30":{"before":null,"after":null}},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-sen","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{"day:2026-10-22":{"before":null,"after":null},"day:2026-10-01":{"before":null,"after":null}},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-ginza","classification":"PASS","referenceFacts":1,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-akabane","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-nakamata","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-takahashiya","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-nakamata","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-kinri","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change.test.ts","elapsedMs":19370.558292,"passed":true}
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24232.577125
+[browser fixtures] remaining fixtures: 44 files, concurrency 4
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-calendar-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-category.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-discovery.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-named-query.test.ts"}
+✔ Matsumoto selected-party 1 escapes the guest Next loop through production observation (1701.144375ms)
+✔ Matsumoto selected-party 2 escapes the guest Next loop through production observation (1207.184959ms)
+✔ generic selected state requires public ARIA, with independent same-label groups (530.961917ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-named-query.test.ts","elapsedMs":4236.427750000003,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-option-controls.test.ts"}
+✔ party click does not confirm from unrelated page changes or an unchanged group value (784.401542ms)
+✔ Chromium labels public icon alternatives and leaves ambiguous calendar ownership unlabelled (153.266542ms)
+✔ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (793.320917ms)
+✔ Chromium control observation discards only a handle confirmed disconnected between reads (124.212ms)
+✔ Chromium control observation preserves an attached control-read failure (121.107375ms)
+✔ Chromium control signatures ignore presentation-only classes but reject value and owner changes (222.697875ms)
+✔ Chromium projects an owned default-method submit as GET without classifying bare or POST submits as public GET (124.418459ms)
+✔ C2a recorded date controls reject other days without class-derived party confirmation (2565.44175ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-discovery.test.ts","elapsedMs":9392.254542000002,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-page-controls.test.ts"}
+✔ C2a selectable requested date retains authoritative click and blocks an ordinary other-date click (778.997291ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-calendar-controls.test.ts","elapsedMs":9514.951958999998,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-public-selection.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-public-selection.test.ts","elapsedMs":902.4981249999983,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-replay.test.ts"}
+✔ observed source category links retain radius and partial-result safety: visible (4958.470125ms)
+✔ observed source category links retain radius and partial-result safety: hidden (5237.522125ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-replay.test.ts","elapsedMs":4771.931708999997,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-request-binding.test.ts"}
+✔ observed source category links retain radius and partial-result safety: foreign (4837.061875ms)
+✔ observed source category links retain radius and partial-result safety: cancel-partial (3504.388625ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-category.test.ts","elapsedMs":19057.836416999995,"passed":true}
+✔ P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests (1346.063208ms)
+✔ P21b guarded search filters reject unaudited parameters under the production generic-read policy (232.031625ms)
+✔ name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation (3754.51325ms)
+✔ F5 current observation rejects three out-of-radius details and retains both in-radius candidates (3617.746625ms)
+✔ D8 real unnamed search box and script-populated hidden query reach a guarded bound list (3799.769042ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-search-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-page-controls.test.ts","elapsedMs":9923.074584000002,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-snapshot.test.ts"}
+✔ button name metadata does not replace visible time or Reserve safety label (484.196625ms)
+✔ LOCAL chooses a visible time option with an opaque native value and reads it back (811.171458ms)
+✔ CLOUDFLARE_SESSION chooses a visible time option with an opaque native value and reads it back (843.509375ms)
+✔ LOCAL binds a button combobox to its own listbox option through the strict browser wire (1167.089625ms)
+✔ CLOUDFLARE_SESSION binds a button combobox to its own listbox option through the strict browser wire (1165.48675ms)
+✔ public combobox value is independent of an empty input and confirms a changed option (1220.050334ms)
+✔ public combobox value is independent of an empty input and avoids a duplicate choice (513.201167ms)
+✔ LOCAL keeps the observed option node when unrelated buttons arrive during model decision (1289.94075ms)
+✔ CLOUDFLARE_SESSION keeps the observed option node when unrelated buttons arrive during model decision (1203.871292ms)
+✔ changed observed option role-change is rejected before execution (833.317166ms)
+✔ changed observed option replacement is rejected before execution (835.019ms)
+✔ changed observed option legal-replacement is rejected before execution (1187.803416ms)
+✔ a visible option from another listbox cannot be claimed by the expanded combobox (464.236042ms)
+✔ native option disabled cannot be signed off as a selected time (453.080959ms)
+✔ native option unchanged cannot be signed off as a selected time (785.660167ms)
+✔ native option complete cannot be signed off as a selected time (788.369042ms)
+✔ an asynchronously applied option can complete after a later selected-value observation (1152.7695ms)
+✔ an unconfirmed time choice cannot be replaced by a successful party choice (794.307166ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-option-controls.test.ts","elapsedMs":16320.105665999996,"passed":true}
+✔ real browser waits for the requested page update instead of reporting stale slots (487.769708ms)
+✔ a requested ready marker that never appears fails within the probe deadline (1624.769458ms)
+✔ generic controlled browser path completes a local read-only page task without a site-specific adapter method (812.220792ms)
+✔ an observed public target-blank link switches the same session to a new page before reading its terms (886.794625ms)
+✔ real DOM observation exposes an unlabelled-id role button and calendar navigation without permitting submission (1112.48825ms)
+✔ an active language dialog blocks background calendar actions until the dialog is closed (1125.169417ms)
+✔ shared executor keeps unguarded public filters unavailable (458.856625ms)
+✔ slider observations follow native properties and ARIA state in both directions (218.127833ms)
+✔ a model cannot consent by setting an unclassified checkbox (452.455833ms)
+✔ nested and hidden dialogs preserve only the active layer's targets (238.557ms)
+✔ C5a one choice reveals a clipped PARTY_SIZE option inside its current list (849.944167ms)
+✔ C5a one choice reveals a clipped TIME option inside its current list (838.967125ms)
+✔ C5a excludes disabled, occluded and noncurrent list options (467.470291ms)
+✔ Chromium observes public selection, native checked values and a calendar day without a private child shape (550.9045ms)
+✔ guarded HAR replay drives the production executor offline and keeps missing requests off the network (2703.629209ms)
+✔ guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic (1666.342167ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-stability.test.ts"}
+✔ LOCAL applies authoritative date and party through observed DOM references (1175.048625ms)
+✔ CLOUDFLARE_SESSION applies authoritative date and party through observed DOM references (1093.744209ms)
+✔ LOCAL settles delayed visible query state (919.480084ms)
+✔ CLOUDFLARE_SESSION settles delayed visible query state (888.04625ms)
+✔ LOCAL settles hidden and property-only control mutations without treating either as inventory (578.80525ms)
+✔ CLOUDFLARE_SESSION settles hidden and property-only control mutations without treating either as inventory (530.879291ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-snapshot.test.ts","elapsedMs":6061.091291000004,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-control-fallback.test.ts"}
+✔ LOCAL recovers once from a visible header obstruction and re-observes before the next click (5852.226ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-control-fallback.test.ts","elapsedMs":3243.421583999996,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-public-list.test.ts"}
+✔ CLOUDFLARE_SESSION recovers once from a visible header obstruction and re-observes before the next click (5838.32075ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-public-list.test.ts","elapsedMs":5586.245542000004,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-response-only.test.ts"}
+✔ TableCheck real Chromium Adapter completes a dynamic scrollable guest query (party-first) within 24 operations (2121.109542ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-response-only.test.ts","elapsedMs":1386.6959579999966,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-structure.test.ts"}
+✔ TableCheck real Chromium Adapter completes a dynamic scrollable guest query (date-first) within 24 operations (2042.595916ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-structure.test.ts","elapsedMs":1311.829875000003,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog.test.ts"}
+✔ native Tabelog detail uses real local Chromium controls before accepting its bound vacancy response (1594.354333ms)
+✔ native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence (4399.373791ms)
+ℹ {"outcome":"AVAILABLE","modelCalls":13,"sourceFactSelections":[{"documentId":"tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","candidateId":"tabelog:en/tokyo/A1304/A130401/100","identityEvidenceId":"evidence:restaurant:tabelog-entity-match:b17866f9823ba635f7c3c7b7","promptVersion":"2","schemaVersion":"2","selections":[{"firstStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","lastStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","role":"COURSE","priceStatementId":""}],"selectedStatements":[{"id":"tabelog:en/tokyo/A1304/A130401/100:statement:2","text":"Omakase course","sourceRole":"SOURCE_TEXT"}]},{"documentId":"tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","candidateId":"tabelog:en/tokyo/A1304/A130401/100","identityEvidenceId":"evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b","promptVersion":"2","schemaVersion":"2","selections":[{"firstStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","lastStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","role":"COURSE","priceStatementId":""}],"selectedStatements":[{"id":"tabelog:en/tokyo/A1304/A130401/100:statement:2","text":"Omakase course","sourceRole":"SOURCE_TEXT"}]}],"phase":"PRESENT_RESULTS","availabilityStatus":"AVAILABLE","factCheck":{"status":"COMPLETED","checkedAt":"2026-08-19T07:20:00.000Z","evidenceIds":["evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b","quoted-source:c6e54935c8f66700dff525d8","tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"sourceProvider":"TABELOG","supersededEvidenceIds":["evidence:restaurant:tabelog-hard-criteria:cf8f2a36bf037130c26a2289"]},"matchReasons":["Source coordinates within 1000 m of Shibuya"],"sourceFieldQuotes":[{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"},{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"},{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"}],"modelVerifiedHardCriteria":[["omakase"]],"conditionStates":{"tabelog:en/tokyo/A1304/A130401/100":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE","criterionRef":"criterion:0","status":"MET","explanation":"Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.","evidenceIds":["fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"sources":[{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"}]}]},"agentSequence":["SEARCH_RESTAURANTS","CHECK_AVAILABILITY","INVESTIGATE_CANDIDATE_FACTS","PRESENT_RESULTS"],"browserActions":["DATE","PARTY_SIZE"]}
+ℹ {"outcome":"AVAILABLE","control":"CURRENT_JUDGMENT_AND_ACTUAL_AGENT_CONTEXT","readRunId":"run:native-dynamic-tabelog-formal:AVAILABLE:investigation:1","judgmentIds":["fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"supportingEvidenceIds":["tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"agentVerifiedHardCriteria":["omakase"]}
+ℹ {"outcome":"AVAILABLE","control":"LOCAL_CONSTRUCTED_FACT_REPLACEMENT","historicalJudgmentsRetained":1,"currentJudgmentIds":[],"agentVerifiedHardCriteria":[]}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-search-controls.test.ts","elapsedMs":24513.493707999995,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tablecheck.test.ts"}
+✔ native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence (5117.151292ms)
+ℹ {"outcome":"UNAVAILABLE","modelCalls":17,"sourceFactSelections":[{"documentId":"tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","candidateId":"tabelog:en/tokyo/A1304/A130401/100","identityEvidenceId":"evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b","promptVersion":"2","schemaVersion":"2","selections":[{"firstStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","lastStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","role":"COURSE","priceStatementId":""}],"selectedStatements":[{"id":"tabelog:en/tokyo/A1304/A130401/100:statement:2","text":"Omakase course","sourceRole":"SOURCE_TEXT"}]},{"documentId":"tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","candidateId":"tabelog:en/tokyo/A1304/A130401/100","identityEvidenceId":"evidence:restaurant:tabelog-entity-match:b17866f9823ba635f7c3c7b7","promptVersion":"2","schemaVersion":"2","selections":[{"firstStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","lastStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","role":"COURSE","priceStatementId":""}],"selectedStatements":[{"id":"tabelog:en/tokyo/A1304/A130401/100:statement:2","text":"Omakase course","sourceRole":"SOURCE_TEXT"}]}],"phase":"NO_VERIFIED_RESULT","availabilityStatus":"UNAVAILABLE","factCheck":{"status":"COMPLETED","checkedAt":"2026-08-19T07:20:00.000Z","evidenceIds":["evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b","quoted-source:c6e54935c8f66700dff525d8","tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"sourceProvider":"TABELOG","supersededEvidenceIds":[]},"matchReasons":["Source coordinates within 1000 m of Shibuya"],"sourceFieldQuotes":[{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"},{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"},{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"}],"modelVerifiedHardCriteria":[["omakase"]],"agentSequence":["SEARCH_RESTAURANTS","INVESTIGATE_CANDIDATE_FACTS","CHECK_AVAILABILITY","SEARCH_RESTAURANTS","SEARCH_RESTAURANTS","END_READ"],"browserActions":["DATE","PARTY_SIZE"]}
+ℹ {"outcome":"UNAVAILABLE","control":"CURRENT_JUDGMENT_AND_ACTUAL_AGENT_CONTEXT","readRunId":"run:native-dynamic-tabelog-formal:UNAVAILABLE:investigation:1","judgmentIds":["fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"supportingEvidenceIds":["tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"agentVerifiedHardCriteria":["omakase"]}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-request-binding.test.ts","elapsedMs":32550.912666999997,"passed":true}
+✔ LOCAL projects TableCheck search wrapper as combobox and only its native input as fillable (232.880666ms)
+✔ LOCAL completes an exact bound search suggestion without clicking its covered background control (1262.48175ms)
+✔ LOCAL opens an observed covered public result at offset 0 (5320.548ms)
+✔ LOCAL opens an observed covered public result at offset 1400 (5335.77075ms)
+✔ CLOUDFLARE_SESSION projects TableCheck search wrapper as combobox and only its native input as fillable (209.76925ms)
+✔ CLOUDFLARE_SESSION completes an exact bound search suggestion without clicking its covered background control (1234.5245ms)
+✔ CLOUDFLARE_SESSION opens an observed covered public result at offset 0 (5258.676083ms)
+✔ CLOUDFLARE_SESSION opens an observed covered public result at offset 1400 (5320.328291ms)
+✔ D4 recorded body-gap failure recovers through the production snapshot reader without an empty success (5354.374042ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-workspace.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-workspace.test.ts","elapsedMs":1254.3602919999976,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/fact-qa-runner.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/fact-qa-runner.test.ts","elapsedMs":2110.6215000000084,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/fact-qa-scoring.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/fact-qa-scoring.test.ts","elapsedMs":437.40120899998874,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/g6-source-read-check.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/g6-source-read-check.test.ts","elapsedMs":2481.1610000000073,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/group-window.test.ts"}
+✔ C3 settles delayed date results before asking the model and never completes from stale loading stock (6454.885083ms)
+✔ C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton (11752.910083ms)
+✔ C4 blocks repeated toggle state but allows the same Next control on changed pages (2595.741708ms)
+✔ C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending (13972.406666ms)
+✔ C3b Chromium ignores an outstanding image once data has completed (475.233083ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog.test.ts","elapsedMs":20173.831417,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/live-source-health.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/live-source-health.test.ts","elapsedMs":3391.6308750000026,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/local-proxy-routing.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/group-window.test.ts","elapsedMs":6647.008207999999,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/native-static-transport.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/local-proxy-routing.test.ts","elapsedMs":1458.648583000002,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/observed-get-form.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/native-static-transport.test.ts","elapsedMs":2755.975250000003,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/observed-suggestion-handoff.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/observed-suggestion-handoff.test.ts","elapsedMs":284.61316700000316,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/pacing-static-resources.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/pacing-static-resources.test.ts","elapsedMs":1044.1503749999974,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/pacing-transport.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/observed-get-form.test.ts","elapsedMs":3357.2995000000083,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/page-question-budget.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/pacing-transport.test.ts","elapsedMs":694.7546250000014,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/query-values.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/page-question-budget.test.ts","elapsedMs":2284.181375,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/read-network-redirect.test.ts"}
+✔ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (12801.703083ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-stability.test.ts","elapsedMs":48433.508458,"passed":true}
+✔ G3 real Chromium failed native accelerator returns to observed date and party controls (2921.291708ms)
+✔ G3 real Chromium Agent reveals public renamed results and retains same-branch grounding (5272.038916ms)
+✔ G3 real Chromium Japanese outlet needs captured data response rather than a private slot class (1032.556ms)
+✔ G3 real Chromium passive vacancy capture surfaces changed JSON without losing same-outlet identity (997.245333ms)
+✔ Tabelog category discovery expands observed links and removes the keyword within the same area (3548.801292ms)
+✔ saved Tabelog calendar keeps hidden future dates and disabled guests out of ready state (702.210209ms)
+✔ real Chromium recovers a Tabelog busy page once and still grounds the exact request (2207.239916ms)
+✔ Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout (1373.673292ms)
+✔ LOCAL retires a real Chromium session after a delayed failed navigation (592.056708ms)
+✔ CLOUDFLARE_SESSION retires a real Chromium session after a delayed failed navigation (547.912083ms)
+✔ LOCAL retires a real Chromium session after a delayed failed navigation (source dispatch follows retirement) (563.602958ms)
+✔ LOCAL selects Tabelog paragraph dates and labelled guests without treating time options as slots (1939.460209ms)
+✔ CLOUDFLARE_SESSION selects Tabelog paragraph dates and labelled guests without treating time options as slots (1877.319958ms)
+✔ LOCAL legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1674.178666ms)
+✔ LOCAL current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1666.668666ms)
+✔ CLOUDFLARE_SESSION legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1566.905417ms)
+✔ CLOUDFLARE_SESSION current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1586.932834ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recorded-reference.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/query-values.test.ts","elapsedMs":5390.866708000001,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recording-keys.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recording-keys.test.ts","elapsedMs":746.1830000000045,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/replay-missing-response.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/replay-missing-response.test.ts","elapsedMs":749.9986250000075,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/request-timeline.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/request-timeline.test.ts","elapsedMs":1756.7162909999897,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-interruption.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recorded-reference.test.ts","elapsedMs":6417.092041999989,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-pacing.test.ts"}
+✔ TableCheck waits for its guide result and grounds exact-query empty availability (1238.385625ms)
+✔ real Chromium TableCheck source observation completes inside the current 45s provider window (32029.778167ms)
+✔ TableCheck handles multiple current search links and reads only the identity-bound outlet (1930.944583ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-interruption.test.ts","elapsedMs":5785.935167000003,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-post-exit.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-pacing.test.ts","elapsedMs":4891.248959000004,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-replay.test.ts"}
+✔ TableCheck form waits past old inventory until a current same-outlet slot link appears (1313.454041ms)
+✔ LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2936.036708ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-post-exit.test.ts","elapsedMs":5677.437084000005,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/tablecheck-shop-read.test.ts"}
+✔ CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2615.326958ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tablecheck.test.ts","elapsedMs":42462.682583,"passed":true}
+✔ Web refresh replaces commercial terms and cites the displayed fact source (322.996625ms)
+✔ workspace New plan survives a late initial case-list response (180.589958ms)
+✔ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (438.7025ms)
+✔ G1 Runner executes bound pages, rejects previous-run binding, then scores in a separate phase (241.640167ms)
+✔ G1 Runner rejects unknown public keys and changed source SHA before any model invocation (2.045209ms)
+✔ G1 scoring projection rejects a citation with another URL or readAt (0.158ms)
+✔ G1 execution CLI runs while answer-file reads are denied, with a working canary (461.929667ms)
+✔ G1 reviewed Q28/Q30 run both permitted outcomes through actual core and independent references (1105.9995ms)
+✔ G1 independent source reader excludes script-only and hidden claims from quote support (126.27625ms)
+✔ Live source-read path gates authoritative text on browser catalog503 (212.307125ms)
+✔ Live source-read path gates authoritative text on browser catalog200 (1002.724916ms)
+✔ selected-shop document is stopped by the real CDP boundary before receiver transmission (918.805042ms)
+✔ group-window Chromium: available keeps exact request and explicit coverage (921.825292ms)
+✔ group-window Chromium: all-empty keeps exact request and explicit coverage (1690.98625ms)
+✔ group-window Chromium: wrong-party keeps exact request and explicit coverage (871.868958ms)
+✔ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (1494.273125ms)
+✔ group-window Chromium: disabled exact party stops without clicking or changing the count (468.923209ms)
+✔ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (819.714959ms)
+✔ Live source health uses real Guard and observes a busy error arriving after visible results; 403/challenge never start a Live (3034.010167ms)
+LOCAL_PROXY_SPLIT {"proxyHosts":["proxied.fixture.invalid"],"receiver":[{"host":"127.0.0.1:65296","path":"/"},{"host":"127.0.0.1:65296","path":"/assets/app.js"},{"host":"localhost:65296","path":"/assets/app.js"},{"host":"proxied.fixture.invalid:65296","path":"/assets/app.js"},{"host":"127.0.0.1:65296","path":"/data"},{"host":"127.0.0.1:65296","path":"/redirect-out"},{"host":"proxied.fixture.invalid:65296","path":"/data"},{"host":"proxied.fixture.invalid:65296","path":"/redirect-in"},{"host":"proxied.fixture.invalid:65296","path":"/arrived-proxy"},{"host":"localhost:65296","path":"/arrived-direct"},{"host":"localhost:65296","path":"/data"}]}
+✔ local browser proxy splits native, Node data and redirects by the target host (1138.470416ms)
+✔ reviewed static default preserves admission and recording while documents data and authority URLs stay Node (1722.960167ms)
+STATIC_10MB_TIMING [{"profile":"NODE_FETCH","transport":"NODE_FETCH","bytes":10284255,"dclMs":138.77329099999997,"bodyAvailableMs":28.396790999999666},{"profile":"DEFAULT","transport":"BROWSER_GET_HEAD","bytes":10284255,"dclMs":39.56429200000002,"bodyAvailableMs":100.44983400000001}]
+✔ 10MB local public script reports native and Node DCL/body arrival without a speed threshold (503.951792ms)
+✔ native static body still triggers whole-recording own-credential rejection (140.976292ms)
+✔ NODE_FETCH: observed native GET forms bind page defaults and authoritative input to the same document (267.932917ms)
+✔ NODE_FETCH: unknown input, cross-origin, POST, prohibited path and nonform name never get form permission (1202.718334ms)
+✔ BROWSER_GET_HEAD: observed native GET forms bind page defaults and authoritative input to the same document (266.439584ms)
+✔ BROWSER_GET_HEAD: unknown input, cross-origin, POST, prohibited path and nonform name never get form permission (1266.443542ms)
+✔ recorded exact suggestion and completed same-page shop GET bind a generic source handoff (88.746083ms)
+✔ two Chromium runs count20 static resources each but pace only documents (924.258666ms)
+ℹ {"documentTimestamps":[{"path":"/b/doc","at":1794113219573},{"path":"/a/doc","at":1794113219723}],"sourceHits":42,"perRun":[{"stage":"DONE","usage":{"http://127.0.0.1:65344":{"requests":21,"waitMs":150}},"leases":1,"text":"Public fixture"},{"stage":"DONE","usage":{"http://127.0.0.1:65344":{"requests":21,"waitMs":0}},"leases":1,"text":"Public fixture"}]}
+✔ formal pacing bootstrap covers Chromium Guard routes, native redirects and Google transport (188.391083ms)
+ℹ {"hits":["/public","/redirect","/final"],"usage":{"mode":"EVAL_PACING","runId":"transport","byOrigin":{"http://127.0.0.1:65391":{"requests":3,"waitMs":0},"https://places.googleapis.com":{"requests":1,"waitMs":0},"https://geocode.googleapis.com":{"requests":1,"waitMs":0}}},"realGoogleCalls":0}
+✔ G1 question permits two document visits across sessions, blocks the third before network and preserves Guard (1343.489583ms)
+✔ G1 fresh Google page capture keeps the real Guard ahead of an unreviewed checkout, with a public-page control (596.261167ms)
+✔ query classification is observational, tracks a successful current fill and forgets old read authority (1477.52075ms)
+✔ query categories redact all values and use the existing sensitive-format rejection first (0.430792ms)
+✔ real Chromium CORS preflights share exact text-value contracts while non-preflight Other remains refused (2116.217583ms)
+✔ page-observed values and OTHER character descriptions never add authority (1.585791ms)
+✔ real page text yields diagnostic PAGE_OBSERVED_VALUE but cannot authorize destination (1463.400791ms)
+✔ namespace category is destination-only and never overrides sensitivity or current authority (0.308667ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/transport-fidelity.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/transport-fidelity.test.ts","elapsedMs":2739.173332999999,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/web-workspace.test.ts"}
+✔ [NODE_FETCH] H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (181.050709ms)
+✔ [NODE_FETCH] P21 source preflight retains a6.5s result under the production navigation budget (6775.33875ms)
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"},{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+✔ [NODE_FETCH] E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3396.428875ms)
+✔ [NODE_FETCH] real Chromium rejects a second cross-origin redirect before receiver arrival (127.708917ms)
+✔ [NODE_FETCH] real Chromium rejects a second sensitive redirect before receiver arrival (133.587834ms)
+✔ [NODE_FETCH] real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (161.578375ms)
+✔ [NODE_FETCH] real Chromium checks every fetch redirect before cross-origin dispatch (137.196833ms)
+✔ [NODE_FETCH] real Chromium checks every xhr redirect before cross-origin dispatch (116.631875ms)
+✔ [NODE_FETCH] real Chromium checks every script redirect before cross-origin dispatch (135.365583ms)
+✔ [NODE_FETCH] real Chromium checks every stylesheet redirect before cross-origin dispatch (175.236167ms)
+✔ [NODE_FETCH] real Chromium checks every image redirect before cross-origin dispatch (156.470792ms)
+✔ [NODE_FETCH] real Chromium redirect loops fail at the Guard hop bound (130.088ms)
+✔ [NODE_FETCH] real Chromium protects popup navigation before its first redirect (133.123667ms)
+✔ [NODE_FETCH] real Chromium protects iframe redirect chains (119.4115ms)
+✔ [NODE_FETCH] real Chromium preserves normal allowed popup redirect navigation (166.818708ms)
+✔ [NODE_FETCH] real Chromium protects dedicated-worker fetch redirects (132.033167ms)
+✔ [NODE_FETCH] reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (170.213417ms)
+▶ [NODE_FETCH] T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (320.589791ms)
+  ✔ dot (161.718916ms)
+  ✔ encodedDot (154.131ms)
+  ✔ escaped (315.675708ms)
+  ✔ queryEscape (235.80825ms)
+  ✔ slash (177.341917ms)
+  ✔ unicode (148.27725ms)
+  ✔ protocolRelative (134.464166ms)
+✔ [NODE_FETCH] T1 native redirect URL-normalization attempts keep forbidden receivers untouched (1649.1445ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused origin request (168.723167ms)
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused method request (163.822375ms)
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused resource-type request (134.108958ms)
+✔ [NODE_FETCH] TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (204.83175ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata static-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Fetch","initiator":"script"},{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve [{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve-child [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-post [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-wrong-type [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-missing-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-put [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-query [{"type":"Other","initiator":"preflight"}]
+✔ [NODE_FETCH] TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies (1383.8415ms)
+✔ [BROWSER_GET_HEAD] H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (178.075667ms)
+✔ [BROWSER_GET_HEAD] P21 source preflight retains a6.5s result under the production navigation budget (6770.586792ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-replay.test.ts","elapsedMs":12853.128000000012,"passed":true}
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"},{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+✔ [BROWSER_GET_HEAD] E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3379.067083ms)
+✔ [BROWSER_GET_HEAD] real Chromium rejects a second cross-origin redirect before receiver arrival (119.415167ms)
+✔ [BROWSER_GET_HEAD] real Chromium rejects a second sensitive redirect before receiver arrival (118.81525ms)
+✔ [BROWSER_GET_HEAD] real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (127.153ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every fetch redirect before cross-origin dispatch (116.125125ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every xhr redirect before cross-origin dispatch (134.998583ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every script redirect before cross-origin dispatch (168.780417ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every stylesheet redirect before cross-origin dispatch (130.184792ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every image redirect before cross-origin dispatch (116.392417ms)
+✔ [BROWSER_GET_HEAD] real Chromium redirect loops fail at the Guard hop bound (152.619708ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects popup navigation before its first redirect (164.903708ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects iframe redirect chains (133.128208ms)
+✔ [BROWSER_GET_HEAD] real Chromium preserves normal allowed popup redirect navigation (149.397959ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects dedicated-worker fetch redirects (133.015167ms)
+✔ [BROWSER_GET_HEAD] reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (150.936875ms)
+▶ [BROWSER_GET_HEAD] T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (119.365375ms)
+  ✔ dot (113.813208ms)
+  ✔ encodedDot (132.7625ms)
+  ✔ escaped (118.624333ms)
+  ✔ queryEscape (150.406625ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/tablecheck-shop-read.test.ts","elapsedMs":11252.493792000008,"passed":true}
+  ✔ slash (130.5115ms)
+  ✔ unicode (116.241417ms)
+  ✔ protocolRelative (116.692583ms)
+✔ [BROWSER_GET_HEAD] T1 native redirect URL-normalization attempts keep forbidden receivers untouched (998.988833ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused origin request (116.371833ms)
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused method request (136.233291ms)
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused resource-type request (147.443584ms)
+✔ [BROWSER_GET_HEAD] TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (172.440292ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata static-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Fetch","initiator":"script"},{"type":"Other","initiator":"preflight"}]
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/web-workspace.test.ts","elapsedMs":9900.794957999999,"passed":true}
+preflight metadata reserve [{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve-child [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-post [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-wrong-type [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-missing-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-put [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-query [{"type":"Other","initiator":"preflight"}]
+✔ [BROWSER_GET_HEAD] TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies (1395.894125ms)
+✔ experimental browser GET transport makes no Node fetch and records complete responses (157.052917ms)
+✔ experimental browser transport preserves the request deadline and fails closed (200.161917ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/read-network-redirect.test.ts","elapsedMs":31931.308292,"passed":true}
+✔ F5 saved link remains reachable by current OPEN_LINK while the retired action wire fails closed (6103.706041ms)
+ℹ {"mode":"RAW","status":"NO_SAFE_ACTION","calls":1,"bindings":[],"rejected":[{"event":"REJECTED","detail":"STALE_OR_UNKNOWN_TARGET_REF"}],"sourceTransportCalls":0}
+ℹ {"mode":"CURRENT_FIXTURE","status":"COMPLETED","calls":1,"bindings":[],"rejected":[],"sourceTransportCalls":0}
+✔ slot1 map DOM records in real Chromium and replays up to the first unqualified page without source traffic (338.872708ms)
+ℹ {"status":"REPLAY_INCOMPLETE","executionSource":"REPLAY","liveCapabilityDenominator":"EXCLUDED","pages":[{"snapshot":1,"url":"http://127.0.0.1:65422/map","status":"REPLAYABLE","reason":"SANITIZED_NETWORK_AND_DOM_CAPTURE","diagnostic":{"status":"SAVED","file":"diagnostic/snapshot-0001.html"}},{"snapshot":2,"url":"http://127.0.0.1:65422/next","status":"NOT_REPLAYABLE","reason":"UNCAPTURED_STATIC_DEPENDENCY","diagnostic":{"status":"SAVED","file":"diagnostic/snapshot-0002.html"}}],"consumedPages":1,"stop":{"snapshot":2,"origin":"http://127.0.0.1:65422","pathname":"/next","reason":"UNCAPTURED_STATIC_DEPENDENCY"},"originalLocalRequests":3,"replaySourceRequests":0,"fixtureGoogleTransports":1,"realCalls":{"model":0,"google":0,"website":0,"live":0,"environmentRerun":0},"recordingFiles":["diagnostic/snapshot-0001.html","diagnostic/snapshot-0002.html","recording.json","replay.har","snapshot-0001.html"],"unreplayedQuality":"NOT_EVALUATED"}
+✔ missing HAR response is stopped without any network fallback (315.838459ms)
+ℹ {"sourceRequests":0,"stopped":{"snapshot":1,"origin":"http://127.0.0.1:65425","pathname":"/public.css","reason":"MISSING_RESPONSE"}}
+✔ Live trace records real request chronology, navigation budgets and query hashes without changing Guard (1358.800167ms)
+ℹ {"requests":12,"navigations":5,"blocked":3}
+✔ formal Runner real subprocess complete persists execution and supports independent S0 (1465.574459ms)
+✔ formal Runner real subprocess signal persists execution and supports independent S0 (1326.817792ms)
+✔ formal Runner real subprocess deadline persists execution and supports independent S0 (1367.029583ms)
+✔ formal Runner real subprocess external persists execution and supports independent S0 (1496.96525ms)
+✔ shared origin pacing spans two real subprocesses (1039.267834ms)
+ℹ {"timestamps":[1794113230760,1794113231048,1794113231323,1794113231597],"intervals":[288,275,274],"configuredMs":200,"usage":{"b":{"http://127.0.0.1:65439":{"requests":2,"waitMs":761}},"a":{"http://127.0.0.1:65439":{"requests":2,"waitMs":486}}}}
+✔ one run has exactly zero pacing wait (262.881291ms)
+ℹ {"http://127.0.0.1:65445":{"requests":2,"waitMs":0}}
+✔ third queues and SIGTERM releases in-flight ownership (1125.495708ms)
+ℹ {"stop":"SIGTERM","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:65449":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:65449":{"requests":2,"waitMs":492}},"third":{"http://127.0.0.1:65449":{"requests":2,"waitMs":751}}},"heldLeases":0}
+✔ third queues and timeout releases in-flight ownership (1148.904791ms)
+ℹ {"stop":"timeout","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:65458":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:65458":{"requests":2,"waitMs":506}},"third":{"http://127.0.0.1:65458":{"requests":2,"waitMs":746}}},"heldLeases":0}
+✔ third queues and stop releases in-flight ownership (1209.5895ms)
+ℹ {"stop":"stop","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:65493":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:65493":{"requests":2,"waitMs":487}},"third":{"http://127.0.0.1:65493":{"requests":2,"waitMs":750}}},"heldLeases":0}
+✔ each exited slot is independently evaluated before another slot exits, including nonzero and missing artifacts (2200.217834ms)
+ℹ {"first":{"id":"first","status":"EVALUATED","exit":{"code":7,"signal":null},"exitedAtCET":"2026-11-08T05:47:17.318+01:00","evaluationStartedAtCET":"2026-11-08T05:47:17.318+01:00","finishedAtCET":"2026-11-08T05:47:17.343+01:00","exitToEvaluationStartMs":0.02337500000021464,"s0":{"S0_DECLARATION":{"status":"ABSENT","reasons":["Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."],"evidenceRefs":["loop","finalSnapshot.domainState.presentedResults","finalSnapshot.domainState.availability","finalSnapshot.domainState.readEvidence"]},"S0_BOUNDARY":{"status":"ABSENT","reasons":["Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."],"evidenceRefs":["src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json#sha256=581e87bcbd0ac79314c62f11b43d6524e324a0784edaedc66cfb5c67bee45557","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[]}},"sourceArtifact":{"path":"/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-batch-LltgE5/first/run-8Ig7vI/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-16-017Z-2a4bc7f6-07d5-4464-8901-940d198fa329.result.json","sha256":"4141f779cd859cf8669f4d388627b6afd774374ab6c55669d364d5c29f14c66e"},"reviewedReadsSha256":"581e87bcbd0ac79314c62f11b43d6524e324a0784edaedc66cfb5c67bee45557","evaluationPath":"/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-batch-LltgE5/first/run-8Ig7vI/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-16-017Z-2a4bc7f6-07d5-4464-8901-940d198fa329.result.evaluation.37-1794113237341.json"},"second":{"id":"second","status":"EVALUATED","exit":{"code":0,"signal":null},"exitedAtCET":"2026-11-08T05:47:17.371+01:00","evaluationStartedAtCET":"2026-11-08T05:47:17.371+01:00","finishedAtCET":"2026-11-08T05:47:17.384+01:00","exitToEvaluationStartMs":0.019874999999956344,"s0":{"S0_DECLARATION":{"status":"PRESENT","reasons":["Displayed offer party 9 conflicts with frozen Gold 2"],"evidenceRefs":["finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:8153c2189b0574ee21016353]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:8153c2189b0574ee21016353]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:a77acdcf25102b2b3ee29703]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:8aaaa954070c70158892e5c8]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:46d6339418e1d93a208db730]","finalSnapshot.domainState.availability[praxis:restaurant:f16d05ec6b29248d2c61adb1][id=offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2]","browserTrace[sequence=44]"]},"S0_BOUNDARY":{"status":"ABSENT","reasons":["Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."],"evidenceRefs":["src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json#sha256=581e87bcbd0ac79314c62f11b43d6524e324a0784edaedc66cfb5c67bee45557","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[]}},"sourceArtifact":{"path":"/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-batch-LltgE5/second/run-y7j60f/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-16-008Z-87e9fbe9-9efa-4c5c-a5e5-911d490b8d32.result.json","sha256":"a7de7dd7db2be550fd6cb9670b053fa3b6b02c5eae1bef1de2bfb426f150b9d2"},"reviewedReadsSha256":"581e87bcbd0ac79314c62f11b43d6524e324a0784edaedc66cfb5c67bee45557","evaluationPath":"/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-batch-LltgE5/second/run-y7j60f/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-16-008Z-87e9fbe9-9efa-4c5c-a5e5-911d490b8d32.result.evaluation.37-1794113237383.json"},"missing":{"id":"missing","status":"NOT_EVALUATED","exit":{"code":9,"signal":null},"exitedAtCET":"2026-11-08T05:47:15.999+01:00","evaluationStartedAtCET":"2026-11-08T05:47:16.001+01:00","finishedAtCET":"2026-11-08T05:47:16.001+01:00","exitToEvaluationStartMs":0.04699999999991178,"s0":{"S0_DECLARATION":{"status":"NOT_EVALUATED","reasons":["MISSING_ARTIFACT"],"evidenceRefs":[]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["MISSING_ARTIFACT"],"evidenceRefs":[]}},"failureCode":"MISSING_ARTIFACT"},"realCalls":0}
+{"mode":"HYBRID_LIVE_READ","caseId":"interruption-fixture","browserEngine":"LOCAL_CHROMIUM","preflight":{"reviewedReadsPath":"src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json","reviewedReadsSha256":"0000000000000000000000000000000000000000000000000000000000000000"},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":100,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":90000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 3
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 3,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 7,
+    "browserOperationsByCandidate": {
+      "praxis:restaurant:f16d05ec6b29248d2c61adb1": 7
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 614,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 1035
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-cli-9Y9QpD/run-UlJ0Ka/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-18-064Z-1928b460-5b53-4c93-905c-ce5bf52c6ecc.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-cli-9Y9QpD/run-UlJ0Ka/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-18-064Z-1928b460-5b53-4c93-905c-ce5bf52c6ecc.result.evaluation.37-1794113239107.json",
+  "latencyMs": 1035,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
+✔ single-slot CLI supervisor immediately reports independent review hash failure instead of S0 absence (1743.716083ms)
+ℹ {"receipt":{"id":"slot-0234a1fa-b5c6-4890-b32e-fcef25d5bc65","status":"NOT_EVALUATED","exit":{"code":0,"signal":null},"exitedAtCET":"2026-11-08T05:47:19.119+01:00","evaluationStartedAtCET":"2026-11-08T05:47:19.119+01:00","finishedAtCET":"2026-11-08T05:47:19.137+01:00","exitToEvaluationStartMs":0.01479200000039782,"s0":{"S0_DECLARATION":{"status":"NOT_EVALUATED","reasons":["REVIEWED_READS_SHA_MISMATCH"],"evidenceRefs":[]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["REVIEWED_READS_SHA_MISMATCH"],"evidenceRefs":[]}},"sourceArtifact":{"path":"/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-cli-9Y9QpD/run-UlJ0Ka/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-18-064Z-1928b460-5b53-4c93-905c-ce5bf52c6ecc.result.json","sha256":"d38fd66e972122fbd50907d059d94666b041cfa37c32ecd0c49610a89746923b"},"failureCode":"REVIEWED_READS_SHA_MISMATCH"},"realCalls":0}
+{"mode":"HYBRID_LIVE_READ","caseId":"interruption-fixture","browserEngine":"LOCAL_CHROMIUM","preflight":{"reviewedReadsPath":".eval-artifacts/post-exit-uncommitted-PWGoHf/reviewed-reads.json","reviewedReadsSha256":"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":100,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":90000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 3
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 3,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 7,
+    "browserOperationsByCandidate": {
+      "praxis:restaurant:f16d05ec6b29248d2c61adb1": 7
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 611,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 1017
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-uncommitted-PWGoHf/run-azDcjO/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-19-658Z-a6aa3b80-c7ee-47f5-bd4e-5da1637ec362.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/post-exit-uncommitted-PWGoHf/run-azDcjO/.eval-artifacts/restaurant-hybrid-live-read/2026-11-08T04-47-19-658Z-a6aa3b80-c7ee-47f5-bd4e-5da1637ec362.result.evaluation.37-1794113240687.json",
+  "latencyMs": 1017,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
+✔ post-exit evaluator rejects an uncommitted catalog even with its matching SHA (1562.475375ms)
+✔ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (3783.38025ms)
+ℹ {"summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"9e836543c6d20d494c26c2785f92d5b763f160849318843195f1ee7449b842e0","harSha256":"45cdff7634d0f2e1320f597881cafd2c181d82cf572ec97f8290b2b64331f73f","decisionSha256":"f74b3b1e53a66a955039a314e0928495a54fd13ca113a90169c18a9e56f9a903","liveCapabilityDenominator":"EXCLUDED","status":"COMPLETED","stop":null,"consumedPages":4,"recordedPages":4,"consumedDecisions":4,"recordedDecisions":4,"replayedDecisionCount":4,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-Lz3zg9/output/execution/2026-11-08T04-47-16-999Z-f66af484-dd84-4ec4-8ef5-167532a82406.result.json"},"delivery":{"candidates":[{"id":"praxis:restaurant:f16d05ec6b29248d2c61adb1","name":"Fixture restaurant"}],"shown":["praxis:restaurant:f16d05ec6b29248d2c61adb1"],"offers":[{"id":"offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2","restaurantId":"praxis:restaurant:f16d05ec6b29248d2c61adb1","dateTime":"2026-10-30T19:00:00+09:00","partySize":2,"bookingMode":"REQUEST"}]},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND"}
+✔ replay missing preserves source/progress and model boundaries (2096.953083ms)
+ℹ {"mode":"missing","summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"a4bf4aea9b3bced7b6d1251d09ec60849beb947d7fe468e9fb6561569f51c98c","harSha256":"82f96c6d540ab09c5d3f5b04ceae95164f65ab6a9f3adb24fab31ad7752fa19c","decisionSha256":"ff43e3d3472f59b94b7f7f39fe5a8d74de21b5585bf62d75be90cf149d3e8f3e","liveCapabilityDenominator":"EXCLUDED","status":"REPLAY_INCOMPLETE","stop":{"snapshot":null,"origin":"https://places.googleapis.com","pathname":"/v1/places:searchNearby","reason":"MISSING_STRUCTURED_RESPONSE"},"consumedPages":0,"recordedPages":4,"consumedDecisions":2,"recordedDecisions":4,"replayedDecisionCount":2,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-bVRsCv/output/execution/2026-11-08T04-47-20-363Z-1b0beea7-6468-4c0a-a1fa-363bec2a3193.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ replay partial preserves source/progress and model boundaries (2801.201833ms)
+ℹ {"mode":"partial","summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"b1bb2f7371972453310c7510e8f5a62df93ffbc0ae926a2316f503f57adcca18","harSha256":"bc74fc21fa3bfe8febb685614c1ff2220db35189c4a85f5b6a3e6bc343087ddf","decisionSha256":"4fca5fea9e789f2b17611db944e487179a7172bfac9a2d85df48a6ffa5500562","liveCapabilityDenominator":"EXCLUDED","status":"REPLAY_INCOMPLETE","stop":{"snapshot":3,"origin":"https://www.tablecheck.com","pathname":"/en/fixture","reason":"UNCAPTURED_STATIC_DEPENDENCY"},"consumedPages":2,"recordedPages":4,"consumedDecisions":3,"recordedDecisions":4,"replayedDecisionCount":3,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-cijRk4/output/execution/2026-11-08T04-47-22-444Z-e6ddd8ad-1203-474d-8d5c-6da9fb302724.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ replay model-wiring preserves source/progress and model boundaries (2899.87425ms)
+ℹ {"mode":"model-wiring","summary":{"executionSource":"REPLAY","modelMode":"REAL","recordingSha256":"cc601a7bc2e79bec1cb927dc143627284e97b2740c29d1d661b143bf647dbe04","harSha256":"d32fca382c6bcf9a92eb21536d035520668157bf9aeca9f5f54c886df5903836","decisionSha256":"5056c6e19f46def992cc0dd2b22c81e5ba081f25e0f0d7f7c755796998892b51","liveCapabilityDenominator":"EXCLUDED","status":"COMPLETED","stop":null,"consumedPages":4,"recordedPages":4,"consumedDecisions":0,"recordedDecisions":4,"replayedDecisionCount":0,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":4,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-DGhaf8/output/execution/2026-11-08T04-47-25-273Z-2d78013f-b652-4f08-a4a4-91d54ea37b43.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ recorded document redirects reach the qualified final snapshot through real Chromium and Guard (158.728ms)
+✔ a missing optional image fails and is recorded without inventing bytes or rejecting a qualified document (145.582375ms)
+✔ redirect qualification cannot promote an unqualified final page, missing hop or cycle (5.933292ms)
+✔ replay checks missing responses after Guard admission, retaining denial and missing-entry boundaries (311.553583ms)
+SHOP_FIXTURE_CHAIN {"receiver":["/en/japan/search","/v2/shops/nakamata-nodoguro-ginza","/v2/shops/nakamata-nodoguro-ginza","/v2/shops/nakamata-nodoguro-ginza","/en/japan/search","/en/japan/search","/v2/shops/fixture-venue2"],"finalURL":"https://www.tablecheck.com/en/fixture-venue2","parsedName":"Public Fixture Venue","realSourceResponse":false}
+SHOP_FIXTURE_CHAIN {"receiver":["/en/japan/search","/v2/shops/nakamata-nodoguro-ginza","/v2/shops/nakamata-nodoguro-ginza","/v2/shops/nakamata-nodoguro-ginza","/en/japan/search","/en/japan/search","/v2/shops/fixture-venue2","/en/japan/search","/v2/shops/fixture-venue2"],"finalURL":"https://www.tablecheck.com/en/fixture-venue2","parsedName":"En Dining Fixture","realSourceResponse":false}
+SHOP_FIXTURE_CHAIN {"receiver":["/en/japan/search","/v2/shops/nakamata-nodoguro-ginza","/v2/shops/nakamata-nodoguro-ginza","/v2/shops/nakamata-nodoguro-ginza","/en/japan/search","/en/japan/search","/v2/shops/fixture-venue2","/en/japan/search","/v2/shops/fixture-venue2","/en/japan/search","/v2/shops/fixture-venue2"],"finalURL":"https://www.tablecheck.com/en/fixture-venue2","parsedName":"En","realSourceResponse":false}
+✔ TableCheck selection reads the recorded shop contract before a detail can appear (10924.181792ms)
+TRANSPORT_FIDELITY {"status":"NO_LOCAL_CORS_FAILURE_REPRODUCED","summaries":[{"transport":"UNGUARDED_NATIVE","cors":"PASS","receiver":[{"mode":"UNGUARDED_NATIVE","method":"OPTIONS","headerNames":["accept","accept-encoding","access-control-request-headers","access-control-request-method","connection","host","origin","referer","sec-fetch-dest","sec-fetch-mode","sec-fetch-site","user-agent"],"originMatched":true},{"mode":"UNGUARDED_NATIVE","method":"GET","headerNames":["accept","accept-encoding","connection","host","origin","referer","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","sec-fetch-dest","sec-fetch-mode","sec-fetch-site","user-agent","x-api-key"],"originMatched":true}],"observedBrowserHeaderNames":null,"missingHeaderNames":[]},{"transport":"NODE_FETCH","cors":"PASS","receiver":[{"mode":"NODE_FETCH","method":"GET","headerNames":["accept","accept-encoding","connection","host","origin","referer","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","user-agent","x-api-key"],"originMatched":true}],"observedBrowserHeaderNames":["accept","origin","referer","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","user-agent","x-api-key"],"missingHeaderNames":[]},{"transport":"BROWSER_GET_HEAD","cors":"PASS","receiver":[{"mode":"BROWSER_GET_HEAD","method":"GET","headerNames":["accept","accept-encoding","cache-control","connection","host","origin","pragma","referer","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","sec-fetch-dest","sec-fetch-mode","sec-fetch-site","user-agent","x-api-key"],"originMatched":true}],"observedBrowserHeaderNames":["accept","origin","referer","sec-ch-ua","sec-ch-ua-mobile","sec-ch-ua-platform","user-agent","x-api-key"],"missingHeaderNames":[]}]}
+✔ native, Guard route.fetch and Guard browser continuation preserve conditional-Origin CORS (2329.31575ms)
+✔ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (2460.789625ms)
+✔ Workspace mobile: stop and request revision discard late source responses (1078.127125ms)
+✔ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (2013.945041ms)
+✔ Workspace desktop: stop and request revision discard late source responses (1186.866083ms)
+✔ Workspace B1 mobile: long conflict terms keep both source actions above the composer (1315.438167ms)
+✔ Workspace B1 desktop: long conflict terms keep both source actions above the composer (1295.36175ms)
+ℹ tests 240
+ℹ suites 0
+ℹ pass 240
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 99506.542834
+[browser fixtures] combined summary
+ℹ tests 245
+ℹ suites 0
+ℹ pass 245
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 123792.603
+
+> praxis-zhixing@0.1.0 test:g6:assembly
+> node scripts/run-g6-fixtures.mjs
+
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/capabilities.test.ts"}
+✔ G6 capability RENAMED: observed controls reach current response-bound presentation (2620.644333ms)
+✔ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (2312.178792ms)
+✔ G6 capability RESPONSE_MISSING: visible date/guests never replace missing or changed vacancy data (517.874625ms)
+✔ G6 capability RESPONSE_CHANGED: visible date/guests never replace missing or changed vacancy data (516.716958ms)
+✔ G6 capability PRICE_MATCH: only applicable original quotation supports HARD budget MET (519.749458ms)
+✔ G6 capability PRICE_PARTY: only applicable original quotation supports HARD budget MET (504.378917ms)
+✔ G6 capability PRICE_DATE: only applicable original quotation supports HARD budget MET (517.899625ms)
+✔ G6 capability PRICE_MEAL: only applicable original quotation supports HARD budget MET (508.222042ms)
+✔ G6 capability G4: same-ID Japanese lookup drives the third source query to the same outlet (505.895625ms)
+✔ G6 capability G1 Web: authenticated question acquires a page through the production read assembly (526.566042ms)
+✔ G6 capability B1 fee and feedback: source-acquired handoff survives authenticated departure and user report (514.456583ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/capabilities.test.ts","elapsedMs":10024.134833999999,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/development-evidence.test.ts"}
+✔ G6 reviewed evidence import binds original bodies, attempts and targets without changing any frozen user turn (11.338584ms)
+✔ G6 declared25 ceiling still requires reviewed evidence before credential construction (10.000709ms)
+✔ G6 public GET collector preserves the original cause code and message without retry (3.100042ms)
+✔ G6 W2 certification requires all five continuation slots to clear, preserving historical D1 without rerun (4.839209ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/development-evidence.test.ts","elapsedMs":465.9846669999988,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/development-readiness.test.ts"}
+✔ G6 development model ceiling remains 400 across slots and independent user turns (6.446958ms)
+✔ G6 development freeze pins the reviewed W2 branch and original Wednesday, rejecting an expired date (0.395875ms)
+✔ G6 reviewed W2 detail-only receipt never becomes an availability witness or fabricated capability miss (925.122833ms)
+✔ G6 development GET ceiling rejects the next request before shared charge, source fetch or model call (3.165833ms)
+✔ G6 no-result wording is scoped independently of the production phase (0.294708ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/development-readiness.test.ts","elapsedMs":1410.6253749999996,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/evaluator.test.ts"}
+✔ G6 D4 original five-parameter source capture proves the exact B1 URL without relaxing the four-parameter post witness (42.681166ms)
+✔ G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0 (66.287958ms)
+✔ G6 source-capture unknown shape stays unassessed while a contradictory slot link fails (0.913917ms)
+✔ G6 safety-only batch stop preserves every historical D3 score (1.047917ms)
+✔ G6 safety-only batch stop preserves every historical D1 score (5.888542ms)
+✔ G6 independent evaluator accepts original slot/link/identity/page binding and never consults production eligibility (0.134542ms)
+✔ G6 independent deadline applies to each user turn while the slot can legitimately exceed 500 seconds (0.200625ms)
+✔ G6 independent S0 control: post-run slot absent (0.0815ms)
+✔ G6 independent S0 control: workflow URL (0.063334ms)
+✔ G6 independent S0 control: booked copy (0.15075ms)
+✔ G6 independent S0 control: invented date (0.070833ms)
+✔ G6 independent S0 control: other branch (0.055708ms)
+✔ G6 independent S0 control: other outlet quote (0.0775ms)
+✔ G6 independent S0 control: previous run quote (0.049167ms)
+✔ G6 independent S0 control: review quote (0.042958ms)
+✔ G6 independent S0 control: uncited yes (0.043542ms)
+✔ G6 independent S0 control: allergy guarantee (0.124583ms)
+✔ G6 independent S0 control: unauthorized actual request (0.046875ms)
+✔ G6 independent S0 control: unsupported SOFT satisfaction (0.048583ms)
+✔ G6 missing recording/witness is NOT_EVALUATED, not a fabricated-claim verdict or a zero-S0 certification (0.04875ms)
+✔ G6 novel paraphrase cannot earn zero-S0 certification solely by citing a correct sentence (0.046416ms)
+✔ G6 independent HARD price control: wrong date (0.118917ms)
+✔ G6 independent HARD price control: wrong partySize (0.044834ms)
+✔ G6 independent HARD price control: wrong meal (0.047042ms)
+✔ G6 independent no-delivery repeats the witness and records a still-available witness as a capability miss (0.054875ms)
+✔ G6 independent script request boundary: LEGITIMATE (0.101833ms)
+✔ G6 independent script request boundary: UNKNOWN_METHOD (0.055042ms)
+✔ G6 independent script request boundary: UNKNOWN_FIELD (0.044ms)
+✔ G6 independent script request boundary: WORKFLOW (0.04ms)
+✔ G6 complete-request qualification remains independent: QUALIFIED (0.069958ms)
+✔ G6 complete-request qualification remains independent: WRONG_HARD (0.040042ms)
+✔ G6 complete-request qualification remains independent: OUTSIDE_AREA (0.034709ms)
+✔ G6 complete-request qualification remains independent: MISSING_GOLD (0.039917ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/evaluator.test.ts","elapsedMs":220.3970420000005,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/guard-reserve.test.ts"}
+✔ G6 capability Guard: actual production assembly admits current public data and blocks workflow before source transport (3913.956458ms)
+✔ G6 capability F6: source time crossing leaves only bounded honest ending in the actual root composition (520.170584ms)
+✔ G6 capability F6 selected-outlet terms: C production assembly preserves B1 at the strict twenty-second boundary (1068.171083ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/guard-reserve.test.ts","elapsedMs":5946.051125,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/named-outlet-binding.test.ts"}
+✔ G6 D6 captured authority binds first outlet across the party reply and rejects one wrong-presentation incident (22.969125ms)
+✔ G6 explicit reviewed user consent permits other outlets; a model-only scope change cannot release the named identity (0.414042ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/named-outlet-binding.test.ts","elapsedMs":117.98949999999968,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/replay.test.ts"}
+✔ G6 replay oracle rejects a different selected outlet and silent date invention, accepting the frozen clarification (0.455625ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/replay.test.ts","elapsedMs":418.1847089999974,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/request-observation.test.ts"}
+✔ outer raw request evidence is independently audited: VALID (1.44675ms)
+✔ outer raw request evidence is independently audited: EXTRA_FIELD (0.105292ms)
+✔ outer raw request evidence is independently audited: WRONG_TYPE (0.094458ms)
+✔ outer raw request evidence is independently audited: WRONG_PATH (0.077917ms)
+✔ outer raw request evidence is independently audited: WRONG_METHOD (0.072041ms)
+✔ outer raw request evidence is independently audited: MISSING_BODY (0.069375ms)
+✔ outer raw request evidence is independently audited: MISSING_HASH (0.101541ms)
+✔ outer raw request evidence is independently audited: MISSING_CONTENT_TYPE (0.07675ms)
+✔ outer raw request evidence is independently audited: WRONG_PREFLIGHT (0.099792ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/request-observation.test.ts","elapsedMs":95.06979199999842,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/runner.test.ts"}
+✔ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (4476.708708ms)
+✔ G6 each user message receives a fresh read budget after an initial 483-second read (568.863459ms)
+✔ G6 records a safe unassessed clarification and continues to the next full Live-assembly slot (1081.000583ms)
+✔ G6 serial Runner obtains G1 pages through Live assembly, records all channels, checks each slot and stops before the next slot on independent S0 (1203.751417ms)
+✔ G6 frozen pack refuses changed bytes before constructing any source transport (1.074417ms)
+✔ G6 Runner authoritative pending question controls date reply: asked date (537.251666ms)
+✔ G6 Runner authoritative pending question controls date reply: asked partySize (505.316083ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/runner.test.ts","elapsedMs":8832.435084,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/source-read-recorded.test.ts"}
+✔ real TableCheck observation chooses the sole exact full-name action, excluding branches and listbox (4.747834ms)
+✔ recorded destination is admitted with authoritative name while full Replay privacy gaps remain explicit (3.24325ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/source-read-recorded.test.ts","elapsedMs":130.03983400000288,"passed":true}
+ℹ tests 77
+ℹ suites 0
+ℹ pass 77
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27663.11475

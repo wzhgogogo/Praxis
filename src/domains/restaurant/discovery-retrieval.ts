@@ -68,7 +68,7 @@ export function validateDiscoveryRetrieval(
     }
     const words = keyword.split(/\s+/u);
     const placeWords = [
-      ...locationName.matchAll(/[\p{L}\p{N}]+/gu), ...intent.area.query.matchAll(/[\p{L}\p{N}]+/gu),
+      ...locationName.matchAll(/[\p{L}\p{N}]+/gu), ...(intent.area?.query??'').matchAll(/[\p{L}\p{N}]+/gu),
     ].map(match => match[0].toLowerCase());
     if (!keyword || words.length > 3 || /[\p{N}¥￥$€£]/u.test(keyword)
         || (keyword.match(/[\p{L}\p{N}]+/gu) ?? []).some(word => placeWords.includes(word.toLowerCase()))

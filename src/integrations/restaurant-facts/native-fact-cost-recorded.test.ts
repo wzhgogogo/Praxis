@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import {readFile,readdir} from 'node:fs/promises';
+import {join} from 'node:path';
+import {NativeSourceFactRead} from './native-source-facts.js';
+import {publicPriceText} from '../restaurant-availability/source-price-facts.js';
+import type {BrowserRuntime,BrowserPageControl} from '../../infrastructure/browser/browser-runtime.js';
+const root=new URL('./fixtures/native-fact-cost-d01/',import.meta.url);
+const recorded=JSON.parse(await readFile(new URL('input.json',root),'utf8'));
+const decisions=recorded.decisions;
+const seq=(n:number)=>decisions.find((d:any)=>d.sequence===n);
+const page=async(n:number)=>{const d=seq(n);const html=await readFile(new URL(`snapshot-${String(d.browser.recordingSnapshot).padStart(4,'0')}.html`,root),'utf8');return {url:d.browser.url,title:'Recorded merchant',html,text:publicPriceText(html),settlement:'SETTLED' as const};};
+test('D01 #16–19 real FACTS pages: one observed followup, no repeated navigation to recover missing identity',async()=>{
+ const candidate=recorded.candidate;assert.ok(candidate);
+ const initial=await page(16),menu=await page(17);let current=initial;let calls=0;
+ const action=JSON.parse(seq(16).outputText);const observation=JSON.parse(seq(16).messages.find((m:any)=>m.role==='user').content).observation;
+ const target=observation.targets.find((t:any)=>t.ref===action.targetRef);assert.ok(target?.href);
+ const control:BrowserPageControl={id:'recorded-link',stableKey:'recorded-link',kind:'LINK',role:'link',label:target.label,href:target.href,visible:true,disabled:false};
+ const runtime:BrowserRuntime={async openSession(){return {metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:seq(16).at??'2026-11-10T00:00:00Z'},async navigate(url){current=url===initial.url?initial:menu;},async openLink(_id,url){assert.equal(url,target.href);current=menu;},async snapshot(){return current;},async observeControls(){return current===initial?[control]:[];},async waitFor(){},async waitForSettled(){return true;},async click(){},async fill(){},async select(){return[];},async screenshot(){return new Uint8Array();},async close(){}};}};
+ const reader=new NativeSourceFactRead({maxAutomaticElapsedMs:30000,maxOperationsPerCandidate:24,maxModelCallsPerCandidate:4,maxModelCallsTotal:4},runtime,{async judge(){return {evidence:[]};}},()=>'2026-11-10T00:00:00Z',{async decide(v){calls++;const link=v.observation.targets.find(t=>t.href===target.href);assert.ok(link,'only original observed link is used');return {type:'OPEN_LINK',targetRef:link.ref,reason:'Original recorded #16 link; semantic response UNKNOWN is LOCAL_CONSTRUCTION'};}});
+ const result=await reader.inspectFacts({candidateIds:[candidate.restaurant.id],candidates:[candidate],intent:recorded.intent,readRunId:'recorded-cost'},new AbortController().signal);
+ assert.equal(calls,1,'old decisions16–19 spent4 browser calls; failed identity handoff stops after1');
+ assert.equal(result.factChecks[candidate.restaurant.id]?.status,'UNKNOWN','a different route never supplies missing identity or cuisine proof');
+ assert.ok(result.evidence.every(e=>!(e.kind==='ENTITY_MATCH'&&e.sourceUrl===menu.url)));
+});

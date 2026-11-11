@@ -1,0 +1,27 @@
+✖ homepage GET Search keeps its approved queryless form action (6.772792ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 325.425458
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/browser-read-recording.test.ts:1:626
+✖ homepage GET Search keeps its approved queryless form action (6.772792ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /action="https:\/\/tabelog.com\/en\/rstLst\/"/. Input:
+  
+  '<form method="get"><input name="station_id"></form>'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/browser-read-recording.test.ts:24:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<form method="get"><input name="station_id"></form>',
+    expected: /action="https:\/\/tabelog.com\/en\/rstLst\/"/,
+    operator: 'match'
+  }

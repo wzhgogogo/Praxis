@@ -1,0 +1,29 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "BROWSER_READ_PROBE",
+  "plannedTargets": [
+    "TABELOG",
+    "TABLECHECK"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "ENVIRONMENT",
+    "googleProxy": "http://127.0.0.1:10808/",
+    "browserProxy": "http://127.0.0.1:10808/",
+    "browserDirectHosts": [
+      "localhost",
+      "127.0.0.1"
+    ]
+  },
+  "schemaVersion": "1",
+  "runId": "7b07c43d-e3d2-4f6f-8134-e7a190b57e3a",
+  "startedAt": "2026-11-08T15:50:53.261Z",
+  "status": "STARTED"
+}

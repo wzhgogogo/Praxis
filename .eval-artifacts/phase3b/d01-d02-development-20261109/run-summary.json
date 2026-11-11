@@ -1,0 +1,99 @@
+{
+  "executionSHA": "4b0536c6b0e06ae68a0995a1b3d31428bda0d677",
+  "testFreeze": "00d06819b0ed577bd9a4c851701af9c136ef4042",
+  "mode": "EXPOSED_DEVELOPMENT_NOT_HOLDOUT",
+  "D01": {
+    "delivered": true,
+    "qualification": {
+      "status": "NOT_EVALUATED",
+      "qualified": null,
+      "outcome": null,
+      "s0": 0,
+      "s0Status": "NOT_EVALUATED",
+      "stopBatch": true
+    },
+    "nonPassChecks": [
+      {
+        "rule": "COMPLETE_REQUEST_QUALIFICATION",
+        "status": "NOT_EVALUATED",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+        "reason": "Need independent same-outlet evidence for all HARD/area requirements from the complete frozen request; partial mechanical checks cannot certify delivery",
+        "evidenceRefs": []
+      }
+    ],
+    "elapsedMs": 192034.476709,
+    "turnBudgets": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794236406772,
+        "deadlineAtMs": 1794236906772,
+        "elapsedMs": 153933.78275,
+        "modelCalls": 43,
+        "googleRequests": 6,
+        "exceeded500Seconds": false
+      },
+      {
+        "id": "BOOK_FIRST",
+        "startedAtMs": 1794236560710,
+        "deadlineAtMs": 1794237060710,
+        "elapsedMs": 37362.70875000002,
+        "modelCalls": 9,
+        "googleRequests": 3,
+        "exceeded500Seconds": false
+      }
+    ],
+    "skippedSources": [
+      {
+        "reason": "TABLECHECK_NOT_EVIDENCED",
+        "provider": "TABLECHECK",
+        "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0"
+      },
+      {
+        "reason": "TABLECHECK_NOT_EVIDENCED",
+        "provider": "TABLECHECK",
+        "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae"
+      }
+    ],
+    "skippedCount": 2,
+    "entryEventCounts": {
+      "STARTED": 13,
+      "SUCCEEDED": 13
+    },
+    "retryEvents": [],
+    "turns": [
+      {
+        "id": "BOOK_FIRST",
+        "status": "SENT"
+      }
+    ],
+    "boundaryChecksPassed": 228
+  },
+  "D02": {
+    "status": "NOT_RUN",
+    "reason": "G6_INDEPENDENT_EVIDENCE_REVIEW_REQUIRED_AFTER_D01",
+    "models": 0,
+    "Live": 0,
+    "GET": 0
+  },
+  "usageIncrement": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 52
+  },
+  "cumulative": {
+    "fullLive": 7,
+    "evaluationPublicGET": 43,
+    "realModelCalls": 1192,
+    "environmentReruns": 0,
+    "googleRequests": 24,
+    "restaurantWebsiteRequests": 1698
+  },
+  "limits": {
+    "fullLive": 26,
+    "evaluationPublicGET": 126,
+    "realModelCalls": 2500,
+    "environmentReruns": 4
+  },
+  "originalEvaluationSHA256": "0bc446e894560426dadd94be49cac620c26562b43032fe52d8b915ddf1a114fb"
+}

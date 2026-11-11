@@ -1,0 +1,28 @@
+LOCAL_ENTRY_FAILURE BrowserRuntimeError: Local Playwright Chromium operation failed Error: cdpSession.send: Protocol error (Page.stopLoading): Not attached to an active page [{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":10022,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":1,"retryCount":0,"event":"ZERO_BYTE_TIMEOUT","elapsedMs":10022,"receivedBodyBytes":0,"bytesObserved":true,"resourceType":"document"}]
+✖ document zero-byte retry boundary: ZERO_SUCCESS (10163.284208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10477.980667
+
+✖ failing tests:
+
+test at src/harness/browser/entry-idle-retry.test.ts:1:797
+✖ document zero-byte retry boundary: ZERO_SUCCESS (10163.284208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-idle-retry.test.ts:39:11)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }

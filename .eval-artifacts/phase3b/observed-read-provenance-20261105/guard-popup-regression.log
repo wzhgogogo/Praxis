@@ -1,0 +1,140 @@
+✔ [NODE_FETCH] H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (208.043ms)
+✔ [NODE_FETCH] P21 source preflight retains a6.5s result under the production navigation budget (6786.651834ms)
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"},{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+✔ [NODE_FETCH] E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3403.093208ms)
+✔ [NODE_FETCH] real Chromium rejects a second cross-origin redirect before receiver arrival (142.839292ms)
+✔ [NODE_FETCH] real Chromium rejects a second sensitive redirect before receiver arrival (120.086583ms)
+✔ [NODE_FETCH] real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (132.2235ms)
+✔ [NODE_FETCH] real Chromium checks every fetch redirect before cross-origin dispatch (131.072084ms)
+✔ [NODE_FETCH] real Chromium checks every xhr redirect before cross-origin dispatch (134.090833ms)
+✔ [NODE_FETCH] real Chromium checks every script redirect before cross-origin dispatch (140.02275ms)
+✔ [NODE_FETCH] real Chromium checks every stylesheet redirect before cross-origin dispatch (126.130917ms)
+✔ [NODE_FETCH] real Chromium checks every image redirect before cross-origin dispatch (133.357458ms)
+✔ [NODE_FETCH] real Chromium redirect loops fail at the Guard hop bound (133.463875ms)
+✔ [NODE_FETCH] real Chromium protects popup navigation before its first redirect (149.329541ms)
+✔ [NODE_FETCH] real Chromium protects iframe redirect chains (133.23625ms)
+✔ [NODE_FETCH] real Chromium preserves normal allowed popup redirect navigation (149.436625ms)
+✔ [NODE_FETCH] real Chromium protects dedicated-worker fetch redirects (134.370667ms)
+✔ [NODE_FETCH] reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (133.065833ms)
+▶ [NODE_FETCH] T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (118.226583ms)
+  ✔ dot (116.125917ms)
+  ✔ encodedDot (113.571667ms)
+  ✔ escaped (118.514916ms)
+  ✔ queryEscape (118.783291ms)
+  ✔ slash (116.0425ms)
+  ✔ unicode (116.892209ms)
+  ✔ protocolRelative (116.070625ms)
+✔ [NODE_FETCH] T1 native redirect URL-normalization attempts keep forbidden receivers untouched (934.861875ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused origin request (117.080042ms)
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused method request (118.337667ms)
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused resource-type request (114.097833ms)
+✔ [NODE_FETCH] TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (133.755666ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata static-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Fetch","initiator":"script"},{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve [{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve-child [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-post [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-wrong-type [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-missing-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-put [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-query [{"type":"Other","initiator":"preflight"}]
+✔ [NODE_FETCH] TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies (997.222084ms)
+✔ [BROWSER_GET_HEAD] H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (167.630083ms)
+✔ [BROWSER_GET_HEAD] P21 source preflight retains a6.5s result under the production navigation budget (6700.499625ms)
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"},{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+✔ [BROWSER_GET_HEAD] E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3413.880666ms)
+✔ [BROWSER_GET_HEAD] real Chromium rejects a second cross-origin redirect before receiver arrival (122.105084ms)
+✔ [BROWSER_GET_HEAD] real Chromium rejects a second sensitive redirect before receiver arrival (113.802459ms)
+✔ [BROWSER_GET_HEAD] real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (133.288625ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every fetch redirect before cross-origin dispatch (133.331125ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every xhr redirect before cross-origin dispatch (133.284292ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every script redirect before cross-origin dispatch (134.013709ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every stylesheet redirect before cross-origin dispatch (119.258833ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every image redirect before cross-origin dispatch (129.120292ms)
+✔ [BROWSER_GET_HEAD] real Chromium redirect loops fail at the Guard hop bound (134.024083ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects popup navigation before its first redirect (150.729125ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects iframe redirect chains (120.782167ms)
+✔ [BROWSER_GET_HEAD] real Chromium preserves normal allowed popup redirect navigation (145.497833ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects dedicated-worker fetch redirects (132.659209ms)
+✔ [BROWSER_GET_HEAD] reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (133.579ms)
+▶ [BROWSER_GET_HEAD] T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (118.290791ms)
+  ✔ dot (117.699583ms)
+  ✔ encodedDot (114.983ms)
+  ✔ escaped (117.44925ms)
+  ✔ queryEscape (115.524875ms)
+  ✔ slash (117.963375ms)
+  ✔ unicode (115.45375ms)
+  ✔ protocolRelative (118.398541ms)
+✔ [BROWSER_GET_HEAD] T1 native redirect URL-normalization attempts keep forbidden receivers untouched (936.30275ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused origin request (116.713083ms)
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused method request (118.519875ms)
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused resource-type request (113.807875ms)
+✔ [BROWSER_GET_HEAD] TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (168.236417ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata static-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Fetch","initiator":"script"},{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve [{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve-child [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-post [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-wrong-type [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-missing-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-put [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-query [{"type":"Other","initiator":"preflight"}]
+✔ [BROWSER_GET_HEAD] TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies (1314.823458ms)
+✔ experimental browser GET transport makes no Node fetch and records complete responses (164.383333ms)
+✔ experimental browser transport preserves the request deadline and fails closed (205.688833ms)
+ℹ tests 64
+ℹ suites 0
+ℹ pass 64
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30244.568125

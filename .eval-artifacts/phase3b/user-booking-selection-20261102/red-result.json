@@ -1,0 +1,21 @@
+{
+  "status": "FAILED",
+  "sourceCommit": "faeada2484c7195171e4aafa5a15d7a194d20d0d",
+  "startedAtCET": "2026-11-02T09:50:01.782360+01:00",
+  "exitCode": 1,
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "src/application/restaurant-user-booking-selection.test.ts"
+  ],
+  "rawSHA256": "74581d3c0d21539398542b90abe1e239c6fd2176abdd7a7aa849183ded6118cd",
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "realCalls": 0,
+  "envFileLoaded": false
+}

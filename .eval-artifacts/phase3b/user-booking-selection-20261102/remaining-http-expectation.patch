@@ -1,0 +1,5 @@
+--- a/src/server/local-web-server.test.ts
++++ b/src/server/local-web-server.test.ts
+@@
+-      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,undefined);
++      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,before.restaurant.selectedCandidateId);

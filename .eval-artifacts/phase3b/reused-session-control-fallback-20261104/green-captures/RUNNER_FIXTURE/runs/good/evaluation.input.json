@@ -1,0 +1,537 @@
+{
+  "runId": "g6-good-1793512800000-0",
+  "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+  "mode": "FIXTURE",
+  "artifactRefs": [
+    "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/g6-runner-control-NmUaxk/runs/good/execution.result.json"
+  ],
+  "request": {
+    "dates": [
+      "2026-11-11"
+    ],
+    "partySize": 2,
+    "time": "19:00"
+  },
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM.",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+                "outletName": "G6 Development Sushi",
+                "sourceIds": {
+                  "phone": "03-1234-5678",
+                  "googlePlaces": "g6-development-outlet",
+                  "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "1-2-3 Shibuya Tokyo"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "g6-development-outlet",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:b2d6a016-fa18-43a1-a708-b87b327e0cbf",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:70562a06-9aa7-4949-b48a-e7fdd0cd6846",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:6432ebcd-ea33-4671-b80d-c83e48996c3b",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:259a4f35-9229-4dad-b5dc-ea17bcc8e6dc",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:56a2d6e1-4668-497f-8e8a-258b9c916dae",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "RESULTS_PRESENTED",
+              "candidateIds": [
+                "praxis:restaurant:bd287442c716ac7439273cc9"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "turnId": "room",
+        "userMessage": "Does the first restaurant have a private room?",
+        "before": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+                "outletName": "G6 Development Sushi",
+                "sourceIds": {
+                  "phone": "03-1234-5678",
+                  "googlePlaces": "g6-development-outlet",
+                  "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "1-2-3 Shibuya Tokyo"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "g6-development-outlet",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+                "outletName": "G6 Development Sushi",
+                "sourceIds": {
+                  "phone": "03-1234-5678",
+                  "googlePlaces": "g6-development-outlet",
+                  "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "1-2-3 Shibuya Tokyo"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "g6-development-outlet",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:835266a0a22e56aee6a63a839e58719c",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "PAGE_QUESTION_REQUESTED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:94f12f4f-9e64-41b6-992f-22da10f56e2f",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "PAGE_QUESTION_COMPLETED"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "delivered": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "phone": "03-1234-5678",
+      "googlePlaceId": "g6-development-outlet",
+      "sourceIds": {
+        "TABELOG": "13123456"
+      },
+      "provider": "TABELOG",
+      "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+      "date": "2026-11-11",
+      "time": "19:00",
+      "partySize": 2
+    }
+  ],
+  "handoffs": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "offerId": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+      "provider": "TABELOG",
+      "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111",
+      "directLabel": "Book on Tabelog",
+      "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+      "checkedAt": "2026-11-01T06:00:00.000Z",
+      "displayExpiresAt": "2026-11-01T06:10:00.000Z",
+      "platformFee": {
+        "provider": "TABELOG",
+        "channel": "ENGLISH_BOOKING",
+        "amountPerPersonJPY": 440,
+        "userCancellationRefund": false,
+        "restaurantCancellationRefund": true,
+        "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+        "sourceUrl": "https://tabelog.com/en/help",
+        "checkedOn": "2026-10-29",
+        "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+        "quotes": [
+          "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+          "Please note that no refunds will be issued for cancellations made for customer reasons.",
+          "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+        ]
+      },
+      "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+      "linkCarries": [
+        "DATE",
+        "TIME",
+        "PARTY_SIZE"
+      ],
+      "sourceSelection": "UNKNOWN",
+      "terms": []
+    }
+  ],
+  "answers": [
+    {
+      "answer": "A private room is available for groups of four or more.",
+      "status": "ANSWERED",
+      "citations": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          "text": "A private room is available for groups of four or more.",
+          "readAt": "2026-11-01T06:00:00.000Z",
+          "identityEvidenceId": "evidence:restaurant:website-entity:39e4b0a83f2e6260053c3543"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1
+      },
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          "readAt": "2026-11-01T06:00:00.000Z"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false
+    }
+  ],
+  "pages": [
+    {
+      "ref": "merchant",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "merchantText": "A private room is available for groups of four or more.",
+      "observedLinks": [],
+      "merchantScope": "EXCERPTS",
+      "runId": "g6-good-1793512800000-0",
+      "readAt": "2026-11-01T06:00:00.000Z"
+    },
+    {
+      "ref": "source-snapshot:1:html-sha256:d41a3e1273dd90d4ac44754adfe76128eea27ad0a9d99e8850d44bef592c8f38:text-sha256:2e66a2616d3fa1c9292a99bd93cbaaf373cc91009663d86bcf679dd5aed2d071",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "runId": "g6-good-1793512800000-0",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "readAt": "2026-11-01T06:00:00.000Z",
+      "merchantText": "G6 Development Sushi",
+      "merchantScope": "EXCERPTS",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "phone": "03-1234-5678",
+      "observedLinks": []
+    }
+  ],
+  "qualificationClaims": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "quotes": [
+        {
+          "text": "G6 Development Sushi",
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          "readAt": "2026-11-01T06:00:00.000Z"
+        }
+      ]
+    }
+  ],
+  "vacancy": [
+    {
+      "ref": "captured-snapshot:0:response:1",
+      "phase": "SOURCE_CAPTURE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "captured-snapshot:1:response:1",
+      "phase": "SOURCE_CAPTURE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "captured-snapshot:2:response:1",
+      "phase": "SOURCE_CAPTURE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "captured-snapshot:3:response:1",
+      "phase": "SOURCE_CAPTURE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/g6-runner-control-NmUaxk/runs/good/witness/002-vacancy.body",
+      "phase": "BEFORE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/g6-runner-control-NmUaxk/runs/good/witness/003-vacancy.body",
+      "phase": "AFTER",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    }
+  ],
+  "requests": [],
+  "questions": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "expected": "ANSWERED",
+      "approvedAnswers": [
+        "A private room is available for groups of four or more."
+      ],
+      "sensitiveCategory": "NONE"
+    }
+  ],
+  "witnesses": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "provider": "TABELOG",
+      "sourceEntityId": "13123456",
+      "date": "2026-11-11",
+      "time": "19:00",
+      "partySize": 2,
+      "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "identityText": [
+        "G6 Development Sushi",
+        "1-2-3 Shibuya Tokyo"
+      ]
+    }
+  ],
+  "boundedNoResult": false,
+  "deadline": {
+    "elapsedMs": 568.2957920000008,
+    "turns": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1793512800000,
+        "deadlineAtMs": 1793513300000,
+        "elapsedMs": 44.53199999999924,
+        "modelCalls": 6,
+        "googleRequests": 2,
+        "exceeded500Seconds": false
+      },
+      {
+        "id": "room",
+        "startedAtMs": 1793512800000,
+        "deadlineAtMs": 1793513300000,
+        "elapsedMs": 17.478166999997484,
+        "modelCalls": 1,
+        "googleRequests": 1,
+        "exceeded500Seconds": false
+      }
+    ],
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "priceClaims": [],
+  "softClaims": []
+}

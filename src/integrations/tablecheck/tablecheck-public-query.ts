@@ -4,11 +4,34 @@ const tableCheckGetPreflight = { requestOrigin: "https://www.tablecheck.com", re
 export const TABLECHECK_PUBLIC_SEARCH_ORIGIN = "https://search-v4.production.ap-northeast-1.aws.tablecheck.net";
 /** Observed public, unauthenticated GET JSON transports; no wildcard origin/path/method. */
 export const tableCheckPublicSearchReads: readonly BrowserReadNetworkRequestRule[] = [
+  // Four observed public text-search projections; exact keys, current-fill
+  // text only, existing endpoint/method/CORS header contract unchanged.
+  ...[
+    ["country","hits","queryProfile"],
+    ["country","hits","kind","queryProfile"],
+    ["country","hits","q","queryProfile"],
+    ["destination","hits","name","queryProfile"],
+  ].map(queryKeys=>({origin:TABLECHECK_PUBLIC_SEARCH_ORIGIN,pathname:"/search/",methods:["GET"] as const,resourceTypes:["fetch","xhr"] as const,
+    queryKeys,corsPreflight:tableCheckGetPreflight,
+    queryValueClasses:{q:["EQUALS_AUTHORITATIVE_INPUT"] as const,name:["EQUALS_AUTHORITATIVE_INPUT"] as const,
+      country:["SHORT_TOKEN","NUMERIC"] as const,kind:["SHORT_TOKEN","NUMERIC"] as const,destination:["SHORT_TOKEN","NUMERIC","NAMESPACED_TOKEN"] as const,hits:["NUMERIC"] as const},
+  })),
   { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/catalog.json", methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: [], corsPreflight: tableCheckGetPreflight },
   { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/search/", methods: ["GET"], resourceTypes: ["fetch", "xhr"],
     corsPreflight: tableCheckGetPreflight,
     queryKeyRules: { required: ["queryProfile"], allowed: ["hits", "scope", "lat", "lng", "radius_km", "party_size", "cuisine", "sort", "offset", "id", "open_day", "service_mode"] } },
 ];
+
+/** Anonymous shop detail observed after an exact source suggestion selection.
+ * One slug only: nested workflows/memos and reserved workflow identifiers stay closed.
+ * No CORS exception: the recorded anonymous client has no auth token/header hook.
+ */
+export const tableCheckPublicShopRead: BrowserReadNetworkRequestRule = {
+  origin: "https://production.tablecheck.com",
+  pathnamePattern: "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
+  methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: ["locale"],
+  queryValuePatterns: { locale: "^[a-z]{2}(?:-[A-Z]{2})?$" },
+};
 
 /** Only document hits count. Catalog metadata and grouped facet nodes are not venues. */
 export function observeTableCheckSearchCount(response: {url:string;method:string;status:number;contentType:string;body:Uint8Array}): number | undefined {
@@ -32,6 +55,7 @@ export function observeTableCheckSearchCount(response: {url:string;method:string
  * values. This admits only that exact read-query shape, never inventory.
  */
 export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
+  startupDocuments: ["https://www.tablecheck.com/en/japan/search"],
   documentOrigins: ["https://www.tablecheck.com"],
   prohibitedPaths: [{ hostname: "tablecheck.com", pathSegment: "reserve" }],
   staticResources: [
@@ -40,7 +64,7 @@ export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
     { origin: "https://cdn0.tablecheck.com", pathnamePrefix: "/common/", resourceTypes: ["script", "stylesheet", "font", "image", "fetch", "xhr"], corsPreflight: tableCheckGetPreflight },
     ...["https://image.cdn.tablecheck.com", "https://1.image.cdn.tablecheck.com", "https://2.image.cdn.tablecheck.com", "https://3.image.cdn.tablecheck.com", "https://4.image.cdn.tablecheck.com"].map(origin => ({ origin, pathnamePrefix: "/unsafe/", resourceTypes: ["image"] as const })),
   ],
-  dynamicReads: [...tableCheckPublicSearchReads, {
+  dynamicReads: [...tableCheckPublicSearchReads, tableCheckPublicShopRead, {
     // The Pack's deterministic discovery entry is a public GET document.
     // Retain its source-owned query grammar for guarded navigation and for
     // faithful recording; values remain outside policy and diagnostics.

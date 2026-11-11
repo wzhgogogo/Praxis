@@ -1,0 +1,18 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/infrastructure/browser/location-suggestion-executor.test.ts(17,59): error TS2345: Argument of type '{ source: string; stage: "DISCOVERY"; signal: AbortSignal; session: BrowserSession; allowedOrigins: string[]; taskId: string; goal: { outlet: { name: string; }; location: { name: string; latitude: number; longitude: number; radiusMeters: number; }; hardCriteria: never[]; }; objective: string; matchesSuggestion: () =...' is not assignable to parameter of type 'BrowserSkillReadInput & { matchesSuggestion: (target: BrowserReadActionTarget) => boolean; }'.
+  Type '{ source: string; stage: "DISCOVERY"; signal: AbortSignal; session: BrowserSession; allowedOrigins: string[]; taskId: string; goal: { outlet: { name: string; }; location: { name: string; latitude: number; longitude: number; radiusMeters: number; }; hardCriteria: never[]; }; objective: string; matchesSuggestion: () =...' is not assignable to type 'BrowserSkillReadInput'.
+    The types returned by 'completion(...)' are incompatible between these types.
+      Type '{ complete: boolean; reason: string; }' is not assignable to type 'BrowserCompletionAssessment'.
+        Type '{ complete: boolean; reason: string; }' is not assignable to type '{ complete: false; reason: string; resultKey?: string; resultBusy?: boolean; }'.
+          Types of property 'complete' are incompatible.
+            Type 'boolean' is not assignable to type 'false'.
+src/infrastructure/browser/location-suggestion-executor.test.ts(19,60): error TS2345: Argument of type '{ source: string; stage: "DISCOVERY"; signal: AbortSignal; session: BrowserSession; allowedOrigins: string[]; taskId: string; goal: { outlet: { name: string; }; location: { name: string; latitude: number; longitude: number; radiusMeters: number; }; hardCriteria: never[]; }; objective: string; matchesSuggestion: () =...' is not assignable to parameter of type 'BrowserSkillReadInput & { matchesSuggestion: (target: BrowserReadActionTarget) => boolean; }'.
+  Type '{ source: string; stage: "DISCOVERY"; signal: AbortSignal; session: BrowserSession; allowedOrigins: string[]; taskId: string; goal: { outlet: { name: string; }; location: { name: string; latitude: number; longitude: number; radiusMeters: number; }; hardCriteria: never[]; }; objective: string; matchesSuggestion: () =...' is not assignable to type 'BrowserSkillReadInput'.
+    The types returned by 'completion(...)' are incompatible between these types.
+      Type '{ complete: boolean; reason: string; }' is not assignable to type 'BrowserCompletionAssessment'.
+        Type '{ complete: boolean; reason: string; }' is not assignable to type '{ complete: false; reason: string; resultKey?: string; resultBusy?: boolean; }'.
+          Types of property 'complete' are incompatible.
+            Type 'boolean' is not assignable to type 'false'.

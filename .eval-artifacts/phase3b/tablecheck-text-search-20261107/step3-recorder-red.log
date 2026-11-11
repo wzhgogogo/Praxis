@@ -1,0 +1,29 @@
+✖ recording preserves a partial public SPA document route and masks only credential carriers (5.816417ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 419.4045
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/browser-read-recording.test.ts:1:24387
+✖ recording preserves a partial public SPA document route and masks only credential carriers (5.816417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_REPLAYABLE'
+  - 'REPLAYABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/browser-read-recording.test.ts:336:47)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_REPLAYABLE',
+    expected: 'REPLAYABLE',
+    operator: 'strictEqual'
+  }

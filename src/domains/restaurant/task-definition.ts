@@ -1,6 +1,7 @@
 import {RESTAURANT_READ_ADMISSION_MS} from "./read-time-reserve.js";
 import { assessRestaurantConditions } from "./condition-states.js";
 import { createHash } from "node:crypto";
+import { isDeepStrictEqual } from "node:util";
 
 import type { ActionProposal } from "../../core/policy/contracts.js";
 import type {
@@ -98,7 +99,7 @@ function resetForSemanticUpdate(
 }
 
 function sameSearchIntent(left: RestaurantTaskState["intent"], right: RestaurantTaskState["intent"]): boolean {
-  return JSON.stringify(left) === JSON.stringify(right);
+  return isDeepStrictEqual(left, right);
 }
 
 /**
@@ -272,7 +273,16 @@ function transition(
     case "SEMANTIC_PROPOSAL_COMPILED": {
       requireSemanticMutablePhase(state, event.type);
       if (!restaurantIntentPatchHasChanges(event.patch)) return { state: structuredClone(state), commands: [] };
-      return { state: resetForSemanticUpdate(state, applyRestaurantIntentPatch(state.intentDraft, event.patch)), commands: [] };
+      const intentDraft = applyRestaurantIntentPatch(state.intentDraft, event.patch);
+      // Reaffirming identical conditions does not refresh or erase source
+      // evidence. Actual value/provenance changes still invalidate the read.
+      if (state.phase === "PRESENT_RESULTS" && isDeepStrictEqual(intentDraft, state.intentDraft)
+        && assessRestaurantRead(state, context.now).presentation.some(item => item.eligible)) {
+        // The new user turn still owns a new G1 document/terms scope. Reuse
+        // current inventory, never answers or terms from the previous run.
+        return { state: { ...structuredClone(state), investigationRevision: (state.investigationRevision ?? 0) + 1 }, commands: [] };
+      }
+      return { state: resetForSemanticUpdate(state, intentDraft), commands: [] };
     }
     case "EVALUATION_LOCATION_BOUND": {
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT"], event.type);
@@ -655,7 +665,7 @@ function transition(
         state: {
           ...remaining,
           phase: "PRESENT_RESULTS",
-          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now, conditionStates: Object.fromEntries(event.candidateIds.map(id => [id, assessRestaurantConditions(state.intentDraft!, restaurantCurrentFactEvidence(state, id))])) },
+          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now, conditionStates: Object.fromEntries(event.candidateIds.map(id => [id, assessRestaurantConditions(state.intentDraft!, restaurantCurrentFactEvidence(state, id), context.now, restaurantPresentationEvidenceIds(state, id, context.now))])) },
           selectionSession: {
             deliveredCandidateIds: [...new Set([...(state.selectionSession?.deliveredCandidateIds ?? []), ...event.candidateIds])],
             viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],
@@ -849,10 +859,10 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "23",
+  version: "24",
   create() {
     return {
-      schemaVersion: "24",
+      schemaVersion: "25",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},

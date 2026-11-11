@@ -1,11 +1,13 @@
+import { localBrowserProxyFromEnvironment, playwrightProxy, type LocalBrowserProxySettings } from "./local-browser-proxy.js";
 import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
 
 import { chromium, type Browser, type BrowserContext, type Page } from "playwright-core";
 
-import type { BrowserActionOptions, BrowserReadNetworkPolicy, BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserReadTransportProfile, BrowserActionOptions, BrowserReadNetworkPolicy, BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
+import { assertPublicReadInput, traceFormEvidence } from "./playwright-observed-get-forms.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
 import { PlaywrightControlRegistry, waitForPageSettled, pageBusySelectors, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
@@ -15,12 +17,12 @@ function actionTimeout(options: BrowserActionOptions): number {
   return options.timeoutMs ?? INTERACTIVE_ACTION_TIMEOUT_MS;
 }
 
-export interface LocalPlaywrightChromiumConfig {
+export interface LocalPlaywrightChromiumConfig extends LocalBrowserProxySettings {
   browserType?: Pick<typeof chromium, "launch"> & Partial<Pick<typeof chromium, "launchPersistentContext">>;
   /** Defaults to headless; interactive eval explicitly opts into headed Chromium. */
   headless?: boolean;
-  /** Explicit local/eval proxy; otherwise use Chromium's normal network path. */
-  proxyServer?: string;
+  /** Production defaults to the reviewed-static browser profile; explicit profiles support regression controls. */
+  admittedGetTransport?: BrowserReadTransportProfile;
   /** A dedicated, gitignored eval profile makes cookies persist across local eval sessions. */
   userDataDir?: string;
 }
@@ -54,6 +56,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   }
 
   private pageId(page: Page): string {
+    if(this.networkGuard)return this.networkGuard.pageId(page);
     const existing = this.pageIds.get(page);
     if (existing) return existing;
     const created = `page:${++this.pageSequence}`;
@@ -61,15 +64,21 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     return created;
   }
 
+  entryNavigationEvents() {return this.networkGuard?.entryNavigationEvents(this.page)??[];}
+
   async navigate(url: string, options: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number } = {}): Promise<void> {
     await this.run(() => {
       this.responses.reset();
+      if(this.networkGuard)return this.networkGuard.navigateEntry(this.page,url,options);
       return this.page.goto(url, {
       waitUntil: options.waitUntil ?? "domcontentloaded",
       ...(options.timeoutMs !== undefined ? { timeout: options.timeoutMs } : {}),
-      });
+      }).then(()=>undefined);
     });
   }
+
+  beginReadScope():void { this.networkGuard?.beginReadScope(this.page); }
+  readBoundary() {return this.networkGuard?.readBoundary(this.page); }
 
   async prepareNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareNavigation(url, options.timeoutMs); }
   async prepareObservedNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareObservedNavigation(url, options.timeoutMs); }
@@ -83,12 +92,13 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   async snapshot(): Promise<BrowserSnapshot> {
     return this.run(async () => {
       const state = await interactiveState(this.page).catch(() => undefined);
-      return {
+      const snapshot:BrowserSnapshot = {
         settlement: this.lastSettlement ? "SETTLED" : "PENDING",
         ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
         url: this.page.url(),
+        ...(this.networkGuard ? {urlQueryValues:await this.networkGuard.observeUrlQueryValues(this.page,this.page.url())} : {}),
         html: await this.page.content(),
-        visibleHtml: await this.page.evaluate(() => {
+        visibleHtml: await this.page.locator("body").evaluate(body => {
           // Cloning an img can trigger a second request even while detached.
           // Serialize the existing tree without constructing any DOM nodes.
           const source = {
@@ -113,57 +123,85 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
                 ? "" : [...node.childNodes].map(child => this.read(child)).join("") + `</${name}>`);
             },
           };
-          return source.read(document.body);
-        }),
+          return source.read(body);
+        }, undefined, { timeout: INTERACTIVE_ACTION_TIMEOUT_MS }),
         text: await this.page.locator("body").innerText(),
         title: await this.page.title(),
         ...(state === undefined ? {} : { interactiveState: state }),
         pageId: this.pageId(this.page),
         responses: await this.responses.snapshot(this.page),
         ...(this.networkGuard?.snapshotDiagnostics().length ? { networkDiagnostics: this.networkGuard.snapshotDiagnostics() } : {}),
-        ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: this.networkGuard.snapshotRequests() } : {}),
+        ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: structuredClone(this.networkGuard.snapshotRequests()) } : {}),
         ...(this.networkGuard?.snapshotResourceTypes().length ? { networkResourceTypes: this.networkGuard.snapshotResourceTypes() } : {}),
       };
+      this.networkGuard?.forms.observePageText(this.page,snapshot.text);
+      return snapshot;
     });
   }
 
-  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
+  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> {
+    return this.run(async () => {
+      const controls = await this.controls.observe(this.page, hints);
+      await this.networkGuard?.forms.observe(this.page);
+      this.networkGuard?.forms.observePageControls(this.page,controls);
+      return controls;
+    });
+  }
   async click(target: string, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page);
     await this.run(async () => {
       const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
+      if (locator) await this.networkGuard?.forms.beforeClick(this.page, locator);
       // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
       // adapter and local-fixture code keeps its explicit, code-owned locator capability.
-      if (locator) await activateObservedControl(locator, timeout);
+      if (locator) await traceFormEvidence("CLICK", () => activateObservedControl(locator, timeout));
       else await this.page.locator(target).click({ timeout });
     });
   }
   async openLink(target: string, observedHref?: string, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page);
     await this.run(async () => {
       const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
       if (!locator) throw new Error("Observed link reference is no longer available");
       if (observedHref && await observedLinkCovered(locator, observedHref, timeout)) {
         this.responses.reset();
-        await this.page.goto(observedHref, { waitUntil: "domcontentloaded", timeout });
+        if(this.networkGuard)await this.networkGuard.navigateEntry(this.page,observedHref,{waitUntil:"domcontentloaded",timeoutMs:timeout});
+        else await this.page.goto(observedHref,{waitUntil:"domcontentloaded",timeout});
         return;
       }
-      const opener = this.page;
-      const popup = opener.waitForEvent("popup", { timeout: Math.min(1_000, timeout) }).catch(() => undefined);
-      await locator.click({ timeout });
-      const next = await popup;
-      if (!next) return;
-      this.page = next;
-      this.pageId(next);
-      await next.waitForLoadState("domcontentloaded", { timeout: Math.min(2_500, timeout) }).catch(() => undefined);
+      const clickObserved=async(timeoutMs:number)=>{
+        const opener=this.page;
+        const popup=opener.waitForEvent("popup",{timeout:Math.min(1_000,timeoutMs)}).catch(()=>undefined);
+        await locator.click({timeout:timeoutMs});const next=await popup;
+        if(!next)return;this.page=next;this.pageId(next);
+        await next.waitForLoadState("domcontentloaded",{timeout:Math.min(2_500,timeoutMs)}).catch(()=>undefined);
+      };
+      if(observedHref&&this.networkGuard)await this.networkGuard.navigateEntry(this.page,observedHref,{timeoutMs:timeout},clickObserved);
+      else await clickObserved(timeout);
     });
   }
-  async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value, { timeout: actionTimeout(options) })); }
-  async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
-  async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
-  async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }
-  async pressEscape(_options: BrowserActionOptions = {}): Promise<void> { await this.run(() => this.page.keyboard.press("Escape")); }
+  async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page);
+    await this.run(async () => {
+      if (this.networkGuard) assertPublicReadInput(value, options.inputSource);
+      const element = await this.controls.target(target) ?? await this.page.locator(target).elementHandle();
+      if (!element) throw new Error("Observed input is no longer available");
+      if(this.networkGuard) await this.networkGuard.forms.fill(this.page,element,value,options.inputSource!,()=>element.fill(value,{timeout:actionTimeout(options)}));
+      else await element.fill(value, { timeout: actionTimeout(options) });
+    });
+  }
+  async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> {
+    this.networkGuard?.entryInteraction(this.page); return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
+  async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page); await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
+  async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page); await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }
+  async pressEscape(_options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page); await this.run(() => this.page.keyboard.press("Escape")); }
   async scroll(target: string, deltaY: number, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page);
     await this.run(async () => {
       const observed = await this.controls.target(target);
       if (observed) await observed.evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
@@ -171,6 +209,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
   async dismissTransientObstruction(target: string, options: BrowserActionOptions = {}): Promise<{ occluder: string }> {
+    this.networkGuard?.entryInteraction(this.page);
     return this.run(async () => {
       void actionTimeout(options);
       const observed = await this.controls.target(target);
@@ -205,12 +244,17 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
 
+  isClosed(): boolean { return this.closed || this.page.isClosed() || (this.browser !== undefined && !this.browser.isConnected()); }
+
+  async flushRecordedResponses(): Promise<void> { await this.networkGuard?.flushRecordedResponses(); }
+
   async close(): Promise<void> {
     if (this.closed) return;
     this.closed = true;
     await this.controls.dispose();
     await closeQuietly(this.page);
     await closeQuietly(this.context);
+    await this.networkGuard?.flushRecordedResponses();
     if (!this.contextOwnsBrowser) await closeQuietly(this.browser);
   }
 
@@ -220,7 +264,8 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
       return await operation();
     } catch (error) {
       if (error instanceof BrowserRuntimeError) throw error;
-      throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Local Playwright Chromium operation failed", error);
+      throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Local Playwright Chromium operation failed", error, undefined,
+        this.networkGuard?.snapshotRequests().filter(row => row.error !== undefined).slice(-20));
     }
   }
 }
@@ -234,9 +279,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     const interactive = environment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE === "1";
     const persistent = interactive && environment.PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION === "1";
     return new LocalPlaywrightChromium({
-      ...(environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER?.trim()
-        ? { proxyServer: environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER.trim() }
-        : {}),
+      ...localBrowserProxyFromEnvironment(environment),
       ...(interactive ? {
           headless: false,
           // This directory is gitignored and deliberately never points to a user Chrome profile.
@@ -245,7 +288,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void; onResponseHeaders?: Parameters<BrowserRuntime["openSession"]>[0]["onResponseHeaders"]; replayHarPath?: string }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Local browser session creation was aborted");
     let browser: Browser | undefined;
     let context: BrowserContext | undefined;
@@ -259,9 +302,10 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Browser replay requires an installed read network boundary");
       }
       const browserType = this.config.browserType ?? chromium;
+      const proxy = playwrightProxy(this.config);
       const launchOptions = {
         headless: this.config.headless ?? true,
-        ...(this.config.proxyServer ? { proxy: { server: this.config.proxyServer } } : {}),
+        ...(proxy ? { proxy } : {}),
       };
       if (this.config.userDataDir) {
         if (!browserType.launchPersistentContext) {
@@ -273,7 +317,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         browser = await browserType.launch(launchOptions);
         context = await browser.newContext((input.networkPolicy || input.replayHarPath) ? { serviceWorkers: "block" } : {});
       }
-      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse) : undefined;
+      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse, this.config.admittedGetTransport??"REVIEWED_STATIC_BROWSER",input.onResponseHeaders) : undefined;
       if (input.replayHarPath) await context.routeFromHAR(input.replayHarPath, { notFound: "abort" });
       if (networkGuard) await networkGuard.install(context, { replay: input.replayHarPath !== undefined });
       page = await context.newPage();

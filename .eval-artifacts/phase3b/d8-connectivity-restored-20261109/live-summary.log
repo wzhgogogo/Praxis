@@ -1,0 +1,73 @@
+{
+  "elapsedMs": 154020.75525,
+  "turns": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794185152811,
+      "deadlineAtMs": 1794185652811,
+      "elapsedMs": 153164.21125,
+      "modelCalls": 13,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "models": {
+    "count": 13,
+    "purposes": {
+      "restaurant_semantic_interpret": 1,
+      "restaurant_agent_decide": 3,
+      "browser_read_decide": 8,
+      "restaurant_named_source_query": 1
+    },
+    "outcomes": {
+      "SUCCEEDED": 13
+    }
+  },
+  "recording": {
+    "status": "RECORDED",
+    "replay": {
+      "status": "PARTIALLY_REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "harPath": "replay.har"
+    },
+    "totalPages": 12,
+    "qualifiedPages": 4,
+    "admissions": {
+      "SANITIZED": 4,
+      "UNREVIEWED_DOCUMENT_QUERY_SHAPE": 8
+    },
+    "omissions": {
+      "UNREVIEWED_RECORDING_URL_OR_METHOD": 2
+    },
+    "shopResponses": []
+  },
+  "budget": {
+    "before": {
+      "fullLive": 28,
+      "realModelCalls": 771,
+      "evaluationPublicGET": 375,
+      "googleRequests": 102,
+      "restaurantWebsiteRequests": 11549
+    },
+    "after": {
+      "fullLive": 29,
+      "realModelCalls": 784,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 378,
+      "googleRequests": 103,
+      "restaurantWebsiteRequests": 11563
+    },
+    "limits": {
+      "evaluationPublicGET": 486,
+      "fullLive": 47,
+      "realModelCalls": 1600
+    },
+    "reserved": {
+      "fullLive": 18,
+      "evaluationPublicGET": 108
+    },
+    "availableLive": 0,
+    "availableGET": 0,
+    "modelsRemaining": 816
+  }
+}

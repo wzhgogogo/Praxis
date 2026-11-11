@@ -1,0 +1,30 @@
+{
+  "sourceSHA": "6bef873b94652e6b61af118c0c1b3e5e59e417eb",
+  "status": "FAIL",
+  "receipts": [
+    {
+      "phase": "typecheck",
+      "exitCode": 0,
+      "elapsedMs": 517,
+      "clean": true,
+      "sameSHA": true,
+      "log": "gate-typecheck.log"
+    },
+    {
+      "phase": "architecture",
+      "exitCode": 0,
+      "elapsedMs": 237,
+      "clean": true,
+      "sameSHA": true,
+      "log": "gate-architecture.log"
+    },
+    {
+      "phase": "default",
+      "exitCode": 1,
+      "elapsedMs": 55665,
+      "clean": true,
+      "sameSHA": true,
+      "log": "gate-default.log"
+    }
+  ]
+}

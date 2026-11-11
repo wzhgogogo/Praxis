@@ -1,9 +1,11 @@
 import {positiveDiscoveryCriteria} from "../../domains/restaurant/discovery-retrieval.js";
 import {ModelDiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
 import {restaurantSearchIntentFingerprint, type RestaurantSearchRequest, type RestaurantSearchRead} from "../../domains/restaurant/contracts.js";
+import {outletNameKey,type NamedOutletReference} from "../../domains/restaurant/named-outlet-resolution.js";
 import type { LiveReadInvestigationBudget } from "../../application/live-read-investigation-budget.js";
 import type { RestaurantAgentLoopOptions } from "../../application/restaurant-agent-loop.js";
 import type { RestaurantExecutionRouterOptions } from "../../application/restaurant-execution-router.js";
+import type {RestaurantCandidateFactPort} from "../../application/restaurant-execution-router.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import type { RuntimeClock } from "../../core/task-runtime/contracts.js";
 import type { BrowserExecutionBudget } from "../../infrastructure/browser/browser-task-executor.js";
@@ -13,6 +15,10 @@ import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant
 import { LiveBrowserAvailability, type LiveBrowserAvailabilityOptions } from "../restaurant-availability/live-browser-availability.js";
 import { composeNativeRestaurantRead } from "./native-read-composition.js";
 import { candidateAvailabilityPath, restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
+import { TabelogBookingHandoffReader } from "../tabelog/tabelog-booking-handoff-reader.js";
+import { TableCheckBookingHandoffReader } from "../tablecheck/tablecheck-booking-handoff-reader.js";
+import { RestaurantBookingTerms } from "../restaurant-facts/booking-terms.js";
+import {ObservedOutletNames} from "../restaurant-identity/observed-outlet-names.js";
 
 export interface LiveReadAssemblyConfig extends LiveReadInvestigationBudget {
   /** Existing Pack selection; controlled sources may explicitly restrict coverage. */
@@ -30,6 +36,8 @@ export interface LiveReadTransports {
   onTabelogIdentityDiagnostic?: LiveBrowserAvailabilityOptions["onTabelogIdentityDiagnostic"];
   onTabelogUserInterventionRequired?: LiveBrowserAvailabilityOptions["onTabelogUserInterventionRequired"];
   remainingModelCalls?: RestaurantAgentLoopOptions["remainingModelCalls"];
+  /** Persistent Web root task scope; absent outside that authenticated composition. */
+  currentTaskId?: () => string | undefined;
 }
 
 /** One production assembly for in-memory Runner, persistent Web and offline controls. */
@@ -40,9 +48,20 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   }
   const runCeilings = Object.freeze({ ...ceilings });
   const now = () => transports.clock.now().toISOString();
+  const taskId = transports.currentTaskId ?? (() => undefined);
+  const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
+  const sourceNames=new ObservedOutletNames(transports.browser,now);
+  const tabelogHandoffs = new TabelogBookingHandoffReader(sourceNames.runtime, taskId, now);
+  const tablecheckHandoffs = new TableCheckBookingHandoffReader(tabelogHandoffs.runtime, taskId, now);
+  const bookingLinks = {
+    runtime: tablecheckHandoffs.runtime, now,
+    capture: (request: Parameters<typeof tablecheckHandoffs.capture>[0], signal: AbortSignal, read: () => ReturnType<typeof tablecheckHandoffs.capture>) =>
+      tabelogHandoffs.capture(request, signal, () => tablecheckHandoffs.capture(request, signal, read)),
+    readPrepared: (view: Parameters<typeof tablecheckHandoffs.readPrepared>[0]) => [...tabelogHandoffs.readPrepared(view), ...tablecheckHandoffs.readPrepared(view)],
+  };
   const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: config.maxBrowserModelCallsTotal };
   const google = new GooglePlacesRestaurantSearch(transports.google, now, config.maxDiscoveryCandidates, { maxRequests: config.maxGoogleRequests });
-  const native = composeNativeRestaurantRead(google, transports.browser, transports.model, browserBudget,
+  const native = composeNativeRestaurantRead(google, sourceNames.runtime, transports.model, browserBudget,
     transports.onBrowserDiagnostic, evaluationLocation, now, {
       maxModelCallsPerCandidate: config.maxBrowserModelCallsPerCandidate,
       maxModelCallsTotal: config.maxBrowserModelCallsTotal,
@@ -55,10 +74,14 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       maxAutomaticElapsedMs: config.maxFactBrowserMs,
       maxElapsedMsPerCandidate: config.maxFactBrowserMs,
       maxElapsedMsPerProvider: config.maxFactProviderMs,
-    }, packs);
-  const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
-  const availability = new LiveBrowserAvailability(transports.browser, transports.model, {
+    }, packs,sourceNames.categoryQuotes.bind(sourceNames));
+  const terms = new RestaurantBookingTerms(native.questions, bookingLinks.readPrepared, taskId,
+    transports.remainingModelCalls ?? (()=>undefined), now, config.maxAutomaticBrowserMs);
+  const bookingHandoffs = {...bookingLinks,readPrepared:terms.readPrepared};
+  const questions=Object.assign(native.questions,{readBookingTerms:terms.readBookingTerms.bind(terms),readBookingTermsDiagnostics:terms.readBookingTermsDiagnostics});
+  const sourceAvailability = new LiveBrowserAvailability(bookingHandoffs.runtime, transports.model, {
     now, browserBudget,
+    japaneseName: google.japaneseName.bind(google),
     maxAvailabilitySourceBrowserSessions: config.maxAvailabilitySourceBrowserSessions,
     maxAvailabilitySourceCandidateMatches: config.maxAvailabilitySourceCandidateMatches,
     maxModelCallsPerCandidate: config.maxBrowserModelCallsPerCandidate,
@@ -73,6 +96,16 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     ...(transports.onTabelogIdentityDiagnostic ? { onTabelogIdentityDiagnostic: transports.onTabelogIdentityDiagnostic } : {}),
     ...(transports.onTabelogUserInterventionRequired ? { onTabelogUserInterventionRequired: transports.onTabelogUserInterventionRequired } : {}),
   });
+  const availability = {
+    executionRoute: sourceAvailability.executionRoute,
+    beginReadRun: () => sourceAvailability.beginReadRun(),
+    endReadRun: () => sourceAvailability.endReadRun(),
+    browserModelBudgetExhausted: () => sourceAvailability.browserModelBudgetExhausted(),
+    check: async (request: Parameters<LiveBrowserAvailability["check"]>[0], signal: AbortSignal, readRunId?: string) => {
+      const read = await sourceNames.capture(()=>bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal, readRunId)));
+      return {...read,evidence:[...read.evidence,...await google.observedSourceNames(request.candidates,readRunId)],metadata:{...read.metadata,googleRequests:google.googleRequestUsage(readRunId)}};
+    },
+  };
   const modelReadReserve = transports.model as ModelGateway & Partial<NonNullable<RestaurantExecutionRouterOptions["modelReadReserve"]>>;
   const router: RestaurantExecutionRouterOptions = {
     structuredReadTimeoutMs: config.maxStructuredReadMs,
@@ -88,7 +121,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     executionRoute:google.executionRoute,
     googleRequestUsage:google.googleRequestUsage.bind(google),
     async search(request:RestaurantSearchRequest,signal:AbortSignal):Promise<RestaurantSearchRead>{
-      const locationName=request.intent.area.query.trim().toLowerCase()==='nearby'?'':request.intent.area.query;
+      const locationName=request.intent.area?.query.trim().toLowerCase()==='nearby'?'':request.intent.area?.query??'';
       const selection=request.continuation?.structuredRetrieval??(positiveDiscoveryCriteria(request.intent).length?await retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName,attemptedRetrievals:[],rewrites:0,timeoutMs:config.maxStructuredReadMs}):{accepted:true,reason:'General retrieval: no positive criteria.'});
       if (!selection.accepted) return {candidates:[],evidence:[],
         continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:request.continuation?.usedPageTokens??[],pagesRead:request.continuation?.pagesRead??0,exhausted:true,structuredRetrieval:selection,lastFailureCode:'DISCOVERY_SOURCE_INCOMPLETE',...(request.continuation?.locationContext?{locationContext:request.continuation.locationContext}:{})},
@@ -101,8 +134,26 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     ...plannedSearch,
     executionRoute: plannedSearch.executionRoute,
     googleRequestUsage: plannedSearch.googleRequestUsage?.bind(plannedSearch),
-    async search(request: RestaurantSearchRequest, signal: AbortSignal) {
-      const read = await plannedSearch.search(request, signal);
+    async search(request: RestaurantSearchRequest, signal: AbortSignal,userSelectedOutlet?:NamedOutletReference):Promise<RestaurantSearchRead> {
+      // A source-native prior choice has no Google ID to re-read. Its cached
+      // discovery is only a lookup seed: no old identity/fact/slot is admitted.
+      const reference=userSelectedOutlet?.restaurant;
+      if(request.intent.target?.selectionScope==="SPECIFIC_OUTLET"&&reference&&!reference.sourceIds.googlePlaces
+        &&(reference.sourceIds.tabelog||reference.sourceIds.tablecheck)){
+        const area=request.intent.area,provider=reference.sourceIds.tabelog?"TABELOG" as const:"TABLECHECK" as const;
+        const cached=userSelectedOutlet!.discovery.find(e=>e.provider===provider&&e.candidateId===reference.id);
+        const inTokyo=/東京都|(?:^|[\s,])Tokyo(?:[\s,]|$)/iu.test(reference.address);
+        const sameArea=Boolean(area&&cached&&typeof cached.claims.areaQuery==="string"&&outletNameKey(cached.claims.areaQuery)===outletNameKey(area.query));
+        const evidence=cached&&inTokyo?[{...structuredClone(cached),evidenceId:cached.evidenceId+":selected:"+userSelectedOutlet!.userEventId,
+          requestFingerprint:restaurantSearchIntentFingerprint(request.intent),claims:{...(sameArea?cached.claims:{outletName:reference.outletName,address:reference.address}),observationKind:"USER_SELECTION_REFERENCE",
+            ...(area?{areaQuery:area.query,areaMatch:sameArea&&cached.claims.areaMatch===true}:{locationBasis:"NAMED_OUTLET_RESOLUTION"}),
+            requestedOutletName:request.intent.target.query,namedOutletStatus:"UNIQUE",namedOutletCandidateCount:1,namedOutletSearchComplete:true,
+            userSelectionEventId:userSelectedOutlet!.userEventId,...Object.fromEntries(["tabelog","tablecheck"].flatMap(key=>reference.sourceIds[key]?[[`selectedIdentity:${key}`,reference.sourceIds[key]!]]:[]))}}]:[];
+        return {candidates:evidence.length?[{restaurant:structuredClone(reference),matchReasons:[],warnings:[],executionConfidence:"LOW" as const}]:[],evidence,
+          continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),pagesRead:0,usedPageTokens:[],exhausted:true},
+          metadata:{provider,route:"STRUCTURED_ADAPTER" as const,latencyMs:0,googleRequests:google.googleRequestUsage(request.readRunId)}};
+      }
+      const read = await (request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?google:plannedSearch).search(request, signal,userSelectedOutlet);
       return { ...read, evidence: read.evidence.map(evidence => {
         const candidate = read.candidates.find(item => item.restaurant.id === evidence.candidateId);
         return evidence.kind === "DISCOVERY" && candidate
@@ -111,5 +162,13 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       }) };
     },
   };
-  return { ...native, search, google, availability, router, loop, browserBudget, runCeilings };
+  const facts:RestaurantCandidateFactPort={...native.facts,executionRoute:native.facts.executionRoute,
+    inspectFacts:(request,signal,identityOnly)=>sourceNames.capture(()=>{
+      const {date,timeWindow,partySize}=request.intent;
+      return identityOnly&&date&&timeWindow&&partySize!==undefined?sourceAvailability.identify({candidateIds:request.candidateIds,candidates:request.candidates,
+        ...(request.intent.target?{selectionScope:request.intent.target.selectionScope}:{}),
+        date,timeWindow,partySize,
+        hardCriteria:[]},signal,request.readRunId,request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined):native.facts.inspectFacts(request,signal);
+    })};
+  return { ...native, facts, questions, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
 }

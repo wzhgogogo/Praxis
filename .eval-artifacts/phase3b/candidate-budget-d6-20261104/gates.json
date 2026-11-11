@@ -1,0 +1,93 @@
+[
+  {
+    "name": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "head": "df27dc1dbb78a84ad4f4ffe4fe0d4c1a57f59ad2",
+    "startedAtCET": "2026-11-04T08:25:37.588509+01:00",
+    "elapsedSeconds": 0.545,
+    "exitCode": 0,
+    "statusBefore": "",
+    "statusAfter": "",
+    "logSHA256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+  },
+  {
+    "name": "arch",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "head": "df27dc1dbb78a84ad4f4ffe4fe0d4c1a57f59ad2",
+    "startedAtCET": "2026-11-04T08:25:38.207417+01:00",
+    "elapsedSeconds": 0.186,
+    "exitCode": 0,
+    "statusBefore": "",
+    "statusAfter": "",
+    "logSHA256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+  },
+  {
+    "name": "default",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "head": "df27dc1dbb78a84ad4f4ffe4fe0d4c1a57f59ad2",
+    "startedAtCET": "2026-11-04T08:25:38.465403+01:00",
+    "elapsedSeconds": 48.979,
+    "exitCode": 0,
+    "statusBefore": "",
+    "statusAfter": "",
+    "logSHA256": "9980e013fa0453744f66fb43ea0e5177a8308a1b82f7b7a7b3826456e6408d0e"
+  },
+  {
+    "name": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "head": "df27dc1dbb78a84ad4f4ffe4fe0d4c1a57f59ad2",
+    "startedAtCET": "2026-11-04T08:26:27.532253+01:00",
+    "elapsedSeconds": 0.517,
+    "exitCode": 0,
+    "statusBefore": "",
+    "statusAfter": "",
+    "logSHA256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+  },
+  {
+    "name": "chromium-and-g6",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "head": "df27dc1dbb78a84ad4f4ffe4fe0d4c1a57f59ad2",
+    "startedAtCET": "2026-11-04T08:26:28.122050+01:00",
+    "elapsedSeconds": 170.301,
+    "exitCode": 0,
+    "statusBefore": "",
+    "statusAfter": "",
+    "logSHA256": "aa81204b28b6b1a3af8aa3f227b70bee9d9ee239113f76b523bc01dee167e384"
+  },
+  {
+    "name": "strict-g2",
+    "command": [
+      "env",
+      "PRAXIS_G2_REQUIRE_PASS=1",
+      "npm",
+      "run",
+      "test:dom-change"
+    ],
+    "head": "df27dc1dbb78a84ad4f4ffe4fe0d4c1a57f59ad2",
+    "startedAtCET": "2026-11-04T08:29:18.510866+01:00",
+    "elapsedSeconds": 24.356,
+    "exitCode": 0,
+    "statusBefore": "",
+    "statusAfter": "",
+    "logSHA256": "94eab8d726775a97f5ca3234899b24ee020d96a60733be3c8782e80a1ed7d735"
+  }
+]

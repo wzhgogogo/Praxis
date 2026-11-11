@@ -1,0 +1,178 @@
+{
+  "sourceCommit": "abaf826604fdac6af0fa86a8c56068e80ba2cf58",
+  "startedAtCET": "2026-11-03T05:20:13.688331+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.121,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/integrity.log",
+      "sha256": "0edf7e24631eff2a8300d6fdf47f11be75eb301675b3c4356126f16e054830cb",
+      "outerTimeout": false
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.512,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "outerTimeout": false
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.219,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "outerTimeout": false
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {
+        "PRAXIS_NAMED_AREA_CAPTURE": "1",
+        "PRAXIS_NAMED_SOURCE_CAPTURE": "1"
+      },
+      "exitCode": 0,
+      "seconds": 44.8,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/test.log",
+      "sha256": "7f0eed92e158e6b4ace5f1b81bf4c978b5fc04f2e2516916498ed974dd1c0968",
+      "outerTimeout": false
+    },
+    {
+      "name": "independent",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-source-names-20261103/evaluate.py",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/test.log"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.077,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/independent.log",
+      "sha256": "a74ee2cc5962b8153311ac4bcc3e0c7fecf4e806df53ee3402cbb2e86c2b2a50",
+      "outerTimeout": false
+    },
+    {
+      "name": "independent-original",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-without-area-20261103/evaluate.py",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/test.log"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.074,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/independent-original.log",
+      "sha256": "961ee97cdf04217f541b733dce98cd7ca0a397b378df568dcbed1dce58add4e0",
+      "outerTimeout": false
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.522,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "outerTimeout": false
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 132.077,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/browser-fixture.log",
+      "sha256": "2a29726a3ac71f086676ac90aa7fb017e81b347d60338fbf265c294674c6f2c9",
+      "outerTimeout": false
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "seconds": 24.86,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/strict-g2.log",
+      "sha256": "150598f0c012eb649512821b6d3339defc5fb7ff8c25c8f0d80583dc6e5a3c64",
+      "outerTimeout": false
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.158,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-main-20261103/gates/integrity-after.log",
+      "sha256": "0edf7e24631eff2a8300d6fdf47f11be75eb301675b3c4356126f16e054830cb",
+      "outerTimeout": false
+    }
+  ],
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "outerTimeoutSeconds": 600,
+  "automaticRetries": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-11-03T05:23:37.634931+01:00"
+}

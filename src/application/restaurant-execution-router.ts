@@ -17,15 +17,17 @@ import type {
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { restaurantSearchIntentFingerprint } from "../domains/restaurant/contracts.js";
-import { assessRestaurantRead, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import {restaurantReserveCancelled,RESTAURANT_READ_CANCEL_SETTLE_MS} from "../domains/restaurant/read-time-reserve.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
 import { restaurantUnverifiedReadSummary } from "../domains/restaurant/read-loop-termination.js";
+import type {NamedOutletReference} from "../domains/restaurant/named-outlet-resolution.js";
+import {verifiedOutletPagesForAvailability,namedOutletIdentityPrefix,namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
 
 export interface RestaurantSearchPort {
   readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
-  search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead>;
+  search(request: RestaurantSearchRequest, signal: AbortSignal, userSelectedOutlet?:NamedOutletReference): Promise<RestaurantSearchRead>;
   /** Optional source-owned cumulative accounting; never visible to the Agent. */
   googleRequestUsage?(readRunId: string | undefined): NonNullable<RestaurantReadExecutionMetadata["googleRequests"]>;
 }
@@ -35,13 +37,13 @@ export interface RestaurantAvailabilityPort {
   /** Optional per-Agent-loop budget lifecycle; adapters never receive Task State. */
   browserModelBudgetExhausted?(): boolean;
   beginReadRun?(): void;
-  endReadRun?(): void;
-  check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead>;
+  endReadRun?(): void | Promise<void>;
+  check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead>;
 }
 
 export interface RestaurantCandidateFactPort {
   readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
-  inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead>;
+  inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal,identityOnly?:boolean): Promise<RestaurantCandidateFactRead>;
   googleRequestUsage?(readRunId: string | undefined): NonNullable<RestaurantReadExecutionMetadata["googleRequests"]>;
 }
 
@@ -164,8 +166,11 @@ function authoritativeAvailabilityRequest(
   const previousEvidenceIds = [...new Set(state.readEvidence
     .filter((evidence) => evidence.kind === "AVAILABILITY" && candidateIds.includes(evidence.candidateId ?? ""))
     .map((evidence) => evidence.evidenceId))];
+  const verifiedOutletPages=verifiedOutletPagesForAvailability(state,candidateIds);
   return {
     candidateIds: [...candidateIds],
+    ...(intent.target?.selectionScope?{selectionScope:intent.target.selectionScope}:{}),
+    ...(verifiedOutletPages.length?{verifiedOutletPages}:{}),
     candidates: candidateIds.map((candidateId) => {
       const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);
       if (!candidate) throw new Error(`Validated availability request cannot bind unknown candidate ${candidateId}`);
@@ -224,7 +229,7 @@ export class RestaurantExecutionRouter {
   /** Keeps source-level cumulative budgets aligned with one outer Agent run. */
   beginReadRun(): void { this.availability.beginReadRun?.(); }
 
-  endReadRun(): void { this.availability.endReadRun?.(); }
+  async endReadRun(): Promise<void> { await this.availability.endReadRun?.(); }
 
   async execute(
     action: RestaurantAgentAction,
@@ -235,6 +240,8 @@ export class RestaurantExecutionRouter {
     /** Owned by the user-visible read run; never supplied by the Agent. */
     parentSignal?: AbortSignal,
     deliveryReserve?: { remaining: () => number | undefined; qualified: () => boolean },
+    /** Runtime-event-derived user identity; omitted from persisted search request. */
+    userSelectedOutlet?:NamedOutletReference,
   ): Promise<RestaurantActionExecution> {
     const withModelReserve = <T>(work: () => Promise<T>): Promise<T> => deliveryReserve && this.options.modelReadReserve
       ? this.options.modelReadReserve.runRead(deliveryReserve.remaining, deliveryReserve.qualified, work) : work();
@@ -265,7 +272,7 @@ export class RestaurantExecutionRouter {
           const read = await this.withProviderReadDeadline(
             "Restaurant search",
             this.search.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
-            async signal => { completedSearch = await withModelReserve(() => this.search.search(request, signal)); return completedSearch; },
+            async signal => { completedSearch = await withModelReserve(() => this.search.search(request, signal,userSelectedOutlet)); return completedSearch; },
             this.search.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
@@ -318,6 +325,7 @@ export class RestaurantExecutionRouter {
         const intent = completeRestaurantSearchIntent(state.intentDraft);
         if (!intent) throw new Error("Validated candidate fact read requires a complete authoritative search intent");
         const request: RestaurantCandidateFactRequest = {
+          sourceEvidence: action.candidateIds.flatMap(id=>[...restaurantCurrentFactEvidence(state,id),...state.readEvidence.filter(e=>e.candidateId===id&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH")]).filter(e=>[e.expiresAt,e.displayExpiresAt,e.sourceExpiresAt].every(t=>!t||Date.parse(t)>Date.parse(now))),
           candidateIds: [...action.candidateIds],
           candidates: action.candidateIds.map((candidateId) => {
             const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);
@@ -337,7 +345,8 @@ export class RestaurantExecutionRouter {
             "Restaurant candidate facts",
             this.facts.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
             async signal => {
-              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.facts!.inspectFacts(single, signal)), completed);
+              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.facts!.inspectFacts(single, signal,
+                namedOutletIdentityPrefix(state).includes(single.candidateIds[0]!)&&!namedOutletCandidateResolved(state,single.candidateIds[0]!))), completed);
               return mergedFacts(completed,request,fallback,now);
             },
             this.facts.executionRoute === "GENERIC_BROWSER",
@@ -416,7 +425,7 @@ export class RestaurantExecutionRouter {
               ? this.browserReadTimeoutMs
               : this.structuredReadTimeoutMs,
             async signal => {
-              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.availability.check(single, signal)), completed);
+              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.availability.check(single, signal, readRunId)), completed);
               return mergedAvailability(completed,request,fallback,now);
             },
             this.availability.executionRoute === "GENERIC_BROWSER",
@@ -515,7 +524,8 @@ export class RestaurantExecutionRouter {
       }
       case "SELECT_CANDIDATE":
         return {
-          event: { type: "CANDIDATE_SELECTED", candidateId: action.candidateId, ...(action.offerId ? { offerId: action.offerId } : {}) },
+          ...(state.selectedCandidateId === action.candidateId && state.selectedOfferId === action.offerId ? {}
+            : { event: { type: "CANDIDATE_SELECTED" as const, candidateId: action.candidateId, ...(action.offerId ? { offerId: action.offerId } : {}) } }),
           observation: { type: "CANDIDATE_SELECTED", detail: action.candidateId },
         };
       case "BOOK_RESERVATION":

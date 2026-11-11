@@ -1,0 +1,3 @@
+src/domains/restaurant/candidate-read-priority.ts:7 [ REGEX ]  const key=(v:string)=>v.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+src/integrations/restaurant-search/native-restaurant-search.ts:195 [ REGEX ]   const text=(v:string|undefined)=>v?.normalize("NFKC").replace(/\s+/gu," ").trim().toLowerCase();
+src/integrations/restaurant-search/native-restaurant-search.ts:196 [ REGEX ]   const phone=(c:RestaurantCandidate)=>c.restaurant.sourceIds.phone?.replace(/\D/gu,"");

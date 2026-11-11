@@ -1,0 +1,26 @@
+{
+  "status": "draft / not integrated",
+  "authority": "2026-11-07 user static transport handoff",
+  "methods": [
+    "GET",
+    "HEAD"
+  ],
+  "resourceTypes": [
+    "script",
+    "stylesheet",
+    "font",
+    "image"
+  ],
+  "mustMatch": "existing staticResources admission plus unchanged resource policy",
+  "excludedQueryClasses": [
+    "EQUALS_AUTHORITATIVE_INPUT",
+    "PREFIX_OF_AUTHORITATIVE_INPUT"
+  ],
+  "otherTransport": "NODE_FETCH; existing preflight/CDP semantics unchanged",
+  "recorder": "same cleaner, own credential whole reject, script-only 12000000 byte limit, other caps unchanged",
+  "entryReads": 1,
+  "additionalDocumentReads": 0,
+  "GETCeiling": 465,
+  "model": 0,
+  "Live": 0
+}

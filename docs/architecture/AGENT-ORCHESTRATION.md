@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.28
-- Last updated: 2026-10-28
+- Document revision: 3.33
+- Last updated: 2026-11-09
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -64,6 +64,8 @@ Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purp
 
 ## Browser操作边界
 
+2026-11-09用户批准的文档入口合同：单次GET文档传输最多10秒，仅实际Node请求观测证明正文0字节且发生传输超时时，先终止旧请求，再对同一确切URL重试1次；两次合计含清理不超过原20秒。4xx/5xx、已收到正文、Guard拒绝、取消和语义失败不重试；每次物理请求和录制分开保留。此规则替代先前静态资源无数据时整页重载；静态资源、provider45秒、回合500秒和每回合50模型不变。地区候选只有本次读取中已绑定身份的TableCheck来源/Google官网链接或页面链接才能进入该来源；缺证记录NOT_EVIDENCED跳过，指定店名路径保持。
+
 无API来源的浏览与受控操作是产品建设方向；当前两个Restaurant Adapter的确定性方法和受限模型提议均经一个共享Browser Executor，不能据此声称已有任意页面Browser Agent。网页不作为指令或授权；旧观察引用、POST/预约/支付/取消/PII控件、非来源URL、非权威日期/人数和父级取消后的动作均被拒绝。正常页面就绪等待、同页重新观察、失败重试和业务重复提交分别设限；Router取消会等待关闭收束，人工接管后继续前重验门店、请求与Evidence。
 
 只读结果的来源范围由[ADR-0015](../decisions/0015-supported-source-search-evidence.md)定义；local interactive单开关只启动headed临时会话，双开关持久恢复的生命周期由[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)定义。
@@ -120,3 +122,17 @@ ADR-0046 follow-up uses Agent Prompt29, action Schema5, Context17, State24 and T
 The page cache is server-side and keyed by run/outlet/entry/page. Native and Google-listed-website readers produce its observations only after the existing identity checks. The same readers handle cache misses. As approved in ADR0046 revision0.3, every explicit question owns 60 seconds from submission, three model calls and two new document visits across sessions. The reader uses independent model/browser counters, never the completed search scope; restart can reread the bound outlet. The single no-argument action is selected by code and still validated/routed/reduced; its trajectory has an explicit code-selection summary and no fabricated modelAttempt. Twenty distinct accepted questions per conversation are counted from existing persistent events, surviving restart and deduplicating request IDs. Open-ended search decisions remain model-selected. Pending questions are cancelled or completed before changing the read; local shortlist/browse remain state-only. Structured output is projected to English Web, with original-language quotes and explicit read times. Independent model quality scoring remains pending.
 
 Question Prompt/Schema3 adds a model-only sourceConflict boolean; code derives the existing confirmationRequired from sensitivity OR sourceConflict, so the persisted answer shape, State24 and TaskDefinition22 do not change. G1-only sentence units inherit review roles after full source-line coverage checks. A coarse script-ratio check rejects predominantly Japanese answers to predominantly Latin-letter questions; semantic faithfulness still requires independent scoring.
+
+
+## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
+
+B1选店后的主动条款读取与显式G1追问分开计量：前者在用户选店轮结束前、原ModelRunBudget hold释放前调用同一个G1事实/引用核对实现，复用原模型网关和事实浏览器计数；后者仍遵守ADR0046的独立60秒/3次/2页。条款只是有界服务端投影，不派发State/Outcome事件，不新增Agent动作或Prompt/State/TaskDefinition版本。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+
+
+## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
+
+选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。
+
+## Explicit booking message records user choice (2026-11-02 CET; approved main integration)
+
+Per ADR0049, an accepted SPECIFIC_OUTLET / BOOKING_WORDING message can record a uniquely matched outlet through the existing CANDIDATE_SELECTED event, without an Agent selection action. Code checks full-name uniqueness and a prior displayed candidate binding or existing HIGH entity evidence; ambiguity/partial references remain unselected. The accepted message event retains only a pending choice marker, never raw goalBasis or a new State field, so a party-only reply can resume that original choice after the normal candidate reset. New non-booking targets, semantic failure/conflict and mismatched current candidates cannot reuse it. USER event causation and a USER_MESSAGE trajectory distinguish this from Agent selection. Repeated same candidate/offer selection is a no-op. This grants no booking/authorization, changes no goal or source identity rule, and skips no availability. The existing same-turn B1 terms acquisition, budget/cancellation/reuse and 20-second reserve are unchanged. G1 questions, open recommendations and departures do not create choices. The user reported independent review passed and approved main integration. Evidence remains saved-response/local-source composition; Live assessment is separate.

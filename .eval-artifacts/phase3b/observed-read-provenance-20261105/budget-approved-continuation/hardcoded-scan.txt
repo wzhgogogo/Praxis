@@ -1,0 +1,5 @@
+src/core/text-key.ts:3 [ REGEX ]   return value.normalize("NFKC").trim().replace(/\s+/gu, " ").toLocaleLowerCase("en-US");
+src/integrations/tabelog/tabelog-browser-availability.ts:443 [ URL/PATH ]             searched = await this.executor.search({source:"TABELOG",signal,allowedOrigins:["https://tabelog.com"],session,
+src/integrations/tablecheck/tablecheck-browser-availability.ts:448 [ SITE-BRANCH ]           pageState: prohibited ? "SOURCE_UNSUPPORTED" : "EXTRACTION_FAILED", failureCode: prohibited ? "SOURCE_UNSUPPORTED" : "TABLECHECK_PARSE_FAILED",
+src/integrations/tablecheck/tablecheck-browser-availability.ts:491 [ SITE-BRANCH ]           handoff = searched.status === "COMPLETED" ? undefined : { reason: "TABLECHECK_DISCOVERY_HAS_NO_EXTRACTABLE_OUTLET_LINK", outcome: searched.status };
+src/integrations/tablecheck/tablecheck-browser-availability.ts:664 [ SITE-BRANCH ]         failureCode: highIdentityWithoutReservation.prohibited ? "SOURCE_UNSUPPORTED" : "TABLECHECK_PARSE_FAILED",

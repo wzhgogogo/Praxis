@@ -1,0 +1,9 @@
+# Blocked-request terminal diagnosis
+
+2026-11-03 CET. Draft / not integrated. Continue ad4e6484 resource branch; preserve images policy and all three A-owned fixtures. Real website/GET/model/Google/Live calls0; no .env/answers.
+
+Hypothesis: a denied parser-blocking third-party script (or newly suppressed image) stays paused, delaying DCL. Promise: independently measure actual browser request terminal events and protocol disposition on real loopback Chromium before deciding whether a product fix is supported. No permissions/budgets/deadlines widened.
+
+Freeze current main Guard and branch Guard plus script; temporary main import changes only runtime policy import location. Primary controls: synchronous head script on a second loopback origin denied by Guard, required same-origin JS/CSS, four images and an XHR; three sequential samples per no-interception/main/branch configuration. Bound local DCL2s, success diagnostic<1s, load<1.5s; no gate/probe concurrency. Additional ordinary-route isolation (only CDP Fetch.enable disabled in test), first-hop route redirect rejection, native two-hop redirect to denied origin, a38-image burst matching the33–38 extra blocks in the saved comparison, and a deliberately dropped failRequest control to prove the pending/DCL oracle. All listeners capture terminal events before cleanup; CDP and Playwright rows remain separate. Receiver evidence verifies denied paths never arrive. No local counts claimed as Live waterfall.
+
+If a real hang reproduces, correct only request disposition and add low-deadline regression; if not, report the tested negative result and TLS/proxy/HTTP2/third-party-script limits. Full five gates and strictG2 retained. Existing image-fixture failures must remain visible until user authorizes owner synchronization; this instruction explicitly defers those edits, so they cannot be silently made green. Push diagnosis branch for review, no main merge.

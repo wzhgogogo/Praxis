@@ -1,0 +1,384 @@
+{
+  "id": "G4-ND-004",
+  "key": "main-G4-ND-004",
+  "view": "MAIN37",
+  "cohort": "NEW8",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "Waragamo",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Waragamo",
+      "kind": "SEARCH",
+      "query": "Waragamo",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-034.html",
+      "sha256": "ade9eb091b600058c9895cf9939dfe45e430bedbcfd7e836fa59f3b42be3ada5",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-035.html",
+      "sha256": "9be50457da360ac752acaab365e9cc49e3c8fa1701be53cc5933e9dab68db6c2",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-036.html",
+      "sha256": "51fe093d4cd1ae9000597ca3d28b723767a84b634bed1fb914649c8ffcea2135",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-038.html",
+      "sha256": "3bcab0f8b59f416856d31a9fd1ccb8fe88a2eacac1486d5a9ed5162f5cccc0e6",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-037.html",
+      "sha256": "ca266618841a56176be81b218d1659f01aabc21d7fc73139556ddfba7fed10b6",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-035.html",
+      "sha256": "9be50457da360ac752acaab365e9cc49e3c8fa1701be53cc5933e9dab68db6c2",
+      "realGET": 0
+    }
+  ],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:G4-ND-004",
+    "google": {
+      "placeId": "ChIJ1WEJ8DjuGGARNSztZh-1Bmo",
+      "outletName": {
+        "value": "Waragamo",
+        "normalizedValue": "waragamo",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "2-chōme-8-8 Kichijōji Minamichō, Musashino, Tokyo 180-0003, Japan",
+        "normalizedValue": "2chōme88kichijōjiminamichōmusashinotokyo1800003japan",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "0422-24-9383",
+        "normalizedValue": "0422249383",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1320/A132001/13187638",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+        "outletName": {
+          "value": "Waragamo Warau Kamo Niwa Fuku Kitaru",
+          "normalizedValue": "waragamowaraukamoniwafukukitaru",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1800003 東京都武蔵野市吉祥寺南町2-8-8",
+          "normalizedValue": "1800003東京都武蔵野市吉祥寺南町288",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "0422-24-9383",
+          "normalizedValue": "0422249383",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "0422-24-9383",
+          "role": "STORE",
+          "quote": "0422-24-9383",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 8
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1312/A131204/13128410",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+        "outletName": {
+          "value": "Bar Agami",
+          "normalizedValue": "baragami",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1240023 東京都葛飾区東新小岩1-1-1 トラストビル1F",
+          "normalizedValue": "1240023東京都葛飾区東新小岩111トラストビル1f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-3691-7788",
+          "normalizedValue": "0336917788",
+          "source": "DOM"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 0
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1319/A131906/13080794",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+        "outletName": {
+          "value": "Watagami",
+          "normalizedValue": "watagami",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1670051 東京都杉並区荻窪5-29-7",
+          "normalizedValue": "1670051東京都杉並区荻窪5297",
+          "source": "DOM"
+        },
+        "phone": {
+          "source": "ABSENT"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "CONFLICT",
+          "phone": "MISSING_TABELOG"
+        },
+        "score": 0
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1309/A130905/13297880",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+        "outletName": {
+          "value": "Warakado",
+          "normalizedValue": "warakado",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1620841 東京都新宿区払方町15-4",
+          "normalizedValue": "1620841東京都新宿区払方町154",
+          "source": "DOM"
+        },
+        "phone": {
+          "source": "ABSENT"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "CONFLICT",
+          "phone": "MISSING_TABELOG"
+        },
+        "score": 0
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1320/A132001/13187638",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "Waragamo"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "Waragamo",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Waragamo",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Waragamo",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 4,
+      "inspectedResultCount": 4
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1320/A132001/13187638",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+        "outletName": "Waragamo Warau Kamo Niwa Fuku Kitaru"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1312/A131204/13128410",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+        "outletName": "Bar Agami"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1319/A131906/13080794",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+        "outletName": "Watagami"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1309/A130905/13297880",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+        "outletName": "Warakado"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1320/A132001/13187638",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+        "title": "Waragamo Warau Kamo Niwa Fuku Kitaru Reservation - Kichijoji/Izakaya (Japanese style tavern) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Waragamo Warau Kamo Niwa Fuku Kitaru",
+            "normalizedValue": "waragamowaraukamoniwafukukitaru",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1800003 東京都武蔵野市吉祥寺南町2-8-8",
+            "normalizedValue": "1800003東京都武蔵野市吉祥寺南町288",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "0422-24-9383",
+            "normalizedValue": "0422249383",
+            "source": "DOM"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1312/A131204/13128410",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+        "title": "Bar Agami - Shin Koiwa/Bar | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Bar Agami",
+            "normalizedValue": "baragami",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1240023 東京都葛飾区東新小岩1-1-1 トラストビル1F",
+            "normalizedValue": "1240023東京都葛飾区東新小岩111トラストビル1f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-3691-7788",
+            "normalizedValue": "0336917788",
+            "source": "DOM"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1319/A131906/13080794",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+        "title": "[Closed]Watagami - Ogikubo/Sushi | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Watagami",
+            "normalizedValue": "watagami",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1670051 東京都杉並区荻窪5-29-7",
+            "normalizedValue": "1670051東京都杉並区荻窪5297",
+            "source": "DOM"
+          },
+          "phone": {
+            "source": "ABSENT"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1309/A130905/13297880",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+        "title": "Warakado - Ushigome Kagurazaka/Izakaya (Japanese style tavern) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Warakado",
+            "normalizedValue": "warakado",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1620841 東京都新宿区払方町15-4",
+            "normalizedValue": "1620841東京都新宿区払方町154",
+            "source": "DOM"
+          },
+          "phone": {
+            "source": "ABSENT"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Waragamo",
+    "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+    "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+    "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+    "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+    "https://tabelog.com/en/tokyo/A1320/A132001/13187638/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

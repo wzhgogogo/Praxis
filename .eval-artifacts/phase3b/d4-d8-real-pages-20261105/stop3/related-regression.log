@@ -1,0 +1,226 @@
+✔ homepage GET Search keeps its approved queryless form action (8.502083ms)
+✔ browser recording writes only an in-memory sanitized public document HAR (5.115792ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (12.919541ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (9.148042ms)
+✔ browser recording keeps reviewed GET form actions and removes unreviewed destinations (6.651208ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (4.613083ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (2.147291ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (3.764917ms)
+✔ browser recording refuses a reviewed script response containing a literal credential (2.65675ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (4.018ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (3.061833ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (4.660167ms)
+✔ browser recording preserves form methods while deleting unsafe destinations (7.580875ms)
+✔ browser recording preserves an admitted public document redirect for replay (4.796583ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (7.166625ms)
+✔ observed Tabelog keyword response retains public source names only at its exact recording endpoint (2.5575ms)
+✔ [NODE_FETCH] H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (254.874ms)
+✔ [NODE_FETCH] P21 source preflight retains a6.5s result under the production navigation budget (6779.355292ms)
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"},{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+✔ [NODE_FETCH] E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3411.941417ms)
+✔ [NODE_FETCH] real Chromium rejects a second cross-origin redirect before receiver arrival (138.710417ms)
+✔ [NODE_FETCH] real Chromium rejects a second sensitive redirect before receiver arrival (133.008708ms)
+✔ [NODE_FETCH] real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (133.814375ms)
+✔ [NODE_FETCH] real Chromium checks every fetch redirect before cross-origin dispatch (130.274042ms)
+✔ [NODE_FETCH] real Chromium checks every xhr redirect before cross-origin dispatch (131.984625ms)
+✔ [NODE_FETCH] real Chromium checks every script redirect before cross-origin dispatch (139.441833ms)
+✔ [NODE_FETCH] real Chromium checks every stylesheet redirect before cross-origin dispatch (144.656291ms)
+✔ [NODE_FETCH] real Chromium checks every image redirect before cross-origin dispatch (149.147625ms)
+✔ [NODE_FETCH] real Chromium redirect loops fail at the Guard hop bound (139.058166ms)
+✔ [NODE_FETCH] real Chromium protects popup navigation before its first redirect (147.479125ms)
+✔ [NODE_FETCH] real Chromium protects iframe redirect chains (136.956666ms)
+✔ [NODE_FETCH] real Chromium preserves normal allowed popup redirect navigation (167.445084ms)
+✔ [NODE_FETCH] real Chromium protects dedicated-worker fetch redirects (134.484125ms)
+✔ [NODE_FETCH] reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (148.027958ms)
+▶ [NODE_FETCH] T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (126.192834ms)
+  ✔ dot (127.986542ms)
+  ✔ encodedDot (126.272458ms)
+  ✔ escaped (133.05275ms)
+  ✔ queryEscape (136.487584ms)
+  ✔ slash (111.158916ms)
+  ✔ unicode (125.21525ms)
+  ✔ protocolRelative (139.79775ms)
+✔ [NODE_FETCH] T1 native redirect URL-normalization attempts keep forbidden receivers untouched (1026.830834ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused origin request (138.209917ms)
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused method request (134.367125ms)
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused resource-type request (150.218959ms)
+✔ [NODE_FETCH] TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (149.385791ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata static-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Fetch","initiator":"script"},{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve [{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve-child [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-post [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-wrong-type [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-missing-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-put [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-query [{"type":"Other","initiator":"preflight"}]
+✔ [NODE_FETCH] TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies (1086.557416ms)
+✔ [BROWSER_GET_HEAD] H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (178.216625ms)
+✔ [BROWSER_GET_HEAD] P21 source preflight retains a6.5s result under the production navigation budget (6698.343458ms)
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"},{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+✔ [BROWSER_GET_HEAD] E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3410.783042ms)
+✔ [BROWSER_GET_HEAD] real Chromium rejects a second cross-origin redirect before receiver arrival (158.421834ms)
+✔ [BROWSER_GET_HEAD] real Chromium rejects a second sensitive redirect before receiver arrival (131.833459ms)
+✔ [BROWSER_GET_HEAD] real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (165.549ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every fetch redirect before cross-origin dispatch (131.736792ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every xhr redirect before cross-origin dispatch (132.028292ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every script redirect before cross-origin dispatch (158.11225ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every stylesheet redirect before cross-origin dispatch (128.232084ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every image redirect before cross-origin dispatch (132.219708ms)
+✔ [BROWSER_GET_HEAD] real Chromium redirect loops fail at the Guard hop bound (134.703167ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects popup navigation before its first redirect (166.531958ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects iframe redirect chains (133.196042ms)
+✔ [BROWSER_GET_HEAD] real Chromium preserves normal allowed popup redirect navigation (146.6745ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects dedicated-worker fetch redirects (120.262958ms)
+✔ [BROWSER_GET_HEAD] reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (134.447417ms)
+▶ [BROWSER_GET_HEAD] T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (117.599291ms)
+  ✔ dot (120.044834ms)
+  ✔ encodedDot (112.9005ms)
+  ✔ escaped (124.016625ms)
+  ✔ queryEscape (125.728583ms)
+  ✔ slash (131.894208ms)
+  ✔ unicode (112.971541ms)
+  ✔ protocolRelative (123.540917ms)
+✔ [BROWSER_GET_HEAD] T1 native redirect URL-normalization attempts keep forbidden receivers untouched (969.25825ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused origin request (115.034458ms)
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused method request (134.783875ms)
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused resource-type request (132.244083ms)
+✔ [BROWSER_GET_HEAD] TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (173.3105ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata static-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Other","initiator":"preflight"},{"type":"Fetch","initiator":"script"}]
+preflight metadata reserve [{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve-child [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-post [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-wrong-type [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-missing-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-put [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-query [{"type":"Other","initiator":"preflight"}]
+✔ [BROWSER_GET_HEAD] TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies (1343.576208ms)
+✔ experimental browser GET transport makes no Node fetch and records complete responses (167.706542ms)
+✔ experimental browser transport preserves the request deadline and fails closed (201.837416ms)
+✔ BrowserTaskExecutor shares one browser session across source work and closes it once at the enclosing read boundary (0.93125ms)
+✔ BrowserTaskExecutor refuses a policy read when a runtime only exposes an unguarded session (0.382583ms)
+✔ BrowserTaskExecutor records candidate and provider lifecycle costs through a normal close (0.340334ms)
+✔ BrowserTaskExecutor completes after a canonical page-level WAIT without an observed target (2.08075ms)
+✔ BrowserTaskExecutor spends one bounded operation on page-level Escape then re-observes (0.39525ms)
+✔ BrowserTaskExecutor applies one obstruction recovery and re-observes instead of retrying an old click (11.35975ms)
+✔ BrowserTaskExecutor exposes an ordinary observed query submit only in an installed read boundary (0.824708ms)
+✔ BrowserTaskExecutor waits once for a guarded GET submit when cosmetic form state changes before results (0.431625ms)
+✔ BrowserTaskExecutor keeps an observed sensitive submit unavailable even in an installed read boundary (0.264958ms)
+✔ BrowserTaskExecutor exposes generic public query controls only after the Guard boundary is installed (0.500333ms)
+✔ BrowserTaskExecutor executes a guarded authoritative date button only for the Router-bound date (0.398375ms)
+✔ BrowserTaskExecutor identifies an operation ceiling before a denied next observation (0.390917ms)
+✔ BrowserTaskExecutor records the real acquisition root cause instead of inferring a run failure (0.173041ms)
+✔ BrowserTaskExecutor emits a typed provider deadline before opening a session (0.1125ms)
+✔ BrowserTaskExecutor aborts session acquisition immediately and closes a late session (6.324ms)
+✔ a page-control failure preserves the current session for observation (reuse=false) (2.329417ms)
+✔ a page-control failure preserves the current session for observation (reuse=true) (1.931625ms)
+✔ BrowserTaskExecutor records a failed runtime operation with its local cause (0.489166ms)
+✔ a runtime navigation failure retires its session before the next candidate without resetting the run (0.773167ms)
+✔ a stuck old close cannot delay cancellation or overwrite the next candidate (2.854166ms)
+✔ a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline (1.298375ms)
+✔ BrowserTaskExecutor aborts an in-flight operation, closes once asynchronously, and never reuses that session (0.7105ms)
+✔ BrowserTaskExecutor bounds a late session acquisition without leaking its deadline into the next candidate (0.62275ms)
+✔ BrowserTaskExecutor times out a hanging snapshot, closes that session, and permits the next candidate (0.779666ms)
+✔ BrowserTaskExecutor stops a repeated two-page cycle without spending the full operation budget (1.442ms)
+✔ BrowserTaskExecutor keeps a model-call ceiling across sequential candidate executors (0.254292ms)
+✔ BrowserTaskExecutor enforces the shared budget ceiling when no caller-specific option is supplied (0.196334ms)
+✔ BrowserTaskExecutor accepts only observed, read-only targets and invalidates old references after every observation (0.566584ms)
+✔ BrowserTaskExecutor allows an observed GET availability-search control but never treats it as a booking submit (0.290292ms)
+✔ fragment UI click permission cannot be used for another document, origin, or sensitive action (1.112375ms)
+✔ BrowserTaskExecutor binds model-controlled fields to the Router authority and blocks an unsafe submit-looking click (0.887875ms)
+✔ BrowserTaskExecutor binds a public retrieval field by observed native name without admitting PII entries (0.312917ms)
+✔ BrowserTaskExecutor permits only an exact non-submit calendar button for a model-controlled date (0.297291ms)
+✔ BrowserTaskExecutor shows a disabled date as read-only and rejects a proposed click (0.216583ms)
+✔ BrowserTaskExecutor reuses post-action controls to confirm two selections within the operation limit (1.624583ms)
+✔ BrowserTaskExecutor permits a non-submit calendar control nested in a POST form (0.614083ms)
+✔ BrowserTaskExecutor addresses a distinct observed calendar value before a shared test id (0.841708ms)
+✔ BrowserTaskExecutor rejects an ambiguous calendar day and a submit-looking authoritative button (1.206333ms)
+✔ BrowserTaskExecutor keeps an invalid model action in the same bounded session and accepts a later observed-target proposal (1.2515ms)
+✔ BrowserTaskExecutor abandons two identical rejected proposals on an unchanged page (1.104125ms)
+✔ BrowserTaskExecutor removes an observed target after its action makes no page progress and continues in the same session (1.059792ms)
+✔ model COMPLETE is returned to the same browser loop until the completion predicate passes or makes no progress (0.48425ms)
+✔ an early COMPLETE receives the missing predicate and can take a later safe action in the same session (0.695417ms)
+✔ a rejected COMPLETE refreshes an asynchronous result before requesting another model decision (0.323292ms)
+✔ BrowserTaskExecutor never advertises or executes page Escape without an installed read boundary (0.437458ms)
+✔ BrowserTaskExecutor passes only the recent six executed or rejected steps to the next decision (1.49925ms)
+✔ BrowserTaskExecutor no-change feedback directs a current target and waits only on actual loading (0.537625ms)
+✔ C2a rejects ordinary wrong-date clicks at execution even when the model ignores hints (0.287042ms)
+✔ LOCATION fills only the same-request authoritative name in an observed public location input (0.366709ms)
+✔ LOCATION is unavailable for coordinate-only requests without an authoritative name (0.136875ms)
+✔ executor requires explicit positive model and operation limits (0.079042ms)
+✔ group-window: visible disabled requested party ends before another model decision (0.132125ms)
+✔ group-window: party stop excludes {"label":"Guests 10","value":"10","controlGroupLabel":"Guests","disabled":false,"visible":true} (0.209958ms)
+✔ group-window: party stop excludes {"label":"Guests 10","value":"10","controlGroupLabel":"Guests","disabled":true,"visible":false} (0.053167ms)
+✔ group-window: party stop excludes {"label":"Guests 10","value":"10","controlGroupLabel":"Guests","disabled":true,"visible":true,"outsideViewport":true} (0.067792ms)
+✔ group-window: party stop excludes {"label":"Guests 9","value":"9","controlGroupLabel":"Guests","disabled":true,"visible":true} (0.09575ms)
+✔ group-window: party stop excludes {"label":"10","value":"10","controlGroupLabel":"Booking time","disabled":true,"visible":true} (0.114417ms)
+✔ group-window: party stop excludes {"label":"Guests 10","value":"10","controlGroupLabel":"Guests","disabled":true,"visible":true,"selected":true} (0.070875ms)
+✔ group-window: disabled party is bound to selected date 2026-11-05 (0.261667ms)
+✔ group-window: disabled party is bound to selected date 2026-11-06 (0.045583ms)
+✔ region selection is data-only DISCOVERY and consumes the same global model budget without reviving other stages (0.291375ms)
+✔ navigation below 3000ms remaining browser budget dispatches nothing and reports budget exhaustion (0.239042ms)
+✔ Tabelog observed location suggestions through ordinary assembly: LINK (4924.010042ms)
+✔ Tabelog observed location suggestions through ordinary assembly: SCRIPT (4235.270083ms)
+✔ Tabelog observed location suggestions through ordinary assembly: NONE (3640.134334ms)
+✔ Tabelog observed location suggestions through ordinary assembly: AMBIGUOUS (3347.829792ms)
+✔ Tabelog observed location suggestions through ordinary assembly: OUTSIDE (4864.328666ms)
+✔ Tabelog observed location suggestions through ordinary assembly: MERCHANT_ONLY (3676.702875ms)
+✔ homepage Search requires exactly the ten approved keys on the reviewed GET document (4.585292ms)
+✔ independent review data audits the exact Search grammar without using Guard verdicts (2.86175ms)
+ℹ tests 150
+ℹ suites 0
+ℹ pass 150
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30973.634125

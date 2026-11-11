@@ -56,6 +56,105 @@
     }
   },
   {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "country",
+        "hits",
+        "queryProfile"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
     "origin": "https://production.tablecheck.com",
     "pathname": "/v2/hub/availability_calendar_v2",
     "resourceTypes": [
@@ -322,6 +421,129 @@
       "requestOrigin": "https://www.tablecheck.com",
       "requestedHeaderNames": [
         "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathnamePattern": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "locale"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/booking/calendar/initial_vacancy/?$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "rst_id"
+      ],
+      "allowed": [
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/booking/calendar/find_vacancy_date_with_status/?$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "rst_id"
+      ],
+      "allowed": [
+        "plan_id",
+        "seat_only"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/booking/calendar/find_vacancy_member_by_date/?$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "rst_id",
+        "svd"
+      ],
+      "allowed": [
+        "plan_id",
+        "seat_only"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/booking/calendar/find_vacancy/?$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "rst_id",
+        "svd",
+        "svps"
+      ],
+      "allowed": [
+        "svt",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathname": "/contents/reserve_date_status_list",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "repeatable": [
+        "rst_id_list[]"
       ]
     }
   }

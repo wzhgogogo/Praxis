@@ -1,4 +1,7 @@
+import {BrowserVisibleProgress, visibleProgressKey, visibleActionKey, filledAuthoritativeField} from "./browser-visible-progress.js";
+import {createHash} from "node:crypto";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
+import {normalizedTextKey} from "../../core/text-key.js";
 import { setTimeout as wait } from "node:timers/promises";
 import type { BrowserControlHint, BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError, type BrowserDeadlineScope, type BrowserRuntimeFailureCode } from "./browser-runtime-errors.js";
@@ -9,7 +12,6 @@ import {
   type BrowserReadActionTarget,
   type BrowserReadHistoryStep,
   type BrowserReadDecisionInput,
-  type BrowserRegionCorrection,
   browserReadActionTargetReplayFingerprint,
   type BrowserActionWireRejection,
   BrowserReadDecisionError,
@@ -44,6 +46,8 @@ export interface BrowserExecutionDiagnostic {
   };
   url?: string;
   detail?: string;
+  /** Failure evidence from the installed source Guard, not matching/availability evidence. */
+  networkFailures?: import("./browser-runtime.js").BrowserReadNetworkObservation[];
   /** Wall time of this bounded readiness wait; not cumulative executor time. */
   waitMs?: number;
   settlement?: import("./browser-runtime.js").BrowserSettlementDiagnostics;
@@ -55,7 +59,7 @@ export interface BrowserExecutionDiagnostic {
 }
 
 export type BrowserExecutionReason = "ADAPTER_RETURNED" | "SOURCE_SCOPE_REPLACED" | "EXECUTOR_CLOSED" | "PARENT_ABORTED"
-  | "DEADLINE_EXCEEDED" | "MODEL_BUDGET_EXHAUSTED" | "OPERATION_BUDGET_EXHAUSTED"
+  | "DEADLINE_EXCEEDED" | "NAVIGATION_BUDGET_EXHAUSTED" | "MODEL_BUDGET_EXHAUSTED" | "OPERATION_BUDGET_EXHAUSTED"
   | "RUNTIME_UNAVAILABLE" | "RUNTIME_FAILURE" | "OPERATION_FAILED";
 
 export interface BrowserReadLimits {
@@ -68,6 +72,8 @@ export interface BrowserReadLimits {
 }
 
 export interface BrowserTaskExecutorOptions extends BrowserReadLimits {
+  /** One read-run owner may retain an anonymous session per source. */
+  reuseSourceSessions?: boolean;
   modelDecision?: BrowserReadActionDecisionPort;
   /** Bounds all browser work for an outlet across source fallback. */
   maxElapsedMsPerCandidate?: number;
@@ -86,8 +92,8 @@ export interface BrowserExecutionBudget {
 }
 
 export type BrowserCompletionAssessment =
-  | { complete: true; reason: string; resultKey: string; resultBusy: boolean }
-  | { complete: false; reason: string; resultKey?: string; resultBusy?: boolean };
+  | { complete: true; reason: string; resultKey: string; resultBusy: boolean; resultUrls?: readonly string[] }
+  | { complete: false; reason: string; resultKey?: string; resultBusy?: boolean; resultUrls?: readonly string[] };
 
 export interface BrowserSkillReadInput {
   taskId: string;
@@ -103,22 +109,29 @@ export interface BrowserSkillReadInput {
   sourceSkillPath?: string;
   /** Current method result; it is context for continuation, never a provider failure by itself. */
   methodReason?: string;
-  /** A source-owned, already-authorized shortcut; its effect is always post-condition checked. */
-  shortcut?: { name: string; run(snapshot: BrowserSnapshot): Promise<void> };
+  /** Search completion is a model choice followed by the ordinary result check. */
+  requireModelConfirmation?: boolean;
   controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
   onObservation?(value: Pick<BrowserReadDecisionInput["observation"], "revision" | "url" | "targets">): void;
+  /** Internal evidence of an actually dispatched, guarded public query. */
+  onQuerySubmitted?(owner: string): void;
+  /** Code-owned cut immediately before a validated observed button click. */
+  onBeforeClick?(snapshot:BrowserSnapshot,controls:BrowserPageControl[],controlId:string):void|(()=>void);
   completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): BrowserCompletionAssessment;
 }
 
 export interface BrowserGenericReadResult {
+  scopeQuote?: {ref:string;text:string;url:string};
   reasonCode?: string;
+  /** Source handoff only; adapter must still inspect identity on this page. */
+  sourceHandoff?: {url:string;pageId:string};
   status: "COMPLETED" | "MODEL_HANDOFF" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE";
   snapshot: BrowserSnapshot;
   /** Live DOM controls from the same observation as the terminal browser decision. */
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
+interface ObservedTarget extends BrowserReadActionTarget { exactSuggestion?:boolean; controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; readOnly?: boolean; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
 
 interface Observation {
   revision: number;
@@ -208,11 +221,11 @@ function pointerObstruction(error: unknown): boolean {
   return /(?:intercepts pointer events|would receive the pointer event|another element would receive)/i.test(message);
 }
 
-function toObservedTargets(controls: BrowserPageControl[], revision: number): Map<string, ObservedTarget> {
+function toObservedTargets(controls: BrowserPageControl[], revision: number,exactSuggestionId?:string): Map<string, ObservedTarget> {
   const targets = new Map<string, ObservedTarget>();
   const controlRefs = new Map<string, string>();
   const groupRefs = new Map<string, string>();
-  const eligible = controls.filter(control => control.visible && !control.blockedByActiveLayer && (!control.observationOnly || control.calendarDate !== undefined)
+  const eligible = controls.filter(control => control.visible && !control.blockedByActiveLayer && (!control.observationOnly || control.calendarDate !== undefined || control.id===exactSuggestionId)
     && (control.kind !== "LINK" || control.href !== undefined));
   for (const control of eligible) {
     const groupKey = control.controlGroupLabel !== "Unlabelled group" ? control.controlGroupKey : undefined;
@@ -221,14 +234,14 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
     const ref = `observation:${revision}:target:${targets.size + 1}`;
     controlRefs.set(control.id, ref);
     targets.set(ref, {
-      ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
+      ref, controlId: control.id, stableKey: control.stableKey, ...(control.id===exactSuggestionId?{exactSuggestion:true}:{}), ...(control.formObservation ? { formObservation: control.formObservation } : {}), ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
       controlGroupLabel: control.controlGroupLabel ?? "Unlabelled group",
       ...group,
       ...(control.labelSource ? { labelSource: control.labelSource } : {}),
       ...(control.kind === "RADIO" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
       ...(control.calendarDate ? { calendarDate: control.calendarDate } : {}),
-      ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
+      ...(control.readOnly ? { readOnly: true } : {}), ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
       ...(control.outsideViewport ? { outsideViewport: true } : {}), ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(control.valueText ? { valueText: control.valueText } : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
     });
     if (control.kind === "SELECT" && !control.disabled) {
@@ -247,7 +260,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
     }
   }
   for (const target of targets.values()) {
-    if (target.role !== "option" || target.optionNative) continue;
+    if (target.role !== "option" || target.optionNative || target.exactSuggestion) continue;
     target.kind = "OPTION";
     if (target.optionOwnerId) {
       const ownerRef = controlRefs.get(target.optionOwnerId);
@@ -269,6 +282,9 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
  * It deliberately has no Restaurant evidence or State knowledge.
  */
 export class BrowserTaskExecutor {
+  private sessionSource: BrowserExecutionDiagnostic["source"] | undefined;
+  private readonly parkedSessions = new Map<BrowserExecutionDiagnostic["source"], {session:BrowserSession;signal:AbortSignal|undefined;cleanup:(()=>void)|undefined;unsettled:boolean}>();
+  private readonly startedSessions = new WeakSet<BrowserSession>();
   private session: BrowserSession | undefined;
   private sessionSignal: AbortSignal | undefined;
   private sessionAbortCleanup: (() => void) | undefined;
@@ -326,6 +342,14 @@ export class BrowserTaskExecutor {
     this.finishProvider(outcome, reason);
   }
 
+  /** Preserve the original per-read candidate window while retaining only the
+   * source contexts. A new call is a new checkpoint, not a fresh run budget. */
+  endReadScope():void {
+    this.finishProvider("FINISHED","ADAPTER_RETURNED");
+    this.finishCandidate("FINISHED","ADAPTER_RETURNED");
+    this.candidateId=undefined;
+  }
+
   /** A source validator reports required field/types only, never response values. */
   reportSourceStructureChanged(input: Pick<BrowserSkillReadInput, "source" | "stage"> & {
     url: string; observedAt: string; issue: { field: string; expected: string; actual: string };
@@ -339,6 +363,16 @@ export class BrowserTaskExecutor {
   private networkPolicy: BrowserReadNetworkPolicy | undefined;
 
   async acquire(signal: AbortSignal, source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"], networkPolicy?: BrowserReadNetworkPolicy): Promise<BrowserSession> {
+    if (this.options.reuseSourceSessions && this.sessionSource !== source) {
+      if (this.session && this.sessionSource) this.parkedSessions.set(this.sessionSource, {
+        session:this.session,signal:this.sessionSignal,cleanup:this.sessionAbortCleanup,unsettled:this.pageUnsettled,
+      });
+      const parked=this.parkedSessions.get(source);
+      this.parkedSessions.delete(source);
+      this.session=parked?.session;this.sessionSignal=parked?.signal;this.sessionAbortCleanup=parked?.cleanup;
+      this.pageUnsettled=parked?.unsettled??false;
+      this.sessionSource=source;
+    }
     this.ensureLifecycle(source, stage);
     try {
       this.assertActive(signal);
@@ -400,85 +434,154 @@ export class BrowserTaskExecutor {
       throw failure;
     }
     this.session = session;
-    const onSessionAbort = () => { if (this.session === session) void this.close("PARENT_ABORTED"); };
+    const onSessionAbort = () => {
+      if (this.session === session) void this.close("PARENT_ABORTED");
+      else if (this.parkedSessions.get(source)?.session === session) {
+        this.parkedSessions.get(source)?.cleanup?.();
+        this.parkedSessions.delete(source);
+        void session.close().catch(()=>undefined);
+      }
+    };
     signal.addEventListener("abort", onSessionAbort, { once: true });
     this.sessionAbortCleanup = () => signal.removeEventListener("abort", onSessionAbort);
     this.record({ source, stage, event: "SESSION_OPENED", detail: session.metadata.runtimeProvider });
     return session;
   }
 
-  /** One data-only correction choice, using the same source deadline/call counters. No DOM read or navigation. */
-  async selectRegionEntrance(input: Pick<BrowserSkillReadInput, "taskId" | "source" | "stage" | "signal" | "goal" | "sourceSkillPath"> & { regionCorrection: BrowserRegionCorrection }): Promise<{status: "SELECTED"; entranceRef: string} | {status: "NO_SAFE_ACTION"; reasonCode: string}> {
-    const context = structuredClone(input.regionCorrection);
-    const entries = context.entrances.filter(entry => entry.sourceId === context.sourceId && entry.flowId === context.flowId);
-    if (input.stage !== "DISCOVERY" || context.replacementsUsed !== 0 || !entries.length || !this.options.modelDecision) return {status: "NO_SAFE_ACTION", reasonCode: "NO_OBSERVED_REPLACEMENT_ENTRANCE"};
-    if (this.budget.totalModelCalls >= Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity)) throw new BrowserRuntimeError("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "Shared browser-model budget exhausted");
-    if (this.modelCalls >= this.options.maxModelCallsPerCandidate || this.remaining(1) <= 0) return {status: "NO_SAFE_ACTION", reasonCode: "READ_BUDGET_EXCEEDED"};
-    this.modelCalls++; this.budget.totalModelCalls++;
-    this.record({source: input.source, stage: input.stage, event: "MODEL_DECISION_STARTED", detail: "SELECT_REGION_ENTRANCE"});
-    let action: BrowserReadAction;
-    try {
-    action = await this.bounded(input, "MODEL_DECISION", () => this.options.modelDecision!.decide({
-      taskId: input.taskId, source: input.source, stage: input.stage, history: [], goal: input.goal,
-      objective: "Choose a different entrance once from this source flow's supplied observed collection. Do not open or restore a menu.",
-      skills: loadBrowserReadSkills(input.source, input.sourceSkillPath),
-      observation: {revision: 0, url: "", title: "Source-flow entrance selection (no current DOM)", visibleText: "", targets: [], pageActions: []},
-      regionCorrection: {...context, entrances: entries},
-      progress: `One correction remains. Shared model calls remaining after this choice: ${Math.max(0, Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity) - this.budget.totalModelCalls)}. Current execution window remaining: ${Math.max(0, this.remaining(Number.MAX_SAFE_INTEGER))} ms. Source budgets: ${JSON.stringify(context.remainingBudget)}. Sample values and goal are code-owned.`,
-    }));
-    } catch (error) {
-      const wire = this.options.modelDecision!.takeLastWireRecord?.();
-      if (wire) this.record({source: input.source, stage: input.stage, event: "MODEL_WIRE", detail: this.replayWireDetail(wire, [])});
-      this.recordLifecycleFailure(input.source, input.stage, "MODEL_DECISION_FAILED", error);
-      if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
-      this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "INVALID_OBSERVED_ENTRANCE_SELECTION"});
-      return {status: "NO_SAFE_ACTION", reasonCode: "INVALID_OBSERVED_ENTRANCE_SELECTION"};
-    }
-    const wire = this.options.modelDecision!.takeLastWireRecord?.();
-    if (wire) this.record({source: input.source, stage: input.stage, event: "MODEL_WIRE", detail: this.replayWireDetail(wire, [])});
-    this.record({source: input.source, stage: input.stage, event: "MODEL_ACTION", detail: `MODEL_${action.type}`});
-    this.record({source: input.source, stage: input.stage, event: "MODEL_DECISION_FINISHED", detail: "SELECT_REGION_ENTRANCE"});
-    if (action.type !== "SELECT_REGION_ENTRANCE" || !entries.some(entry => entry.ref === action.targetRef)) {
-      this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "INVALID_OBSERVED_ENTRANCE_SELECTION"});
-      return {status: "NO_SAFE_ACTION", reasonCode: "INVALID_OBSERVED_ENTRANCE_SELECTION"};
-    }
-    return {status: "SELECTED", entranceRef: action.targetRef};
-  }
-
-  async navigate(
-    input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; observed?: boolean; timeoutMs?: number },
-  ): Promise<void> {
+  /** The source-pack seed is the only navigation made without a current model
+   * action. Reusing a source session never reopens it. */
+  async start(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; timeoutMs?: number }): Promise<void> {
+    if (this.startedSessions.has(input.session)) return;
     const url = this.allowedUrl(input.url, input.allowedOrigins);
-    if (input.observed && !url) throw this.rejected(input.source, input.stage, "Observed navigation target is outside the source allowlist");
-    if (!url) throw this.rejected(input.source, input.stage, "Site method navigation target is outside the source allowlist");
+    if (!url || !this.networkPolicy?.startupDocuments?.includes(url)) throw this.rejected(input.source, input.stage, "The source start is not configured");
+    this.startedSessions.add(input.session);
     await this.operation(input, "NAVIGATE", async () => {
-      const options = this.navigationOptions(input.timeoutMs);
-      await input.session.prepareNavigation?.(url, options);
-      await input.session.navigate(url, { ...options, waitUntil: "domcontentloaded" });
+      await input.session.prepareNavigation?.(url, this.navigationOptions(input.timeoutMs));
+      await input.session.navigate(url, { ...this.navigationOptions(input.timeoutMs), waitUntil: "domcontentloaded" });
     });
     await this.settleAfterDirectAction(input);
+  }
+
+  /** Open only a source-provided exact URL (or the configured first seed).
+   * The caller binds its provenance; the Guard still admits every request,
+   * actual redirect and response. No URL pattern selects a destination. */
+  async navigate(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; observed?: boolean; timeoutMs?: number }): Promise<void> {
+    const url = this.allowedUrl(input.url, input.allowedOrigins);
+    if (!url || isBrowserReadPathProhibited(this.networkPolicy, url)) throw this.rejected(input.source, input.stage, "Source document is outside the read scope");
+    if (!input.observed && !(this.networkPolicy?.startupDocuments?.includes(url) && !this.startedSessions.has(input.session))) {
+      throw this.rejected(input.source, input.stage, "Navigation requires an exact source-observed URL or the configured first seed");
+    }
+    await this.operation(input, "NAVIGATE", async () => {
+      const options = this.navigationOptions(input.timeoutMs);
+      if (input.observed && input.session.prepareObservedNavigation) await input.session.prepareObservedNavigation(url, options);
+      else await input.session.prepareNavigation?.(url, options);
+      await input.session.navigate(url, { ...this.navigationOptions(input.timeoutMs), waitUntil: "domcontentloaded" });
+    });
+    this.startedSessions.add(input.session);
+    await this.settleAfterDirectAction(input);
+  }
+
+  /** Query wording comes from G4; all UI steps, including reuse of an already
+   * loaded page, are chosen by the ordinary observation loop. */
+  async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; query: string; querySource?: "SPECIFIC_OUTLET" | "G4_SOURCE_TERM"; completion: BrowserSkillReadInput["completion"] }): Promise<BrowserGenericReadResult> {
+    const scoped = { ...input, stage: "DISCOVERY" as const };
+    if (!this.startedSessions.has(input.session)) {
+      const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
+      if (seeds.length !== 1) throw this.rejected(input.source, "DISCOVERY", "Source start is missing or ambiguous");
+      await this.start({ ...scoped, url: seeds[0]! });
+    }
+    const queryFields = new Set<string>();
+    let queryConflict = false;
+    let queryBound = false;
+    let currentIsResult = false;
+    let initialRequestCount: number | undefined;
+    const queryKey = normalizedTextKey(input.query);
+    let selected: {boundary:import("./browser-runtime.js").BrowserReadBoundary;url:string}|undefined;
+    let handoff:BrowserGenericReadResult["sourceHandoff"];
+
+    const result = await this.runSkill({ ...scoped, taskId: "observed-source-query", requireModelConfirmation: true,
+      goal: { outlet: { name: input.query }, retrievalExpression: input.query, retrievalSource: input.querySource ?? "G4_SOURCE_TERM", hardCriteria: [] },
+      objective: "Submit the authoritative query through observed public search controls and stop at its result LIST. If the source instead presents one visible enabled suggestion BUTTON whose full label exactly equals the query, select it once and stop at the settled destination page. Do not open ordinary individual restaurant cards or unrelated recommendations. Code inspects identities after either source handoff with its shared detail limit. If this term has no matching option and no matching route, REQUEST_HUMAN_HELP ends this method; the caller owns any next approved retrieval term, not the browser model.",
+      onBeforeClick:(page,controls,controlId)=>{
+        selected=undefined;
+        const exact=controls.filter(control=>control.kind==="BUTTON"&&control.visible&&!control.disabled&&!control.blockedByActiveLayer&&normalizedTextKey(control.label)===queryKey);
+        const boundary=input.session.readBoundary?.();
+        if(exact.length===1&&exact[0]!.id===controlId&&boundary&&boundary.pageId===page.pageId)return ()=>{selected={boundary,url:page.url};};
+      },
+      completion: (page, controls) => {
+        handoff=undefined;
+        const requests = page.networkRequests ?? [];
+        initialRequestCount ??= requests.length;
+        const assessment = input.completion(page, controls);
+        queryConflict = false;
+        queryBound = false;
+        const current = new URL(page.url);
+        const hash = (value: string) => createHash("sha256").update(value).digest("hex");
+        const fields = [...current.searchParams].map(([key, value]) => ({ key, valueSha256: hash(value) }));
+        const multiset = (values: readonly {key: string; valueSha256: string}[]) => JSON.stringify(values.map(value => [value.key, value.valueSha256]).sort());
+        for (const request of requests.slice(initialRequestCount)) {
+          const receipt = request.formSubmission;
+          if (request.outcome !== "ADMITTED" || request.method !== "GET" || request.resourceType !== "document" || !receipt
+            || receipt.documentOrigin !== current.origin || receipt.actionOrigin !== current.origin
+            || receipt.actionPathname !== current.pathname || request.origin !== current.origin || request.pathname !== current.pathname
+            || multiset(receipt.fields) !== multiset(fields)) continue;
+          for (const [key, value] of current.searchParams) {
+            if (normalizedTextKey(value) === queryKey && receipt.fields.some(field => field.key === key && field.valueSha256 === hash(value))) {
+              queryFields.add(key);
+              queryBound = true;
+            }
+          }
+        }
+        const scope=input.session.readBoundary?.();
+        if(selected&&scope?.readScopeId===selected.boundary.readScopeId&&page.pageId===selected.boundary.pageId
+          &&current.origin===new URL(selected.url).origin&&current.pathname!==new URL(selected.url).pathname
+          &&page.settlement!=="PENDING"&&!assessment.resultBusy&&!/(?:^|\/)(?:not-found|404|error)(?:\/|$)/i.test(current.pathname)){
+          const completed=requests.some(request=>{
+            const receipt=request.dynamicRead,rule=receipt&&this.networkPolicy?.dynamicReads[receipt.ruleIndex];
+            if(!receipt||!rule||request.outcome!=="ADMITTED"||request.method!=="GET"||!["fetch","xhr"].includes(request.resourceType)
+              ||receipt.status!==200||receipt.completedAt<receipt.startedAt||receipt.readScopeId!==scope.readScopeId||receipt.pageId!==page.pageId
+              ||receipt.requestSequence<=selected!.boundary.requestSequence||new URL(request.origin).origin!==rule.origin)return false;
+            return rule.pathname!==undefined?rule.pathname===request.pathname:rule.pathnamePattern!==undefined
+              ?rule.pathnamePattern.startsWith("^")&&rule.pathnamePattern.endsWith("$")&&new RegExp(rule.pathnamePattern).test(request.pathname)
+              :Boolean(rule.pathnamePrefix&&request.pathname.startsWith(rule.pathnamePrefix));
+          });
+          if(completed){queryBound=true;handoff={url:page.url,pageId:page.pageId!};}
+        }
+        const resultKeys = new Set((assessment.resultUrls ?? []).map(value => { const url = new URL(value, page.url); return url.origin + url.pathname; }));
+        currentIsResult = !handoff && queryBound && resultKeys.has(current.origin + current.pathname);
+        const resultHrefs = (controls ?? []).flatMap(control => {
+          if (control.kind !== "LINK" || !control.href) return [];
+          try { const url = new URL(control.href, page.url); return resultKeys.has(url.origin + url.pathname) ? [control.href] : []; }
+          catch { return []; }
+        });
+        for (const value of [page.url, ...assessment.resultUrls ?? [], ...resultHrefs]) {
+          try {
+            const observed = new URL(value, page.url);
+            if (observed.origin !== new URL(page.url).origin) continue;
+            for (const field of queryFields) {
+              const values = observed.searchParams.getAll(field);
+              if (values.some(value => normalizedTextKey(value) !== queryKey)) queryConflict = true;
+            }
+          } catch { queryConflict = true; }
+        }
+        return queryConflict ? { ...assessment, complete: false, reason: "Observed result query contradicts the authoritative input in the observed source form" }
+          : handoff ? {complete:true,resultKey:JSON.stringify(handoff),resultBusy:false,reason:"Exact observed suggestion and current completed reviewed GET hand off the settled same-page destination for adapter identity inspection"}
+          : !queryBound ? { ...assessment, complete: false, reason: "No positive source result binding to the current authoritative query has been observed" }
+          : currentIsResult ? { ...assessment, complete: false, reason: "The current document is an individual result, not the submitted result list; code inspects identities after list completion" } : assessment;
+      } });
+    // A stopped observation is not an identity or inventory verdict. Return
+    // its current page to the adapter so explicit empty/error/challenge facts
+    // retain their own diagnostic and fallback contract. Actual budget errors
+    // still stop the shared run; no navigation or extra model call is added.
+    if (result.status === "BUDGET_EXCEEDED") throw new BrowserRuntimeError("BROWSER_BUDGET_EXHAUSTED", "Source search exhausted its existing browser budget");
+    return queryConflict ? { ...result, reasonCode: "OBSERVED_QUERY_CONFLICT" }
+      : !queryBound ? { ...result, reasonCode: "OBSERVED_QUERY_UNBOUND" }
+      : currentIsResult ? { ...result, reasonCode: "OBSERVED_QUERY_NOT_LIST" } : result.status==="COMPLETED"&&handoff?{...result,sourceHandoff:handoff}:result;
   }
 
   /** Code-owned source retry delay shares the current operation and wall-time budgets. */
   async waitForSourceRetry(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal">, delayMs: number): Promise<void> {
     await this.operation(input, "WAIT_FOR_SOURCE_RETRY", () => wait(delayMs, undefined, { signal: input.signal }));
-  }
-
-  async select(
-    input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },
-  ): Promise<string[]> {
-    if (input.value !== input.authoritativeValue) throw this.rejected(input.source, input.stage, "A site method attempted to select a non-authoritative value");
-    const result = await this.operation(input, "SELECT", () => input.session.select(input.selector, input.value, this.actionOptions()));
-    await this.settleAfterDirectAction(input);
-    return result;
-  }
-
-  async fill(
-    input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },
-  ): Promise<void> {
-    if (input.value !== input.authoritativeValue) throw this.rejected(input.source, input.stage, "A site method attempted to fill a non-authoritative value");
-    await this.operation(input, "FILL", () => input.session.fill(input.selector, input.value, this.actionOptions()));
-    await this.settleAfterDirectAction(input);
   }
 
   private async settleAfterDirectAction(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }): Promise<void> {
@@ -497,13 +600,24 @@ export class BrowserTaskExecutor {
     return this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!());
   }
 
+  /** One bounded readiness observation, using the unchanged browser settlement
+   * predicate and provider deadline. A still-pending page remains pending. */
+  async reobservePageOnce(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & {session:BrowserSession}):Promise<BrowserSnapshot> {
+    const previous=await this.snapshot(input);
+    await this.waitForSettled(input,previous);
+    return this.snapshot(input);
+  }
+
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
+    input.session.beginReadScope?.();
+    let modelConfirmed = false;
     const assess = async (current: BrowserSnapshot, controls: BrowserPageControl[]) => {
       if (this.disabledRequestedParty(input, {snapshot: current, controls, targets: toObservedTargets(controls, 0), revision: 0})) return {complete: false as const, reason: "PARTY_SIZE_NOT_SELECTABLE"};
       const pending: BrowserCompletionAssessment = { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." };
       // Only the adapter's existing predicate can establish a bound result.
       // Readiness itself never establishes identity, request binding or inventory.
       const first = input.completion({ ...current, settlement: "SETTLED" }, controls);
+      if (first.complete && input.requireModelConfirmation && !modelConfirmed) return { ...first, complete: false, reason: "Observe the current source results and choose COMPLETE only when they answer this search objective." };
       if (first.resultBusy) {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: current.url, detail: "COMPLETION_RESULT_BUSY" });
         return pending;
@@ -549,7 +663,6 @@ export class BrowserTaskExecutor {
       history.push(step);
       if (history.length > 6) history.shift();
     };
-    let shortcutUsed = false;
     let postAction = false;
     let pendingOption: ObservedTarget | undefined;
     let pendingRadio: ObservedTarget | undefined;
@@ -558,19 +671,11 @@ export class BrowserTaskExecutor {
     let lastRejectedProposal: string | undefined;
     let repeatedRejectedProposals = 0;
     const recoveredObstructions = new Set<string>();
-    const executedStateActions = new Set<string>();
-    let consecutiveStateRepeats = 0;
+    const visibleProgress = new BrowserVisibleProgress();
     const recordRejectedProposal = (key: string) => {
       repeatedRejectedProposals = key === lastRejectedProposal ? repeatedRejectedProposals + 1 : 1;
       lastRejectedProposal = key;
       return repeatedRejectedProposals >= 2;
-    };
-    const pageVisits = new Map<string, number>();
-    const recordPageVisit = (value: BrowserSnapshot, controls: BrowserPageControl[]) => {
-      const key = observationKey(value, controls);
-      const count = (pageVisits.get(key) ?? 0) + 1;
-      pageVisits.set(key, count);
-      return count;
     };
     const pendingControlKeys = new Set<string>();
     for (;;) {
@@ -595,21 +700,6 @@ export class BrowserTaskExecutor {
         this.recordBudgetExhausted(input, "DEADLINE_EXCEEDED");
         return { status: "BUDGET_EXCEEDED", snapshot, controls: [] };
       }
-      if (!shortcutUsed && input.shortcut) {
-        shortcutUsed = true;
-        try {
-          await this.bounded(input, "SHORTCUT", () => input.shortcut!.run(snapshot));
-          snapshot = await this.snapshot(input);
-          verifiedObservation = await this.observe(input, snapshot);
-          completion = await assess(snapshot, verifiedObservation.controls);
-          if (completion.complete && !pendingParty) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
-          progress = completion.reason;
-          this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: `${input.shortcut.name}: ${progress}` });
-        } catch (error) {
-          progress = `${input.shortcut.name} did not complete: ${error instanceof Error ? safeText(error.message, 240) : "unknown error"}`;
-          this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: progress });
-        }
-      }
       // The browser model may only choose a safe observed navigation/control.
       // It never writes or asserts a Restaurant fact; the adapter grounds a
       // later observation against candidate identity and source excerpts.
@@ -626,7 +716,6 @@ export class BrowserTaskExecutor {
       if (completion.complete && !pendingOption && !pendingRadio && !pendingParty) return { status: "COMPLETED", snapshot, controls: observation.controls };
       if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       if (!postAction) {
-        recordPageVisit(snapshot, observation.controls);
         this.record({
           source: input.source,
           stage: input.stage,
@@ -678,7 +767,7 @@ export class BrowserTaskExecutor {
             ...(month ? { displayedCalendarMonth: month } : {}),
             controlGroups: observedControlGroups(observation),
             pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
-            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
+            targets: actionTargets.map(({ exactSuggestion:_exactSuggestion, controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
             })),
           },
@@ -695,7 +784,6 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: rejectionDetail });
         if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
         if (error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT") {
-          consecutiveStateRepeats = 0;
           remember({ action: "MODEL_OUTPUT", outcome: "REJECTED", reason: rejectionDetail, urlChanged: false });
           if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${rejectionDetail}`)) {
             this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
@@ -724,11 +812,15 @@ export class BrowserTaskExecutor {
         return {status:"NO_SAFE_ACTION",reasonCode:"DATE_NOT_SELECTABLE",snapshot,controls:observation.controls};
       }
       if (action.type === "COMPLETE") {
-        consecutiveStateRepeats = 0;
+        modelConfirmed = true;
         if (this.disabledRequestedParty(input, observation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: observation.controls};
         completion = await assess(snapshot, observation.controls);
         if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
-        if (completion.complete && !pendingParty) return { status: "COMPLETED", snapshot, controls: observation.controls };
+        if (completion.complete && !pendingParty) {
+          const scope=action.scopeRef?observation.targets.get(action.scopeRef):undefined;
+          const visible=scope&&observation.controls.some(c=>c.id===scope.controlId&&c.visible&&!c.blockedByActiveLayer);
+          return {status:"COMPLETED",snapshot,controls:observation.controls,...(visible&&scope.label.trim()&&scope.label.length<=1600?{scopeQuote:{ref:scope.ref,text:scope.label,url:snapshot.url}}:{})};
+        }
         // COMPLETE is a request to finish, never evidence that the source has
         // finished.  Keep the same browser session and give the concrete
         // missing predicate back to the model.  A second COMPLETE on the same
@@ -757,26 +849,26 @@ export class BrowserTaskExecutor {
         continue;
       }
       if (action.type === "REQUEST_HUMAN_HELP") return { status: "REQUESTED_HUMAN_HELP", snapshot, controls: observation.controls };
-      if (action.type === "SELECT_REGION_ENTRANCE") {
-        this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "REGION_CORRECTION_NOT_ACTIVE"});
-        return {status: "NO_SAFE_ACTION", reasonCode: "REGION_CORRECTION_NOT_ACTIVE", snapshot, controls: observation.controls};
-      }
       const target = action.type === "WAIT" || action.type === "PRESS_ESCAPE" ? undefined : observation.targets.get(action.targetRef);
       if (!target && action.type !== "WAIT" && action.type !== "PRESS_ESCAPE") {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "STALE_OR_UNKNOWN_TARGET_REF" });
         return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       }
-      const stateActionKey = `${observationKey(snapshot, observation.controls)}|${action.type}|${target?.stableKey ?? "PAGE"}`;
-      if (executedStateActions.has(stateActionKey)) {
-        consecutiveStateRepeats++;
-        remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
-          ...("field" in action ? { field: action.field } : {}), outcome: "REJECTED", reason: "REPEATED_FROM_SAME_STATE", urlChanged: false });
-        progress = "REPEATED_FROM_SAME_STATE: this action and target were already executed from the current visible state. Choose another current observed target that advances the goal. Wait only if the result is actually still loading.";
-        this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "REPEATED_FROM_SAME_STATE" });
-        if (consecutiveStateRepeats >= 2) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+      const visibleBefore = visibleProgressKey(snapshot.url, observation.controls);
+      const actionValue = "field" in action ? this.authoritativeValues(input)[action.field] : action;
+      const stateActionKey = visibleActionKey(action.type, target, action.type === "FILL_AUTHORITATIVE" ? actionValue
+        : Object.fromEntries(Object.entries(action).filter(([key]) => !["targetRef", "reason"].includes(key))));
+      if (visibleProgress.repeated(visibleBefore, stateActionKey)) {
+        remember({action:action.type,...(target ? {targetLabel:safeText(target.label,160),targetKind:target.kind}:{}),
+          ...("field" in action ? {field:action.field}:{}),outcome:"REJECTED",reason:"REPEATED_FROM_SAME_STATE",urlChanged:false,stateChanged:false});
+        this.record({source:input.source,stage:input.stage,event:"REJECTED",url:snapshot.url,detail:"REPEATED_FROM_SAME_STATE"});
+        if (visibleProgress.noProgress()) {
+          this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:snapshot.url,detail:"NO_PROGRESS"});
+          return {status:"NO_SAFE_ACTION",reasonCode:"NO_PROGRESS",snapshot,controls:observation.controls};
+        }
+        progress = "REPEATED_FROM_SAME_STATE: this action and value already ran on equivalent visible controls. Choose a different observed action that advances the goal.";
         continue;
       }
-      consecutiveStateRepeats = 0;
       const confirmationOperations = 2 + (input.session.observeControls ? 1 : 0);
       if (this.operationCount + confirmationOperations > (this.options.maxOperationsPerCandidate)) {
         this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
@@ -787,7 +879,7 @@ export class BrowserTaskExecutor {
           throw new Error("A previous option is still unconfirmed; WAIT for its selected value before choosing another option");
         }
         await this.applyGenericAction(input, observation, target, action);
-        executedStateActions.add(stateActionKey);
+        visibleProgress.executed(visibleBefore, stateActionKey);
       } catch (error) {
         const obstruction = target !== undefined && pointerObstruction(error);
         remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
@@ -845,6 +937,7 @@ export class BrowserTaskExecutor {
       if (action.type !== "WAIT") await this.waitForSettled(input, priorSnapshot);
       snapshot = await this.snapshot(input);
       const postActionObservation = await this.observe(input, snapshot);
+      const visibleStateChanged = visibleBefore !== visibleProgressKey(snapshot.url, postActionObservation.controls);
       const observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
       const changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
       const publicQueryWaitChanged = changed && snapshot.settlement !== "PENDING";
@@ -863,7 +956,7 @@ export class BrowserTaskExecutor {
       remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
         ...("field" in action ? { field: action.field } : {}), outcome: effectVerified ? "PAGE_CHANGED" : "NO_CHANGE",
         ...(partyUnconfirmed ? { reason: "PARTY_SIZE_NOT_CONFIRMED" } : monthUnconfirmed ? { reason: "CALENDAR_MONTH_UNCHANGED" } : {}),
-        urlChanged: priorSnapshot.url !== snapshot.url });
+        urlChanged: priorSnapshot.url !== snapshot.url, stateChanged:visibleStateChanged });
       this.record({
         source: input.source,
         stage: input.stage,
@@ -874,6 +967,10 @@ export class BrowserTaskExecutor {
       });
       completion = await assess(snapshot, postActionObservation.controls);
       if (completion.complete && optionConfirmed && !monthUnconfirmed && !pendingParty) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
+      if (!visibleStateChanged && visibleProgress.noProgress()) {
+        this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:snapshot.url,detail:"NO_PROGRESS"});
+        return {status:"NO_SAFE_ACTION",reasonCode:"NO_PROGRESS",snapshot,controls:postActionObservation.controls};
+      }
       if (partyUnconfirmed) {
         if (target) pendingControlKeys.add(target.stableKey);
         unchangedPageKey = observationKey(snapshot);
@@ -903,10 +1000,6 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "OPTION_VALUE_NOT_CONFIRMED" });
         postAction = true;
         continue;
-      }
-      if (recordPageVisit(snapshot, postActionObservation.controls) >= 3) {
-        this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_PAGE_CYCLE" });
-        return { status: "NO_SAFE_ACTION", snapshot, controls: postActionObservation.controls };
       }
       if (!effectVerified && sameObservation(priorSnapshot, snapshot)) {
         unchangedPageKey = observationKey(snapshot);
@@ -948,6 +1041,13 @@ export class BrowserTaskExecutor {
     await closing;
   }
 
+  /** The run owner closes every source context, including inactive ones. */
+  async closeAll():Promise<void>{
+    const parked=[...this.parkedSessions.values()];this.parkedSessions.clear();
+    for(const item of parked)item.cleanup?.();
+    await Promise.all([this.close(),...parked.map(item=>item.session.close())]);
+  }
+
   private disabledRequestedParty(input: BrowserSkillReadInput, observation: Observation): boolean {
     if (input.stage !== "AVAILABILITY" || input.goal.partySize === undefined) return false;
     // Disabled counts can still belong to the old date while a future date is being selected.
@@ -961,29 +1061,26 @@ export class BrowserTaskExecutor {
       && matchesAuthoritativeControl(target, "PARTY_SIZE", input.goal));
   }
 
-  /** Query only the next enabled, source-observed time; never invent an interval or click a slot. */
+  /** The model chooses each control; code verifies only a newly observed,
+   * selected time within the original request. No combobox/action sequence. */
   async advanceAvailabilityTime(input: BrowserSkillReadInput, checkedTimes: readonly string[]): Promise<string | undefined> {
-    let snapshot = await this.snapshot(input);
-    let observation = await this.observe(input, snapshot);
-    let options = [...observation.targets.values()].filter(target => target.kind === "OPTION" && !target.disabled && !target.selected
-      && matchesAuthoritativeControl(target, "TIME", input.goal) && !checkedTimes.includes(observedClock(target.label) ?? ""));
-    if (!options.length) {
-      const owners = [...observation.targets.values()].filter(target => target.role === "combobox" && target.kind !== "SELECT" && !target.disabled
-        && (/\btime\b|時刻|時間/i.test(target.controlGroupLabel ?? "") || observedClock(target.label) !== undefined || observedClock(target.value ?? "") !== undefined));
-      if (owners.length !== 1 || !this.actionHints(input, observation, owners[0]!, false).availableActions?.includes("CLICK")) return;
-      await this.applyGenericAction(input, observation, owners[0], {type: "CLICK", targetRef: owners[0]!.ref, reason: "Observe source-provided time query choices"});
-      await this.waitForSettled(input, snapshot);
-      snapshot = await this.snapshot(input);
-      observation = await this.observe(input, snapshot);
-      options = [...observation.targets.values()].filter(target => target.kind === "OPTION" && !target.disabled && !target.selected
-        && matchesAuthoritativeControl(target, "TIME", input.goal) && !checkedTimes.includes(observedClock(target.label) ?? ""));
-    }
-    const next = options.sort((a,b) => observedClock(a.label)!.localeCompare(observedClock(b.label)!))[0];
-    if (!next || !this.actionHints(input, observation, next, false).availableActions?.includes("CHOOSE_OPTION:TIME")) return;
-    const time = observedClock(next.label)!;
-    await this.applyGenericAction(input, observation, next, {type: "CHOOSE_OPTION", targetRef: next.ref, field: "TIME", reason: "Continue the same outlet at its next unobserved legal time"});
-    await this.waitForSettled(input, snapshot);
-    return time;
+    let selected: string | undefined;
+    const result = await this.runSkill({ ...input, requireModelConfirmation: true,
+      objective: `Continue this same outlet's public availability query within the authoritative time window. Already checked times: ${JSON.stringify(checkedTimes)}. Choose each next step from the current observation. Never click a booking slot or widen the requested window.`,
+      completion: (_page, controls = []) => {
+        const times = new Set(controls.flatMap(control => {
+          const value = control.value ?? control.label;
+          const time = observedClock(value);
+          return time && (control.selected || control.role === "combobox")
+            && input.goal.timeWindow && time >= input.goal.timeWindow.earliest && time <= input.goal.timeWindow.latest
+            && !checkedTimes.includes(time) ? [time] : [];
+        }));
+        selected = times.size === 1 ? [...times][0] : undefined;
+        return selected !== undefined
+          ? { complete: true, resultKey: selected, resultBusy: false, reason: "Verify a new source-selected query time." }
+          : { complete: false, reason: "No newly selected authoritative query time." };
+      } });
+    return result.status === "COMPLETED" ? selected : undefined;
   }
 
   private async observe(input: BrowserSkillReadInput, snapshot: BrowserSnapshot): Promise<Observation> {
@@ -991,7 +1088,10 @@ export class BrowserTaskExecutor {
     const controls = input.session.observeControls
       ? await this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!(input.controlHints?.(snapshot)))
       : [];
-    const observation = { revision: this.observationRevision, snapshot, controls, targets: toObservedTargets(controls, this.observationRevision) };
+    const exact=input.stage==="DISCOVERY"&&input.goal.retrievalExpression&&input.session.metadata.readNetworkBoundary==="INSTALLED"
+      ?controls.filter(control=>control.visible&&!control.disabled&&!control.blockedByActiveLayer&&control.kind==="BUTTON"&&control.role==="option"
+        &&["DIV","LI","SPAN"].includes(control.structure?.tag??"")&&normalizedTextKey(control.label)===normalizedTextKey(input.goal.retrievalExpression!)):[];
+    const observation = { revision: this.observationRevision, snapshot, controls, targets: toObservedTargets(controls, this.observationRevision,exact.length===1?exact[0]!.id:undefined) };
     input.onObservation?.({revision: observation.revision, url: snapshot.url, targets: [...observation.targets.values()].map(target => ({...target, ...this.actionHints(input, observation, target, false)}))});
     return observation;
   }
@@ -1065,11 +1165,13 @@ export class BrowserTaskExecutor {
         }
       }
     } else if (target.kind === "INPUT") {
-      if (input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
-      if (input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
-      if (input.goal.retrievalExpression && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
-      if (input.stage === "DISCOVERY" && input.goal.location?.name && this.boundInputField(target, "LOCATION") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:LOCATION");
-      if (!availableActions.length) rejectionReason = "NO_BOUND_INPUT_FIELD";
+      if (target.readOnly && this.guardedReadControl(input, target)) availableActions.push("CLICK");
+      const filled = filledAuthoritativeField(target.value, this.authoritativeValues(input));
+      if (!filled && input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
+      if (!filled && input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
+      if (!filled && input.goal.retrievalExpression && input.goal.retrievalSource && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
+      if (!filled && input.stage === "DISCOVERY" && input.goal.location?.name && this.boundInputField(target, "LOCATION") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:LOCATION");
+      if (!availableActions.length) rejectionReason = filled ? `AUTHORITATIVE_INPUT_PRESENT:${filled}: replacing this input would replace its current value, not add a second condition` : "NO_BOUND_INPUT_FIELD";
     } else if (target.kind === "CHECKBOX" || target.kind === "RADIO" || target.kind === "RANGE") {
       const action = target.kind === "RANGE" ? "ADJUST_RANGE" : "SET_CHECKED";
       if (pendingSelection) rejectionReason = "PREVIOUS_OPTION_UNCONFIRMED";
@@ -1088,20 +1190,16 @@ export class BrowserTaskExecutor {
   }
 
   private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"): boolean {
-    if (target.kind !== "INPUT" || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
-    if (field === "DATE") return target.type === "date" || /\bdate\b/i.test(target.label);
-    if (field === "PARTY_SIZE") return /(?:party|guest|people|persons|名|人数)/i.test(target.label);
-    // Placeholders can describe an example request rather than the input's
-    // purpose. Bind retrieval only to a text entry whose observed native name
-    // or visible label identifies it as search, never to email/phone/password
-    // fields that happen to mention a restaurant.
+    if (target.kind !== "INPUT" || target.readOnly || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
+    // Native types limit what can be entered. Meaning comes from the model's
+    // current observation, rather than a search/date/guest label dictionary.
     const type = target.type?.toLowerCase();
+    if (field === "DATE") return ["date", "text", "search"].includes(type || "text");
+    if (field === "PARTY_SIZE") return ["number", "text", "search"].includes(type || "text");
     if (type && !["text", "search"].includes(type)) return false;
     const name = target.inputName ?? "";
     if (/(?:email|e-mail|phone|tel|password|card|address)/i.test(name)) return false;
-    if (field === "LOCATION") return /(?:location|area|station|地域|エリア|駅|場所)/i.test(`${name} ${target.label}`);
-    return /(?:search|keyword|query|restaurant|venue|店名|検索)/i.test(name)
-      || /(?:search|keyword|restaurant|venue|店名|検索)/i.test(target.label);
+    return true;
   }
 
   private matchesRetrievalOption(input: BrowserSkillReadInput, target: ObservedTarget, owner: ObservedTarget): boolean {
@@ -1116,7 +1214,7 @@ export class BrowserTaskExecutor {
     return {
       title: safeText(observation.snapshot.title, 240),
       visibleTextExcerpt: safeText(observation.snapshot.text, 1_000),
-      targets: [...observation.targets.values()].slice(0, 40).map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
+      targets: [...observation.targets.values()].slice(0, 40).map(({ exactSuggestion:_exactSuggestion, formObservation: _formObservation, controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
         ...target,
         ...(target.href ? { href: this.diagnosticUrl(target.href) } : {}),
       })),
@@ -1144,7 +1242,7 @@ export class BrowserTaskExecutor {
     }
   }
 
-  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" | "SELECT_REGION_ENTRANCE" }>): Promise<void> {
+  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" }>): Promise<void> {
     if (action.type === "WAIT") {
       await this.waitForSettled(input, observation.snapshot);
       return;
@@ -1169,23 +1267,29 @@ export class BrowserTaskExecutor {
           const options = this.navigationOptions();
           if (input.session.prepareObservedNavigation) await input.session.prepareObservedNavigation(target.href!, options);
           else await input.session.prepareNavigation?.(target.href!, options);
-          await input.session.openLink!(target.controlId, target.href!, options);
+          await input.session.openLink!(target.controlId, target.href!, this.navigationOptions());
         });
       } else {
         // A runtime without popup support may only retain the existing same-page
         // behavior; it never fabricates a new-page identity.
-        await this.navigate({ ...input, url: target.href, observed: true });
+        await this.operation(input, "OPEN_LINK", async () => {
+          await input.session.prepareObservedNavigation?.(target.href!, this.navigationOptions());
+          await input.session.navigate(target.href!, { ...this.navigationOptions(), waitUntil: "domcontentloaded" });
+        });
       }
       return;
     }
     if (action.type === "CLICK") {
-      if (target.role === "option") throw new Error("CLICK cannot choose an option; use CHOOSE_OPTION with its observed owner");
+      if (target.role === "option"&&!target.exactSuggestion) throw new Error("CLICK cannot choose an option; use CHOOSE_OPTION with its observed owner");
       if (!this.safeGenericClick(target) && !this.safeFragmentClick(input, observation.snapshot, target)
         && !this.guardedReadControl(input, target)) {
         throw new Error("CLICK target has submit, navigation, or other write-capable structure");
       }
+      const clicked=input.onBeforeClick?.(observation.snapshot,observation.controls,target.controlId);
       const navigation = this.guardedPublicQuerySubmit(input, target);
       await this.operation(input, navigation ? "SUBMIT_PUBLIC_QUERY" : "CLICK", () => input.session.click(target.controlId, navigation ? this.navigationOptions() : this.actionOptions()));
+      clicked?.();
+      if (navigation && target.formObservation) input.onQuerySubmitted?.(target.formObservation.owner);
       return;
     }
     if (action.type === "CLICK_AUTHORITATIVE") {
@@ -1251,12 +1355,21 @@ export class BrowserTaskExecutor {
       : action.field === "PARTY_SIZE" ? input.goal.partySize : action.field === "LOCATION" && input.stage === "DISCOVERY" ? input.goal.location?.name : action.field === "RETRIEVAL" ? input.goal.retrievalExpression : undefined;
     if (authoritative === undefined) throw this.rejected(input.source, input.stage, `The current read has no authoritative ${action.field.toLowerCase()} value`);
     const value = String(authoritative);
+    const filled = filledAuthoritativeField(target.value, this.authoritativeValues(input));
+    if (filled) throw this.rejected(input.source,input.stage,`AUTHORITATIVE_INPUT_PRESENT:${filled}: one input retains one value; use a current observed option or a different input`);
     if (!this.boundInputField(target, action.field) || (action.field === "RETRIEVAL" || action.field === "LOCATION") && !this.guardedReadControl(input, target)) {
       throw new Error(`${action.type} target has the wrong control kind`);
     }
-    await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value, this.actionOptions()));
+    const inputSource = action.field === "DATE" ? "DATE" : action.field === "PARTY_SIZE" ? "PARTY_SIZE"
+      : action.field === "LOCATION" ? "AREA" : input.goal.retrievalSource;
+    if (!inputSource) throw this.rejected(input.source, input.stage, "Retrieval input has no authoritative nonpersonal source");
+    await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value, { ...this.actionOptions(), inputSource }));
     // A new observation revision invalidates every prior reference, including this one.
     void observation;
+  }
+
+  private authoritativeValues(input: BrowserSkillReadInput): Record<string, string | number | undefined> {
+    return {DATE:input.goal.date,PARTY_SIZE:input.goal.partySize,LOCATION:input.stage === "DISCOVERY" ? input.goal.location?.name : undefined,RETRIEVAL:input.goal.retrievalExpression};
   }
 
   private async waitForSettled(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }, previous: BrowserSnapshot, countOperation = true): Promise<boolean> {
@@ -1282,6 +1395,9 @@ export class BrowserTaskExecutor {
   }
 
   private navigationOptions(timeoutMs = 20_000): { timeoutMs: number } {
+    if (this.remaining(Number.MAX_SAFE_INTEGER) < 3_000) {
+      throw new BrowserRuntimeError("BROWSER_BUDGET_EXHAUSTED", "Navigation requires at least 3000 ms of remaining browser budget");
+    }
     return { timeoutMs: Math.max(1, this.remaining(timeoutMs)) };
   }
 
@@ -1326,7 +1442,7 @@ export class BrowserTaskExecutor {
   private guardedReadControl(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
     if (input.session.metadata.readNetworkBoundary !== "INSTALLED") return false;
     if (!["BUTTON", "CHECKBOX", "RADIO", "RANGE", "REGION", "OPTION", "INPUT"].includes(target.kind)) return false;
-    if (target.kind === "INPUT" && !this.boundInputField(target, "RETRIEVAL") && !this.boundInputField(target, "LOCATION")) return false;
+    if (target.kind === "INPUT" && !target.readOnly && !this.boundInputField(target, "RETRIEVAL") && !this.boundInputField(target, "LOCATION")) return false;
     return !/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label);
   }
 
@@ -1334,8 +1450,8 @@ export class BrowserTaskExecutor {
   private guardedPublicQuerySubmit(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
     return this.guardedReadControl(input, target)
       && target.kind === "BUTTON"
-      && target.type?.toLowerCase() === "submit"
-      && target.formMethod === "GET";
+      && target.formMethod === "GET"
+      && Boolean(target.formObservation);
   }
 
   private async operation<Value>(
@@ -1343,6 +1459,11 @@ export class BrowserTaskExecutor {
     label: string,
     operation: () => Promise<Value>,
   ): Promise<Value> {
+    if (input.signal.aborted || this.sessionSignal?.aborted) this.assertActive(input.signal);
+    if (label === "NAVIGATE" || label === "OPEN_LINK" || label === "SUBMIT_PUBLIC_QUERY") {
+      try { this.navigationOptions(); }
+      catch (error) { this.recordLifecycleFailure(input.source, input.stage, "OPERATION_FAILED", error); throw error; }
+    }
     this.assertActive(input.signal);
     if (this.operationCount >= (this.options.maxOperationsPerCandidate)) {
       this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
@@ -1364,7 +1485,8 @@ export class BrowserTaskExecutor {
         ? new BrowserRuntimeError("BROWSER_ABORTED", "Browser operation was aborted", error)
         : timedNavigation ? new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser navigation exceeded its bounded navigation timeout", error) : error;
       this.recordLifecycleFailure(input.source, input.stage, "OPERATION_FAILED", failure);
-      if (navigation && failure instanceof BrowserRuntimeError && (failure.code === "BROWSER_RUNTIME_FAILED" || failure.code === "BROWSER_TIMEOUT")) {
+      const invalidSession = this.options.reuseSourceSessions && this.session?.isClosed?.() === true;
+      if ((navigation || invalidSession) && failure instanceof BrowserRuntimeError && (failure.code === "BROWSER_RUNTIME_FAILED" || failure.code === "BROWSER_TIMEOUT")) {
         void this.close("RUNTIME_FAILURE");
       }
       throw failure;
@@ -1514,6 +1636,7 @@ export class BrowserTaskExecutor {
     if (error instanceof BrowserRuntimeError) {
       if (error.code === "BROWSER_ABORTED") return "PARENT_ABORTED";
       if (error.code === "BROWSER_TIMEOUT") return "DEADLINE_EXCEEDED";
+      if (error.code === "BROWSER_BUDGET_EXHAUSTED") return "NAVIGATION_BUDGET_EXHAUSTED";
       if (error.code === "BROWSER_OPERATION_BUDGET_EXCEEDED") return "OPERATION_BUDGET_EXHAUSTED";
       if (error.code === "BROWSER_RUNTIME_UNAVAILABLE") return "RUNTIME_UNAVAILABLE";
       if (error.code === "BROWSER_RUNTIME_FAILED") return "RUNTIME_FAILURE";
@@ -1535,6 +1658,7 @@ export class BrowserTaskExecutor {
       stage,
       event,
       detail: safeErrorDetail(error),
+      ...(runtime?.networkFailures?.length ? { networkFailures: runtime.networkFailures } : {}),
       lifecycle: {
         outcome: runtime?.code === "BROWSER_ABORTED" ? "ABANDONED" : "FAILED",
         reason: this.reasonForFailure(error, fallback),

@@ -1,0 +1,14 @@
+{
+ "status":"draft / not integrated; independent literal user2026-11-07 destination contract",
+ "origin":"https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+ "pathname":"/search/","method":"GET","actualResourceTypes":["fetch","xhr"],
+ "exactQueryKeySets":[["country","hits","queryProfile"],["country","hits","kind","queryProfile"],["country","hits","q","queryProfile"],["destination","hits","name","queryProfile"]],
+ "valueClasses":{"q":["EQUALS_AUTHORITATIVE_INPUT"],"name":["EQUALS_AUTHORITATIVE_INPUT"],"country":["SHORT_TOKEN","NUMERIC"],"kind":["SHORT_TOKEN","NUMERIC"],"destination":["SHORT_TOKEN","NUMERIC","NAMESPACED_TOKEN"],"hits":["NUMERIC"]},
+ "namespacedToken":{"onlyField":"destination","regex":"^[A-Za-z0-9]+(?::[A-Za-z0-9]+)*$","maximumLength":32},
+ "precedence":["sensitive-format rejection","current authoritative equality","current authoritative prefix","existing NUMERIC/SHORT_TOKEN","destination-only NAMESPACED_TOKEN","OTHER/PAGE observation"],
+ "destinationCannotEqualOrPrefixAuthority":true,"rejectSensitiveFormatsForEveryField":true,
+ "queryProfile":"existing reviewed semantics unchanged; no new value list",
+ "preflight":{"method":"OPTIONS","browserReservedInitiator":true,"secFetchMode":"cors","requestOrigin":"https://www.tablecheck.com","requestedMethod":"GET","requestedHeaderNames":["x-api-key"],"bodyBytes":0,"queryContract":"same exact contract as GET; Other resource label gives no permission"},
+ "budget":{"entryGET":1,"selectedDocumentGET":0,"models":0,"Live":0,"heldOut":"untouched"},
+ "stop":["other value class","no suggestion/result","new selected document before dispatch","extra GET/model/Live"]
+}

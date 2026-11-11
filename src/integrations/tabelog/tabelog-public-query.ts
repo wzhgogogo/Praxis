@@ -2,6 +2,7 @@ import type { BrowserReadNetworkPolicy } from "../../infrastructure/browser/brow
 
 /** Public Tabelog read shapes captured on 2026-10-07; values remain browser-private. */
 export const tabelogPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
+  startupDocuments: ["https://tabelog.com/en/"],
   documentOrigins: ["https://tabelog.com"],
   staticResources: [
     {

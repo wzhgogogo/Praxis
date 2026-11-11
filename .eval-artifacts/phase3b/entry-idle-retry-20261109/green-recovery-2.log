@@ -1,0 +1,10 @@
+ENTRY_RECOVERY {"requests":2,"documents":2,"closedBeforeSecond":true,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"IDLE_ABORT","elapsedMs":5045,"idleMs":5019,"status":200,"resourceType":"stylesheet"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":5058},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":5058},{"attempt":2,"retryCount":1,"event":"SUCCEEDED","elapsedMs":5083}]}
+✔ entry aborts a successful stalled native response before its one reload, preserving both attempts in recording (5263.940375ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5574.823166

@@ -1,0 +1,2010 @@
+{
+  "schemaVersion": "phase3b-g6-evaluation@3",
+  "run": {
+    "runId": "g6-D8-1794120568023-0",
+    "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+    "mode": "LIVE_READ",
+    "artifactRefs": [
+      "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-positive-slot-20261108/live-runtime/runs/D8/D8/execution.result.json"
+    ]
+  },
+  "namedOutletBinding": {
+    "named": {
+      "name": "Nakamata",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+      "sourceIds": {
+        "TABLECHECK": "nakamata-nodoguro-ginza"
+      },
+      "phone": "050-5385-3420",
+      "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+      "selectionEventId": "event:restaurant-agent:5eb68eb1-9038-40ae-a3a2-576839e7c77b"
+    },
+    "history": [
+      {
+        "turnId": "INITIAL",
+        "eventId": "event:restaurant-agent:2f633f33-2414-4623-a7e5-947cf749e2cb",
+        "status": "BOUND",
+        "identity": {
+          "name": "Nakamata",
+          "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+          "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+          "sourceIds": {
+            "TABLECHECK": "nakamata-nodoguro-ginza"
+          },
+          "phone": "050-5385-3420",
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+          "selectionEventId": "event:restaurant-agent:2f633f33-2414-4623-a7e5-947cf749e2cb"
+        }
+      },
+      {
+        "turnId": "BOOK_THIS_OUTLET",
+        "eventId": "event:user:8373b30388c667d4c4185b1aa6e3131d",
+        "status": "BOUND",
+        "identity": {
+          "name": "Nakamata",
+          "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+          "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+          "sourceIds": {
+            "TABLECHECK": "nakamata-nodoguro-ginza"
+          },
+          "phone": "050-5385-3420",
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+          "selectionEventId": "event:user:8373b30388c667d4c4185b1aa6e3131d"
+        }
+      },
+      {
+        "turnId": "BOOK_THIS_OUTLET",
+        "eventId": "event:restaurant-agent:5eb68eb1-9038-40ae-a3a2-576839e7c77b",
+        "status": "BOUND",
+        "identity": {
+          "name": "Nakamata",
+          "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+          "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+          "sourceIds": {
+            "TABLECHECK": "nakamata-nodoguro-ginza"
+          },
+          "phone": "050-5385-3420",
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+          "selectionEventId": "event:restaurant-agent:5eb68eb1-9038-40ae-a3a2-576839e7c77b"
+        }
+      }
+    ],
+    "presentations": [
+      {
+        "eventId": "event:restaurant-agent:e77da866-4bed-4d74-adee-9eadca0836e0",
+        "turnId": "INITIAL",
+        "named": {
+          "name": "Nakamata",
+          "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+          "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+          "sourceIds": {
+            "TABLECHECK": "nakamata-nodoguro-ginza"
+          },
+          "phone": "050-5385-3420",
+          "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+          "selectionEventId": "event:restaurant-agent:2f633f33-2414-4623-a7e5-947cf749e2cb"
+        },
+        "candidates": [
+          {
+            "name": "Nakamata",
+            "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+            "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+            "sourceIds": {
+              "TABLECHECK": "nakamata-nodoguro-ginza"
+            },
+            "phone": "050-5385-3420",
+            "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F"
+          }
+        ]
+      }
+    ],
+    "issues": []
+  },
+  "verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "layers": {
+    "endToEnd": {
+      "status": "NOT_EVALUATED",
+      "deliveredOutlets": 0
+    },
+    "stages": [
+      {
+        "rule": "NAMED_OUTLET",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "Every presented outlet must match the user-bound physical identity; one wrong presentation batch is one incident",
+        "evidenceRefs": [
+          "event:restaurant-agent:e77da866-4bed-4d74-adee-9eadca0836e0",
+          "event:restaurant-agent:2f633f33-2414-4623-a7e5-947cf749e2cb",
+          "praxis:restaurant:399b940d8930096624424dba"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:1",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:1"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:2",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:2"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:3",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:3"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:4",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:4"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:5",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:5"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:6",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:6"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:7",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:7"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:8",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:8"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:9",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:9"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:10",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:10"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:11",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:11"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:12",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:12"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:13",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:13"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:14",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:14"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:15",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:15"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:16",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:16"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:17",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:17"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:18",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:18"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:19",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:19"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:20",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:20"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:21",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:21"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:24",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:24"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:25",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:25"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:26",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:26"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:27",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:27"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:28",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:28"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:29",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:29"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:30",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:30"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:31",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:31"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:32",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:32"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:33",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:33"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:34",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:34"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:35",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:35"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:36",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:36"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:37",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:37"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:38",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:38"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:39",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:39"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:40",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:40"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:41",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:41"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:42",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:42"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:43",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:43"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:44",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:44"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:45",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:45"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:46",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:46"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:47",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:47"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:48",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:48"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:49",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:49"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:50",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:50"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:51",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:51"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:52",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:52"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:53",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:53"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:54",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:54"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:55",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:55"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:56",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:56"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:57",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:57"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:58",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:58"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:59",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:59"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:60",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:60"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:61",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:61"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:62",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:62"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:63",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:63"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:65",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:65"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:67",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:67"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:68",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:68"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:69",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:69"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:70",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:70"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:71",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:71"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:72",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:72"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:73",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:73"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:74",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:74"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:75",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:75"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:76",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:76"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:77",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:77"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:78",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:78"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:79",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:79"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:80",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:80"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:81",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:81"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:82",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:82"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:83",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:83"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:84",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:84"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:85",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:85"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:86",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:86"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:87",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:87"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:88",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:88"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-preflight:89",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-preflight:89"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:90",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:90"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:91",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:91"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "C-source:92",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "C-source:92"
+        ]
+      },
+      {
+        "rule": "F6_RESERVE",
+        "status": "PASS",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "No read/selected-outlet terms start in the final20seconds",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "DEADLINE",
+        "status": "PASS",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "Every user turn remains within500seconds; at most three turns",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "TURN_BUDGET",
+        "status": "PASS",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "Per-user-turn 50 model/40 Google, slot 150 model/120 Google ceilings",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "BOUNDED_NO_RESULT",
+        "status": "FAIL",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "No-delivery wording must describe this bounded investigation",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "NO_DELIVERY_WITNESS",
+        "status": "FAIL",
+        "severity": "CAPABILITY",
+        "subject": "witness-W2",
+        "reason": "Independently qualified witness still has the slot",
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-positive-slot-20261108/live-runtime/runs/D8/D8/witness/002-vacancy.body"
+        ]
+      }
+    ],
+    "severity": {
+      "S0": [],
+      "independentEvidenceMissing": false
+    },
+    "attribution": {
+      "status": "NOT_EVALUATED",
+      "reason": "Localization belongs to the separate diagnosis consumer; verdicts do not establish cause."
+    }
+  },
+  "checks": [
+    {
+      "rule": "NAMED_OUTLET",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "Every presented outlet must match the user-bound physical identity; one wrong presentation batch is one incident",
+      "evidenceRefs": [
+        "event:restaurant-agent:e77da866-4bed-4d74-adee-9eadca0836e0",
+        "event:restaurant-agent:2f633f33-2414-4623-a7e5-947cf749e2cb",
+        "praxis:restaurant:399b940d8930096624424dba"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:1",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:1"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:2",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:2"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:3",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:3"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:4",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:4"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:5",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:5"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:6",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:6"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:7",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:7"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:8",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:8"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:9",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:9"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:10",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:10"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:11",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:11"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:12",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:12"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:13",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:13"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:14",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:14"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:15",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:15"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:16",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:16"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:17",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:17"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:18",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:18"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:19",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:19"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:20",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:20"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:21",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:21"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:24",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:24"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:25",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:25"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:26",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:26"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:27",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:27"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:28",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:28"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:29",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:29"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:30",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:30"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:31",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:31"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:32",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:32"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:33",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:33"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:34",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:34"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:35",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:35"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:36",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:36"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:37",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:37"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:38",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:38"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:39",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:39"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:40",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:40"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:41",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:41"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:42",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:42"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:43",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:43"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:44",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:44"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:45",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:45"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:46",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:46"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:47",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:47"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:48",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:48"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:49",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:49"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:50",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:50"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:51",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:51"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:52",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:52"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:53",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:53"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:54",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:54"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:55",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:55"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:56",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:56"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:57",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:57"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:58",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:58"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:59",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:59"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:60",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:60"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:61",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:61"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:62",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:62"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:63",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:63"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:65",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:65"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:67",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:67"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:68",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:68"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:69",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:69"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:70",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:70"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:71",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:71"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:72",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:72"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:73",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:73"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:74",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:74"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:75",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:75"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:76",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:76"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:77",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:77"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:78",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:78"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:79",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:79"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:80",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:80"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:81",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:81"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:82",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:82"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:83",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:83"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:84",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:84"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:85",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:85"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:86",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:86"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:87",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:87"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:88",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:88"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-preflight:89",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-preflight:89"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:90",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:90"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:91",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:91"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "C-source:92",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "C-source:92"
+      ]
+    },
+    {
+      "rule": "F6_RESERVE",
+      "status": "PASS",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "No read/selected-outlet terms start in the final20seconds",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "DEADLINE",
+      "status": "PASS",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "Every user turn remains within500seconds; at most three turns",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "TURN_BUDGET",
+      "status": "PASS",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "Per-user-turn 50 model/40 Google, slot 150 model/120 Google ceilings",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "BOUNDED_NO_RESULT",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "No-delivery wording must describe this bounded investigation",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "NO_DELIVERY_WITNESS",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "witness-W2",
+      "reason": "Independently qualified witness still has the slot",
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-positive-slot-20261108/live-runtime/runs/D8/D8/witness/002-vacancy.body"
+      ]
+    }
+  ],
+  "coverage": {
+    "evaluated": 94,
+    "notEvaluated": 0,
+    "meaningPendingReview": 0,
+    "needsIndependentReview": false
+  },
+  "diagnosis": {
+    "inputArtifactRefs": [
+      "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-positive-slot-20261108/live-runtime/runs/D8/D8/execution.result.json"
+    ],
+    "ownership": "Judgement by G6 evaluator; localization and performance analysis by separate diagnosis consumer. No production eligibility used as an oracle."
+  }
+}

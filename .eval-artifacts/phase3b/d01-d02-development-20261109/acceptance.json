@@ -1,0 +1,34 @@
+{
+  "mode": "EXPOSED_DEVELOPMENT_NOT_HOLDOUT",
+  "cases": {
+    "D01": {
+      "area": "Takadanobaba",
+      "radiusMeters": 1000,
+      "hardCuisine": "Spanish",
+      "date": "2026-11-18",
+      "partySize": 2,
+      "startWindowJST": [
+        "19:00",
+        "19:00"
+      ],
+      "softEnglishMenu": false
+    },
+    "D02": {
+      "area": "Nakano",
+      "radiusMeters": 1000,
+      "hardCuisine": "robatayaki",
+      "date": "2026-11-19",
+      "partySize": 6,
+      "startWindowJST": [
+        "18:00",
+        "20:00"
+      ],
+      "softEnglishMenu": true
+    }
+  },
+  "baseline": {
+    "01": "1/3",
+    "02": "0/3"
+  },
+  "qualification": "Independent recorded source identity + cuisine + coordinates relative to product-resolved area; never HIGH/eligibility as Gold. D02 G6 time omitted because evaluator supports exact time only; separate frozen acceptance window must be checked before qualification."
+}

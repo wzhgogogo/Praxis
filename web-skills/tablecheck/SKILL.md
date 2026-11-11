@@ -6,6 +6,8 @@ On the public `/en/japan/search` page, an observed checkbox or range may be chan
 
 The search bar can expose both a wrapper combobox and its nested native input. The wrapper is not a fill target; the nested input's placeholder or name identifies the field. During Discovery, fill that observed public input only with the supplied retrieval expression, then re-observe and use an observed read-only search control or current result. A public result card may cover its own link at the click center. Follow only the executor-checked, currently observed result URL and re-observe the restaurant page.
 
+For a named search, select only the unique visible enabled suggestion whose entire label exactly equals the authoritative query, using its executor-offered CLICK action. A suggestion with a branch suffix does not match. If it opens a settled restaurant guide directly, choose COMPLETE; code verifies the current read receipt and then inspects identity. Do not navigate back merely to manufacture a list, and do not treat arrival as identity or availability proof.
+
 Never submit a reservation, continue to login, enter contact details, or use a link outside the allowed TableCheck origin.
 
 A read-only Time control is a query control. The generic browser skill governs choosing native or custom observed options. Its options are query values, not evidence of stock. Reservation links remain observation-only. A result at a different mealtime cannot prove the requested window empty.

@@ -1,0 +1,29 @@
+✔ resume preserves evaluated slots, only one health per case, and refuses original/manifest/source/ledger mismatches (15.590875ms)
+✖ health cancellation resumes the same planned slot with fresh health, no duplicate Live, original health evidence retained (10.752334ms)
+✔ environment failure replacement is charged on resumed Live only, stored separately and stops before a fifth replacement (24.104792ms)
+✔ successful environment replacement completes later slots, without rerunning prior Live or repeating case health (13.144667ms)
+✔ S0 forbids resume even if a checkpoint did not record the stop; evaluation after a crash is recovered without another Live (16.968917ms)
+✔ already charged unknown interruption cannot silently spend another Live; plan and append-only ledger guards reject before transmission (5.719625ms)
+✔ resume denies simultaneous writers; independent cases each get one health, and rules cannot be supplied privately (11.829583ms)
+✔ a prepaid environment ticket survives interruption before Live without being charged twice (14.047375ms)
+✔ six cases keep eighteen planned slots and admit four replacements within fullLive22 and GET126 (64.973458ms)
+✔ a ledger symlink resolves to one canonical file for health, Live charges and resume (9.300542ms)
+✔ resume restores the last charged GET time before sending its first health request (8.691042ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 812.499625
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/holdout-resume.test.ts:1:4362
+✖ health cancellation resumes the same planned slot with fresh health, no duplicate Live, original health evidence retained (10.752334ms)
+  Error: HOLDOUT_CHARGED_ATTEMPT_NEEDS_REVIEW
+      at runPrivateHoldout (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/holdout-runner.ts:65:62)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/holdout-resume.test.ts:43:252)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

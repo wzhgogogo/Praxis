@@ -1,0 +1,39 @@
+{
+  "atCET": "2026-11-02T09:10:50.486222+01:00",
+  "steps": [
+    {
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern",
+        "single-run Markdown",
+        "src/eval/restaurant/diagnosis/diagnosis.test.ts"
+      ],
+      "exitCode": 1,
+      "targetAssertion": "opening screen must include",
+      "targetAssertionFailed": true,
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/opening-red.log.gz",
+      "rawSha256": "1083c2876027ff99a1a2d3d4a150a1198d14f00e6ed7e1875f3a9070fb1cbb4f",
+      "gzipSha256": "a1c75aa89c5073834a55a9d9253eb2023bbf379d87711a2a952a4d558f602230"
+    },
+    {
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern",
+        "coverage summaries",
+        "src/eval/restaurant/diagnosis/diagnosis.test.ts"
+      ],
+      "exitCode": 1,
+      "targetAssertion": "coverage summary must retain delivered witness observations",
+      "targetAssertionFailed": true,
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/coverage-red.log.gz",
+      "rawSha256": "630a5f261f02c2add21222fda4df00b851373ac157bdcef91eda5a69ea944f71",
+      "gzipSha256": "e45ab45183bb055928dafe8772a970c82c968222e96d853862ca03f408dd4c1e"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+✔ exposed01/02 recorded area candidates omit unevidenced TableCheck and retain the recorded avoided-cost denominator (3.029417ms)
+✔ named-source resolver prefers TableCheck and does not call Tabelog after a conclusive read (1.096833ms)
+✔ a legal Tabelog same-store entrance changes only source order and still stops after its grounded no-slot observation (0.140458ms)
+✔ a source-native outlet is checked only on its own platform even when the read is unknown (0.209833ms)
+✔ an unrelated or malformed URL cannot reorder the default TableCheck-first source path (0.238292ms)
+✔ source resolver falls back from a TableCheck provider failure to Tabelog (0.110458ms)
+▶ successful source attribution changes no conclusion or attempt across fallback and direct reads
+  ✔ tablecheck-fails-tabelog-succeeds (0.15125ms)
+  ✔ tabelog-fails-tablecheck-succeeds (0.444083ms)
+  ✔ tablecheck-direct (0.120417ms)
+  ✔ tabelog-direct (0.097416ms)
+  ✔ both-fail (0.123042ms)
+✔ successful source attribution changes no conclusion or attempt across fallback and direct reads (1.45825ms)
+✔ Tabelog bot challenge remains provider-scoped and all providers exhausted fail closed (0.095625ms)
+✔ group-window: disabled requested party moves to next candidate rather than another query (0.075792ms)
+✔ group-window: one unsupported source does not erase another source's UNKNOWN (0.080667ms)
+✔ area TableCheck evidence gate: NONE (0.172584ms)
+✔ area TableCheck evidence gate: GOOGLE_LINK (0.238208ms)
+✔ area TableCheck evidence gate: SOURCE_LINK (0.070292ms)
+✔ area TableCheck evidence gate: OLD (0.046209ms)
+✔ area TableCheck evidence gate: OTHER_CANDIDATE (0.040875ms)
+✔ area TableCheck evidence gate: LOW (0.049084ms)
+✔ area TableCheck evidence gate: SEARCH_URL (0.052ms)
+✔ area TableCheck evidence gate: WRONG_HOST (0.043666ms)
+✔ area TableCheck evidence gate: NAMED (0.05175ms)
+✔ production composition shares one literal-fragment model proposal across both source searches (16.734083ms)
+✔ one-shot Live composition initializes each source context and closes both after fallback (6.903458ms)
+✖ Live composition reuses a source-observed Hajime entrance across candidate batches, but re-identifies it (2.513208ms)
+✔ Live composition clears observed TableCheck entrances when a read run ends (1.362042ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 27
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 165.098292
+
+✖ failing tests:
+
+test at src/integrations/restaurant-availability/live-browser-availability.test.ts:1:9238
+✖ Live composition reuses a source-observed Hajime entrance across candidate batches, but re-identifies it (2.513208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/integrations/restaurant-availability/live-browser-availability.test.ts:135:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }

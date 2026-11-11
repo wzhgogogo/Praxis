@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "phase3b-g6-pack@1",
+  "mode": "LIVE_READ",
+  "recording": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  },
+  "cases": [
+    {
+      "id": "D4",
+      "request": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+      "followups": [
+        {
+          "id": "PRIVATE_ROOM",
+          "trigger": "DISPLAYED_RESULTS",
+          "kind": "PAGE_QUESTION",
+          "text": "Does this restaurant have a private room?"
+        }
+      ],
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "partySize": 2,
+          "time": "19:00"
+        },
+        "pages": [],
+        "reviewedReadRules": [
+          {
+            "ref": "user-approved-TC-calendar-20261106",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/hub/availability_calendar_v2",
+            "methods": [
+              "POST"
+            ],
+            "queryKeys": [],
+            "bodyFields": {
+              "locale": "string",
+              "start_at": "string",
+              "shop_id": "string",
+              "num_people": "string"
+            },
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "content-type"
+              ]
+            }
+          },
+          {
+            "ref": "independent-TC-search-read-existing-contract",
+            "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+            "pathname": "/search/",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "queryProfile",
+              "hits",
+              "scope",
+              "lat",
+              "lng",
+              "radius_km",
+              "party_size",
+              "cuisine",
+              "sort",
+              "offset",
+              "id",
+              "open_day",
+              "service_mode"
+            ],
+            "requiredQueryKeys": [
+              "queryProfile"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            }
+          },
+          {
+            "ref": "independent-TC-catalog-read-existing-contract",
+            "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+            "pathname": "/catalog.json",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

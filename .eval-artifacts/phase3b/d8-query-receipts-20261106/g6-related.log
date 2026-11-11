@@ -1,0 +1,107 @@
+✖ G6 capability RENAMED: observed controls reach current response-bound presentation (2874.221459ms)
+✖ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (1950.595542ms)
+✔ G6 capability RESPONSE_MISSING: visible date/guests never replace missing or changed vacancy data (650.723375ms)
+✔ G6 capability RESPONSE_CHANGED: visible date/guests never replace missing or changed vacancy data (684.562917ms)
+✔ G6 capability PRICE_MATCH: only applicable original quotation supports HARD budget MET (609.922583ms)
+✔ G6 capability PRICE_PARTY: only applicable original quotation supports HARD budget MET (686.027167ms)
+✔ G6 capability PRICE_DATE: only applicable original quotation supports HARD budget MET (571.250583ms)
+✔ G6 capability PRICE_MEAL: only applicable original quotation supports HARD budget MET (631.138542ms)
+✔ G6 capability G4: same-ID Japanese lookup drives the third source query to the same outlet (537.511041ms)
+✖ G6 capability G1 Web: authenticated question acquires a page through the production read assembly (560.406625ms)
+✖ G6 capability B1 fee and feedback: source-acquired handoff survives authenticated departure and user report (623.630917ms)
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (3099.273167ms)
+✔ G6 each user message receives a fresh read budget after an initial 483-second read (674.1215ms)
+✔ G6 records a safe unassessed clarification and continues to the next full Live-assembly slot (1263.766208ms)
+✔ G6 serial Runner obtains G1 pages through Live assembly, records all channels, checks each slot and stops before the next slot on independent S0 (1381.956375ms)
+✔ G6 frozen pack refuses changed bytes before constructing any source transport (1.091167ms)
+✔ G6 Runner authoritative pending question controls date reply: asked date (683.399334ms)
+✔ G6 Runner authoritative pending question controls date reply: asked partySize (591.686833ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 13
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10985.243208
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:1228
+✖ G6 capability RENAMED: observed controls reach current response-bound presentation (2874.221459ms)
+  AssertionError [ERR_ASSERTION]: Root production composition must deliver after source controls are observed
+  + actual - expected
+  
+  + 'FAILED'
+  - 'PRESENT_RESULTS'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:26:12)
+      at control (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:12:51)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:25:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:1228
+✖ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (1950.595542ms)
+  AssertionError [ERR_ASSERTION]: Root production composition must deliver after source controls are observed
+  + actual - expected
+  
+  + 'FAILED'
+  - 'PRESENT_RESULTS'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:26:12)
+      at control (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:12:51)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:25:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:5859
+✖ G6 capability G1 Web: authenticated question acquires a page through the production read assembly (560.406625ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:7185
+✖ G6 capability B1 fee and feedback: source-acquired handoff survives authenticated departure and user report (623.630917ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/runner.test.ts:1:534
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (3099.273167ms)
+  AssertionError [ERR_ASSERTION]: {"binding":{"history":[],"presentations":[],"issues":[]},"turns":[{"id":"INITIAL","phase":"FAILED","target":{"goal":"AVAILABILITY","query":"restaurant in Shibuya","selectionScope":"OPEN_ENDED","requestedResultCount":1}}],"references":{"initial":null,"turns":[{"turnId":"INITIAL","userMessage":"Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM.","before":{"candidates":[]},"after":{"candidates":[],"intentDraft":{"target":{"selectionScope":"OPEN_ENDED"}},"readEvidence":[]},"events":[{"id":"event:user:5909354f22b62ab5d4a658f4cac942a6","trace":{"actor":"USER"},"event":{"type":"SEMANTIC_PROPOSAL_COMPILED","patch":{"target":{"selectionScope":"OPEN_ENDED"}}}},{"id":"event:restaurant-agent:7f309918-670a-445b-ac51-7b9bc097b442","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:4bb7dfb5-7239-4b78-9230-7983908dfb7b","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:f6393155-a157-4ebf-b99c-2b3a5c3b9eeb","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:54c72166-d870-4510-8095-79db87948b5b","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:e32a8a35-8197-4f29-b269-ec153dac429e","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:460b9680-ae06-4968-a921-f31dd4bee35f","trace":{"actor":"SYSTEM"},"event":{"type":"AGENT_LOOP_TERMINATED"}}]}]}}
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/runner.test.ts:27:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }

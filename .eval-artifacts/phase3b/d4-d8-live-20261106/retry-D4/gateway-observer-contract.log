@@ -1,0 +1,16 @@
+✔ DeepSeek gateway sends the complete schema through strict structured output and records redacted metadata (8.116375ms)
+✔ DeepSeek gateway sends the actual restaurant strict schema with every object property required (0.389333ms)
+✔ DeepSeek gateway fails closed when server configuration is incomplete (0.16975ms)
+✔ DeepSeek gateway classifies provider rejection without exposing response body (0.403834ms)
+✔ DeepSeek gateway turns an aborted bounded request into a timeout (1.378625ms)
+✔ DeepSeek gateway rejects a malformed provider completion before it reaches a Domain parser (0.194916ms)
+✔ DeepSeek gateway records only the safe structured-output shape when a tool call is absent (0.160333ms)
+✔ DeepSeek gateway preserves safe transport causes without retries or body misclassification (0.671208ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 109.387125

@@ -1,0 +1,92 @@
+✖ availability selection leaves all otherwise legal candidates to the model and preserves facts/refresh (5.241083ms)
+✖ P2-2 conditional selection oracle checks every target and leaves uncompiled reviewer conditions unassessed (42.218708ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 385.565375
+
+✖ failing tests:
+
+test at src/domains/restaurant/action-validator.test.ts:1:2304
+✖ availability selection leaves all otherwise legal candidates to the model and preserves facts/refresh (5.241083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  -   'name-near',
+      'direct-c',
+  -   'outside',
+      'direct-a',
+      'direct-b'
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/action-validator.test.ts:57:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'direct-c', 'direct-a', 'direct-b' ],
+    expected: [ 'name-near', 'direct-c', 'outside', 'direct-a', 'direct-b' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/decision-replay.test.ts:1:483
+✖ P2-2 conditional selection oracle checks every target and leaves uncompiled reviewer conditions unassessed (42.218708ms)
+  AssertionError [ERR_ASSERTION]: source facts cannot shrink the captured legal choice scope
+  + actual - expected
+  
+    [
+  -   'praxis:restaurant:cda3d78c48f1e2d955db6a0e',
+  -   'praxis:restaurant:0a3b046584d9cc39994a2f3e',
+  -   'praxis:restaurant:9087433958a6950fb6da24cd',
+  -   'praxis:restaurant:1befeda24b5f5201e53c9af3',
+  -   'praxis:restaurant:7077156cb85a5335f73cc50d',
+  -   'praxis:restaurant:8451b9ac593d99691cc63be0',
+  -   'praxis:restaurant:24adb19f5c7c523a54351787',
+      'praxis:restaurant:6343d9d19c9b69881948e082',
+  -   'praxis:restaurant:690eacddc99105af5a3a0f53',
+  -   'praxis:restaurant:0620f09395d30e156b85184c',
+  -   'praxis:restaurant:3c2b9cc8ef4fa8f7cfaa22d3',
+      'praxis:restaurant:c510b28f298c4785d5fff548',
+  -   'praxis:restaurant:5ed3f94e0c6967e9e6c23333',
+      'praxis:restaurant:ef3480030ea7789b0741709c',
+      'praxis:restaurant:5f4fbd6b462f17e62da5bb43',
+  -   'praxis:restaurant:553876f58ad15b3904b229a7',
+  -   'praxis:restaurant:d80844b604e7b09e9cfad1a9',
+  -   'praxis:restaurant:fb1954c58d61175636105f4e',
+  -   'praxis:restaurant:927ae206af72485bfc7b5e2a',
+  -   'praxis:restaurant:ce01e28b2cd53c2395c62f65',
+  -   'praxis:restaurant:975873ad166cad31a4c40857',
+  -   'praxis:restaurant:d7560a4b60970a42216f0c2a',
+      'praxis:restaurant:ca068a9542e0d1002a5693d5',
+  -   'praxis:restaurant:89002d56aeddf6ef5ab70cb5',
+      'praxis:restaurant:3f479102f8cb091e55b22704',
+  -   'praxis:restaurant:988ac6a971353784bfee52b6',
+  -   'praxis:restaurant:b7377c59de82cb279cebc477',
+  -   'praxis:restaurant:15e8120a70ec0ca84448e3f6',
+      'praxis:restaurant:9bbb7e156e017ebee6590f6c',
+  -   'praxis:restaurant:e6b248849b549716debbcb5d',
+  -   'praxis:restaurant:d5fb8acdee1996273e257431',
+  -   'praxis:restaurant:2d786fff5b677765e778c8a9',
+  -   'praxis:restaurant:2296a8065cfac42c500f32d3',
+  -   'praxis:restaurant:31792d72b4fc34b0e9371094',
+  -   'praxis:restaurant:0fc2dc62fc203dface340281',
+  -   'praxis:restaurant:2fe5b0fde06e6a3b65da33e0',
+      'praxis:restaurant:6976327a098e08ddf19a3ed1'
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/decision-replay.test.ts:36:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'praxis:restaurant:6343d9d19c9b69881948e082', 'praxis:restaurant:c510b28f298c4785d5fff548', 'praxis:restaurant:ef3480030ea7789b0741709c', 'praxis:restaurant:5f4fbd6b462f17e62da5bb43', 'praxis:restaurant:ca068a9542e0d1002a5693d5', 'praxis:restaurant:3f479102f8cb091e55b22704', 'praxis:restaurant:9bbb7e156e017ebee6590f6c', 'praxis:restaurant:6976327a098e08ddf19a3ed1' ],
+    expected: [ 'praxis:restaurant:cda3d78c48f1e2d955db6a0e', 'praxis:restaurant:0a3b046584d9cc39994a2f3e', 'praxis:restaurant:9087433958a6950fb6da24cd', 'praxis:restaurant:1befeda24b5f5201e53c9af3', 'praxis:restaurant:7077156cb85a5335f73cc50d', 'praxis:restaurant:8451b9ac593d99691cc63be0', 'praxis:restaurant:24adb19f5c7c523a54351787', 'praxis:restaurant:6343d9d19c9b69881948e082', 'praxis:restaurant:690eacddc99105af5a3a0f53', 'praxis:restaurant:0620f09395d30e156b85184c', 'praxis:restaurant:3c2b9cc8ef4fa8f7cfaa22d3', 'praxis:restaurant:c510b28f298c4785d5fff548', 'praxis:restaurant:5ed3f94e0c6967e9e6c23333', 'praxis:restaurant:ef3480030ea7789b0741709c', 'praxis:restaurant:5f4fbd6b462f17e62da5bb43', 'praxis:restaurant:553876f58ad15b3904b229a7', 'praxis:restaurant:d80844b604e7b09e9cfad1a9', 'praxis:restaurant:fb1954c58d61175636105f4e', 'praxis:restaurant:927ae206af72485bfc7b5e2a', 'praxis:restaurant:ce01e28b2cd53c2395c62f65', 'praxis:restaurant:975873ad166cad31a4c40857', 'praxis:restaurant:d7560a4b60970a42216f0c2a', 'praxis:restaurant:ca068a9542e0d1002a5693d5', 'praxis:restaurant:89002d56aeddf6ef5ab70cb5', 'praxis:restaurant:3f479102f8cb091e55b22704', 'praxis:restaurant:988ac6a971353784bfee52b6', 'praxis:restaurant:b7377c59de82cb279cebc477', 'praxis:restaurant:15e8120a70ec0ca84448e3f6', 'praxis:restaurant:9bbb7e156e017ebee6590f6c', 'praxis:restaurant:e6b248849b549716debbcb5d', 'praxis:restaurant:d5fb8acdee1996273e257431', 'praxis:restaurant:2d786fff5b677765e778c8a9', 'praxis:restaurant:2296a8065cfac42c500f32d3', 'praxis:restaurant:31792d72b4fc34b0e9371094', 'praxis:restaurant:0fc2dc62fc203dface340281', 'praxis:restaurant:2fe5b0fde06e6a3b65da33e0', 'praxis:restaurant:6976327a098e08ddf19a3ed1' ],
+    operator: 'deepStrictEqual'
+  }

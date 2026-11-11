@@ -1,0 +1,175 @@
+{
+  "id": "G4-ND-006",
+  "key": "main-G4-ND-006",
+  "view": "MAIN37",
+  "cohort": "NEW8",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "吉祥じ 和こん",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%90%89%E7%A5%A5%E3%81%98%20%E5%92%8C%E3%81%93%E3%82%93",
+      "kind": "SEARCH",
+      "query": "吉祥じ 和こん",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-040.html",
+      "sha256": "e67b594bee5f68593c45e7ddf0fd812ed90270e4ca267c308474628cbc66cb23",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-041.html",
+      "sha256": "9a5a44eef51208cf0e86d960aa12ada6dd352235650d31ad24a4b84aa740840c",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:G4-ND-006",
+    "google": {
+      "placeId": "ChIJDXuo9d_vGGARwSHi6ABWYEY",
+      "outletName": {
+        "value": "吉祥じ 和こん",
+        "normalizedValue": "吉祥じ和こん",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "Japan, 〒180-0005 Tokyo, Musashino, Gotenyama, 1-chōme−3−７ もみじビル 1F",
+        "normalizedValue": "japan〒1800005tokyomusashinogotenyama1chōme−3−７もみじビル1f",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "0422-26-7992",
+        "normalizedValue": "0422267992",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1320/A132001/13245243",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+        "outletName": {
+          "value": "Kichijoji Wakon",
+          "normalizedValue": "kichijojiwakon",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1800005 東京都武蔵野市御殿山1-3-7 もみじビル 1F",
+          "normalizedValue": "1800005東京都武蔵野市御殿山137もみじビル1f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "0422-26-7992",
+          "normalizedValue": "0422267992",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "0422-26-7992",
+          "role": "STORE",
+          "quote": "0422-26-7992",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 6
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1320/A132001/13245243",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "吉祥じ 和こん"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "吉祥じ 和こん",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%90%89%E7%A5%A5%E3%81%98%20%E5%92%8C%E3%81%93%E3%82%93",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%90%89%E7%A5%A5%E3%81%98%20%E5%92%8C%E3%81%93%E3%82%93",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 1,
+      "inspectedResultCount": 1
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1320/A132001/13245243",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+        "outletName": "Kichijoji Wakon"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1320/A132001/13245243",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+        "title": "Kichijoji Wakon Reservation - Kichijoji/Japanese Cuisine | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Kichijoji Wakon",
+            "normalizedValue": "kichijojiwakon",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1800005 東京都武蔵野市御殿山1-3-7 もみじビル 1F",
+            "normalizedValue": "1800005東京都武蔵野市御殿山137もみじビル1f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "0422-26-7992",
+            "normalizedValue": "0422267992",
+            "source": "DOM"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%90%89%E7%A5%A5%E3%81%98%20%E5%92%8C%E3%81%93%E3%82%93",
+    "https://tabelog.com/en/tokyo/A1320/A132001/13245243/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

@@ -1,0 +1,12 @@
+{
+  "status": "APPROVED_APPLIED",
+  "authorization": "Human reply: 批准仅同步这一处",
+  "timeCET": "2026-11-02T10:30:12.815071+01:00",
+  "path": "src/server/local-web-server.test.ts",
+  "line": 1883,
+  "old": "assert.equal(after.restaurant.selectedCandidateId,undefined);",
+  "new": "assert.equal(after.restaurant.selectedCandidateId,before.restaurant.selectedCandidateId);",
+  "afterSHA256": "5fa96c15bcc07e58b9e31bf5acd9be73f97996a5a887edf1286f4e3074a493e4",
+  "supersedes": "remaining-approval.json (historical pending request)",
+  "scope": "Exactly this comparison only; no other assertion, input or product edit."
+}

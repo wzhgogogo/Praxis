@@ -1,7 +1,10 @@
 import { chromium } from "playwright-core";
+import {mkdtemp,writeFile,rm} from "node:fs/promises";
+import {tmpdir} from "node:os";
+import {join} from "node:path";
 import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-playwright-chromium.js";
 import { CloudflareBrowserRun } from "../../infrastructure/browser/cloudflare-browser-run.js";
-import type { BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserRuntime, BrowserSession, BrowserReadNetworkPolicy } from "../../infrastructure/browser/browser-runtime.js";
 
 export const url = "https://www.tablecheck.com/en/fixture";
 export const identity = '<h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a>';
@@ -14,19 +17,17 @@ export function replayHarPages(pages: Record<string, string>): string {
   return JSON.stringify({ log: { version: "1.2", creator: { name: "Praxis fixture", version: "1" }, entries: Object.entries(pages).map(([url, html]) => ({
     startedDateTime: "2026-10-07T00:00:00.000Z",
     request: { method: "GET", url, httpVersion: "HTTP/1.1", headers: [], queryString: [], cookies: [], headersSize: -1, bodySize: -1 },
-    response: { status: 200, statusText: "OK", httpVersion: "HTTP/1.1", headers: [{ name: "content-type", value: "text/html; charset=utf-8" }], cookies: [], content: { size: html.length, mimeType: "text/html", text: html }, redirectURL: "", headersSize: -1, bodySize: -1 },
+    response: { status: 200, statusText: "OK", httpVersion: "HTTP/1.1", headers: [{ name: "content-type", value: html.startsWith("{") ? "application/json; charset=utf-8" : "text/html; charset=utf-8" }], cookies: [], content: { size: html.length, mimeType: html.startsWith("{") ? "application/json" : "text/html", text: html }, redirectURL: "", headersSize: -1, bodySize: -1 },
     cache: {}, timings: { send: 0, wait: 0, receive: 0 },
   })) } });
 }
 
-export function exactGuideAvailabilityUrl(sourceUrl: string, date: string, partySize: number, time: string): string {
-  const value = new URL(sourceUrl);
-  value.searchParams.set("date", date);
-  value.searchParams.set("time", time);
-  value.searchParams.set("num_people", String(partySize));
-  value.searchParams.set("availability_format", "datetime");
-  value.searchParams.set("availability_mode", "same_meal_time");
-  return value.toString();
+/** Constructed response corpus through the real local Guard; HAR misses abort. */
+export async function guardedPages(pages:Record<string,string>,policy:BrowserReadNetworkPolicy){
+  const directory=await mkdtemp(join(tmpdir(),"public-source-fixture-")),har=join(directory,"pages.har");
+  await writeFile(har,replayHarPages(pages));const raw=new LocalPlaywrightChromium(),sessions:BrowserSession[]=[];
+  const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",async openSession(input){const session=await raw.openSession({...input,networkPolicy:input.networkPolicy??policy,replayHarPath:har});sessions.push(session);return session;}};
+  return {runtime,async close(){try{await Promise.all(sessions.map(session=>session.close()));}finally{await rm(directory,{recursive:true,force:true});}}};
 }
 
 // Live H003 reached observed party controls but passed dom: references as CSS selectors.
@@ -39,12 +40,19 @@ export function localFixture(html: string | Record<string, string>, runtimeKind:
       const createContext = browser.newContext.bind(browser);
       browser.newContext = async (contextOptions) => {
         const context = await createContext(contextOptions);
+        // Navigation can fail/retire the context before its request ever enters
+        // this interceptor. Tie the delayed fixture's completion to that real
+        // lifecycle as well, and release callbacks already waiting on the gate.
+        let closed=false,finished=false;
+        const finish=()=>{if(!finished&&delayedNavigation){finished=true;delayedNavigation.finished();}};
+        const retired=new Promise<void>(resolve=>context.once("close",()=>{closed=true;finish();resolve();}));
         await context.route("**/*", async (route) => {
           if (route.request().url() === delayedNavigation?.url) {
-            await delayedNavigation.release;
+            await Promise.race([delayedNavigation.release,retired]);
+            if(closed)return;
             try { await route.fulfill({ contentType: "text/html; charset=utf-8", body: "<title>Late old page</title><h1>Old candidate</h1>" }); }
             catch { /* Closing the timed-out session may already have canceled the old request. */ }
-            finally { delayedNavigation.finished(); }
+            finally { finish(); }
             return;
           }
           const body = pages[route.request().url()];

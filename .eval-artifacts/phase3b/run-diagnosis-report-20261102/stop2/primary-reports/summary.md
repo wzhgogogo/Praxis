@@ -1,0 +1,351 @@
+# 跨运行诊断汇总
+
+只读已有产物；不改判定，不设体验门槛。时间口径 CET。
+
+## 分母
+
+```json
+{
+  "planned": 5,
+  "received": 5,
+  "started": 5,
+  "finished": 5,
+  "completed": 5,
+  "interrupted": 0,
+  "classificationAvailable": 5,
+  "scorable": 5,
+  "capabilityIncluded": 5
+}
+```
+
+## 首点 × 严重程度
+
+| 首点 × 严重程度 | 次数 | 运行 ID |
+| --- | --- | --- |
+| NO_CONFIRMED_DEVIATION × NO_CONFIRMED_SEVERITY_OR_UNASSESSED | 3 | p1fA-kf-h001-a1, p1fA-kf-h002-a1, p1fA-nakameguro-a1 |
+| UNDERSTANDING × S3 | 1 | p1fA-kf-h004-a1 |
+| DISCOVERY × S2 | 1 | p1fA-kagurazaka-a1 |
+
+## 同用例多次运行
+
+```json
+[
+  {
+    "caseId": "p1f-kf-h001-20261020",
+    "attempts": [
+      {
+        "runId": "p1fA-kf-h001-a1",
+        "artifactRunId": "5bd68be2-d5fc-4a84-b460-e3fe2dcb40c2",
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "firstPoint": {
+          "status": "NO_CONFIRMED_DEVIATION",
+          "stage": null,
+          "certainty": null,
+          "column": null,
+          "earliestKnownOnly": true
+        },
+        "evaluation": {
+          "path": ".eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/evaluations/p1fA-kf-h001-a1.evaluation.29.21a3efaa-ef2f-4831-beef-865ca33f7eaf.json",
+          "sha256": "2d47111f9454f640ba08e1c3df4985cfc2db46a75ede5a1cf72305ac4d8d3e3c"
+        },
+        "version": {
+          "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29",
+          "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@25",
+          "goldCorrection": {
+            "applied": true,
+            "artifactSha256": "239782eb48608b3891a5c1743456dd81209dceadd8f873193c7422d5ea242bb9",
+            "rev1Sha256": "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+            "rev2Sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+            "refs": [
+              ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json#sha256=5a755634a5337a95705185c0d413dc061554871ba0ec3b552cb270dbab4e1f9f",
+              ".eval-artifacts/p1-f-20261011/variants.yaml#sha256=447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+              ".eval-artifacts/p1-f-20261011/variants.rev2.yaml#sha256=1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753"
+            ]
+          },
+          "mode": "HYBRID_LIVE_READ"
+        }
+      }
+    ]
+  },
+  {
+    "caseId": "p1f-kf-h002-20261024",
+    "attempts": [
+      {
+        "runId": "p1fA-kf-h002-a1",
+        "artifactRunId": "eb814076-2a10-4ec7-864e-3ce3e09cb125",
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "firstPoint": {
+          "status": "NO_CONFIRMED_DEVIATION",
+          "stage": null,
+          "certainty": null,
+          "column": null,
+          "earliestKnownOnly": true
+        },
+        "evaluation": {
+          "path": ".eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/evaluations/p1fA-kf-h002-a1.evaluation.29.bba43db1-a75c-42ee-9f37-cf5caaa8b351.json",
+          "sha256": "9cb9d2df8c88ffbb76126fe47c80cb56a1657782f86c1061a456bdfdcc8964c8"
+        },
+        "version": {
+          "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29",
+          "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@25",
+          "goldCorrection": {
+            "applied": true,
+            "artifactSha256": "83f1670321347640c21ed00e3fbe761b87dc9a1e2c7c8efd71941d9fba6f0730",
+            "rev1Sha256": "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+            "rev2Sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+            "refs": [
+              ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json#sha256=5a755634a5337a95705185c0d413dc061554871ba0ec3b552cb270dbab4e1f9f",
+              ".eval-artifacts/p1-f-20261011/variants.yaml#sha256=447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+              ".eval-artifacts/p1-f-20261011/variants.rev2.yaml#sha256=1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753"
+            ]
+          },
+          "mode": "HYBRID_LIVE_READ"
+        }
+      }
+    ]
+  },
+  {
+    "caseId": "p1f-kf-h004-20261019",
+    "attempts": [
+      {
+        "runId": "p1fA-kf-h004-a1",
+        "artifactRunId": "97767eac-8aa0-463b-aec0-1a69c25cdc7a",
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "firstPoint": {
+          "status": "DEVIATION",
+          "stage": "UNDERSTANDING",
+          "certainty": "CONFIRMED",
+          "column": "FIRST_CONFIRMED_DEVIATION",
+          "earliestKnownOnly": false
+        },
+        "evaluation": {
+          "path": ".eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/evaluations/p1fA-kf-h004-a1.evaluation.29.010f91ff-4f69-40f5-8f03-e28c5799b944.json",
+          "sha256": "78cb532392e7f7905c5dcfd2320c18a0932ba66685e6bf33eca5058146ea3b5a"
+        },
+        "version": {
+          "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29",
+          "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@25",
+          "goldCorrection": {
+            "applied": true,
+            "artifactSha256": "9d4aa78310895ccee7c28a24e76cc32a1874a82c0ce5ac36194717eadbd18eda",
+            "rev1Sha256": "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+            "rev2Sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+            "refs": [
+              ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json#sha256=5a755634a5337a95705185c0d413dc061554871ba0ec3b552cb270dbab4e1f9f",
+              ".eval-artifacts/p1-f-20261011/variants.yaml#sha256=447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+              ".eval-artifacts/p1-f-20261011/variants.rev2.yaml#sha256=1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753"
+            ]
+          },
+          "mode": "HYBRID_LIVE_READ"
+        }
+      }
+    ]
+  },
+  {
+    "caseId": "p1f-novel-kagurazaka-kaiseki-20261022",
+    "attempts": [
+      {
+        "runId": "p1fA-kagurazaka-a1",
+        "artifactRunId": "90f04039-e029-4acc-a8f0-2fd9b7590fba",
+        "outcome": {
+          "type": "CAPABILITY_MISS",
+          "reasons": [
+            "No delivery despite independent request-matching feasible witness; cause is classified separately."
+          ],
+          "evidenceRefs": [
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+            ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13218101.body.txt#sha256=7984c403c9414fd586b870728c3afa8c343e002bea8381bda91be4f3fad66274",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13218101.metadata.json#sha256=43e2dd0ab54ff191d3be3daf21bf76d457d8031530a74188ae445fbf5e1c042d",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+            ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13048623.body.txt#sha256=cd5fe31c061b4fedf1da7269580ef899e494a18712f9eb0cc72b10c0d1b30fdd",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13048623.metadata.json#sha256=e006930112c3412a58f3d17072cbf3794092d7a6fd920ec9687bc60e77e5b578",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/attempt-1.finish.json#sha256=3a9ea20a5791c6ae0c58454bdf3ccc04247fae6807a063c3f1731ce11b2bbab4",
+            ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json#sha256=1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13011403.body.txt#sha256=eab16a97af23ee19702e5550528d455aab4209f2917b22b8f546951ac9b1ffcc",
+            ".eval-artifacts/p1-f-20261011/continuation-20261011-part1/p1f-novel-kagurazaka-kaiseki-20261022/witness-raw/attempt-1-13011403.metadata.json#sha256=92b9e836910bfea37e81f975d7fe0b94e6c207bb12b08e628f2cbac2542e7fde",
+            "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.eval-artifacts/e1-evaluator-20261016/witness-inputs.json#sha256=5fc5af629ff2550bf1be538abf029537003ac75d8bedd9f9fbcc0e6900a4d91e",
+            "materializedCase.acceptance.required_claims"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "NO"
+        },
+        "firstPoint": {
+          "status": "DEVIATION",
+          "stage": "DISCOVERY",
+          "certainty": "CONFIRMED",
+          "column": "WITNESS_COVERAGE",
+          "earliestKnownOnly": true
+        },
+        "evaluation": {
+          "path": ".eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/evaluations/p1fA-kagurazaka-a1.evaluation.29.01574306-d919-476b-b1d6-ce889b5d68af.json",
+          "sha256": "98049d218f5f1592133273f8a7d2729f8c466e12323250f7c359b7716a93a44c"
+        },
+        "version": {
+          "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29",
+          "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@25",
+          "goldCorrection": {
+            "applied": true,
+            "artifactSha256": "1a5f6955e890450a2627e4c81866648bd5c5d51e265d53ae87956ad11969d596",
+            "rev1Sha256": "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+            "rev2Sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+            "refs": [
+              ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json#sha256=5a755634a5337a95705185c0d413dc061554871ba0ec3b552cb270dbab4e1f9f",
+              ".eval-artifacts/p1-f-20261011/variants.yaml#sha256=447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+              ".eval-artifacts/p1-f-20261011/variants.rev2.yaml#sha256=1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753"
+            ]
+          },
+          "mode": "HYBRID_LIVE_READ"
+        }
+      }
+    ]
+  },
+  {
+    "caseId": "p1f-novel-nakameguro-yakiniku-20261023",
+    "attempts": [
+      {
+        "runId": "p1fA-nakameguro-a1",
+        "artifactRunId": "0626c034-d867-47bd-bf82-b6cda149cce8",
+        "outcome": {
+          "type": "QUALIFIED_DELIVERY",
+          "reasons": [
+            "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+          ],
+          "evidenceRefs": [
+            "loop",
+            "finalSnapshot.domainState.presentedResults",
+            "finalSnapshot.domainState.availability",
+            "finalSnapshot.domainState.readEvidence"
+          ],
+          "capabilityDenominator": "INCLUDED",
+          "userGoalComplete": "YES"
+        },
+        "firstPoint": {
+          "status": "NO_CONFIRMED_DEVIATION",
+          "stage": null,
+          "certainty": null,
+          "column": null,
+          "earliestKnownOnly": true
+        },
+        "evaluation": {
+          "path": ".eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/evaluations/p1fA-nakameguro-a1.evaluation.29.f940f777-2864-4c1e-956f-028f89f4f8d6.json",
+          "sha256": "f25b3668cc2e9a7ed3c5437a791b57a9662015bf07416f4ded7cacfa96ff1fac"
+        },
+        "version": {
+          "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@29",
+          "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@25",
+          "goldCorrection": {
+            "applied": true,
+            "artifactSha256": "777fc1b1aedb4f0fae321b11aae89c00015150dba1977599268ddb046a03dcf5",
+            "rev1Sha256": "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+            "rev2Sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+            "refs": [
+              ".eval-artifacts/e1-evaluator-20261016/gold-corrections.json#sha256=5a755634a5337a95705185c0d413dc061554871ba0ec3b552cb270dbab4e1f9f",
+              ".eval-artifacts/p1-f-20261011/variants.yaml#sha256=447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+              ".eval-artifacts/p1-f-20261011/variants.rev2.yaml#sha256=1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753"
+            ]
+          },
+          "mode": "HYBRID_LIVE_READ"
+        }
+      }
+    ]
+  }
+]
+```
+
+## 体验分布
+
+```json
+{
+  "elapsed": {
+    "measured": 5,
+    "unassessed": 0,
+    "median": 247394,
+    "max": 379101
+  },
+  "firstEvidence": {
+    "measured": 4,
+    "unassessed": 1,
+    "median": 165078,
+    "max": 292402
+  },
+  "firstPresentation": {
+    "measured": 4,
+    "unassessed": 1,
+    "median": 197987,
+    "max": 304149
+  },
+  "delay": {
+    "measured": 4,
+    "unassessed": 1,
+    "median": 27773,
+    "max": 38974
+  },
+  "turnResponses": {
+    "measured": 0,
+    "unassessed": 5,
+    "median": null,
+    "max": null
+  },
+  "excessQuestions": {
+    "observedTotal": null,
+    "completeTotal": null,
+    "unassessedRuns": 5
+  },
+  "missingQuestions": {
+    "observedTotal": null,
+    "completeTotal": null,
+    "unassessedRuns": 5
+  },
+  "ordering": {
+    "passed": 0,
+    "deviated": 0,
+    "notEvaluated": 0,
+    "notApplicable": 5
+  }
+}
+```

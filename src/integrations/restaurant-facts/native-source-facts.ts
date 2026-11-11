@@ -1,13 +1,14 @@
+import {requestedCommercialFields} from "./google-listed-website-facts.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import { readQuotedRestaurantSourceFacts, quotedRestaurantSourceEvidence, type QuotedRestaurantSourceFacts } from "./model-source-facts.js";
-import { createRestaurantFactSourceDocument as sourceDocument, type RestaurantFactPageObserver } from "./fact-source-document.js";
+import { createRestaurantFactSourceDocument as sourceDocument, bindRestaurantFactSourceRoles, type RestaurantFactPageObserver } from "./fact-source-document.js";
 import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
 
 import { groundRestaurantWebsiteFacts } from "../../domains/restaurant/read-grounding.js";
 import type { RestaurantCandidateFactPort } from "../../application/restaurant-execution-router.js";
-import type { RestaurantCandidateFactRead, RestaurantCandidateFactRequest, RestaurantReadEvidence, RestaurantFactSourceDocument } from "../../domains/restaurant/contracts.js";
+import type { RestaurantCandidateFactRead, RestaurantCandidateFactRequest, RestaurantCandidate, RestaurantReadEvidence, RestaurantFactSourceDocument } from "../../domains/restaurant/contracts.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSnapshot, BrowserPageControl } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
@@ -104,7 +105,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
       }
       const executor = new BrowserTaskExecutor(this.runtime, {
         ...this.limits,
-        ...(this.modelDecision ? { modelDecision: this.modelDecision } : {}),
+        ...(!request.capturePagesOnly&&this.modelDecision ? { modelDecision: this.modelDecision } : {}),
         ...(this.browserBudget ? { budget: this.browserBudget } : {}),
         ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
       });
@@ -112,13 +113,17 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         executor.beginCandidate(candidate.restaurant.id);
         executor.beginProvider(candidate.restaurant.id, provider, "FACTS");
         const session = await executor.acquire(signal, provider, "FACTS", this.networkPolicy);
-        await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: sourceUrl });
+        const current=request.reobservePageOnce?await executor.snapshot({source:provider,stage:"FACTS",signal,session}):undefined;
+        // A newly acquired session may already hold this exact bound page. Do
+        // not reload it; otherwise only the source-bound URL may be opened.
+        if(!current||current.url!==sourceUrl)await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: sourceUrl, observed:true });
         const documents: RestaurantFactSourceDocument[] = [];
         const retained = new Map<string, {page: BrowserSnapshot; identity: RestaurantReadEvidence; readAt: string; frames: Array<{document: RestaurantFactSourceDocument; text: string}>; processed: boolean}>();
         const identities: RestaurantReadEvidence[] = [];
         const observedOfficialOrigins = new Set<string>();
         let tableCheckServiceControls: readonly BrowserPageControl[] = [];
         let observedReservationTarget: TableCheckReservationTarget | undefined;
+        let reservationTargetProhibited = false;
         const retainOfficialOrigins = (controls: readonly BrowserPageControl[]): void => {
           for (const control of controls) {
             if (control.kind !== "LINK" || !control.visible || control.disabled || !control.href
@@ -141,7 +146,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           const parts = scopedMenu?.scoped.length
             ? [...scopedMenu.scoped.map(item=>({text:item.text,scope:item.serviceScope})),...(scopedMenu.unscopedText?[{text:scopedMenu.unscopedText,scope:undefined}]:[])]
             : [{text:scopedMenu?.unscopedText ?? page.text,scope:undefined}];
-          const frames = parts.map(part=>({text:part.text,document:sourceDocument(candidate.restaurant.id,identity.evidenceId,part.text,part.scope,provider==="TABELOG"?parseTabelogSourceFieldQuotes(page):undefined)}));
+          const frames = parts.map(part=>({text:part.text,document:bindRestaurantFactSourceRoles(sourceDocument(candidate.restaurant.id,identity.evidenceId,part.text,part.scope,provider==="TABELOG"?parseTabelogSourceFieldQuotes(page):undefined),page,typeof identity.claims.outletName === "string" ? [identity.claims.outletName] : [])}));
           const additions=frames.filter(frame=>!documents.some(item=>item.id===frame.document.id));
           documents.push(...additions.map(frame=>frame.document));
           if(additions.length)retained.set(createHash("sha256").update(identity.evidenceId+page.text).digest("hex"),{page:structuredClone(page),identity:structuredClone(identity),readAt:this.now(),frames:frames.map(frame=>({...frame,document:documents.find(d=>d.id===frame.document.id)!})),processed:false});
@@ -260,7 +265,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             identities.push(identity);
           }
           retainPageHours(page);
-          const document = sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text);
+          const document = bindRestaurantFactSourceRoles(sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text), page, typeof identity.claims.outletName === "string" ? [identity.claims.outletName] : []);
           if (documents.some((item) => item.id === document.id)) return false;
           documents.push(document);
           retained.set(document.id,{page:structuredClone(page),identity:structuredClone(identity),readAt:this.now(),frames:[{document,text:page.text}],processed:false});
@@ -295,8 +300,26 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             }
           }
         };
-        const initial = await executor.snapshot({ source: provider, stage: "FACTS", signal, session });
-        const initialControls = await executor.observeControls({ source: provider, stage: "FACTS", signal, session });
+        const capturePage = async () => {
+          const page=request.reobservePageOnce?await executor.reobservePageOnce({source:provider,stage:"FACTS",signal,session}):await executor.snapshot({source:provider,stage:"FACTS",signal,session});
+          const controls=await executor.observeControls({source:provider,stage:"FACTS",signal,session});
+          if(request.reobservePageOnce||!request.capturePagesOnly||page.settlement!=="PENDING")return {page,controls,ready:true};
+          // A short navigation sample is not a complete G1 document. Reuse
+          // the executor's bounded, text-stability observation; never clear
+          // PENDING by assertion or ask a browser model to manufacture it.
+          const ready=await executor.runSkill({taskId:request.readRunId??candidate.restaurant.id,
+            source:provider,stage:"FACTS",signal,session,allowedOrigins:[new URL(sourceUrl).origin],
+            goal:{outlet:{name:candidate.restaurant.outletName,address:candidate.restaurant.address},hardCriteria:[]},
+            objective:"Observe the complete current public page for cited restaurant questions",
+            completion:current=>current.text.trim()?{complete:true,reason:"Current public page text is present",
+              resultKey:createHash("sha256").update(current.url+"\u0000"+current.text).digest("hex"),
+              resultBusy:Boolean(current.settlementDiagnostics?.blockingDataRequests||current.settlementDiagnostics?.busySelectors.length||current.settlementDiagnostics?.visibleTextChanging)}
+              :{complete:false,reason:"No current public page text"}});
+          return {page:ready.snapshot,controls:ready.controls??[],ready:ready.status==="COMPLETED"&&ready.snapshot.settlement!=="PENDING"};
+        };
+        const first=await capturePage();
+        if(!first.ready){if(request.capturePagesOnly)retainNativePage(first.page,first.controls);factChecks[candidate.restaurant.id]={status:"UNKNOWN",checkedAt,evidenceIds:[],reasonCode:"NATIVE_SOURCE_PAGE_UNSETTLED"};continue;}
+        const initial=first.page,initialControls=first.controls;
         tableCheckServiceControls = initialControls;
         if (!retainNativePage(initial, initialControls)) {
           factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "NATIVE_SOURCE_IDENTITY_UNCONFIRMED" };
@@ -304,6 +327,20 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         }
         retainOfficialOrigins(initialControls);
         if(request.capturePagesOnly){
+          if(request.captureLinkedTranslation&&!request.reobservePageOnce){
+            const english=new URL(initial.url).pathname.startsWith("/en/");
+            const translation=initialControls.find(control=>{
+              if(control.kind!=="LINK"||!control.visible||control.disabled||control.blockedByActiveLayer||!control.href)return false;
+              try{return sameNativeOutletUrl(provider,sourceUrl,control.href)
+                && new URL(control.href).pathname.startsWith("/en/")!==english
+                && !isBrowserReadPathProhibited(this.networkPolicy,control.href);}catch{return false;}
+            });
+            if(translation?.href){
+              await executor.navigate({source:provider,stage:"FACTS",signal,allowedOrigins:[new URL(sourceUrl).origin],session,url:translation.href,observed:true});
+              const translationPage=await capturePage();
+              if(translationPage.ready)retainNativePage(translationPage.page,translationPage.controls);
+            }
+          }
           evidence.push(...identities);sourceDocuments.push(...documents);
           factChecks[candidate.restaurant.id]={status:"COMPLETED",checkedAt,evidenceIds:identities.map(item=>item.evidenceId),sourceProvider:provider};
           continue;
@@ -321,7 +358,9 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         // there, not on every guide page.
         if (provider === "TABLECHECK" && !hardFactsResolved(request.intent, judged.evidence) && !hasConfirmedNegativeConflict(request.intent, judged.evidence)) {
           const guide = parseTableCheckOutletIdentityWithEvidence(initial, sourceUrl);
-          observedReservationTarget = guide && resolveTableCheckReservationTarget(initial, guide.outlet);
+          observedReservationTarget = guide && resolveTableCheckReservationTarget(initial, guide.outlet, this.networkPolicy);
+          const unavailableTarget = !observedReservationTarget && guide && resolveTableCheckReservationTarget(initial, guide.outlet);
+          reservationTargetProhibited = Boolean(unavailableTarget && isBrowserReadPathProhibited(this.networkPolicy, unavailableTarget.url));
           if (observedReservationTarget?.kind === "LINKED_PAGE" && !isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url)) {
             const documentsBefore = documents.length;
             await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: observedReservationTarget.url, observed: true });
@@ -341,9 +380,12 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         // leaves a HARD condition unresolved. The shared 45/30/4/24 executor
         // limits the sequence; the two relevant source routes currently exposed
         // by this slice are a menu/course page and an observed official page.
+        let followupPage=initial;
+        const route=(url:string)=>{const u=new URL(url);u.hash="";return u.href;};
         for (let followUps = 0; followUps < 2 && !hardFactsResolved(request.intent, judged.evidence)
           && !hasConfirmedNegativeConflict(request.intent, judged.evidence) && this.modelDecision; followUps += 1) {
           const documentsBefore = documents.length;
+          const previousRoute=route(followupPage.url);
           const generic = await executor.runSkill({
             taskId: request.readRunId ?? candidate.restaurant.id, source: provider, stage: "FACTS", session, signal,
             allowedOrigins: [new URL(sourceUrl).origin, ...observedOfficialOrigins],
@@ -357,10 +399,11 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
               // Retention is idempotent: the second stability snapshot must assess
               // the same bound documents, rather than whether they were just added.
               const bound = documents.slice(documentsBefore).filter(document => identities.some(identity => identity.evidenceId === document.identityEvidenceId && identity.sourceUrl === page.url));
-              return { complete: bound.length > 0, resultBusy: false, resultKey: JSON.stringify(bound),
+              return { complete: bound.length > 0 || route(page.url)!==previousRoute, resultBusy: false, resultKey: JSON.stringify([page.url,bound]),
                 reason: "A new, identity-confirmed page with source-authored text is required before another cited HARD-fact judgment." };
             },
           });
+          followupPage=generic.snapshot;
           // A completed generic read already retained its final page. Calling the
           // idempotent retain function here covers runtimes that return the final
           // snapshot after the post-action read without treating it as new proof.
@@ -381,7 +424,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         }
         evidence.push(...identities, ...judged.evidence);
         sourceDocuments.push(...documents);
-        const unsupported = observedReservationTarget?.kind === "LINKED_PAGE" && isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url);
+        const unsupported = reservationTargetProhibited;
         factChecks[candidate.restaurant.id] = { status: hardFactsResolved(request.intent, judged.evidence) ? "COMPLETED" : "UNKNOWN", checkedAt,
           evidenceIds: [...identities.map((item) => item.evidenceId), ...judged.evidence.map((item) => item.evidenceId)], sourceProvider: provider,
           ...(!hardFactsResolved(request.intent, judged.evidence) ? { reasonCode: unsupported ? "SOURCE_UNSUPPORTED" : "NATIVE_HARD_FACTS_UNCONFIRMED" } : {}) };
@@ -410,13 +453,32 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
 /** One fact port for a mixed candidate pool; each candidate keeps its source. */
 export class SourceAwareFactRead implements RestaurantCandidateFactPort {
   readonly executionRoute = "GENERIC_BROWSER" as const;
-  constructor(private readonly native: RestaurantCandidateFactPort, private readonly google: RestaurantCandidateFactPort) {}
+  constructor(private readonly native: RestaurantCandidateFactPort, private readonly google: RestaurantCandidateFactPort,private readonly judgment:RestaurantFactJudgmentPort) {}
   googleRequestUsage(readRunId: string | undefined) { return this.google.googleRequestUsage?.(readRunId) ?? { limit: 0, total: 0, namedPlaceResolution: 0, discovery: 0, placeDetails: 0, reverseAddressObservation: 0 }; }
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
+    let earlyCalls=0;
+    const fast:RestaurantCandidateFactRead[]=[];
+    const remaining:RestaurantCandidate[]=[];
+    for(const candidate of request.candidates){
+      const source=request.sourceEvidence?.filter(e=>e.candidateId===candidate.restaurant.id)??[];
+      const eligible=!request.capturePagesOnly&&!request.recheck&&request.intent.target?.goal==="AVAILABILITY"&&!requestedCommercialFields(request.intent).length&&request.intent.criteria.every(c=>c.strength!=="HARD"||c.polarity==="POSITIVE")&&request.intent.criteria.some(c=>c.strength==="HARD");
+      if(eligible&&source.some(e=>e.sourceFieldQuotes?.some(q=>q.field==="CATEGORY"))){
+        const judged=await this.judgment.judge({candidate,intent:request.intent,evidence:source});
+        earlyCalls+=judged.modelUsage?.calls??0;
+        const evidence=[...source,...judged.evidence];
+        if(hardFactsResolved(request.intent,evidence)){
+          const provider=source.find(e=>e.kind==="RESTAURANT_FACT"&&e.sourceFieldQuotes?.some(q=>q.field==="CATEGORY"))!.provider;
+          if(provider!=="MODEL_JUDGMENT")fast.push({evidence,factChecks:{[candidate.restaurant.id]:{status:"COMPLETED",checkedAt:source.at(-1)!.observedAt,evidenceIds:evidence.map(e=>e.evidenceId)}},metadata:{provider,route:this.executionRoute,latencyMs:0}});
+          if(provider!=="MODEL_JUDGMENT")continue;
+        }
+      }
+      remaining.push(candidate);
+    }
+    request={...request,candidates:remaining,candidateIds:remaining.map(c=>c.restaurant.id)};
     const nativeCandidates = request.candidates.filter((item) => item.restaurant.sourceIds.tabelogNativeDetailUri || item.restaurant.sourceIds.tablecheckNativeGuideUri);
     const googleCandidates = request.candidates.filter((item) => !nativeCandidates.includes(item));
     const startedAt = Date.now();
-    const reads: RestaurantCandidateFactRead[] = [];
+    const reads: RestaurantCandidateFactRead[] = [...fast];
     if (nativeCandidates.length) reads.push(await this.native.inspectFacts({ ...request, candidates: nativeCandidates, candidateIds: nativeCandidates.map((item) => item.restaurant.id) }, signal));
     if (googleCandidates.length) reads.push(await this.google.inspectFacts({ ...request, candidates: googleCandidates, candidateIds: googleCandidates.map((item) => item.restaurant.id) }, signal));
     const googleMetadata = reads.find(read => read.metadata.googleRequests)?.metadata;
@@ -429,7 +491,7 @@ export class SourceAwareFactRead implements RestaurantCandidateFactPort {
         ...(googleMetadata?.googleRequests ? { googleRequests: googleMetadata.googleRequests } : {}),
         ...(failureCode ? { failureCode } : {}),
         ...(reads.some((read) => read.metadata.nativeContinuity?.length) ? { nativeContinuity: reads.flatMap((read) => read.metadata.nativeContinuity ?? []) } : {}),
-        ...(reads.some((read) => read.metadata.modelUsage?.calls) ? { modelUsage: { calls: reads.reduce((sum, read) => sum + (read.metadata.modelUsage?.calls ?? 0), 0) } } : {}) },
+        ...(earlyCalls||reads.some((read) => read.metadata.modelUsage?.calls) ? { modelUsage: { calls: earlyCalls+reads.reduce((sum, read) => sum + (read.metadata.modelUsage?.calls ?? 0), 0) } } : {}) },
     };
   }
 }

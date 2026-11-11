@@ -1,0 +1,593 @@
+
+> praxis-zhixing@0.1.0 test:browser:fixture
+> node scripts/run-browser-fixtures.mjs && npm run test:g6:assembly
+
+[browser fixtures] 50/50 files; G2 never overlaps the remaining fixtures
+[browser fixtures] G2 (exclusive): 3 files, concurrency 1
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change-agent.test.ts"}
+✔ G2 constructed normal control uses observed labels after every private marker changes (3855.381375ms)
+✔ G2 public selection is observable but only a bound source response confirms the request (176.612667ms)
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change-agent.test.ts","elapsedMs":4332.946583,"passed":true}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change-mutation.test.ts"}
+✔ G2 extends the F3 class-only mutation to every id and private data attribute (121.720375ms)
+✔ G2 rule two rewrites all bound ID references, leaves dangling/script references and preserves CSS (136.219ms)
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change-mutation.test.ts","elapsedMs":539.8682920000001,"passed":true}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change.test.ts"}
+✔ G2 saved pages preserve the frozen reference capability and reject new false claims (19154.81525ms)
+ℹ {"id":"tabelog-list-nerima","classification":"PASS","referenceFacts":20,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-list-akabane","classification":"PASS","referenceFacts":1,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-01","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-02","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-teppen","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{"day:2026-09-29":{"before":null,"after":null},"day:2026-09-28":{"before":null,"after":null},"day:2026-09-30":{"before":null,"after":null}},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-sen","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{"day:2026-10-22":{"before":null,"after":null},"day:2026-10-01":{"before":null,"after":null}},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-ginza","classification":"PASS","referenceFacts":1,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-akabane","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-nakamata","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-takahashiya","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-nakamata","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-kinri","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change.test.ts","elapsedMs":19473.509875,"passed":true}
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24347.826459
+[browser fixtures] remaining fixtures: 47 files, concurrency 4
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/bound-outlet-availability.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-calendar-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-category.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-discovery.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"EXTERNAL_CANCEL","limitMs":600000,"pid":65673}
+[browser fixtures] {"phase":"remaining fixtures","event":"UNFINISHED","file":"src/harness/browser/bound-outlet-availability.test.ts","elapsedMs":5812.483958000001,"lastObservedTests":["confirmed outlet availability starts at recorded date controls; alreadyCurrent=true"]}
+[browser fixtures] {"phase":"remaining fixtures","event":"UNFINISHED","file":"src/harness/browser/browser-read-calendar-controls.test.ts","elapsedMs":5810.600333000002,"lastObservedTests":[]}
+[browser fixtures] {"phase":"remaining fixtures","event":"UNFINISHED","file":"src/harness/browser/browser-read-category.test.ts","elapsedMs":5810.055166000002,"lastObservedTests":[]}
+[browser fixtures] {"phase":"remaining fixtures","event":"UNFINISHED","file":"src/harness/browser/browser-read-discovery.test.ts","elapsedMs":5809.596291000002,"lastObservedTests":[]}
+[browser fixtures] {"phase":"remaining fixtures","event":"PHASE_PROGRESS","started":4,"ended":0,"notStarted":["src/harness/browser/browser-read-named-query.test.ts","src/harness/browser/browser-read-option-controls.test.ts","src/harness/browser/browser-read-page-controls.test.ts","src/harness/browser/browser-read-public-selection.test.ts","src/harness/browser/browser-read-replay.test.ts","src/harness/browser/browser-read-request-binding.test.ts","src/harness/browser/browser-read-search-controls.test.ts","src/harness/browser/browser-read-snapshot.test.ts","src/harness/browser/browser-read-stability.test.ts","src/harness/browser/browser-read-tabelog-control-fallback.test.ts","src/harness/browser/browser-read-tabelog-public-list.test.ts","src/harness/browser/browser-read-tabelog-response-only.test.ts","src/harness/browser/browser-read-tabelog-structure.test.ts","src/harness/browser/browser-read-tabelog.test.ts","src/harness/browser/browser-read-tablecheck.test.ts","src/harness/browser/browser-read-workspace.test.ts","src/harness/browser/entry-idle-retry.test.ts","src/harness/browser/fact-qa-runner.test.ts","src/harness/browser/fact-qa-scoring.test.ts","src/harness/browser/g6-source-read-check.test.ts","src/harness/browser/group-window.test.ts","src/harness/browser/live-source-health.test.ts","src/harness/browser/local-proxy-routing.test.ts","src/harness/browser/native-static-transport.test.ts","src/harness/browser/observed-get-form.test.ts","src/harness/browser/observed-suggestion-handoff.test.ts","src/harness/browser/pacing-static-resources.test.ts","src/harness/browser/pacing-transport.test.ts","src/harness/browser/page-question-budget.test.ts","src/harness/browser/query-values.test.ts","src/harness/browser/read-network-redirect.test.ts","src/harness/browser/recorded-delivery-component.test.ts","src/harness/browser/recorded-reference.test.ts","src/harness/browser/recording-keys.test.ts","src/harness/browser/replay-missing-response.test.ts","src/harness/browser/request-timeline.test.ts","src/harness/browser/runner-interruption.test.ts","src/harness/browser/runner-pacing.test.ts","src/harness/browser/runner-post-exit.test.ts","src/harness/browser/runner-replay.test.ts","src/harness/browser/tablecheck-shop-read.test.ts","src/harness/browser/transport-fidelity.test.ts","src/harness/browser/web-workspace.test.ts"],"note":"Test events can be buffered; lastObservedTests are observations, not proof of the currently blocked test."}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/bound-outlet-availability.test.ts","elapsedMs":5816.130458,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-named-query.test.ts"}
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/bound-outlet-availability.test.ts (5814.768083ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-named-query.test.ts","elapsedMs":0.14025000000037835,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-option-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-option-controls.test.ts","elapsedMs":0.07775000000037835,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-page-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-page-controls.test.ts","elapsedMs":0.036832999998296145,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-public-selection.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-public-selection.test.ts","elapsedMs":0.03879199999937555,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-replay.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-replay.test.ts","elapsedMs":0.08295799999905284,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-request-binding.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-request-binding.test.ts","elapsedMs":0.03987500000221189,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-search-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-search-controls.test.ts","elapsedMs":0.03520899999784888,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-snapshot.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-snapshot.test.ts","elapsedMs":0.09495800000149757,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-stability.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-stability.test.ts","elapsedMs":0.03445799999826704,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-control-fallback.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-control-fallback.test.ts","elapsedMs":0.03525000000081491,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-public-list.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-public-list.test.ts","elapsedMs":0.040333999997528736,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-response-only.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-response-only.test.ts","elapsedMs":0.08991599999717437,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-structure.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-structure.test.ts","elapsedMs":0.038292000001092674,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog.test.ts","elapsedMs":0.03383400000166148,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tablecheck.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tablecheck.test.ts","elapsedMs":0.03649999999834108,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-workspace.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-workspace.test.ts","elapsedMs":0.035833999998430954,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/entry-idle-retry.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/entry-idle-retry.test.ts","elapsedMs":0.03291700000045239,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/fact-qa-runner.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/fact-qa-runner.test.ts","elapsedMs":0.03487500000119326,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/fact-qa-scoring.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/fact-qa-scoring.test.ts","elapsedMs":0.03179200000158744,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/g6-source-read-check.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/g6-source-read-check.test.ts","elapsedMs":0.03387500000098953,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/group-window.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/group-window.test.ts","elapsedMs":0.019125000002532033,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/live-source-health.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/live-source-health.test.ts","elapsedMs":0.016082999998616287,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/local-proxy-routing.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/local-proxy-routing.test.ts","elapsedMs":2.2735410000022966,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/native-static-transport.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/native-static-transport.test.ts","elapsedMs":0.0399169999982405,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/observed-get-form.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/observed-get-form.test.ts","elapsedMs":0.03104199999870616,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/observed-suggestion-handoff.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/observed-suggestion-handoff.test.ts","elapsedMs":0.03495899999688845,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/pacing-static-resources.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/pacing-static-resources.test.ts","elapsedMs":0.028167000000394182,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/pacing-transport.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/pacing-transport.test.ts","elapsedMs":0.03070799999841256,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/page-question-budget.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/page-question-budget.test.ts","elapsedMs":0.029291999999259133,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/query-values.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/query-values.test.ts","elapsedMs":0.027582999999140156,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/read-network-redirect.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/read-network-redirect.test.ts","elapsedMs":0.027624999998806743,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recorded-delivery-component.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recorded-delivery-component.test.ts","elapsedMs":0.02691699999923003,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recorded-reference.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recorded-reference.test.ts","elapsedMs":0.06758300000001327,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recording-keys.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recording-keys.test.ts","elapsedMs":0.017917000001034467,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/replay-missing-response.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/replay-missing-response.test.ts","elapsedMs":0.013291999999637483,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/request-timeline.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/request-timeline.test.ts","elapsedMs":0.012042000002111308,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-interruption.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-interruption.test.ts","elapsedMs":0.011084000001574168,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-pacing.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-pacing.test.ts","elapsedMs":0.01145899999755784,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-post-exit.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-post-exit.test.ts","elapsedMs":0.012542000000394182,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-replay.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-replay.test.ts","elapsedMs":0.01079100000060862,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/tablecheck-shop-read.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/tablecheck-shop-read.test.ts","elapsedMs":0.011624999999185093,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/transport-fidelity.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/transport-fidelity.test.ts","elapsedMs":0.07587499999863212,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/web-workspace.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/web-workspace.test.ts","elapsedMs":0.020832999998674495,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-calendar-controls.test.ts","elapsedMs":5819.260708000002,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-category.test.ts","elapsedMs":5818.7384999999995,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-discovery.test.ts","elapsedMs":5818.293916000002,"passed":false}
+✔ Matsumoto selected-party 1 escapes the guest Next loop through production observation (1709.58925ms)
+✔ Matsumoto selected-party 2 escapes the guest Next loop through production observation (1231.649333ms)
+✔ generic selected state requires public ARIA, with independent same-label groups (505.420125ms)
+✔ party click does not confirm from unrelated page changes or an unchanged group value (843.6835ms)
+✔ Chromium labels public icon alternatives and leaves ambiguous calendar ownership unlabelled (143.78625ms)
+✔ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (768.974ms)
+✔ Chromium control observation discards only a handle confirmed disconnected between reads (130.507375ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts (5816.008875ms)
+✔ observed source category links retain radius and partial-result safety: visible (5013.047416ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-category.test.ts (5815.79ms)
+✔ P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests (1394.655291ms)
+✔ P21b guarded search filters reject unaudited parameters under the production generic-read policy (229.558584ms)
+✔ name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation (3734.909333ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts (5815.368875ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-named-query.test.ts (0.006125ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts (0.005792ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts (0.001417ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-public-selection.test.ts (0.001042ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-replay.test.ts (0.001083ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-request-binding.test.ts (0.001125ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-search-controls.test.ts (0.000958ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-snapshot.test.ts (0.000917ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts (0.001042ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-control-fallback.test.ts (0.001ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-public-list.test.ts (0.001ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-response-only.test.ts (0.001ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-structure.test.ts (0.001125ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts (0.001167ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts (0.001042ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-workspace.test.ts (0.001333ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/entry-idle-retry.test.ts (0.000833ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/fact-qa-runner.test.ts (0.001083ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/fact-qa-scoring.test.ts (0.001042ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/g6-source-read-check.test.ts (0.001ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/group-window.test.ts (0.001ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/live-source-health.test.ts (0.001ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/local-proxy-routing.test.ts (0.000875ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/native-static-transport.test.ts (0.000917ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/observed-get-form.test.ts (0.003083ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/observed-suggestion-handoff.test.ts (0.002583ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/pacing-static-resources.test.ts (0.001958ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/pacing-transport.test.ts (0.000959ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/page-question-budget.test.ts (0.000958ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/query-values.test.ts (0.0495ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts (0.002042ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/recorded-delivery-component.test.ts (0.000834ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/recorded-reference.test.ts (0.000417ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/recording-keys.test.ts (0.000333ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/replay-missing-response.test.ts (0.00025ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/request-timeline.test.ts (0.000208ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/runner-interruption.test.ts (0.000291ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/runner-pacing.test.ts (0.00025ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/runner-post-exit.test.ts (0.00025ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts (0.000292ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/tablecheck-shop-read.test.ts (0.00025ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/transport-fidelity.test.ts (0.000291ms)
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/web-workspace.test.ts (0.000292ms)
+ℹ tests 58
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 47
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5819.738459
+
+✖ failing tests:
+
+test at src/harness/browser/bound-outlet-availability.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/bound-outlet-availability.test.ts (5814.768083ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-calendar-controls.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts (5816.008875ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-category.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-category.test.ts (5815.79ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-discovery.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts (5815.368875ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-named-query.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-named-query.test.ts (0.006125ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts (0.005792ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts (0.001417ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-public-selection.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-public-selection.test.ts (0.001042ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-replay.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-replay.test.ts (0.001083ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-request-binding.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-request-binding.test.ts (0.001125ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-search-controls.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-search-controls.test.ts (0.000958ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-snapshot.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-snapshot.test.ts (0.000917ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-stability.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts (0.001042ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-tabelog-control-fallback.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-control-fallback.test.ts (0.001ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-tabelog-public-list.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-public-list.test.ts (0.001ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-tabelog-response-only.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-response-only.test.ts (0.001ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-tabelog-structure.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-structure.test.ts (0.001125ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts (0.001167ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts (0.001042ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-workspace.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/browser-read-workspace.test.ts (0.001333ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/entry-idle-retry.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/entry-idle-retry.test.ts (0.000833ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/fact-qa-runner.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/fact-qa-runner.test.ts (0.001083ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/fact-qa-scoring.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/fact-qa-scoring.test.ts (0.001042ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/g6-source-read-check.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/g6-source-read-check.test.ts (0.001ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/group-window.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/group-window.test.ts (0.001ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/live-source-health.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/live-source-health.test.ts (0.001ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/local-proxy-routing.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/local-proxy-routing.test.ts (0.000875ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/native-static-transport.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/native-static-transport.test.ts (0.000917ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/observed-get-form.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/observed-get-form.test.ts (0.003083ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/observed-suggestion-handoff.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/observed-suggestion-handoff.test.ts (0.002583ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/pacing-static-resources.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/pacing-static-resources.test.ts (0.001958ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/pacing-transport.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/pacing-transport.test.ts (0.000959ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/page-question-budget.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/page-question-budget.test.ts (0.000958ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/query-values.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/query-values.test.ts (0.0495ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/read-network-redirect.test.ts (0.002042ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/recorded-delivery-component.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/recorded-delivery-component.test.ts (0.000834ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/recorded-reference.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/recorded-reference.test.ts (0.000417ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/recording-keys.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/recording-keys.test.ts (0.000333ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/replay-missing-response.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/replay-missing-response.test.ts (0.00025ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/request-timeline.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/request-timeline.test.ts (0.000208ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/runner-interruption.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/runner-interruption.test.ts (0.000291ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/runner-pacing.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/runner-pacing.test.ts (0.00025ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/runner-post-exit.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/runner-post-exit.test.ts (0.00025ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/runner-replay.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/runner-replay.test.ts (0.000292ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/tablecheck-shop-read.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/tablecheck-shop-read.test.ts (0.00025ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/transport-fidelity.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/transport-fidelity.test.ts (0.000291ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/web-workspace.test.ts (0.000292ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+[browser fixtures] {"phase":"remaining fixtures","event":"FORCED_PROCESS_GROUP_CLEANUP","pid":65673}
+Browser fixture entry interrupted
+[browser fixtures] combined summary
+ℹ tests 63
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 47
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35221.350

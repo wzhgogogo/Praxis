@@ -1,0 +1,23 @@
+LOCAL_PROXY_SPLIT {"proxyHosts":["proxied.fixture.invalid"],"receiver":[{"host":"127.0.0.1:53160","path":"/"},{"host":"127.0.0.1:53160","path":"/assets/app.js"},{"host":"localhost:53160","path":"/assets/app.js"},{"host":"proxied.fixture.invalid:53160","path":"/assets/app.js"},{"host":"127.0.0.1:53160","path":"/data"},{"host":"127.0.0.1:53160","path":"/redirect-out"},{"host":"proxied.fixture.invalid:53160","path":"/data"},{"host":"proxied.fixture.invalid:53160","path":"/redirect-in"},{"host":"proxied.fixture.invalid:53160","path":"/arrived-proxy"},{"host":"localhost:53160","path":"/arrived-direct"},{"host":"localhost:53160","path":"/data"}]}
+✔ local browser proxy splits native, Node data and redirects by the target host (1300.134917ms)
+✔ reviewed static default preserves admission and recording while documents data and authority URLs stay Node (1831.318375ms)
+STATIC_10MB_TIMING [{"profile":"NODE_FETCH","transport":"NODE_FETCH","bytes":10284255,"dclMs":123.71529199999986,"bodyAvailableMs":25.096416999999747},{"profile":"DEFAULT","transport":"BROWSER_GET_HEAD","bytes":10284255,"dclMs":30.105749999999716,"bodyAvailableMs":84.10699999999997}]
+✔ 10MB local public script reports native and Node DCL/body arrival without a speed threshold (442.692958ms)
+✔ native static body still triggers whole-recording own-credential rejection (121.800375ms)
+✔ local proxy configuration covers exact hosts and descendants without suffix lookalikes (0.800916ms)
+✔ Local Playwright Chromium preserves the BrowserType method binding, exposes the BrowserSession contract, and closes page, context, and browser (1.8085ms)
+✔ environment gates keep ordinary profiles temporary and enable persistence only with both eval switches (1.119375ms)
+✔ Local Playwright Chromium maps launch failures into the fail-closed BrowserRuntime error (0.293708ms)
+✔ Local Playwright Chromium installs HAR replay before the Guard and refuses replay without that boundary (0.713209ms)
+✔ passive query capture invalidates old stock at request time and rejects late responses (3.466667ms)
+✔ layout-only screenshot is a PNG and leaves observed controls unchanged (303.263916ms)
+✔ failed guarded source navigation exports the sanitized transport cause for both source labels (225.350625ms)
+✔ public form observations bind visible location text to the actual GET submit owner (143.384791ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2797.071333

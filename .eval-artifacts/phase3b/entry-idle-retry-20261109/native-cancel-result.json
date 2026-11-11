@@ -1,0 +1,101 @@
+{
+  "scope": "Real local Chromium with unchanged Guard/native default; no external source/model/Live",
+  "events": [
+    {
+      "kind": "SERVER_CSS_REQUEST",
+      "attempt": 1,
+      "at": 374.936542
+    },
+    {
+      "kind": "BROWSER_RESPONSE_HEADERS",
+      "status": 200,
+      "at": 375.912583
+    },
+    {
+      "kind": "BROWSER_BODY_PROGRESS",
+      "dataLength": 34,
+      "at": 375.923667
+    },
+    {
+      "kind": "FIRST_RESPONSE_CLOSED",
+      "at": 733.347042
+    },
+    {
+      "kind": "BROWSER_LOADING_FAILED",
+      "reason": "net::ERR_ABORTED",
+      "at": 735.574042
+    },
+    {
+      "kind": "SERVER_CSS_REQUEST",
+      "attempt": 2,
+      "at": 757.166208
+    },
+    {
+      "kind": "BROWSER_RESPONSE_HEADERS",
+      "status": 200,
+      "at": 759.426958
+    },
+    {
+      "kind": "BROWSER_BODY_PROGRESS",
+      "dataLength": 27,
+      "at": 759.433625
+    },
+    {
+      "kind": "BROWSER_BODY_PROGRESS",
+      "dataLength": 0,
+      "at": 759.440042
+    }
+  ],
+  "lateRouteAbort": "ROUTE_ALREADY_HANDLED",
+  "gotoAbortResult": {
+    "ok": false,
+    "name": "AbortError"
+  },
+  "serverClosedAfterGotoSignal": false,
+  "serverClosedAfterStopLoading": true,
+  "wholeEntryRepeatCompleted": true,
+  "firstClosedBeforeSecond": true,
+  "guardRequests": [
+    {
+      "outcome": "ADMITTED",
+      "method": "GET",
+      "path": "/",
+      "transport": "NODE_FETCH"
+    },
+    {
+      "outcome": "ADMITTED",
+      "method": "GET",
+      "path": "/assets/stall.css",
+      "transport": "BROWSER_GET_HEAD"
+    },
+    {
+      "outcome": "ADMITTED",
+      "method": "GET",
+      "path": "/assets/ready.js",
+      "transport": "BROWSER_GET_HEAD"
+    },
+    {
+      "outcome": "FAILED",
+      "method": "GET",
+      "path": "/assets/stall.css"
+    },
+    {
+      "outcome": "ADMITTED",
+      "method": "GET",
+      "path": "/",
+      "transport": "NODE_FETCH"
+    },
+    {
+      "outcome": "ADMITTED",
+      "method": "GET",
+      "path": "/assets/stall.css",
+      "transport": "BROWSER_GET_HEAD"
+    },
+    {
+      "outcome": "ADMITTED",
+      "method": "GET",
+      "path": "/assets/ready.js",
+      "transport": "BROWSER_GET_HEAD"
+    }
+  ]
+}

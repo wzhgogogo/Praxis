@@ -1,0 +1,29 @@
+✔ exposed01/02 recorded area candidates omit unevidenced TableCheck and retain the recorded avoided-cost denominator (2.727ms)
+✔ diagnostic evaluator does not score TABLECHECK_NOT_EVIDENCED as a failure (4.876916ms)
+✔ named-source resolver prefers TableCheck and does not call Tabelog after a conclusive read (1.056917ms)
+✔ a legal Tabelog same-store entrance changes only source order and still stops after its grounded no-slot observation (0.132334ms)
+✔ a source-native outlet is checked only on its own platform even when the read is unknown (0.1875ms)
+✔ an unrelated or malformed URL cannot reorder the default TableCheck-first source path (0.21775ms)
+✔ source resolver falls back from a TableCheck provider failure to Tabelog (0.115833ms)
+▶ successful source attribution changes no conclusion or attempt across fallback and direct reads
+  ✔ tablecheck-fails-tabelog-succeeds (0.144666ms)
+  ✔ tabelog-fails-tablecheck-succeeds (0.098416ms)
+  ✔ tablecheck-direct (0.067375ms)
+  ✔ tabelog-direct (0.074042ms)
+  ✔ both-fail (0.42075ms)
+✔ successful source attribution changes no conclusion or attempt across fallback and direct reads (1.312083ms)
+✔ Tabelog bot challenge remains provider-scoped and all providers exhausted fail closed (0.099083ms)
+✔ group-window: disabled requested party moves to next candidate rather than another query (0.059166ms)
+✔ group-window: one unsupported source does not erase another source's UNKNOWN (0.05775ms)
+✔ TableCheck path-cost skip is not a failed attempt: NONE (0.168666ms)
+✔ TableCheck path-cost skip is not a failed attempt: DIRECT (0.147458ms)
+✔ TableCheck path-cost skip is not a failed attempt: NAMED (0.045625ms)
+✔ TableCheck path-cost skip is not a failed attempt: SEARCH (0.049834ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 122.96325

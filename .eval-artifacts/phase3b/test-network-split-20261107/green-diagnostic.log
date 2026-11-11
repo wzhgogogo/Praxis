@@ -1,0 +1,28 @@
+SPLIT_DIAGNOSTIC {"seen":[{"host":"127.0.0.1:54522","path":"/"},{"host":"127.0.0.1:54522","path":"/assets/app.js"},{"host":"proxied.fixture.invalid:54522","path":"/assets/app.js"},{"host":"127.0.0.1:54522","path":"/data"},{"host":"127.0.0.1:54522","path":"/redirect-out"},{"host":"proxied.fixture.invalid:54522","path":"/data"},{"host":"proxied.fixture.invalid:54522","path":"/redirect-in"},{"host":"proxied.fixture.invalid:54522","path":"/arrived-proxy"},{"host":"localhost:54522","path":"/data"}],"proxied":["proxied.fixture.invalid","proxied.fixture.invalid","proxied.fixture.invalid","proxied.fixture.invalid"],"failures":[{"outcome":"FAILED","origin":"http://localhost:54522","pathname":"/assets/app.js","method":"GET","resourceType":"script","queryKeys":[],"queryValues":[],"error":{"name":"Error","message":"net::ERR_FAILED"}}]}
+✖ local browser proxy splits native, Node data and redirects by the target host (1117.733459ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1394.501083
+
+✖ failing tests:
+
+test at src/harness/browser/local-proxy-routing.test.ts:1:348
+✖ local browser proxy splits native, Node data and redirects by the target host (1117.733459ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Done/. Input:
+  
+  'Local splitPendingRead'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/local-proxy-routing.test.ts:52:191)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Local splitPendingRead',
+    expected: /Done/,
+    operator: 'match'
+  }

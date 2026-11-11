@@ -1,0 +1,1 @@
+src/integrations/restaurant-search/native-restaurant-search.ts:94 [ REGEX ]   const words = (text: string) => [...new Intl.Segmenter(undefined, { granularity: "word" }).segment(normalizedTextKey(text.normalize("NFKD").replace(/\p{M}/gu, "")))].filter(segme

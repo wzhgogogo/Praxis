@@ -1,0 +1,272 @@
+{
+  "datasets": {
+    "D8_NOV06": {
+      "records": 204,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "status": "200",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 5
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "200",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 16
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "None",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 12
+        },
+        {
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "status": "204",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 17
+        },
+        {
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "status": "None",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 12
+        }
+      ]
+    },
+    "OCT20_GUARDED": {
+      "records": 24,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "status": "200",
+          "stage": "GUARD_RESPONSE_CALLBACK",
+          "count": 1
+        },
+        {
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "status": "200",
+          "stage": "response",
+          "count": 1
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "200",
+          "stage": "GUARD_RESPONSE_CALLBACK",
+          "count": 4
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "200",
+          "stage": "response",
+          "count": 4
+        },
+        {
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "status": "204",
+          "stage": "GUARD_RESPONSE_CALLBACK",
+          "count": 4
+        }
+      ]
+    },
+    "OCT20_PLAIN": {
+      "records": 15,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "status": "200",
+          "stage": "response",
+          "count": 1
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "200",
+          "stage": "response",
+          "count": 4
+        }
+      ]
+    },
+    "OCT20_PRODUCTION": {
+      "records": 13,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "status": "200",
+          "stage": "GUARD_RESPONSE_CALLBACK",
+          "count": 1
+        },
+        {
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "status": "200",
+          "stage": "response",
+          "count": 1
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "200",
+          "stage": "GUARD_RESPONSE_CALLBACK",
+          "count": 1
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "200",
+          "stage": "response",
+          "count": 1
+        },
+        {
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "status": "204",
+          "stage": "GUARD_RESPONSE_CALLBACK",
+          "count": 3
+        }
+      ]
+    },
+    "OCT23_counterfactual-search": {
+      "records": 22,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/catalog.json",
+          "method": "METHOD_NOT_RECORDED",
+          "status": "200",
+          "stage": "RESPONSE",
+          "count": 1
+        },
+        {
+          "pathname": "/search/",
+          "method": "METHOD_NOT_RECORDED",
+          "status": "200",
+          "stage": "RESPONSE",
+          "count": 5
+        },
+        {
+          "pathname": "/search/",
+          "method": "METHOD_NOT_RECORDED",
+          "status": "204",
+          "stage": "RESPONSE",
+          "count": 5
+        }
+      ]
+    },
+    "OCT23_facet-direct": {
+      "records": 1,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "200",
+          "stage": "DIRECT_NODE_GET_RESPONSE",
+          "count": 1
+        }
+      ]
+    },
+    "OCT23_guarded-search": {
+      "records": 12,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/catalog.json",
+          "method": "METHOD_NOT_RECORDED",
+          "status": "200",
+          "stage": "RESPONSE",
+          "count": 1
+        },
+        {
+          "pathname": "/search/",
+          "method": "METHOD_NOT_RECORDED",
+          "status": "200",
+          "stage": "RESPONSE",
+          "count": 2
+        },
+        {
+          "pathname": "/search/",
+          "method": "METHOD_NOT_RECORDED",
+          "status": "204",
+          "stage": "RESPONSE",
+          "count": 2
+        }
+      ]
+    },
+    "PROBE1_NOV06": {
+      "records": 35,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "status": "None",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 2
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "None",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 4
+        },
+        {
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "status": "None",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 4
+        }
+      ]
+    },
+    "PROBE2_NOV07": {
+      "records": 65,
+      "terminalOrResponseGroups": [
+        {
+          "pathname": "/catalog.json",
+          "method": "GET",
+          "status": "None",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 4
+        },
+        {
+          "pathname": "/search/",
+          "method": "GET",
+          "status": "None",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 4
+        },
+        {
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "status": "204",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 3
+        },
+        {
+          "pathname": "/search/",
+          "method": "OPTIONS",
+          "status": "None",
+          "stage": "NETWORK_REQUEST_END",
+          "count": 1
+        }
+      ]
+    },
+    "PROBE3_NOV07": {
+      "records": 0,
+      "terminalOrResponseGroups": []
+    }
+  },
+  "inventory06Requests": 12,
+  "sourceFiles": 23
+}

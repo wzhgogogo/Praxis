@@ -1,0 +1,7 @@
+# Network-repaired source read through the original Live runner
+
+Status: draft / not integrated. User2026-11-07 12:11/12:20 CET steering supersedes the no-new-read B decision. Model0/Live0. Quick comparison: D8 run-c-closeout-live/browser uses headless temporary Chromium, defaultNODE_FETCH, no explicit proxy, default UA/locale/timezone and serviceWorkers:block, discoveryPackNetworkPolicy genericPublicRead:true. Probes1/2 explicitly used native continuation; probe3 restoredNode but used narrower TableCheck policy. No proxy/certificate/network policy changes.
+
+Extend that exact original runner with TC_SEARCH; its same browser() factory, source policy, metadata/Recorder/trace and precharge path execute the sole entry. Catalog browser terminal200 gates FILL, then only the accepted full SPECIFIC_OUTLET input; no aliases/model. Stop on value contract review before selecting, no retry. Actual selected-shop mainDocument only may precharge the separate conditional1 after>=5s; all POST prohibited for this diagnostic. D8 and held-out not started.
+
+First run local Chromium controls for catalog503 (no FILL), catalog200 (authoritative q request, punctuated destination still blocked); type/arch. Freeze actor/spec/ledger/sourceSHA before the authorized source read. Afterwards preserve results, use actual Replay for any binding work only if source succeeds without widening destination; full gates and stop for review. The prior B candidate/evidence remain preserved; no main release or STATUS/history publication claim.

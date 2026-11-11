@@ -1,5 +1,7 @@
+import { browserTransportError } from "../../../../infrastructure/browser/browser-runtime-errors.js";
 import { captureRawPriceRegions } from "../diagnostic-evaluator-prices.js";
 import { createHash } from "node:crypto";
+import {withRequestTimeline} from './browser-request-timeline.js';
 
 import type { BrowserReadActionTarget } from "../../../../infrastructure/browser/browser-action-decision.js";
 import type { BrowserCapturedResponse, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
@@ -20,9 +22,9 @@ export function safeString(value: string): string {
 }
 
 export function safeRecord(value: unknown, key = ""): unknown {
-  // CORS evidence stores a canonical public Origin, not a URL to be rewritten
+  // Protocol evidence stores canonical public Origins, not URLs to be rewritten
   // with a slash (which would change the observed protocol field).
-  if (key === "requestOrigin" && typeof value === "string") {
+  if ((key === "requestOrigin" || key === "documentOrigin" || key === "actionOrigin") && typeof value === "string") {
     try { const url = new URL(value); return /^https?:$/.test(url.protocol) && url.origin === value ? value : "[INVALID_ORIGIN]"; }
     catch { return "[INVALID_ORIGIN]"; }
   }
@@ -219,12 +221,13 @@ export function errorRecord(error: unknown): Record<string, unknown> {
   const visit = (value: unknown, depth: number): Record<string, unknown> | undefined => {
     if (!value || typeof value !== "object" || seen.has(value) || depth > 3) return undefined;
     seen.add(value);
-    const item = value as { name?: unknown; message?: unknown; code?: unknown; cause?: unknown };
+    const item = value as { name?: unknown; message?: unknown; code?: unknown; cause?: unknown; networkFailures?: unknown };
     const cause = visit(item.cause, depth + 1);
     return { ...(typeof item.name === "string" ? { name: item.name } : {}),
-      ...(typeof item.message === "string" ? { message: safeString(item.message) } : {}),
+      ...(typeof item.message === "string" ? { message: browserTransportError(item).message } : {}),
       ...(typeof item.code === "string" ? { code: item.code } : {}),
-      ...(cause ? { cause } : {}) };
+      ...(cause ? { cause } : {}),
+      ...(Array.isArray(item.networkFailures) ? { networkFailures: safeRecord(item.networkFailures) } : {}) };
   };
   return visit(error, 0) ?? { name: "UnknownError" };
 }
@@ -267,6 +270,7 @@ export function traceBrowserSession(
     recording?.record(kind, detail);
     return sequence;
   };
+  let recordedEntryEvents=0;
   let lastSnapshotUrl: string | undefined;
   let lastSnapshotSequence: number | undefined;
   trace("SESSION_OPENED", session.metadata);
@@ -303,6 +307,7 @@ export function traceBrowserSession(
         trace("SESSION_RETURN", { method: property, result });
         return result;
       } catch (error) { trace("SESSION_ERROR", { method: property, error: errorRecord(error) }); throw error; }
+      finally {if(property==="navigate"||property==="openLink"){const events=target.entryNavigationEvents?.()??[];for(const event of events.slice(recordedEntryEvents))trace("ENTRY_NAVIGATION",event);recordedEntryEvents=events.length;}}
     };
     return typeof value === "function" ? value.bind(target) : value;
   } });
@@ -314,11 +319,13 @@ export function traceBrowserRuntime(
   source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">,
   record: (kind: string, detail: unknown) => number,
   recording?: BrowserTraceRecordingSink,
+  timing?: {remainingBudgetMs:()=>number|undefined},
 ): BrowserRuntime {
   return {
     ...(runtime.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: runtime.readNetworkBoundaryCapability } : {}),
     openSession: async input => {
-      try { return traceBrowserSession(await runtime.openSession({ ...input, ...(recording?.recordResponse ? { recordResponse: recording.recordResponse } : {}) }), source, record, recording); }
+      const timelineRecord=(kind:string,detail:unknown)=>{record(kind,detail);recording?.record(kind,detail);};
+      try { return traceBrowserSession(await withRequestTimeline({record:timelineRecord,signal:input.signal,...(timing?{remaining:timing.remainingBudgetMs}:{})},()=>runtime.openSession({ ...input, ...(recording?.recordResponse ? { recordResponse: recording.recordResponse } : {}) })), source, record, recording); }
       catch (error) { record("SESSION_OPEN_ERROR", errorRecord(error)); throw error; }
     },
   };
@@ -361,17 +368,22 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
     htmlLength: snapshot.html.length, observedStateTags: observedStateTags(snapshot.html),
     queryRegions,
     priceRegions: captureRawPriceRegions(snapshot.html, snapshot.text),
+    ...(snapshot.urlQueryValues?{urlQueryValues:structuredClone(snapshot.urlQueryValues)}:{}),
     responses: passiveResponses(snapshot),
     ...(snapshot.networkDiagnostics?.length ? { networkDiagnostics: snapshot.networkDiagnostics.map(item => ({
       code: item.code, origin: item.origin, pathname: item.pathname,
       method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
+      ...(item.error ? { error: item.error } : {}),
     })) } : {}),
     ...(snapshot.networkResourceTypes?.length ? { networkResourceTypes: snapshot.networkResourceTypes } : {}),
     ...(snapshot.networkRequests?.length ? { networkRequests: snapshot.networkRequests.map(item => ({
       outcome: item.outcome, origin: item.origin, pathname: item.pathname,
       method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
+      ...(item.error ? { error: item.error } : {}),
       ...(item.resourceTypeDetails ? { resourceTypeDetails: item.resourceTypeDetails } : {}),
       ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}),
+      ...(item.formSubmission ? { formSubmission: structuredClone(item.formSubmission) } : {}),
+      ...(item.dynamicRead ? {dynamicRead:structuredClone(item.dynamicRead)} : {}),
       ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}),
       ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}),
     })) } : {}) };

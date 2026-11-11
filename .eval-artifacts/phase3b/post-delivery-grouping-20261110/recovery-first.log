@@ -1,0 +1,10 @@
+/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/holdout-review.ts:67
+  ||!document.annotations||typeof document.annotations!=='object'||Array.isArray(document.annotations)||Object.keys(document.annotations).some(k=>!['qualificationOracles','questions','priceOracles'].includes(k)))throw Error('HOLDOUT_REVIEW_INVALID');
+                                                                                                                                                                                                                          ^
+
+
+Error: HOLDOUT_REVIEW_INVALID
+    at reviewHoldoutAttempt (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/holdout-review.ts:67:219)
+    at async <anonymous> (/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/post-delivery-grouping-20261110/recover-offline.ts:13:13)
+
+Node.js v24.4.1

@@ -1,3 +1,6 @@
+export type BrowserReadTransportProfile = "NODE_FETCH" | "BROWSER_GET_HEAD" | "REVIEWED_STATIC_BROWSER";
+
+import type { BrowserTransportError } from "./browser-runtime-errors.js";
 export type BrowserRuntimeProvider = "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";
 export type BrowserEngine = "KITESURF" | "CHROMIUM";
 export type BrowserEngineMode = "AUTO" | "KITESURF_ONLY" | "CHROMIUM_ONLY";
@@ -19,6 +22,10 @@ export interface BrowserReadNetworkRequestRule {
    * a cache-buster key is release-specific. All unlisted keys still fail.
    */
   queryKeyRules?: { required: readonly string[]; allowed?: readonly string[]; repeatable?: readonly string[]; allowedPatterns?: readonly string[] };
+  /** Extra value contract for an exact reviewed query; never widens key/type admission. */
+  queryValueClasses?: Readonly<Record<string,readonly import("./browser-query-values.js").BrowserQueryValueClass[]>>;
+  /** Anchored lexical format, independent of observational input provenance. Sensitive values still fail. */
+  queryValuePatterns?: Readonly<Record<string,string>>;
   /** Presence of one of these fields requires the full reviewed query grammar,
    * including under generic public GET admission. Values stay source-owned. */
   strictQueryKeys?: readonly string[];
@@ -29,12 +36,16 @@ export interface BrowserReadNetworkRequestRule {
 }
 
 export interface BrowserReadNetworkPolicy {
+  /** Code-owned public source seeds, usable only for a session's first navigation. */
+  startupDocuments?: readonly string[];
   /** Exact public document URLs are admitted only after Executor prepares navigation. */
   documentOrigins: readonly string[];
   /** ADR-0036: prepared public document origins may issue non-sensitive GET/HEAD reads. */
   genericPublicRead?: boolean;
   /** Source-revoked workflows. Deny wins over prepared navigation and reviewed rules. */
   prohibitedPaths?: readonly { hostname: string; pathSegment: string }[];
+  /** Declarative exceptions to default image/media/font suppression; never grants admission. */
+  retainedResources?: readonly BrowserReadNetworkRequestRule[];
   staticResources: readonly BrowserReadNetworkRequestRule[];
   dynamicReads: readonly BrowserReadNetworkRequestRule[];
 }
@@ -59,17 +70,33 @@ export interface BrowserReadCorsPreflightObservation {
 
 export interface BrowserReadResourceTypeObservation {
   origin: string; pathname: string; method: string; resourceType: string;
-  resourceTypeDetails: { selectedFrom: "PLAYWRIGHT" | "NETWORK" | "FETCH"; playwright?: string; network?: string; fetch?: string };
+  resourceTypeDetails: { selectedFrom: "PLAYWRIGHT" | "NETWORK" | "FETCH"; playwright?: string; network?: string; fetch?: string; policyBlock?: "NONESSENTIAL_RESOURCE" };
 }
 
+/** Guard-owned action cut: includes in-flight request starts, not just completed observations. */
+export interface BrowserReadBoundary { readScopeId:string;pageId:string;requestSequence:number; }
+export interface BrowserDynamicReadReceipt extends BrowserReadBoundary {
+  startedAt:number;completedAt:number;status:number;ruleIndex:number;
+  fields:readonly {key:string;normalizedValueSha256:string}[];
+}
 /** A value-free request shape captured by an installed read boundary. */
 export interface BrowserReadNetworkObservation {
+  /** Actual initial transport after unchanged admission; diagnostic only. */
+  transport?: "NODE_FETCH" | "BROWSER_GET_HEAD";
+  admissionRule?: {collection:"staticResources";index:number};
+  /** Value categories only; observational metadata does not grant admission. */
+  queryValues?: import("./browser-query-values.js").BrowserQueryValueObservation[];
+  /** Native GET submission evidence, with value hashes only; never a model input. */
+  formSubmission?: import("./playwright-observed-get-forms.js").ObservedGetFormSubmission;
+  /** Reviewed dynamic GET that finished in the browser; values are hashes only. */
+  dynamicRead?: BrowserDynamicReadReceipt;
   outcome: "ADMITTED" | "BLOCKED" | "REDIRECT_BLOCKED" | "FAILED" | "TIMED_OUT";
   origin: string;
   pathname: string;
   method: string;
   resourceType: string;
   queryKeys: string[];
+  error?: BrowserTransportError;
   corsPreflight?: BrowserReadCorsPreflightObservation;
   resourceTypeDetails?: BrowserReadResourceTypeObservation["resourceTypeDetails"];
   /** Independent outer observer binding; never a production admission input. */
@@ -89,6 +116,8 @@ export interface BrowserSettlementDiagnostics {
 export interface BrowserSnapshot {
   /** Runtime-owned loading feedback; PENDING is never inventory completion evidence. */
   settlement?: "SETTLED" | "PENDING";
+  /** Current URL categories from this read, including authoritative-value collisions. */
+  urlQueryValues?: import("./browser-query-values.js").BrowserQueryValueObservation[];
   url: string;
   html: string;
   /** Browser-rendered evidence, excluding non-visible subtrees; never model supplied. */
@@ -108,13 +137,14 @@ export interface BrowserSnapshot {
   responses?: BrowserCapturedResponse[];
   /** Guard-only endpoint diagnostics, with no query/body values or headers. */
   networkDiagnostics?: Array<{
-    code: "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT";
+    code: "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT" | "RESOURCE_POLICY_BLOCKED";
     origin: string;
     pathname: string;
     /** Request shape only: no query or body values, headers, or response content. */
     method: string;
     resourceType: string;
     queryKeys: string[];
+    error?: BrowserTransportError;
   }>;
   /** Value-free Guard request chronology for optional Record and PolicyDraft evidence. */
   networkRequests?: BrowserReadNetworkObservation[];
@@ -151,9 +181,12 @@ export interface BrowserPageControl {
   href?: string;
   /** Browser-observed structural facts, never a page assertion of safety. */
   formMethod?: "GET" | "POST" | "UNKNOWN";
+  /** Browser-owned native form association and visible lines; not hidden field values. */
+  formObservation?: { owner: string; visibleLines: string[] };
   /** Observed structure for source-owned control contracts; never a permission itself. */
   structure?: { tag: string; name: string; classes: string[]; dialogLabel: string; formClass: string; sliderCount: number; listboxId?: string; radioGroupLabel?: string; radioGroupKey?: string };
   type?: string;
+  readOnly?: boolean;
   disabled: boolean;
   visible: boolean;
   /** Only clipped by its currently open list; executor reveals before selection. */
@@ -199,16 +232,34 @@ export interface BrowserSessionMetadata {
 }
 
 /** A code-owned cap for one interactive browser operation. */
-export interface BrowserActionOptions { timeoutMs?: number; }
+/** Code-owned input origin; never accepted as a model-provided value or permission. */
+export type BrowserPublicInputSource = "AREA" | "CUISINE" | "DATE" | "TIME" | "PARTY_SIZE" | "SPECIFIC_OUTLET" | "G4_SOURCE_TERM";
+export interface BrowserActionOptions { timeoutMs?: number; inputSource?: BrowserPublicInputSource; }
+
+export interface BrowserEntryNavigationEvent {
+  attempt:1|2;retryCount:0|1;
+  event:"STARTED"|"IDLE_ABORT"|"ZERO_BYTE_TIMEOUT"|"ABORTED"|"SUCCEEDED"|"FAILED";
+  elapsedMs:number;status?:number;resourceType?:string;
+  receivedBodyBytes?:number;bytesObserved?:boolean;attemptTimeoutMs?:number;
+}
 
 export interface BrowserSession {
   readonly metadata: BrowserSessionMetadata;
+  /** Value-free document attempts, including failures before any snapshot. */
+  entryNavigationEvents?(): readonly BrowserEntryNavigationEvent[];
+  /** Runtime-owned lifecycle fact; a failed page control does not imply this. */
+  isClosed?(): boolean;
   navigate(url: string, options?: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number }): Promise<void>;
   /** Admit one code-owned document URL in an already guarded context. */
   prepareNavigation?(url: string, options?: BrowserActionOptions): Promise<void>;
   /** Admit one Executor-observed public link after its source code allowed the origin. */
   prepareObservedNavigation?(url: string, options?: BrowserActionOptions): Promise<void>;
+  /** Runtime boundary: a new read cannot reuse authority from a previous read. */
+  beginReadScope?(): void;
+  readBoundary?(): BrowserReadBoundary | undefined;
   snapshot(): Promise<BrowserSnapshot>;
+  /** Drain already-observed guarded responses for recording; never navigates. */
+  flushRecordedResponses?(): Promise<void>;
   captureResponses?(rules: readonly BrowserResponseRule[]): Promise<void>;
   /** Inspect visible DOM controls and their accessibility-facing names without executing page-provided code. */
   observeControls?(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]>;
@@ -245,6 +296,8 @@ export interface BrowserRuntime {
     networkPolicy?: BrowserReadNetworkPolicy;
     /** Receives an in-memory admitted public response for an optional sanitized Record artifact. */
     recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void;
+    /** Passive status at headers, before body completion; never an admission input. */
+    onResponseHeaders?: (response: {url:string;resourceType:string;status:number;mainDocument:boolean}) => void;
     /** A caller-provided, already sanitized HAR. Local replay never falls back to live network. */
     replayHarPath?: string;
   }): Promise<BrowserSession>;

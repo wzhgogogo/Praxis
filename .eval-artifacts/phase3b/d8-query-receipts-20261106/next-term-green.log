@@ -1,0 +1,31 @@
+✖ TableCheck identity retrieval uses authoritative full wording then advances an incomplete term without changing identity or limits (4.333ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 201.275917
+
+✖ failing tests:
+
+test at src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1:128132
+✖ TableCheck identity retrieval uses authoritative full wording then advances an incomplete term without changing identity or limits (4.333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      'Authoritative Restaurant 1 Tokyo',
+  -   'Restaurant 1'
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1717:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'Authoritative Restaurant 1 Tokyo' ],
+    expected: [ 'Authoritative Restaurant 1 Tokyo', 'Restaurant 1' ],
+    operator: 'deepStrictEqual'
+  }

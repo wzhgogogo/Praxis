@@ -1,0 +1,28 @@
+{
+  "status": "draft / not integrated; current local test environment",
+  "directHosts": [
+    "tablecheck.com",
+    "tablecheck.net",
+    "tabelog.com",
+    "tblg.k-img.com",
+    "localhost",
+    "127.0.0.1"
+  ],
+  "match": "apex and dot-boundary descendants; lookalikes excluded",
+  "proxy": "http://127.0.0.1:10808",
+  "proxied": [
+    "other browser destinations",
+    "Google API",
+    "DeepSeek API"
+  ],
+  "invariants": [
+    "Guard admissions and prohibited paths unchanged",
+    "native vs Node routing unchanged",
+    "CDP redirects keep authorization and re-evaluate proxy destination",
+    "no timeout/budget/retry/certificate/system network change",
+    "no new source/model/Live calls",
+    "no new provider or credential"
+  ],
+  "configuration": "current worktree private ignored .env; loaded by documented --env-file-if-exists; real-call gates remain explicit",
+  "CLI": "--no-proxy clears browser/Google/DeepSeek proxy and direct list in a copy"
+}

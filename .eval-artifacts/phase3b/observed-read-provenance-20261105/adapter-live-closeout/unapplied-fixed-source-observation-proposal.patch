@@ -1,0 +1,120 @@
+diff --git a/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts b/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts
+index fea7eb00..8d16ceed 100644
+--- a/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts
++++ b/src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts
+@@ -1,3 +1,4 @@
++import {scriptedBrowserObservation} from "../../../harness/fixtures/restaurant-observation-model.js";
+ import {scriptedRetrieval} from "../../../harness/restaurant-read-test-fixtures.js";
+ import assert from "node:assert/strict";
+ import test from "node:test";
+@@ -6,7 +7,7 @@ import type { ModelGateway } from "../../../core/model/contracts.js";
+ import { createCurrentDevelopmentFixedSources } from "./current-development-fixed-sources.js";
+ import { currentDevelopmentSourceScenario, type CurrentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
+ 
+-const model: ModelGateway = { async complete(request) { const result=scriptedRetrieval(request);if(result)return result;throw new Error("the deterministic source pages must not need a model browser action"); } };
++const model: ModelGateway = { async complete(request) { const result=scriptedBrowserObservation(request)??scriptedRetrieval(request);if(result)return result;throw new Error("the deterministic source pages must not need a model browser action"); } };
+ const intent = {
+   timezone: "Asia/Tokyo" as const,
+   target: { goal: "AVAILABILITY" as const, query: "vegetarian lunch" },
+diff --git a/src/eval/restaurant/agent-loop/current-development-fixed-sources.ts b/src/eval/restaurant/agent-loop/current-development-fixed-sources.ts
+index f0b9ce72..3da5a6cf 100644
+--- a/src/eval/restaurant/agent-loop/current-development-fixed-sources.ts
++++ b/src/eval/restaurant/agent-loop/current-development-fixed-sources.ts
+@@ -2,7 +2,7 @@ import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/mo
+ import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET, type LiveReadInvestigationBudget } from "../../../application/live-read-investigation-budget.js";
+ import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
+ import { googlePlacesDiscoveryPack } from "../../../integrations/restaurant-search/source-packs.js";
+-import type { BrowserRuntime, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
++import type { BrowserPageControl, BrowserRuntime, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
+ import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
+ import type { CurrentDevelopmentSourceScenario, FixedSourceObservation } from "./current-development-source-scenarios.js";
+ import { safeRecord, traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
+@@ -200,14 +200,14 @@ export function createCurrentDevelopmentFixedSources(
+     calls.browserTrace.push({ sequence, at: asIso(clock), kind, detail: safeRecord(detail) });
+     return sequence;
+   };
+-  const rawBrowser: BrowserRuntime = { openSession: async () => {
++  const rawBrowser: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT", openSession: async () => {
+     let page: BrowserSnapshot | undefined;
+     const sourceForTableCheckPath = (pathname: string) => observations.find((item) => {
+       const path = item.tableCheck?.reservationEntryPath;
+       return path !== undefined && (pathname === path || pathname === path + "/reserve" || pathname === path + "/reserve/landing");
+     });
+-    return {
+-      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: asIso(clock) },
++    const session:import("../../../infrastructure/browser/browser-runtime.js").BrowserSession = {
++      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: asIso(clock),readNetworkBoundary:"INSTALLED" },
+       navigate: async (target: string) => {
+         calls.browserNavigations.push(target);
+         const url = new URL(target);
+@@ -264,7 +264,7 @@ export function createCurrentDevelopmentFixedSources(
+         const identityHtml = "<h1>" + tableCheck.displayName + "</h1><p>" + tableCheck.address + "</p><a href=\"tel:" + tableCheck.phone.replace(/\s/g, "") + "\">" + tableCheck.phone + "</a>";
+         const publicMenu = "<section><p>" + inventory.menuText + "</p></section>";
+         const identityText = [tableCheck.displayName, tableCheck.address, tableCheck.phone, inventory.menuText];
+-        if (!url.searchParams.has("start_date") && !url.searchParams.has("num_people")) {
++        if (!url.searchParams.has("start_date") || !url.searchParams.has("num_people")) {
+           page = { url: target, title: tableCheck.displayName, text: identityText.join("\n"), html: identityHtml + publicMenu };
+           observed("TABLECHECK", "MENU", { candidateId: source.google.placeId, sampleCapturedAt: inventory.sampleCapturedAt });
+           return;
+@@ -281,12 +281,19 @@ export function createCurrentDevelopmentFixedSources(
+             (inventory.status === "UNAVAILABLE" ? "<section id=\"availability-results\" data-availability-state=\"empty\" data-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"></section>" : "<section id=\"availability-results\" data-availability-state=\"complete\">" + slots + "</section>") + "</div>" };
+       },
+       snapshot: async () => { if (!page) throw sourceGap({ source: "BROWSER", stage: "SNAPSHOT", request: "<none>", reason: "Browser snapshot occurred before navigation" }); return page; },
+-      observeControls: async () => page?.html.includes('data-testid="Venue Availability"')
+-        ? [{ id: "fixture:availability-region", stableKey: "fixture:availability-region", kind: "REGION" as const, role: "region", label: "Venue Availability", visible: true, disabled: false }]
+-        : [],
+-      click: async () => { throw sourceGap({ source: "BROWSER", stage: "CLICK", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
+-      fill: async () => { throw sourceGap({ source: "BROWSER", stage: "FILL", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
+-      select: async () => { throw sourceGap({ source: "BROWSER", stage: "SELECT", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
++      observeControls: async ():Promise<BrowserPageControl[]> => {
++        if(!page)return [];
++        const url=new URL(page.url),source=sourceForTableCheckPath(url.pathname),inventory=source?.availability;
++        if(!inventory||!url.pathname.includes("/reserve"))return [];
++        return [{id:"fixture-date",stableKey:"fixture-date",kind:"INPUT",role:"textbox",label:"Date",type:"date",value:url.searchParams.get("start_date")??"",visible:true,disabled:false},
++          {id:"fixture-guests",stableKey:"fixture-guests",kind:"INPUT",role:"spinbutton",label:"Guests",type:"number",value:url.searchParams.get("num_people")??"",visible:true,disabled:false}];
++      },
++      click: async () => { throw sourceGap({ source: "BROWSER", stage: "CLICK", request: "<opaque>", reason: "No current public click configured" }); },
++      fill: async (id,value) => {
++        if(!page||!['fixture-date','fixture-guests'].includes(id))throw sourceGap({source:"BROWSER",stage:"FILL",request:"<opaque>",reason:"No current field"});
++        const url=new URL(page.url);url.searchParams.set(id==='fixture-date'?'start_date':'num_people',value);await session.navigate(url.toString());
++      },
++      select: async () => { throw sourceGap({ source: "BROWSER", stage: "SELECT", request: "<opaque>", reason: "No current option configured" }); },
+       waitForSettled: async () => true,
+       waitFor: async (selector) => {
+         if (!page || !matchesSelector(page.html, selector)) throw sourceGap({
+@@ -295,8 +302,9 @@ export function createCurrentDevelopmentFixedSources(
+       },
+       screenshot: async () => new Uint8Array(), close: async () => {},
+     };
++    return session;
+   } };
+-  const browser: BrowserRuntime = { openSession: async (input) => traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace) };
++  const browser: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async (input) => traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace) };
+   const assembly = createLiveReadAssembly({ ...limits, packs: [googlePlacesDiscoveryPack] }, {
+     google: client, browser, model, clock: { now: () => new Date(asIso(clock)) },
+     onBrowserDiagnostic: diagnostic => recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic),
+diff --git a/src/eval/restaurant/agent-loop/current-development-offline.test.ts b/src/eval/restaurant/agent-loop/current-development-offline.test.ts
+index 193b9139..ba81fd04 100644
+--- a/src/eval/restaurant/agent-loop/current-development-offline.test.ts
++++ b/src/eval/restaurant/agent-loop/current-development-offline.test.ts
+@@ -1,3 +1,4 @@
++import {scriptedBrowserObservation} from "../../../harness/fixtures/restaurant-observation-model.js";
+ import {scriptedRetrieval} from "../../../harness/restaurant-read-test-fixtures.js";
+ import assert from "node:assert/strict";
+ import test from "node:test";
+@@ -178,6 +179,7 @@ class FixedCurrentCaseModel implements ModelGateway {
+ 
+   async complete(request: ModelRequest): Promise<ModelResponse> {
+     this.requests.push(request);
++    if(request.purpose==="browser_read_decide")return scriptedBrowserObservation(request)!;
+     if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
+     if(request.purpose==='restaurant_discovery_retrieval')return this.plan.retrievalChoice==='GENERAL'?modelResponse(JSON.stringify({choice:'GENERAL',keyword:'',criterionRef:'',generalRef:JSON.parse(request.messages.find(m=>m.role==='user')!.content).observation?.generalLists[0]?.ref??'',categoryUrl:'',reason:'Controlled general source retrieval, not a quality oracle'}),'fixture-retrieval'):scriptedRetrieval(request)!;
+     if (request.purpose === "restaurant_semantic_interpret") {
+@@ -234,6 +236,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
+ 
+   async complete(request: ModelRequest): Promise<ModelResponse> {
+     this.requests.push(request);
++    if(request.purpose==="browser_read_decide")return scriptedBrowserObservation(request)!;
+     if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
+     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
+     if (request.purpose === "restaurant_semantic_interpret") {

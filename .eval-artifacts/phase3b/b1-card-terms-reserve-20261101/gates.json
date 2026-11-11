@@ -1,0 +1,176 @@
+{
+  "sourceCommit": "fff001f28fc2f886a0b059079d4d190d4a2d506b",
+  "startedAtCET": "2026-11-01T16:56:02.441630+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.13,
+      "startedAtCET": "2026-11-01T16:56:02.474336+01:00",
+      "finishedAtCET": "2026-11-01T16:56:02.604392+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/integrity.log",
+      "sha256": "3e50aecd06d52de52f328172c61d0946150f6d949a0ad54bb014a4ab3538c313",
+      "rawSHA256": "3e50aecd06d52de52f328172c61d0946150f6d949a0ad54bb014a4ab3538c313"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.456,
+      "startedAtCET": "2026-11-01T16:56:02.639345+01:00",
+      "finishedAtCET": "2026-11-01T16:56:03.095293+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "rawSHA256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.224,
+      "startedAtCET": "2026-11-01T16:56:03.129631+01:00",
+      "finishedAtCET": "2026-11-01T16:56:03.353386+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "rawSHA256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {
+        "PRAXIS_B1_RESERVE_CAPTURE": "1",
+        "PRAXIS_B1_TERMS_CAPTURE": "1"
+      },
+      "exitCode": 0,
+      "seconds": 36.269,
+      "startedAtCET": "2026-11-01T16:56:03.388359+01:00",
+      "finishedAtCET": "2026-11-01T16:56:39.656443+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/test.log.gz",
+      "sha256": "a7b0c671847dd6b220fd7eb9fc71e07818fe9bc2d515f883958ccc9ddb9ec01a",
+      "rawSHA256": "4584778e09d8bf2a857344a13d66aef5e9f0987c31fc099f3dbd576ce2c32646"
+    },
+    {
+      "name": "evaluation",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/evaluate.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.218,
+      "startedAtCET": "2026-11-01T16:56:39.695723+01:00",
+      "finishedAtCET": "2026-11-01T16:56:39.913386+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/evaluation.log",
+      "sha256": "f8e7fcd886aef2488255257eaa8fb0ce8c9d2aff8d7a910f756a444e551d7b90",
+      "rawSHA256": "f8e7fcd886aef2488255257eaa8fb0ce8c9d2aff8d7a910f756a444e551d7b90"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.475,
+      "startedAtCET": "2026-11-01T16:56:39.948394+01:00",
+      "finishedAtCET": "2026-11-01T16:56:40.423802+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "rawSHA256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 130.452,
+      "startedAtCET": "2026-11-01T16:56:40.458788+01:00",
+      "finishedAtCET": "2026-11-01T16:58:50.907941+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/browser-fixture.log",
+      "sha256": "107da8b363cfbc8703d11a366084f383fb17a934c279c92ba519c0d724c62587",
+      "rawSHA256": "107da8b363cfbc8703d11a366084f383fb17a934c279c92ba519c0d724c62587"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "seconds": 24.025,
+      "startedAtCET": "2026-11-01T16:58:50.944033+01:00",
+      "finishedAtCET": "2026-11-01T16:59:14.968170+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/strict-g2.log",
+      "sha256": "39cf652485cddc89d7c5665de742a8b6ec4b5573515ee646e90fe731d233b328",
+      "rawSHA256": "39cf652485cddc89d7c5665de742a8b6ec4b5573515ee646e90fe731d233b328"
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.157,
+      "startedAtCET": "2026-11-01T16:59:15.003907+01:00",
+      "finishedAtCET": "2026-11-01T16:59:15.160928+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/gates/integrity-after.log",
+      "sha256": "3e50aecd06d52de52f328172c61d0946150f6d949a0ad54bb014a4ab3538c313",
+      "rawSHA256": "3e50aecd06d52de52f328172c61d0946150f6d949a0ad54bb014a4ab3538c313"
+    }
+  ],
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "status": "PASS",
+  "finishedAtCET": "2026-11-01T16:59:15.161343+01:00"
+}

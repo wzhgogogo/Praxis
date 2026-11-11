@@ -265,6 +265,8 @@ export interface UntrustedRestaurantWebsiteObservation {
   observedAt: string;
   entityMatch: { confidence: "HIGH" | "MEDIUM" | "LOW"; matchedBy: string[] };
   restaurantTypeFacts?: string[];
+  /** Reader-owned public field/region roles, never model-authored provenance. */
+  sourceFieldQuotes?: import("./contracts.js").RestaurantSourceFieldQuote[];
   regularOpeningHours?: string[];
   /**
    * Explicitly labelled public commercial terms.  These are deliberately
@@ -313,6 +315,7 @@ export function groundRestaurantWebsiteFacts(
     evidenceId: evidenceId("website-facts", { candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, observedAt: observation.observedAt, types, openingHours, commercialTerms }),
     kind: "RESTAURANT_FACT", provider: "RESTAURANT_WEBSITE", candidateId: candidate.restaurant.id, sourceEntityId, sourceUrl: observation.sourceUrl,
     observedAt: observation.observedAt, requestFingerprint: fingerprint({ candidateId: candidate.restaurant.id, sourceUrl: observation.sourceUrl, intent }),
+    ...(observation.sourceFieldQuotes?.length ? { sourceFieldQuotes: observation.sourceFieldQuotes.map(q => ({ ...q })) } : {}),
     claims: {
       observationKind: "PUBLIC_PAGE",
       restaurantTypeFacts: types,
@@ -473,6 +476,7 @@ function checkForFailure(
   // Do not mislabel that infrastructure failure as an outlet mismatch.
   if (observation.pageState === "EXTRACTION_FAILED" && (
     observation.failureCode === "BROWSER_RUNTIME_FAILED" || observation.failureCode === "BROWSER_TIMEOUT"
+      || observation.failureCode === "BROWSER_BUDGET_EXHAUSTED"
   )) {
     return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: observation.failureCode };
   }

@@ -8,10 +8,11 @@ import { LocalPlaywrightChromium } from "./local-playwright-chromium.js";
 
 function fakeBrowser(counts: { page: number; context: number; browser: number }) {
   const page = {
+    isClosed: () => counts.page > 0,
     goto: async () => null,
     content: async () => "<html><body>Example Domain</body></html>",
     evaluate: async () => "",
-    locator: () => ({ innerText: async () => "Example Domain", click: async () => {}, fill: async () => {}, selectOption: async () => ["2"], waitFor: async () => {} }),
+    locator: () => ({ evaluate: async () => "", innerText: async () => "Example Domain", click: async () => {}, fill: async () => {}, selectOption: async () => ["2"], waitFor: async () => {} }),
     title: async () => "Example Domain",
     screenshot: async () => new Uint8Array(),
     url: () => "https://example.com/",
@@ -22,6 +23,7 @@ function fakeBrowser(counts: { page: number; context: number; browser: number })
     close: async () => { counts.context += 1; },
   };
   return {
+    isConnected: () => counts.browser === 0,
     newContext: async () => context,
     close: async () => { counts.browser += 1; },
   };
@@ -38,6 +40,7 @@ test("Local Playwright Chromium preserves the BrowserType method binding, expose
   };
   const runtime = new LocalPlaywrightChromium({ browserType });
   const session = await runtime.openSession({ signal: new AbortController().signal });
+  assert.equal(session.isClosed?.(),false);
   await session.navigate("https://example.com");
   const snapshot = await session.snapshot();
   const { pageId, ...page } = snapshot;
@@ -50,6 +53,7 @@ test("Local Playwright Chromium preserves the BrowserType method binding, expose
   assert.match(session.metadata.sessionId ?? "", /^local:/);
   await session.close();
   await session.close();
+  assert.equal(session.isClosed?.(),true);
   assert.equal(launchThis, browserType);
   assert.deepEqual(counts, { page: 1, context: 1, browser: 1 });
 });
@@ -85,12 +89,13 @@ test("environment gates keep ordinary profiles temporary and enable persistence 
       PRAXIS_LOCAL_CHROMIUM_INTERACTIVE: interactive,
       PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION: interactive,
       PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER: "http://127.0.0.1:10808",
+      PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS: "tablecheck.com,tabelog.com",
     });
     const session = await runtime.openSession({ signal: new AbortController().signal });
     await session.close();
     assert.deepEqual(launches.at(-1), {
       headless: interactive === "0",
-      proxy: { server: "http://127.0.0.1:10808" },
+      proxy: { server: "http://127.0.0.1:10808", bypass: "tablecheck.com,.tablecheck.com,tabelog.com,.tabelog.com" },
       ...(interactive === "1" ? { userDataDir: resolve(".eval-artifacts", "local-chromium-profile") } : {}),
     });
   }
@@ -112,7 +117,7 @@ test("Local Playwright Chromium installs HAR replay before the Guard and refuses
   };
   const context = {
     newPage: async () => page,
-    pages: () => [], newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }),
+    pages: () => [], newCDPSession: async () => ({ on: () => {}, send: async (method: string) => method === "Page.getFrameTree" ? { frameTree: { frame: { id: "fixture-top-frame" } } } : {} }),
     routeFromHAR: async (_path: string, options: { notFound: string }) => { calls.push(`har:${options.notFound}`); },
     routeWebSocket: async () => { calls.push("websocket"); },
     route: async () => { calls.push("guard-route"); },
@@ -158,4 +163,40 @@ test("layout-only screenshot is a PNG and leaves observed controls unchanged", a
     assert.ok(png && png[0] === 137 && png[1] === 80 && png[2] === 78 && png[3] === 71);
     assert.deepEqual(after?.map(item => [item.kind, item.label, item.value]), before?.map(item => [item.kind, item.label, item.value]));
   } finally { await session.close(); }
+});
+
+
+test("failed guarded source navigation exports the sanitized transport cause for both source labels", async () => {
+  const { createServer } = await import("node:http");
+  const { BrowserTaskExecutor } = await import("./browser-task-executor.js");
+  const server = createServer(request => request.socket.destroy());
+  await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
+  const address = server.address(); assert.ok(address && typeof address !== "string");
+  const origin = `http://127.0.0.1:${address.port}`;
+  try {
+    for (const source of ["TABLECHECK", "TABELOG"] as const) {
+      const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+      const executor = new BrowserTaskExecutor(new LocalPlaywrightChromium(), { maxAutomaticElapsedMs: 30000, maxModelCallsPerCandidate: 1, maxModelCallsTotal: 1, maxOperationsPerCandidate: 8, onDiagnostic: row => diagnostics.push(row) });
+      const signal = new AbortController().signal;
+      try {
+        const session = await executor.acquire(signal, source, "IDENTITY", { documentOrigins: [origin], staticResources: [], dynamicReads: [] });
+        await assert.rejects(executor.navigate({ source, stage: "IDENTITY", signal, session, allowedOrigins: [origin], url: origin + "/public?read=QUERY_PRIVATE", observed:true, timeoutMs: 5000 }), { code: "BROWSER_RUNTIME_FAILED" });
+        const failed = diagnostics.find(row => row.source === source && row.event === "OPERATION_FAILED");
+        assert.ok(failed?.networkFailures?.length, "source failure retains Guard transport error despite failed navigation");
+        assert.match(failed.networkFailures[0]!.error!.message, /socket hang up|ECONNRESET/);
+        assert.doesNotMatch(JSON.stringify(failed.networkFailures), /QUERY_PRIVATE/);
+      } finally { await executor.close(); }
+    }
+  } finally { server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); }
+});
+
+test('public form observations bind visible location text to the actual GET submit owner', async () => {
+  const runtime=new LocalPlaywrightChromium(),session=await runtime.openSession({signal:new AbortController().signal});
+  try{
+    await session.navigate('data:text/html,<form method="get"><span>Akabane Sta. (Tokyo)</span><input aria-label="Location"><button>Search</button></form><form method="post"><button>Search</button></form>');
+    const controls=await session.observeControls!(),input=controls.find(c=>c.label==='Location')!,buttons=controls.filter(c=>c.label==='Search');
+    assert.ok(input.formObservation?.visibleLines.includes('Akabane Sta. (Tokyo)'));
+    assert.equal(buttons.find(c=>c.formMethod==='GET')?.formObservation?.owner,input.formObservation?.owner);
+    assert.notEqual(buttons.find(c=>c.formMethod==='POST')?.formObservation?.owner,input.formObservation?.owner);
+  }finally{await session.close();}
 });

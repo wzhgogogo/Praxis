@@ -1,3 +1,5 @@
+import {fixtureGetRuntime,fixtureGetSession} from "../../../harness/fixtures/observed-get-session.js";
+import {scriptedBrowserObservation} from "../../../harness/fixtures/restaurant-observation-model.js";
 import { fixtureGoalBasis } from "../../../harness/restaurant-read-test-fixtures.js";
 import { createGoogleReadComposition, response, strictAction, ScriptedExternalModel, scriptedRetrieval, googleFixture, now, clock } from "../../../harness/restaurant-read-test-fixtures.js";
 
@@ -866,10 +868,10 @@ test("Google fact exhaustion must leave a separately executable browser investig
   // Oracle: a Google quota cannot prevent a still-legal read from reaching the independent browser source.
   // Browser challenge is deliberate: this checks reachability and honest UNKNOWN, not positive inventory.
   const visited: string[] = [];
-  const browser: BrowserRuntime = { openSession: async () => {
+  const browser: BrowserRuntime = {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", openSession: async () => {
     let url = "about:blank";
     return {
-      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString() },
+      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString(),readNetworkBoundary:"INSTALLED" },
       navigate: async target => { url = target; visited.push(url); },
       snapshot: async () => ({ url, title: "Just a moment...", text: "Verify you are human", html: '<div id="cf-chl-widget">Verify you are human</div>' }),
       click: async () => { throw new Error("Challenge fixture must not click"); },
@@ -886,14 +888,14 @@ test("Google fact exhaustion must leave a separately executable browser investig
     clock,
     model,
     google: google,
-    browser: browser,
+    browser: fixtureGetRuntime(browser),
     config: { maxAgentSteps: 7, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
   const state = composition.runtime.snapshot(taskId).domainState;
   if (maxRequests === 1) assert.equal(state.sourceReadState?.googlePlacesSearchBudget, "EXHAUSTED");
-  assert.ok(visited.some(url => new URL(url).hostname.endsWith("tablecheck.com")), `Browser source never received a request; loop=${loop.status}, failure=${state.failure?.code}`);
+  assert.ok(visited.some(url => new URL(url).hostname === "tabelog.com"), `Browser source never received a request; loop=${loop.status}, failure=${state.failure?.code}`);
   assert.ok(Object.values(state.availabilityChecks).length > 0);
   assert.ok(Object.values(state.availabilityChecks).every(check => check.status === "UNKNOWN"));
   });
@@ -919,7 +921,8 @@ test("source text handoff reaches request-bound availability and presentation th
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "chef's tasting menu", polarity: "POSITIVE", strength: "HARD" } },
     ] }), "semantic");
-    if (request.purpose === "browser_read_decide") return response(JSON.stringify({ action: "COMPLETE", targetRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Public source statement is ready for interpretation." }), "browser-handoff");
+    if(request.purpose==="browser_read_decide")return scriptedBrowserObservation(request)!;
+    if(request.purpose==="restaurant_source_facts")return response("{\"selections\":[]}","constructed-source-facts");
     if (request.purpose === "restaurant_fact_judgment") {
       const { sourceDocuments } = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { sourceDocuments: Array<{ id: string; statements: Array<{ id: string; text: string }> }> };
       const document = sourceDocuments.find(d => d.statements.some(s => s.text === quotation));
@@ -941,24 +944,25 @@ test("source text handoff reaches request-bound availability and presentation th
   } };
   const place = { id: "source-prose", displayName: { text: "Source Kitchen" }, formattedAddress: "1 Ginza, Tokyo", nationalPhoneNumber: "03-1111-1003", types: ["restaurant"],
     websiteUri: "https://source.example/menu", location: { latitude: 35.6697, longitude: 139.767 } };
-  const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : place), { status: 200 }) });
-  const browser: BrowserRuntime = { async openSession() {
-    let url = "";
+  // LOCAL_CONSTRUCTION: Text Search explicitly lists the booking source; Details independently supplies the menu website.
+  const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [{...place,websiteUri:"https://www.tablecheck.com/en/source-kitchen"}] } : place), { status: 200 }) });
+  const browser: BrowserRuntime = {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", async openSession() {
+    let url = "",query="";
     return {
-      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString() },
+      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString(),readNetworkBoundary:"INSTALLED" },
       async navigate(value) { url = value; },
       async snapshot() {
-        if (url.includes("source.example")) return { url, title: "季節の料理", text: quotation, html: '<a href="tel:03-1111-1003">電話する</a>' };
+        if (url.includes("source.example")) return { url, title: "季節の料理", text: quotation, html: '<a href="tel:03-1111-1003">電話する</a><a href="https://www.tablecheck.com/en/source-kitchen">Reserve this merchant</a>' };
         if (url.includes("/japan/search")) return { url, title: "Search", text: "Source Kitchen", html: '<a href="https://www.tablecheck.com/en/source-kitchen">Source Kitchen</a>' };
         return { url, title: "Source Kitchen", text: "Source Kitchen 2026-09-17 2 guests 13:00", html: '<h1>Source Kitchen</h1><a href="tel:03-1111-1003">Call</a><p class="address">1 Ginza, Tokyo</p><div data-testid="Venue Availability" data-selected-date="2026-09-17" data-pax="2"><a href="/en/shops/source-kitchen/reserve?start_date=2026-09-17&num_people=2&start_time=13:00">13:00</a></div>' };
       },
-      async click() { throw new Error("No click needed for this read-only source"); }, async fill() { throw new Error("No fill needed"); }, async select() { return []; },
+      async observeControls(){return url.includes("/japan/search")?[{id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Name",type:"search",value:query,structure:{tag:"INPUT",name:"q",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false},{id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false}]:[];},async click() {url="https://www.tablecheck.com/en/japan/search?q="+encodeURIComponent(query);}, async fill(_id,value) {query=value;}, async select() { return []; },
       async waitFor() {}, async waitForSettled() { return true; }, async screenshot() { return new Uint8Array(); }, async close() {},
     };
   } };
   const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   let browserTraceSequence = 0;
-  const tracedBrowser: BrowserRuntime = { openSession: async (input) => traceBrowserSession(
+  const tracedBrowser: BrowserRuntime = {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", openSession: async (input) => traceBrowserSession(
     await browser.openSession(input), "TABLECHECK", (kind, detail) => {
       const sequence = ++browserTraceSequence;
       browserTrace.push({ sequence, at: now.toISOString(), kind, detail });
@@ -972,7 +976,7 @@ test("source text handoff reaches request-bound availability and presentation th
     clock,
     model,
     google: google,
-    browser: tracedBrowser,
+    browser: fixtureGetRuntime(tracedBrowser),
     onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: now.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
     config: { maxAgentSteps: 6, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
@@ -980,7 +984,7 @@ test("source text handoff reaches request-bound availability and presentation th
   const loop = await composition.coordinator.run(taskId);
   const snapshot = composition.runtime.snapshot(taskId);
   const state = snapshot.domainState;
-  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ actions, failure: state.failure, factChecks: state.factChecks, availability: state.availabilityChecks }));
+  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ actions, failure: state.failure, factChecks: state.factChecks, availability: state.availabilityChecks, identities:state.readEvidence.filter(e=>e.kind==='ENTITY_MATCH') }));
   assert.deepEqual(actions, ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"]);
   const raw = state.readEvidence.find(e => e.provider === "RESTAURANT_WEBSITE" && Array.isArray(e.claims.restaurantTypeFacts) && e.claims.restaurantTypeFacts.includes(quotation));
   assert.ok(raw);
@@ -990,7 +994,7 @@ test("source text handoff reaches request-bound availability and presentation th
   const presentedId = state.presentedResults!.candidateIds[0]!;
   assert.equal(state.availabilityChecks[presentedId]?.status, "AVAILABLE");
   assert.ok(state.readEvidence.some(e => e.kind === "AVAILABILITY" && e.candidateId === presentedId && e.claims.date === "2026-09-17" && e.claims.partySize === 2 && Array.isArray(e.claims.visibleSlots) && e.claims.visibleSlots.includes("13:00")));
-  assert.ok(requests.length <= 10, `Expected useful output within the existing bounded path, got ${requests.length} calls`);
+  assert.ok(requests.length <= 12, `Expected useful output within the user-approved offline observation path, got ${requests.length} calls`);
   const evaluation = evaluateRestaurantHybridLiveArtifact({
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: taskId, runId: taskId,
     materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "13:00", end: "13:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "chef's tasting menu", polarity: "POSITIVE", strength: "HARD" }] } },
@@ -1032,7 +1036,7 @@ test("a website observation for another candidate cannot revive an unknown Googl
     clock,
     model,
     google: google,
-    browser: browser,
+    browser: fixtureGetRuntime(browser),
     onBrowserDiagnostic: diagnostic => browserDiagnostics.push(diagnostic),
     config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
@@ -1089,7 +1093,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
     clock: { now: () => time },
     model,
     google: google,
-    browser: browser,
+    browser: fixtureGetRuntime(browser),
     config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -1176,8 +1180,10 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
     ] }), "semantic");
+    if(request.purpose==="restaurant_source_facts")return response("{\"selections\":[]}","source-facts-control");
     if (request.purpose === "browser_read_decide") {
       if (mode === "model-budget") throw Object.assign(new Error("Run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
+      if(mode==="option"&&JSON.parse(request.messages[1]!.content).stage==="DISCOVERY")return scriptedBrowserObservation(request)!;
       if (mode === "option") {
         const payload = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { stage: string; observation: { targets: Array<{ ref: string; kind: string; label: string; ownerRef?: string; availableActions?: string[] }> } };
         const option = payload.stage === "AVAILABILITY" ? payload.observation.targets.find(target => target.kind === "OPTION" && target.label === "1:00 PM" && target.ownerRef && target.availableActions?.includes("CHOOSE_OPTION:TIME")) : undefined;
@@ -1203,7 +1209,8 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
   const places = ["a", "b", "c", "d", "outside", "missing"].map((name, index) => ({
     id: name, displayName: { text: `Fixture ${name}` }, formattedAddress: "1-1 Ginza, Chuo City, Tokyo",
     types: ["restaurant"], nationalPhoneNumber: `03-1111-${1000 + index}`,
-    websiteUri: `https://tabelog.com/tokyo/A1304/A130401/${1000 + index}/`,
+    // LOCAL_CONSTRUCTION: the option-wire control publishes its own entrance.
+    websiteUri: mode === "option" && name === "d" ? "https://www.tablecheck.com/en/restaurant-d" : `https://tabelog.com/tokyo/A1304/A130401/${1000 + index}/`,
     ...(name === "missing" ? {} : { location: name === "outside" ? { latitude: 34.05, longitude: -118.24 } : { latitude: 35.6697, longitude: 139.767 } }),
   }));
   const google = new GooglePlacesClient({
@@ -1220,25 +1227,26 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
       return new Response(JSON.stringify({ places }), { status: 200 });
     },
   });
-  const browser: BrowserRuntime = { async openSession({ signal }) {
+  const browser: BrowserRuntime = {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", async openSession({ signal }) {
     if (mode === "runtime-outage") throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Fixture browser launch unavailable");
-    let url = "", name = "a";
+    let url = "", name = "a",query="";
     let selectedTime = false;
     return {
-      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString() },
+      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString(),readNetworkBoundary:"INSTALLED" },
       async navigate(value) {
         url = value;
         selectedTime = false;
         const decoded = decodeURIComponent(value).replaceAll("+", " ");
         name = decoded.includes("/restaurant-d") ? "d" : decoded.match(/Fixture ([abcd])/)?.[1] ?? ["a", "b", "c", "d"][Number(decoded.match(/\/(100[0-3])\//)?.[1] ?? "1000") - 1000]!;
         seenBrowserNames.push(name);
-        if ((mode === "local" || mode === "option") && (name === "a" || name === "c")) throw new BrowserRuntimeError(name === "a" ? "BROWSER_TIMEOUT" : "BROWSER_RUNTIME_FAILED", "Fixture source failure");
+        if (!url.includes("tablecheck.com/en/japan/search") && (mode === "local" || mode === "option") && (name === "a" || name === "c")) throw new BrowserRuntimeError(name === "a" ? "BROWSER_TIMEOUT" : "BROWSER_RUNTIME_FAILED", "Fixture source failure");
       },
       async snapshot() {
         if (mode === "cancel") {
           notifyRead();
           await new Promise<void>(resolve => { if (signal.aborted) resolve(); else signal.addEventListener("abort", () => resolve(), { once: true }); });
         }
+        if(mode==="option"&&url.includes("tablecheck.com/en/japan/search"))return {url,title:"Source search",text:name==="d"?"Fixture d":"No venues found",html:name==="d"?'<a href="https://www.tablecheck.com/en/restaurant-d">Fixture d</a>':"<p>No venues found</p>"};
         if (name === "b") return { url, title: "Challenge", text: "verify you are human", html: "" };
         if (mode === "model-budget") return { url, title: "Search", text: "No public results", html: "" };
         if (mode === "option" && url.includes("tablecheck.com/en/japan/search") && name === "d") return { url, title: "Search", text: "Fixture d", html: '<a href="https://www.tablecheck.com/en/restaurant-d">Fixture d</a>' };
@@ -1248,8 +1256,8 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
           responses: mode === "option" && !selectedTime ? [] : [{ url: "https://tabelog.com/en/booking/calendar/find_vacancy/", status: 200, observedAt: now.toISOString(), sequence: 1,
             body: { base_date: { year: 2026, month: 9, day: 17 }, members: 2, selection: { "0": { time: "13:00", url: `/en/booking/form_course/new?rcd=1003&member=2&visit_date=20260917&visit_time=1300` } } } }] };
       },
-      async observeControls() { return mode === "option" && name === "d" && url.includes("tablecheck.com/en/restaurant-d") ? [{ id: "fixture:time", stableKey: "fixture:arrival", kind: "SELECT" as const, role: "combobox", label: "Arrival time", value: selectedTime ? "opaque-time" : "", visible: true, disabled: false, options: [{ value: "", label: "Choose", selected: !selectedTime, disabled: false }, { value: "opaque-time", label: "1:00 PM", selected: selectedTime, disabled: false }] }] : []; },
-      async select(_target, value) { if (mode === "option" && name === "d" && value === "opaque-time") selectedTime = true; return [value]; }, async fill() {}, async click() {}, async waitFor() {}, async waitForSettled() { return true; },
+      async observeControls() {if(mode==="option"&&url.includes("tablecheck.com/en/japan/search"))return [{id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Name",type:"search",value:query,structure:{tag:"INPUT",name:"q",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false},{id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false}];return mode === "option" && name === "d" && url.includes("tablecheck.com/en/restaurant-d") ? [{ id: "fixture:time", stableKey: "fixture:arrival", kind: "SELECT" as const, role: "combobox", label: "Arrival time", value: selectedTime ? "opaque-time" : "", visible: true, disabled: false, options: [{ value: "", label: "Choose", selected: !selectedTime, disabled: false }, { value: "opaque-time", label: "1:00 PM", selected: selectedTime, disabled: false }] }] : []; },
+      async select(_target, value) { if (mode === "option" && name === "d" && value === "opaque-time") selectedTime = true; return [value]; }, async fill(_id,value) {query=value;name=value.match(/Fixture ([abcd])/)?.[1]??name;}, async click() {url="https://www.tablecheck.com/en/japan/search?q="+encodeURIComponent(query);}, async waitFor() {}, async waitForSettled() { return true; },
       async screenshot() { return new Uint8Array(); }, async close() {},
     };
   } };
@@ -1259,7 +1267,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
     clock,
     model,
     google: google,
-    browser: { openSession: async input => traceBrowserSession(await browser.openSession(input), "TABELOG", (kind, detail) => {
+    browser: {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", openSession: async input => traceBrowserSession(fixtureGetSession(await browser.openSession(input)), "TABELOG", (kind, detail) => {
       const sequence = browserTrace.length + 1;
       browserTrace.push({ sequence, at: now.toISOString(), kind, detail }); return sequence;
     }) },

@@ -1,0 +1,94 @@
+{
+  "status": "STOP_NO_RESULT_ENTRY_NAVIGATION_TIMEOUT",
+  "atCET": "2026-11-07T11:33:37.099486+01:00",
+  "probeSourceSHA": "4b68893f741635bceb6fdeb5678c1429737ab003",
+  "transport": "NODE_FETCH production default; no forwarding/header patch",
+  "entryDocument": {
+    "status": 200,
+    "bodyBytes": 99091,
+    "responseCapturedInMemory": true,
+    "DOMSnapshotReached": false
+  },
+  "operationFailure": [
+    {
+      "sequence": 36,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "page.goto: Timeout 20000ms exceeded."
+          },
+          "networkFailures": []
+        }
+      }
+    }
+  ],
+  "scriptTransportTermination": [
+    {
+      "sequence": 38,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:3",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+        "method": "GET",
+        "resourceType": "script",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-07T10:27:45.608Z",
+        "endedAt": "2026-11-07T10:28:03.518Z",
+        "elapsedMs": 17909.983334,
+        "status": null,
+        "outcome": "CANCELLED",
+        "endReason": "CONTEXT_CLOSED",
+        "endObservation": "LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH"
+      }
+    }
+  ],
+  "attribution": "page.goto exhausted the unchanged20s navigation bound while main script route.fetch had not returned. Context closure cancelled that fetch after~17.9s. No wire completion or script status was captured; source/network/transport root cause remains unproven.",
+  "observedNewDestinationValues": false,
+  "observedNewCORS": false,
+  "sourceScript12MBCaptureActual": "NOT_REACHED; offline10.28MB syntax/redaction tests passed, but no actual large script response was returned this probe",
+  "replay": {
+    "status": "NOT_REPLAYABLE",
+    "reason": "NO_CAPTURED_PUBLIC_DOCUMENT"
+  },
+  "binding": "NOT_REACHED: no source query/suggestion/result",
+  "newPageReadsCharged": 1,
+  "newConditionalGETUsed": false,
+  "remainingConditionalGET": 1,
+  "D8WitnessGETUnused": 3,
+  "newModelCalls": 0,
+  "newLive": 0,
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 653,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 350,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11223
+  },
+  "approved": {
+    "evaluationPublicGET": 462,
+    "fullLive": 42,
+    "realModelCalls": 1600
+  },
+  "reserved": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "fourLayers": {
+    "endToEnd": "NOT_EVALUATED; D8 not run",
+    "steps": "Entry200 only, navigation readiness failed; Destination/FILL/result not reached",
+    "severity": "No booking/date/login/POST action; no delivery or identity claim. D8 S0 NOT_EVALUATED",
+    "attribution": "Recorded node fetch pending + bounded caller cancellation; no proven header-loss/CORS cause for this run"
+  },
+  "noRetry": "User conditional allocation applies only after selected-shop document navigation; not repurposed as another entry read."
+}

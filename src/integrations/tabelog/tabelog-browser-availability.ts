@@ -1,4 +1,5 @@
 import type { ModelGateway } from "../../core/model/contracts.js";
+import type { GooglePlacesSourceName } from "../google/google-places-contracts.js";
 import { readQuotedRestaurantSourceFacts } from "../restaurant-facts/model-source-facts.js";
 import { mergeQuotedSourceFacts } from "../restaurant-availability/quoted-source-fact-merge.js";
 import { checkedNamedSourceQuery, type NamedSourceAlternative } from "../restaurant-search/named-source-query.js";
@@ -37,9 +38,11 @@ import { inspectTabelogVacancyResponse } from "./tabelog-vacancy-response.js";
 
 export function tabelogNameSearchCompletion(page: BrowserSnapshot): BrowserCompletionAssessment {
   const outlets = parseTabelogSearchOutlets(page);
-  return { complete: outlets.length > 0, resultBusy: tabelogSearchResultBusy(page),
-    resultKey: JSON.stringify([page.url, outlets]),
-    reason: "Continue until an observed public restaurant result is available; do not use navigation, login, or booking links." };
+  // The observation model may finish a positively bound search with no cards.
+  // This is a planning result, never evidence that an outlet does not exist.
+  return { complete: !hasBotChallenge(page), resultBusy: tabelogSearchResultBusy(page),
+    resultKey: JSON.stringify([page.url, outlets]), resultUrls: outlets.map(outlet => outlet.sourceUrl),
+    reason: "Confirm the current source search result, including a page with no outlet cards. Code separately requires a current query binding; no identity or inventory follows from completion." };
 }
 
 export function tabelogAvailabilityCompletion(page: BrowserSnapshot, request: Pick<RestaurantAvailabilityRequest, "date" | "partySize" | "timeWindow">): BrowserCompletionAssessment {
@@ -126,15 +129,6 @@ function sourceUrlKey(value: string): string | undefined {
   }
 }
 
-function selectedDateField(snapshotHtml: string): string | undefined {
-  return /<select[^>]+(?:name|id)=["'][^"']*(?:date|日付)[^"']*["']/i.test(snapshotHtml)
-    ? "select[name*='date'], select[id*='date']" : undefined;
-}
-
-function selectedPartyField(snapshotHtml: string): string | undefined {
-  return /<select[^>]+(?:name|id)=["'][^"']*(?:party|person|人数|guest)[^"']*["']/i.test(snapshotHtml)
-    ? "select[name*='party'], select[name*='person'], select[name*='guest']" : undefined;
-}
 
 class TabelogSourceBusyError extends Error {
   constructor(readonly page: BrowserSnapshot) { super("Tabelog source remains busy after its bounded retry"); }
@@ -156,8 +150,11 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
     private readonly maxCandidateMatches = 5,
     private readonly options: {
       maxBrowserSessions?: number;
+      /** Stop after the unchanged HIGH identity gate; no request controls or slot read. */
+      identityOnly?: boolean;
       sourceFactsModel?: ModelGateway;
       alternativeSearch?: NamedSourceAlternative;
+      japaneseName?: (candidate: RestaurantAvailabilityRequest["candidates"][number], signal: AbortSignal) => Promise<GooglePlacesSourceName>;
       /** Eval-only sink for sanitized identity diagnostics; it never changes Domain State or grounding. */
       onIdentityDiagnostic?: (diagnostic: TabelogIdentityDiagnostic) => void;
       /** Eval-only explicit pause; absence preserves the ordinary fail-closed BOT_CHALLENGE path. */
@@ -326,7 +323,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       session = await this.executor.acquire(signal, "TABELOG", "DISCOVERY", this.options.networkPolicy);
       await session.captureResponses?.(TABELOG_VACANCY_RESPONSES);
       const browser = { ...session.metadata };
-      let requestedSearchUrl = tabelogDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request })!;
+      let requestedSearchUrl = tabelogDiscoveryPack.browser!.startupUrl!;
       const listedOutlet = listedTabelogOutlet(candidate);
       let directIdentityVerified = false;
       let directPage: BrowserSnapshot | undefined;
@@ -378,67 +375,25 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       const observedUrlsByResolvedUrl = new Map<string, Set<string>>();
       const inspected = new Set<string>();
       let searchName = candidate.restaurant.outletName;
-      let alternativeUsed = false;
-      let search!: BrowserSnapshot;
-      let outlets!: ReturnType<typeof parseTabelogSearchOutlets>;
-      for (;;) {
-        if (directIdentityVerified && directPage && listedOutlet) {
-          // A verified Google-listed merchant entrance is sufficient to begin
-          // source reading.  A search challenge must not invalidate it.
-          search = directPage;
-          outlets = [listedOutlet];
-        } else {
-          await this.executor.navigate({
-            source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl,
-          });
-          search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
-          search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
-          if (hasBotChallenge(search)) {
-            const inspection = inspectTabelogEntity(candidate, []);
-            this.recordIdentityDiagnostic({
-              ...inspection.diagnostic,
-              resolution: { ...inspection.diagnostic.resolution, reason: "SEARCH_BOT_CHALLENGE" },
-              search: {
-                query: searchName,
-                requestedUrl: diagnosticUrl(requestedSearchUrl),
-                finalUrl: diagnosticUrl(search.url),
-                title: search.title,
-                parsedResultCount: 0,
-                inspectedResultCount: 0,
-              },
-              searchResults: [],
-              details: [],
-            });
-            return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
-          }
-          outlets = prioritizeTabelogOutlets(candidate, mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search)));
-          if (!outlets.length && !tabelogDiscoveryPack.browser!.isExplicitEmptyListing(search)) {
-            const generic = await this.executor.runSkill({
-              taskId: `browser-read:${candidate.restaurant.id}`,
-              source: "TABELOG",
-              ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}),
-              stage: "DISCOVERY",
-              session,
-              signal,
-              allowedOrigins: ["https://tabelog.com"],
-              goal: { outlet: { name: searchName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
-              objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
-              methodReason: "Tabelog discovery has no extractable restaurant result yet.",
-              completion: tabelogNameSearchCompletion,
-            });
-            search = generic.snapshot;
-            outlets = prioritizeTabelogOutlets(candidate, mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search)));
-          }
-        }
-        for (const outlet of outlets) {
+      let phase: "ORIGINAL" | "FRAGMENT" | "JAPANESE" = "ORIGINAL";
+      const reserveJapanese = !!this.options.japaneseName && !!candidate.restaurant.sourceIds.googlePlaces && !directIdentityVerified;
+      const pending: ReturnType<typeof parseTabelogSearchOutlets> = [];
+      const queryKey = (value: string) => value.normalize("NFKC").trim().toLocaleLowerCase();
+      const queried = new Set([queryKey(searchName)]);
+      const nameRetrieval: NonNullable<TabelogIdentityDiagnostic["nameRetrieval"]> = {
+        queries:[{kind:"ORIGINAL",query:searchName}], detailLimit:this.maxCandidateMatches,
+      };
+      const identitySession = session;
+      const inspectOutlets = async (batch: ReturnType<typeof parseTabelogSearchOutlets>, limit: number) => {
+        for (const outlet of batch) {
           if (inspected.has(outlet.sourceUrl)) continue;
-          if (inspected.size >= this.maxCandidateMatches) break;
+          if (inspected.size >= limit) break;
           inspected.add(outlet.sourceUrl);
           await this.executor.navigate({
-            source: "TABELOG", stage: "IDENTITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: outlet.sourceUrl, observed: true,
+            source: "TABELOG", stage: "IDENTITY", signal, allowedOrigins: ["https://tabelog.com"], session: identitySession, url: outlet.sourceUrl, observed: true,
           });
-          let outletPage = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "IDENTITY", signal, session }), "IDENTITY");
-          outletPage = await this.resumeAfterUserIntervention(candidate, request, session, outletPage, "DETAIL", signal);
+          let outletPage = await this.retryBusyPage(candidate.restaurant.id, identitySession, signal, await this.executor.snapshot({ source: "TABELOG", stage: "IDENTITY", signal, session: identitySession }), "IDENTITY");
+          outletPage = await this.resumeAfterUserIntervention(candidate, request, identitySession, outletPage, "DETAIL", signal);
           if (hasBotChallenge(outletPage)) {
             detailDiagnostics.push({
               searchResultSourceEntityId: outlet.sourceEntityId,
@@ -468,13 +423,104 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
             extracted: extraction.fields,
           });
         }
-        if (directIdentityVerified || inspectTabelogEntity(candidate, enrichedOutlets).resolution.confidence === "HIGH"
-          || alternativeUsed || inspected.size >= this.maxCandidateMatches) break;
-        alternativeUsed = true;
-        const alternative = checkedNamedSourceQuery(candidate, await this.options.alternativeSearch?.(candidate, signal));
-        if (!alternative) break;
-        searchName = alternative;
-        requestedSearchUrl = tabelogDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request, outletName: alternative })!;
+      };
+      let search!: BrowserSnapshot;
+      let outlets!: ReturnType<typeof parseTabelogSearchOutlets>;
+      for (;;) {
+        if (directIdentityVerified && directPage && listedOutlet) {
+          // A verified Google-listed merchant entrance is sufficient to begin
+          // source reading.  A search challenge must not invalidate it.
+          search = directPage;
+          outlets = [listedOutlet];
+        } else {
+          let searched = await this.executor.search({
+            source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName, completion: tabelogNameSearchCompletion,
+          });
+          search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
+          const challenged = hasBotChallenge(search);
+          search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
+          if (challenged && !hasBotChallenge(search)) {
+            searched = await this.executor.search({source:"TABELOG",signal,allowedOrigins:["https://tabelog.com"],session,
+              url:requestedSearchUrl,query:searchName,completion:tabelogNameSearchCompletion});
+            search = searched.snapshot;
+          }
+          if (hasBotChallenge(search)) {
+            const inspection = inspectTabelogEntity(candidate, []);
+            this.recordIdentityDiagnostic({
+              ...inspection.diagnostic,
+              resolution: { ...inspection.diagnostic.resolution, reason: "SEARCH_BOT_CHALLENGE" },
+              ...(reserveJapanese ? {nameRetrieval} : {}),
+              search: {
+                query: searchName,
+                requestedUrl: diagnosticUrl(requestedSearchUrl),
+                finalUrl: diagnosticUrl(search.url),
+                title: search.title,
+                parsedResultCount: 0,
+                inspectedResultCount: 0,
+              },
+              searchResults: [],
+              details: [],
+            });
+            return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
+          }
+          if (searched.status !== "COMPLETED") {
+            const inspection = inspectTabelogEntity(candidate, []);
+            const reason = searched.reasonCode === "OBSERVED_QUERY_CONFLICT" ? "OBSERVED_QUERY_CONFLICT" : "SEARCH_NOT_COMPLETED";
+            this.recordIdentityDiagnostic({ ...inspection.diagnostic,
+              resolution: { ...inspection.diagnostic.resolution, reason },
+              ...(reserveJapanese ? {nameRetrieval} : {}),
+              search: {query: searchName,requestedUrl: diagnosticUrl(requestedSearchUrl),finalUrl: diagnosticUrl(search.url),title: search.title,
+                parsedResultCount:0,inspectedResultCount:0,outcome:searched.status,...(searched.reasonCode?{reasonCode:searched.reasonCode}:{})},
+              searchResults:[],details:[],
+            });
+            return this.ground(candidate,request,{candidate,observedAt,entityMatch:{confidence:"LOW",matchedBy:[]},
+              pageState:"EXTRACTION_FAILED",failureCode:"ENTITY_MATCH_UNCERTAIN",excerpt:reason},browser);
+          }
+          outlets = prioritizeTabelogOutlets(candidate, mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search)));
+
+        }
+        if (phase !== "JAPANESE") pending.push(...outlets);
+        await inspectOutlets(outlets, reserveJapanese && phase !== "JAPANESE" ? Math.max(0, this.maxCandidateMatches - 1) : this.maxCandidateMatches);
+        if (directIdentityVerified || inspectTabelogEntity(candidate, enrichedOutlets).resolution.confidence === "HIGH") break;
+        if (!reserveJapanese && inspected.size >= this.maxCandidateMatches) break;
+        if (phase === "ORIGINAL") {
+          phase = "FRAGMENT";
+          const alternative = checkedNamedSourceQuery(candidate, await this.options.alternativeSearch?.(candidate, signal));
+          if (alternative && !queried.has(queryKey(alternative))) {
+            searchName = alternative;
+            queried.add(queryKey(searchName));
+            nameRetrieval.queries.push({kind:phase,query:searchName});
+            requestedSearchUrl = tabelogDiscoveryPack.browser!.startupUrl!;
+            continue;
+          }
+        }
+        if (phase === "FRAGMENT" && reserveJapanese) {
+          phase = "JAPANESE";
+          const placeId = candidate.restaurant.sourceIds.googlePlaces!.replace(/^places\//, "").trim();
+          try {
+            const name = await this.options.japaneseName!(candidate, signal);
+            if (name.placeId === placeId && name.text.trim()) {
+              nameRetrieval.japanese = {status:"OBSERVED",placeId,languageCode:name.languageCode};
+              if (!queried.has(queryKey(name.text))) {
+                searchName = name.text;
+                queried.add(queryKey(searchName));
+                nameRetrieval.queries.push({kind:phase,query:searchName});
+                requestedSearchUrl = tabelogDiscoveryPack.browser!.startupUrl!;
+                continue;
+              }
+            } else nameRetrieval.japanese = {status:"UNAVAILABLE",placeId,reasonCode:"GOOGLE_MALFORMED_RESPONSE"};
+          } catch (error) {
+            if (signal.aborted) throw error;
+            const code = error && typeof error === "object" && "code" in error ? error.code : undefined;
+            nameRetrieval.japanese = {status:"UNAVAILABLE",placeId,reasonCode:restaurantFailureCode(code,"GOOGLE_NETWORK_FAILED")};
+          }
+        }
+        break;
+      }
+      // A missing/duplicate/empty Japanese term returns the unspent fifth
+      // slot to the original observed order. Neither phase resets the cap.
+      if (!directIdentityVerified && inspectTabelogEntity(candidate, enrichedOutlets).resolution.confidence !== "HIGH") {
+        await inspectOutlets(pending, this.maxCandidateMatches);
       }
       const nativeExtraction = candidate.restaurant.sourceIds.tabelog
         ? extractionByEntityId.get(candidate.restaurant.sourceIds.tabelog) : undefined;
@@ -485,6 +531,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       const extractionFields = new Map([...extractionByEntityId.entries()].map(([entityId, extraction]) => [entityId, extraction.fields]));
       this.recordIdentityDiagnostic({
         ...inspection.diagnostic,
+        ...(reserveJapanese ? {nameRetrieval} : {}),
         search: {
           query: searchName,
           requestedUrl: diagnosticUrl(requestedSearchUrl),
@@ -567,6 +614,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
   ) {
       const sourceOutlet = resolved.outlet;
       if (!sourceOutlet) throw new Error("HIGH Tabelog identity has no outlet");
+      if (this.options.identityOnly) return this.ground(candidate, request, {
+        candidate, observedAt, sourceEntityId: sourceOutlet.sourceEntityId, sourceUrl: sourceOutlet.sourceUrl,
+        entityMatch: resolved, pageState: "EXTRACTION_FAILED",
+      }, browser);
       let alternateRecoveryUsed = false;
       let activeIdentity = resolved;
       const activeSource = () => activeIdentity.outlet ? { sourceEntityId: activeIdentity.outlet.sourceEntityId } : {};
@@ -598,31 +649,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (hasBotChallenge(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(page) });
       if (detectExternalReservationRedirect(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "SOURCE_UNSUPPORTED", failureCode: "EXTERNAL_BOOKING_PROVIDER_REQUIRED", excerpt: pageExcerpt(page) });
       if (!hasReservationControls(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "SOURCE_UNSUPPORTED", failureCode: "ONLINE_AVAILABILITY_UNSUPPORTED", excerpt: pageExcerpt(page) });
-      const party = selectedPartyField(page.html);
-      const date = selectedDateField(page.html);
-      let nativeSelectionConfirmed = false;
-      let nativeSelectionFailure: RestaurantFailureCode | undefined;
-      if (party && date) {
-        try {
-          const selectedParty = await this.executor.select({
-            source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize),
-          });
-          nativeSelectionFailure = "PARTY_SELECTION_UNCONFIRMED";
-          if (selectedParty.length === 1 && selectedParty[0] === String(request.partySize)) {
-            const selectedDate = await this.executor.select({
-              source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: date, value: request.date, authoritativeValue: request.date,
-            });
-            nativeSelectionFailure = "DATE_SELECTION_UNCONFIRMED";
-            nativeSelectionConfirmed = selectedDate.length === 1 && selectedDate[0] === request.date;
-          }
-        } catch (error) {
-          // Only a failed accelerator returns to observation. Policy, abort and
-          // budget failures retain their original terminal behaviour and scope.
-          if (!(error instanceof BrowserRuntimeError) || !["BROWSER_RUNTIME_FAILED", "BROWSER_STALE_TARGET"].includes(error.code)) throw error;
-          nativeSelectionFailure ??= "REQUEST_SELECTION_UNCONFIRMED";
-        }
-      }
-      if (!nativeSelectionConfirmed) {
+      {
         page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
         const visibleQueryControls = await session.observeControls?.(tabelogQueryControlHints(page)) ?? [];
         if (tabelogQueryControlsRestricted(page, visibleQueryControls, request.partySize)) {
@@ -636,13 +663,12 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
-          ...(nativeSelectionFailure ? { methodReason: "The native selector accelerator did not confirm the requested fields. Read the current visible labels and controls; keep the original request and remaining budgets." } : {}),
           completion: current => tabelogAvailabilityCompletion(current, request),
         });
         const querySnapshot = await this.retryBusyPage(candidate.restaurant.id, session, signal, query.snapshot, "AVAILABILITY");
         const structureChanged = this.vacancyStructureChanged(querySnapshot, request);
         if (structureChanged || !hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return finish({
-          candidate, observedAt: this.now(), ...activeSource(), sourceUrl: querySnapshot.url, entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: structureChanged ? "SOURCE_STRUCTURE_CHANGED" : query.reasonCode ?? nativeSelectionFailure ?? "REQUEST_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(querySnapshot),
+          candidate, observedAt: this.now(), ...activeSource(), sourceUrl: querySnapshot.url, entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: structureChanged ? "SOURCE_STRUCTURE_CHANGED" : query.reasonCode ?? "REQUEST_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(querySnapshot),
         });
       }
       page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");

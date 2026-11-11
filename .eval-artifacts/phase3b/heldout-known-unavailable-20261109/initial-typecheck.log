@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/g6/runner.test.ts(175,101): error TS2322: Type '{ checkedAt: string; kind: string; target: { candidateId: string; name: string; address: string; phone: string; provider: 'TABELOG'; sourceEntityId: string; date: string; time: string; partySize: number; detailUrl: string; identityText: string[]; allowKnownUnavailableCertificate?: true; }; exists: boolean | undefine...' is not assignable to type 'WitnessReceipt'.
+  Types of property 'exists' are incompatible.
+    Type 'boolean | undefined' is not assignable to type 'boolean | null'.
+      Type 'undefined' is not assignable to type 'boolean | null'.

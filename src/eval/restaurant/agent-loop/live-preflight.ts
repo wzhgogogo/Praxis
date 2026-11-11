@@ -1,3 +1,4 @@
+import { localBrowserProxyFromEnvironment, browserProxyForUrl } from "../../../infrastructure/browser/local-browser-proxy.js";
 import { connect as connectSocket } from "node:net";
 import { resolve } from "node:path";
 
@@ -19,7 +20,9 @@ export type LivePreflightRunner =
 export type EffectiveLiveNetworkConfiguration = Readonly<{
   proxyMode: "ENVIRONMENT" | "DISABLED_BY_CLI";
   googleProxyServer?: string;
+  deepseekProxyServer?: string;
   browserProxyServer?: string;
+  browserDirectHosts?: readonly string[];
 }>;
 
 export type LivePreflightPlan = Readonly<{
@@ -30,7 +33,7 @@ export type LivePreflightPlan = Readonly<{
 }>;
 
 export type LivePreflightAttempt = Readonly<{
-  target: LivePreflightTarget | "GOOGLE_PROXY" | "BROWSER_PROXY";
+  target: LivePreflightTarget | "GOOGLE_PROXY" | "BROWSER_PROXY" | "DEEPSEEK_PROXY";
   request: Readonly<{ method: "GET" | "TCP_CONNECT"; url: string; range: "BYTES_0_0" | "NONE"; authorization: "PRESENT" | "ABSENT" }>;
   elapsedMs: number;
   outcome: "REACHABLE" | "FAILED";
@@ -82,12 +85,16 @@ export function resolveEffectiveLiveNetworkConfiguration(
   argv: readonly string[] = process.argv,
 ): EffectiveLiveNetworkConfiguration {
   const noProxy = argv.includes("--no-proxy");
+  const deepseekProxyServer = noProxy ? undefined : nonEmpty(environment.PRAXIS_DEEPSEEK_API_PROXY_SERVER);
   const googleProxyServer = noProxy ? undefined : nonEmpty(environment.PRAXIS_GOOGLE_API_PROXY_SERVER);
-  const browserProxyServer = noProxy ? undefined : nonEmpty(environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER);
+  const browser = noProxy ? {} : localBrowserProxyFromEnvironment(environment);
+  const browserProxyServer = browser.proxyServer;
   return {
     proxyMode: noProxy ? "DISABLED_BY_CLI" : "ENVIRONMENT",
     ...(googleProxyServer ? { googleProxyServer } : {}),
+    ...(deepseekProxyServer ? { deepseekProxyServer } : {}),
     ...(browserProxyServer ? { browserProxyServer } : {}),
+    ...(browser.directHosts ? { browserDirectHosts: browser.directHosts } : {}),
   };
 }
 
@@ -99,7 +106,9 @@ export function environmentWithEffectiveLiveNetwork(
   return {
     ...environment,
     PRAXIS_GOOGLE_API_PROXY_SERVER: configuration.googleProxyServer ?? "",
+    PRAXIS_DEEPSEEK_API_PROXY_SERVER: configuration.deepseekProxyServer ?? "",
     PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER: configuration.browserProxyServer ?? "",
+    PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS: configuration.browserDirectHosts?.join(",") ?? "",
   };
 }
 
@@ -189,7 +198,8 @@ function boundedTimeout(timeoutMs: number | undefined): number {
 }
 
 function proxyForTarget(target: LivePreflightTarget, network: EffectiveLiveNetworkConfiguration): string | undefined {
-  return target === "GOOGLE" ? network.googleProxyServer : target === "TABELOG" || target === "TABLECHECK" ? network.browserProxyServer : undefined;
+  return target === "DEEPSEEK" ? network.deepseekProxyServer : target === "GOOGLE" ? network.googleProxyServer : target === "TABELOG" || target === "TABLECHECK"
+    ? browserProxyForUrl(endpoint(target).url, { ...(network.browserProxyServer ? { proxyServer: network.browserProxyServer } : {}), ...(network.browserDirectHosts ? { directHosts: network.browserDirectHosts } : {}) }) : undefined;
 }
 
 function safeNetworkRecord(network: EffectiveLiveNetworkConfiguration): LivePreflightNetworkRecord {
@@ -259,16 +269,19 @@ export async function runLivePreflight(
     network: {
       proxyMode: plan.network.proxyMode,
       ...(plan.network.googleProxyServer ? { googleProxy: safeProxyOriginForRecord(plan.network.googleProxyServer) } : {}),
+      ...(plan.network.deepseekProxyServer ? { deepseekProxy: safeProxyOriginForRecord(plan.network.deepseekProxyServer) } : {}),
       ...(plan.network.browserProxyServer ? { browserProxy: safeProxyOriginForRecord(plan.network.browserProxyServer) } : {}),
+      ...(plan.network.browserDirectHosts ? { browserDirectHosts: plan.network.browserDirectHosts } : {}),
     },
   });
   const startedAt = now();
   const attempts: LivePreflightAttempt[] = [];
   const checkedProxies = new Set<string>();
   try {
-    const configuredProxies: ReadonlyArray<readonly ["GOOGLE_PROXY" | "BROWSER_PROXY", string | undefined]> = [
+    const configuredProxies: ReadonlyArray<readonly ["GOOGLE_PROXY" | "BROWSER_PROXY" | "DEEPSEEK_PROXY", string | undefined]> = [
+      ...(targets.includes("DEEPSEEK") ? [["DEEPSEEK_PROXY", plan.network.deepseekProxyServer] as const] : []),
       ...(targets.includes("GOOGLE") ? [["GOOGLE_PROXY", plan.network.googleProxyServer] as const] : []),
-      ...(targets.some(target => target === "TABELOG" || target === "TABLECHECK") ? [["BROWSER_PROXY", plan.network.browserProxyServer] as const] : []),
+      ...(targets.some(target => (target === "TABELOG" || target === "TABLECHECK") && proxyForTarget(target, plan.network)) ? [["BROWSER_PROXY", plan.network.browserProxyServer] as const] : []),
     ];
     for (const [label, proxy] of configuredProxies) {
       if (!proxy || checkedProxies.has(proxy)) continue;

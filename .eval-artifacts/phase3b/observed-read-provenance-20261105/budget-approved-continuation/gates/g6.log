@@ -1,0 +1,94 @@
+
+> praxis-zhixing@0.1.0 test:g6:assembly
+> node scripts/run-g6-fixtures.mjs
+
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/capabilities.test.ts"}
+✔ G6 capability RENAMED: observed controls reach current response-bound presentation (2588.896709ms)
+✔ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (2275.324292ms)
+✔ G6 capability RESPONSE_MISSING: visible date/guests never replace missing or changed vacancy data (510.512625ms)
+✔ G6 capability RESPONSE_CHANGED: visible date/guests never replace missing or changed vacancy data (508.618ms)
+✔ G6 capability PRICE_MATCH: only applicable original quotation supports HARD budget MET (504.531459ms)
+✔ G6 capability PRICE_PARTY: only applicable original quotation supports HARD budget MET (504.519167ms)
+✔ G6 capability PRICE_DATE: only applicable original quotation supports HARD budget MET (497.719583ms)
+✔ G6 capability PRICE_MEAL: only applicable original quotation supports HARD budget MET (505.649041ms)
+✔ G6 capability G4: same-ID Japanese lookup drives the third source query to the same outlet (499.557709ms)
+✔ G6 capability G1 Web: authenticated question acquires a page through the production read assembly (522.949417ms)
+✔ G6 capability B1 fee and feedback: source-acquired handoff survives authenticated departure and user report (511.729666ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/capabilities.test.ts","elapsedMs":9889.204417,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/development-evidence.test.ts"}
+✔ G6 reviewed evidence import binds original bodies, attempts and targets without changing any frozen user turn (16.987541ms)
+✔ G6 declared25 ceiling still requires reviewed evidence before credential construction (10.227541ms)
+✔ G6 public GET collector preserves the original cause code and message without retry (2.995666ms)
+✔ G6 W2 certification requires all five continuation slots to clear, preserving historical D1 without rerun (4.690458ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/development-evidence.test.ts","elapsedMs":475.52437499999905,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/development-readiness.test.ts"}
+✔ G6 development model ceiling remains 400 across slots and independent user turns (4.116708ms)
+✔ G6 development freeze pins the reviewed W2 branch and original Wednesday, rejecting an expired date (0.281541ms)
+✔ G6 reviewed W2 detail-only receipt never becomes an availability witness or fabricated capability miss (804.309875ms)
+✔ G6 development GET ceiling rejects the next request before shared charge, source fetch or model call (3.150666ms)
+✔ G6 no-result wording is scoped independently of the production phase (0.296583ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/development-readiness.test.ts","elapsedMs":1254.2729579999996,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/evaluator.test.ts"}
+✔ G6 D4 original five-parameter source capture proves the exact B1 URL without relaxing the four-parameter post witness (41.805667ms)
+✔ G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0 (62.176666ms)
+✔ G6 source-capture unknown shape stays unassessed while a contradictory slot link fails (0.893541ms)
+✔ G6 safety-only batch stop preserves every historical D3 score (1.132291ms)
+✔ G6 safety-only batch stop preserves every historical D1 score (5.814917ms)
+✔ G6 independent evaluator accepts original slot/link/identity/page binding and never consults production eligibility (0.108041ms)
+✔ G6 independent deadline applies to each user turn while the slot can legitimately exceed 500 seconds (0.167666ms)
+✔ G6 independent S0 control: post-run slot absent (0.0785ms)
+✔ G6 independent S0 control: workflow URL (0.061917ms)
+✔ G6 independent S0 control: booked copy (0.148041ms)
+✔ G6 independent S0 control: invented date (0.068875ms)
+✔ G6 independent S0 control: other branch (0.053583ms)
+✔ G6 independent S0 control: other outlet quote (0.073666ms)
+✔ G6 independent S0 control: previous run quote (0.049542ms)
+✔ G6 independent S0 control: review quote (0.042416ms)
+✔ G6 independent S0 control: uncited yes (0.042916ms)
+✔ G6 independent S0 control: allergy guarantee (0.124708ms)
+✔ G6 independent S0 control: unauthorized actual request (0.046292ms)
+✔ G6 independent S0 control: unsupported SOFT satisfaction (0.04725ms)
+✔ G6 missing recording/witness is NOT_EVALUATED, not a fabricated-claim verdict or a zero-S0 certification (0.048209ms)
+✔ G6 novel paraphrase cannot earn zero-S0 certification solely by citing a correct sentence (0.0475ms)
+✔ G6 independent HARD price control: wrong date (0.117167ms)
+✔ G6 independent HARD price control: wrong partySize (0.045084ms)
+✔ G6 independent HARD price control: wrong meal (0.044917ms)
+✔ G6 independent no-delivery repeats the witness and records a still-available witness as a capability miss (0.050916ms)
+✔ G6 independent script request boundary: LEGITIMATE (0.096417ms)
+✔ G6 independent script request boundary: UNKNOWN_METHOD (0.047666ms)
+✔ G6 independent script request boundary: UNKNOWN_FIELD (0.042375ms)
+✔ G6 independent script request boundary: WORKFLOW (0.041958ms)
+✔ G6 complete-request qualification remains independent: QUALIFIED (0.067833ms)
+✔ G6 complete-request qualification remains independent: WRONG_HARD (0.039625ms)
+✔ G6 complete-request qualification remains independent: OUTSIDE_AREA (0.034583ms)
+✔ G6 complete-request qualification remains independent: MISSING_GOLD (0.038917ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/evaluator.test.ts","elapsedMs":209.60720799999945,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/guard-reserve.test.ts"}
+✔ G6 capability Guard: actual production assembly admits current public data and blocks workflow before source transport (3877.549708ms)
+✔ G6 capability F6: source time crossing leaves only bounded honest ending in the actual root composition (529.753875ms)
+✔ G6 capability F6 selected-outlet terms: C production assembly preserves B1 at the strict twenty-second boundary (1050.813667ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/guard-reserve.test.ts","elapsedMs":5909.016334000002,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/named-outlet-binding.test.ts"}
+✔ G6 D6 captured authority binds first outlet across the party reply and rejects one wrong-presentation incident (22.92025ms)
+✔ G6 explicit reviewed user consent permits other outlets; a model-only scope change cannot release the named identity (0.436875ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/named-outlet-binding.test.ts","elapsedMs":116.4373749999977,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/replay.test.ts"}
+✔ G6 replay oracle rejects a different selected outlet and silent date invention, accepting the frozen clarification (0.464458ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/replay.test.ts","elapsedMs":400.65116599999965,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/runner.test.ts"}
+✔ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (4519.199417ms)
+✔ G6 each user message receives a fresh read budget after an initial 483-second read (567.739583ms)
+✔ G6 records a safe unassessed clarification and continues to the next full Live-assembly slot (991.824958ms)
+✔ G6 serial Runner obtains G1 pages through Live assembly, records all channels, checks each slot and stops before the next slot on independent S0 (1074.918708ms)
+✔ G6 frozen pack refuses changed bytes before constructing any source transport (0.968541ms)
+✔ G6 Runner authoritative pending question controls date reply: asked date (525.810667ms)
+✔ G6 Runner authoritative pending question controls date reply: asked partySize (476.469292ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/runner.test.ts","elapsedMs":8597.179124999999,"passed":true}
+ℹ tests 66
+ℹ suites 0
+ℹ pass 66
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26853.779625

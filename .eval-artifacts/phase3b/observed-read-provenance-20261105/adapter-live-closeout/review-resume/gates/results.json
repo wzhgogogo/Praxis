@@ -1,0 +1,81 @@
+[
+  {
+    "gate": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 0.5119387080000001,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "arch",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 0.21925920900000007,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "env": {},
+    "exitCode": 1,
+    "elapsedSeconds": 52.580801542,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 0.5268268749999976,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "browser-and-g6",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "env": {},
+    "exitCode": 1,
+    "elapsedSeconds": 20.697584208000002,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "strict-g2",
+    "command": [
+      "npm",
+      "run",
+      "test:dom-change"
+    ],
+    "env": {
+      "PRAXIS_G2_REQUIRE_PASS": "1"
+    },
+    "exitCode": 1,
+    "elapsedSeconds": 20.754602625000004,
+    "before": "",
+    "after": ""
+  }
+]

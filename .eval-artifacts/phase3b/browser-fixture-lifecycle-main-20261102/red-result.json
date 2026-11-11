@@ -1,0 +1,25 @@
+{
+  "mode": "CONTROLLED_LOCAL_CHROMIUM_NOT_LIVE",
+  "commit": "af11c443fbafe06cd1be64d7654199caed3cd19a",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern",
+    "LOCAL retires.*source dispatch follows retirement",
+    "src/harness/browser/browser-read-tabelog.test.ts"
+  ],
+  "seconds": 8.04,
+  "exitCode": 124,
+  "timedOutAtDiagnosticBoundary": true,
+  "retiredAndWaitingMarkers": {
+    "G6_NAVIGATION_OLD_SESSION_RETIRED_BEFORE_DISPATCH": true,
+    "G6_NAVIGATION_WAITING_FOR_OLD_FIXTURE_FINISHED": true
+  },
+  "validRed": true,
+  "rawSHA256": "02dfd1ecec81f127701b6f7dbe6f4a37f5332c0f487f4d4cae8011031600a8f0",
+  "realCalls": 0
+}

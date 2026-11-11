@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import {createHash} from "node:crypto";
 import { test } from "node:test";
 
 import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
@@ -39,7 +40,7 @@ class FixtureSession implements BrowserSession {
         value: option[1]?.match(/value=["']([^"']+)/i)?.[1] ?? option[2] ?? "",
         label: option[2] ?? "", selected: /selected/i.test(option[1] ?? ""), disabled: /disabled/i.test(option[1] ?? ""),
       })) : undefined;
-      controls.push({ id: `fixture:${this.index}:${controls.length}`, stableKey: `${tag}|${label}|${value ?? ""}|${controls.length}`, kind: tag === "a" ? "LINK" : tag === "select" ? "SELECT" : tag === "input" ? "INPUT" : "BUTTON", role: tag === "a" ? "link" : tag === "button" ? "button" : tag === "select" ? "combobox" : tag, label, ...(value ? { value } : {}), ...(absoluteHref ? { href: absoluteHref } : {}), ...(attrs.match(/formmethod=["']post/i) ? { formMethod: "POST" as const } : attrs.match(/formmethod=["']get/i) ? { formMethod: "GET" as const } : {}), ...(type ? { type } : {}), ...(options?.length ? { options } : {}), disabled: /disabled|aria-disabled=["']true/i.test(attrs), visible: true });
+      controls.push({ id: `fixture:${this.index}:${controls.length}`, stableKey: `${tag}|${label}|${value ?? ""}|${controls.length}`, kind: tag === "a" ? "LINK" : tag === "select" ? "SELECT" : tag === "input" ? "INPUT" : "BUTTON", role: tag === "a" ? "link" : tag === "button" ? "button" : tag === "select" ? "combobox" : tag, label, ...(value ? { value } : {}), ...(absoluteHref ? { href: absoluteHref } : {}), ...(attrs.match(/formmethod=["']post/i) ? { formMethod: "POST" as const } : attrs.match(/formmethod=["']get/i) ? { formMethod: "GET" as const, formObservation: { owner: "fixture-form", visibleLines: [label] } } : {}), ...(type ? { type } : {}), ...(options?.length ? { options } : {}), disabled: /disabled|aria-disabled=["']true/i.test(attrs), visible: true });
     }
     return controls;
   }
@@ -308,7 +309,7 @@ test("BrowserTaskExecutor exposes generic public query controls only after the G
   const signal = new AbortController().signal;
   const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
   try {
-    const result = await executor.runSkill({ ...input(acquired, signal), goal: { outlet: { name: "Sushi" }, retrievalExpression: "omakase", hardCriteria: [] } });
+    const result = await executor.runSkill({ ...input(acquired, signal), goal: { outlet: { name: "Sushi" }, retrievalExpression: "omakase", retrievalSource: "CUISINE", hardCriteria: [] } });
     assert.equal(result.status, "REQUESTED_HUMAN_HELP");
   } finally { await executor.close(); }
 });
@@ -412,6 +413,31 @@ test("BrowserTaskExecutor aborts session acquisition immediately and closes a la
   assert.equal(diagnostics.find(item => item.event === "PROVIDER_FINISHED")?.lifecycle.outcome, "ABANDONED");
 });
 
+for (const reuseSourceSessions of [false,true]) test(`a page-control failure preserves the current session for observation (reuse=${reuseSourceSessions})`,async()=>{
+  const session=new FixtureSession([{url:"https://public.example/shop",title:"Current merchant",text:"Current merchant Date Guests",html:"<main>Current merchant</main>"}]);
+  const snapshot=session.snapshot.bind(session);
+  session.snapshot=async()=>{if(session.closed)throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","session is closed");return snapshot();};
+  let recovering=false, selected=false, failed=false, opens=0;
+  session.observeControls=async()=>[{id:"guests",stableKey:"guests",kind:"SELECT",role:"combobox",label:"Guests",value:selected?"2":"1",options:[{value:"1",label:"1",selected:!selected,disabled:false},{value:"2",label:"2",selected,disabled:false}],disabled:false,visible:true}];
+  session.select=async(_target,value)=>{if(!recovering){failed=true;throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","Hidden obsolete control timed out",Object.assign(new Error("selectOption timed out"),{name:"TimeoutError"}));}selected=true;return[value];};
+  const executor=new BrowserTaskExecutor({openSession:async()=>{opens++;return session;}},{reuseSourceSessions,maxAutomaticElapsedMs:90_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:40,modelDecision:{async decide(input){
+    if(failed&&!recovering)return{type:"REQUEST_HUMAN_HELP",reason:"The control failed; retain the page for a later observation."};
+    const target=input.observation.targets.find(t=>t.availableActions?.includes("CHOOSE_OPTION:PARTY_SIZE"))!;
+    return{type:"CHOOSE_OPTION",targetRef:target.ref,field:"PARTY_SIZE",reason:"Choose only the currently observed authoritative guest option."};
+  }}});
+  const signal=new AbortController().signal;
+  const skill={taskId:"operation-recovery",source:"TABELOG",stage:"AVAILABILITY" as const,signal,session,allowedOrigins:["https://public.example"],goal:{outlet:{name:"Current merchant"},partySize:2,hardCriteria:[]},objective:"Read the same public page",completion:()=>({complete:selected,reason:"Observe requested guests",resultBusy:false,resultKey:String(selected)})};
+  try{
+    executor.beginProvider("merchant","TABELOG");await executor.acquire(signal,"TABELOG","AVAILABILITY");
+    assert.notEqual((await executor.runSkill(skill)).status,"COMPLETED");assert.equal(failed,true);
+    assert.equal((await executor.snapshot({source:"TABELOG",stage:"AVAILABILITY",signal,session})).text,"Current merchant Date Guests");
+    assert.equal(session.closed,0);
+    assert.equal(await executor.acquire(signal,"TABELOG","AVAILABILITY"),session);assert.equal(opens,1);
+    recovering=true;
+    assert.equal((await executor.runSkill(skill)).status,"COMPLETED");assert.equal(selected,true);
+  }finally{await executor.closeAll();}
+});
+
 test("BrowserTaskExecutor records a failed runtime operation with its local cause", async () => {
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);
@@ -427,15 +453,15 @@ test("BrowserTaskExecutor records a failed runtime operation with its local caus
 });
 
 test("a runtime navigation failure retires its session before the next candidate without resetting the run", async () => {
-  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
+  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }], false, true);
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
-  const next = new FixtureSession([{ url: "https://www.tablecheck.com/new", title: "new", text: "new", html: "" }]);
+  const next = new FixtureSession([{ url: "https://www.tablecheck.com/new", title: "new", text: "new", html: "" }], false, true);
   let opens = 0;
   const budget = { totalModelCalls: 3 };
   const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  budget });
   const signal = new AbortController().signal;
   executor.beginProvider("first", "TABLECHECK");
-  const old = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
+  const old = await executor.acquire(signal, "TABLECHECK", "DISCOVERY", {documentOrigins:["https://www.tablecheck.com"],startupDocuments:["https://www.tablecheck.com/fail"],staticResources:[],dynamicReads:[]});
   await assert.rejects(executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", signal, session: old, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] }), { code: "BROWSER_RUNTIME_FAILED" });
   executor.beginProvider("second", "TABLECHECK");
   assert.equal(await executor.acquire(signal, "TABLECHECK", "DISCOVERY"), next);
@@ -447,19 +473,19 @@ test("a runtime navigation failure retires its session before the next candidate
 
 test("a stuck old close cannot delay cancellation or overwrite the next candidate", async t => {
   t.mock.timers.enable({apis:['Date','setTimeout'],now:0});
-  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
+  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }], false, true);
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
   let finishClose: (() => void) | undefined;
   failed.close = async () => new Promise<void>(resolve => { finishClose = resolve; });
-  const next = new FixtureSession([{ url: "https://www.tablecheck.com/new", title: "new", text: "new", html: "" }]);
+  const next = new FixtureSession([{ url: "https://www.tablecheck.com/new", title: "new", text: "new", html: "" }], false, true);
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   let opens = 0;
   const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
-    maxElapsedMsPerCandidate: 40, onDiagnostic: diagnostic => diagnostics.push(diagnostic),
+    maxElapsedMsPerCandidate: 40_000, onDiagnostic: diagnostic => diagnostics.push(diagnostic),
   });
   const oldSignal = new AbortController();
   executor.beginProvider("old", "TABLECHECK");
-  const old = await executor.acquire(oldSignal.signal, "TABLECHECK", "IDENTITY");
+  const old = await executor.acquire(oldSignal.signal, "TABLECHECK", "IDENTITY", {documentOrigins:["https://www.tablecheck.com"],startupDocuments:["https://www.tablecheck.com/fail"],staticResources:[],dynamicReads:[]});
   await assert.rejects(executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", signal: oldSignal.signal, session: old, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] }), { code: "BROWSER_RUNTIME_FAILED" });
   oldSignal.abort();
   executor.beginProvider("next", "TABLECHECK");
@@ -475,18 +501,18 @@ test("a stuck old close cannot delay cancellation or overwrite the next candidat
 
 test("a stuck runtime cleanup does not hold a canceled read or reset its candidate deadline", async t => {
   let clock=0;t.mock.method(Date,'now',()=>clock);
-  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }]);
+  const failed = new FixtureSession([{ url: "https://www.tablecheck.com/old", title: "old", text: "old", html: "" }], false, true);
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
   let finishClose: (() => void) | undefined;
   failed.close = async () => new Promise<void>(resolve => { finishClose = resolve; });
-  const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15 });
+  const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15_000 });
   const controller = new AbortController();
   executor.beginProvider("old", "TABLECHECK");
-  const session = await executor.acquire(controller.signal, "TABLECHECK", "IDENTITY");
+  const session = await executor.acquire(controller.signal, "TABLECHECK", "IDENTITY", {documentOrigins:["https://www.tablecheck.com"],startupDocuments:["https://www.tablecheck.com/fail"],staticResources:[],dynamicReads:[]});
   const navigation = executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", signal: controller.signal, session, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] });
   controller.abort();
   await assert.rejects(navigation, { code: "BROWSER_ABORTED" });
-  clock=20;
+  clock=20_000;
   await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "IDENTITY"), { code: "BROWSER_TIMEOUT" });
   finishClose?.();
 });
@@ -747,7 +773,7 @@ test("BrowserTaskExecutor binds model-controlled fields to the Router authority 
 test("BrowserTaskExecutor binds a public retrieval field by observed native name without admitting PII entries", async () => {
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "Search", html: "" }], false, true);
   const controls: BrowserPageControl[] = [
-    { id: "search", stableKey: "input|search_text", kind: "INPUT", role: "textbox", label: "Sushi tonight for 2 in Ginza", value: "omakase",
+    { id: "search", stableKey: "input|search_text", kind: "INPUT", role: "textbox", label: "Sushi tonight for 2 in Ginza", value: "",
       disabled: false, visible: true, structure: { tag: "INPUT", name: "search_text", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
     { id: "email", stableKey: "input|email", kind: "INPUT", role: "textbox", label: "Restaurant contact", value: "",
       type: "email", disabled: false, visible: true, structure: { tag: "INPUT", name: "customer_email", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
@@ -769,7 +795,7 @@ test("BrowserTaskExecutor binds a public retrieval field by observed native name
   ) });
   const signal = new AbortController().signal;
   const acquired = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
-  const result = await executor.runSkill({ ...input(acquired, signal), goal: { outlet: { name: "Sushi" }, retrievalExpression: "omakase", hardCriteria: [] },
+  const result = await executor.runSkill({ ...input(acquired, signal), goal: { outlet: { name: "Sushi" }, retrievalExpression: "omakase", retrievalSource: "CUISINE", hardCriteria: [] },
     completion: () => ({ complete: false, reason: "This verifies only the input binding." }) });
   assert.equal(result.status, "REQUESTED_HUMAN_HELP");
   assert.deepEqual(fills, ["search"]);
@@ -1102,8 +1128,9 @@ test("C2a rejects ordinary wrong-date clicks at execution even when the model ig
 test('LOCATION fills only the same-request authoritative name in an observed public location input', async () => {
   const session=new FixtureSession([{url:'https://tabelog.com/en/tokyo/rstLst/',title:'Regions',text:'Choose area',html:''}],false,true);
   const controls:BrowserPageControl[]=[{id:'area',stableKey:'location',kind:'INPUT',role:'textbox',label:'Station or area',type:'search',visible:true,disabled:false,structure:{tag:'INPUT',name:'location',classes:[],dialogLabel:'',formClass:'',sliderCount:0}},{id:'address',stableKey:'personal-address',kind:'INPUT',role:'textbox',label:'Location address',type:'text',visible:true,disabled:false,structure:{tag:'INPUT',name:'customer_address',classes:[],dialogLabel:'',formClass:'',sliderCount:0}}];
+  controls.push({id:'readonly-date',stableKey:'readonly-date',kind:'INPUT',role:'textbox',label:'November 6, 2026 (Fri)',type:'text',readOnly:true,visible:true,disabled:false,structure:{tag:'INPUT',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
   session.observeControls=async()=>controls;const fills:Array<[string,string]>=[];const publicSession:BrowserSession=session;publicSession.fill=async(id,value)=>{fills.push([id,value]);};
-  const executor=new BrowserTaskExecutor({openSession:async()=>session},{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:decisions(async d=>{const area=d.observation.targets.find(t=>t.label==='Station or area')!;assert.ok(area.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'));assert.equal(d.observation.targets.find(t=>t.label==='Location address')!.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'),false);return {type:'FILL_AUTHORITATIVE',targetRef:area.ref,field:'LOCATION',reason:'Use the unchanged name'};},async()=>({type:'REQUEST_HUMAN_HELP',reason:'Stop after one fill'}))});
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:decisions(async d=>{const area=d.observation.targets.find(t=>t.label==='Station or area')!;assert.ok(area.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'));const date=d.observation.targets.find(t=>t.label==='November 6, 2026 (Fri)')!;assert.equal(date.availableActions?.some(action=>action.startsWith('FILL_AUTHORITATIVE:')),false);assert.ok(date.availableActions?.includes('CLICK'));assert.equal(d.observation.targets.find(t=>t.label==='Location address')!.availableActions?.includes('FILL_AUTHORITATIVE:LOCATION'),false);return {type:'FILL_AUTHORITATIVE',targetRef:area.ref,field:'LOCATION',reason:'Use the unchanged name'};},async()=>({type:'REQUEST_HUMAN_HELP',reason:'Stop after one fill'}))});
   const signal=new AbortController().signal;const acquired=await executor.acquire(signal,'TABELOG','DISCOVERY');await executor.runSkill({...input(acquired,signal),goal:{outlet:{name:'Restaurants'},location:{name:'Ebisu Station',latitude:35.66,longitude:139.7,radiusMeters:1000},hardCriteria:[]},completion:()=>({complete:false,reason:'Only input binding'})});assert.deepEqual(fills,[['area','Ebisu Station']]);await executor.close();
 });
 test('LOCATION is unavailable for coordinate-only requests without an authoritative name', async()=>{
@@ -1153,13 +1180,73 @@ for (const selectedDate of ["2026-11-05", "2026-11-06"]) test(`group-window: dis
  assert.equal(result.reasonCode,selectedDate==="2026-11-06"?"PARTY_SIZE_NOT_SELECTABLE":undefined);assert.equal(models,selectedDate==="2026-11-06"?0:1);await executor.close();
 });
 
-test('region selection is data-only DISCOVERY and consumes the same global model budget without reviving other stages',async()=>{
- let calls=0;const budget={totalModelCalls:49,maxModelCalls:50};
- const correction={sourceId:'directory',flowId:'flow',replacementsUsed:0 as const,remainingBudget:{sourceMs:60000,details:8,regionPages:1,retrievalPages:3},entrances:[{ref:'region:flow:0',sourceId:'directory',flowId:'flow',href:'https://directory.example/area',label:'Observed',observedOn:'https://directory.example/',originalTargetRef:'observation:1:target:1',observationRevision:1}],samples:[]};
- const executor=new BrowserTaskExecutor({openSession:async()=>{throw Error('Selection must not open or read a DOM');}},{maxAutomaticElapsedMs:500000,maxModelCallsPerCandidate:6,maxModelCallsTotal:50,maxOperationsPerCandidate:24,modelDecision:{decide:async()=>{calls++;return {type:'SELECT_REGION_ENTRANCE',targetRef:'region:flow:0',reason:'Only choose a supplied collection ref'};}},budget});
- const input={taskId:'f5-context',source:'DIRECTORY',stage:'DISCOVERY' as const,signal:new AbortController().signal,goal:{outlet:{name:'Restaurants'},hardCriteria:[]},regionCorrection:correction};
- const outside=await executor.selectRegionEntrance({...input,stage:'FACTS'});assert.equal(outside.status,'NO_SAFE_ACTION');assert.equal(calls,0);assert.equal(budget.totalModelCalls,49);
- assert.equal((await executor.selectRegionEntrance({...input,regionCorrection:{...correction,entrances:correction.entrances.map(e=>({...e,flowId:'foreign-flow'}))}})).status,'NO_SAFE_ACTION');assert.equal(calls,0);
- assert.deepEqual(await executor.selectRegionEntrance(input),{status:'SELECTED',entranceRef:'region:flow:0'});assert.equal(budget.totalModelCalls,50);
- await assert.rejects(()=>executor.selectRegionEntrance(input),{code:'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED'});assert.equal(calls,1);assert.equal(budget.totalModelCalls,50);
+
+test("navigation below 3000ms remaining browser budget dispatches nothing and reports budget exhaustion",async t=>{
+ t.mock.timers.enable({apis:['Date'],now:0});
+ const session=new FixtureSession([{url:'https://public.example/',title:'',text:'',html:''}], false, true);let navigations=0,prepared=0;
+ session.navigate=async()=>{navigations++};(session as BrowserSession).prepareNavigation=async()=>{prepared++};
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:90000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24});
+ const signal=new AbortController().signal;await executor.acquire(signal,'TABELOG','DISCOVERY',{documentOrigins:['https://public.example'],startupDocuments:['https://public.example/'],staticResources:[],dynamicReads:[]});
+ // A short requested operation timeout is not a depleted browser window.
+ await executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,observed:true,url:'https://public.example/',timeoutMs:100});
+ assert.equal(navigations,1);assert.equal(prepared,1);
+ t.mock.timers.setTime(87500);
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,observed:true,url:'https://public.example/'}),e=>e instanceof BrowserRuntimeError&&e.code==='BROWSER_BUDGET_EXHAUSTED');
+ assert.equal(navigations,1);assert.equal(prepared,1);
+ t.mock.timers.setTime(90000);
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,observed:true,url:'https://public.example/'}),{code:'BROWSER_BUDGET_EXHAUSTED'});
+ const aborted=new AbortController();aborted.abort();
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal:aborted.signal,allowedOrigins:['https://public.example'],session,observed:true,url:'https://public.example/'}),{code:'BROWSER_ABORTED'});
+ assert.equal(navigations,1);assert.equal(prepared,1);await executor.close();
+});
+
+test("source-bound exact documents can open without a homepage or model search, while unknown destinations stay rejected", async () => {
+  const session = new FixtureSession([{url:"https://public.example/shop?source=original",title:"Merchant",text:"Merchant",html:""}]);
+  const navigated:string[]=[],prepared:string[]=[];let models=0;
+  (session as BrowserSession).navigate=async url=>{navigated.push(url);};
+  (session as BrowserSession).prepareObservedNavigation=async url=>{prepared.push(url);};
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:90_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24,modelDecision:{async decide(){models++;throw Error("A source-provided URL does not require a model-generated URL");}}});
+  const signal=new AbortController().signal;
+  await executor.acquire(signal,"SOURCE","IDENTITY");
+  try {
+    const input={source:"SOURCE",stage:"IDENTITY" as const,signal,session,allowedOrigins:["https://public.example"],observed:true};
+    await executor.navigate({...input,url:"https://public.example/shop?source=original"});
+    await executor.navigate({...input,url:"https://public.example/another-observed-shop"});
+    assert.deepEqual(navigated,["https://public.example/shop?source=original","https://public.example/another-observed-shop"]);
+    assert.deepEqual(prepared,navigated);assert.equal(models,0);
+    await assert.rejects(executor.navigate({...input,url:"https://other.example/shop"}));
+    await assert.rejects(executor.navigate({...input,url:"https://public.example/invented",observed:false}));
+    assert.equal(navigated.length,2);
+  }finally{await executor.close();}
+});
+
+
+test("named query receipts bind unnamed inputs, normalized values and complete field multisets without admitting stale or conflicting results",async()=>{
+ for(const mode of ["BOUND","NORMALIZED","MISSING","STALE","ORIGIN","PATH","EXTRA_FIELD","REPEATED_FIELD","CONFLICT","DETAIL"] as const){
+  const origin="https://public.example",query="Source Restaurant",field="arbitrary_keyword";
+  let submitted=false;
+  const url=new URL("/results",origin);url.searchParams.set(field,mode==="NORMALIZED"?"Ｓｏｕｒｃｅ   Restaurant":query);
+  const receipt={documentOrigin:mode==="ORIGIN"?"https://other.example":origin,actionOrigin:origin,actionPathname:mode==="PATH"?"/different":"/results",
+   fields:[{key:field,valueSha256:createHash("sha256").update(url.searchParams.get(field)!).digest("hex"),source:"PAGE" as const}]};
+  if(mode==="EXTRA_FIELD")url.searchParams.append("unexpected","new value");
+  if(mode==="REPEATED_FIELD")url.searchParams.append(field,query);
+  const request={outcome:"ADMITTED" as const,origin,pathname:"/results",method:"GET",resourceType:"document",queryKeys:[field],formSubmission:receipt};
+  const session=new FixtureSession([],false,true);
+  session.snapshot=async()=>({url:submitted?url.toString():origin+"/start",title:"Public search",text:submitted?"Results":"Query",html:"",networkRequests:mode==="MISSING"?[]:submitted||mode==="STALE"?[request]:[]});
+  session.click=async()=>{submitted=true;};
+  session.observeControls=async()=>[
+   {id:"query",stableKey:"query",kind:"INPUT",role:"textbox",label:"Public keyword",type:"text",value:query,visible:true,disabled:false,formMethod:"GET",formObservation:{owner:"form",visibleLines:[]}},
+   {id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Submit",visible:true,disabled:false,formMethod:"GET",formObservation:{owner:"form",visibleLines:[]}},
+  ];
+  const result=mode==="DETAIL"?new URL(url):new URL("/outlet",origin);if(mode==="CONFLICT")result.searchParams.set(field,"A different query");
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:4,maxModelCallsTotal:4,maxOperationsPerCandidate:30,
+   modelDecision:{async decide(input){return submitted?{type:"COMPLETE",reason:"Verify current list"}:{type:"CLICK",targetRef:input.observation.targets.find(t=>t.label==="Submit")!.ref,reason:"Submit observed GET"};}}});
+  const signal=new AbortController().signal;
+  try{
+   await executor.acquire(signal,"fixture","DISCOVERY",{documentOrigins:[origin],startupDocuments:[origin+"/start"],staticResources:[],dynamicReads:[]});
+   const read=await executor.search({source:"fixture",signal,session,allowedOrigins:[origin],url:origin+"/start",query,completion:()=>({complete:submitted,resultKey:"list",resultUrls:[result.toString()],resultBusy:false,reason:"Observed source list"})});
+   assert.equal(read.status,mode==="BOUND"||mode==="NORMALIZED"?"COMPLETED":"NO_SAFE_ACTION",mode);
+   assert.equal(read.reasonCode,mode==="CONFLICT"?"OBSERVED_QUERY_CONFLICT":mode==="DETAIL"?"OBSERVED_QUERY_NOT_LIST":mode==="BOUND"||mode==="NORMALIZED"?undefined:"OBSERVED_QUERY_UNBOUND",mode);
+  }finally{await executor.closeAll();}
+ }
 });

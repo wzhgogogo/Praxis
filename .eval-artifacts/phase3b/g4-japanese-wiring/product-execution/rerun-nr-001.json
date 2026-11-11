@@ -1,0 +1,490 @@
+{
+  "id": "nr-001",
+  "key": "rerun-nr-001",
+  "view": "RERUN4",
+  "cohort": "OLD29",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "Sushi Tatsu Shibuya",
+      "ordered": []
+    },
+    {
+      "kind": "FRAGMENT",
+      "query": "Sushi Tatsu",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Tatsu%20Shibuya",
+      "kind": "SEARCH",
+      "query": "Sushi Tatsu Shibuya",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-054.html",
+      "sha256": "b7a9ad228599fc952e07103c309429fcff4c3791235b742b7e4f972d97fe289c",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Tatsu",
+      "kind": "SEARCH",
+      "query": "Sushi Tatsu",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-055.html",
+      "sha256": "cd892db60cb52a5863999e5e5849c28ef9aaaf1b4c663901734b1fd3a4012f5c",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-056.html",
+      "sha256": "03e9c559221c52e14f9bf2306431ba57b0ba4220c12e4e99012c0187ea598e33",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-057.html",
+      "sha256": "84cd0794c7a1ea08198c15898f7ac16e5252e1ee6818abb7c74ea791186023dd",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-058.html",
+      "sha256": "04739c15e4df55143da3095aafd8b8dbb26f2f6c51b0f82d50771e31713bce6d",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-059.html",
+      "sha256": "7ef4d72a5e5444a67482e3830b14bd2567aec578b1df4b642642e633b6049788",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-056.html",
+      "sha256": "03e9c559221c52e14f9bf2306431ba57b0ba4220c12e4e99012c0187ea598e33",
+      "realGET": 0
+    }
+  ],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:nr-001",
+    "google": {
+      "placeId": "ChIJBR-RMIiLGGARjdfuvp7hPO8",
+      "outletName": {
+        "value": "Sushi Tatsu Shibuya",
+        "normalizedValue": "sushitatsushibuya",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "Japan, 〒150-0002 Tokyo, Shibuya, 1-chōme−15−１９ 東口二葉ビル 4F",
+        "normalizedValue": "japan〒1500002tokyoshibuya1chōme−15−１９東口二葉ビル4f",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "050-5597-4631",
+        "normalizedValue": "05055974631",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13233978",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+        "outletName": {
+          "value": "Sushi Tatsu",
+          "normalizedValue": "sushitatsu",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1500002 東京都渋谷区渋谷1-15-19 東口二葉ビル 4F",
+          "normalizedValue": "1500002東京都渋谷区渋谷11519東口二葉ビル4f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-6452-6180",
+          "normalizedValue": "0364526180",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "050-5597-4631",
+          "role": "RESERVATION",
+          "quote": "050-5597-4631",
+          "label": "Phone number (for reservation and inquiry)",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 8
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1304/A130401/13047204",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+        "outletName": {
+          "value": "Sushi Tatsu",
+          "normalizedValue": "sushitatsu",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1600023 東京都新宿区西新宿1-2-7",
+          "normalizedValue": "1600023東京都新宿区西新宿127",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-3342-0740",
+          "normalizedValue": "0333420740",
+          "source": "DOM"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 2
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1317/A131707/13132476",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+        "outletName": {
+          "value": "Sushi Tatsu",
+          "normalizedValue": "sushitatsu",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1540012 東京都世田谷区駒沢4-18-14",
+          "normalizedValue": "1540012東京都世田谷区駒沢41814",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-3795-5311",
+          "normalizedValue": "0337955311",
+          "source": "DOM"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 2
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1328/A132806/13071501",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+        "outletName": {
+          "value": "Sushi Tatsu",
+          "normalizedValue": "sushitatsu",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1890012 東京都東村山市萩山町1-8-12",
+          "normalizedValue": "1890012東京都東村山市萩山町1812",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "+81-不明の為情報お待ちしております",
+          "normalizedValue": "81",
+          "source": "JSON_LD"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 2
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1303/A130301/13233978",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "Sushi Tatsu Shibuya"
+        },
+        {
+          "kind": "FRAGMENT",
+          "query": "Sushi Tatsu"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "Sushi Tatsu",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Tatsu",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Tatsu",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 20,
+      "inspectedResultCount": 4
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13233978",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+        "outletName": "Sushi Tatsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1304/A130401/13047204",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+        "outletName": "Sushi Tatsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1317/A131707/13132476",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+        "outletName": "Sushi Tatsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1328/A132806/13071501",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+        "outletName": "Sushi Tatsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1305/A130502/13131471",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13131471/",
+        "outletName": "Sushi Tatsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1313/A131301/13321639",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13321639/",
+        "outletName": "Sushi Tatsunoya"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1326/A132601/13170152",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132601/13170152/",
+        "outletName": "Sushi Tatsuki"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1301/A130103/13072451",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13072451/",
+        "outletName": "Sushi Tatsumi"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1307/A130703/13247255",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130703/13247255/",
+        "outletName": "Sushi Tatsunari"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1317/A131701/13270451",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13270451/",
+        "outletName": "Sushi Tatsuya Yoshikawa"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1329/A132901/13094425",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1329/A132901/13094425/",
+        "outletName": "Sushi Katsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1330/A133003/13071438",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133003/13071438/",
+        "outletName": "Sushi Katsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1323/A132302/13019423",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132302/13019423/",
+        "outletName": "Sushi Katsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1324/A132402/13071434",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13071434/",
+        "outletName": "Sushi Katsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1307/A130701/13210037",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13210037/",
+        "outletName": "Roppongi Sushi Tatsumi"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1323/A132301/13071890",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132301/13071890/",
+        "outletName": "Hakusan Ue Sushi Tatsumi"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1323/A132303/13294661",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13294661/",
+        "outletName": "Sushi Matsu Ouji ten"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1307/A130703/13242515",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130703/13242515/",
+        "outletName": "Ushimatsu"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1327/A132702/13294662",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132702/13294662/",
+        "outletName": "Sushi Matsu Seiseki sakuragaoka ten"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1323/A132305/13064693",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13064693/",
+        "outletName": "Kushi Tetsu Ukima funato ten"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1303/A130301/13233978",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+        "title": "Sushi Tatsu Reservation - Shibuya/Sushi | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Sushi Tatsu",
+            "normalizedValue": "sushitatsu",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1500002 東京都渋谷区渋谷1-15-19 東口二葉ビル 4F",
+            "normalizedValue": "1500002東京都渋谷区渋谷11519東口二葉ビル4f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-6452-6180",
+            "normalizedValue": "0364526180",
+            "source": "DOM"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1304/A130401/13047204",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+        "title": "Sushi Tatsu - Shinjuku Nishiguchi/Sushi | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Sushi Tatsu",
+            "normalizedValue": "sushitatsu",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1600023 東京都新宿区西新宿1-2-7",
+            "normalizedValue": "1600023東京都新宿区西新宿127",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-3342-0740",
+            "normalizedValue": "0333420740",
+            "source": "DOM"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1317/A131707/13132476",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+        "title": "Sushi Tatsu - Komazawa Daigaku/Sushi | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Sushi Tatsu",
+            "normalizedValue": "sushitatsu",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1540012 東京都世田谷区駒沢4-18-14",
+            "normalizedValue": "1540012東京都世田谷区駒沢41814",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-3795-5311",
+            "normalizedValue": "0337955311",
+            "source": "DOM"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1328/A132806/13071501",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+        "title": "Sushi Tatsu - Hagiyama/Sushi | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Sushi Tatsu",
+            "normalizedValue": "sushitatsu",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1890012 東京都東村山市萩山町1-8-12",
+            "normalizedValue": "1890012東京都東村山市萩山町1812",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "+81-不明の為情報お待ちしております",
+            "normalizedValue": "81",
+            "source": "JSON_LD"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Tatsu%20Shibuya",
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Tatsu",
+    "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+    "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+    "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+    "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+    "https://tabelog.com/en/tokyo/A1303/A130301/13233978/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

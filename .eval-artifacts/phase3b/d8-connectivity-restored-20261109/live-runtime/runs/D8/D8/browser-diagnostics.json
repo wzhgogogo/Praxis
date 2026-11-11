@@ -1,0 +1,3516 @@
+{
+  "schemaVersion": "phase3b-g6-browser-diagnostics@1",
+  "runId": "g6-D8-1794185151956-0",
+  "events": [
+    {
+      "sequence": 1,
+      "at": "2026-11-09T00:45:59.767Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "elapsedMs": 4557,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 2,
+      "at": "2026-11-09T00:45:59.767Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 4557,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 3,
+      "at": "2026-11-09T00:45:59.767Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "elapsedMs": 4557,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "OPEN_SESSION"
+    },
+    {
+      "sequence": 4,
+      "at": "2026-11-09T00:46:00.162Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "elapsedMs": 4952,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 395,
+        "providerElapsedMs": 395,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "LOCAL_PLAYWRIGHT_CHROMIUM"
+    },
+    {
+      "sequence": 5,
+      "at": "2026-11-09T00:46:00.163Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 4953,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 396,
+        "providerElapsedMs": 396,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 6,
+      "at": "2026-11-09T00:46:20.170Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FAILED",
+      "elapsedMs": 24960,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20403,
+        "providerElapsedMs": 20403,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0,
+        "reason": "DEADLINE_EXCEEDED",
+        "failureCode": "BROWSER_TIMEOUT"
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba"
+    },
+    {
+      "sequence": 7,
+      "at": "2026-11-09T00:46:20.170Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "elapsedMs": 24960,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20403,
+        "providerElapsedMs": 20403,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SESSION_RETIRED"
+    },
+    {
+      "sequence": 8,
+      "at": "2026-11-09T00:46:20.170Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 24960,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20403,
+        "providerElapsedMs": 20403,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 9,
+      "at": "2026-11-09T00:46:20.170Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 24960,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20403,
+        "providerElapsedMs": 20403,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 10,
+      "at": "2026-11-09T00:46:20.172Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "elapsedMs": 24962,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20405,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 11,
+      "at": "2026-11-09T00:46:20.172Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 24962,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20405,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 12,
+      "at": "2026-11-09T00:46:20.172Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "elapsedMs": 24962,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20405,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "OPEN_SESSION"
+    },
+    {
+      "sequence": 13,
+      "at": "2026-11-09T00:46:20.323Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "elapsedMs": 25113,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20556,
+        "providerElapsedMs": 151,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "LOCAL_PLAYWRIGHT_CHROMIUM"
+    },
+    {
+      "sequence": 14,
+      "at": "2026-11-09T00:46:20.324Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 25114,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20557,
+        "providerElapsedMs": 152,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 15,
+      "at": "2026-11-09T00:46:24.263Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 29053,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24496,
+        "providerElapsedMs": 4091,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 16,
+      "at": "2026-11-09T00:46:24.576Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 29366,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24809,
+        "providerElapsedMs": 4404,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 17,
+      "at": "2026-11-09T00:46:24.577Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 29367,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 24810,
+        "providerElapsedMs": 4405,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 18,
+      "at": "2026-11-09T00:46:24.690Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 29480,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24923,
+        "providerElapsedMs": 4518,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 19,
+      "at": "2026-11-09T00:46:24.690Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 29480,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24923,
+        "providerElapsedMs": 4518,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 20,
+      "at": "2026-11-09T00:46:24.690Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 29480,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 24923,
+        "providerElapsedMs": 4518,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 21,
+      "at": "2026-11-09T00:46:25.192Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 29982,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25425,
+        "providerElapsedMs": 5020,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 22,
+      "at": "2026-11-09T00:46:25.203Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SKILL_STARTED",
+      "elapsedMs": 29993,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25436,
+        "providerElapsedMs": 5031,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 23,
+      "at": "2026-11-09T00:46:25.203Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 29993,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 25436,
+        "providerElapsedMs": 5031,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 24,
+      "at": "2026-11-09T00:46:26.814Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 31604,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27047,
+        "providerElapsedMs": 6642,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 25,
+      "at": "2026-11-09T00:46:26.814Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 31604,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27047,
+        "providerElapsedMs": 6642,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 26,
+      "at": "2026-11-09T00:46:26.814Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 31604,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27047,
+        "providerElapsedMs": 6642,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "MODEL_FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 27,
+      "at": "2026-11-09T00:46:26.815Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 31605,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 27048,
+        "providerElapsedMs": 6643,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 28,
+      "at": "2026-11-09T00:46:26.852Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 31642,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27085,
+        "providerElapsedMs": 6680,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 29,
+      "at": "2026-11-09T00:46:26.852Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 31642,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 27085,
+        "providerElapsedMs": 6680,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 30,
+      "at": "2026-11-09T00:46:30.572Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 35362,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 30805,
+        "providerElapsedMs": 10400,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 31,
+      "at": "2026-11-09T00:46:30.572Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 35362,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 30805,
+        "providerElapsedMs": 10400,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 32,
+      "at": "2026-11-09T00:46:30.573Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 35363,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 30806,
+        "providerElapsedMs": 10401,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 33,
+      "at": "2026-11-09T00:46:30.657Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 35447,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 30890,
+        "providerElapsedMs": 10485,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 34,
+      "at": "2026-11-09T00:46:30.657Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 35447,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 30890,
+        "providerElapsedMs": 10485,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 35,
+      "at": "2026-11-09T00:46:30.657Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 35447,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 30890,
+        "providerElapsedMs": 10485,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 36,
+      "at": "2026-11-09T00:46:31.162Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 35952,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31395,
+        "providerElapsedMs": 10990,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 37,
+      "at": "2026-11-09T00:46:31.163Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 35953,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31396,
+        "providerElapsedMs": 10991,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-11-09T00:46:31.170Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 35960,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31403,
+        "providerElapsedMs": 10998,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 1
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 39,
+      "at": "2026-11-09T00:46:31.170Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 35960,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 31403,
+        "providerElapsedMs": 10998,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 40,
+      "at": "2026-11-09T00:46:33.008Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 37798,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 33241,
+        "providerElapsedMs": 12836,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 41,
+      "at": "2026-11-09T00:46:33.008Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 37798,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 33241,
+        "providerElapsedMs": 12836,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 42,
+      "at": "2026-11-09T00:46:33.008Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 37798,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 33241,
+        "providerElapsedMs": 12836,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 43,
+      "at": "2026-11-09T00:46:33.009Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 37799,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 33242,
+        "providerElapsedMs": 12837,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SUBMIT_PUBLIC_QUERY"
+    },
+    {
+      "sequence": 44,
+      "at": "2026-11-09T00:46:42.718Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 47508,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42951,
+        "providerElapsedMs": 22546,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SUBMIT_PUBLIC_QUERY"
+    },
+    {
+      "sequence": 45,
+      "at": "2026-11-09T00:46:42.718Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 47508,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 42951,
+        "providerElapsedMs": 22546,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 46,
+      "at": "2026-11-09T00:46:43.350Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 48140,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43583,
+        "providerElapsedMs": 23178,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 47,
+      "at": "2026-11-09T00:46:43.350Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 48140,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43583,
+        "providerElapsedMs": 23178,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 48,
+      "at": "2026-11-09T00:46:43.350Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 48140,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 43583,
+        "providerElapsedMs": 23178,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 49,
+      "at": "2026-11-09T00:46:46.293Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 51083,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46526,
+        "providerElapsedMs": 26121,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 50,
+      "at": "2026-11-09T00:46:46.293Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 51083,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46526,
+        "providerElapsedMs": 26121,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 51,
+      "at": "2026-11-09T00:46:46.293Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 51083,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 46526,
+        "providerElapsedMs": 26121,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 52,
+      "at": "2026-11-09T00:46:46.967Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 51757,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47200,
+        "providerElapsedMs": 26795,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 53,
+      "at": "2026-11-09T00:46:46.968Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 51758,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47201,
+        "providerElapsedMs": 26796,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 54,
+      "at": "2026-11-09T00:46:46.981Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 51771,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47214,
+        "providerElapsedMs": 26809,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 2
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 55,
+      "at": "2026-11-09T00:46:46.981Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 51771,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 47214,
+        "providerElapsedMs": 26809,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 56,
+      "at": "2026-11-09T00:46:48.886Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 53676,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49119,
+        "providerElapsedMs": 28714,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 57,
+      "at": "2026-11-09T00:46:48.886Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 53676,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49119,
+        "providerElapsedMs": 28714,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 58,
+      "at": "2026-11-09T00:46:48.886Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_STOP",
+      "elapsedMs": 53676,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49119,
+        "providerElapsedMs": 28714,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "MODEL_COMPLETE"
+    },
+    {
+      "sequence": 59,
+      "at": "2026-11-09T00:46:48.906Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 53696,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 49139,
+        "providerElapsedMs": 28734,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 60,
+      "at": "2026-11-09T00:46:49.023Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 53813,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49256,
+        "providerElapsedMs": 28851,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 61,
+      "at": "2026-11-09T00:46:49.023Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 53813,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 49256,
+        "providerElapsedMs": 28851,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 62,
+      "at": "2026-11-09T00:46:49.030Z",
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 53820,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 49263,
+        "providerElapsedMs": 28858,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 63,
+      "at": "2026-11-09T00:47:05.174Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "elapsedMs": 69964,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 65407,
+        "providerElapsedMs": 45002,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "SESSION_RETIRED"
+    },
+    {
+      "sequence": 64,
+      "at": "2026-11-09T00:47:05.174Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 69964,
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 65407,
+        "providerElapsedMs": 45002,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 3,
+        "reason": "DEADLINE_EXCEEDED"
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 65,
+      "at": "2026-11-09T00:47:05.174Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 69964,
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 65407,
+        "providerElapsedMs": 45002,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 3,
+        "reason": "DEADLINE_EXCEEDED"
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 66,
+      "at": "2026-11-09T00:47:05.197Z",
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FAILED",
+      "elapsedMs": 69987,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 65430,
+        "providerElapsedMs": 45025,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 3,
+        "scope": "PROVIDER",
+        "reason": "DEADLINE_EXCEEDED",
+        "failureCode": "BROWSER_TIMEOUT"
+      },
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba"
+    },
+    {
+      "sequence": 67,
+      "at": "2026-11-09T00:47:05.199Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "elapsedMs": 69989,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 68,
+      "at": "2026-11-09T00:47:05.199Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 69989,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 69,
+      "at": "2026-11-09T00:47:05.199Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "elapsedMs": 69989,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OPEN_SESSION"
+    },
+    {
+      "sequence": 70,
+      "at": "2026-11-09T00:47:05.322Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "elapsedMs": 70112,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 123,
+        "providerElapsedMs": 123,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "LOCAL_PLAYWRIGHT_CHROMIUM"
+    },
+    {
+      "sequence": 71,
+      "at": "2026-11-09T00:47:05.322Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 70112,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 123,
+        "providerElapsedMs": 123,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 72,
+      "at": "2026-11-09T00:47:25.325Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FAILED",
+      "elapsedMs": 90115,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20126,
+        "providerElapsedMs": 20126,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 3,
+        "reason": "DEADLINE_EXCEEDED",
+        "failureCode": "BROWSER_TIMEOUT"
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5"
+    },
+    {
+      "sequence": 73,
+      "at": "2026-11-09T00:47:25.325Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "elapsedMs": 90115,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20126,
+        "providerElapsedMs": 20126,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SESSION_RETIRED"
+    },
+    {
+      "sequence": 74,
+      "at": "2026-11-09T00:47:25.325Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 90115,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20126,
+        "providerElapsedMs": 20126,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 3,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 75,
+      "at": "2026-11-09T00:47:25.325Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 90115,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20126,
+        "providerElapsedMs": 20126,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 3,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 76,
+      "at": "2026-11-09T00:47:25.326Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "elapsedMs": 90116,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20127,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 77,
+      "at": "2026-11-09T00:47:25.326Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 90116,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20127,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 78,
+      "at": "2026-11-09T00:47:25.326Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "elapsedMs": 90116,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20127,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OPEN_SESSION"
+    },
+    {
+      "sequence": 79,
+      "at": "2026-11-09T00:47:25.452Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "elapsedMs": 90242,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20253,
+        "providerElapsedMs": 126,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "LOCAL_PLAYWRIGHT_CHROMIUM"
+    },
+    {
+      "sequence": 80,
+      "at": "2026-11-09T00:47:25.453Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 90243,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20254,
+        "providerElapsedMs": 127,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 81,
+      "at": "2026-11-09T00:47:36.644Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 101434,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31445,
+        "providerElapsedMs": 11318,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 82,
+      "at": "2026-11-09T00:47:36.954Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 101744,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31755,
+        "providerElapsedMs": 11628,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 83,
+      "at": "2026-11-09T00:47:36.955Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 101745,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 31756,
+        "providerElapsedMs": 11629,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 84,
+      "at": "2026-11-09T00:47:37.058Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 101848,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31859,
+        "providerElapsedMs": 11732,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 85,
+      "at": "2026-11-09T00:47:37.058Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 101848,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31859,
+        "providerElapsedMs": 11732,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 86,
+      "at": "2026-11-09T00:47:37.058Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 101848,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 31859,
+        "providerElapsedMs": 11732,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 87,
+      "at": "2026-11-09T00:47:37.547Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 102337,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 32348,
+        "providerElapsedMs": 12221,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 88,
+      "at": "2026-11-09T00:47:37.555Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SKILL_STARTED",
+      "elapsedMs": 102345,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 32356,
+        "providerElapsedMs": 12229,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 3
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 89,
+      "at": "2026-11-09T00:47:37.555Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 102345,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 32356,
+        "providerElapsedMs": 12229,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 90,
+      "at": "2026-11-09T00:47:40.261Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 105051,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 35062,
+        "providerElapsedMs": 14935,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 91,
+      "at": "2026-11-09T00:47:40.261Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 105051,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 35062,
+        "providerElapsedMs": 14935,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 92,
+      "at": "2026-11-09T00:47:40.261Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 105051,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 35062,
+        "providerElapsedMs": 14935,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "MODEL_FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 93,
+      "at": "2026-11-09T00:47:40.262Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 105052,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 35063,
+        "providerElapsedMs": 14936,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 94,
+      "at": "2026-11-09T00:47:40.295Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 105085,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 35096,
+        "providerElapsedMs": 14969,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "FILL_AUTHORITATIVE"
+    },
+    {
+      "sequence": 95,
+      "at": "2026-11-09T00:47:40.295Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 105085,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 35096,
+        "providerElapsedMs": 14969,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 96,
+      "at": "2026-11-09T00:47:44.004Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 108794,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 38805,
+        "providerElapsedMs": 18678,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 97,
+      "at": "2026-11-09T00:47:44.005Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 108795,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 38806,
+        "providerElapsedMs": 18679,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 98,
+      "at": "2026-11-09T00:47:44.005Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 108795,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 38806,
+        "providerElapsedMs": 18679,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 99,
+      "at": "2026-11-09T00:47:44.091Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 108881,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 38892,
+        "providerElapsedMs": 18765,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 100,
+      "at": "2026-11-09T00:47:44.091Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 108881,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 38892,
+        "providerElapsedMs": 18765,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 101,
+      "at": "2026-11-09T00:47:44.091Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 108881,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 38892,
+        "providerElapsedMs": 18765,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 102,
+      "at": "2026-11-09T00:47:44.600Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 109390,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 39401,
+        "providerElapsedMs": 19274,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 103,
+      "at": "2026-11-09T00:47:44.601Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 109391,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 39402,
+        "providerElapsedMs": 19275,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 104,
+      "at": "2026-11-09T00:47:44.608Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 109398,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 39409,
+        "providerElapsedMs": 19282,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 4
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 105,
+      "at": "2026-11-09T00:47:44.608Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 109398,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 39409,
+        "providerElapsedMs": 19282,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 106,
+      "at": "2026-11-09T00:47:45.713Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 110503,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 40514,
+        "providerElapsedMs": 20387,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      }
+    },
+    {
+      "sequence": 107,
+      "at": "2026-11-09T00:47:45.714Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 110504,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 40515,
+        "providerElapsedMs": 20388,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 108,
+      "at": "2026-11-09T00:47:45.714Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_ACTION",
+      "elapsedMs": 110504,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 40515,
+        "providerElapsedMs": 20388,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/"
+      },
+      "operation": "MODEL_CLICK"
+    },
+    {
+      "sequence": 109,
+      "at": "2026-11-09T00:47:45.714Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 110504,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 40515,
+        "providerElapsedMs": 20388,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SUBMIT_PUBLIC_QUERY"
+    },
+    {
+      "sequence": 110,
+      "at": "2026-11-09T00:47:56.129Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 120918,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 50929,
+        "providerElapsedMs": 30802,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SUBMIT_PUBLIC_QUERY"
+    },
+    {
+      "sequence": 111,
+      "at": "2026-11-09T00:47:56.129Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 120919,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 50930,
+        "providerElapsedMs": 30803,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 112,
+      "at": "2026-11-09T00:47:57.616Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 122406,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52417,
+        "providerElapsedMs": 32290,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "WAIT_FOR_SETTLED"
+    },
+    {
+      "sequence": 113,
+      "at": "2026-11-09T00:47:57.616Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "elapsedMs": 122406,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52417,
+        "providerElapsedMs": 32290,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "PAGE_SETTLED"
+    },
+    {
+      "sequence": 114,
+      "at": "2026-11-09T00:47:57.616Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 122406,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 52417,
+        "providerElapsedMs": 32290,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 115,
+      "at": "2026-11-09T00:47:57.690Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 122480,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52491,
+        "providerElapsedMs": 32364,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 116,
+      "at": "2026-11-09T00:47:57.690Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 122480,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52491,
+        "providerElapsedMs": 32364,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 11,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 117,
+      "at": "2026-11-09T00:47:57.690Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 122480,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 52491,
+        "providerElapsedMs": 32364,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 118,
+      "at": "2026-11-09T00:47:57.866Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 122656,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52667,
+        "providerElapsedMs": 32540,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 119,
+      "at": "2026-11-09T00:47:57.867Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 122657,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52668,
+        "providerElapsedMs": 32541,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "OBSERVED_CHANGE_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 120,
+      "at": "2026-11-09T00:47:57.869Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "POST_ACTION_VERIFIED",
+      "elapsedMs": 122659,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52670,
+        "providerElapsedMs": 32543,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 5
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "NEW_OBSERVATION_AFTER_MODEL_ACTION"
+    },
+    {
+      "sequence": 121,
+      "at": "2026-11-09T00:47:57.869Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 122659,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 52670,
+        "providerElapsedMs": 32543,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 122,
+      "at": "2026-11-09T00:47:59.046Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 123836,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53847,
+        "providerElapsedMs": 33720,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 123,
+      "at": "2026-11-09T00:47:59.046Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 123836,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53847,
+        "providerElapsedMs": 33720,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 124,
+      "at": "2026-11-09T00:47:59.046Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_STOP",
+      "elapsedMs": 123836,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53847,
+        "providerElapsedMs": 33720,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 12,
+        "providerRuntimeOperations": 11,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "MODEL_COMPLETE"
+    },
+    {
+      "sequence": 125,
+      "at": "2026-11-09T00:47:59.050Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 123840,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 53851,
+        "providerElapsedMs": 33724,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 126,
+      "at": "2026-11-09T00:47:59.124Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 123914,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53925,
+        "providerElapsedMs": 33798,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 127,
+      "at": "2026-11-09T00:47:59.124Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 123914,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 53925,
+        "providerElapsedMs": 33798,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 13,
+        "providerRuntimeOperations": 12,
+        "runModelCalls": 6
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 128,
+      "at": "2026-11-09T00:48:00.116Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 124906,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 54917,
+        "providerElapsedMs": 34790,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 129,
+      "at": "2026-11-09T00:48:00.174Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 124964,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 54975,
+        "providerElapsedMs": 34848,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 130,
+      "at": "2026-11-09T00:48:00.174Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 124964,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 54975,
+        "providerElapsedMs": 34848,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 14,
+        "providerRuntimeOperations": 13,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 131,
+      "at": "2026-11-09T00:48:00.174Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 124964,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 54975,
+        "providerElapsedMs": 34848,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 132,
+      "at": "2026-11-09T00:48:00.334Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 125124,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 55135,
+        "providerElapsedMs": 35008,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 133,
+      "at": "2026-11-09T00:48:00.335Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SKILL_STARTED",
+      "elapsedMs": 125125,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 55136,
+        "providerElapsedMs": 35009,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 7
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 134,
+      "at": "2026-11-09T00:48:00.335Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 125125,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 55136,
+        "providerElapsedMs": 35009,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 135,
+      "at": "2026-11-09T00:48:01.498Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 126288,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 56299,
+        "providerElapsedMs": 36172,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 136,
+      "at": "2026-11-09T00:48:01.498Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 126288,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 56299,
+        "providerElapsedMs": 36172,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 137,
+      "at": "2026-11-09T00:48:01.498Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_STOP",
+      "elapsedMs": 126288,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 56299,
+        "providerElapsedMs": 36172,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 15,
+        "providerRuntimeOperations": 14,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "MODEL_REQUEST_HUMAN_HELP"
+    },
+    {
+      "sequence": 138,
+      "at": "2026-11-09T00:48:01.498Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 126288,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 56299,
+        "providerElapsedMs": 36172,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 139,
+      "at": "2026-11-09T00:48:01.557Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 126347,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 56358,
+        "providerElapsedMs": 36231,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 140,
+      "at": "2026-11-09T00:48:01.557Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 126347,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 56358,
+        "providerElapsedMs": 36231,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 141,
+      "at": "2026-11-09T00:48:01.557Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 126347,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 56358,
+        "providerElapsedMs": 36231,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 8,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 142,
+      "at": "2026-11-09T00:48:01.557Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 126347,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 56358,
+        "providerElapsedMs": 36231,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 15,
+        "runModelCalls": 8,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 143,
+      "at": "2026-11-09T00:48:01.558Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "elapsedMs": 126348,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 144,
+      "at": "2026-11-09T00:48:01.558Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 126348,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 145,
+      "at": "2026-11-09T00:48:01.558Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "elapsedMs": 126348,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "OPEN_SESSION"
+    },
+    {
+      "sequence": 146,
+      "at": "2026-11-09T00:48:01.675Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "elapsedMs": 126465,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 117,
+        "providerElapsedMs": 117,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "LOCAL_PLAYWRIGHT_CHROMIUM"
+    },
+    {
+      "sequence": 147,
+      "at": "2026-11-09T00:48:01.676Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 126466,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 118,
+        "providerElapsedMs": 118,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "NAVIGATE"
+    },
+    {
+      "sequence": 148,
+      "at": "2026-11-09T00:48:21.682Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FAILED",
+      "elapsedMs": 146472,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20124,
+        "providerElapsedMs": 20124,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8,
+        "reason": "DEADLINE_EXCEEDED",
+        "failureCode": "BROWSER_TIMEOUT"
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895"
+    },
+    {
+      "sequence": 149,
+      "at": "2026-11-09T00:48:21.682Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "elapsedMs": 146472,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20124,
+        "providerElapsedMs": 20124,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "SESSION_RETIRED"
+    },
+    {
+      "sequence": 150,
+      "at": "2026-11-09T00:48:21.682Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 146472,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20124,
+        "providerElapsedMs": 20124,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 151,
+      "at": "2026-11-09T00:48:21.682Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 146472,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 20124,
+        "providerElapsedMs": 20124,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 152,
+      "at": "2026-11-09T00:48:21.683Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "elapsedMs": 146472,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20124,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 153,
+      "at": "2026-11-09T00:48:21.683Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "elapsedMs": 146473,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20125,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 154,
+      "at": "2026-11-09T00:48:21.684Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 146474,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20126,
+        "providerElapsedMs": 1,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 155,
+      "at": "2026-11-09T00:48:21.758Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 146548,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20200,
+        "providerElapsedMs": 75,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 156,
+      "at": "2026-11-09T00:48:21.758Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 146548,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20200,
+        "providerElapsedMs": 75,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 157,
+      "at": "2026-11-09T00:48:21.758Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 146548,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20200,
+        "providerElapsedMs": 75,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 158,
+      "at": "2026-11-09T00:48:21.934Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 146724,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20376,
+        "providerElapsedMs": 251,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "OBSERVE_CONTROLS"
+    },
+    {
+      "sequence": 159,
+      "at": "2026-11-09T00:48:21.936Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SKILL_STARTED",
+      "elapsedMs": 146726,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 20378,
+        "providerElapsedMs": 253,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 8
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 160,
+      "at": "2026-11-09T00:48:21.936Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_STARTED",
+      "elapsedMs": 146726,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 20378,
+        "providerElapsedMs": 253,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 161,
+      "at": "2026-11-09T00:48:23.298Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_WIRE",
+      "elapsedMs": 148088,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21740,
+        "providerElapsedMs": 1615,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 162,
+      "at": "2026-11-09T00:48:23.298Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_DECISION_FINISHED",
+      "elapsedMs": 148088,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21740,
+        "providerElapsedMs": 1615,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "MODEL_DECISION"
+    },
+    {
+      "sequence": 163,
+      "at": "2026-11-09T00:48:23.298Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "MODEL_STOP",
+      "elapsedMs": 148088,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21740,
+        "providerElapsedMs": 1615,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      },
+      "operation": "MODEL_REQUEST_HUMAN_HELP"
+    },
+    {
+      "sequence": 164,
+      "at": "2026-11-09T00:48:23.298Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "elapsedMs": 148088,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 21740,
+        "providerElapsedMs": 1615,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 165,
+      "at": "2026-11-09T00:48:23.375Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "elapsedMs": 148165,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21817,
+        "providerElapsedMs": 1692,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "SNAPSHOT"
+    },
+    {
+      "sequence": 166,
+      "at": "2026-11-09T00:48:23.375Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "elapsedMs": 148165,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21817,
+        "providerElapsedMs": 1692,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "page": {
+        "url": "https://tabelog.com/en/rstLst/"
+      }
+    },
+    {
+      "sequence": 167,
+      "at": "2026-11-09T00:48:23.375Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 148165,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21817,
+        "providerElapsedMs": 1692,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 168,
+      "at": "2026-11-09T00:48:23.375Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 148165,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21817,
+        "providerElapsedMs": 1692,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 9,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 169,
+      "at": "2026-11-09T00:48:25.943Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "elapsedMs": 150733,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 24385,
+        "providerElapsedMs": 4260,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      },
+      "operation": "SESSION_RETIRED"
+    }
+  ]
+}

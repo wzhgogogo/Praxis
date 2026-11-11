@@ -1,0 +1,400 @@
+{
+  "status": "STOP_REQUIRED_BY_USER",
+  "atCET": "2026-11-07T10:29:49.502422+01:00",
+  "probeSourceSHA": "82ac67fbceb6732e676f0515ce13c3983acd5937",
+  "confirmedStop": "destination=OTHER at the browser CORS preflight; refused, no relaxation",
+  "qCorrection": "Actual q preflight and GET were EQUALS_AUTHORITATIVE_INPUT and ADMITTED. The later failure callback reclassified without the original fill context; its OTHER is not evidence of a different q. Original receipt/outcome unchanged. Fixed on the offline candidate using request-owned category metadata; local targeted red/green retained.",
+  "rawQueryValuesPersisted": false,
+  "catalogCORS": [
+    {
+      "requestId": "capture:1:page:1:request:19",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "corsError": "MissingAllowOriginHeader"
+    },
+    {
+      "requestId": "capture:1:page:1:request:26",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "corsError": "MissingAllowOriginHeader"
+    },
+    {
+      "requestId": "capture:1:page:1:request:27",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "corsError": "MissingAllowOriginHeader"
+    },
+    {
+      "requestId": "capture:1:page:1:request:28",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "corsError": "MissingAllowOriginHeader"
+    },
+    {
+      "requestId": "capture:1:page:1:request:29",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "corsError": "MissingAllowOriginHeader"
+    },
+    {
+      "requestId": "capture:1:page:1:request:34",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "corsError": "MissingAllowOriginHeader"
+    },
+    {
+      "requestId": "capture:1:page:1:request:35",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "corsError": "MissingAllowOriginHeader"
+    }
+  ],
+  "upstreamCause": "MissingAllowOriginHeader observed in Chromium. No response status/headers were available for those failed reads. Do not infer whether source, intermediate network or another upstream component caused it. No CORS/header/transport workaround applied.",
+  "recorderDifferential": {
+    "sameRealInputs": true,
+    "baselineGit": "4511476a",
+    "baselineModuleSHA256": "9c4bd2400740711e9c82ff682e66f20bd07a864c8c4181b2d9a73165c9b8d8ac",
+    "oldDiagnosticDOMSaved": 0,
+    "newDiagnosticDOMSaved": 3,
+    "oldReplay": "UNSAFE_DOCUMENT",
+    "newReplay": "UNCAPTURED_STATIC_DEPENDENCY",
+    "remainingDependencyBytes": 10284255,
+    "existingStaticLimitBytes": 2500000,
+    "limitChanged": false,
+    "historicalProbeRawReconstruction": false
+  },
+  "model": 0,
+  "live": 0,
+  "newPageReads": 1,
+  "spareUsed": false,
+  "remainingSpare": 1,
+  "D8WitnessGETUnused": 3,
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 653,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 349,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11222
+  },
+  "limits": {
+    "evaluationPublicGET": 461,
+    "fullLive": 42,
+    "realModelCalls": 1600
+  },
+  "heldOutReserved": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "layers": {
+    "endToEnd": "NOT_EVALUATED; no D8 Live",
+    "stepDecisions": "Observed Destination open and full authoritative fill; no suggestion selection/result handoff",
+    "severity": "No authorized booking/login/date-confirmation/POST-form action. Full D8 declaration S0 NOT_EVALUATED. No query binding or identity success claimed.",
+    "attribution": "Current exact source contract rejects destination OTHER. q passes, then CORS fails. Recorder URL rejection fixed, replay blocked by recorded static size and failed data."
+  },
+  "bindingImplementation": "NOT_REACHED; no successful selected-result evidence, so neither dynamic binding nor suggestion-direct handoff implemented",
+  "independentContractAudit": [
+    {
+      "method": "OPTIONS",
+      "resourceType": "other",
+      "outcome": "ADMITTED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": true,
+      "note": ""
+    },
+    {
+      "method": "OPTIONS",
+      "resourceType": "other",
+      "outcome": "ADMITTED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "kind",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": true,
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "resourceType": "fetch",
+      "outcome": "ADMITTED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": true,
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "resourceType": "fetch",
+      "outcome": "ADMITTED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "kind",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": true,
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "resourceType": "fetch",
+      "outcome": "BLOCKED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": true,
+      "note": "A failed native callback may have lost authority context in82ac67fb; original record retained, see correction."
+    },
+    {
+      "method": "GET",
+      "resourceType": "fetch",
+      "outcome": "BLOCKED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "kind",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": true,
+      "note": "A failed native callback may have lost authority context in82ac67fb; original record retained, see correction."
+    },
+    {
+      "method": "OPTIONS",
+      "resourceType": "other",
+      "outcome": "ADMITTED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "q",
+          "valueClass": "EQUALS_AUTHORITATIVE_INPUT"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": true,
+      "note": ""
+    },
+    {
+      "method": "OPTIONS",
+      "resourceType": "other",
+      "outcome": "BLOCKED",
+      "queryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "name",
+          "valueClass": "EQUALS_AUTHORITATIVE_INPUT"
+        },
+        {
+          "queryKey": "destination",
+          "valueClass": "OTHER"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": false,
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "resourceType": "fetch",
+      "outcome": "ADMITTED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "q",
+          "valueClass": "EQUALS_AUTHORITATIVE_INPUT"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": true,
+      "note": ""
+    },
+    {
+      "method": "GET",
+      "resourceType": "fetch",
+      "outcome": "BLOCKED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "q",
+          "valueClass": "OTHER"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ],
+      "independentLiteralContractSatisfied": false,
+      "note": "A failed native callback may have lost authority context in82ac67fb; original record retained, see correction."
+    }
+  ]
+}

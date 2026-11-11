@@ -1,0 +1,2956 @@
+{
+  "schemaVersion": "phase3b-g6-browser-trace@1",
+  "runId": "g6-D3-1793681527903-0",
+  "events": [
+    {
+      "sequence": 1,
+      "at": "2026-11-03T04:52:17.301Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 1
+      }
+    },
+    {
+      "sequence": 2,
+      "at": "2026-11-03T04:52:17.416Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 1,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 3,
+      "at": "2026-11-03T04:52:17.417Z",
+      "kind": "SESSION_OPENED",
+      "detail": {}
+    },
+    {
+      "sequence": 4,
+      "at": "2026-11-03T04:52:17.418Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 5,
+      "at": "2026-11-03T04:52:17.418Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 2
+      }
+    },
+    {
+      "sequence": 6,
+      "at": "2026-11-03T04:52:18.679Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 2,
+        "outcome": "FAILED"
+      }
+    },
+    {
+      "sequence": 7,
+      "at": "2026-11-03T04:52:18.679Z",
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 8,
+      "at": "2026-11-03T04:52:18.680Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "close",
+        "operationId": 3
+      }
+    },
+    {
+      "sequence": 9,
+      "at": "2026-11-03T04:52:18.682Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 4
+      }
+    },
+    {
+      "sequence": 10,
+      "at": "2026-11-03T04:52:18.708Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "close",
+        "operationId": 3,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 11,
+      "at": "2026-11-03T04:52:18.783Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 4,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 12,
+      "at": "2026-11-03T04:52:18.783Z",
+      "kind": "SESSION_OPENED",
+      "detail": {}
+    },
+    {
+      "sequence": 13,
+      "at": "2026-11-03T04:52:18.783Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "captureResponses"
+      }
+    },
+    {
+      "sequence": 14,
+      "at": "2026-11-03T04:52:18.783Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "captureResponses",
+        "operationId": 5
+      }
+    },
+    {
+      "sequence": 15,
+      "at": "2026-11-03T04:52:18.784Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "captureResponses",
+        "operationId": 5,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 16,
+      "at": "2026-11-03T04:52:18.784Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "captureResponses"
+      }
+    },
+    {
+      "sequence": 17,
+      "at": "2026-11-03T04:52:18.784Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 18,
+      "at": "2026-11-03T04:52:18.784Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 6
+      }
+    },
+    {
+      "sequence": 19,
+      "at": "2026-11-03T04:52:26.109Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 6,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 20,
+      "at": "2026-11-03T04:52:26.109Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 21,
+      "at": "2026-11-03T04:52:26.109Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 22,
+      "at": "2026-11-03T04:52:26.109Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 7
+      }
+    },
+    {
+      "sequence": 23,
+      "at": "2026-11-03T04:52:26.423Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 7,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 24,
+      "at": "2026-11-03T04:52:26.423Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 25,
+      "at": "2026-11-03T04:52:26.424Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 8
+      }
+    },
+    {
+      "sequence": 26,
+      "at": "2026-11-03T04:52:26.465Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 8,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 27,
+      "at": "2026-11-03T04:52:26.472Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 28,
+      "at": "2026-11-03T04:52:26.480Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 9
+      }
+    },
+    {
+      "sequence": 29,
+      "at": "2026-11-03T04:52:26.515Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 9,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 30,
+      "at": "2026-11-03T04:52:28.437Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 31,
+      "at": "2026-11-03T04:52:28.437Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 10
+      }
+    },
+    {
+      "sequence": 32,
+      "at": "2026-11-03T04:52:31.807Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 10,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 33,
+      "at": "2026-11-03T04:52:31.807Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 34,
+      "at": "2026-11-03T04:52:31.807Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 35,
+      "at": "2026-11-03T04:52:31.807Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 11
+      }
+    },
+    {
+      "sequence": 36,
+      "at": "2026-11-03T04:52:32.525Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 11,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 37,
+      "at": "2026-11-03T04:52:32.525Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 38,
+      "at": "2026-11-03T04:52:32.525Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 12
+      }
+    },
+    {
+      "sequence": 39,
+      "at": "2026-11-03T04:52:32.572Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 12,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 40,
+      "at": "2026-11-03T04:52:32.581Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 41,
+      "at": "2026-11-03T04:52:32.593Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 13
+      }
+    },
+    {
+      "sequence": 42,
+      "at": "2026-11-03T04:52:32.630Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 13,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 43,
+      "at": "2026-11-03T04:52:32.638Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 44,
+      "at": "2026-11-03T04:52:32.638Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 14
+      }
+    },
+    {
+      "sequence": 45,
+      "at": "2026-11-03T04:52:36.531Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 14,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 46,
+      "at": "2026-11-03T04:52:36.531Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 47,
+      "at": "2026-11-03T04:52:36.532Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 48,
+      "at": "2026-11-03T04:52:36.532Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 15
+      }
+    },
+    {
+      "sequence": 49,
+      "at": "2026-11-03T04:52:37.261Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 15,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 50,
+      "at": "2026-11-03T04:52:37.261Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 51,
+      "at": "2026-11-03T04:52:37.261Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 16
+      }
+    },
+    {
+      "sequence": 52,
+      "at": "2026-11-03T04:52:37.296Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 16,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 53,
+      "at": "2026-11-03T04:52:37.305Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 54,
+      "at": "2026-11-03T04:52:37.317Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 17
+      }
+    },
+    {
+      "sequence": 55,
+      "at": "2026-11-03T04:52:37.349Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 17,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 56,
+      "at": "2026-11-03T04:52:37.355Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 57,
+      "at": "2026-11-03T04:52:37.355Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 18
+      }
+    },
+    {
+      "sequence": 58,
+      "at": "2026-11-03T04:52:40.323Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 18,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 59,
+      "at": "2026-11-03T04:52:40.323Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 60,
+      "at": "2026-11-03T04:52:40.323Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 61,
+      "at": "2026-11-03T04:52:40.323Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 19
+      }
+    },
+    {
+      "sequence": 62,
+      "at": "2026-11-03T04:52:41.045Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 19,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 63,
+      "at": "2026-11-03T04:52:41.045Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 64,
+      "at": "2026-11-03T04:52:41.045Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 20
+      }
+    },
+    {
+      "sequence": 65,
+      "at": "2026-11-03T04:52:41.083Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 20,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 66,
+      "at": "2026-11-03T04:52:41.088Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 67,
+      "at": "2026-11-03T04:52:41.102Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 21
+      }
+    },
+    {
+      "sequence": 68,
+      "at": "2026-11-03T04:52:41.130Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 21,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 69,
+      "at": "2026-11-03T04:52:41.136Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 70,
+      "at": "2026-11-03T04:52:41.136Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 22
+      }
+    },
+    {
+      "sequence": 71,
+      "at": "2026-11-03T04:52:44.380Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 22,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 72,
+      "at": "2026-11-03T04:52:44.380Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 73,
+      "at": "2026-11-03T04:52:44.380Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 74,
+      "at": "2026-11-03T04:52:44.380Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 23
+      }
+    },
+    {
+      "sequence": 75,
+      "at": "2026-11-03T04:52:45.092Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 23,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 76,
+      "at": "2026-11-03T04:52:45.092Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 77,
+      "at": "2026-11-03T04:52:45.092Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 24
+      }
+    },
+    {
+      "sequence": 78,
+      "at": "2026-11-03T04:52:45.135Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 24,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 79,
+      "at": "2026-11-03T04:52:45.143Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 80,
+      "at": "2026-11-03T04:52:45.161Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 25
+      }
+    },
+    {
+      "sequence": 81,
+      "at": "2026-11-03T04:52:45.197Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 25,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 82,
+      "at": "2026-11-03T04:52:45.198Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 26
+      }
+    },
+    {
+      "sequence": 83,
+      "at": "2026-11-03T04:52:45.214Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 26,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 84,
+      "at": "2026-11-03T04:52:45.219Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 85,
+      "at": "2026-11-03T04:52:45.231Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 27
+      }
+    },
+    {
+      "sequence": 86,
+      "at": "2026-11-03T04:52:45.244Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 27,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 87,
+      "at": "2026-11-03T04:52:45.244Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 28
+      }
+    },
+    {
+      "sequence": 88,
+      "at": "2026-11-03T04:52:45.876Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 28,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 89,
+      "at": "2026-11-03T04:52:45.878Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 90,
+      "at": "2026-11-03T04:52:45.880Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 29
+      }
+    },
+    {
+      "sequence": 91,
+      "at": "2026-11-03T04:52:45.891Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 29,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 92,
+      "at": "2026-11-03T04:52:45.896Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 93,
+      "at": "2026-11-03T04:52:45.909Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 30
+      }
+    },
+    {
+      "sequence": 94,
+      "at": "2026-11-03T04:52:45.929Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 30,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 95,
+      "at": "2026-11-03T04:52:45.930Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 31
+      }
+    },
+    {
+      "sequence": 96,
+      "at": "2026-11-03T04:52:46.599Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 31,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 97,
+      "at": "2026-11-03T04:52:46.600Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 98,
+      "at": "2026-11-03T04:52:46.881Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 99,
+      "at": "2026-11-03T04:52:46.886Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 32
+      }
+    },
+    {
+      "sequence": 100,
+      "at": "2026-11-03T04:52:47.195Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 32,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 101,
+      "at": "2026-11-03T04:52:47.195Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 102,
+      "at": "2026-11-03T04:52:47.195Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 33
+      }
+    },
+    {
+      "sequence": 103,
+      "at": "2026-11-03T04:52:47.220Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 33,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 104,
+      "at": "2026-11-03T04:52:47.226Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 105,
+      "at": "2026-11-03T04:52:47.243Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 34
+      }
+    },
+    {
+      "sequence": 106,
+      "at": "2026-11-03T04:52:47.263Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 34,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 107,
+      "at": "2026-11-03T04:52:47.264Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 35
+      }
+    },
+    {
+      "sequence": 108,
+      "at": "2026-11-03T04:52:47.900Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 35,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 109,
+      "at": "2026-11-03T04:52:47.901Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 110,
+      "at": "2026-11-03T04:52:51.667Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "click"
+      }
+    },
+    {
+      "sequence": 111,
+      "at": "2026-11-03T04:52:51.667Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "click",
+        "operationId": 36
+      }
+    },
+    {
+      "sequence": 112,
+      "at": "2026-11-03T04:52:51.729Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "click",
+        "operationId": 36,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 113,
+      "at": "2026-11-03T04:52:51.729Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "click"
+      }
+    },
+    {
+      "sequence": 114,
+      "at": "2026-11-03T04:52:51.732Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 115,
+      "at": "2026-11-03T04:52:51.737Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 37
+      }
+    },
+    {
+      "sequence": 116,
+      "at": "2026-11-03T04:52:52.854Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 37,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 117,
+      "at": "2026-11-03T04:52:52.854Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 118,
+      "at": "2026-11-03T04:52:52.855Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 38
+      }
+    },
+    {
+      "sequence": 119,
+      "at": "2026-11-03T04:52:52.885Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 38,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 120,
+      "at": "2026-11-03T04:52:52.894Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 121,
+      "at": "2026-11-03T04:52:52.913Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 39
+      }
+    },
+    {
+      "sequence": 122,
+      "at": "2026-11-03T04:52:52.947Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 39,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 123,
+      "at": "2026-11-03T04:52:52.948Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 40
+      }
+    },
+    {
+      "sequence": 124,
+      "at": "2026-11-03T04:52:53.599Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 40,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 125,
+      "at": "2026-11-03T04:52:53.600Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 126,
+      "at": "2026-11-03T04:52:53.876Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 41
+      }
+    },
+    {
+      "sequence": 127,
+      "at": "2026-11-03T04:52:53.888Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 41,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 128,
+      "at": "2026-11-03T04:52:53.892Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 129,
+      "at": "2026-11-03T04:52:53.905Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 42
+      }
+    },
+    {
+      "sequence": 130,
+      "at": "2026-11-03T04:52:53.929Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 42,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 131,
+      "at": "2026-11-03T04:52:54.028Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "close",
+        "operationId": 43
+      }
+    },
+    {
+      "sequence": 132,
+      "at": "2026-11-03T04:52:54.060Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "close",
+        "operationId": 43,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 133,
+      "at": "2026-11-03T04:52:55.891Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 44
+      }
+    },
+    {
+      "sequence": 134,
+      "at": "2026-11-03T04:52:55.989Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 44,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 135,
+      "at": "2026-11-03T04:52:55.989Z",
+      "kind": "SESSION_OPENED",
+      "detail": {}
+    },
+    {
+      "sequence": 136,
+      "at": "2026-11-03T04:52:55.989Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 137,
+      "at": "2026-11-03T04:52:55.989Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 45
+      }
+    },
+    {
+      "sequence": 138,
+      "at": "2026-11-03T04:53:00.617Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 45,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 139,
+      "at": "2026-11-03T04:53:00.617Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 140,
+      "at": "2026-11-03T04:53:00.618Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 141,
+      "at": "2026-11-03T04:53:00.618Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 46
+      }
+    },
+    {
+      "sequence": 142,
+      "at": "2026-11-03T04:53:01.339Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 46,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 143,
+      "at": "2026-11-03T04:53:01.339Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 144,
+      "at": "2026-11-03T04:53:01.340Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 47
+      }
+    },
+    {
+      "sequence": 145,
+      "at": "2026-11-03T04:53:01.383Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 47,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 146,
+      "at": "2026-11-03T04:53:01.388Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 147,
+      "at": "2026-11-03T04:53:01.398Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 48
+      }
+    },
+    {
+      "sequence": 148,
+      "at": "2026-11-03T04:53:01.430Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 48,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 149,
+      "at": "2026-11-03T04:53:01.430Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 49
+      }
+    },
+    {
+      "sequence": 150,
+      "at": "2026-11-03T04:53:01.946Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 49,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 151,
+      "at": "2026-11-03T04:53:01.947Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 152,
+      "at": "2026-11-03T04:53:01.960Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 153,
+      "at": "2026-11-03T04:53:01.960Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 50
+      }
+    },
+    {
+      "sequence": 154,
+      "at": "2026-11-03T04:53:02.235Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 50,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 155,
+      "at": "2026-11-03T04:53:02.235Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 156,
+      "at": "2026-11-03T04:53:02.235Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 157,
+      "at": "2026-11-03T04:53:02.235Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 51
+      }
+    },
+    {
+      "sequence": 158,
+      "at": "2026-11-03T04:53:02.542Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 51,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 159,
+      "at": "2026-11-03T04:53:02.542Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 160,
+      "at": "2026-11-03T04:53:02.543Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 52
+      }
+    },
+    {
+      "sequence": 161,
+      "at": "2026-11-03T04:53:02.564Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 52,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 162,
+      "at": "2026-11-03T04:53:02.564Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 163,
+      "at": "2026-11-03T04:53:02.569Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 53
+      }
+    },
+    {
+      "sequence": 164,
+      "at": "2026-11-03T04:53:02.597Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 53,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 165,
+      "at": "2026-11-03T04:53:02.597Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 54
+      }
+    },
+    {
+      "sequence": 166,
+      "at": "2026-11-03T04:53:02.619Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 54,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 167,
+      "at": "2026-11-03T04:53:02.619Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 168,
+      "at": "2026-11-03T04:53:02.619Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "close",
+        "operationId": 55
+      }
+    },
+    {
+      "sequence": 169,
+      "at": "2026-11-03T04:53:02.637Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "close",
+        "operationId": 55,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 170,
+      "at": "2026-11-03T04:53:10.404Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 56
+      }
+    },
+    {
+      "sequence": 171,
+      "at": "2026-11-03T04:53:10.513Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 56,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 172,
+      "at": "2026-11-03T04:53:10.513Z",
+      "kind": "SESSION_OPENED",
+      "detail": {}
+    },
+    {
+      "sequence": 173,
+      "at": "2026-11-03T04:53:10.513Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 174,
+      "at": "2026-11-03T04:53:10.513Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 57
+      }
+    },
+    {
+      "sequence": 175,
+      "at": "2026-11-03T04:53:11.535Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 57,
+        "outcome": "FAILED"
+      }
+    },
+    {
+      "sequence": 176,
+      "at": "2026-11-03T04:53:11.535Z",
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 177,
+      "at": "2026-11-03T04:53:11.536Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "close",
+        "operationId": 58
+      }
+    },
+    {
+      "sequence": 178,
+      "at": "2026-11-03T04:53:11.537Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 59
+      }
+    },
+    {
+      "sequence": 179,
+      "at": "2026-11-03T04:53:11.562Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "close",
+        "operationId": 58,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 180,
+      "at": "2026-11-03T04:53:11.640Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 59,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 181,
+      "at": "2026-11-03T04:53:11.640Z",
+      "kind": "SESSION_OPENED",
+      "detail": {}
+    },
+    {
+      "sequence": 182,
+      "at": "2026-11-03T04:53:11.640Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "captureResponses"
+      }
+    },
+    {
+      "sequence": 183,
+      "at": "2026-11-03T04:53:11.640Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "captureResponses",
+        "operationId": 60
+      }
+    },
+    {
+      "sequence": 184,
+      "at": "2026-11-03T04:53:11.641Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "captureResponses",
+        "operationId": 60,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 185,
+      "at": "2026-11-03T04:53:11.641Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "captureResponses"
+      }
+    },
+    {
+      "sequence": 186,
+      "at": "2026-11-03T04:53:11.641Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 187,
+      "at": "2026-11-03T04:53:11.641Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 61
+      }
+    },
+    {
+      "sequence": 188,
+      "at": "2026-11-03T04:53:18.376Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 61,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 189,
+      "at": "2026-11-03T04:53:18.376Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 190,
+      "at": "2026-11-03T04:53:18.376Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 191,
+      "at": "2026-11-03T04:53:18.376Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 62
+      }
+    },
+    {
+      "sequence": 192,
+      "at": "2026-11-03T04:53:18.687Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 62,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 193,
+      "at": "2026-11-03T04:53:18.687Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 194,
+      "at": "2026-11-03T04:53:18.687Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 63
+      }
+    },
+    {
+      "sequence": 195,
+      "at": "2026-11-03T04:53:18.724Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 63,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 196,
+      "at": "2026-11-03T04:53:18.730Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 197,
+      "at": "2026-11-03T04:53:18.736Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 64
+      }
+    },
+    {
+      "sequence": 198,
+      "at": "2026-11-03T04:53:18.763Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 64,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 199,
+      "at": "2026-11-03T04:53:21.060Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 200,
+      "at": "2026-11-03T04:53:21.060Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 65
+      }
+    },
+    {
+      "sequence": 201,
+      "at": "2026-11-03T04:53:24.866Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 65,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 202,
+      "at": "2026-11-03T04:53:24.866Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 203,
+      "at": "2026-11-03T04:53:24.866Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 204,
+      "at": "2026-11-03T04:53:24.867Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 66
+      }
+    },
+    {
+      "sequence": 205,
+      "at": "2026-11-03T04:53:25.580Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 66,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 206,
+      "at": "2026-11-03T04:53:25.580Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 207,
+      "at": "2026-11-03T04:53:25.581Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 67
+      }
+    },
+    {
+      "sequence": 208,
+      "at": "2026-11-03T04:53:25.633Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 67,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 209,
+      "at": "2026-11-03T04:53:25.641Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 210,
+      "at": "2026-11-03T04:53:25.652Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 68
+      }
+    },
+    {
+      "sequence": 211,
+      "at": "2026-11-03T04:53:25.696Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 68,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 212,
+      "at": "2026-11-03T04:53:25.700Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 213,
+      "at": "2026-11-03T04:53:25.700Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 69
+      }
+    },
+    {
+      "sequence": 214,
+      "at": "2026-11-03T04:53:29.331Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 69,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 215,
+      "at": "2026-11-03T04:53:29.331Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 216,
+      "at": "2026-11-03T04:53:29.331Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 217,
+      "at": "2026-11-03T04:53:29.331Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 70
+      }
+    },
+    {
+      "sequence": 218,
+      "at": "2026-11-03T04:53:30.044Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 70,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 219,
+      "at": "2026-11-03T04:53:30.044Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 220,
+      "at": "2026-11-03T04:53:30.044Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 71
+      }
+    },
+    {
+      "sequence": 221,
+      "at": "2026-11-03T04:53:30.083Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 71,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 222,
+      "at": "2026-11-03T04:53:30.090Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 223,
+      "at": "2026-11-03T04:53:30.102Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 72
+      }
+    },
+    {
+      "sequence": 224,
+      "at": "2026-11-03T04:53:30.129Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 72,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 225,
+      "at": "2026-11-03T04:53:30.133Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 226,
+      "at": "2026-11-03T04:53:30.133Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 73
+      }
+    },
+    {
+      "sequence": 227,
+      "at": "2026-11-03T04:53:33.808Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 73,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 228,
+      "at": "2026-11-03T04:53:33.808Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 229,
+      "at": "2026-11-03T04:53:33.808Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 230,
+      "at": "2026-11-03T04:53:33.808Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 74
+      }
+    },
+    {
+      "sequence": 231,
+      "at": "2026-11-03T04:53:34.523Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 74,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 232,
+      "at": "2026-11-03T04:53:34.523Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 233,
+      "at": "2026-11-03T04:53:34.523Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 75
+      }
+    },
+    {
+      "sequence": 234,
+      "at": "2026-11-03T04:53:34.559Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 75,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 235,
+      "at": "2026-11-03T04:53:34.562Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 236,
+      "at": "2026-11-03T04:53:34.576Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 76
+      }
+    },
+    {
+      "sequence": 237,
+      "at": "2026-11-03T04:53:34.613Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 76,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 238,
+      "at": "2026-11-03T04:53:34.616Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 239,
+      "at": "2026-11-03T04:53:34.616Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 77
+      }
+    },
+    {
+      "sequence": 240,
+      "at": "2026-11-03T04:53:42.818Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 77,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 241,
+      "at": "2026-11-03T04:53:42.818Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 242,
+      "at": "2026-11-03T04:53:42.818Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 243,
+      "at": "2026-11-03T04:53:42.818Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 78
+      }
+    },
+    {
+      "sequence": 244,
+      "at": "2026-11-03T04:53:43.526Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 78,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 245,
+      "at": "2026-11-03T04:53:43.526Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 246,
+      "at": "2026-11-03T04:53:43.526Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 79
+      }
+    },
+    {
+      "sequence": 247,
+      "at": "2026-11-03T04:53:43.566Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 79,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 248,
+      "at": "2026-11-03T04:53:43.574Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 249,
+      "at": "2026-11-03T04:53:43.592Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 80
+      }
+    },
+    {
+      "sequence": 250,
+      "at": "2026-11-03T04:53:43.613Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 80,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 251,
+      "at": "2026-11-03T04:53:43.614Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 81
+      }
+    },
+    {
+      "sequence": 252,
+      "at": "2026-11-03T04:53:43.630Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 81,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 253,
+      "at": "2026-11-03T04:53:43.633Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 254,
+      "at": "2026-11-03T04:53:43.646Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 82
+      }
+    },
+    {
+      "sequence": 255,
+      "at": "2026-11-03T04:53:43.662Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 82,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 256,
+      "at": "2026-11-03T04:53:43.662Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 83
+      }
+    },
+    {
+      "sequence": 257,
+      "at": "2026-11-03T04:53:44.333Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 83,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 258,
+      "at": "2026-11-03T04:53:44.334Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 259,
+      "at": "2026-11-03T04:53:44.336Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 84
+      }
+    },
+    {
+      "sequence": 260,
+      "at": "2026-11-03T04:53:44.348Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 84,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 261,
+      "at": "2026-11-03T04:53:44.352Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 262,
+      "at": "2026-11-03T04:53:44.365Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 85
+      }
+    },
+    {
+      "sequence": 263,
+      "at": "2026-11-03T04:53:44.378Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 85,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 264,
+      "at": "2026-11-03T04:53:44.378Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 86
+      }
+    },
+    {
+      "sequence": 265,
+      "at": "2026-11-03T04:53:45.025Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 86,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 266,
+      "at": "2026-11-03T04:53:45.027Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 267,
+      "at": "2026-11-03T04:53:45.210Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 268,
+      "at": "2026-11-03T04:53:45.214Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 87
+      }
+    },
+    {
+      "sequence": 269,
+      "at": "2026-11-03T04:53:45.521Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 87,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 270,
+      "at": "2026-11-03T04:53:45.522Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 271,
+      "at": "2026-11-03T04:53:45.522Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 88
+      }
+    },
+    {
+      "sequence": 272,
+      "at": "2026-11-03T04:53:45.549Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 88,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 273,
+      "at": "2026-11-03T04:53:45.556Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 274,
+      "at": "2026-11-03T04:53:45.573Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 89
+      }
+    },
+    {
+      "sequence": 275,
+      "at": "2026-11-03T04:53:45.595Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 89,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 276,
+      "at": "2026-11-03T04:53:45.595Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 90
+      }
+    },
+    {
+      "sequence": 277,
+      "at": "2026-11-03T04:53:46.250Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 90,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 278,
+      "at": "2026-11-03T04:53:46.251Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 279,
+      "at": "2026-11-03T04:53:50.418Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "click"
+      }
+    },
+    {
+      "sequence": 280,
+      "at": "2026-11-03T04:53:50.418Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "click",
+        "operationId": 91
+      }
+    },
+    {
+      "sequence": 281,
+      "at": "2026-11-03T04:53:50.495Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "click",
+        "operationId": 91,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 282,
+      "at": "2026-11-03T04:53:50.495Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "click"
+      }
+    },
+    {
+      "sequence": 283,
+      "at": "2026-11-03T04:53:50.499Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 284,
+      "at": "2026-11-03T04:53:50.503Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 92
+      }
+    },
+    {
+      "sequence": 285,
+      "at": "2026-11-03T04:53:51.520Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 92,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 286,
+      "at": "2026-11-03T04:53:51.520Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 287,
+      "at": "2026-11-03T04:53:51.520Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 93
+      }
+    },
+    {
+      "sequence": 288,
+      "at": "2026-11-03T04:53:51.546Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 93,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 289,
+      "at": "2026-11-03T04:53:51.554Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 290,
+      "at": "2026-11-03T04:53:51.573Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 94
+      }
+    },
+    {
+      "sequence": 291,
+      "at": "2026-11-03T04:53:51.595Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 94,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 292,
+      "at": "2026-11-03T04:53:51.595Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 95
+      }
+    },
+    {
+      "sequence": 293,
+      "at": "2026-11-03T04:53:52.263Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 95,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 294,
+      "at": "2026-11-03T04:53:52.264Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 295,
+      "at": "2026-11-03T04:53:52.522Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 96
+      }
+    },
+    {
+      "sequence": 296,
+      "at": "2026-11-03T04:53:52.534Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 96,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 297,
+      "at": "2026-11-03T04:53:52.538Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 298,
+      "at": "2026-11-03T04:53:52.552Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 97
+      }
+    },
+    {
+      "sequence": 299,
+      "at": "2026-11-03T04:53:52.578Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 97,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 300,
+      "at": "2026-11-03T04:53:52.668Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "close",
+        "operationId": 98
+      }
+    },
+    {
+      "sequence": 301,
+      "at": "2026-11-03T04:53:52.700Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "close",
+        "operationId": 98,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 302,
+      "at": "2026-11-03T04:53:54.925Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 99
+      }
+    },
+    {
+      "sequence": 303,
+      "at": "2026-11-03T04:53:55.024Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "openSession",
+        "operationId": 99,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 304,
+      "at": "2026-11-03T04:53:55.024Z",
+      "kind": "SESSION_OPENED",
+      "detail": {}
+    },
+    {
+      "sequence": 305,
+      "at": "2026-11-03T04:53:55.024Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 306,
+      "at": "2026-11-03T04:53:55.024Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 100
+      }
+    },
+    {
+      "sequence": 307,
+      "at": "2026-11-03T04:54:05.070Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 100,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 308,
+      "at": "2026-11-03T04:54:05.070Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 309,
+      "at": "2026-11-03T04:54:05.070Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 310,
+      "at": "2026-11-03T04:54:05.070Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 101
+      }
+    },
+    {
+      "sequence": 311,
+      "at": "2026-11-03T04:54:05.824Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 101,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 312,
+      "at": "2026-11-03T04:54:05.824Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 313,
+      "at": "2026-11-03T04:54:05.825Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 102
+      }
+    },
+    {
+      "sequence": 314,
+      "at": "2026-11-03T04:54:05.867Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 102,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 315,
+      "at": "2026-11-03T04:54:05.873Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 316,
+      "at": "2026-11-03T04:54:05.883Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 103
+      }
+    },
+    {
+      "sequence": 317,
+      "at": "2026-11-03T04:54:05.911Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 103,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 318,
+      "at": "2026-11-03T04:54:05.911Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 104
+      }
+    },
+    {
+      "sequence": 319,
+      "at": "2026-11-03T04:54:06.451Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 104,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 320,
+      "at": "2026-11-03T04:54:06.452Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 321,
+      "at": "2026-11-03T04:54:06.465Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 322,
+      "at": "2026-11-03T04:54:06.465Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 105
+      }
+    },
+    {
+      "sequence": 323,
+      "at": "2026-11-03T04:54:07.399Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "navigate",
+        "operationId": 105,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 324,
+      "at": "2026-11-03T04:54:07.399Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 325,
+      "at": "2026-11-03T04:54:07.400Z",
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 326,
+      "at": "2026-11-03T04:54:07.400Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 106
+      }
+    },
+    {
+      "sequence": 327,
+      "at": "2026-11-03T04:54:07.707Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "waitForSettled",
+        "operationId": 106,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 328,
+      "at": "2026-11-03T04:54:07.707Z",
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled"
+      }
+    },
+    {
+      "sequence": 329,
+      "at": "2026-11-03T04:54:07.708Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 107
+      }
+    },
+    {
+      "sequence": 330,
+      "at": "2026-11-03T04:54:07.731Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "snapshot",
+        "operationId": 107,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 331,
+      "at": "2026-11-03T04:54:07.731Z",
+      "kind": "SNAPSHOT",
+      "detail": {}
+    },
+    {
+      "sequence": 332,
+      "at": "2026-11-03T04:54:07.737Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 108
+      }
+    },
+    {
+      "sequence": 333,
+      "at": "2026-11-03T04:54:07.764Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "screenshotLayoutOnly",
+        "operationId": 108,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 334,
+      "at": "2026-11-03T04:54:07.764Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 109
+      }
+    },
+    {
+      "sequence": 335,
+      "at": "2026-11-03T04:54:07.786Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "observeControls",
+        "operationId": 109,
+        "outcome": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 336,
+      "at": "2026-11-03T04:54:07.786Z",
+      "kind": "CONTROLS",
+      "detail": {}
+    },
+    {
+      "sequence": 337,
+      "at": "2026-11-03T04:54:07.787Z",
+      "kind": "OPERATION_STARTED",
+      "detail": {
+        "method": "close",
+        "operationId": 110
+      }
+    },
+    {
+      "sequence": 338,
+      "at": "2026-11-03T04:54:07.803Z",
+      "kind": "OPERATION_FINISHED",
+      "detail": {
+        "method": "close",
+        "operationId": 110,
+        "outcome": "COMPLETED"
+      }
+    }
+  ]
+}

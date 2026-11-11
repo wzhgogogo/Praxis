@@ -1,0 +1,1817 @@
+
+> praxis-zhixing@0.1.0 test:browser:fixture
+> node scripts/run-browser-fixtures.mjs && npm run test:g6:assembly
+
+[browser fixtures] 38/38 files; G2 never overlaps the remaining fixtures
+[browser fixtures] G2 (exclusive): 3 files, concurrency 1
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change-agent.test.ts"}
+✔ G2 constructed normal control uses observed labels after every private marker changes (3743.086625ms)
+✔ G2 public selection is observable but only a bound source response confirms the request (195.652208ms)
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change-agent.test.ts","elapsedMs":4216.275792,"passed":true}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change-mutation.test.ts"}
+✔ G2 extends the F3 class-only mutation to every id and private data attribute (122.149125ms)
+✔ G2 rule two rewrites all bound ID references, leaves dangling/script references and preserves CSS (132.179208ms)
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change-mutation.test.ts","elapsedMs":538.6711249999998,"passed":true}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change.test.ts"}
+✔ G2 saved pages preserve the frozen reference capability and reject new false claims (18829.729584ms)
+ℹ {"id":"tabelog-list-nerima","classification":"PASS","referenceFacts":20,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-list-akabane","classification":"PASS","referenceFacts":1,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-01","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-02","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-teppen","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{"day:2026-09-29":{"before":null,"after":null},"day:2026-09-28":{"before":null,"after":null},"day:2026-09-30":{"before":null,"after":null}},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-sen","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{"day:2026-10-22":{"before":null,"after":null},"day:2026-10-01":{"before":null,"after":null}},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-ginza","classification":"PASS","referenceFacts":1,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-akabane","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-nakamata","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-takahashiya","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-nakamata","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-kinri","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change.test.ts","elapsedMs":19130.733458,"passed":true}
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23887.109
+[browser fixtures] remaining fixtures: 35 files, concurrency 4
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-calendar-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-category.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-discovery.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-option-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-category.test.ts","elapsedMs":537.3916669999999,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-page-controls.test.ts"}
+✖ Matsumoto selected-party 1 escapes the guest Next loop through production observation (204.519959ms)
+✖ Matsumoto selected-party 2 escapes the guest Next loop through production observation (177.014834ms)
+✖ generic selected state requires public ARIA, with independent same-label groups (137.903625ms)
+✖ party click does not confirm from unrelated page changes or an unchanged group value (166.727708ms)
+✔ Chromium labels public icon alternatives and leaves ambiguous calendar ownership unlabelled (248.814375ms)
+✖ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (167.133541ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-discovery.test.ts","elapsedMs":1479.841625000001,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-public-selection.test.ts"}
+✔ Chromium control observation discards only a handle confirmed disconnected between reads (189.134125ms)
+✔ Chromium control observation preserves an attached control-read failure (189.736583ms)
+✔ Chromium control signatures ignore presentation-only classes but reject value and owner changes (202.359209ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-public-selection.test.ts","elapsedMs":731.7722910000011,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-replay.test.ts"}
+✔ Chromium projects an owned default-method submit as GET without classifying bare or POST submits as public GET (182.818791ms)
+✖ C2a recorded date controls reject other days without class-derived party confirmation (150.7805ms)
+✖ C2a selectable requested date retains authoritative click and blocks an ordinary other-date click (130.844458ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-calendar-controls.test.ts","elapsedMs":2517.779666999999,"passed":false}
+✖ P21 discovery uses DOM category links despite CSS and rejects foreign regions (150.205917ms)
+✖ P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests (207.227583ms)
+✔ P21b guarded search filters reject unaudited parameters under the production generic-read policy (419.854917ms)
+✖ name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation (153.05125ms)
+✖ F5 G3 Chromium follows four observed region pages and directly selects the retained entrance without restoring a menu (307.793208ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-request-binding.test.ts"}
+✖ button name metadata does not replace visible time or Reserve safety label (204.016541ms)
+✖ LOCAL chooses a visible time option with an opaque native value and reads it back (178.708542ms)
+✖ CLOUDFLARE_SESSION chooses a visible time option with an opaque native value and reads it back (136.329375ms)
+✖ LOCAL binds a button combobox to its own listbox option through the strict browser wire (166.571541ms)
+✖ CLOUDFLARE_SESSION binds a button combobox to its own listbox option through the strict browser wire (149.870083ms)
+✖ empty input reads its own selected display and confirms a changed option (134.468ms)
+✖ empty input reads its own selected display and avoids a duplicate choice (138.861583ms)
+✖ LOCAL keeps the observed option node when unrelated buttons arrive during model decision (118.598ms)
+✖ CLOUDFLARE_SESSION keeps the observed option node when unrelated buttons arrive during model decision (141.308333ms)
+✖ changed observed option role-change is rejected before execution (126.844166ms)
+✖ changed observed option replacement is rejected before execution (113.598958ms)
+✖ changed observed option legal-replacement is rejected before execution (124.01175ms)
+✖ a visible option from another listbox cannot be claimed by the expanded combobox (156.0665ms)
+✖ native option disabled cannot be signed off as a selected time (127.134125ms)
+✖ native option unchanged cannot be signed off as a selected time (131.004375ms)
+✖ native option complete cannot be signed off as a selected time (101.182459ms)
+✖ an asynchronously applied option can complete after a later selected-value observation (119.2035ms)
+✖ an unconfirmed time choice cannot be replaced by a successful party choice (129.226916ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-option-controls.test.ts","elapsedMs":2867.488500000003,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-search-controls.test.ts"}
+✔ real browser waits for the requested page update instead of reporting stale slots (491.54775ms)
+✔ a requested ready marker that never appears fails within the probe deadline (1642.226209ms)
+✖ generic controlled browser path completes a local read-only page task without a site-specific adapter method (157.610083ms)
+✖ an observed public target-blank link switches the same session to a new page before reading its terms (114.185458ms)
+✖ real DOM observation exposes an unlabelled-id role button and calendar navigation without permitting submission (99.351334ms)
+✖ an active language dialog blocks background calendar actions until the dialog is closed (119.219541ms)
+✖ shared executor keeps unguarded public filters unavailable (122.296541ms)
+✔ slider observations follow native properties and ARIA state in both directions (312.43125ms)
+✖ a model cannot consent by setting an unclassified checkbox (117.224334ms)
+✔ nested and hidden dialogs preserve only the active layer's targets (332.750458ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-search-controls.test.ts","elapsedMs":1756.4921250000007,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-stability.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-replay.test.ts","elapsedMs":2486.209708000002,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-control-fallback.test.ts"}
+✖ C5a one choice reveals a clipped PARTY_SIZE option inside its current list (117.177083ms)
+✖ C5a one choice reveals a clipped TIME option inside its current list (122.026625ms)
+✖ C5a excludes disabled, occluded and noncurrent list options (102.818791ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-page-controls.test.ts","elapsedMs":4422.843792,"passed":false}
+✖ Chromium observes public selection, native checked values and a calendar day without a private child shape (181.749292ms)
+✖ guarded HAR replay drives the production executor offline and keeps missing requests off the network (157.651958ms)
+✔ guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic (1808.032375ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-public-list.test.ts"}
+✖ LOCAL applies authoritative date and party through observed DOM references (131.333166ms)
+✖ CLOUDFLARE_SESSION applies authoritative date and party through observed DOM references (110.144333ms)
+✔ LOCAL settles delayed visible query state (965.778417ms)
+✔ CLOUDFLARE_SESSION settles delayed visible query state (957.004833ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-public-list.test.ts","elapsedMs":591.0850839999985,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-response-only.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-stability.test.ts","elapsedMs":1165.2062079999996,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-structure.test.ts"}
+✔ LOCAL settles hidden and property-only control mutations without treating either as inventory (595.329125ms)
+✔ CLOUDFLARE_SESSION settles hidden and property-only control mutations without treating either as inventory (558.217041ms)
+✖ LOCAL recovers once from a visible header obstruction and re-observes before the next click (109.910084ms)
+✖ CLOUDFLARE_SESSION recovers once from a visible header obstruction and re-observes before the next click (132.700792ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-response-only.test.ts","elapsedMs":1542.4476250000007,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-structure.test.ts","elapsedMs":1460.2113339999996,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tablecheck.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-control-fallback.test.ts","elapsedMs":3391.600374999998,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-workspace.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tablecheck.test.ts","elapsedMs":1141.7161669999987,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/fact-qa-runner.test.ts"}
+✔ TableCheck real Chromium Adapter completes a dynamic scrollable guest query (party-first) within 24 operations (2263.053792ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-workspace.test.ts","elapsedMs":1458.541707999997,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/fact-qa-scoring.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/fact-qa-scoring.test.ts","elapsedMs":547.1454169999997,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/group-window.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/fact-qa-runner.test.ts","elapsedMs":2440.119999999999,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/live-source-health.test.ts"}
+✔ TableCheck real Chromium Adapter completes a dynamic scrollable guest query (date-first) within 24 operations (2149.154334ms)
+✔ native Tabelog detail uses real local Chromium controls before accepting its bound vacancy response (1775.971834ms)
+✖ native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence (360.477417ms)
+✖ native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence (334.2065ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-request-binding.test.ts","elapsedMs":10967.919500000004,"passed":false}
+✔ LOCAL projects TableCheck search wrapper as combobox and only its native input as fillable (305.403875ms)
+✖ LOCAL completes an exact bound search suggestion without clicking its covered background control (119.191375ms)
+✖ LOCAL opens an observed covered public result at offset 0 (122.35425ms)
+✖ LOCAL opens an observed covered public result at offset 1400 (184.895791ms)
+✔ CLOUDFLARE_SESSION projects TableCheck search wrapper as combobox and only its native input as fillable (227.239375ms)
+✖ CLOUDFLARE_SESSION completes an exact bound search suggestion without clicking its covered background control (133.634084ms)
+✖ CLOUDFLARE_SESSION opens an observed covered public result at offset 0 (152.200709ms)
+✖ CLOUDFLARE_SESSION opens an observed covered public result at offset 1400 (120.439041ms)
+✖ C3 settles delayed date results before asking the model and never completes from stale loading stock (148.107291ms)
+✖ C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton (150.227ms)
+✖ C4 blocks repeated toggle state but allows the same Next control on changed pages (107.44825ms)
+✖ C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending (109.886ms)
+✖ C3b Chromium ignores an outstanding image once data has completed (120.447667ms)
+✖ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (110.904916ms)
+✔ G3 real Chromium failed native accelerator returns to observed date and party controls (2982.810917ms)
+✖ G3 real Chromium Agent reveals public renamed results and retains same-branch grounding (148.413291ms)
+✔ G3 real Chromium Japanese outlet needs captured data response rather than a private slot class (1115.65625ms)
+✔ G3 real Chromium passive vacancy capture surfaces changed JSON without losing same-outlet identity (1075.87275ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/observed-get-form.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/group-window.test.ts","elapsedMs":4079.2978749999966,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/pacing-static-resources.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/live-source-health.test.ts","elapsedMs":4006.9546249999985,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/pacing-transport.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/pacing-static-resources.test.ts","elapsedMs":1210.111874999995,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/page-question-budget.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/pacing-transport.test.ts","elapsedMs":705.8344589999979,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/read-network-redirect.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/observed-get-form.test.ts","elapsedMs":3596.240208999996,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recorded-reference.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recorded-reference.test.ts","elapsedMs":503.8983339999977,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recording-keys.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/page-question-budget.test.ts","elapsedMs":2395.3788330000025,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/replay-missing-response.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recording-keys.test.ts","elapsedMs":699.6339579999985,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/request-timeline.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/replay-missing-response.test.ts","elapsedMs":682.4220419999983,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-interruption.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/request-timeline.test.ts","elapsedMs":1787.0656669999953,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-pacing.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-interruption.test.ts","elapsedMs":5718.607499999998,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-post-exit.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-pacing.test.ts","elapsedMs":4792.199500000002,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-replay.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-post-exit.test.ts","elapsedMs":4943.176791999998,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/web-workspace.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-replay.test.ts","elapsedMs":12185.785541999998,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/web-workspace.test.ts","elapsedMs":9655.4395,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/read-network-redirect.test.ts","elapsedMs":31196.040958999998,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"EXTERNAL_CANCEL","limitMs":600000,"pid":85756}
+[browser fixtures] {"phase":"remaining fixtures","event":"UNFINISHED","file":"src/harness/browser/browser-read-tabelog.test.ts","elapsedMs":125787.82912500002,"lastObservedTests":[]}
+[browser fixtures] {"phase":"remaining fixtures","event":"PHASE_PROGRESS","started":35,"ended":34,"notStarted":[],"note":"Test events can be buffered; lastObservedTests are observations, not proof of the currently blocked test."}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog.test.ts","elapsedMs":125789.05637500001,"passed":false}
+✖ Tabelog category discovery expands observed links and removes the keyword within the same area (127.007ms)
+✔ saved Tabelog calendar keeps hidden future dates and disabled guests out of ready state (858.004084ms)
+✔ real Chromium recovers a Tabelog busy page once and still grounds the exact request (2290.360625ms)
+✖ Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout (156.168875ms)
+✖ LOCAL retires a real Chromium session after a delayed failed navigation (97.111ms)
+✖ CLOUDFLARE_SESSION retires a real Chromium session after a delayed failed navigation (113.543625ms)
+✖ LOCAL retires a real Chromium session after a delayed failed navigation (source dispatch follows retirement) (138.229583ms)
+✖ LOCAL selects Tabelog paragraph dates and labelled guests without treating time options as slots (138.976958ms)
+✖ CLOUDFLARE_SESSION selects Tabelog paragraph dates and labelled guests without treating time options as slots (184.844417ms)
+✖ LOCAL legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (183.359167ms)
+✖ LOCAL current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (118.415334ms)
+✖ CLOUDFLARE_SESSION legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (129.546375ms)
+✖ CLOUDFLARE_SESSION current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (225.585625ms)
+✖ /Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts (125788.949708ms)
+✖ TableCheck waits for its guide result and grounds exact-query empty availability (195.999083ms)
+✖ real Chromium TableCheck source observation completes inside the current 45s provider window (116.151333ms)
+✖ TableCheck handles multiple current search links and reads only the identity-bound outlet (134.826459ms)
+✖ TableCheck form waits past old inventory until a current same-outlet slot link appears (127.534125ms)
+✖ LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (100.475375ms)
+✖ CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (100.0045ms)
+✔ Web refresh replaces commercial terms and cites the displayed fact source (408.9235ms)
+✔ workspace New plan survives a late initial case-list response (232.748084ms)
+✔ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (447.196875ms)
+✔ G1 Runner executes bound pages, rejects previous-run binding, then scores in a separate phase (317.381125ms)
+✔ G1 Runner rejects unknown public keys and changed source SHA before any model invocation (1.530834ms)
+✔ G1 scoring projection rejects a citation with another URL or readAt (0.114125ms)
+✔ G1 execution CLI runs while answer-file reads are denied, with a working canary (492.85025ms)
+✔ G1 reviewed Q28/Q30 run both permitted outcomes through actual core and independent references (1233.628417ms)
+✔ G1 independent source reader excludes script-only and hidden claims from quote support (172.334208ms)
+✖ group-window Chromium: available keeps exact request and explicit coverage (716.253709ms)
+✖ group-window Chromium: all-empty keeps exact request and explicit coverage (627.384625ms)
+✔ group-window Chromium: wrong-party keeps exact request and explicit coverage (624.484875ms)
+✖ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (504.935083ms)
+✖ group-window Chromium: disabled exact party stops without clicking or changing the count (121.151375ms)
+✔ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (941.237ms)
+✔ Live source health uses real Guard and observes a busy error arriving after visible results; 403/challenge never start a Live (3347.651583ms)
+✔ NODE_FETCH: observed native GET forms bind page defaults and authoritative input to the same document (392.786292ms)
+✔ NODE_FETCH: unknown input, cross-origin, POST, prohibited path and nonform name never get form permission (1361.492625ms)
+✔ BROWSER_GET_HEAD: observed native GET forms bind page defaults and authoritative input to the same document (253.84375ms)
+✔ BROWSER_GET_HEAD: unknown input, cross-origin, POST, prohibited path and nonform name never get form permission (1160.602042ms)
+✔ two Chromium runs count20 static resources each but pace only documents (1046.949875ms)
+ℹ {"documentTimestamps":[{"path":"/a/doc","at":1793900719776},{"path":"/b/doc","at":1793900719928}],"sourceHits":42,"perRun":[{"stage":"DONE","usage":{"http://127.0.0.1:57598":{"requests":21,"waitMs":0}},"leases":1,"text":"Public fixture"},{"stage":"DONE","usage":{"http://127.0.0.1:57598":{"requests":21,"waitMs":142}},"leases":1,"text":"Public fixture"}]}
+✔ formal pacing bootstrap covers Chromium Guard routes, native redirects and Google transport (206.666958ms)
+ℹ {"hits":["/public","/redirect","/final"],"usage":{"mode":"EVAL_PACING","runId":"transport","byOrigin":{"http://127.0.0.1:57621":{"requests":3,"waitMs":0},"https://places.googleapis.com":{"requests":1,"waitMs":0},"https://geocode.googleapis.com":{"requests":1,"waitMs":0}}},"realGoogleCalls":0}
+✔ G1 question permits two document visits across sessions, blocks the third before network and preserves Guard (1366.213334ms)
+✔ G1 fresh Google page capture keeps the real Guard ahead of an unreviewed checkout, with a public-page control (608.969167ms)
+✔ [NODE_FETCH] H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (238.548083ms)
+✔ [NODE_FETCH] P21 source preflight retains a6.5s result under the production navigation budget (6727.087291ms)
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"},{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+✔ [NODE_FETCH] E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3401.58ms)
+✔ [NODE_FETCH] real Chromium rejects a second cross-origin redirect before receiver arrival (139.631625ms)
+✔ [NODE_FETCH] real Chromium rejects a second sensitive redirect before receiver arrival (148.470541ms)
+✔ [NODE_FETCH] real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (155.99825ms)
+✔ [NODE_FETCH] real Chromium checks every fetch redirect before cross-origin dispatch (157.128916ms)
+✔ [NODE_FETCH] real Chromium checks every xhr redirect before cross-origin dispatch (186.022958ms)
+✔ [NODE_FETCH] real Chromium checks every script redirect before cross-origin dispatch (136.219208ms)
+✔ [NODE_FETCH] real Chromium checks every stylesheet redirect before cross-origin dispatch (164.607459ms)
+✔ [NODE_FETCH] real Chromium checks every image redirect before cross-origin dispatch (184.562625ms)
+✔ [NODE_FETCH] real Chromium redirect loops fail at the Guard hop bound (163.903333ms)
+✔ [NODE_FETCH] real Chromium protects popup navigation before its first redirect (131.47825ms)
+✔ [NODE_FETCH] real Chromium protects iframe redirect chains (135.780917ms)
+✔ [NODE_FETCH] real Chromium preserves normal allowed popup redirect navigation (165.813042ms)
+✔ [NODE_FETCH] real Chromium protects dedicated-worker fetch redirects (132.514833ms)
+✔ [NODE_FETCH] reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (166.889709ms)
+▶ [NODE_FETCH] T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (172.149459ms)
+  ✔ dot (143.290583ms)
+  ✔ encodedDot (152.515541ms)
+  ✔ escaped (167.848542ms)
+  ✔ queryEscape (119.195958ms)
+  ✔ slash (146.541708ms)
+  ✔ unicode (128.752041ms)
+  ✔ protocolRelative (119.621791ms)
+✔ [NODE_FETCH] T1 native redirect URL-normalization attempts keep forbidden receivers untouched (1150.812ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused origin request (135.165334ms)
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused method request (168.970333ms)
+✔ [NODE_FETCH] T1 CDP independently rejects an unrecognized paused resource-type request (146.483875ms)
+✔ [NODE_FETCH] TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (281.367834ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata static-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Fetch","initiator":"script"},{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve [{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve-child [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-post [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-wrong-type [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-missing-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-put [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-query [{"type":"Other","initiator":"preflight"}]
+✔ [NODE_FETCH] TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies (1287.287416ms)
+✔ [BROWSER_GET_HEAD] H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect (164.053875ms)
+✔ [BROWSER_GET_HEAD] P21 source preflight retains a6.5s result under the production navigation budget (6723.66575ms)
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+E1 type observations [{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"},{"event":"Network.requestWillBeSent","type":"Fetch"},{"event":"Fetch.requestPaused","type":"XHR"}]
+✔ [BROWSER_GET_HEAD] E1 outer body observer captures real Chromium POST bytes independently of Guard admission (3404.1075ms)
+✔ [BROWSER_GET_HEAD] real Chromium rejects a second cross-origin redirect before receiver arrival (121.153208ms)
+✔ [BROWSER_GET_HEAD] real Chromium rejects a second sensitive redirect before receiver arrival (100.062541ms)
+✔ [BROWSER_GET_HEAD] real Chromium preserves allowed redirect URL, relative links, cookies and recording of every hop (130.991083ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every fetch redirect before cross-origin dispatch (116.214958ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every xhr redirect before cross-origin dispatch (116.949959ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every script redirect before cross-origin dispatch (116.257542ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every stylesheet redirect before cross-origin dispatch (117.0315ms)
+✔ [BROWSER_GET_HEAD] real Chromium checks every image redirect before cross-origin dispatch (116.547625ms)
+✔ [BROWSER_GET_HEAD] real Chromium redirect loops fail at the Guard hop bound (116.764542ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects popup navigation before its first redirect (133.079667ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects iframe redirect chains (116.52125ms)
+✔ [BROWSER_GET_HEAD] real Chromium preserves normal allowed popup redirect navigation (153.637917ms)
+✔ [BROWSER_GET_HEAD] real Chromium protects dedicated-worker fetch redirects (133.206834ms)
+✔ [BROWSER_GET_HEAD] reviewed stylesheet redirects preserve their URL without promoting the CDN to generic public reads (129.920334ms)
+▶ [BROWSER_GET_HEAD] T1 native redirect URL-normalization attempts keep forbidden receivers untouched
+  ✔ fragment (116.599417ms)
+  ✔ dot (99.649958ms)
+  ✔ encodedDot (117.097625ms)
+  ✔ escaped (99.587083ms)
+  ✔ queryEscape (100.041375ms)
+  ✔ slash (99.780792ms)
+  ✔ unicode (119.384625ms)
+  ✔ protocolRelative (117.072542ms)
+✔ [BROWSER_GET_HEAD] T1 native redirect URL-normalization attempts keep forbidden receivers untouched (869.7555ms)
+ℹ {"form":"fragment","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"dot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"encodedDot","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"escaped","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"queryEscape","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"slash","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"unicode","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+ℹ {"form":"protocolRelative","arrivals":["A/normalize","A/normalize-hop"],"forbiddenArrivals":0,"reproduction":"NOT_REPRODUCED"}
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused origin request (113.514125ms)
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused method request (116.44875ms)
+✔ [BROWSER_GET_HEAD] T1 CDP independently rejects an unrecognized paused resource-type request (119.455458ms)
+✔ [BROWSER_GET_HEAD] TableCheck public search JSON reaches an independent receiver while writes, other paths and fields stay blocked (172.92975ms)
+preflight metadata get [{"type":"Other","initiator":"preflight"}]
+preflight metadata xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata missing-network-marker [{"type":"Other","initiator":"preflight"}]
+preflight metadata facet-no-hits [{"type":"Other","initiator":"preflight"}]
+preflight metadata catalog [{"type":"Other","initiator":"preflight"}]
+preflight metadata default-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata static-get [{"type":"Other","initiator":"preflight"}]
+preflight metadata post [{"type":"Other","initiator":"preflight"}]
+preflight metadata extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata no-get-rule [{"type":"Other","initiator":"preflight"}]
+preflight metadata manual-options [{"type":"Fetch","initiator":"script"},{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve [{"type":"Other","initiator":"preflight"}]
+preflight metadata reserve-child [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-post [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-xhr [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-wrong-type [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-missing-field [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-extra-header [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-put [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-other-path [{"type":"Other","initiator":"preflight"}]
+preflight metadata calendar-query [{"type":"Other","initiator":"preflight"}]
+✔ [BROWSER_GET_HEAD] TableCheck browser preflight is tied to its reviewed GET or POST and rejects unknown methods, headers, paths and bodies (1311.951125ms)
+✔ experimental browser GET transport makes no Node fetch and records complete responses (156.379625ms)
+✔ experimental browser transport preserves the request deadline and fails closed (200.207458ms)
+✖ F5 recorded region action rebinds to the same observed link and reaches the next saved page (130.091958ms)
+✔ slot1 map DOM records in real Chromium and replays up to the first unqualified page without source traffic (347.45175ms)
+ℹ {"status":"REPLAY_INCOMPLETE","executionSource":"REPLAY","liveCapabilityDenominator":"EXCLUDED","pages":[{"snapshot":1,"url":"http://127.0.0.1:57654/map","status":"REPLAYABLE","reason":"SANITIZED_NETWORK_AND_DOM_CAPTURE","diagnostic":{"status":"SAVED","file":"diagnostic/snapshot-0001.html"}},{"snapshot":2,"url":"http://127.0.0.1:57654/next","status":"NOT_REPLAYABLE","reason":"UNCAPTURED_STATIC_DEPENDENCY","diagnostic":{"status":"SAVED","file":"diagnostic/snapshot-0002.html"}}],"consumedPages":1,"stop":{"snapshot":2,"origin":"http://127.0.0.1:57654","pathname":"/next","reason":"UNCAPTURED_STATIC_DEPENDENCY"},"originalLocalRequests":3,"replaySourceRequests":0,"fixtureGoogleTransports":1,"realCalls":{"model":0,"google":0,"website":0,"live":0,"environmentRerun":0},"recordingFiles":["diagnostic/snapshot-0001.html","diagnostic/snapshot-0002.html","recording.json","replay.har","snapshot-0001.html"],"unreplayedQuality":"NOT_EVALUATED"}
+✔ missing HAR response is stopped without any network fallback (302.234542ms)
+ℹ {"sourceRequests":0,"stopped":{"snapshot":1,"origin":"http://127.0.0.1:57656","pathname":"/public.css","reason":"MISSING_RESPONSE"}}
+✔ Live trace records real request chronology, navigation budgets and query hashes without changing Guard (1400.585334ms)
+ℹ {"requests":12,"navigations":5,"blocked":3}
+✔ formal Runner real subprocess complete persists execution and supports independent S0 (1509.180792ms)
+✔ formal Runner real subprocess signal persists execution and supports independent S0 (1372.442417ms)
+✔ formal Runner real subprocess deadline persists execution and supports independent S0 (1351.108334ms)
+✔ formal Runner real subprocess external persists execution and supports independent S0 (1351.06375ms)
+✔ shared origin pacing spans two real subprocesses (1056.052833ms)
+ℹ {"timestamps":[1793900725024,1793900725310,1793900725589,1793900725865],"intervals":[286,279,276],"configuredMs":200,"usage":{"a":{"http://127.0.0.1:57664":{"requests":2,"waitMs":489}},"b":{"http://127.0.0.1:57664":{"requests":2,"waitMs":764}}}}
+✔ one run has exactly zero pacing wait (253.298917ms)
+ℹ {"http://127.0.0.1:57675":{"requests":2,"waitMs":0}}
+✔ third queues and SIGTERM releases in-flight ownership (1140.55625ms)
+ℹ {"stop":"SIGTERM","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:57679":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:57679":{"requests":2,"waitMs":493}},"third":{"http://127.0.0.1:57679":{"requests":2,"waitMs":754}}},"heldLeases":0}
+✔ third queues and timeout releases in-flight ownership (1135.346416ms)
+ℹ {"stop":"timeout","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:57687":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:57687":{"requests":2,"waitMs":497}},"third":{"http://127.0.0.1:57687":{"requests":2,"waitMs":746}}},"heldLeases":0}
+✔ third queues and stop releases in-flight ownership (1106.074375ms)
+ℹ {"stop":"stop","activeRuns":["survivor","third"],"queuedRuns":[],"usage":{"interrupted":{"http://127.0.0.1:57699":{"requests":1,"waitMs":0}},"survivor":{"http://127.0.0.1:57699":{"requests":2,"waitMs":487}},"third":{"http://127.0.0.1:57699":{"requests":2,"waitMs":755}}},"heldLeases":0}
+✔ each exited slot is independently evaluated before another slot exits, including nonzero and missing artifacts (1617.532792ms)
+ℹ {"first":{"id":"first","status":"EVALUATED","exit":{"code":7,"signal":null},"exitedAtCET":"2026-11-05T18:45:30.581+01:00","evaluationStartedAtCET":"2026-11-05T18:45:30.581+01:00","finishedAtCET":"2026-11-05T18:45:30.600+01:00","exitToEvaluationStartMs":0.016707999999880485,"s0":{"S0_DECLARATION":{"status":"ABSENT","reasons":["Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."],"evidenceRefs":["loop","finalSnapshot.domainState.presentedResults","finalSnapshot.domainState.availability","finalSnapshot.domainState.readEvidence"]},"S0_BOUNDARY":{"status":"ABSENT","reasons":["Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."],"evidenceRefs":["src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json#sha256=99729a1758691d1077995571cca1ae8c0ae81e00e98b9c03c38a67e3f3be7b61","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[]}},"sourceArtifact":{"path":"/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-batch-nfq3R5/first/run-tPxHpt/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-29-539Z-c44d5443-a6e5-4b86-991c-1f8ed2418164.result.json","sha256":"a4e7b10a1ee306f163ff0973f1b6ebb7a09a1782ae8b5b08165ba3e6b8920284"},"reviewedReadsSha256":"99729a1758691d1077995571cca1ae8c0ae81e00e98b9c03c38a67e3f3be7b61","evaluationPath":"/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-batch-nfq3R5/first/run-tPxHpt/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-29-539Z-c44d5443-a6e5-4b86-991c-1f8ed2418164.result.evaluation.37-1793900730600.json"},"second":{"id":"second","status":"EVALUATED","exit":{"code":0,"signal":null},"exitedAtCET":"2026-11-05T18:45:30.623+01:00","evaluationStartedAtCET":"2026-11-05T18:45:30.623+01:00","finishedAtCET":"2026-11-05T18:45:30.636+01:00","exitToEvaluationStartMs":0.018332999999984168,"s0":{"S0_DECLARATION":{"status":"PRESENT","reasons":["Displayed offer party 9 conflicts with frozen Gold 2"],"evidenceRefs":["finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:feebb1e886076ea6f5014d57]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:feebb1e886076ea6f5014d57]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:c1c72dc93f72020a9a126734]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:738fe73f34e25354f020a6b1]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:4a15bfd1ced152399312003c]","finalSnapshot.domainState.availability[praxis:restaurant:f16d05ec6b29248d2c61adb1][id=offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2]","browserTrace[sequence=44]"]},"S0_BOUNDARY":{"status":"ABSENT","reasons":["Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."],"evidenceRefs":["src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json#sha256=99729a1758691d1077995571cca1ae8c0ae81e00e98b9c03c38a67e3f3be7b61","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[]}},"sourceArtifact":{"path":"/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-batch-nfq3R5/second/run-UaxhMp/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-29-527Z-43831c26-5864-4ede-9880-50b41424944d.result.json","sha256":"f3dc5357a59a3af7e5076a55c8b0a8a1cd7adbcb313a9248c02ceac694ee58bd"},"reviewedReadsSha256":"99729a1758691d1077995571cca1ae8c0ae81e00e98b9c03c38a67e3f3be7b61","evaluationPath":"/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-batch-nfq3R5/second/run-UaxhMp/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-29-527Z-43831c26-5864-4ede-9880-50b41424944d.result.evaluation.37-1793900730635.json"},"missing":{"id":"missing","status":"NOT_EVALUATED","exit":{"code":9,"signal":null},"exitedAtCET":"2026-11-05T18:45:29.525+01:00","evaluationStartedAtCET":"2026-11-05T18:45:29.527+01:00","finishedAtCET":"2026-11-05T18:45:29.527+01:00","exitToEvaluationStartMs":0.09962500000006003,"s0":{"S0_DECLARATION":{"status":"NOT_EVALUATED","reasons":["MISSING_ARTIFACT"],"evidenceRefs":[]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["MISSING_ARTIFACT"],"evidenceRefs":[]}},"failureCode":"MISSING_ARTIFACT"},"realCalls":0}
+{"mode":"HYBRID_LIVE_READ","caseId":"interruption-fixture","browserEngine":"LOCAL_CHROMIUM","preflight":{"reviewedReadsPath":"src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json","reviewedReadsSha256":"0000000000000000000000000000000000000000000000000000000000000000"},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":100,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":90000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 3
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 3,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 7,
+    "browserOperationsByCandidate": {
+      "praxis:restaurant:f16d05ec6b29248d2c61adb1": 7
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 610,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 1015
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-cli-x5iCz7/run-Iw514b/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-31-037Z-027de081-cb5f-48cc-a738-8f5dc9895f6b.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-cli-x5iCz7/run-Iw514b/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-31-037Z-027de081-cb5f-48cc-a738-8f5dc9895f6b.result.evaluation.37-1793900732069.json",
+  "latencyMs": 1015,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
+✔ single-slot CLI supervisor immediately reports independent review hash failure instead of S0 absence (1461.1535ms)
+ℹ {"receipt":{"id":"slot-c46c5f4c-b97d-467a-8065-35fa46d3e0a1","status":"NOT_EVALUATED","exit":{"code":0,"signal":null},"exitedAtCET":"2026-11-05T18:45:32.084+01:00","evaluationStartedAtCET":"2026-11-05T18:45:32.084+01:00","finishedAtCET":"2026-11-05T18:45:32.101+01:00","exitToEvaluationStartMs":0.03204099999993559,"s0":{"S0_DECLARATION":{"status":"NOT_EVALUATED","reasons":["REVIEWED_READS_SHA_MISMATCH"],"evidenceRefs":[]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["REVIEWED_READS_SHA_MISMATCH"],"evidenceRefs":[]}},"sourceArtifact":{"path":"/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-cli-x5iCz7/run-Iw514b/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-31-037Z-027de081-cb5f-48cc-a738-8f5dc9895f6b.result.json","sha256":"7c779b6a3dd85416239e5332cbb0b29c707d3eb09315630b07888288d51e1095"},"failureCode":"REVIEWED_READS_SHA_MISMATCH"},"realCalls":0}
+{"mode":"HYBRID_LIVE_READ","caseId":"interruption-fixture","browserEngine":"LOCAL_CHROMIUM","preflight":{"reviewedReadsPath":".eval-artifacts/post-exit-uncommitted-XixpeA/reviewed-reads.json","reviewedReadsSha256":"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":100,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":90000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 3
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 3,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 7,
+    "browserOperationsByCandidate": {
+      "praxis:restaurant:f16d05ec6b29248d2c61adb1": 7
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 627,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 1124
+  },
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-uncommitted-XixpeA/run-l3x9MP/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-32-678Z-25fc4276-3d1e-4a17-ae13-8062f69128e9.result.json",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/post-exit-uncommitted-XixpeA/run-l3x9MP/.eval-artifacts/restaurant-hybrid-live-read/2026-11-05T17-45-32-678Z-25fc4276-3d1e-4a17-ae13-8062f69128e9.result.evaluation.37-1793900733824.json",
+  "latencyMs": 1124,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
+✔ post-exit evaluator rejects an uncommitted catalog even with its matching SHA (1735.167875ms)
+✔ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (3096.725167ms)
+ℹ {"summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"5051049b04de2583666c9ab0e382fbe06303fcf6594d4fd51d109bc0311ce752","harSha256":"e8b43607ecb764f143e1193ede53f79e91c41462b940e03d1e7ba47ba4b50c42","decisionSha256":"77c0209f64a4cd24d906d0a585a6eea83aacaef622cbe92c51b83c9eee8d1185","liveCapabilityDenominator":"EXCLUDED","status":"COMPLETED","stop":null,"consumedPages":4,"recordedPages":4,"consumedDecisions":4,"recordedDecisions":4,"replayedDecisionCount":4,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-rmCvn0/output/execution/2026-11-05T17-45-30-371Z-d661478a-f5a7-4b24-ba4f-749f89e72f2f.result.json"},"delivery":{"candidates":[{"id":"praxis:restaurant:f16d05ec6b29248d2c61adb1","name":"Fixture restaurant"}],"shown":["praxis:restaurant:f16d05ec6b29248d2c61adb1"],"offers":[{"id":"offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2","restaurantId":"praxis:restaurant:f16d05ec6b29248d2c61adb1","dateTime":"2026-10-30T19:00:00+09:00","partySize":2,"bookingMode":"REQUEST"}]},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND"}
+✔ replay missing preserves source/progress and model boundaries (2465.78775ms)
+ℹ {"mode":"missing","summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"3b521e3301c61422632a9b3a1480559a03a620859e00436a7aca2bec220dd5f2","harSha256":"82f96c6d540ab09c5d3f5b04ceae95164f65ab6a9f3adb24fab31ad7752fa19c","decisionSha256":"a9ef0f816066756060dae7869b1ee6daefe564827dc8d0899ffbb69cc1b691cb","liveCapabilityDenominator":"EXCLUDED","status":"REPLAY_INCOMPLETE","stop":{"snapshot":null,"origin":"https://places.googleapis.com","pathname":"/v1/places:searchNearby","reason":"MISSING_STRUCTURED_RESPONSE"},"consumedPages":0,"recordedPages":4,"consumedDecisions":2,"recordedDecisions":4,"replayedDecisionCount":2,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-IEjKjh/output/execution/2026-11-05T17-45-33-623Z-c7029d3b-340a-4212-ab9d-b870c2f2803e.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ replay partial preserves source/progress and model boundaries (2930.174166ms)
+ℹ {"mode":"partial","summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"afd2c26c47507de0b7ef441681390a77631c338ce4addf9e16b98e36b74d2870","harSha256":"ce60cf4d09b41febdbbe757289acf73e49bb646536f0a59f0d34b27a0e3f7c01","decisionSha256":"91bdd2fbb7895115dc158826097d161a51a4df5c931e06d8b7da4ea3b685bcf7","liveCapabilityDenominator":"EXCLUDED","status":"REPLAY_INCOMPLETE","stop":{"snapshot":3,"origin":"https://www.tablecheck.com","pathname":"/en/fixture","reason":"UNCAPTURED_STATIC_DEPENDENCY"},"consumedPages":2,"recordedPages":4,"consumedDecisions":3,"recordedDecisions":4,"replayedDecisionCount":3,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-8JI1q0/output/execution/2026-11-05T17-45-36-110Z-a71fa19c-9202-41d8-a21c-688b80e87418.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ replay model-wiring preserves source/progress and model boundaries (2758.828167ms)
+ℹ {"mode":"model-wiring","summary":{"executionSource":"REPLAY","modelMode":"REAL","recordingSha256":"f25a5ec794f031206b799cef1de1e5f084a597ad1860fb9b4091354910d6e590","harSha256":"c5c6ff4c387fc7040c3978a8b237eab8bf0669ce03e41a6abefd540f92ea19c1","decisionSha256":"b7460cf6871d43d935c098c534b6bdc58422c119e0c03e891403e86b254c39ef","liveCapabilityDenominator":"EXCLUDED","status":"COMPLETED","stop":null,"consumedPages":4,"recordedPages":4,"consumedDecisions":0,"recordedDecisions":4,"replayedDecisionCount":0,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":4,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-pKUhGx/output/execution/2026-11-05T17-45-38-854Z-77e98031-65a7-48bf-b7a5-59240759fcd5.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ recorded document redirects reach the qualified final snapshot through real Chromium and Guard (159.552834ms)
+✔ a missing optional image fails and is recorded without inventing bytes or rejecting a qualified document (131.548416ms)
+✔ redirect qualification cannot promote an unqualified final page, missing hop or cycle (3.544292ms)
+✔ replay checks missing responses after Guard admission, retaining denial and missing-entry boundaries (280.753584ms)
+✔ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (2790.613458ms)
+✔ Workspace mobile: stop and request revision discard late source responses (1048.361ms)
+✔ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (1881.379125ms)
+✔ Workspace desktop: stop and request revision discard late source responses (1006.113625ms)
+✔ Workspace B1 mobile: long conflict terms keep both source actions above the composer (1255.674959ms)
+✔ Workspace B1 desktop: long conflict terms keep both source actions above the composer (1110.046791ms)
+ℹ tests 220
+ℹ suites 0
+ℹ pass 138
+ℹ fail 81
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 132895.693583
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-calendar-controls.test.ts:1:538
+✖ Matsumoto selected-party 1 escapes the guest Next loop through production observation (204.519959ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts:54:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-calendar-controls.test.ts:1:538
+✖ Matsumoto selected-party 2 escapes the guest Next loop through production observation (177.014834ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts:54:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-calendar-controls.test.ts:11:3537
+✖ generic selected state requires public ARIA, with independent same-label groups (137.903625ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts:96:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-calendar-controls.test.ts:18:1897
+✖ party click does not confirm from unrelated page changes or an unchanged group value (166.727708ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts:120:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-calendar-controls.test.ts:25:574
+✖ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (167.133541ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts:170:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-calendar-controls.test.ts:26:6513
+✖ C2a recorded date controls reject other days without class-derived party confirmation (150.7805ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts:307:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-calendar-controls.test.ts:26:8743
+✖ C2a selectable requested date retains authoritative click and blocks an ordinary other-date click (130.844458ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-calendar-controls.test.ts:323:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-category.test.ts:1:453
+✖ P21 discovery uses DOM category links despite CSS and rejects foreign regions (150.205917ms)
+  TypeError [Error]: Cannot read properties of null (reading 'categories')
+      at Object.complete (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-category.test.ts:43:34)
+      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:46:39)
+      at prepareTextRetrieval (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:367:41)
+      at NativeRestaurantSearch.search (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:377:13)
+      at async Object.search (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/live-read-assembly.ts:156:20)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-category.test.ts:66:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/harness/browser/browser-read-discovery.test.ts:1:554
+✖ P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests (207.227583ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts:21:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-discovery.test.ts:1:4924
+✖ name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation (153.05125ms)
+  AssertionError [ERR_ASSERTION]: {"sampleId":"chromium","method":"A","platform":"TABELOG","accepted":false,"identityRecorded":false,"observedOutletUrls":[],"searchCompleted":false,"elapsedMs":146,"modelCalls":0,"failure":"ENTITY_MATCH_UNCERTAIN"}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts:60:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-discovery.test.ts:1:7548
+✖ F5 G3 Chromium follows four observed region pages and directly selects the retained entrance without restoring a menu (307.793208ms)
+  AssertionError [ERR_ASSERTION]: {"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":169,"nativeDiscoveryFunnel":{"source":"TABELOG","rawSourceLinks":0,"parsedOutlets":0,"inspectedOutlets":0,"batchCap":5,"sourceDetailCap":10,"sourceDetailAttempts":0,"sourcePageCap":7,"sourceElapsedCapMs":90000,"sourceElapsedMs":168,"sourceTimeLimitReached":false,"deferredByBatchCap":[],"rejected":[],"accepted":0,"pagesRead":1,"batchLimitReached":false,"sourceExhausted":"UNKNOWN","batchEnded":true,"sourceEnded":true,"progressionReason":"SOURCE_FAILURE","listingObservations":[],"retrieval":{"selection":{"accepted":true,"reason":"General retrieval: no positive criteria."},"rewrites":0,"regionPages":1,"retrievalPages":0,"history":[]}},"failureCode":"BROWSER_RUNTIME_FAILED","googleRequests":{"limit":100,"total":0,"namedPlaceResolution":0,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}}
+  
+  0 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts:96:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:1:431
+✖ button name metadata does not replace visible time or Reserve safety label (204.016541ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:21:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:1:1945
+✖ LOCAL chooses a visible time option with an opaque native value and reads it back (178.708542ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:47:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:1:1945
+✖ CLOUDFLARE_SESSION chooses a visible time option with an opaque native value and reads it back (136.329375ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:47:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:5:2485
+✖ LOCAL binds a button combobox to its own listbox option through the strict browser wire (166.571541ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:87:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:5:2485
+✖ CLOUDFLARE_SESSION binds a button combobox to its own listbox option through the strict browser wire (149.870083ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:87:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:6:2537
+✖ empty input reads its own selected display and confirms a changed option (134.468ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:121:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:6:2537
+✖ empty input reads its own selected display and avoids a duplicate choice (138.861583ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:121:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:10:3155
+✖ LOCAL keeps the observed option node when unrelated buttons arrive during model decision (118.598ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:168:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:10:3155
+✖ CLOUDFLARE_SESSION keeps the observed option node when unrelated buttons arrive during model decision (141.308333ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:168:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:13:2543
+✖ changed observed option role-change is rejected before execution (126.844166ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:204:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:13:2543
+✖ changed observed option replacement is rejected before execution (113.598958ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:204:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:13:2543
+✖ changed observed option legal-replacement is rejected before execution (124.01175ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:204:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:16:2799
+✖ a visible option from another listbox cannot be claimed by the expanded combobox (156.0665ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:236:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:18:1781
+✖ native option disabled cannot be signed off as a selected time (127.134125ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:266:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:18:1781
+✖ native option unchanged cannot be signed off as a selected time (131.004375ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:266:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:18:1781
+✖ native option complete cannot be signed off as a selected time (101.182459ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:266:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:19:2237
+✖ an asynchronously applied option can complete after a later selected-value observation (119.2035ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:295:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-option-controls.test.ts:21:1948
+✖ an unconfirmed time choice cannot be replaced by a successful party choice (129.226916ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:323:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:3:1124
+✖ generic controlled browser path completes a local read-only page task without a site-specific adapter method (157.610083ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:48:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:4:1791
+✖ an observed public target-blank link switches the same session to a new page before reading its terms (114.185458ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:90:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:4:4047
+✖ real DOM observation exposes an unlabelled-id role button and calendar navigation without permitting submission (99.351334ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:126:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:7:1635
+✖ an active language dialog blocks background calendar actions until the dialog is closed (119.219541ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:165:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:13:1821
+✖ shared executor keeps unguarded public filters unavailable (122.296541ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:220:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:30:700
+✖ a model cannot consent by setting an unclassified checkbox (117.224334ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:270:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:37:1019
+✖ C5a one choice reveals a clipped PARTY_SIZE option inside its current list (117.177083ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:329:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:37:1019
+✖ C5a one choice reveals a clipped TIME option inside its current list (122.026625ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:329:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-page-controls.test.ts:39:1940
+✖ C5a excludes disabled, occluded and noncurrent list options (102.818791ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-page-controls.test.ts:353:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-public-selection.test.ts:1:331
+✖ Chromium observes public selection, native checked values and a calendar day without a private child shape (181.749292ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-public-selection.test.ts:20:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-replay.test.ts:1:815
+✖ guarded HAR replay drives the production executor offline and keeps missing requests off the network (157.651958ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-replay.test.ts:47:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-request-binding.test.ts:1:498
+✖ LOCAL applies authoritative date and party through observed DOM references (131.333166ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-request-binding.test.ts:40:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-request-binding.test.ts:1:498
+✖ CLOUDFLARE_SESSION applies authoritative date and party through observed DOM references (110.144333ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-request-binding.test.ts:40:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-request-binding.test.ts:19:766
+✖ LOCAL recovers once from a visible header obstruction and re-observes before the next click (109.910084ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-request-binding.test.ts:126:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-request-binding.test.ts:19:766
+✖ CLOUDFLARE_SESSION recovers once from a visible header obstruction and re-observes before the next click (132.700792ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-request-binding.test.ts:126:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-request-binding.test.ts:37:7163
+✖ native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence (360.477417ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":"25","phase":"NO_VERIFIED_RESULT","searchRevision":3,"investigationRevision":1,"intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-19T16:20:00+08:00","timezone":"Asia/Tokyo","date":{"expression":"tonight","resolvedDate":"2026-08-19","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7 PM","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"near Shibuya"}},"candidates":[],"availability":{},"availabilityChecks":{},"factChecks":{},"readEvidence":[{"evidenceId":"dd8f1db2517ab010999263ecccd28ec6718e1de9ba515b13703345faaba19484","kind":"DISCOVERY","provider":"GOOGLE_PLACES","sourceEntityId":"shibuya","observedAt":"2026-08-19T07:20:00.000Z","requestFingerprint":"2483e903ea1cd8a7639f4260721058bdfa1c31b5d8413c387804a2d13363d41a","claims":{"locationResolutionQuery":"Shibuya","resolvedPlaceName":"Shibuya","locationNameExactMatch":true,"resolvedPlaceTypes":["train_station"],"resolvedPlaceId":"shibuya","latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"locationResolutionSource":"GOOGLE_TEXT_SEARCH"}}],"intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":2,"area":{"query":"near Shibuya"},"criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}]},"searchContinuation":{"intentFingerprint":"{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}]}","usedPageTokens":[],"pagesRead":1,"exhausted":true,"locationContext":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Tokyo","types":["locality"]}]},"sourceRequestContext":{"textQuery":"omakase Shibuya"},"discoveryPlan":{"entries":[{"sourceId":"tabelog","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Tokyo","types":["locality"]}]},"keyword":"omakase"}},{"sourceId":"tablecheck","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Tokyo","types":["locality"]}]},"keyword":"omakase"}},{"sourceId":"google-places","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Tokyo","types":["locality"]}]},"keyword":"omakase"}}],"cursor":3,"textRetrieval":{"accepted":true,"reason":"Controlled retrieval; preserve the current sparse source result.","keyword":"omakase","criterionRef":"criterion:0"}},"currentDiscoveryBatch":{"sourceId":"google-places","candidateIds":[]},"deferredSources":[{"progress":{"sourceId":"tabelog","inspectedSourceIds":[],"detailAttempts":0,"pagesRead":0,"elapsedMs":127,"retrieval":{"selection":{"accepted":true,"reason":"Controlled retrieval; preserve the current sparse source result.","keyword":"omakase","criterionRef":"criterion:0"},"rewrites":0,"regionPages":0,"retrievalPages":0,"history":[]},"visitedListingUrls":[],"pendingSourceEntries":[],"pendingSourceIds":[]},"usedPageTokens":[],"pagesRead":0},{"progress":{"sourceId":"tablecheck","inspectedSourceIds":[],"detailAttempts":0,"pagesRead":0,"elapsedMs":114,"retrieval":{"selection":{"accepted":true,"reason":"Controlled retrieval; preserve the current sparse source result.","keyword":"omakase","criterionRef":"criterion:0"},"rewrites":0,"regionPages":0,"retrievalPages":0,"history":[]},"visitedListingUrls":[],"pendingSourceEntries":[],"pendingSourceIds":[]},"usedPageTokens":[],"pagesRead":0}]},"pendingResultBatchTarget":3,"noVerifiedResult":{"termination":{"type":"END_READ","reasonCode":"AGENT_END_READ","isSystemReason":false,"initiator":"AGENT"},"endedAt":"2026-08-19T07:20:00.000Z","investigatedCandidateIds":[],"unresolvedCandidateIds":[],"remainingGaps":["The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated"]}}
+  + actual - expected
+  
+  + undefined
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-request-binding.test.ts:385:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-request-binding.test.ts:37:7163
+✖ native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence (334.2065ms)
+  AssertionError [ERR_ASSERTION]: {"schemaVersion":"25","phase":"NO_VERIFIED_RESULT","searchRevision":3,"investigationRevision":1,"intentDraft":{"schemaVersion":"3","timezone":"Asia/Tokyo","criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}],"target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"temporalResolution":{"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-19T16:20:00+08:00","timezone":"Asia/Tokyo","date":{"expression":"tonight","resolvedDate":"2026-08-19","basis":"EXPLICIT_DATE"},"timeWindow":{"expression":"7 PM","resolvedTimeWindow":{"earliest":"19:00","latest":"19:00"},"basis":"EXPLICIT_CLOCK"}},"partySize":2,"area":{"query":"near Shibuya"}},"candidates":[],"availability":{},"availabilityChecks":{},"factChecks":{},"readEvidence":[{"evidenceId":"dd8f1db2517ab010999263ecccd28ec6718e1de9ba515b13703345faaba19484","kind":"DISCOVERY","provider":"GOOGLE_PLACES","sourceEntityId":"shibuya","observedAt":"2026-08-19T07:20:00.000Z","requestFingerprint":"2483e903ea1cd8a7639f4260721058bdfa1c31b5d8413c387804a2d13363d41a","claims":{"locationResolutionQuery":"Shibuya","resolvedPlaceName":"Shibuya","locationNameExactMatch":true,"resolvedPlaceTypes":["train_station"],"resolvedPlaceId":"shibuya","latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"locationResolutionSource":"GOOGLE_TEXT_SEARCH"}}],"intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","query":"omakase spot","selectionScope":"OPEN_ENDED"},"date":"2026-08-19","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":2,"area":{"query":"near Shibuya"},"criteria":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE"}]},"searchContinuation":{"intentFingerprint":"{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}]}","usedPageTokens":[],"pagesRead":1,"exhausted":true,"locationContext":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Tokyo","types":["locality"]}]},"sourceRequestContext":{"textQuery":"omakase Shibuya"},"discoveryPlan":{"entries":[{"sourceId":"tabelog","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Tokyo","types":["locality"]}]},"keyword":"omakase"}},{"sourceId":"tablecheck","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Tokyo","types":["locality"]}]},"keyword":"omakase"}},{"sourceId":"google-places","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Tokyo","types":["locality"]}]},"keyword":"omakase"}}],"cursor":3,"textRetrieval":{"accepted":true,"reason":"Controlled retrieval; preserve the current sparse source result.","keyword":"omakase","criterionRef":"criterion:0"}},"currentDiscoveryBatch":{"sourceId":"google-places","candidateIds":[]},"deferredSources":[{"progress":{"sourceId":"tabelog","inspectedSourceIds":[],"detailAttempts":0,"pagesRead":0,"elapsedMs":140,"retrieval":{"selection":{"accepted":true,"reason":"Controlled retrieval; preserve the current sparse source result.","keyword":"omakase","criterionRef":"criterion:0"},"rewrites":0,"regionPages":0,"retrievalPages":0,"history":[]},"visitedListingUrls":[],"pendingSourceEntries":[],"pendingSourceIds":[]},"usedPageTokens":[],"pagesRead":0},{"progress":{"sourceId":"tablecheck","inspectedSourceIds":[],"detailAttempts":0,"pagesRead":0,"elapsedMs":116,"retrieval":{"selection":{"accepted":true,"reason":"Controlled retrieval; preserve the current sparse source result.","keyword":"omakase","criterionRef":"criterion:0"},"rewrites":0,"regionPages":0,"retrievalPages":0,"history":[]},"visitedListingUrls":[],"pendingSourceEntries":[],"pendingSourceIds":[]},"usedPageTokens":[],"pagesRead":0}]},"pendingResultBatchTarget":3,"noVerifiedResult":{"termination":{"type":"END_READ","reasonCode":"AGENT_END_READ","isSystemReason":false,"initiator":"AGENT"},"endedAt":"2026-08-19T07:20:00.000Z","investigatedCandidateIds":[],"unresolvedCandidateIds":[],"remainingGaps":["The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated"]}}
+  + actual - expected
+  
+  + undefined
+  - 'UNAVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-request-binding.test.ts:385:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'UNAVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-search-controls.test.ts:1:2805
+✖ LOCAL completes an exact bound search suggestion without clicking its covered background control (119.191375ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-search-controls.test.ts:84:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-search-controls.test.ts:16:2815
+✖ LOCAL opens an observed covered public result at offset 0 (122.35425ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-search-controls.test.ts:111:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-search-controls.test.ts:16:2815
+✖ LOCAL opens an observed covered public result at offset 1400 (184.895791ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-search-controls.test.ts:111:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-search-controls.test.ts:1:2805
+✖ CLOUDFLARE_SESSION completes an exact bound search suggestion without clicking its covered background control (133.634084ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-search-controls.test.ts:84:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-search-controls.test.ts:16:2815
+✖ CLOUDFLARE_SESSION opens an observed covered public result at offset 0 (152.200709ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-search-controls.test.ts:111:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-search-controls.test.ts:16:2815
+✖ CLOUDFLARE_SESSION opens an observed covered public result at offset 1400 (120.439041ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-search-controls.test.ts:111:22)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-stability.test.ts:1:668
+✖ C3 settles delayed date results before asking the model and never completes from stale loading stock (148.107291ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts:27:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-stability.test.ts:4:2119
+✖ C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton (150.227ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts:46:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-stability.test.ts:6:1600
+✖ C4 blocks repeated toggle state but allows the same Next control on changed pages (107.44825ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts:66:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-stability.test.ts:6:3784
+✖ C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending (109.886ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts:88:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-stability.test.ts:6:5859
+✖ C3b Chromium ignores an outstanding image once data has completed (120.447667ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts:113:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-stability.test.ts:6:7488
+✖ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (110.904916ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-stability.test.ts:145:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-tabelog-public-list.test.ts:1:312
+✖ G3 real Chromium Agent reveals public renamed results and retains same-branch grounding (148.413291ms)
+  AssertionError [ERR_ASSERTION]: renamed public result must reach the same-outlet availability path
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-public-list.test.ts:34:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:1:492
+✖ Tabelog category discovery expands observed links and removes the keyword within the same area (127.007ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:56:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:8:8933
+✖ Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout (156.168875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ENTITY_MATCH_UNCERTAIN'
+  - 'TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:158:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ENTITY_MATCH_UNCERTAIN',
+    expected: 'TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:9:1255
+✖ LOCAL retires a real Chromium session after a delayed failed navigation (97.111ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    Comparison {
+  +   code: 'UNEXPECTED_PAGE'
+  -   code: 'BROWSER_TIMEOUT'
+    }
+  
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:194:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: BrowserRuntimeError: Navigation requires an exact source-observed URL or the configured first seed
+        at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+        at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+        at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:195:16)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+      [cause]: undefined
+    },
+    expected: { code: 'BROWSER_TIMEOUT' },
+    operator: 'rejects'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:9:1255
+✖ CLOUDFLARE_SESSION retires a real Chromium session after a delayed failed navigation (113.543625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    Comparison {
+  +   code: 'UNEXPECTED_PAGE'
+  -   code: 'BROWSER_TIMEOUT'
+    }
+  
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:194:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: BrowserRuntimeError: Navigation requires an exact source-observed URL or the configured first seed
+        at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+        at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+        at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:195:16)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+      [cause]: undefined
+    },
+    expected: { code: 'BROWSER_TIMEOUT' },
+    operator: 'rejects'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:9:1255
+✖ LOCAL retires a real Chromium session after a delayed failed navigation (source dispatch follows retirement) (138.229583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    Comparison {
+  +   code: 'UNEXPECTED_PAGE'
+  -   code: 'BROWSER_TIMEOUT'
+    }
+  
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:194:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: BrowserRuntimeError: Navigation requires an exact source-observed URL or the configured first seed
+        at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+        at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+        at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:195:16)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+      [cause]: undefined
+    },
+    expected: { code: 'BROWSER_TIMEOUT' },
+    operator: 'rejects'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:9:4091
+✖ LOCAL selects Tabelog paragraph dates and labelled guests without treating time options as slots (138.976958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:264:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:9:4091
+✖ CLOUDFLARE_SESSION selects Tabelog paragraph dates and labelled guests without treating time options as slots (184.844417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:264:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:21:2768
+✖ LOCAL legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (183.359167ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:16.421Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":162,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:cb8d8d1a-e4a9-4fed-96af-fe096a383b28","startedAt":"2026-11-05T17:45:16.420Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:311:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:21:2768
+✖ LOCAL current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (118.415334ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:16.545Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":102,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:53a8d796-81d4-406e-b19f-2fb127453773","startedAt":"2026-11-05T17:45:16.545Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:311:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:21:2768
+✖ CLOUDFLARE_SESSION legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (129.546375ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:16.674Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":114,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"CLOUDFLARE_BROWSER_RUN","engine":"CHROMIUM","startedAt":"2026-11-05T17:45:16.672Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:311:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:21:2768
+✖ CLOUDFLARE_SESSION current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (225.585625ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:16.867Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":178,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"CLOUDFLARE_BROWSER_RUN","engine":"CHROMIUM","startedAt":"2026-11-05T17:45:16.867Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:311:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tabelog.test.ts:1:1
+✖ /Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts (125788.949708ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:353
+✖ TableCheck waits for its guide result and grounds exact-query empty availability (195.999083ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:12.497Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":125,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:96d8c4bd-c530-46ef-80f0-2d17330d1679","startedAt":"2026-11-05T17:45:12.497Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'UNAVAILABLE'
+       ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:24:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'UNAVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:2780
+✖ real Chromium TableCheck source observation completes inside the current 45s provider window (116.151333ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:12.626Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":98,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:2e0ee7b3-fdaa-4d98-87cc-75be540f4f3f","startedAt":"2026-11-05T17:45:12.625Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:105:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:6927
+✖ TableCheck handles multiple current search links and reads only the identity-bound outlet (134.826459ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:12.760Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":116,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:8c4017f7-40b9-4cad-9c0b-7f3ece1b795b","startedAt":"2026-11-05T17:45:12.760Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:135:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:9454
+✖ TableCheck form waits past old inventory until a current same-outlet slot link appears (127.534125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:167:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:12815
+✖ LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (100.475375ms)
+  AssertionError [ERR_ASSERTION]: {"result":{"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:12.991Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":85,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:a80d9461-0b1a-49ef-884b-ace1e7c852c9","startedAt":"2026-11-05T17:45:12.991Z"}}},"calls":0,"diagnostics":["REJECTED: Source start is missing or ambiguous"]}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:205:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:12815
+✖ CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (100.0045ms)
+  AssertionError [ERR_ASSERTION]: {"result":{"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-05T17:45:13.090Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":84,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"CLOUDFLARE_BROWSER_RUN","engine":"CHROMIUM","startedAt":"2026-11-05T17:45:13.090Z"}}},"calls":0,"diagnostics":["REJECTED: Source start is missing or ambiguous"]}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:205:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/group-window.test.ts:5:95
+✖ group-window Chromium: available keeps exact request and explicit coverage (716.253709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/group-window.test.ts:47:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/group-window.test.ts:5:95
+✖ group-window Chromium: all-empty keeps exact request and explicit coverage (627.384625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/group-window.test.ts:47:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/group-window.test.ts:5:2462
+✖ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (504.935083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'SOURCE_UNSUPPORTED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/group-window.test.ts:64:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'SOURCE_UNSUPPORTED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/group-window.test.ts:5:3779
+✖ group-window Chromium: disabled exact party stops without clicking or changing the count (121.151375ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/group-window.test.ts:79:17)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/recorded-reference.test.ts:1:703
+✖ F5 recorded region action rebinds to the same observed link and reaches the next saved page (130.091958ms)
+  Error [BrowserRuntimeError]: Navigation requires an exact source-observed URL or the configured first seed
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1529:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:18)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/recorded-reference.test.ts:39:20)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+Browser fixture entry interrupted
+[browser fixtures] combined summary
+ℹ tests 225
+ℹ suites 0
+ℹ pass 143
+ℹ fail 81
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 156851.816

@@ -1,0 +1,28 @@
+✔ User booking wording records a choice when A's real P1-0-8 only presents the outlet (840.748167ms)
+✔ P2 user choice survives the party-only supplement; A's real P2-0-10 does not select or bypass availability (580.955833ms)
+✔ User choice fails closed for OPEN_ENDED (525.22025ms)
+✔ User choice fails closed for NON_BOOKING (530.857125ms)
+✔ User choice fails closed for AMBIGUOUS (516.226625ms)
+✔ User choice fails closed for PARTIAL (553.597833ms)
+✔ An explicit G1 question and a Book-on departure do not create a user choice (503.712375ms)
+✔ A newly resolved named outlet is selected only through the current identity evidence (505.8685ms)
+✔ An Agent repeating the same user choice remains effective and idempotent (521.058417ms)
+✔ a longer candidate name cannot prove its own extra words; geographic and category support remain independent (0.759ms)
+✔ extra name words require same-outlet bound source name/category quotations (1.110875ms)
+✔ named prefix component resolves a sole verified exact name and keeps the investigation scope (3.255667ms)
+✔ named prefix component permits only three identity fact reads, never an early availability action (3.478708ms)
+✔ D8 unique verified source name with remaining known names: D8_ORIGINAL (1.229792ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_GOOGLE_EQUAL (0.521875ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_JAPANESE_EQUAL (0.484209ms)
+✔ D8 unique verified source name with remaining known names: FOREIGN_PLACE_NAME (0.483834ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_AFTER_PREFIX_EQUAL (0.449084ms)
+✔ D8 unique verified source name with remaining known names: TWO_BOUND_EQUAL (0.462625ms)
+✔ D8 unique verified source name with remaining known names: NO_HIGH_EXACT (0.498583ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5475.660625

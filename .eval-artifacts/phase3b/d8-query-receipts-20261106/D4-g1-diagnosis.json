@@ -1,0 +1,115 @@
+{
+  "originalResult": {
+    "result": {
+      "reason": "INCOMPLETE_PAGE",
+      "status": "UNVERIFIED",
+      "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+          "readAt": "2026-11-06T09:26:16.927Z"
+        }
+      ]
+    },
+    "question": "Does this restaurant have a private room?",
+    "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+    "requestId": "PRIVATE_ROOM",
+    "deadlineAt": "2026-11-06T09:27:55.568Z",
+    "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+    "requestedAt": "2026-11-06T09:26:55.568Z",
+    "readStartedAt": "2026-11-06T09:24:55.256Z"
+  },
+  "recordedLoadingTransitions": [
+    {
+      "sequence": 1463,
+      "settlement": "PENDING",
+      "settlementDiagnostics": {
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "pendingByType": {
+          "xhr": 1
+        },
+        "oldestPendingMs": 719,
+        "blockingDataRequests": 1,
+        "busySelectors": [],
+        "visibleTextChanging": true
+      },
+      "textEvidence": {
+        "sha256": "1b0caec490ffa4b4ec9fb6845fe5a364792a96c00d93e00e0b8c367068bd814f",
+        "length": 5418
+      },
+      "htmlEvidence": {
+        "sha256": "9eaa50365907db0a188174bca4e1870719d856ab21a1f3ed442e77295af6f887",
+        "length": 148297,
+        "observedStateTags": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "class": "p-booking-calendar__time-button",
+            "data-time": "1830"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "class": "p-booking-calendar__time-button",
+            "data-time": "1845"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "class": "p-booking-calendar__time-button is-active",
+            "data-time": "1900"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 1487,
+      "settlement": "SETTLED",
+      "settlementDiagnostics": {
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "pendingByType": {},
+        "oldestPendingMs": 0,
+        "blockingDataRequests": 0,
+        "busySelectors": [],
+        "visibleTextChanging": false
+      },
+      "textEvidence": {
+        "sha256": "1b0caec490ffa4b4ec9fb6845fe5a364792a96c00d93e00e0b8c367068bd814f",
+        "length": 5418
+      },
+      "htmlEvidence": {
+        "sha256": "9eaa50365907db0a188174bca4e1870719d856ab21a1f3ed442e77295af6f887",
+        "length": 148297,
+        "observedStateTags": [
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "class": "p-booking-calendar__time-button",
+            "data-time": "1830"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "class": "p-booking-calendar__time-button",
+            "data-time": "1845"
+          },
+          {
+            "tag": "BUTTON",
+            "type": "button",
+            "class": "p-booking-calendar__time-button is-active",
+            "data-time": "1900"
+          }
+        ]
+      }
+    }
+  ],
+  "facts": [
+    "The original question returned INCOMPLETE_PAGE before any question-model call.",
+    "ModelRestaurantPageQuestion rejects pending pages, empty/truncated statement documents or incomplete text reconstruction.",
+    "A pending fact cache currently suppresses fresh acquisition in RestaurantPageQuestionReader; its cache key does not encode settlement.",
+    "The same recorded Dengana text hash5418chars appears PENDING then SETTLED. A missing body/nodeType error is absent in this run.",
+    "A production-composition mock reproduces cached-PENDING→INCOMPLETE_PAGE with zero model calls and now refreshes within the existing question-only limits; still-busy pages remain unverified."
+  ],
+  "causalLimit": "The exact cached RestaurantFactPageObservation passed to the old question was not serialized; loading-state reuse is a reproduced mechanism supported by the recording, not a uniquely proven historical cache value. The saved diagnostic body is populated, but it does not establish that the whole document was settled at the cached read instant.",
+  "newGate": "No weakening of ModelRestaurantPageQuestion completeness rules, no new budget/time channel."
+}

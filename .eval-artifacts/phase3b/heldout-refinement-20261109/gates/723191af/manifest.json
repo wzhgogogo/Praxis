@@ -1,0 +1,35 @@
+{
+  "sourceSHA": "723191affeed4b5300b180b922224a0b330cd3f3",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "sourceSHA": "723191affeed4b5300b180b922224a0b330cd3f3",
+      "startedAtUTC": "2026-11-09T14:17:09.112688+00:00",
+      "finishedAtUTC": "2026-11-09T14:17:09.616407+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true
+    },
+    {
+      "gate": "architecture",
+      "command": "npm run arch:check",
+      "sourceSHA": "723191affeed4b5300b180b922224a0b330cd3f3",
+      "startedAtUTC": "2026-11-09T14:17:09.713109+00:00",
+      "finishedAtUTC": "2026-11-09T14:17:09.909522+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true
+    },
+    {
+      "gate": "default",
+      "command": "npm test",
+      "sourceSHA": "723191affeed4b5300b180b922224a0b330cd3f3",
+      "startedAtUTC": "2026-11-09T14:17:10.000829+00:00",
+      "finishedAtUTC": "2026-11-09T14:18:07.110452+00:00",
+      "exitCode": 1,
+      "cleanBefore": true,
+      "cleanAfter": true
+    }
+  ]
+}

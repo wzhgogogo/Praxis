@@ -1,0 +1,94 @@
+{
+  "status": "draft / not integrated; exposed source diagnostic only",
+  "evidence": "raw original Live-runner CDP events, frozen spec and independent literal static contract; no production success classifier used",
+  "fourLayers": {
+    "endToEnd": {
+      "status": "NOT_RUN",
+      "diagnostic": "ENTRY_TIMEOUT; source read failed",
+      "denominator": "excluded from D8/held-out Live capability",
+      "planned": 1,
+      "started": 1,
+      "completedEntry": 0,
+      "queryStarted": 0,
+      "selectionStarted": 0
+    },
+    "steps": {
+      "localTransportAndPrivacy": "PASS_REAL_LOCAL_CHROMIUM",
+      "entry": "FAIL_TIMEOUT_20000",
+      "nativeScriptDispatch": "OBSERVED",
+      "scriptResponse": "NOT_ARRIVED",
+      "catalog": "NOT_REACHED",
+      "fillAndSuggestion": "NOT_REACHED",
+      "postSelectionRoute": "NOT_REACHED",
+      "binding": "NOT_IMPLEMENTED_NO_NEW_EVIDENCE"
+    },
+    "severity": {
+      "S0": "No S0 observed in retained diagnostic facts; full independent request/claim audit NOT_EVALUATED, do not claim S0=0",
+      "deliveredClaims": 0,
+      "newDocumentRequests": 0
+    },
+    "attribution": {
+      "known": "native static script remained pending when unchanged entry deadline closed page/context",
+      "unknown": "upstream/network/runtime root cause; cannot attribute current stall solely to Node forwarding",
+      "noUnsupportedInference": "CSS was captured; no missing script bytes invented; CORS0 does not establish API health because API code never ran"
+    }
+  },
+  "metrics": {
+    "sourceSHA": "c3361d2c756277bc6f9e6d1af2a5a4e1b11d28b9",
+    "startedAtCET": "2026-11-07T15:07:42.339+01:00",
+    "entryElapsedMs": 20003.078542,
+    "script": {
+      "path": "/portal/assets/index-KCcaxOlR.js",
+      "transport": "BROWSER_GET_HEAD via route.continue",
+      "responseStatus": null,
+      "responseBody": "NOT_ARRIVED",
+      "pendingAtCloseMs": 19200.6885,
+      "terminalObservation": "LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH",
+      "priorNodePendingAtCloseMs": 17853.445917,
+      "completedArrivalComparison": "NOT_AVAILABLE: neither run received script status/body"
+    },
+    "nativeCSSCaptured": [
+      {
+        "responseUrlSha256": "068d984a8f9872254680516c8abbba77408d487c3316eb7e110ab3d464e4e9ec",
+        "origin": "https://www.tablecheck.com/",
+        "pathname": "/portal/assets/index-CXLhr5XB.css",
+        "queryKeys": [],
+        "method": "GET",
+        "resourceType": "stylesheet",
+        "status": 200,
+        "mimeType": "text/css",
+        "bytes": 531026,
+        "sanitizedBytes": 531026
+      },
+      {
+        "responseUrlSha256": "debb01f7233d00f7eafaaf5df2f06177468729d2473f013ff453877f2bed7f2d",
+        "origin": "https://cdn0.tablecheck.com/",
+        "pathname": "/common/css/tablekit-font-faces.v1.min.css",
+        "queryKeys": [],
+        "method": "GET",
+        "resourceType": "stylesheet",
+        "status": 200,
+        "mimeType": "text/css",
+        "bytes": 27321,
+        "sanitizedBytes": 27321
+      }
+    ],
+    "catalogAndTextSearch": "NOT_REACHED",
+    "corsErrors": 0,
+    "modelCalls": 0,
+    "Live": 0,
+    "newPageGET": 1
+  },
+  "budget": {
+    "beforeGET": 353,
+    "afterGET": 354,
+    "sharedGETCap": 465,
+    "remainingGET": 111,
+    "heldOutReservedGET": 108,
+    "D8WitnessPosteriorGET": 3,
+    "modelsAdded": 0,
+    "LiveAdded": 0,
+    "D8LiveReserved": 1
+  },
+  "stop": "User static-transport handoff step3: entry still timeout -> report comparison and stop; no retry/new external page/model/Live"
+}

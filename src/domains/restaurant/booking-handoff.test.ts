@@ -36,6 +36,27 @@ test("B1 source-returned Tabelog link has evidence-only copy and same-channel ve
   assert.doesNotMatch(JSON.stringify(result),/selected|booked|page\.text/i);
 });
 
+test("B1 G1 page witnesses are current-run same-channel identities, without hiding the link on rejection",()=>{
+  const input=fixture(),page=input.source.terms!.pages[0]!;
+  page.identity=structuredClone(input.context.evidence.find(item=>item.kind==="ENTITY_MATCH")!);
+  page.identity.sourceUrl=page.url;page.identity.observedAt=page.readAt;
+  page.readRunId="current-investigation";page.expiresAt=new Date(Date.parse(input.context.now)+300_000).toISOString();
+  input.context.readContext={runId:page.readRunId,startedAt:page.readAt};
+  assert.equal(rendered(input)!.terms.length,2,"Normal native G1 witness");
+  const website=structuredClone(input);website.source.terms!.pages[0]!.identity!.provider="RESTAURANT_WEBSITE";
+  website.source.terms!.pages[0]!.identity!.sourceEntityId="website:original-g1-namespace";
+  assert.equal(rendered(website)!.terms.length,2,"G1 website witness retains its original namespace and exact outlet URL");
+  for(const [label,change] of [
+    ["wrong native source ID",(p:typeof page)=>{p.identity!.sourceEntityId="13123457";}],
+    ["wrong channel",(p:typeof page)=>{p.identity!.provider="TABLECHECK";}],
+    ["wrong outlet",(p:typeof page)=>{p.identity!.candidateId="other";}],
+    ["wrong run",(p:typeof page)=>{p.readRunId="old-investigation";}],
+    ["expired page",(p:typeof page)=>{p.expiresAt=input.context.now;}],
+    ["low identity",(p:typeof page)=>{p.identity!.entityMatch!.confidence="LOW";}],
+    ["other page",(p:typeof page)=>{p.identity!.sourceUrl=p.url.replace("13123456","13999999");}],
+  ] as const){const changed=structuredClone(input);change(changed.source.terms!.pages[0]!);const h=rendered(changed);assert.ok(h,label);assert.deepEqual(h.terms,[],label);}
+});
+
 test("B1 verified TableCheck parameters carry the exact slot and always ask to check date and guests",()=>{
   const result=rendered(tableCheck())!; assert.ok(result);
   assert.equal(result.url,"https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A00&num_people=2");
@@ -123,4 +144,19 @@ test("B1 fixed fee is proven by the captured English help text and never added t
   assert.equal(result.platformFee.sourceUrl,"https://tabelog.com/en/help");assert.equal(result.platformFee.checkedOn,"2026-10-29");
   for(const quote of result.platformFee.quotes)assert.ok(bytes.toString("utf8").includes(quote));
   assert.equal(rendered(tableCheck())!.platformFee,undefined);
+});
+
+
+test("B1 native Tabelog path ID binds the same numeric merchant without weakening full identity",()=>{
+  const input=fixture(),native="en/tokyo/A1301/A130101/13123456";
+  input.context.candidate.restaurant.sourceIds.tabelog=native;
+  input.source.sourceEntityId=native;
+  input.context.evidence.forEach(item=>{item.sourceEntityId=native;});
+  assert.equal(rendered(input)?.url,input.source.url);
+  for(const change of [
+    (x:ReturnType<typeof fixture>)=>{x.source.url=x.source.url.replace("rcd=13123456","rcd=99999999");},
+    (x:ReturnType<typeof fixture>)=>{x.context.candidate.restaurant.sourceIds.tabelog="tokyo/A1301/A130101/13123456";},
+    (x:ReturnType<typeof fixture>)=>{x.context.evidence[1]!.sourceEntityId="other/13123456";},
+    (x:ReturnType<typeof fixture>)=>{x.context.evidence[1]!.entityMatch!.confidence="LOW";},
+  ]){const changed=structuredClone(input);change(changed);assert.equal(rendered(changed),undefined);}
 });

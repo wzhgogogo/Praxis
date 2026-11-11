@@ -1,0 +1,163 @@
+{
+  "sourceCommit": "90c90a50ad4fc5207d31c082a04b771abe9c0674",
+  "startedAtCET": "2026-10-31T05:17:24.974379+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 1.283,
+      "startedAtCET": "2026-10-31T05:17:25.007192+01:00",
+      "finishedAtCET": "2026-10-31T05:17:26.290334+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/integrity.log",
+      "sha256": "eb898ab4389501e30e78a754aaf40bf03d454c387d94b17d19215c483ef8d011"
+    },
+    {
+      "name": "delta",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/compare-traces.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.056,
+      "startedAtCET": "2026-10-31T05:17:26.343802+01:00",
+      "finishedAtCET": "2026-10-31T05:17:26.399859+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/delta.log",
+      "sha256": "ec4040d1363f570b4f2a5cd0e4f301798c04e518111ea3efccad9b65fad95e84"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.479,
+      "startedAtCET": "2026-10-31T05:17:26.433477+01:00",
+      "finishedAtCET": "2026-10-31T05:17:26.912196+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.207,
+      "startedAtCET": "2026-10-31T05:17:26.946539+01:00",
+      "finishedAtCET": "2026-10-31T05:17:27.153522+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 29.948,
+      "startedAtCET": "2026-10-31T05:17:27.206347+01:00",
+      "finishedAtCET": "2026-10-31T05:17:57.154110+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/test.log",
+      "sha256": "770f6facb7ec69b8de50fb794d7c2b869924686a7677379d990956d4e2f564d8"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.445,
+      "startedAtCET": "2026-10-31T05:17:57.188112+01:00",
+      "finishedAtCET": "2026-10-31T05:17:57.632941+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 130.136,
+      "startedAtCET": "2026-10-31T05:17:57.667677+01:00",
+      "finishedAtCET": "2026-10-31T05:20:07.801428+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/browser-fixture.log",
+      "sha256": "0dfb2a0f553282a10f7c646f0834418b0b2a06d98399d492ec91e25b56af150a"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "seconds": 24.185,
+      "startedAtCET": "2026-10-31T05:20:07.836867+01:00",
+      "finishedAtCET": "2026-10-31T05:20:32.021749+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/strict-g2.log",
+      "sha256": "e7653264650149c8edb07e174fbad84aeb406eb9a7e594fa281e88c2e962ba1e"
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 1.241,
+      "startedAtCET": "2026-10-31T05:20:32.056741+01:00",
+      "finishedAtCET": "2026-10-31T05:20:33.297814+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/gates/integrity-after.log",
+      "sha256": "eb898ab4389501e30e78a754aaf40bf03d454c387d94b17d19215c483ef8d011"
+    }
+  ],
+  "realCalls": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-10-31T05:20:33.298207+01:00"
+}

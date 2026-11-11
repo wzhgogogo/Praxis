@@ -1,0 +1,80 @@
+@charset "UTF-8";
+.dashed {
+	border-bottom: 1px dashed #9b3434;
+}
+.inline-block_test {
+	display:  inline-block;/* インラインブロック要素にする */
+	background-color:  #ccc;/* 背景色指定 */
+	width: 250px;/* 幅指定 */
+}
+/* ボタン */
+.btn-yoyaku {
+	width: 200px;
+	padding: 15px;
+	text-align: center;
+	text-decoration: none;
+	color: #fff;
+	background: #9b3434;
+	display:  inline-block;
+	margin:10px;
+	border-radius: 10px;
+}
+.btn-yoyaku:hover {
+	 opacity:0.8;
+	 cursor: pointer;
+	 text-decoration: none;
+}
+/* TOPの画像 */
+.toggle-pc { display: block;}
+.toggle-sp { display: none; }
+
+/* タイトルを見えなくする */
+.page-title {display: none;}
+.hl-ul-double{display: none;}
+
+@media screen and (min-width:690px){
+	.gallery .gallery-title {
+		margin-top: 0;
+		margin-bottom: 0;
+		padding: 7px 10px;
+		line-height: 1em;
+		text-align: left;
+		font-size: 16px;
+		letter-spacing: normal;
+	}
+	.width1240{
+		width:100%;
+		height:0 auto;
+	}
+	.box01{
+		width: 80%;
+		height: auto;
+		margin:0 auto;
+	}
+	.dashed {
+		border-bottom:  1px dashed #9b3434;
+	}
+}
+
+@media only screen and (max-width: 640px) {
+	.toggle-pc { display: none; }
+	.toggle-sp { display: block; }
+	.nivo-main-image { display: none; }
+}
+@media(max-width:689px){
+	.header-simple .header-content {
+		display: initial;
+	}
+	.header-simple .header-logo .logo, .header-logocenter .header-logo .logo {
+		width: 170px;
+		margin-left: 10px;
+	}
+	.header-simple .header-smp-menu-link i.fa, .header-logocenter .header-smp-menu-link i.fa {
+		padding-top: 30px;
+		margin-right: 10px;
+	}
+/*フッター　言語の切り替えボタン*/
+	.wpml-ls-statics-footer.wpml-ls.wpml-ls-legacy-list-horizontal li {
+			display: block;
+	}
+}

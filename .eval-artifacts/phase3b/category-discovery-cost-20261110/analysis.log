@@ -1,0 +1,219 @@
+[
+  {
+    "id": "D01",
+    "resourceUsage": {
+      "elapsedMs": 33536,
+      "agentDecisions": 11,
+      "googleRequests": {
+        "limit": 40,
+        "total": 5,
+        "discovery": 1,
+        "placeDetails": 3,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 9
+    },
+    "modelCalls": 31,
+    "modelOutcomes": {
+      "SUCCEEDED": 31
+    },
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 5,
+        "elapsedMs": 21907
+      },
+      "TABELOG": {
+        "modelCalls": 3,
+        "elapsedMs": 32554
+      }
+    },
+    "categoryEvidenceCandidates": 1,
+    "checkedCandidates": 4,
+    "turnBudgets": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794294122655,
+        "deadlineAtMs": 1794294622655,
+        "elapsedMs": 66920.11600000001,
+        "modelCalls": 22,
+        "googleRequests": 5,
+        "exceeded500Seconds": false
+      },
+      {
+        "id": "BOOK_FIRST",
+        "startedAtMs": 1794294189580,
+        "deadlineAtMs": 1794294689580,
+        "elapsedMs": 33550.04066700001,
+        "modelCalls": 9,
+        "googleRequests": 2,
+        "exceeded500Seconds": false
+      }
+    ],
+    "presented": {
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:220e059b8c932b22a2db2fbb",
+        "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1",
+        "evidence:restaurant:tabelog-availability:1fdf842fd7981d3197cc0474",
+        "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+        "evidence:restaurant:google-entity:bd37478b3a2dbe0d087478f1",
+        "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+        "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:31.360Z:evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac,evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+      ],
+      "presentedAt": "2026-11-10T07:03:32.744Z",
+      "candidateIds": [
+        "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+      ],
+      "conditionStates": {
+        "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": [
+          {
+            "text": "Spanish restaurant",
+            "status": "MET",
+            "sources": [
+              {
+                "field": "GOOGLE_TYPE",
+                "quote": "spanish restaurant",
+                "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA"
+              },
+              {
+                "meal": "UNSPECIFIED",
+                "field": "CATEGORY",
+                "quote": "Wine bar, Spanish, Bistro",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+              }
+            ],
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "evidenceIds": [
+              "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:31.360Z:evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac,evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+              "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+              "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+            ],
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "criterionRef": "criterion:0"
+          }
+        ]
+      }
+    },
+    "NO_PROGRESS": 0,
+    "verdict": {
+      "status": "PENDING_REVIEW",
+      "qualified": null,
+      "outcome": null,
+      "s0": 0,
+      "s0Status": "NOT_EVALUATED",
+      "stopBatch": false
+    },
+    "recording": {
+      "pages": 29,
+      "pageStatuses": {
+        "REPLAYABLE": 25,
+        "NOT_REPLAYABLE": 4
+      }
+    }
+  },
+  {
+    "id": "D02",
+    "resourceUsage": {
+      "elapsedMs": 156533,
+      "agentDecisions": 7,
+      "googleRequests": {
+        "limit": 40,
+        "total": 4,
+        "discovery": 1,
+        "placeDetails": 2,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 47
+    },
+    "modelCalls": 47,
+    "modelOutcomes": {
+      "SUCCEEDED": 47
+    },
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 6,
+        "elapsedMs": 25632
+      },
+      "TABELOG": {
+        "modelCalls": 14,
+        "elapsedMs": 82522
+      }
+    },
+    "categoryEvidenceCandidates": 2,
+    "checkedCandidates": 9,
+    "turnBudgets": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794294248949,
+        "deadlineAtMs": 1794294748949,
+        "elapsedMs": 156538.03362499998,
+        "modelCalls": 47,
+        "googleRequests": 5,
+        "exceeded500Seconds": false
+      }
+    ],
+    "presented": {
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:fec11d051ad31bd3bc3041bb",
+        "evidence:restaurant:google-discovery:84e6bbddc06f47c64cfdb1be",
+        "evidence:restaurant:tabelog-availability:58653b696c54a6beba6e45e7",
+        "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+        "evidence:restaurant:google-entity:84e6bbddc06f47c64cfdb1be",
+        "evidence:restaurant:google-facts:1e94308a652a7cf5f335d65c",
+        "fact-judgment:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-10T07:05:37.189Z:evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89"
+      ],
+      "presentedAt": "2026-11-10T07:06:45.425Z",
+      "candidateIds": [
+        "praxis:restaurant:b8153abad1f84fa5c19c239f"
+      ],
+      "conditionStates": {
+        "praxis:restaurant:b8153abad1f84fa5c19c239f": [
+          {
+            "text": "robatayaki",
+            "status": "MET",
+            "sources": [
+              {
+                "meal": "UNSPECIFIED",
+                "field": "CATEGORY",
+                "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+              }
+            ],
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "evidenceIds": [
+              "fact-judgment:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-10T07:05:37.189Z:evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+              "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89"
+            ],
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "criterionRef": "criterion:0"
+          },
+          {
+            "text": "English menu available",
+            "status": "NOT_CHECKED",
+            "sources": [],
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "evidenceIds": [],
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "criterionRef": "criterion:1"
+          }
+        ]
+      }
+    },
+    "NO_PROGRESS": 2,
+    "verdict": {
+      "status": "NO_EVALUATION",
+      "reason": "Frozen development witness GET ceiling reached before charging or transmission"
+    },
+    "recording": {
+      "pages": 55,
+      "pageStatuses": {
+        "REPLAYABLE": 50,
+        "NOT_REPLAYABLE": 5
+      }
+    }
+  }
+]

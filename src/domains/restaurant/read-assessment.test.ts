@@ -3,6 +3,7 @@ import test from "node:test";
 import type { RestaurantEvent, RestaurantReadEvidence, RestaurantTaskState } from "./contracts.js";
 import { restaurantBookingTaskDefinition } from "./task-definition.js";
 import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
+import { assessRestaurantConditions } from "./condition-states.js";
 
 // Local construction, 2026-10-29: event order and source observations are
 // independent inputs; no source, model or wall-clock wait is required.
@@ -22,7 +23,7 @@ const fact = (id: string): RestaurantReadEvidence => {
 };
 const slot: RestaurantReadEvidence = { ...identity, evidenceId: "slot", kind: "AVAILABILITY", displayExpiresAt: "2026-08-19T07:30:00.000Z",
   claims: { date: intent.date, partySize: intent.partySize, visibleSlots: ["19:00"] } };
-const base = (): RestaurantTaskState => ({ schemaVersion: "24", phase: "SEARCHING", candidates: [candidate], intentDraft: { ...intent, schemaVersion: "3" },
+const base = (): RestaurantTaskState => ({ schemaVersion: "25", phase: "SEARCHING", candidates: [candidate], intentDraft: { ...intent, schemaVersion: "3" },
   availability: {}, availabilityChecks: {}, searchRevision: 1, readEvidence: [{ evidenceId: "area", candidateId, kind: "DISCOVERY", provider: "TABELOG", observedAt: at,
     requestFingerprint: "area", claims: { areaMatch: true, areaQuery: "Tokyo" } }] });
 const facts = (unknown = false): RestaurantEvent => ({ type: "CANDIDATE_FACTS_CHECKED", request: { candidateIds: [candidateId], candidates: [candidate], intent },
@@ -60,4 +61,38 @@ test("equal timestamps preserve later availability facts and supersede earlier o
   const unknownInvestigation = apply(apply(base(), availability), facts(true));
   assert.deepEqual(restaurantCurrentFactEvidence(unknownInvestigation, candidateId), [], "a later UNKNOWN read cannot revive earlier qualifying facts");
   assert.equal(restaurantPresentationEvidenceIds(unknownInvestigation, candidateId, at), undefined);
+});
+
+for (const row of [
+    { name: "merchant Japanese menu", field: "SOURCE_TEXT", quote: "揚げ物メニュー：串カツ、アジフライなど", criterion: "kushikatsu", accepted: true },
+    { name: "observed H1", field: "NAME", quote: "Kaga Private rooms to Kaiseki", criterion: "kaiseki restaurant", accepted: true },
+    { name: "review title", field: "CUSTOMER_REVIEW", quote: "A wonderful Kaiseki experience", criterion: "kaiseki restaurant", accepted: false },
+    { name: "review body", field: "CUSTOMER_REVIEW", quote: "We enjoyed the Kaiseki course.", criterion: "kaiseki restaurant", accepted: false },
+    { name: "name lacks requested type", field: "NAME", quote: "Same Outlet", criterion: "kaiseki restaurant", accepted: false },
+  ] as const) test(`positive HARD source role: ${row.name}`, () => {
+    const state = apply(apply(base(), facts()), availability);
+    state.intentDraft!.criteria = [{ text: row.criterion, strength: "HARD", polarity: "POSITIVE" }];
+    const source = { ...fact("source"), claims: { restaurantTypeFacts: [row.quote], sourceStatementIds: ["statement:0"] },
+      sourceFieldQuotes: [{ field: row.field, quote: row.quote, sourceUrl: url }] };
+    const { sourceFieldQuotes: _fields, ...judgmentSource } = source;
+    const judgment: RestaurantReadEvidence = { ...judgmentSource, evidenceId: "judgment", provider: "MODEL_JUDGMENT",
+      claims: { verifiedHardCriteria: [row.criterion], supportingEvidenceIds: [source.evidenceId] } };
+    state.readEvidence = [...state.readEvidence.filter(e => e.kind !== "RESTAURANT_FACT"), source, judgment];
+    state.factChecks![candidateId]!.evidenceIds = [identity.evidenceId, source.evidenceId, judgment.evidenceId];
+    const check = () => restaurantPresentationEvidenceIds(state, candidateId, at);
+    const projected = () => assessRestaurantConditions(state.intentDraft!, restaurantCurrentFactEvidence(state, candidateId), at)[0]!;
+    assert.equal(Boolean(check()), row.accepted, row.name);
+    assert.equal(projected().status, row.accepted ? "MET" : "NOT_CHECKED", row.name);
+    if (!row.accepted) return;
+    assert.deepEqual(projected().sources, source.sourceFieldQuotes, row.name);
+    if (row.field === "NAME") assert.match(projected().explanation, /outlet name/i);
+    source.sourceFieldQuotes[0]!.sourceUrl = "https://other-outlet.example/";
+    assert.equal(check(), undefined, "a quotation from another page is not source support");
+    source.sourceFieldQuotes[0]!.sourceUrl = url;
+    source.candidateId = "another-outlet";
+    assert.equal(check(), undefined, "other-outlet evidence is not support");
+    source.candidateId = candidateId;
+    source.sourceExpiresAt = "2026-08-19T07:19:00.000Z";
+    assert.equal(check(), undefined, "an expired supporting page cannot qualify a current judgment");
+    assert.equal(projected().status, "NOT_CHECKED");
 });

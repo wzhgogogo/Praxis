@@ -1,0 +1,543 @@
+{
+  "testedCommit": "318a54066c675ab7b5e8a75f00d34e7a44a6b036",
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE_MODEL",
+  "environment": {
+    "platform": "Linux-6.1.0-54-cloud-arm64-aarch64-with-glibc2.36",
+    "cpus": 2,
+    "node": "v24.4.1",
+    "affinity": [
+      0,
+      1
+    ],
+    "cpuCgroup": "0::/user.slice/user-501.slice/session-3.scope\n",
+    "cpuMaxAncestors": {
+      "/sys/fs/cgroup/user.slice/user-501.slice/session-3.scope/cpu.max": "max 100000",
+      "/sys/fs/cgroup/user.slice/user-501.slice/cpu.max": "max 100000",
+      "/sys/fs/cgroup/user.slice/cpu.max": "max 100000"
+    },
+    "-4ExternalRouteProbe": "RTNETLINK answers: Invalid argument",
+    "-6ExternalRouteProbe": "RTNETLINK answers: Invalid argument",
+    "ipv4Rules": "0:\tfrom all lookup local\n100:\tfrom all to 192.168.5.2 lookup main\n101:\tfrom all lookup 45000\n32766:\tfrom all lookup main\n32767:\tfrom all lookup default\n",
+    "ipv6Rules": "0:\tfrom all lookup local\n101:\tfrom all lookup 45000\n32766:\tfrom all lookup main\n"
+  },
+  "startedAtCET": "2026-10-30T18:02:01.211207+01:00",
+  "frozenPaths": 718,
+  "newRealCalls": 0,
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.02,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.316,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 111.772,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "d12e79f893be19e906bcaf4b1a339865caa7e05f9e215a414d6e3d22c9aeae85",
+      "summary": {
+        "tests": 1243,
+        "suites": 5,
+        "pass": 1243,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.722,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "browser-1",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 142.532,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2fcd785ca1777b57b38e08d52c07a758bf5139d2e5ca0e425cecc06b6f61810c",
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "lifecycle": {
+        "filesStarted": 37,
+        "filesEnded": 37,
+        "expectedFiles": 37,
+        "allFileStartsEndsOnce": true,
+        "outerTimeout": false,
+        "unfinished": [],
+        "slowestFiles": [
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-discovery.test.ts",
+            "elapsedMs": 48703.655144000004,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-stability.test.ts",
+            "elapsedMs": 48392.251743999994,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+            "elapsedMs": 43775.23199700001,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-request-binding.test.ts",
+            "elapsedMs": 33317.902495,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-category.test.ts",
+            "elapsedMs": 26497.535707999996,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-search-controls.test.ts",
+            "elapsedMs": 24896.688317,
+            "passed": true
+          },
+          {
+            "phase": "G2 (exclusive)",
+            "event": "FILE_END",
+            "file": "src/harness/browser/dom-change.test.ts",
+            "elapsedMs": 23937.548490999998,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-regions.test.ts",
+            "elapsedMs": 20958.59028099999,
+            "passed": true
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "browser-2",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 140.923,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "910334a81818309ec8b41c93512e90632406634864ae73e70aac732a6259d6cb",
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "lifecycle": {
+        "filesStarted": 37,
+        "filesEnded": 37,
+        "expectedFiles": 37,
+        "allFileStartsEndsOnce": true,
+        "outerTimeout": false,
+        "unfinished": [],
+        "slowestFiles": [
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-discovery.test.ts",
+            "elapsedMs": 49027.348830999996,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-stability.test.ts",
+            "elapsedMs": 48333.620119,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+            "elapsedMs": 43856.011338,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-request-binding.test.ts",
+            "elapsedMs": 32942.75053599999,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-category.test.ts",
+            "elapsedMs": 26786.914289000004,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-search-controls.test.ts",
+            "elapsedMs": 24775.804971999998,
+            "passed": true
+          },
+          {
+            "phase": "G2 (exclusive)",
+            "event": "FILE_END",
+            "file": "src/harness/browser/dom-change.test.ts",
+            "elapsedMs": 22175.458547,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-regions.test.ts",
+            "elapsedMs": 20752.908177999998,
+            "passed": true
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "browser-3",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 141.117,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "9269fabd6dca789bd7069a56b62549ea60d54a1f2d3f3aae905cdc200eb800e5",
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "lifecycle": {
+        "filesStarted": 37,
+        "filesEnded": 37,
+        "expectedFiles": 37,
+        "allFileStartsEndsOnce": true,
+        "outerTimeout": false,
+        "unfinished": [],
+        "slowestFiles": [
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-discovery.test.ts",
+            "elapsedMs": 49265.099313000006,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-stability.test.ts",
+            "elapsedMs": 48503.40468400001,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+            "elapsedMs": 43660.008846,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-request-binding.test.ts",
+            "elapsedMs": 33189.312401999996,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-category.test.ts",
+            "elapsedMs": 26472.381425,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-search-controls.test.ts",
+            "elapsedMs": 24818.712506999997,
+            "passed": true
+          },
+          {
+            "phase": "G2 (exclusive)",
+            "event": "FILE_END",
+            "file": "src/harness/browser/dom-change.test.ts",
+            "elapsedMs": 22539.350343000002,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-regions.test.ts",
+            "elapsedMs": 20644.472049000004,
+            "passed": true
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "browser-4",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 140.353,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "756c7b25cf3047c9709227e9d9baa803eee97b46f9aef1105e799475ed9665ea",
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "lifecycle": {
+        "filesStarted": 37,
+        "filesEnded": 37,
+        "expectedFiles": 37,
+        "allFileStartsEndsOnce": true,
+        "outerTimeout": false,
+        "unfinished": [],
+        "slowestFiles": [
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-discovery.test.ts",
+            "elapsedMs": 48769.15011999999,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-stability.test.ts",
+            "elapsedMs": 48343.65597400001,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+            "elapsedMs": 43917.10310900002,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-request-binding.test.ts",
+            "elapsedMs": 33136.97483400001,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-category.test.ts",
+            "elapsedMs": 26457.415038000003,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-search-controls.test.ts",
+            "elapsedMs": 24796.283644999996,
+            "passed": true
+          },
+          {
+            "phase": "G2 (exclusive)",
+            "event": "FILE_END",
+            "file": "src/harness/browser/dom-change.test.ts",
+            "elapsedMs": 21945.134808,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tabelog.test.ts",
+            "elapsedMs": 20537.575689999998,
+            "passed": true
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "browser-5",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 141.897,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "fe25d2876fe2cf0cc8ee0a94f31d908f212f4fc23af5d2319ca7c0901662e8f4",
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "lifecycle": {
+        "filesStarted": 37,
+        "filesEnded": 37,
+        "expectedFiles": 37,
+        "allFileStartsEndsOnce": true,
+        "outerTimeout": false,
+        "unfinished": [],
+        "slowestFiles": [
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-discovery.test.ts",
+            "elapsedMs": 48950.203922,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-stability.test.ts",
+            "elapsedMs": 48794.45533499999,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+            "elapsedMs": 43499.998349999994,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-request-binding.test.ts",
+            "elapsedMs": 33005.012098,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-category.test.ts",
+            "elapsedMs": 26835.939013,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-search-controls.test.ts",
+            "elapsedMs": 24895.611121999995,
+            "passed": true
+          },
+          {
+            "phase": "G2 (exclusive)",
+            "event": "FILE_END",
+            "file": "src/harness/browser/dom-change.test.ts",
+            "elapsedMs": 22383.850507,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tabelog.test.ts",
+            "elapsedMs": 20688.754813000007,
+            "passed": true
+          }
+        ]
+      },
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "frozenInputsUnchanged": true,
+  "finishedAtCET": "2026-10-30T18:15:42.648713+01:00"
+}

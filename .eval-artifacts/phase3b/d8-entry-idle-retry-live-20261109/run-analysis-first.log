@@ -1,0 +1,14 @@
+node:internal/url:826
+      href = bindingUrl.parse(input, base, true);
+                        ^
+
+TypeError: Invalid URL
+    at new URL (node:internal/url:826:25)
+    at file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-entry-idle-retry-live-20261109/analyze-current-run.mjs:19:695
+    at Array.filter (<anonymous>)
+    at file:///Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-entry-idle-retry-live-20261109/analyze-current-run.mjs:19:658 {
+  code: 'ERR_INVALID_URL',
+  input: '[NON_HTTP]'
+}
+
+Node.js v24.4.1

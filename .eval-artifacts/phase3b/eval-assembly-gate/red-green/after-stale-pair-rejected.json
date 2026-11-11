@@ -1,0 +1,19 @@
+{
+  "name": "after-stale-pair-rejected",
+  "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+  "startedAtCET": "2026-11-01T09:15:36.350039+01:00",
+  "finishedAtCET": "2026-11-01T09:15:36.531890+01:00",
+  "command": "npm run arch:check",
+  "expectedExitCode": 1,
+  "actualExitCode": 1,
+  "requiredMessages": [
+    "src/eval/assembly-gate-negative.ts -> src/integrations/restaurant-facts/model-page-question.ts: stale assembly component exception"
+  ],
+  "messagesMatched": true,
+  "allowlistSha256": "9e2c42cf27b9273d98f730717730614165cc6fb6b7f6590a4ccfed610deb2002",
+  "probeFiles": {
+    "assembly-gate-negative.ts": "export const noCapabilityImportRemains = true;\n"
+  },
+  "temporaryStatus": " M src/eval/assembly-bypass-allowlist.json\n?? src/eval/assembly-gate-negative.ts\n",
+  "passed": true
+}

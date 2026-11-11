@@ -1,0 +1,754 @@
+{
+  "status": "PASS",
+  "scope": "FOUR_TARGETED_PUBLIC_DETAIL_GETS_PLUS_FROZEN_PREFIX_REPLAY_NOT_NEW37_RATE",
+  "recordedAtCET": "2026-10-31T06:54:11.505823+01:00",
+  "originalPacketFilesUnchanged": 47,
+  "frozenFilesUnchanged": 781,
+  "productChanges": [],
+  "oldLedgerEntriesUnchanged": 491,
+  "newLedgerEntries": 8,
+  "remoteRowsAdded": 1,
+  "totalLedgerRows": 500,
+  "cumulative": {
+    "fullLive": 0,
+    "realModelCalls": 171,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 255,
+    "googleRequests": 12,
+    "restaurantWebsiteRequests": 255
+  },
+  "recoveryCalls": {
+    "websiteGET": 8,
+    "google": 0,
+    "realModel": 0,
+    "Live": 0,
+    "robots": 0,
+    "BeefRequests": 0
+  },
+  "directedBatchCallsIncludingPrior": {
+    "websiteGETExcludingRobots": 10,
+    "robots": 1,
+    "google": 1,
+    "realModel": 0,
+    "Live": 0
+  },
+  "requests": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:46:12.004+01:00",
+      "headersAtCET": "2026-10-31T06:46:14.203+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:46:15.288+01:00",
+      "finishedAtCET": "2026-10-31T06:46:15.288+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:46:14 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2199,
+      "bodyMs": 1085,
+      "elapsedMs": 3284,
+      "bytesReceived": 141869,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-01",
+      "knownId": "KNOWN-DETAIL-01",
+      "kind": "DETAIL",
+      "subjectId": "nr-008",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-01",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-01.body.html",
+      "sha256": "3800814636c3064bf7053c13e111c26c789f94f9e731789e5f1d0c0c2e5ac071",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "3363be460466257b1d14707ee845a5f426206ed0",
+      "previousFinishToStartSeconds": 3712.337,
+      "chargedBeforeSend": true
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:47:11.406+01:00",
+      "headersAtCET": "2026-10-31T06:47:13.090+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:47:14.189+01:00",
+      "finishedAtCET": "2026-10-31T06:47:14.189+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:47:13 GMT",
+        "retry-after": null
+      },
+      "headersMs": 1685,
+      "bodyMs": 1099,
+      "elapsedMs": 2783,
+      "bytesReceived": 98638,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-02",
+      "knownId": "KNOWN-DETAIL-02",
+      "kind": "DETAIL",
+      "subjectId": "nr-019",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-02",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-02.body.html",
+      "sha256": "5952a58ec7557e8bd40fd59b60ab8ee958b8e68b8067d68925da38292a76027a",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "9f8d24752c84a2cd1f023d60bc8feeba2da989c5",
+      "previousFinishToStartSeconds": 56.118,
+      "chargedBeforeSend": true
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:47:44.319+01:00",
+      "headersAtCET": "2026-10-31T06:47:46.038+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:47:46.881+01:00",
+      "finishedAtCET": "2026-10-31T06:47:46.882+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:47:46 GMT",
+        "retry-after": null
+      },
+      "headersMs": 1719,
+      "bodyMs": 843,
+      "elapsedMs": 2563,
+      "bytesReceived": 102577,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-03",
+      "knownId": "KNOWN-DETAIL-03",
+      "kind": "DETAIL",
+      "subjectId": "nr-019",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-03",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-03.body.html",
+      "sha256": "6057e498a979e3d1f9e84446bac95d30af1e63b288772e3071712170418ff7c4",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "9f8d24752c84a2cd1f023d60bc8feeba2da989c5",
+      "previousFinishToStartSeconds": 30.13,
+      "chargedBeforeSend": true
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:48:17.015+01:00",
+      "headersAtCET": "2026-10-31T06:48:19.262+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:48:20.049+01:00",
+      "finishedAtCET": "2026-10-31T06:48:20.050+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:48:19 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2247,
+      "bodyMs": 788,
+      "elapsedMs": 3034,
+      "bytesReceived": 93668,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-04",
+      "knownId": "KNOWN-DETAIL-04",
+      "kind": "DETAIL",
+      "subjectId": "nr-019",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-04",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-04.body.html",
+      "sha256": "e7f2c07e326e68dcc87f4298e04b2d53d507fd2c33590c16276504ff44f1581f",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "9f8d24752c84a2cd1f023d60bc8feeba2da989c5",
+      "previousFinishToStartSeconds": 30.133,
+      "chargedBeforeSend": true
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13295672/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:48:50.182+01:00",
+      "headersAtCET": "2026-10-31T06:48:52.202+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:48:53.163+01:00",
+      "finishedAtCET": "2026-10-31T06:48:53.163+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:48:52 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2020,
+      "bodyMs": 961,
+      "elapsedMs": 2981,
+      "bytesReceived": 135615,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-05",
+      "knownId": "KNOWN-DETAIL-05",
+      "kind": "DETAIL",
+      "subjectId": "nr-019",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-05",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-05.body.html",
+      "sha256": "d0f5d0d645e8aadc5b13458dc6fd749ee68f7af5f81aec45a2c46da3a8090097",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "9f8d24752c84a2cd1f023d60bc8feeba2da989c5",
+      "previousFinishToStartSeconds": 30.132,
+      "chargedBeforeSend": true
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1322/A132205/13070885/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:49:48.297+01:00",
+      "headersAtCET": "2026-10-31T06:49:50.586+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:49:51.957+01:00",
+      "finishedAtCET": "2026-10-31T06:49:51.957+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:49:50 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2289,
+      "bodyMs": 1371,
+      "elapsedMs": 3660,
+      "bytesReceived": 91541,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-06",
+      "knownId": "KNOWN-DETAIL-06",
+      "kind": "DETAIL",
+      "subjectId": "nr-025",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-06",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-06.body.html",
+      "sha256": "7dca467acd3cb0e36f03eb7180cdafd6be696b6a0e8f4f9255b87b998df07ae3",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "3ec7c1f2adf922de9b0131e2d7b820fe6f96e080",
+      "previousFinishToStartSeconds": 55.134,
+      "chargedBeforeSend": true
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131205/13071787/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:50:22.076+01:00",
+      "headersAtCET": "2026-10-31T06:50:23.607+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:50:24.383+01:00",
+      "finishedAtCET": "2026-10-31T06:50:24.383+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:50:23 GMT",
+        "retry-after": null
+      },
+      "headersMs": 1531,
+      "bodyMs": 776,
+      "elapsedMs": 2307,
+      "bytesReceived": 77584,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-07",
+      "knownId": "KNOWN-DETAIL-07",
+      "kind": "DETAIL",
+      "subjectId": "nr-025",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-07",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-07.body.html",
+      "sha256": "0573655ab84b9d29a574f275897edfb19aa94af7a2832e3c46832f98b28fc904",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "3ec7c1f2adf922de9b0131e2d7b820fe6f96e080",
+      "previousFinishToStartSeconds": 30.119,
+      "chargedBeforeSend": true
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13293469/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:50:54.510+01:00",
+      "headersAtCET": "2026-10-31T06:50:56.882+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:50:57.398+01:00",
+      "finishedAtCET": "2026-10-31T06:50:57.398+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:50:56 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2373,
+      "bodyMs": 516,
+      "elapsedMs": 2888,
+      "bytesReceived": 136785,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-08",
+      "knownId": "KNOWN-DETAIL-08",
+      "kind": "DETAIL",
+      "subjectId": "nr-025",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-08",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-08.body.html",
+      "sha256": "2a42be03a47c2581ee3ee1068212925cf50431230d359f2af015f5a7a4e6819c",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "3ec7c1f2adf922de9b0131e2d7b820fe6f96e080",
+      "previousFinishToStartSeconds": 30.127,
+      "chargedBeforeSend": true
+    }
+  ],
+  "networkFailures": 0,
+  "timing": {
+    "requestSeconds": 23.5,
+    "firstRecoveryStartToLastFinishSeconds": 285.394,
+    "betweenRecoveryRequestsSeconds": 261.893
+  },
+  "cases": [
+    {
+      "id": "nr-007",
+      "name": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedURL": "https://tabelog.com/en/tokyo/A1317/A131701/13054178/",
+      "reason": "HIGH_EXACT_PHONE",
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1317/A131701/13054178",
+        "reason": "HIGH_EXACT_PHONE"
+      },
+      "queries": [
+        {
+          "query": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+          "source": "ORIGINAL",
+          "languageCode": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Wagyu%20beef%20Yakiniku%20Beef%20Kitchen%20Nakameguro",
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-024.html",
+          "sha256": "2f73b202855d0a128dba3d1eb9f53710d5e1e39520636b4083e97772e4d8e507",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": false
+        },
+        {
+          "query": "Beef Kitchen Nakameguro",
+          "source": "FRAGMENT",
+          "languageCode": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Beef%20Kitchen%20Nakameguro",
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-025.html",
+          "sha256": "0b6dbb5b324f01d3317b86c6df0eb44a9451a998a1a9a244e8c73186d47e37d0",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": false
+        },
+        {
+          "query": "ビーフキッチン 中目黒本店",
+          "source": "JAPANESE",
+          "languageCode": "ja",
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%83%93%E3%83%BC%E3%83%95%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3%20%E4%B8%AD%E7%9B%AE%E9%BB%92%E6%9C%AC%E5%BA%97",
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-search.body.html",
+          "sha256": "c0884d502236cf32b43ee7811df7fff6080c7b61f52695d43b6be5d8e4cdbe01",
+          "origin": "DIRECTED_GET",
+          "certifiedOnFirstPage": true
+        }
+      ],
+      "details": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13054178/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.body.html",
+          "sha256": "78c241f8f3be1d9350b1cc3fa78c408ea40c748d0c7ff24606ef90913e96c95a",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "ビーフキッチン 中目黒本店",
+          "ordinal": 1
+        }
+      ],
+      "cumulativeDetailCount": 1,
+      "cap": 5,
+      "thirdTermContributedAcceptance": true,
+      "causalScope": "First production HIGH comes from a detail opened under the Japanese query; no claim about a separate full-five two-word counterfactual.",
+      "uncertainties": [],
+      "environmentFailures": [],
+      "modelCalls": 0,
+      "sourceNetworkCallsInReplay": 0,
+      "publicDetailGETsThisRecovery": 0,
+      "publicDetailAcquisitionsThisDirectedBatch": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13054178/",
+          "status": 200,
+          "sha256": "78c241f8f3be1d9350b1cc3fa78c408ea40c748d0c7ff24606ef90913e96c95a"
+        }
+      ]
+    },
+    {
+      "id": "nr-008",
+      "name": "Shibuya Kappo Sancho",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedURL": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "reason": "HIGH_EXACT_PHONE",
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1303/A130301/13160273",
+        "reason": "HIGH_EXACT_PHONE"
+      },
+      "queries": [
+        {
+          "query": "Shibuya Kappo Sancho",
+          "source": "ORIGINAL",
+          "languageCode": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Kappo%20Sancho",
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-026.html",
+          "sha256": "fc94c25948440fa7b582438cca6368deee34c514260041893875f6ee8ec61160",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": false
+        },
+        {
+          "query": "Kappo Sancho",
+          "source": "FRAGMENT",
+          "languageCode": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kappo%20Sancho",
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-027.html",
+          "sha256": "6e489756b594b7fc11476bb2721ea3e0a90890dc29bce7ff01e023e66e366b05",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": false
+        },
+        {
+          "query": "割烹 三長 渋谷",
+          "source": "JAPANESE",
+          "languageCode": "ja",
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%89%B2%E7%83%B9%20%E4%B8%89%E9%95%B7%20%E6%B8%8B%E8%B0%B7",
+          "bodyPath": ".eval-artifacts/phase3b/c-batch3/optional/002-nr-008.body.html",
+          "sha256": "059089e56d403ded3ab7aadb2678363087fa22d751b428877963f21801cf8282",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": true
+        }
+      ],
+      "details": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-01.body.html",
+          "sha256": "3800814636c3064bf7053c13e111c26c789f94f9e731789e5f1d0c0c2e5ac071",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "割烹 三長 渋谷",
+          "ordinal": 1
+        }
+      ],
+      "cumulativeDetailCount": 1,
+      "cap": 5,
+      "thirdTermContributedAcceptance": true,
+      "causalScope": "First production HIGH comes from a detail opened under the Japanese query; no claim about a separate full-five two-word counterfactual.",
+      "uncertainties": [],
+      "environmentFailures": [],
+      "modelCalls": 0,
+      "sourceNetworkCallsInReplay": 0,
+      "publicDetailGETsThisRecovery": 1,
+      "publicDetailAcquisitionsThisDirectedBatch": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+          "status": 200,
+          "sha256": "3800814636c3064bf7053c13e111c26c789f94f9e731789e5f1d0c0c2e5ac071"
+        }
+      ]
+    },
+    {
+      "id": "nr-019",
+      "name": "T nakameguro",
+      "verdict": "NOT_EVALUATED",
+      "acceptedURL": null,
+      "reason": "KNOWN_PHONE_CONFLICT",
+      "resolution": {
+        "confidence": "LOW",
+        "matchedBy": [],
+        "bestSourceEntityId": "en/tokyo/A1317/A131701/13251507",
+        "reason": "KNOWN_PHONE_CONFLICT"
+      },
+      "queries": [
+        {
+          "query": "T nakameguro",
+          "source": "ORIGINAL",
+          "languageCode": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=T%20nakameguro",
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-081.html",
+          "sha256": "9282078ecba26d53b6424c4fd6b1344772bdc30150bf1aa0c5bc907ce0404398",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": false
+        },
+        {
+          "query": "T 中目黒",
+          "source": "JAPANESE",
+          "languageCode": "ja",
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=T%20%E4%B8%AD%E7%9B%AE%E9%BB%92",
+          "bodyPath": ".eval-artifacts/phase3b/c-batch3/optional/010-nr-019.body.html",
+          "sha256": "9143d3c62166f1a7d0e0e7e6e7bd84af0c8633716ecb69f0db1ab6a34b7db48f",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": true
+        }
+      ],
+      "details": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-02.body.html",
+          "sha256": "5952a58ec7557e8bd40fd59b60ab8ee958b8e68b8067d68925da38292a76027a",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "T nakameguro",
+          "ordinal": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-03.body.html",
+          "sha256": "6057e498a979e3d1f9e84446bac95d30af1e63b288772e3071712170418ff7c4",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "T nakameguro",
+          "ordinal": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-04.body.html",
+          "sha256": "e7f2c07e326e68dcc87f4298e04b2d53d507fd2c33590c16276504ff44f1581f",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "T nakameguro",
+          "ordinal": 3
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-082.html",
+          "sha256": "9ace8a2fb344214b25a4810171a1c8ffbf143f4e3423090465bdfac316104684",
+          "origin": "FROZEN_REPLAY",
+          "discoveryQuery": "T nakameguro",
+          "ordinal": 4
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13295672/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-05.body.html",
+          "sha256": "d0f5d0d645e8aadc5b13458dc6fd749ee68f7af5f81aec45a2c46da3a8090097",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "T 中目黒",
+          "ordinal": 5
+        }
+      ],
+      "cumulativeDetailCount": 5,
+      "cap": 5,
+      "thirdTermContributedAcceptance": false,
+      "causalScope": "First production HIGH comes from a detail opened under the Japanese query; no claim about a separate full-five two-word counterfactual.",
+      "uncertainties": [
+        "UNRECORDED_FRAGMENT_PROPOSAL_NOT_AN_EMPTY_MODEL_RESPONSE"
+      ],
+      "environmentFailures": [],
+      "modelCalls": 0,
+      "sourceNetworkCallsInReplay": 0,
+      "publicDetailGETsThisRecovery": 4,
+      "publicDetailAcquisitionsThisDirectedBatch": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+          "status": 200,
+          "sha256": "5952a58ec7557e8bd40fd59b60ab8ee958b8e68b8067d68925da38292a76027a"
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+          "status": 200,
+          "sha256": "6057e498a979e3d1f9e84446bac95d30af1e63b288772e3071712170418ff7c4"
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+          "status": 200,
+          "sha256": "e7f2c07e326e68dcc87f4298e04b2d53d507fd2c33590c16276504ff44f1581f"
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1317/A131701/13295672/",
+          "status": 200,
+          "sha256": "d0f5d0d645e8aadc5b13458dc6fd749ee68f7af5f81aec45a2c46da3a8090097"
+        }
+      ]
+    },
+    {
+      "id": "nr-025",
+      "name": "Sumi Sushi Shibuya",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedURL": "https://tabelog.com/en/tokyo/A1303/A130301/13293469/",
+      "reason": "HIGH_EXACT_PHONE",
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1303/A130301/13293469",
+        "reason": "HIGH_EXACT_PHONE"
+      },
+      "queries": [
+        {
+          "query": "Sumi Sushi Shibuya",
+          "source": "ORIGINAL",
+          "languageCode": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sumi%20Sushi%20Shibuya",
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-101.html",
+          "sha256": "5fb0218d49c85ed9039abcbf4e11162660206e44c470c572e6da15fadbe23bf8",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": false
+        },
+        {
+          "query": "Sumi Sushi",
+          "source": "FRAGMENT",
+          "languageCode": null,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sumi%20Sushi",
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-102.html",
+          "sha256": "c3f4114efcd0379054202477a213963ff6cc505ce0fdfeb3c7fefd9a58c3a2f7",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": false
+        },
+        {
+          "query": "渋谷 鮨墨",
+          "source": "JAPANESE",
+          "languageCode": "ja",
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E6%B8%8B%E8%B0%B7%20%E9%AE%A8%E5%A2%A8",
+          "bodyPath": ".eval-artifacts/phase3b/c-batch3/optional/012-nr-025.body.html",
+          "sha256": "92743b2bc9f908caa95f19939b24e7fc47cc9700796fe2ad8af143b31855da77",
+          "origin": "FROZEN_REPLAY",
+          "certifiedOnFirstPage": true
+        }
+      ],
+      "details": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1312/A131204/13071509/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-103.html",
+          "sha256": "57025d82c57285bd8765a0de498cbbb866f3e52726a204e22ae1d7dd5de8d9d4",
+          "origin": "FROZEN_REPLAY",
+          "discoveryQuery": "Sumi Sushi",
+          "ordinal": 1
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1324/A132401/13230824/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-104.html",
+          "sha256": "ac43bcfdc592889311f91a14690cf730d69a51459de18ce2f992fa0e17181a35",
+          "origin": "FROZEN_REPLAY",
+          "discoveryQuery": "Sumi Sushi",
+          "ordinal": 2
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132205/13070885/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-06.body.html",
+          "sha256": "7dca467acd3cb0e36f03eb7180cdafd6be696b6a0e8f4f9255b87b998df07ae3",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "Sumi Sushi",
+          "ordinal": 3
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1312/A131205/13071787/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-07.body.html",
+          "sha256": "0573655ab84b9d29a574f275897edfb19aa94af7a2832e3c46832f98b28fc904",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "Sumi Sushi",
+          "ordinal": 4
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13293469/",
+          "kind": "DETAIL",
+          "query": null,
+          "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-08.body.html",
+          "sha256": "2a42be03a47c2581ee3ee1068212925cf50431230d359f2af015f5a7a4e6819c",
+          "origin": "DIRECTED_GET",
+          "discoveryQuery": "渋谷 鮨墨",
+          "ordinal": 5
+        }
+      ],
+      "cumulativeDetailCount": 5,
+      "cap": 5,
+      "thirdTermContributedAcceptance": true,
+      "causalScope": "First production HIGH comes from a detail opened under the Japanese query; no claim about a separate full-five two-word counterfactual.",
+      "uncertainties": [],
+      "environmentFailures": [],
+      "modelCalls": 0,
+      "sourceNetworkCallsInReplay": 0,
+      "publicDetailGETsThisRecovery": 3,
+      "publicDetailAcquisitionsThisDirectedBatch": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132205/13070885/",
+          "status": 200,
+          "sha256": "7dca467acd3cb0e36f03eb7180cdafd6be696b6a0e8f4f9255b87b998df07ae3"
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1312/A131205/13071787/",
+          "status": 200,
+          "sha256": "0573655ab84b9d29a574f275897edfb19aa94af7a2832e3c46832f98b28fc904"
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13293469/",
+          "status": 200,
+          "sha256": "2a42be03a47c2581ee3ee1068212925cf50431230d359f2af015f5a7a4e6819c"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "CORRECT_ACCEPTED": 3,
+    "NOT_EVALUATED": 1
+  },
+  "actualAcceptedCount": 3,
+  "wrongAcceptedCount": 0,
+  "thirdTermAcceptedCount": 3,
+  "claimSafety": "NO_WRONG_OR_UNSUPPORTED_ACCEPTANCE_AMONG_ACTUAL_RECORDED_ACCEPTANCES",
+  "TFullRegression": "NOT_EVALUATED_UNRECORDED_FRAGMENT; observed bounded-path safety separately assessed; no invented model response",
+  "inventoryEvaluated": false
+}

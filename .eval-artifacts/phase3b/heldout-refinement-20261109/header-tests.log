@@ -1,0 +1,30 @@
+✔ header-only10s attempt preserves20s load: SCRIPT_15_SECONDS (15235.270292ms)
+✔ header-only10s attempt preserves20s load: HEADERS_BODY_15_SECONDS (15164.476084ms)
+DOCUMENT_ATTEMPTS {"mode":"ZERO_SUCCESS","requests":2,"elapsedMs":10117.306875,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":10015,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":1,"retryCount":0,"event":"ZERO_BYTE_TIMEOUT","elapsedMs":10015,"receivedBodyBytes":0,"bytesObserved":true,"resourceType":"document"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":10023,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":10023,"attemptTimeoutMs":9977},{"attempt":2,"retryCount":1,"event":"SUCCEEDED","elapsedMs":10049,"receivedBodyBytes":49,"bytesObserved":true,"status":200}]}
+✔ document zero-byte retry boundary: ZERO_SUCCESS (10253.096458ms)
+DOCUMENT_ATTEMPTS {"mode":"ZERO_NODE_FETCH","requests":2,"elapsedMs":10085.595416,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":10007,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":1,"retryCount":0,"event":"ZERO_BYTE_TIMEOUT","elapsedMs":10007,"receivedBodyBytes":0,"bytesObserved":true,"resourceType":"document"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":10012,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":10012,"attemptTimeoutMs":9987},{"attempt":2,"retryCount":1,"event":"SUCCEEDED","elapsedMs":10036,"receivedBodyBytes":49,"bytesObserved":true,"status":200}]}
+✔ document zero-byte retry boundary: ZERO_NODE_FETCH (10181.516834ms)
+DOCUMENT_ATTEMPTS {"mode":"HEADERS_ONLY","requests":1,"elapsedMs":20035.94175,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":20002,"receivedBodyBytes":0,"bytesObserved":true,"status":200}]}
+✔ document zero-byte retry boundary: HEADERS_ONLY (20127.9945ms)
+DOCUMENT_ATTEMPTS {"mode":"PARTIAL","requests":1,"elapsedMs":20032.725917000003,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":20000,"receivedBodyBytes":19,"bytesObserved":true,"status":200}]}
+✔ document zero-byte retry boundary: PARTIAL (20137.373291ms)
+DOCUMENT_ATTEMPTS {"mode":"HTTP403","requests":1,"elapsedMs":36.946875000001455,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"SUCCEEDED","elapsedMs":9,"receivedBodyBytes":19,"bytesObserved":true,"status":403}]}
+✔ document zero-byte retry boundary: HTTP403 (134.888959ms)
+DOCUMENT_ATTEMPTS {"mode":"HTTP500","requests":1,"elapsedMs":44.03854099999444,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"SUCCEEDED","elapsedMs":15,"receivedBodyBytes":19,"bytesObserved":true,"status":500}]}
+✔ document zero-byte retry boundary: HTTP500 (133.848834ms)
+DOCUMENT_ATTEMPTS {"mode":"GUARD_BLOCKED","requests":0,"elapsedMs":22.41716599999927,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":3}]}
+✔ document zero-byte retry boundary: GUARD_BLOCKED (110.47525ms)
+DOCUMENT_ATTEMPTS {"mode":"NETWORK_ERROR","requests":1,"elapsedMs":23.860749999999825,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":5,"receivedBodyBytes":0,"bytesObserved":true}]}
+✔ document zero-byte retry boundary: NETWORK_ERROR (121.901ms)
+DOCUMENT_ATTEMPTS {"mode":"SECOND_TIMEOUT","requests":2,"elapsedMs":20035.373291000004,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":10005,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":1,"retryCount":0,"event":"ZERO_BYTE_TIMEOUT","elapsedMs":10005,"receivedBodyBytes":0,"bytesObserved":true,"resourceType":"document"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":10009,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":10009,"attemptTimeoutMs":9991},{"attempt":2,"retryCount":1,"event":"FAILED","elapsedMs":20002,"receivedBodyBytes":0,"bytesObserved":true}]}
+✔ document zero-byte retry boundary: SECOND_TIMEOUT (20127.722417ms)
+DOCUMENT_ATTEMPTS {"mode":"CANCEL","requests":1,"elapsedMs":5.510208000006969,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":4,"receivedBodyBytes":0,"bytesObserved":true}]}
+✔ document zero-byte retry boundary: CANCEL (104.277792ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 81797.080916

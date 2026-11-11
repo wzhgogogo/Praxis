@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "phase3b-g6-pack@1",
+  "mode": "LIVE_READ",
+  "recording": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  },
+  "cases": [
+    {
+      "id": "D8",
+      "request": "Check whether Specializing in Nodoguro Ginza Nakamata has a table for two on November 11, 2026 at 8 PM.",
+      "followups": [
+        {
+          "id": "BOOK_THIS_OUTLET",
+          "trigger": "DISPLAYED_AVAILABLE",
+          "kind": "MESSAGE",
+          "text": "Please help me book this restaurant for that date and time."
+        }
+      ],
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "partySize": 2,
+          "time": "20:00"
+        },
+        "pages": [],
+        "reviewedReadRules": [
+          {
+            "ref": "user-approved-TC-calendar-20261106",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/hub/availability_calendar_v2",
+            "methods": [
+              "POST"
+            ],
+            "queryKeys": [],
+            "bodyFields": {
+              "locale": "string",
+              "start_at": "string",
+              "shop_id": "string",
+              "num_people": "string"
+            },
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "content-type"
+              ]
+            }
+          },
+          {
+            "ref": "independent-TC-search-read-existing-contract",
+            "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+            "pathname": "/search/",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "queryProfile",
+              "hits",
+              "scope",
+              "lat",
+              "lng",
+              "radius_km",
+              "party_size",
+              "cuisine",
+              "sort",
+              "offset",
+              "id",
+              "open_day",
+              "service_mode"
+            ],
+            "requiredQueryKeys": [
+              "queryProfile"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            }
+          },
+          {
+            "ref": "independent-TC-catalog-read-existing-contract",
+            "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+            "pathname": "/catalog.json",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "atCET": "2026-11-06T16:44:51.488909+01:00",
+  "status": "ENV_FAILURE_NO_CONTINUATION",
+  "sourceSHA": "6faeb4992847b5d43cb0c5a654c7866012bc7002",
+  "actualCallDelta": {
+    "model": 1,
+    "websiteGET": 0,
+    "Google": 0,
+    "Live": 0
+  },
+  "elapsedMs": 10529,
+  "error": {
+    "name": "ModelGatewayError",
+    "code": "NETWORK",
+    "providerError": {
+      "type": "TRANSPORT",
+      "errorName": "TypeError",
+      "code": "UND_ERR_CONNECT_TIMEOUT",
+      "causes": [
+        {
+          "errorName": "ConnectTimeoutError",
+          "code": "UND_ERR_CONNECT_TIMEOUT"
+        }
+      ]
+    }
+  },
+  "HTTPResponseReceived": false,
+  "outputReceived": false,
+  "usageAndCost": "NOT_RETURNED; not asserted zero",
+  "totalModelOnlyAttemptsIncludingPriorFailure": 2,
+  "approvedMaximum": 30,
+  "remaining": 28,
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 640,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 347,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11220
+  },
+  "globalApprovedLimits": {
+    "evaluationPublicGET": 458,
+    "fullLive": 42,
+    "realModelCalls": 1600
+  },
+  "reserved": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "next": "User conditional not met; remaining model validation, stronger comparison and D8 Live not started. Original results immutable.",
+  "probeResultSHA256": "fac403d6457271f01c652b337763d79985cdce21377da2a7b439dc02f6dcfb48"
+}

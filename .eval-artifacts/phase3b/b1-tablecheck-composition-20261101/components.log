@@ -1,0 +1,26 @@
+✔ TableCheck B1 taps existing controls and serializes only the verified exact offer (2.483542ms)
+▶ TableCheck B1 refuses mismatched and unobserved entrances while availability remains AVAILABLE
+  ✔ wrong shop (0.298792ms)
+  ✔ wrong date (0.239833ms)
+  ✔ wrong guests (0.542333ms)
+  ✔ wrong exact slot (0.199166ms)
+  ✔ wrong domain (0.28725ms)
+  ✔ review path (0.170417ms)
+  ✔ payment path (0.174083ms)
+  ✔ account path (0.228458ms)
+  ✔ ambiguous query (0.368584ms)
+  ✔ redirect query (0.301667ms)
+  ✔ missing link (0.169916ms)
+  ✔ hidden link (0.169958ms)
+  ✔ disabled link (0.160666ms)
+✔ TableCheck B1 refuses mismatched and unobserved entrances while availability remains AVAILABLE (3.740667ms)
+✔ TableCheck B1 never turns a broad window without an exact available time into a link (0.164041ms)
+✔ TableCheck B1 keeps root scopes isolated, invalidates new reads and never fetches during projection (0.593542ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 112.186792

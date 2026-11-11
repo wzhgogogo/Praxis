@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "policyContractCount": 20,
+  "literalRuleCount": 21,
+  "literalSHA256": "8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259",
+  "coverage": [
+    {
+      "origin": "https://tabelog.com",
+      "path": "/en/tokyo/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://tabelog.com",
+      "path": "/en/booking/calendar/initial_vacancy",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://tabelog.com",
+      "path": "/en/booking/calendar/find_vacancy_date_with_status/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://tabelog.com",
+      "path": "/en/booking/calendar/find_vacancy_member_by_date/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://tabelog.com",
+      "path": "/en/booking/calendar/find_vacancy/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://tabelog.com",
+      "path": "/contents/reserve_date_status_list",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "path": "/search/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "path": "/search/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "path": "/search/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "path": "/search/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "path": "/catalog.json",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "path": "/search/",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://production.tablecheck.com",
+      "path": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://www.tablecheck.com",
+      "path": "/en/japan/search",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://production.tablecheck.com",
+      "path": "/v2/hub/public_shop_lists",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://production.tablecheck.com",
+      "path": "/v2/hub/availability_calendar_v2",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://production.tablecheck.com",
+      "path": "/v2/geolocation",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://production.tablecheck.com",
+      "path": "/v2/autocomplete",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+      "path": "/ai_search",
+      "matchedLiteralRules": 1
+    },
+    {
+      "origin": "https://production.tablecheck.com",
+      "path": "/v2/shop_search",
+      "matchedLiteralRules": 1
+    }
+  ],
+  "source": "Independently handwritten literal rules; comparison only, never production-generated approval",
+  "values": "Approved text equality/destination/locale value contracts remain independently recorded in tablecheck-destination-20261107/reviewed-read-rules.json and shop approval; this catalog is method/path/query-shape/preflight projection"
+}

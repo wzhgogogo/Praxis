@@ -1,0 +1,29 @@
+✖ entry aborts a successful stalled native response before its one reload, preserving both attempts in recording (169.182ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 506.278833
+
+✖ failing tests:
+
+test at src/harness/browser/entry-idle-retry.test.ts:1:541
+✖ entry aborts a successful stalled native response before its one reload, preserving both attempts in recording (169.182ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/entry-idle-retry.test.ts:24:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 2,
+    operator: 'strictEqual'
+  }

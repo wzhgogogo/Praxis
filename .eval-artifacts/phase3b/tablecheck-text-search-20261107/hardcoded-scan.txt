@@ -1,0 +1,8 @@
+src/infrastructure/browser/browser-query-values.ts:17 [ REGEX ]   else if(/^-?\d+(?:\.\d+)?$/.test(value))valueClass="NUMERIC";
+src/infrastructure/browser/browser-query-values.ts:18 [ REGEX ]   else if(/^[A-Za-z0-9_-]+$/.test(value))valueClass="SHORT_TOKEN";
+src/integrations/tablecheck/tablecheck-public-query.ts:10 [ WORDLIST ]     ["country","hits","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:11 [ WORDLIST ]     ["country","hits","kind","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:12 [ WORDLIST ]     ["country","hits","q","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:13 [ WORDLIST ]     ["destination","hits","name","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:14 [ WORDLIST URL/PATH ]   ].map(queryKeys=>({origin:TABLECHECK_PUBLIC_SEARCH_ORIGIN,pathname:"/search/",methods:["GET"] as const,resourceTypes:["fetch","xhr"] as const,
+src/integrations/tablecheck/tablecheck-public-query.ts:17 [ WORDLIST ]       country:["SHORT_TOKEN","NUMERIC"] as const,kind:["SHORT_TOKEN","NUMERIC"] as const,destination:["SHORT_TOKEN","NUMERIC"] as const,hits:["NUMERIC"] as const},

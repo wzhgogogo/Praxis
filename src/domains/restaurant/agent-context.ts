@@ -1,3 +1,4 @@
+import {restaurantCandidateReadPriority} from "./candidate-read-priority.js";
 import {restaurantReadActionFits,RESTAURANT_READ_CONCLUSION_RESERVE_MS} from "./read-time-reserve.js";
 import { priceCommercialNotes } from "./condition-states.js";
 import type {
@@ -188,7 +189,7 @@ export function projectRestaurantAgentContext(
     missingBlockingFields: state.intentDraft?.target?.goal === "AVAILABILITY"
       ? missingBlockingFields(state.intentDraft)
       : missingSearchFields(state.intentDraft ?? {}),
-    candidates: state.candidates.map((candidate) => ({
+    candidates: [...state.candidates].sort((a,b)=>restaurantCandidateReadPriority(state,a.restaurant.id)-restaurantCandidateReadPriority(state,b.restaurant.id)).map((candidate) => ({
       id: candidate.restaurant.id,
       outletName: candidate.restaurant.outletName,
       address: candidate.restaurant.address,
@@ -240,8 +241,8 @@ export function projectRestaurantAgentContext(
       : state.sourceReadState?.googlePlacesSearchBudget === "EXHAUSTED" || state.searchContinuation?.exhausted === true
       ? { available: false, reason: state.searchContinuation?.exhausted ? "DISCOVERY_PLAN_EXHAUSTED" : "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" }
       : { available: true },
-    ...(!deliveryWindow && restaurantReadActionFits("CHECK_AVAILABILITY",budget.remainingAutomaticMs) && assessment.checkableCandidateIds.length ? { checkableCandidateIds: assessment.checkableCandidateIds } : {}),
-    ...(!deliveryWindow && restaurantReadActionFits("INVESTIGATE_CANDIDATE_FACTS",budget.remainingAutomaticMs) && assessment.factInvestigableCandidateIds.length ? { factInvestigableCandidateIds: assessment.factInvestigableCandidateIds } : {}),
+    ...(!deliveryWindow && restaurantReadActionFits("CHECK_AVAILABILITY",budget.remainingAutomaticMs) && assessment.checkableCandidateIds.length ? { checkableCandidateIds: [...assessment.checkableCandidateIds].sort((a,b)=>restaurantCandidateReadPriority(state,a)-restaurantCandidateReadPriority(state,b)) } : {}),
+    ...(!deliveryWindow && restaurantReadActionFits("INVESTIGATE_CANDIDATE_FACTS",budget.remainingAutomaticMs) && assessment.factInvestigableCandidateIds.length ? { factInvestigableCandidateIds: [...assessment.factInvestigableCandidateIds].sort((a,b)=>restaurantCandidateReadPriority(state,a)-restaurantCandidateReadPriority(state,b)) } : {}),
     readCompletion: {
       allowed: assessment.canEndRead,
       investigationRecorded: assessment.investigationRecorded,
@@ -251,8 +252,8 @@ export function projectRestaurantAgentContext(
     legalActions: {
       answerPageQuestion: !!state.pageQuestion && !state.pageQuestion.result,
       search: restaurantReadActionFits("SEARCH_RESTAURANTS",budget.remainingAutomaticMs) && !/^(MODEL_CALL_RESERVE|READ_TIME_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessment.endReadReason ?? "") && !immediateRequestWindowExpired(state, now) && !deliveryWindow && !nativeBatchDeliveryReady && !discoveryPlanSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
-      investigateCandidateFacts: deliveryWindow || !restaurantReadActionFits("INVESTIGATE_CANDIDATE_FACTS",budget.remainingAutomaticMs) ? [] : [...assessment.factInvestigableCandidateIds],
-      checkAvailability: deliveryWindow || !restaurantReadActionFits("CHECK_AVAILABILITY",budget.remainingAutomaticMs) ? [] : [...assessment.checkableCandidateIds],
+      investigateCandidateFacts: deliveryWindow || !restaurantReadActionFits("INVESTIGATE_CANDIDATE_FACTS",budget.remainingAutomaticMs) ? [] : [...assessment.factInvestigableCandidateIds].sort((a,b)=>restaurantCandidateReadPriority(state,a)-restaurantCandidateReadPriority(state,b)),
+      checkAvailability: deliveryWindow || !restaurantReadActionFits("CHECK_AVAILABILITY",budget.remainingAutomaticMs) ? [] : [...assessment.checkableCandidateIds].sort((a,b)=>restaurantCandidateReadPriority(state,a)-restaurantCandidateReadPriority(state,b)),
       presentResults: distinctDiscoveryResultCandidateIds(state, presentation
         .filter((item) => item.eligible && !(state.pendingResultBatchTarget !== undefined && (state.selectionSession?.deliveredCandidateIds ?? []).includes(item.candidateId)))
         .map((item) => item.candidateId)),

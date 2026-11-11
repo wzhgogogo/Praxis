@@ -17,7 +17,7 @@ test("Chromium observes public selection, native checked values and a calendar d
   const signal = new AbortController().signal;
   try {
     const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
-    await executor.navigate({ session, source: "FIXTURE", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
+    await executor.navigate({ observed: true, session, source: "FIXTURE", stage: "AVAILABILITY", signal, allowedOrigins: [new URL(url).origin], url });
     const result = await executor.runSkill({ taskId: "public-selection", source: "FIXTURE", stage: "AVAILABILITY", session, signal, allowedOrigins: [new URL(url).origin], goal: { outlet: { name: "Constructed fixture" }, date: "2026-11-03", partySize: 2, hardCriteria: [] }, objective: "Observe public selection", completion: () => ({ complete: false, reason: "Read current controls" }) });
     const targets = observed;
     assert.notEqual(targets.find(t => t.value === "1" && t.controlGroupLabel === "Guests")?.selected, true, "class-only state cannot suppress a legal action");

@@ -1,0 +1,3 @@
+src/infrastructure/browser/playwright-read-network-guard.ts:64 [ REGEX ]     return pattern===undefined || pattern.startsWith("^")&&pattern.endsWith("$")&&url.searchParams.getAll(field.queryKey).every(value=>new RegExp(pattern).test(value));
+src/integrations/tablecheck/tablecheck-public-query.ts:30 [ URL/PATH ]   origin: "https://production.tablecheck.com",
+src/integrations/tablecheck/tablecheck-public-query.ts:32 [ WORDLIST ]   methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: ["locale"],

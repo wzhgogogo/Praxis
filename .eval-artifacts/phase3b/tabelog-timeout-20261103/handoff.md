@@ -1,0 +1,7 @@
+# Review handoff, proposal only
+
+A-owned recorder/canonical trace needs per-request pseudonymous ID, actual monotonic start/response-header/end/cancel time, outcome/resource type and document/navigation association, while retaining current secret/PII rules. Preserve redirect/request URL association using a non-secret query comparison token or existing safe audited query values: current safeRecord strips every query. Do not use HAR synthetic epoch/time0 as timings. Preserve deliberate Guard BLOCKED reasons in the existing diagnostic path, do not relax replay qualification. Existing finish() only considers ADMITTED dependencies, so correctly logged blocks already avoid UNCAPTURED_* classification.
+
+C-owned identity orchestration needs review of TableCheck→Tabelog deadline distribution: D8 provides only41/1447/1494ms navigation allowances to Tabelog. Do not increase budgets or reorder sources without evidence/review. TableCheck should record which discovery condition failed (query binding vs empty extraction vs generic-step outcome), not just its shared terminal code. No implementation is applied by B; awaiting reviewer/user assignment.
+
+B can then compare a narrowly selected resource block/DOM wait/session reuse on local Chromium and at most6 W1 detail reads at≥5-second spacing. Until those observations exist, no promised percentage speedup, site throttling diagnosis, or list of supposedly unnecessary scripts.

@@ -1,0 +1,78 @@
+✖ D8 actual event prefix + semantic reaffirmation: SAME (2.68275ms)
+✖ D8 actual event prefix + semantic reaffirmation: DATE (2.418208ms)
+✖ D8 actual event prefix + semantic reaffirmation: TIME (0.695166ms)
+✖ D8 actual event prefix + semantic reaffirmation: PARTY (0.67075ms)
+✖ D8 actual event prefix + semantic reaffirmation: NAME (0.652ms)
+✖ D8 exact observed entrance with independently grounded inventory: BOUND (4.306416ms)
+✔ D8 exact observed entrance with independently grounded inventory: UNKNOWN (1.762292ms)
+✔ D8 exact observed entrance with independently grounded inventory: LOW (1.403459ms)
+✔ D8 exact observed entrance with independently grounded inventory: HIDDEN (1.465459ms)
+✔ D8 exact observed entrance with independently grounded inventory: OTHER_SHOP (1.525084ms)
+✔ D8 exact observed entrance with independently grounded inventory: STALE (1.218166ms)
+✔ D8 exact observed entrance with independently grounded inventory: WRONG_TIME (1.13525ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 6
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.006083
+
+✖ failing tests:
+
+test at src/domains/restaurant/semantic-reaffirmation.test.ts:1:356
+✖ D8 actual event prefix + semantic reaffirmation: SAME (2.68275ms)
+  Error: Search continuation does not match the authoritative search intent
+      at Object.transition (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/task-definition.ts:417:17)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/semantic-reaffirmation.test.ts:10:81)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/domains/restaurant/semantic-reaffirmation.test.ts:1:356
+✖ D8 actual event prefix + semantic reaffirmation: DATE (2.418208ms)
+  Error: Search continuation does not match the authoritative search intent
+      at Object.transition (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/task-definition.ts:417:17)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/semantic-reaffirmation.test.ts:10:81)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/domains/restaurant/semantic-reaffirmation.test.ts:1:356
+✖ D8 actual event prefix + semantic reaffirmation: TIME (0.695166ms)
+  Error: Search continuation does not match the authoritative search intent
+      at Object.transition (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/task-definition.ts:417:17)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/semantic-reaffirmation.test.ts:10:81)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/domains/restaurant/semantic-reaffirmation.test.ts:1:356
+✖ D8 actual event prefix + semantic reaffirmation: PARTY (0.67075ms)
+  Error: Search continuation does not match the authoritative search intent
+      at Object.transition (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/task-definition.ts:417:17)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/semantic-reaffirmation.test.ts:10:81)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/domains/restaurant/semantic-reaffirmation.test.ts:1:356
+✖ D8 actual event prefix + semantic reaffirmation: NAME (0.652ms)
+  Error: Search continuation does not match the authoritative search intent
+      at Object.transition (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/task-definition.ts:417:17)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/domains/restaurant/semantic-reaffirmation.test.ts:10:81)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/integrations/tablecheck/tablecheck-recorded-b1.test.ts:1:550
+✖ D8 exact observed entrance with independently grounded inventory: BOUND (4.306416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-recorded-b1.test.ts:23:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

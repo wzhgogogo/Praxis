@@ -1,0 +1,2 @@
+src/infrastructure/browser/browser-query-values.ts:23 [ REGEX ]    letters:/\p{L}/u.test(value),digits:/\p{N}/u.test(value),whitespace:/\s/u.test(value),comma:/,/.test(value),period:/\./.test(value),colon:/:/.test(value),brackets:/[\[\]{}()]/.t
+src/infrastructure/browser/playwright-observed-get-forms.ts:60 [ REGEX ]   observePageText(page:Page,text:string):void {this.observedPageValues.set(page,{text:this.observedHashes(page,[text,...text.split(/\r?\n/)]),controls:new Set()});}

@@ -1,0 +1,112 @@
+[
+  {
+    "name": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T05:08:46.199781+01:00",
+    "head": "e796315192cc44f383596f5c9cb9e51be2dc06f0",
+    "returnCode": 0,
+    "elapsedSeconds": 0.498,
+    "finishedAtCET": "2026-11-04T05:08:46.706010+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "architecture",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T05:08:46.834418+01:00",
+    "head": "e796315192cc44f383596f5c9cb9e51be2dc06f0",
+    "returnCode": 0,
+    "elapsedSeconds": 0.233,
+    "finishedAtCET": "2026-11-04T05:08:47.074654+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "default",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T05:08:47.206775+01:00",
+    "head": "e796315192cc44f383596f5c9cb9e51be2dc06f0",
+    "returnCode": 0,
+    "elapsedSeconds": 48.816,
+    "finishedAtCET": "2026-11-04T05:09:36.030745+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T05:09:36.205787+01:00",
+    "head": "e796315192cc44f383596f5c9cb9e51be2dc06f0",
+    "returnCode": 0,
+    "elapsedSeconds": 0.561,
+    "finishedAtCET": "2026-11-04T05:09:36.774936+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "chromium",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T05:09:36.907301+01:00",
+    "head": "e796315192cc44f383596f5c9cb9e51be2dc06f0",
+    "returnCode": 0,
+    "elapsedSeconds": 170.7,
+    "finishedAtCET": "2026-11-04T05:12:27.617524+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "strict-g2",
+    "command": [
+      "env",
+      "PRAXIS_G2_REQUIRE_PASS=1",
+      "npm",
+      "run",
+      "test:dom-change"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T05:12:27.754340+01:00",
+    "head": "e796315192cc44f383596f5c9cb9e51be2dc06f0",
+    "returnCode": 0,
+    "elapsedSeconds": 24.242,
+    "finishedAtCET": "2026-11-04T05:12:52.005225+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "target",
+    "command": [
+      "env",
+      "PRAXIS_SESSION_REUSE_CAPTURE=1",
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/integrations/restaurant-availability/named-search-session-reuse.test.ts"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T05:12:52.141719+01:00",
+    "head": "e796315192cc44f383596f5c9cb9e51be2dc06f0",
+    "returnCode": 0,
+    "elapsedSeconds": 0.242,
+    "finishedAtCET": "2026-11-04T05:12:52.391687+01:00",
+    "afterStatus": ""
+  }
+]

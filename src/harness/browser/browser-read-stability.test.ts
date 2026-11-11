@@ -24,7 +24,7 @@ test("C3 settles delayed date results before asking the model and never complete
     const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxModelCallsPerCandidate:4,maxOperationsPerCandidate:40,maxElapsedMsPerCandidate:20_000,modelDecision:{async decide(value){calls++;if(calls===1)return {type:"CLICK_AUTHORITATIVE",field:"DATE",targetRef:value.observation.targets.find(x=>x.label==='Date 2026-10-23')!.ref,reason:"Select requested date"};pendingHint=value.progress.includes('still loading');const guests=value.observation.targets.find(x=>x.label==='Guests 10');return guests?{type:"CLICK_AUTHORITATIVE",field:"PARTY_SIZE",targetRef:guests.ref,reason:"Select requested party"}:{type:"REQUEST_HUMAN_HELP",reason:"Loading has not settled"};}}});
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","AVAILABILITY");
     try {
-      await executor.navigate({session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],url:target});
+      await executor.navigate({ observed: true,session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],url:target});
       const result=await executor.runSkill({taskId:"settle",session,signal,source:"FIXTURE",stage:"AVAILABILITY",allowedOrigins:[origin],goal:{outlet:{name:"Fixture"},date:"2026-10-23",partySize:10,hardCriteria:[]},objective:"Select date and guests",completion:snapshot=>({complete: /CURRENT_AVAILABLE|OLD_AVAILABLE/.test(snapshot.text),reason:"Select party after date loads", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: resultRegionBusy(snapshot.html, /\bresult\b/, /carousel|suggestions/) })});
       assert.equal(result.status,timeout?"REQUESTED_HUMAN_HELP":"COMPLETED");
       assert.equal(calls,2);
@@ -43,7 +43,7 @@ test("C3 visible-state fallback settles attribute-only carousel and rejects chan
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "FIXTURE", "AVAILABILITY");
     try {
-      await executor.navigate({ session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, session, signal, source: "FIXTURE", stage: "AVAILABILITY", allowedOrigins: ["https://www.tablecheck.com"], url });
       const read = await executor.runSkill({ taskId: `settle:${mode}`, source: "FIXTURE", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], goal: {outlet:{name:"Fixture"},partySize:2,hardCriteria:[]}, objective:"Read current result", completion:snapshot=>({complete:snapshot.text.includes("CURRENT_RESULT"),reason:"Current result missing", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: resultRegionBusy(snapshot.html, /\bresult\b/, /carousel|suggestions/) }) });
       assert.equal(read.status, mode === "carousel" ? "COMPLETED" : "REQUESTED_HUMAN_HELP", mode);
       assert.equal(read.snapshot.settlement, mode === "carousel" ? "SETTLED" : "PENDING", mode);
@@ -57,13 +57,13 @@ test("C3 visible-state fallback settles attribute-only carousel and rejects chan
 
 test("C4 blocks repeated toggle state but allows the same Next control on changed pages", async () => {
   for (const mode of ["toggle", "pagination"] as const) {
-    const runtime=localFixture(`<title>Navigation Fixture</title><button id="next" aria-expanded="false">${mode==='toggle'?'Filters':'Next'}</button><output id="result">${mode==='toggle'?'Closed':'Page 0'}</output><script>let clicks=0;next.onclick=()=>{clicks++;${mode==='toggle'?"next.setAttribute('aria-expanded',String(clicks%2===1));result.textContent=clicks%2?'Open':'Closed';":"result.textContent='Page '+clicks;"}}</script>`);
+    const runtime=localFixture(`<title>Navigation Fixture</title><button id="next" aria-expanded="false">${mode==='toggle'?'Filters':'Next'}</button><output id="result">${mode==='toggle'?'Closed':'Page 0'}</output><script>let clicks=0;next.onclick=()=>{clicks++;${mode==='toggle'?"next.setAttribute('aria-expanded',String(clicks%2===1));result.textContent=clicks%2?'Open':'Closed';":"result.textContent='Page '+clicks;history.replaceState(null,'','#page'+clicks);"}}</script>`);
     let calls=0;const history: import("../../infrastructure/browser/browser-action-decision.js").BrowserReadHistoryStep[][]=[];
     const diagnostics:BrowserExecutionDiagnostic[]=[];
     const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxModelCallsPerCandidate:6,maxOperationsPerCandidate:100,maxElapsedMsPerCandidate:15000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(value){calls++;history.push(value.history);return {type:"CLICK",targetRef:value.observation.targets.find(x=>x.label===(mode==='toggle'?'Filters':'Next'))!.ref,reason:"Advance current navigation"};}}});
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","DISCOVERY");
     try{
-      await executor.navigate({session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
+      await executor.navigate({ observed: true,session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
       const read=await executor.runSkill({taskId:`repeat:${mode}`,session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],goal:{outlet:{name:"Fixture"},hardCriteria:[]},objective:"Advance public navigation",completion:s=>({complete:mode==='pagination'&&s.text.includes('Page 3'),reason:"Keep advancing", resultKey: JSON.stringify([s.url, s.text, s.interactiveState]), resultBusy: false })});
       assert.equal(read.status,mode==='toggle'?"NO_SAFE_ACTION":"COMPLETED");
       const repeats=diagnostics.filter(d=>d.detail==='REPEATED_FROM_SAME_STATE');
@@ -85,7 +85,7 @@ test("C3b rotating suggestions accept identical bound results but changing resul
     const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:20_000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(){return {type:"REQUEST_HUMAN_HELP",reason:"Incomplete current result"};}}});
     const signal=new AbortController().signal;const session=await executor.acquire(signal,"FIXTURE","DISCOVERY");
     try {
-      await executor.navigate({session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
+      await executor.navigate({ observed: true,session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],url});
       const read=await executor.runSkill({taskId:"bound-result",session,signal,source:"FIXTURE",stage:"DISCOVERY",allowedOrigins:["https://www.tablecheck.com"],goal:{outlet:{name:"Fixture"},hardCriteria:[]},objective:"Read result set",completion:s=>({complete:s.text.includes("Venue A"),reason:"Missing venues",resultKey:s.html.match(/<section id="result">([^<]*)/)?.[1] ?? "", resultBusy: resultRegionBusy(s.html, /\bresult\b/, /carousel|suggestions/) })});
       assert.equal(read.status,(mode==='suggestions'||mode==='unrelated-skeleton')?"COMPLETED":"REQUESTED_HUMAN_HELP",mode);
       assert.equal(read.snapshot.settlement,(mode==='suggestions'||mode==='unrelated-skeleton')?"SETTLED":"PENDING",mode);
@@ -106,10 +106,11 @@ test("C3b Chromium ignores an outstanding image once data has completed", async 
   const address=server.address();assert.ok(address&&typeof address!=='string');
   const origin=`http://127.0.0.1:${address.port}`;
   const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium(), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
-  const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY',{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]});
+  // Keep only this fixture image outstanding; production resource suppression remains unchanged.
+  const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY',{documentOrigins:[origin],genericPublicRead:true,retainedResources:[{origin,pathname:'/image',resourceTypes:['image']}],staticResources:[],dynamicReads:[]});
   try{
     const started=Date.now();
-    await executor.navigate({session,signal,source:'FIXTURE',stage:'DISCOVERY',allowedOrigins:[origin],url:origin});
+    await executor.navigate({ observed: true,session,signal,source:'FIXTURE',stage:'DISCOVERY',allowedOrigins:[origin],url:origin});
     const snapshot=await executor.snapshot({session,signal,source:'FIXTURE',stage:'DISCOVERY'});
     assert.equal(snapshot.settlement,'SETTLED');assert.ok(Date.now()-started<5000);
     assert.equal(snapshot.settlementDiagnostics?.pendingByType.image,1);
@@ -141,7 +142,7 @@ test('model full-page OPEN_LINK allows slow DOMContentLoaded and times out only 
   const executor=new BrowserTaskExecutor(runtime,{ maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, maxElapsedMsPerCandidate:30_000,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){calls++;if(mode==='budget')clock=25_000;return {type:'OPEN_LINK',targetRef:input.observation.targets.find(t=>t.label==='Public result')!.ref,reason:'Read observed public page'};}}});
   const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY');
   try{
-   await executor.navigate({source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],url:origin+'/start'});const started=Date.now();
+   await executor.navigate({ observed: true,source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],url:origin+'/start'});const started=Date.now();
    if(mode==='budget')clock=1500; // Deterministic setup/load cost; no machine-speed dependency.
    const reading=executor.runSkill({taskId:'slow-navigation',source:'FIXTURE',stage:'DISCOVERY',session,signal,allowedOrigins:[origin],goal:{outlet:{name:'Fixture'},hardCriteria:[]},objective:'Read public result',completion:page=>({complete:page.text.includes('Loaded destination'),resultKey:page.url,resultBusy:false,reason:'Observe destination document'})});
    if(mode==='slow'){const read=await reading;assert.equal(read.status,'COMPLETED');assert.ok(Date.now()-started>=6000);assert.equal(read.snapshot.url,origin+'/next');}

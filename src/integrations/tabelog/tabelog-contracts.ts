@@ -42,6 +42,8 @@ export type TabelogEntityResolutionReason =
   | "HIGH_NAME_AND_ADDRESS"
   | "SOURCE_BUSY"
   | "SEARCH_BOT_CHALLENGE"
+  | "SEARCH_NOT_COMPLETED"
+  | "OBSERVED_QUERY_CONFLICT"
   | "DETAIL_BOT_CHALLENGE"
   | "NO_OUTLETS_PARSED"
   | "NO_COMPARABLE_IDENTITY_SIGNAL"
@@ -86,6 +88,12 @@ export interface TabelogEntityResolutionDiagnostic {
 
 export interface TabelogIdentityDiagnostic extends TabelogEntityResolutionDiagnostic {
   nativeContinuity?: NativeOutletContinuity;
+  /** Search planning only; none of these names establish outlet identity. */
+  nameRetrieval?: {
+    queries: Array<{kind:"ORIGINAL"|"FRAGMENT"|"JAPANESE"; query:string}>;
+    japanese?: {status:"OBSERVED"|"UNAVAILABLE"; placeId:string; languageCode?:string|null; reasonCode?:string};
+    detailLimit: number;
+  };
   search: {
     query: string;
     requestedUrl: string;
@@ -93,6 +101,8 @@ export interface TabelogIdentityDiagnostic extends TabelogEntityResolutionDiagno
     title: string;
     parsedResultCount: number;
     inspectedResultCount: number;
+    outcome?: import("../../infrastructure/browser/browser-task-executor.js").BrowserGenericReadResult["status"];
+    reasonCode?: string;
   };
   searchResults: TabelogOutletObservation[];
   details: Array<{

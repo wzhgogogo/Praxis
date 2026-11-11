@@ -1,0 +1,15 @@
+import test from 'node:test';import assert from 'node:assert/strict';import{mkdtemp,mkdir,readFile,writeFile,rm}from'node:fs/promises';import{join,resolve}from'node:path';import{tmpdir}from'node:os';import{runG6Batch,type G6Pack}from'./runner.js';import{g6Fixture}from'./fixtures.js';import{GooglePlacesClient}from'../../../../integrations/google/google-places-client.js';import{main as reviewCLI}from'./run-g6.js';
+for(const hard of [true,false])test(`development pending continues, resume skips, late review hard=${hard}`,async()=>{
+ const base=resolve('.eval-artifacts');await mkdir(base,{recursive:true});const root=await mkdtemp(join(base,'g6-pending-')),external=await mkdtemp(join(tmpdir(),'fictional-review-')),budgetPath=join(root,'budget.json');const seed=await g6Fixture(),s=seed.source;let sessions=0;
+ const pack:G6Pack={schemaVersion:'phase3b-g6-pack@1',mode:'FIXTURE',recording:{browser:true,decisions:true,googleResponses:true},cases:['first','later'].map(id=>({id,request:s.initialRequest,followups:[],oracle:{request:{dates:[s.date],partySize:2,time:s.time,requiresIndependentQualification:true},pages:[]}}))};
+ await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:20},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0,googleRequests:0}}));const deps={budgetPath,witnessIntervalMs:0,wait:async()=>{},witnessFetch:async()=>new Response(JSON.stringify(s.vacancy.body)),async transports(_spec:unknown,_r:unknown,hooks:import('./runner.js').G6TransportHooks){sessions++;const f=await g6Fixture();return{...f,google:new GooglePlacesClient({apiKey:'fictional',fetchImplementation:hooks.googleFetch(f.googleFetch)})};}};
+ try{
+  const out=join(root,'runs'),first=await runG6Batch(pack,deps,out);assert.deepEqual(first.slots.map(s=>s.status),['PENDING_REVIEW','PENDING_REVIEW']);assert.equal(first.pendingReviewCount,2);assert.equal(first.passRateReportable,false);assert.equal(sessions,2);
+  const original=await readFile(join(out,'first/evaluation.json'));await runG6Batch(pack,deps,out);assert.equal(sessions,2,'pending is a completed slot, not a replacement');
+  const file=join(external,'review.json');await writeFile(file,JSON.stringify({schema:'phase3b-holdout-review@1',attemptKey:'first',annotations:{qualificationOracles:[{name:s.outlet.name,address:s.outlet.address,phone:s.outlet.phone,hardCriteriaMet:hard,withinArea:true,evidenceRefs:['LOCAL_CONSTRUCTION']} ]}}));
+  await reviewCLI(['--review','first',file,'--output',out]);assert.deepEqual(await readFile(join(out,'first/evaluation.json')),original);
+  const batch=JSON.parse(await readFile(join(out,'batch.json'),'utf8'));
+  if(hard){assert.equal(batch.slots[0].status,'EVALUATED_BY_REVIEW');assert.equal(batch.pendingReviewCount,1);assert.equal(batch.passRateReportable,false);await runG6Batch(pack,deps,out);assert.equal(sessions,2);}
+  else{assert.equal(batch.status,'FAILED_S0');assert.equal(batch.passRateReportable,false);await assert.rejects(runG6Batch(pack,deps,out),/G6_S0_RESUME_FORBIDDEN/);assert.equal(sessions,2);}
+ }finally{await rm(root,{recursive:true,force:true});await rm(external,{recursive:true,force:true});}
+});

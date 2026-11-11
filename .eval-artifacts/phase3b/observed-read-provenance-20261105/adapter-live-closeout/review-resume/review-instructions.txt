@@ -1,0 +1,135 @@
+# 2026-11-06 凌晨：给对话 C，Adapter 停止点复核（`c8900068`）
+
+时间一律用维也纳时间（CET，UTC+1）。复核对象：`codex/fix-phase3b-d4-d8-real-page-diagnosis` @ `c8900068`。
+
+## 复核结论
+
+- 48 项 Adapter：47 项迁移、1 项退役并有替代，两 Adapter 111/111，做法正确。
+- 写死扫描：复核者独立运行 `f8c99318..c8900068`，只有 1 条命中（tablecheck-browser-availability.ts:489，诊断原因），同意你的归类，属于结果核对/诊断。
+- 三个合同问题都按规定停下报告，没有放宽 Guard、没有补造输出，正确。
+- 全套 `npm test` 1414 项中 96 项失败，必须继续迁移，见第 4 节。
+
+## 1. PARTIAL 名称：保留原断言；修正名称规则，消除循环支持
+
+**这是复核者在 REMOVE-HARDCODED 第 1 条写下的规则有漏洞，不是你的实现错误。** 现在的 `namedOutletContainment` 双向包含后，把多出的词拿去和 `boundNameSupport` 对照，而支持文本里包含这家候选**自己的店名**。当候选名比用户说的长时（用户 “G6”，候选 “G6 Development Sushi”），多出的 “development sushi” 一定能在候选自己的名字里找到，等于自己证明自己，所有“只说了一部分店名”的请求都会被判唯一。这放宽了身份门槛，违反底线。
+
+**修正（保留双向包含，按方向区分支持来源）：**
+
+- **用户说得更长**（用户名称 = 候选名称 + 多出的词）：多出的词可以由这家候选已绑定来源的 NAME / CATEGORY / GOOGLE_TYPE 原文支持，或由地理支持（地址 + localities 同时包含）。与现在相同。D3（“Kushi Katsu Dengana Akabane ten” 对 “Dengana Akabane”）走这一支。
+- **候选名称更长**（用户只说了一部分）：多出的词**不能用任何来源的 NAME 字段支持**（被比较的就是名字本身）。只能由地理支持，或由该候选已绑定来源的 CATEGORY / GOOGLE_TYPE 原文支持。任何一个词得不到支持 → 不判唯一，按原有 PARTIAL 路径反问，不交接。
+- `User choice fails closed for PARTIAL` 原断言保留不改：“development” 没有地理或类别支持 → 不选择、无交接。
+- 补红灯：候选名更长、多出的词只出现在候选自己的店名里 → 必须不唯一。再补正例：多出的词全是地理（例如分店地名同时在地址和 localities 中）→ 可以唯一。
+- 不加词表、别名、翻译或相似度。
+
+## 2. TableCheck `/reserve`：不开放；夹具迁移到真实的公开读取链路
+
+- `prohibitedPaths` 禁止 `reserve` 在 main 上早已存在。旧夹具能读 `/reserve`，是因为旧替身没有带 networkPolicy，测试绕过了 Guard。现在测试带上策略，冲突暴露出来，这是测试的问题，不是要放宽 Guard 的理由。
+- 生产中 TableCheck 库存的已审核读取是：店页 `/en/shops/<slug>` 文档 + `https://production.tablecheck.com/v2/hub/availability_calendar_v2`（POST xhr，字段 `locale / start_at / shop_id / num_people`，已在 `tablecheck-public-query.ts` 的 dynamicReads 中）。
+- 仓库中已有带这个接口的真实运行产物：`.eval-artifacts/checkpoint-c-integration-20261020/calibration/`（2026-10-20 标定 Live）。用其中真实响应的**结构**作为夹具模板，并在测试中注明来源文件；G6 开发店的具体数值可以构造，标为 LOCAL_CONSTRUCTION。这是组件测试，不作为验收依据。
+- 迁移后原有行为断言（库存读取、交接、条款）全部保留。如果发现生产代码实际依赖 `/reserve` 才能取得库存，这是产品缺陷，停下报告，不开放路径。
+- `/reserve/landing` 走 SOURCE_UNSUPPORTED 保持不变。
+- D8 Live（TableCheck 已恢复）会给出新的真实录制。
+
+## 3. D3 的 G1 条款测试：同意拆分
+
+按你的建议拆成“构造的来源前置条件 + 原样保存的 G1 页面”：
+
+- G1 页面必须是原样保存的真实页面，不修改；
+- 前置条件标为 LOCAL_CONSTRUCTION；
+- 真实回放那一行继续如实报告 EVIDENCE_GAP，两者分开，不能互相替代。
+
+## 4. 剩余 96 项全套失败：继续迁移，不必每组停下
+
+- 规则与 Adapter 相同：先判断是夹具过时还是产品缺陷；只断言已退役实现（URL 构造、固定序列、退役动作）的可以退役，但同一文件要补当前观察路径的替代覆盖；用户行为和安全断言一律保留。
+- 推送前跑 `scan-hardcoded.sh`（上一条消息给过），逐条说明命中。
+- **只有以下情况才停下**：需要放宽身份、Guard 或安全规则；需要改预算或时限；某项测试看起来只能靠写死逻辑才能通过；发现产品缺陷且修法不确定。其他情况直接继续，不需要中途报告。
+- 报告时附：96 项按文件/组分类，迁移、退役（及替代）、产品修复各多少。
+
+## 5. 之后（路线不变）
+
+全套门禁（五门禁 + 严格 G2 + G6 组）全绿 → 冻结分支 SHA → TableCheck 连通确认 1 次 → D4、D8 各 1 次 Live → 无 S0 且至少一家完成“身份 + 查位”则同步 main 合入推送（STATUS / DEVLOG / TEST-LOG 此时更新），然后停下等复核者确认 held-out；否则不合入，用 Live 录制离线修。
+
+## 额度与底线
+
+额度不变：留出集预留（18 次 Live、108 次 GET）不动。不放宽身份门槛，不放宽 Guard，不改预算或时限，不补造录制或模型输出，不新增写死逻辑。
+
+---
+
+## 补充：逐行复核 `f8c99318..c8900068` 的发现（与上文一起处理）
+
+复核者逐行读了四个产品文件（browser-task-executor.ts、tabelog/tablecheck-browser-availability.ts、google-listed-website-facts.ts）和迁移测试的断言差异，并独立跑了写死扫描。结论：**没有新增写死逻辑**；Live 运行器（SHA 核对、净树、显式开关、先连通再 Live、凭据只经 `--env-file`）合格。以下五点需要修，前四点在合入前完成：
+
+### A. 搜索完成缺少“正向绑定”（必须修）
+
+`search()` 现在只拒绝**矛盾**的查询（结果页 URL 中该字段的值 ≠ 我们填的值），但不要求结果页**确实属于**我们这次查询。模型没有提交表单、或页面停在起始页时：
+
+- TableCheck：起始页若显示“无结果”类文字，`tableCheckNameSearchCompletion` 判 complete，`matchesDiscoveryQuery` 现在只核对源站和非忙碌，于是得到 `TABLECHECK_DISCOVERY_NO_RESULT`，但这次搜索其实没发生；
+- Tabelog：起始页若有可解析的推荐/排行卡片，会被当成搜索结果去消耗详情额度。
+
+**改为：** 结果或空状态只有在有正向证据时才算本次查询的结果：我们填入的那个原生字段，其值出现在结果页的同源 URL 参数里，或出现在结果页上观察到的同一表单字段中。没有正向证据 → 未完成（不是“无结果”）。只用观察到的字段名，不按站点写字段名。
+
+### B. 查询比较过严（必须修）
+
+冲突判断用 `value !== input.query` 精确比较。网站对查询做无害的规范化（大小写、全角/半角、多余空格）就会被判冲突，整家候选失败。**改为**用现有的 `outletNameKey` 同一规范化（NFKC、合并空白、小写）比较，正向绑定（A）也用同一比较。不加任何站点规则。
+
+### C. 失败原因又被丢掉（必须修）
+
+上周 D8 的教训就是失败原因丢失。这次又有两处：
+
+- Tabelog 遇到 `OBSERVED_QUERY_CONFLICT` 抛的是普通 `Error`，在 catch 中被记成 `BROWSER_RUNTIME_FAILED`；
+- Tabelog 完全不看 `searched.status`：模型失败、NO_SAFE_ACTION、步数用完，都会悄悄变成后面的 `ENTITY_MATCH_UNCERTAIN`。
+
+**改为：** 搜索的非完成状态和冲突，用明确的失败码记入身份诊断（例如 `SEARCH_NOT_COMPLETED` 带 outcome、`OBSERVED_QUERY_CONFLICT`），结果仍然是 UNKNOWN 类，不变成无位或无此店。TableCheck 已经记了 handoff，Tabelog 对齐。补测试：模型失败和查询冲突各一条，断言诊断中的失败码。
+
+### D. 删掉了一条解析器行为断言（必须恢复）
+
+旧测试 “TableCheck discovers public guide pages by restaurant name and coordinates, never by slug guessing” 被整条替换。替换后只断言起始 URL，**丢掉了** `parseTableCheckDiscoveryOutletUrls` 的断言：结果中的 `/reserve/landing?start_date=…` 预约时段链接不能当作门店，门店链接去掉查询串、同名分店都保留。这是解析器行为（与 URL 构造无关），用原快照原样恢复这段断言。
+
+### E. `observed: true` 只是调用方自报（3b 之后）
+
+`navigate` 是否允许直接打开，只看调用方传不传 `observed: true`，运行时并不核对这个网址是否真的来自观察或来源绑定。现在的调用方都合规（来源绑定网址、页面 href、Google websiteUri），但以后有人对拼出来的网址传 `observed: true`，扫描也不一定抓得到。3b 之后改为带来源的类型（例如只有从证据或观察记录生成的 `SourceObservedUrl` 才能传入）。本轮不做，列入 3b 后清单。
+
+### 处理顺序
+
+与上文第 1–4 节一起做：A–D 修好并有测试 → 剩余全套失败迁移完 → 全套门禁 → 分支 Live。报告中逐条说明 A–D 的修法和测试，以及写死扫描结果。
+
+---
+
+## 更正（2026-11-05 17:40 CET）：第 2 节 TableCheck 改按下面执行
+
+复核者在 `c8900068` 上重新核对，**第 2 节有两处事实错误，以本节为准**：
+
+1. `.eval-artifacts/checkpoint-c-integration-20261020/calibration/` 里**没有** `availability_calendar_v2` 的响应正文，只有 `EVIDENCE_GAP: raw POST body inspection` 记录。复核者当时只按文件名检索，没有打开核对。不要去那里找模板。
+2. 生产代码**不解析** `availability_calendar_v2`，它只在 Guard 的 dynamicReads 里放行页面自身的 XHR。TableCheck 库存的实际读取路径是：店页/指南页上内嵌的 `Venue Availability` 组件（`resolveTableCheckReservationTarget` 返回 `EMBEDDED_AVAILABILITY`）。真实依据：`src/integrations/tablecheck/fixtures/ginza-bistro-empty.json`（2026-10-09 Live 录制中提取的真实组件，`https://www.tablecheck.com/en/0711-ginzabistro`）。
+
+### 2a. G6 开发夹具（替代第 2 节的迁移方法）
+
+`cases/g6-development/source.json` 的 `tablecheck.pageUrl` 指向 `/en/shops/g6-development-sushi/reserve`，这是被禁止的路径。改为不带 `/reserve` 的店页入口；页面中内嵌组件的结构以 ginza-bistro 真实组件为准，时段链接（`…/reserve?start_date=…`）只作为观察到的链接出现，不导航。`expectedHandoffUrl`、库存、交接、条款的原断言全部保留。provenance 继续标 LOCAL_CONSTRUCTION。Guard 不改。
+
+### 2b. 产品缺陷：`/reserve` 被禁止后，解析顺序会让内嵌库存永远读不到（必须修）
+
+`tablecheck-page-parser.ts` 的 `resolveTableCheckReservationTarget` 先看 JSON-LD 的 `acceptsReservations`，指向 `/shops/<slug>/reserve` 就直接返回 `LINKED_PAGE`；内嵌组件要到后面才检查。而 `/reserve` 自 2026-10-23（`3d323739`）起被 Guard 禁止，于是：
+
+- 第 299 行：候选的预约目标被禁止 → 整个候选被丢弃；
+- 第 749 行：返回 `SOURCE_UNSUPPORTED`；
+
+即使同一页面上就有可读的内嵌组件。2026-10-20 标定 Live 实际访问过 `/en/shops/<slug>/reserve`，说明真实指南页确实会给出这类 JSON-LD 链接；10-23 之后没有任何一次 Live 真正读到过 TableCheck 库存，所以这个问题一直没暴露。D8 Live 的 TableCheck 渠道会直接撞上。
+
+**修法（通用，不放宽 Guard）：** 被当前读取策略禁止的 `LINKED_PAGE` 不作为可用目标；同一页面有内嵌组件时用 `EMBEDDED_AVAILABILITY`，两者都没有才返回 undefined。先写红灯：页面同时有指向 `/reserve` 的 JSON-LD 和内嵌组件 → 现在得到 SOURCE_UNSUPPORTED，修后读内嵌组件。`native-source-facts.ts` 第 355–359 行的同类判断一并核对。
+
+### 2c. 遗留的网址模板：等用户决定，先不要动
+
+`tableCheckRequestedReservationUrl`（tablecheck-page-parser.ts:417）仍在拼网址：内嵌组件且请求是精确时间时，给指南页加 `date / time / num_people / availability_format / availability_mode`；然后在 tablecheck-browser-availability.ts 第 309 行和第 767 行以 `observed: true` 打开。这是本轮应拆而漏拆的网址模板，而且被标成了“观察到的网址”，正是补充段 E 担心的情况。复核者、你和外部复核都漏看了。
+
+用户决定前不要改这一处。B1 交接链接（tablecheck-booking-handoff-reader.ts:112，ADR-0049）是交给用户自己打开的链接，并与观察到的链接双重核对，不在此列。
+
+### 2c 用户决定（2026-11-05 17:30 CET）：删除 TableCheck 库存读取的网址拼接
+
+用户批准删除，与 Tabelog 一致：
+
+1. 第 309 行和第 767 行不再用 `buildRequestUrl` / `tableCheckRequestedReservationUrl` 生成要打开的网址。只打开观察到的店页（或观察到的链接），日期、人数、时间由观察循环中的模型在内嵌组件上逐步选择（`CLICK_AUTHORITATIVE` / `CHOOSE_OPTION` 等权威字段动作），代码只做结果核对：组件上显示的日期、人数与请求一致（现有 `hasTableCheckSelectedRequest`），时段覆盖按现有时间窗逻辑判断。核对不通过 → UNKNOWN，不是无位。
+2. 组件操作如果需要提交表单 POST，Guard 照常拒绝，如实报告为 UNKNOWN，不放宽。组件自身的 `availability_calendar_v2` XHR 仍按已审核规则放行。
+3. `tableCheckRequestedReservationUrl` 只保留给 B1 交接链接（tablecheck-booking-handoff-reader.ts:112，ADR-0049）。来源包的 `availability.buildRequestUrl` 若已无其他调用方，一并删除。
+4. 迁移受影响的测试：保留结果断言（日期/人数核对、时段覆盖、禁用/隐藏/骨架屏不算有位等），删除只断言拼接网址的部分并补替代覆盖。新增一条测试：TableCheck 查位全程打开的每个网址，都必须是观察到的页面或链接。
+5. 产品代码中所有 `observed: true` 的 `navigate` 调用（复核者在 `c8900068` 上数到 16 处：google-listed-website-facts、native-source-facts ×3、native-restaurant-search ×2、tabelog-browser-availability ×5、tablecheck-browser-availability ×6），在报告里逐一写明网址来源（来源绑定数据 / 页面观察到的链接 / 当前页面重载）。不能说明来源的，就是拼接，按本节处理。
+6. 不需要新版本。如果 Browser Prompt 需要说明 TableCheck 组件的操作，在本分支尚未发布的 Prompt@21 内修改并报告。

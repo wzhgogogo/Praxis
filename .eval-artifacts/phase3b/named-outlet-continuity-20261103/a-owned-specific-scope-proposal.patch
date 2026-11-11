@@ -1,0 +1,34 @@
+--- a/src/harness/workspace-fixture-server.ts
++++ b/src/harness/workspace-fixture-server.ts
+@@ -81,7 +81,8 @@
+       candidates=[structuredClone(raw.context.candidate),...fixture.candidates.slice(1)];
+       candidates[0]!.matchReasons=[...fixture.candidates[0]!.matchReasons];
+       candidates.forEach((c,i)=>{c.restaurant.sourceIds={tabelog:String(13123456+i),...(provider==="TABLECHECK"?{tablecheck:"fixture-sushi"+(i||"")}:{})};c.executionConfidence="HIGH";});
+-      return {candidates,evidence:candidates.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:"Tokyo",areaMatch:true}})),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
++      const found=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?candidates.filter(c=>c.restaurant.outletName===request.intent.target!.query):candidates;
++      return {candidates:found,evidence:found.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:"Tokyo",areaMatch:true}})),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
+     },
+     async check(request:RestaurantAvailabilityRequest,signal:AbortSignal){
+       const id=request.candidateIds[0]!,index=candidates.findIndex(c=>c.restaurant.id===id);
+--- a/src/harness/browser/web-workspace.test.ts
++++ b/src/harness/browser/web-workspace.test.ts
+@@ -27,8 +27,8 @@
+   const response=await page.request.get("/api/cases/"+encodeURIComponent(id));assert.equal(response.status(),200);
+   return (await response.json()).view;
+ }
+-async function ready(page:Page){
+-  await page.waitForFunction(()=>document.getElementById("card-counter")?.textContent==="1 of 3");
++async function ready(page:Page,total=3){
++  await page.waitForFunction(expected=>document.getElementById("card-counter")?.textContent===expected,"1 of "+total);
+   await page.locator("#progress").waitFor({state:"hidden"});
+ }
+ async function signIn(page:Page,baseUrl:string,time:Date){
+@@ -141,7 +141,7 @@
+       const viewedId=await page.locator("#candidate-card").getAttribute("data-candidate-id");
+       await page.locator("#message").fill("Check this one");
+       const messageReply=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith("/messages")&&r.request().method()==="POST");
+-      await page.locator("#send").click();assert.equal((await messageReply).status(),200);await ready(page);
++      await page.locator("#send").click();assert.equal((await messageReply).status(),200);await ready(page,1);
+       const sent=writes.filter(w=>w.path.endsWith("/messages")).at(-1)!;
+       assert.deepEqual(sent.body.viewContext,{view:"CANDIDATES",candidateId:viewedId,comparedCandidateIds:[]});
+       const interpretation=host.requests.filter(r=>r.purpose==="restaurant_semantic_interpret").at(-1)!;

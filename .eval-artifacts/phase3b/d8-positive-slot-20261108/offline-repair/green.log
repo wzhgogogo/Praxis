@@ -1,0 +1,47 @@
+✔ D1 original Google short name and D3 original semantic bytes resolve Dengana by identity, then present B1 (793.102792ms)
+✔ an identity-confirmed Tabelog full page name resolves even when Google name alone cannot justify the extra words (521.563833ms)
+✔ a sole containing name cannot supply unquoted cuisine or branch words after identity (494.787042ms)
+✔ two containment candidates ask instead of choosing a branch (470.767834ms)
+✔ an extra locality absent from the outlet address remains ambiguous (494.817166ms)
+✔ containment never overrules a source identity conflict (472.951541ms)
+✔ literal locality evidence permits extra geography but a building word, unknown alias or word fragment does not (0.210541ms)
+✔ TableCheck's identity-bound observed page name also resolves the different Google name (2580.779958ms)
+✔ an unchanged named booking followup retains the current B1 without another search or stock investigation (1827.8455ms)
+✔ D8 actual state projection + semantic reaffirmation: SAME (3.9495ms)
+✔ D8 actual state projection + semantic reaffirmation: DATE (0.992125ms)
+✔ D8 actual state projection + semantic reaffirmation: TIME (1.263792ms)
+✔ D8 actual state projection + semantic reaffirmation: PARTY (1.227167ms)
+✔ D8 actual state projection + semantic reaffirmation: NAME (0.707792ms)
+✔ TableCheck B1 taps existing controls and serializes only the verified exact offer (3.517ms)
+▶ TableCheck B1 refuses mismatched and unobserved entrances while availability remains AVAILABLE
+  ✔ wrong shop (0.439833ms)
+  ✔ wrong date (0.304375ms)
+  ✔ wrong guests (0.300917ms)
+  ✔ wrong exact slot (0.249459ms)
+  ✔ wrong domain (0.360625ms)
+  ✔ review path (0.223625ms)
+  ✔ payment path (0.212292ms)
+  ✔ account path (0.260208ms)
+  ✔ ambiguous query (0.402083ms)
+  ✔ redirect query (0.334542ms)
+  ✔ missing link (0.414166ms)
+  ✔ hidden link (0.7615ms)
+  ✔ disabled link (0.499ms)
+✔ TableCheck B1 refuses mismatched and unobserved entrances while availability remains AVAILABLE (5.473792ms)
+✔ TableCheck B1 never turns a broad window without an exact available time into a link (0.514834ms)
+✔ TableCheck B1 keeps root scopes isolated, invalidates new reads and never fetches during projection (0.854917ms)
+✔ D8 exact observed entrance with independently grounded inventory: BOUND (6.144292ms)
+✔ D8 exact observed entrance with independently grounded inventory: UNKNOWN (1.766125ms)
+✔ D8 exact observed entrance with independently grounded inventory: LOW (2.390875ms)
+✔ D8 exact observed entrance with independently grounded inventory: HIDDEN (1.494958ms)
+✔ D8 exact observed entrance with independently grounded inventory: OTHER_SHOP (1.985667ms)
+✔ D8 exact observed entrance with independently grounded inventory: STALE (1.352125ms)
+✔ D8 exact observed entrance with independently grounded inventory: WRONG_TIME (1.395292ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8110.486791

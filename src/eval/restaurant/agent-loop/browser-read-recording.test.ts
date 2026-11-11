@@ -11,6 +11,31 @@ const reviewedStaticScript = [{ origin: "https://cdn.public.example", pathnamePr
 const reviewedDirectoryDocument = [{ origin: "https://directory.public.example", pathname: "/en/tokyo/A1303/A130301/rstLst/", resourceTypes: ["document"] as const,
   queryKeyRules: { required: [], allowed: ["sw"] } }] as const;
 
+test("observed same-origin GET forms keep their public queryless action without an endpoint exception", async () => {
+  const { tabelogPublicReadNetworkPolicy } = await import("../../../integrations/tabelog/tabelog-public-query.js");
+  const root = await mkdtemp(join(tmpdir(), "real-search-form-"));
+  try {
+    const recording = new BrowserReadRecording({ directory: root, runId: "real-form", reviewedReads: tabelogPublicReadNetworkPolicy.dynamicReads });
+    // Contract control; the old recording already stripped action and cannot restore its bytes.
+    const html = '<form method="get" action="https://tabelog.com/en/rstLst/"><input name="station_id"></form>';
+    recording.recordSnapshot({ url: "https://tabelog.com/en/", title: "Real source", text: "", html });
+    await recording.finish();
+    const replay = await readFile(join(root, "real-form", "snapshot-0001.html"), "utf8");
+    assert.match(replay, /action="https:\/\/tabelog.com\/en\/rstLst\/"/);
+    const generic = new BrowserReadRecording({directory:root,runId:"generic-public-form"});
+    generic.recordSnapshot({url:"https://public.example/start",title:"Public",text:"",html:'<form method="get" action="/new-public-search/"><input name="anything"></form>'});
+    const genericSaved=await generic.finish();
+    assert.match(await readFile(join(genericSaved.path,"snapshot-0001.html"),"utf8"),/action="https:\/\/public.example\/new-public-search\/"/);
+
+    for (const [method, action] of [["post", "https://tabelog.com/en/rstLst/"], ["get", "https://other.example/en/rstLst/"], ["get", "https://tabelog.com/en/login/"], ["get", "https://tabelog.com/en/rstLst/?email=private"]] as const) {
+      const rejected = new BrowserReadRecording({ directory: root, runId: `unreviewed-${method}-${action.length}`, reviewedReads: tabelogPublicReadNetworkPolicy.dynamicReads });
+      rejected.recordSnapshot({ url: "https://tabelog.com/en/", title: "Contract control", text: "", html: `<form method="${method}" action="${action}"></form>` });
+      const saved = await rejected.finish();
+      assert.doesNotMatch(await readFile(join(saved.path, "snapshot-0001.html"), "utf8"), /action=/);
+    }
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
 test("browser recording writes only an in-memory sanitized public document HAR", async () => {
   const root = await mkdtemp(join(tmpdir(), "praxis-browser-recording-"));
   try {
@@ -141,14 +166,17 @@ test("browser recording keeps a captured safe external script in the replay HAR"
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
-test("browser recording refuses a reviewed script response containing a literal credential", async () => {
+test("browser recording masks a reviewed public script credential at equal length under the approved contract", async () => {
   const root = await mkdtemp(join(tmpdir(), "praxis-browser-recording-"));
   try {
     const recording = new BrowserReadRecording({ directory: root, runId: "run-static-secret", reviewedStaticResources: reviewedStaticScript });
     recording.recordSnapshot({ url: "https://public.example/menu", title: "Public", text: "", html: '<div></div>',
       networkRequests: [{ outcome: "ADMITTED", origin: "https://cdn.public.example/", pathname: "/assets/calendar.js", method: "GET", resourceType: "script", queryKeys: ["rst-v1-public"] }] });
     await recording.recordResponse({ url: "https://cdn.public.example/assets/calendar.js?rst-v1-public", method: "GET", resourceType: "script", status: 200, contentType: "application/javascript", body: new TextEncoder().encode('const key = "Bearer secretvalue";') });
-    assert.deepEqual((await recording.finish()).replay, { status: "NOT_REPLAYABLE", reason: "UNCAPTURED_STATIC_DEPENDENCY" });
+    const result=await recording.finish();assert.equal(result.replay.status,"REPLAYABLE");
+    if(result.replay.status!=="REPLAYABLE")throw Error("Expected masked public script replay");
+    const har=JSON.parse(await readFile(result.replay.harPath,"utf8"));const script=har.log.entries.find((e:any)=>e.request.url.includes("calendar.js")).response.content.text;
+    assert.equal(script.length,'const key = "Bearer secretvalue";'.length);assert.ok(!script.includes("Bearer secretvalue"));
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
@@ -281,4 +309,128 @@ test("recorder retains loaded Guard-admitted public stylesheets, including gener
     assert.ok((await readFile(join(result.path, "snapshot-0001.html"), "utf8")).includes(genericCssUrl));
     assert.equal(JSON.stringify(manifest).includes("private-marker"), false);
   } finally { await rm(root,{recursive:true,force:true}); }
+});
+
+test('observed Tabelog keyword response retains public source names only at its exact recording endpoint', async () => {
+  const root=await mkdtemp(join(tmpdir(),'tabelog-suggestion-record-'));
+  try{
+    const recording=new BrowserReadRecording({directory:root,runId:'public-suggestions'});
+    const url='https://tabelog.com/en/suggest/keyword_suggest?keyword=Akabane';
+    const text=JSON.stringify([{name:'Akabane Sta.（Tokyo）',datatype:'RailroadStation',id_in_datatype:134,exact_match:true,pal:'tokyo',LstPrf:'A1323',LstAre:'A132305',station_id:'134'}]);
+    await recording.recordResponse({url,method:'GET',resourceType:'xhr',status:200,contentType:'application/json',body:Buffer.from(text)});
+    recording.recordSnapshot({url:'https://tabelog.com/en/',title:'Public search',text:'Akabane',html:'<body>Akabane</body>',networkRequests:[{outcome:'ADMITTED',origin:'https://tabelog.com',pathname:'/en/suggest/keyword_suggest',method:'GET',resourceType:'xhr',queryKeys:['keyword']}]});
+    const result=await recording.finish();assert.equal(result.replay.status,'REPLAYABLE');
+    const har=JSON.parse(await readFile(join(result.path,'replay.har'),'utf8'));
+    assert.equal(har.log.entries.find((x:any)=>x.request.url===url).response.content.text,text);
+    const denied=new BrowserReadRecording({directory:root,runId:'private-suggestions'});
+    await denied.recordResponse({url,method:'GET',resourceType:'xhr',status:200,contentType:'application/json',body:Buffer.from(JSON.stringify([{name:'Public',datatype:'RailroadStation',session_id:'private-value'}]))});
+    denied.recordSnapshot({url:'https://tabelog.com/en/',title:'Public',text:'Public',html:'<body>Public</body>',networkRequests:[{outcome:'ADMITTED',origin:'https://tabelog.com',pathname:'/en/suggest/keyword_suggest',method:'GET',resourceType:'xhr',queryKeys:['keyword']}]});
+    assert.equal((await denied.finish()).replay.status,'NOT_REPLAYABLE');
+  }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('recording preserves a partial public SPA document route and masks only credential carriers',async()=>{
+ const {tableCheckPublicReadNetworkPolicy:policy}=await import('../../../integrations/tablecheck/tablecheck-public-query.js');
+ const root=await mkdtemp(join(tmpdir(),'public-spa-route-'));
+ try{
+  const recorder=new BrowserReadRecording({directory:root,runId:'partial',reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources});
+  // Controlled query projection/privacy mutation, not reconstructed old probe bytes.
+  recorder.recordSnapshot({url:'https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc',title:'Public list',text:'Public list',html:'<body><h1>Public list</h1><input aria-label="Destination"><meta name="api-key" content="private-marker"><p>person@example.com</p><div data-access-token="private-marker">Results</div></body>'});
+  const result=await recorder.finish();assert.equal(result.replay.status,'REPLAYABLE');
+  const document=await readFile(join(result.path,'snapshot-0001.html'),'utf8');assert.match(document,/Public list/);assert.match(document,/Destination/);assert.match(document,/Results/);assert.doesNotMatch(document,/private-marker|person@example.com|data-access-token/);
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('source public scripts up to12MB mask known credentials without changing length or syntax',async()=>{
+ const {runInNewContext}=await import('node:vm');const root=await mkdtemp(join(tmpdir(),'source-script-limit-'));
+ const url='https://cdn.public.example/assets/large.js',page='https://public.example/menu';
+ const secrets=['Bearer fakeCredentialOnly','sk-'+ 'a'.repeat(24),'AIza'+'b'.repeat(35),'AKIA'+'C'.repeat(16)];
+ const prefix=`globalThis.completed=41;const config={api_key:"opaque-fixture-credential"};const credentials=${JSON.stringify(secrets)};/*`,size=10_284_255,script=prefix+'x'.repeat(size-Buffer.byteLength(prefix)-2)+'*/';
+ try{
+  const recorder=new BrowserReadRecording({directory:root,runId:'large',reviewedStaticResources:reviewedStaticScript});
+  recorder.recordSnapshot({url:page,title:'Public',text:'Public',html:`<script src="${url}"></script>`,networkRequests:[{outcome:'ADMITTED',origin:'https://cdn.public.example',pathname:'/assets/large.js',method:'GET',resourceType:'script',queryKeys:[]}]});
+  await recorder.recordResponse({url,method:'GET',resourceType:'script',status:200,contentType:'application/javascript',body:Buffer.from(script)});
+  const result=await recorder.finish();assert.equal(result.replay.status,'REPLAYABLE');if(result.replay.status!=='REPLAYABLE')throw Error('Expected public script replay');
+  const har=JSON.parse(await readFile(result.replay.harPath,'utf8'));const captured=har.log.entries.find((e:any)=>e.request.url===url).response.content.text;
+  assert.equal(Buffer.byteLength(captured),size);for(const secret of [...secrets,'opaque-fixture-credential'])assert.ok(!captured.includes(secret));
+  const context:any={};runInNewContext(captured,context,{timeout:2000});assert.equal(context.completed,41);
+  for(const [id,source,bytes,type]of [['too-large',url,12_000_001,'script'],['foreign','https://foreign.example/large.js',2_500_001,'script'],['stylesheet','https://cdn.public.example/assets/large.css',2_500_001,'stylesheet'],['fetch-js',url,2_500_001,'fetch']] as const){
+   const other=new BrowserReadRecording({directory:root,runId:id,reviewedStaticResources:reviewedStaticScript});
+   other.recordSnapshot({url:page,title:'Public',text:'',html:'<body>Public</body>',networkRequests:[{outcome:'ADMITTED',origin:new URL(source).origin,pathname:new URL(source).pathname,method:'GET',resourceType:type,queryKeys:[]}]});
+   await other.recordResponse({url:source,method:'GET',resourceType:type,status:200,contentType:type==='stylesheet'?'text/css':'application/javascript',body:Buffer.from('x'.repeat(bytes))});
+   assert.equal((await other.finish()).replay.status,'NOT_REPLAYABLE',id);
+  }
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('Guard-admitted public document origin can record its own script without a CDN exception',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'own-source-script-'));const page='https://source.example/public',url='https://source.example/assets/main.js';
+ try{
+  const recorder=new BrowserReadRecording({directory:root,runId:'own'}),html=`<body><script src="${url}"></script></body>`;
+  await recorder.recordResponse({url:page,method:'GET',resourceType:'document',status:200,contentType:'text/html',body:Buffer.from(html)});
+  await recorder.recordResponse({url,method:'GET',resourceType:'script',status:200,contentType:'application/javascript',body:Buffer.from('/*'+'x'.repeat(3_000_000)+'*/')});
+  recorder.recordSnapshot({url:page,title:'Public',text:'',html,networkRequests:[{outcome:'ADMITTED',origin:'https://source.example',pathname:'/assets/main.js',method:'GET',resourceType:'script',queryKeys:[]}]});
+  const result=await recorder.finish();assert.equal(result.replay.status,'REPLAYABLE');if(result.replay.status!=='REPLAYABLE')throw Error('Expected admitted source script');
+  const har=JSON.parse(await readFile(result.replay.harPath,'utf8'));assert.ok(har.log.entries.find((e:any)=>e.request.url===page).response.content.text.includes(url));
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+
+test('recording omission reasons and safe components preserve privacy without claiming full Replay',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'response-components-'));
+ try{
+  const recording=new BrowserReadRecording({directory:root,runId:'partial'});
+  recording.recordSnapshot({url:'https://public.example/menu',title:'Public',text:'',html:'<h1>Public</h1>',networkRequests:[{outcome:'ADMITTED',origin:'https://public.example',pathname:'/v2/results',method:'GET',resourceType:'fetch',queryKeys:[]}]});
+  await recording.recordResponse({url:'https://public.example/v2/results',method:'GET',resourceType:'fetch',status:200,contentType:'application/json',body:Buffer.from('{"email":"private-marker@example.com"}')});
+  await recording.recordResponse({url:'https://public.example/v2/metadata',method:'GET',resourceType:'fetch',status:200,contentType:'application/json',body:Buffer.from('{"available":true}')});
+  const result=await recording.finish();assert.equal(result.replay.status,'NOT_REPLAYABLE');
+  const metadata=await readFile(join(result.path,'recording.json'),'utf8');assert.match(metadata,/JSON_SENSITIVE_KEY/);assert.doesNotMatch(metadata,/private-marker|@example/);
+  const component=await readFile(join(result.path,'components.har'),'utf8');assert.match(component,/available/);assert.doesNotMatch(component,/private-marker|@example|v2\/results/);
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+
+test('recorded shop metadata permits the reviewed path grammar before unchanged JSON privacy checks',async()=>{
+ const {tableCheckPublicReadNetworkPolicy:policy}=await import('../../../integrations/tablecheck/tablecheck-public-query.js');
+ const source='.eval-artifacts/phase3b/tablecheck-shop-validation-20261108/runtime/source-read';
+ const header=JSON.parse(await readFile(source+'/header-names.json','utf8')).find((r:any)=>r.pathname.startsWith('/v2/shops/'));
+ assert.equal(header.status,200);const url=header.origin+header.pathname+'?locale=en';
+ const {createHash}=await import('node:crypto');assert.equal(createHash('sha256').update(url).digest('hex'),header.responseUrlSha256);
+ const root=await mkdtemp(join(tmpdir(),'shop-recorder-'));
+ try{
+  for(const variant of ['PUBLIC','PRIVATE','LARGE','BAD_LOCALE','SENSITIVE_LOCALE','UNDECLARED']){
+   const recorder=new BrowserReadRecording({directory:root,runId:variant,reviewedReads:policy.dynamicReads});
+   // LOCAL_CONSTRUCTION: the real source body was never retained. Only shape/status/hash are recorded facts.
+   const body=variant==='PRIVATE'?'{"phone":"private-value"}':variant==='LARGE'?JSON.stringify({public:'x'.repeat(210_000)}):'{"available":true}';
+   const target=variant==='BAD_LOCALE'?url.replace('locale=en','locale=arbitrary%20person'):variant==='SENSITIVE_LOCALE'?url.replace('locale=en','locale=sk-EN'):variant==='UNDECLARED'?url.replace('/v2/shops/','/v2/private/') :url;
+   await recorder.recordResponse({url:target,method:'GET',resourceType:'fetch',status:200,contentType:'application/json',body:Buffer.from(body)});
+   const result=await recorder.finish(),recording=JSON.parse(await readFile(join(result.path,'recording.json'),'utf8'));
+   const captured=recording.entries.filter((r:any)=>r.kind==='RESPONSE_CAPTURED');
+   assert.equal(captured.length,variant==='PUBLIC'?1:0,variant);
+   const omission=recording.entries.find((r:any)=>r.kind==='RESPONSE_OMITTED')?.detail;
+   if(variant==='PRIVATE')assert.equal(omission.reason,'JSON_SENSITIVE_KEY');
+   if(variant==='LARGE')assert.equal(omission.reason,'JSON_SIZE_LIMIT');
+  }
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('recorded SPA detail URL accepts only declared short-token route fields and no input authority',async()=>{
+ const {tableCheckPublicReadNetworkPolicy:policy}=await import('../../../integrations/tablecheck/tablecheck-public-query.js');
+ const source='.eval-artifacts/phase3b/tablecheck-shop-validation-20261108/runtime/source-read';
+ const events=JSON.parse(await readFile(source+'/events.json','utf8')),last=events.filter((r:any)=>r.kind==='SNAPSHOT').at(-1).detail;
+ const rows=JSON.parse(await readFile(source+'/recording/recording.json','utf8')).entries;
+ assert.equal(rows.filter((r:any)=>r.kind==='DOCUMENT_SANITIZATION').at(-1).detail.reason,'UNREVIEWED_DOCUMENT_QUERY_SHAPE');
+ const url=last.url+'?service_mode=dining&sort_by=relevance&venue_type=tc',root=await mkdtemp(join(tmpdir(),'spa-detail-recorder-'));
+ try{
+  for(const variant of ['PUBLIC','AUTHORITY','UNDECLARED','SENSITIVE','LONG_TEXT','PHONE_ROUTE']){
+   const recorder=new BrowserReadRecording({directory:root,runId:variant,reviewedReads:policy.dynamicReads});
+   const target=variant==='PHONE_ROUTE'?url.replace('/en/nakamata-nodoguro-ginza','/en/090-1234-5678'):variant==='UNDECLARED'?url.replace('/en/nakamata-nodoguro-ginza','/en/unknown/nested'):variant==='SENSITIVE'?url+'&email=person%40example.com':variant==='LONG_TEXT'?url.replace('venue_type=tc','venue_type=Some%20Person'):url;
+   // LOCAL_CONSTRUCTION body; actual final DOM was omitted. Authority category is a deliberate negative mutation.
+   recorder.recordSnapshot({url:target,title:last.title,text:'Public detail',html:'<body><h1>Public detail</h1></body>',...(variant==='AUTHORITY'?{urlQueryValues:[{queryKey:'service_mode',valueClass:'EQUALS_AUTHORITATIVE_INPUT'}]}:{})} as any);
+   const result=await recorder.finish(),recording=JSON.parse(await readFile(join(result.path,'recording.json'),'utf8'));
+   const diagnostic=recording.entries.find((r:any)=>r.kind==='DOCUMENT_SANITIZATION').detail;
+   assert.equal(diagnostic.urlAccepted,variant==='PUBLIC',variant);assert.equal(diagnostic.documentAccepted,true);
+   if(variant==='PUBLIC')assert.match(await readFile(join(result.path,'diagnostic/snapshot-0001.html'),'utf8'),/Public detail/);
+  }
+ }finally{await rm(root,{recursive:true,force:true});}
 });

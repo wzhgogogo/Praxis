@@ -17,7 +17,7 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "24",
+  schemaVersion: "25",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
@@ -83,7 +83,7 @@ test("Reducer derives missing fields and accumulates a criterion correction dete
   assert.deepEqual(corrected.criteria, []);
 });
 
-test("availability selection keeps three unchecked in-radius direct entrances and preserves fact/refresh scope", () => {
+test("availability selection leaves all otherwise legal candidates to the model and preserves facts/refresh", () => {
   const ids = ["name-near", "direct-c", "outside", "direct-a", "direct-b"];
   const state: RestaurantTaskState = { ...incompleteState, phase: "SEARCHING", searchRevision: 1,
     intentDraft: { ...fixtureIntent, schemaVersion: "3", target: { goal: "AVAILABILITY", query: "restaurant" } }, intent: fixtureIntent,
@@ -94,10 +94,10 @@ test("availability selection keeps three unchecked in-radius direct entrances an
   };
   const originalFacts = assessRestaurantRead(state, now).factInvestigableCandidateIds;
   const context = projectRestaurantAgentContext(state, now);
-  assert.deepEqual(context.checkableCandidateIds, ["direct-c", "direct-a", "direct-b"]);
+  assert.deepEqual(context.checkableCandidateIds, ids);
   assert.deepEqual(context.legalActions.checkAvailability, context.checkableCandidateIds);
   assert.deepEqual(context.factInvestigableCandidateIds, originalFacts);
-  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["name-near"] }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["name-near"] }, now).status, "ALLOWED");
   assert.equal(validateRestaurantAction(state, { type: "CHECK_AVAILABILITY", candidateIds: ["direct-c", "direct-b"] }, now).status, "ALLOWED");
   assert.equal(validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: ["name-near"] }, now).status, "ALLOWED");
   const fewer = { ...state, availabilityChecks: { "direct-c": { status: "UNKNOWN" as const, checkedAt: now, evidenceIds: [] } } };

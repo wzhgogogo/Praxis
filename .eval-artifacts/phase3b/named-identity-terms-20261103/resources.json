@@ -1,0 +1,140 @@
+{
+  "sourceCommit": "90eaa67380369183b853cfad6e1eab63a1939e45",
+  "mode": "offline; stub calls counted; not actual API",
+  "rows": [
+    {
+      "scenario": "ONE",
+      "turns": {
+        "INITIAL": {
+          "modelAttempts": 18,
+          "byPurpose": {
+            "restaurant_semantic_interpret": 1,
+            "restaurant_agent_decide": 4,
+            "browser_read_decide": 8,
+            "restaurant_named_source_query": 3,
+            "restaurant_page_question": 2
+          },
+          "responses": 15
+        }
+      },
+      "lastRun": {
+        "calls": 18,
+        "startedAt": 1793694276647,
+        "deadlineAt": 1793694776647,
+        "elapsedMs": 147
+      },
+      "realExternalCalls": 0
+    },
+    {
+      "scenario": "NONE",
+      "turns": {
+        "INITIAL": {
+          "modelAttempts": 13,
+          "byPurpose": {
+            "restaurant_semantic_interpret": 1,
+            "restaurant_agent_decide": 3,
+            "browser_read_decide": 6,
+            "restaurant_named_source_query": 3
+          },
+          "responses": 10
+        }
+      },
+      "lastRun": {
+        "calls": 13,
+        "startedAt": 1793694277496,
+        "deadlineAt": 1793694777496,
+        "elapsedMs": 67
+      },
+      "realExternalCalls": 0
+    },
+    {
+      "scenario": "TWO",
+      "turns": {
+        "INITIAL": {
+          "modelAttempts": 13,
+          "byPurpose": {
+            "restaurant_semantic_interpret": 1,
+            "restaurant_agent_decide": 3,
+            "browser_read_decide": 6,
+            "restaurant_named_source_query": 3
+          },
+          "responses": 10
+        }
+      },
+      "lastRun": {
+        "calls": 13,
+        "startedAt": 1793694278222,
+        "deadlineAt": 1793694778222,
+        "elapsedMs": 87
+      },
+      "realExternalCalls": 0
+    },
+    {
+      "scenario": "D3_PENDING",
+      "turns": {
+        "INITIAL": {
+          "modelAttempts": 11,
+          "byPurpose": {
+            "restaurant_semantic_interpret": 1,
+            "restaurant_agent_decide": 3,
+            "browser_read_decide": 4,
+            "restaurant_named_source_query": 1,
+            "restaurant_page_question": 2
+          },
+          "responses": 11
+        },
+        "SELECTED": {
+          "modelAttempts": 11,
+          "byPurpose": {
+            "restaurant_semantic_interpret": 1,
+            "restaurant_agent_decide": 3,
+            "browser_read_decide": 4,
+            "restaurant_named_source_query": 1,
+            "restaurant_page_question": 2
+          },
+          "responses": 11
+        }
+      },
+      "lastRun": {
+        "calls": 11,
+        "startedAt": 1793694277457,
+        "deadlineAt": 1793694777457,
+        "elapsedMs": 566
+      },
+      "realExternalCalls": 0
+    },
+    {
+      "scenario": "D3_BUSY",
+      "turns": {
+        "INITIAL": {
+          "modelAttempts": 9,
+          "byPurpose": {
+            "restaurant_semantic_interpret": 1,
+            "restaurant_agent_decide": 3,
+            "browser_read_decide": 4,
+            "restaurant_named_source_query": 1
+          },
+          "responses": 9
+        },
+        "SELECTED": {
+          "modelAttempts": 9,
+          "byPurpose": {
+            "restaurant_semantic_interpret": 1,
+            "restaurant_agent_decide": 3,
+            "browser_read_decide": 4,
+            "restaurant_named_source_query": 1
+          },
+          "responses": 9
+        }
+      },
+      "lastRun": {
+        "calls": 9,
+        "startedAt": 1793694278771,
+        "deadlineAt": 1793694778771,
+        "elapsedMs": 33
+      },
+      "realExternalCalls": 0
+    }
+  ],
+  "caveat": "Evaluation fixtureModelCalls counts saved response wires across captured turns. Per-turn starts and the reset last-run counter are reported separately here. Detailed effective browser-operation limits were not exported by this fixture and are NOT_EVALUATED independently."
+}

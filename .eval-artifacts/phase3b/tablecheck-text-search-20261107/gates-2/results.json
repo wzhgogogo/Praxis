@@ -1,0 +1,99 @@
+{
+  "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+  "model": 0,
+  "website": 0,
+  "Live": 0,
+  "rows": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:37:25.751638+01:00",
+      "elapsedMs": 597,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "architecture",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:37:26.394312+01:00",
+      "elapsedMs": 275,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:37:26.714404+01:00",
+      "elapsedMs": 57774,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:38:24.534819+01:00",
+      "elapsedMs": 600,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "browser-and-g6",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:38:25.201753+01:00",
+      "elapsedMs": 150605,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:40:55.853829+01:00",
+      "elapsedMs": 25769,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

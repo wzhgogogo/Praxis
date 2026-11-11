@@ -1,5 +1,7 @@
+import { tableCheckPublicReadNetworkPolicy } from "./tablecheck-public-query.js";
 import { publicPriceText, sourcePriceElements } from "../restaurant-availability/source-price-facts.js";
-import type { BrowserPageControl, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserSnapshot, BrowserReadNetworkPolicy } from "../../infrastructure/browser/browser-runtime.js";
+import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
 import { readDetailIdentityFields, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
 import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
 
@@ -288,20 +290,8 @@ function relatedDiscoveryName(candidateName: string, resultText: string): boolea
 }
 
 /** The documented public venue search is discovery-only; it establishes no outlet identity by itself. */
-export function tableCheckDiscoveryUrl(candidate: RestaurantCandidate): string {
-  const url = new URL("https://www.tablecheck.com/en/japan/search");
-  url.searchParams.set("service_mode", "dining");
-  url.searchParams.set("sort_by", "relevance");
-  url.searchParams.set("venue_type", "tc");
-  url.searchParams.set("search_text", candidate.restaurant.outletName);
-  const coordinates = candidate.restaurant.coordinates;
-  if (coordinates) {
-    url.searchParams.set("geo_latitude", String(coordinates.lat));
-    url.searchParams.set("geo_longitude", String(coordinates.lng));
-    url.searchParams.set("geo_distance", "5km");
-    url.searchParams.set("auto_geolocate", "false");
-  }
-  return url.toString();
+export function tableCheckDiscoveryUrl(_candidate: RestaurantCandidate): string {
+  return tableCheckPublicReadNetworkPolicy.startupDocuments![0]!;
 }
 
 /** Extract public guide pages from TableCheck's rendered result cards, never reservation slot links. */
@@ -378,6 +368,7 @@ export interface TableCheckReservationTarget {
 export function resolveTableCheckReservationTarget(
   snapshot: BrowserSnapshot,
   outlet: TableCheckOutletObservation,
+  policy?: BrowserReadNetworkPolicy,
 ): TableCheckReservationTarget | undefined {
   let outletUrl: URL;
   try { outletUrl = new URL(outlet.sourceUrl); } catch { return undefined; }
@@ -393,6 +384,7 @@ export function resolveTableCheckReservationTarget(
       if (typeof entity.acceptsReservations !== "string") continue;
       const link = absoluteTableCheckUrl(entity.acceptsReservations, snapshot.url);
       if (!link) continue;
+      if (isBrowserReadPathProhibited(policy, link)) continue;
       const target = new URL(link);
       if (/^\/(?:en|ja)\/shops\/[^/]+\/reserve\/?$/.test(target.pathname)) {
         return { kind: "LINKED_PAGE", url: target.toString() };
@@ -405,6 +397,7 @@ export function resolveTableCheckReservationTarget(
   for (const match of snapshot.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)) {
     const link = absoluteTableCheckUrl(match[1] ?? "", snapshot.url);
     if (!link) continue;
+    if (isBrowserReadPathProhibited(policy, link)) continue;
     const target = new URL(link);
     if (target.pathname.startsWith(`${outletUrl.pathname.replace(/\/$/, "")}/reserve`)) {
       return { kind: "LINKED_PAGE", url: target.toString() };
@@ -421,26 +414,15 @@ export function resolveTableCheckReservationTarget(
 }
 
 /**
- * A source-owned public reservation page remains provider-owned. The observed
- * guide serializer accepts an exact date, party and time only when the request
- * itself is for one time; a range remains on the guide for the existing UI read.
+ * B1-only serialization of an observed source entrance. Inventory readers
+ * never call this function or navigate to its output.
  */
 export function tableCheckRequestedReservationUrl(
-  target: TableCheckReservationTarget,
+  target: {kind:"LINKED_PAGE";url:string},
   date: string,
   partySize: number,
   timeWindow?: { earliest: string; latest: string },
 ): string {
-  if (target.kind === "EMBEDDED_AVAILABILITY") {
-    if (!timeWindow || timeWindow.earliest !== timeWindow.latest) return target.url;
-    const url = new URL(target.url);
-    url.searchParams.set("date", date);
-    url.searchParams.set("time", timeWindow.earliest);
-    url.searchParams.set("num_people", String(partySize));
-    url.searchParams.set("availability_format", "datetime");
-    url.searchParams.set("availability_mode", "same_meal_time");
-    return url.toString();
-  }
   const url = new URL(target.url);
   url.searchParams.set("start_date", date);
   url.searchParams.delete("pax");

@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "mode": "independent saved-artifact audit",
+  "frozenInputs": 849,
+  "gatedSource": "366c699cf6a1595182270bc34fc7b58b58524013",
+  "checks": {
+    "allSevenStepsClean": true,
+    "protectedSourcesUnchanged": true,
+    "twoAcceptedAndTwoUnresolvedIdentities": true,
+    "localReceiverGETOnlyExactQueries": true,
+    "effectiveFrozenRed": true,
+    "persistentComposition45of45": true,
+    "all829LedgerRowsPreserved": true,
+    "countersAndLimitsUnchangedFromApprovedBReceipt": true
+  },
+  "sourceFixtureResult": {
+    "conclusions": [
+      {
+        "name": "Alpha Sushi",
+        "status": "COMPLETED"
+      },
+      {
+        "name": "Beta Sushi",
+        "status": "COMPLETED"
+      },
+      {
+        "name": "Wrong Sushi",
+        "status": "UNKNOWN"
+      },
+      {
+        "name": "Ambiguous Sushi",
+        "status": "UNKNOWN"
+      }
+    ],
+    "sessionOpens": 1,
+    "entranceNavigations": 1,
+    "submissions": [
+      "Beta Sushi",
+      "Wrong Sushi",
+      "Ambiguous Sushi"
+    ],
+    "sourceModelCalls": 2,
+    "externalCalls": 0
+  },
+  "scope": "Constructed offline regression only; no new Live delivery rate or current-site performance measurement."
+}

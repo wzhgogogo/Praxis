@@ -1,0 +1,418 @@
+{
+  "schema": "C-live-offline-diagnosis@1",
+  "inputSourceSHA": "7a73ba845d807ab31555e7507b03b92318c16179",
+  "evidenceMode": "LIVE_READ followed by offline extraction; no new calls",
+  "sessionErrors": [
+    {
+      "recordingSequence": 176,
+      "error": {
+        "method": "click",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "elementHandle.click: Timeout 20000ms exceeded."
+          },
+          "networkFailures": []
+        }
+      },
+      "precedingKinds": [
+        "OPERATION_STARTED",
+        "OPERATION_FINISHED",
+        "OPERATION_STARTED",
+        "OPERATION_FINISHED",
+        "CONTROLS",
+        "SESSION_CALL",
+        "OPERATION_STARTED",
+        "NETWORK_REQUEST_START",
+        "NETWORK_REQUEST_END",
+        "NAVIGATION_START",
+        "NETWORK_REQUEST_START",
+        "OPERATION_FINISHED"
+      ],
+      "implicitNavigationBeforeTimeout": true,
+      "transportStartedBeforeTimeout": false
+    },
+    {
+      "recordingSequence": 1421,
+      "error": {
+        "method": "click",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "elementHandle.click: Timeout 20000ms exceeded."
+          },
+          "networkFailures": []
+        }
+      },
+      "precedingKinds": [
+        "OPERATION_STARTED",
+        "OPERATION_FINISHED",
+        "OPERATION_STARTED",
+        "OPERATION_FINISHED",
+        "CONTROLS",
+        "SESSION_CALL",
+        "OPERATION_STARTED",
+        "NETWORK_REQUEST_START",
+        "NETWORK_REQUEST_END",
+        "NAVIGATION_START",
+        "NETWORK_REQUEST_START",
+        "OPERATION_FINISHED"
+      ],
+      "implicitNavigationBeforeTimeout": true,
+      "transportStartedBeforeTimeout": false
+    },
+    {
+      "recordingSequence": 2071,
+      "error": {
+        "method": "click",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "elementHandle.click: Timeout 20000ms exceeded."
+          },
+          "networkFailures": []
+        }
+      },
+      "precedingKinds": [
+        "OPERATION_STARTED",
+        "OPERATION_FINISHED",
+        "OPERATION_STARTED",
+        "OPERATION_FINISHED",
+        "CONTROLS",
+        "SESSION_CALL",
+        "OPERATION_STARTED",
+        "NETWORK_REQUEST_START",
+        "NETWORK_REQUEST_END",
+        "NAVIGATION_START",
+        "NETWORK_REQUEST_START",
+        "OPERATION_FINISHED"
+      ],
+      "implicitNavigationBeforeTimeout": true,
+      "transportStartedBeforeTimeout": false
+    }
+  ],
+  "lifecycleEndings": [
+    {
+      "sequence": 37,
+      "at": "2026-11-06T01:32:42.601Z",
+      "source": "DIRECTORY",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 33436,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 33436,
+        "providerElapsedMs": 33436,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 3,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "native-discovery:DIRECTORY",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 38,
+      "at": "2026-11-06T01:32:42.601Z",
+      "source": "DIRECTORY",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 33436,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 33436,
+        "providerElapsedMs": 33436,
+        "candidateModelCalls": 2,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 3,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "native-discovery:DIRECTORY",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 271,
+      "at": "2026-11-06T01:34:15.805Z",
+      "source": "VENUE_SEARCH",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 90004,
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 90004,
+        "providerElapsedMs": 90004,
+        "candidateModelCalls": 15,
+        "providerModelCalls": 15,
+        "candidateRuntimeOperations": 56,
+        "providerRuntimeOperations": 56,
+        "runModelCalls": 18,
+        "reason": "DEADLINE_EXCEEDED"
+      },
+      "candidateId": "native-discovery:VENUE_SEARCH",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 272,
+      "at": "2026-11-06T01:34:15.805Z",
+      "source": "VENUE_SEARCH",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 90004,
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 90004,
+        "providerElapsedMs": 90004,
+        "candidateModelCalls": 15,
+        "providerModelCalls": 15,
+        "candidateRuntimeOperations": 56,
+        "providerRuntimeOperations": 56,
+        "runModelCalls": 18,
+        "reason": "DEADLINE_EXCEEDED"
+      },
+      "candidateId": "native-discovery:VENUE_SEARCH",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 402,
+      "at": "2026-11-06T01:35:11.518Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 187992,
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 45003,
+        "providerElapsedMs": 45003,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 26,
+        "reason": "DEADLINE_EXCEEDED"
+      },
+      "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 403,
+      "at": "2026-11-06T01:35:11.518Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 187992,
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 45003,
+        "providerElapsedMs": 45003,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 31,
+        "providerRuntimeOperations": 31,
+        "runModelCalls": 26,
+        "reason": "DEADLINE_EXCEEDED"
+      },
+      "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 442,
+      "at": "2026-11-06T01:35:43.849Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 220323,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 77334,
+        "providerElapsedMs": 32307,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 39,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 28,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 443,
+      "at": "2026-11-06T01:35:43.849Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 220323,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 77334,
+        "providerElapsedMs": 32307,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 39,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 28,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 579,
+      "at": "2026-11-06T01:36:27.109Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 263583,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43243,
+        "providerElapsedMs": 43243,
+        "candidateModelCalls": 8,
+        "providerModelCalls": 8,
+        "candidateRuntimeOperations": 32,
+        "providerRuntimeOperations": 32,
+        "runModelCalls": 36,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 615,
+      "at": "2026-11-06T01:36:57.350Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 293824,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 73484,
+        "providerElapsedMs": 30241,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 40,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 38,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 616,
+      "at": "2026-11-06T01:36:57.350Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 293824,
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 73484,
+        "providerElapsedMs": 30241,
+        "candidateModelCalls": 10,
+        "providerModelCalls": 2,
+        "candidateRuntimeOperations": 40,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 38,
+        "reason": "RUNTIME_FAILURE"
+      },
+      "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+      "operation": "CANDIDATE_SCOPE"
+    },
+    {
+      "sequence": 698,
+      "at": "2026-11-06T01:37:25.668Z",
+      "source": "TABLECHECK",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 322142,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28301,
+        "providerElapsedMs": 28301,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 21,
+        "providerRuntimeOperations": 21,
+        "runModelCalls": 42,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 717,
+      "at": "2026-11-06T01:37:28.734Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "elapsedMs": 325208,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31367,
+        "providerElapsedMs": 3066,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 25,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 43,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+      "operation": "PROVIDER_SCOPE"
+    },
+    {
+      "sequence": 718,
+      "at": "2026-11-06T01:37:28.734Z",
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "elapsedMs": 325208,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31367,
+        "providerElapsedMs": 3066,
+        "candidateModelCalls": 5,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 25,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 43,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+      "operation": "CANDIDATE_SCOPE"
+    }
+  ],
+  "traceKinds": {
+    "OPERATION_STARTED": 242,
+    "REQUEST_TIMELINE_READY": 7,
+    "OPERATION_FINISHED": 242,
+    "SESSION_OPENED": 7,
+    "SESSION_CALL": 89,
+    "NAVIGATION_START": 13,
+    "NETWORK_REQUEST_START": 773,
+    "GUARD_TRANSPORT_START": 132,
+    "GUARD_TRANSPORT_END": 132,
+    "NETWORK_RESPONSE_HEADERS": 145,
+    "NETWORK_REQUEST_END": 773,
+    "NAVIGATION_END": 13,
+    "SESSION_RETURN": 86,
+    "SNAPSHOT": 47,
+    "CONTROLS": 45,
+    "SESSION_ERROR": 3
+  },
+  "postAudit": "Outer evaluator request rows and recording NETWORK rows omit bodyFields/contentType/bodySHA256; original verdict remains NOT_EVALUATED. Guard admission is not independent evidence."
+}

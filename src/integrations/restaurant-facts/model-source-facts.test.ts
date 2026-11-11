@@ -11,6 +11,13 @@ function selection(request:ModelRequest,first=0,last=first,role="COURSE"){
  const rows=JSON.parse(request.messages[1]!.content).sourceDocument.statements;
  return {selections:[{firstStatementId:rows[first].id,lastStatementId:rows[last].id,role,priceStatementId:role==="CATEGORY"?"":rows.slice(first,last+1).find((s:{text:string})=>/JPY|[¥￥円]/u.test(s.text))?.id??""}]};
 }
+test("source category selection preserves an observed H1 role and rejects trailing review prose",async()=>{
+ const page=input("Public Omakase Venue\nReviews\nWonderful omakase.");page.criteria=["omakase"];
+ page.page.html='<h1>Public Omakase Venue</h1><h2>Reviews</h2><p>Wonderful omakase.</p>';
+ const name=await readQuotedRestaurantSourceFacts(model(request=>selection(request,0,0,"CATEGORY")),page,()=>time,signal());
+ assert.deepEqual(name?.sourceFieldQuotes,[{field:"NAME",quote:"Public Omakase Venue",sourceUrl:url}]);
+ assert.equal(await readQuotedRestaurantSourceFacts(model(request=>selection(request,2,2,"CATEGORY")),page,()=>time,signal()),undefined);
+});
 test("source facts freeze the page and quote metadata before awaiting the model",async()=>{
  const cached=input();const result=await readQuotedRestaurantSourceFacts(model(request=>{const output=selection(request);cached.page.url="https://merchant.example/other-outlet";cached.page.text="Other menu";cached.readAt="2026-10-29T10:00:00Z";return output;}),cached,()=>time,signal());
  assert.equal(result?.sourceUrl,url,"a refreshed mutable cache cannot retarget an older quotation");

@@ -1,0 +1,77 @@
+{
+  "atCET": "2026-11-01T07:26:09.870941+01:00",
+  "mode": "OFFLINE_COMPONENT_AND_REAL_LOCAL_CHROMIUM",
+  "phase": "red",
+  "commit": "612711edfb55db9f691e493ada92c705324f71ba",
+  "freezeSha256": "3cf762dc5afafe12673ab715630eda177616f9dca32dae35d1a0fb68cee5a900",
+  "orchestrationSha256": "572b2b178d39194d68afa5c49b7101e3ea82a15496578194cabc63770a7c8170",
+  "runs": [
+    {
+      "name": "unit",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/restaurant-facts/page-question-capture.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 0.33690958299999996,
+      "summary": {
+        "tests": 16,
+        "pass": 9,
+        "fail": 7,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "150d568a7794c64875443f1fc7391f2fc77a803276b7988e8f0a97f1c33d5102",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "guard",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/harness/browser/page-question-budget.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 1.86324575,
+      "summary": {
+        "tests": 2,
+        "pass": 1,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "c3fdcc5e3469a64a270ae1617143afc6e026db0bc4f92fcf573a95710aac1a9c",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.18663208300000012,
+      "summary": {},
+      "logSha256": "35fd00032ca19db45bb4ee7a7fae63364905df14b7426f6e5a14dd763231c520",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

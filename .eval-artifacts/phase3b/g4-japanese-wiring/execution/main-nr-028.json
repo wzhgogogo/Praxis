@@ -1,0 +1,142 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+  "searches": [
+    {
+      "query": "Ginza Bokujin",
+      "kind": "ORIGINAL",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": "Ginza Bokujin"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "query": "Ginza Bokujin",
+      "phase": "FIRST_FOUR"
+    }
+  ],
+  "uncertainties": [],
+  "identity": {
+    "resolution": {
+      "confidence": "HIGH",
+      "outlet": {
+        "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+        "outletName": "Ginza Bokujin",
+        "address": "1040061 東京都中央区銀座3-7-13 銀座成田屋ビル 7F",
+        "phone": "03-5159-7366"
+      },
+      "matchedBy": [
+        "EXACT_PHONE"
+      ]
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-028",
+      "google": {
+        "placeId": "ChIJEVMmNeSLGGARwgDOnfP67As",
+        "outletName": {
+          "value": "Ginza Bokujin",
+          "normalizedValue": "ginzabokujin",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−7−１３ 成田屋ビル 7階",
+          "normalizedValue": "japan〒1040061tokyochuocityginza3chōme−7−１３成田屋ビル7階",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-5159-7366",
+          "normalizedValue": "0351597366",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": {
+            "value": "Ginza Bokujin",
+            "normalizedValue": "ginzabokujin",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1040061 東京都中央区銀座3-7-13 銀座成田屋ビル 7F",
+            "normalizedValue": "1040061東京都中央区銀座3713銀座成田屋ビル7f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-5159-7366",
+            "normalizedValue": "0351597366",
+            "source": "SEARCH_RESULT"
+          },
+          "matchedContactPhone": {
+            "value": "03-5159-7366",
+            "role": "STORE",
+            "quote": "03-5159-7366",
+            "label": "Phone number",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/"
+          },
+          "comparison": {
+            "outletName": "MATCH",
+            "address": "MATCH",
+            "phone": "MATCH"
+          },
+          "score": 8
+        }
+      ],
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1301/A130101/13310287",
+        "reason": "HIGH_EXACT_PHONE"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 1,
+    "details": 1,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-028",
+  "key": "main-nr-028",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-028.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+      "kind": "SEARCH",
+      "query": "Ginza Bokujin",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-003.html",
+      "sha256": "ce6347b8506f69aa44724380cf9bfd17deafd3190244fbfc820c165285f342ab",
+      "originLedgerId": "phase3b-c-g4-cont-get-003",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-004.html",
+      "sha256": "d5dbcf2641c34f9aae5d19df606b38dcf6c88883ddd9c3a64f6f9bb42c0bdef1",
+      "originLedgerId": "phase3b-c-g4-cont-get-004",
+      "realGET": 0
+    }
+  ],
+  "fragmentOrigin": {
+    "mode": "NOT_CAPTURED"
+  },
+  "japaneseOrigin": null
+}

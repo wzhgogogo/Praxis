@@ -1,0 +1,336 @@
+{
+  "sourceSHA": "ca0bd139095cc7899f4a96e04a2378f191548878",
+  "runId": "g6-D8-1794120568023-0",
+  "mode": "STANDARD_G6",
+  "elapsedMs": 235813.44820800002,
+  "turnBudgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794120568781,
+      "deadlineAtMs": 1794121068781,
+      "elapsedMs": 187238.600917,
+      "modelCalls": 26,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "startedAtMs": 1794120756022,
+      "deadlineAtMs": 1794121256022,
+      "elapsedMs": 47811.49604200001,
+      "modelCalls": 4,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "models": {
+    "count": 30,
+    "purposes": {
+      "restaurant_semantic_interpret": 2,
+      "restaurant_agent_decide": 7,
+      "browser_read_decide": 19,
+      "restaurant_named_source_query": 2
+    },
+    "outcomes": {
+      "SUCCEEDED": 30
+    }
+  },
+  "turns": [
+    {
+      "id": "INITIAL",
+      "phase": "PRESENT_RESULTS",
+      "selectedCandidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "presentedCandidateIds": [
+        "praxis:restaurant:399b940d8930096624424dba"
+      ],
+      "handoffs": [],
+      "availabilityChecks": {
+        "praxis:restaurant:399b940d8930096624424dba": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-11-08T06:52:34.516Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:3db68e4c7e51c755c22a763d",
+            "evidence:restaurant:tablecheck-availability:ae64bead53f69ffa5c94ffdd"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "displayExpiresAt": "2026-11-08T07:02:34.516Z",
+          "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":2}",
+          "timeWindowCoverage": {
+            "date": "2026-11-11",
+            "covered": [
+              {
+                "latest": "20:30",
+                "status": "AVAILABLE",
+                "earliest": "20:30"
+              }
+            ],
+            "partySize": 2,
+            "uncovered": [],
+            "stopReason": "RESULT_FOUND",
+            "requestedWindow": {
+              "latest": "20:30",
+              "earliest": "20:30"
+            }
+          },
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      }
+    },
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "phase": "NO_VERIFIED_RESULT",
+      "selectedCandidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "handoffs": [],
+      "availabilityChecks": {
+        "praxis:restaurant:399b940d8930096624424dba": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-08T06:53:21.881Z",
+          "reasonCode": "BROWSER_TIMEOUT",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "BROWSER_TIMEOUT"
+            },
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "BROWSER_TIMEOUT"
+            }
+          ],
+          "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+          "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":2}"
+        }
+      }
+    }
+  ],
+  "providers": [
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-08T06:50:01.064Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 24546,
+      "providerElapsedMs": 24545,
+      "candidateModelCalls": 4,
+      "providerModelCalls": 4,
+      "candidateRuntimeOperations": 22,
+      "providerRuntimeOperations": 22,
+      "runModelCalls": 4,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-08T06:50:46.083Z",
+      "outcome": "ABANDONED",
+      "candidateElapsedMs": 45018,
+      "providerElapsedMs": 45018,
+      "candidateModelCalls": 7,
+      "providerModelCalls": 7,
+      "candidateRuntimeOperations": 32,
+      "providerRuntimeOperations": 32,
+      "runModelCalls": 12,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "provider": "TABELOG",
+      "atUTC": "2026-11-08T06:51:06.215Z",
+      "outcome": "FAILED",
+      "candidateElapsedMs": 65150,
+      "providerElapsedMs": 20115,
+      "candidateModelCalls": 7,
+      "providerModelCalls": 0,
+      "candidateRuntimeOperations": 33,
+      "providerRuntimeOperations": 1,
+      "runModelCalls": 12,
+      "reason": "RUNTIME_FAILURE"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-08T06:51:26.332Z",
+      "outcome": "FAILED",
+      "candidateElapsedMs": 20115,
+      "providerElapsedMs": 20115,
+      "candidateModelCalls": 0,
+      "providerModelCalls": 0,
+      "candidateRuntimeOperations": 1,
+      "providerRuntimeOperations": 1,
+      "runModelCalls": 12,
+      "reason": "RUNTIME_FAILURE"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "provider": "TABELOG",
+      "atUTC": "2026-11-08T06:51:49.067Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 42850,
+      "providerElapsedMs": 22734,
+      "candidateModelCalls": 2,
+      "providerModelCalls": 2,
+      "candidateRuntimeOperations": 11,
+      "providerRuntimeOperations": 10,
+      "runModelCalls": 14,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-08T06:52:34.517Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 43987,
+      "providerElapsedMs": 43987,
+      "candidateModelCalls": 6,
+      "providerModelCalls": 6,
+      "candidateRuntimeOperations": 40,
+      "providerRuntimeOperations": 40,
+      "runModelCalls": 21,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "turn": "BOOK_THIS_OUTLET",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-08T06:53:01.763Z",
+      "outcome": "FAILED",
+      "candidateElapsedMs": 20119,
+      "providerElapsedMs": 20119,
+      "candidateModelCalls": 0,
+      "providerModelCalls": 0,
+      "candidateRuntimeOperations": 1,
+      "providerRuntimeOperations": 1,
+      "runModelCalls": 0,
+      "reason": "RUNTIME_FAILURE"
+    },
+    {
+      "turn": "BOOK_THIS_OUTLET",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "provider": "TABELOG",
+      "atUTC": "2026-11-08T06:53:21.881Z",
+      "outcome": "FAILED",
+      "candidateElapsedMs": 40237,
+      "providerElapsedMs": 20117,
+      "candidateModelCalls": 0,
+      "providerModelCalls": 0,
+      "candidateRuntimeOperations": 2,
+      "providerRuntimeOperations": 1,
+      "runModelCalls": 0,
+      "reason": "RUNTIME_FAILURE"
+    }
+  ],
+  "verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "nonpass": [
+    {
+      "rule": "BOUNDED_NO_RESULT",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "No-delivery wording must describe this bounded investigation",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "NO_DELIVERY_WITNESS",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "witness-W2",
+      "reason": "Independently qualified witness still has the slot",
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-positive-slot-20261108/live-runtime/runs/D8/D8/witness/002-vacancy.body"
+      ]
+    }
+  ],
+  "recording": {
+    "status": "RECORDED",
+    "replay": {
+      "status": "PARTIALLY_REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "harPath": "replay.har"
+    },
+    "totalPages": 33,
+    "qualifiedPages": 2,
+    "admissions": {
+      "SANITIZED": 29,
+      "UNREVIEWED_DOCUMENT_QUERY_SHAPE": 4
+    },
+    "omissions": {
+      "JSON_SENSITIVE_KEY": 14,
+      "UNREVIEWED_RECORDING_URL_OR_METHOD": 32,
+      "JSON_SIZE_LIMIT": 11,
+      "INVALID_UTF8": 7,
+      "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT": 3
+    },
+    "shopResponses": [
+      {
+        "responseUrlSha256": "0b3596d34e219e4a7273aeb676f6e1747d3897ccdc84375542f58f021f890f7b",
+        "origin": "https://production.tablecheck.com/",
+        "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+        "queryKeys": [
+          "locale"
+        ],
+        "method": "GET",
+        "resourceType": "fetch",
+        "status": 200,
+        "mimeType": "application/json",
+        "bytes": 11152,
+        "reason": "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"
+      }
+    ]
+  },
+  "boundary": {
+    "forbiddenRequestsReachedSource": 0,
+    "sourceReadsStartedInReserve": 0,
+    "termsWorkStartedInReserve": 0
+  },
+  "budget": {
+    "before": {
+      "fullLive": 24,
+      "realModelCalls": 672,
+      "evaluationPublicGET": 359,
+      "googleRequests": 96,
+      "restaurantWebsiteRequests": 11289
+    },
+    "after": {
+      "fullLive": 25,
+      "realModelCalls": 702,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 362,
+      "googleRequests": 98,
+      "restaurantWebsiteRequests": 11384
+    },
+    "limits": {
+      "evaluationPublicGET": 470,
+      "fullLive": 43,
+      "realModelCalls": 1600
+    },
+    "reserved": {
+      "fullLive": 18,
+      "evaluationPublicGET": 108
+    },
+    "availableLive": 0,
+    "availableGET": 0,
+    "modelsRemaining": 898
+  }
+}

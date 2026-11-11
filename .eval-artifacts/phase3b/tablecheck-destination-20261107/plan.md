@@ -1,0 +1,7 @@
+# Destination contract and final source read
+
+Status: draft / not integrated. CET UTC+1. Baseline b5de6678, green source00540f18. Implement user-approved destination-only NAMESPACED_TOKEN, sensitive/equality/prefix precedence and exact query shape unchanged; independent literal reviewed rules. First red then green through existing class/Guard and real Chromium preflight coverage.
+
+Before the single source entry: capture nonliteral omission reasons and admitted query-value hashes so a replay gap can be located without a second read or raw value retention. Original Live runner/browser factory/policy, models0/Live0; reuse the prior conditional allocation for this entry, GET ceiling463 unchanged. Selected-shop new main-document requests must stop BEFORE dispatch and require additional user approval; D8 GET3 never borrowed. Record full fixed name, options/results and navigation type. No alternate name, reservation/date confirmation/login/POST action. Freeze actor/spec/ledger/source before execution.
+
+After actual evidence: implement only the supported binding route, real-record red/green; use component-level DOM+recorded response evidence if full Replay cannot be repaired without reducing privacy. Stop if values violate contract, no result/suggestion, or extra resources needed. Full offline matrix, scan, freeze, stop before D8/held-out/main. Prior failures and reports unchanged; publication STATUS/history remains deferred until approved main integration.

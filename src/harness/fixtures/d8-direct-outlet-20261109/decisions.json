@@ -1,0 +1,390 @@
+[
+  {
+    "sequence": 1,
+    "purpose": "restaurant_semantic_interpret",
+    "startedAt": "2026-11-09T02:06:40.112Z",
+    "browser": null,
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Specializing in Nodoguro Ginza Nakamata\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User asks to check whether the named restaurant has a table\", \"quotes\": [\"Check whether Specializing in Nodoguro Ginza Nakamata has a table for two\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"20:30\", \"latest\": \"20:30\", \"raw\": \"8:30 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}]}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 2,
+    "purpose": "restaurant_agent_decide",
+    "startedAt": "2026-11-09T02:06:42.066Z",
+    "browser": null,
+    "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Nodoguro Ginza Nakamata\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates known yet; search for the named outlet to resolve identity before availability checks.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 3,
+    "purpose": "restaurant_agent_decide",
+    "startedAt": "2026-11-09T02:06:45.250Z",
+    "browser": null,
+    "outputText": "{\"type\": \"INVESTIGATE_CANDIDATE_FACTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:083eb6605d4a82e97dc952d5\", \"praxis:restaurant:399b940d8930096624424dba\", \"praxis:restaurant:94d9715550e9ca87d301b895\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Outlet name not uniquely resolved; read identity facts for the three permitted candidates to bind the correct branch before any availability check.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 4,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:07:12.741Z",
+    "browser": {
+      "observationRevision": 2,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 2
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:2:target:172\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Open the destination/restaurant search control to enter the authoritative query.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 5,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:07:16.404Z",
+    "browser": {
+      "observationRevision": 3,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 3
+    },
+    "outputText": "{\"action\": \"FILL_AUTHORITATIVE\", \"targetRef\": \"observation:3:target:259\", \"authoritativeField\": \"RETRIEVAL\", \"requestedState\": \"NONE\", \"reason\": \"Fill the observed Destination search input with the authoritative outlet query.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 6,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:07:20.263Z",
+    "browser": {
+      "observationRevision": 4,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 4
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:4:target:177\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Select the exact-match suggestion for the authoritative query.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 7,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:07:26.937Z",
+    "browser": {
+      "observationRevision": 5,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 5
+    },
+    "outputText": "{\"action\": \"COMPLETE\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Settled on the outlet's TableCheck page for the exact query; hand off for verification.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 8,
+    "purpose": "restaurant_named_source_query",
+    "startedAt": "2026-11-09T02:07:30.017Z",
+    "browser": null,
+    "outputText": "{\"field\": \"name\", \"fragment\": \"Nakamata Hanare\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 9,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:07:37.399Z",
+    "browser": {
+      "observationRevision": 7,
+      "url": "https://tabelog.com/en/",
+      "recordingSnapshot": 9
+    },
+    "outputText": "{\"action\": \"FILL_AUTHORITATIVE\", \"targetRef\": \"observation:7:target:178\", \"authoritativeField\": \"RETRIEVAL\", \"requestedState\": \"NONE\", \"reason\": \"Fill the public search input with the authoritative retrieval expression.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 10,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:07:41.750Z",
+    "browser": {
+      "observationRevision": 8,
+      "url": "https://tabelog.com/en/",
+      "recordingSnapshot": 10
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:8:target:137\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Submit the filled authoritative query via the observed Search button.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 11,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:07:48.485Z",
+    "browser": {
+      "observationRevision": 9,
+      "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro%2C+Ginza+Nakamata+Hanare&search_mode=",
+      "recordingSnapshot": 11
+    },
+    "outputText": "{\"action\": \"COMPLETE\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Query submitted; result list shows 0 results for the exact term.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 12,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:07:50.435Z",
+    "browser": {
+      "observationRevision": 10,
+      "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro%2C+Ginza+Nakamata+Hanare&search_mode=",
+      "recordingSnapshot": 13
+    },
+    "outputText": "{\"action\": \"REQUEST_HUMAN_HELP\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Search returned 0 results for the query with no matching option or route; caller owns next retrieval term.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 13,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:02.643Z",
+    "browser": {
+      "observationRevision": 12,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 16
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:12:target:172\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Open the destination/restaurant search control to enter the authoritative query.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 14,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:06.619Z",
+    "browser": {
+      "observationRevision": 13,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 17
+    },
+    "outputText": "{\"action\": \"FILL_AUTHORITATIVE\", \"targetRef\": \"observation:13:target:259\", \"authoritativeField\": \"RETRIEVAL\", \"requestedState\": \"NONE\", \"reason\": \"Fill the observed Destination search input with the authoritative outlet query.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 15,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:10.685Z",
+    "browser": {
+      "observationRevision": 14,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 18
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:14:target:177\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Exact-match suggestion button for the authoritative query; select once and observe destination.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 16,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:17.348Z",
+    "browser": {
+      "observationRevision": 15,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 19
+    },
+    "outputText": "{\"action\": \"COMPLETE\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Settled on the exact outlet page for the retrieval query; hand off for code verification.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 17,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:25.523Z",
+    "browser": {
+      "observationRevision": 17,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 23
+    },
+    "outputText": "{\"action\": \"WAIT\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Page still settling; wait for bounded visible result change.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 18,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:33.133Z",
+    "browser": {
+      "observationRevision": 19,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 24
+    },
+    "outputText": "{\"action\": \"COMPLETE\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Current page is the settled outlet detail page for the exact query; hand off for code verification.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 19,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:39.589Z",
+    "browser": {
+      "observationRevision": 20,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 25
+    },
+    "outputText": "{\"action\": \"WAIT\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Page still settling; wait for visible result change.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 20,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:41.890Z",
+    "browser": {
+      "observationRevision": 21,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 25
+    },
+    "outputText": "{\"action\": \"COMPLETE\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Settled venue detail page for the exact outlet query; hand off for code verification.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 21,
+    "purpose": "restaurant_named_source_query",
+    "startedAt": "2026-11-09T02:08:43.330Z",
+    "browser": null,
+    "outputText": "{\"field\": \"name\", \"fragment\": \"Nodoguro\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 22,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:49.484Z",
+    "browser": {
+      "observationRevision": 23,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 28
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:23:target:43\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Open the destination/restaurant search field to enter the authoritative query.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 23,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:08:56.293Z",
+    "browser": {
+      "observationRevision": 24,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 29
+    },
+    "outputText": "{\"action\": \"FILL_AUTHORITATIVE\", \"targetRef\": \"observation:24:target:114\", \"authoritativeField\": \"RETRIEVAL\", \"requestedState\": \"NONE\", \"reason\": \"Fill the observed public search input with the authoritative retrieval term Nodoguro.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 24,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:02.347Z",
+    "browser": {
+      "observationRevision": 25,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 30
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:25:target:47\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Submit the observed public search with the filled retrieval term Nodoguro.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 25,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:05.765Z",
+    "browser": {
+      "observationRevision": 26,
+      "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro%2C+Ginza+Nakamata+Hanare&search_mode=",
+      "recordingSnapshot": 31
+    },
+    "outputText": "{\"action\": \"REQUEST_HUMAN_HELP\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Source reports 0 results for the submitted query with no matching option or route.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 26,
+    "purpose": "restaurant_agent_decide",
+    "startedAt": "2026-11-09T02:09:07.241Z",
+    "browser": null,
+    "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:399b940d8930096624424dba\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only Nakamata has a supported availability path; check its request-bound inventory for 2026-11-11 20:30, party of 2.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 27,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:18.610Z",
+    "browser": {
+      "observationRevision": 28,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 34
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:28:target:172\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Open the destination/restaurant search field to enter the authoritative query.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 28,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:22.925Z",
+    "browser": {
+      "observationRevision": 29,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 35
+    },
+    "outputText": "{\"action\": \"FILL_AUTHORITATIVE\", \"targetRef\": \"observation:29:target:259\", \"authoritativeField\": \"RETRIEVAL\", \"requestedState\": \"NONE\", \"reason\": \"Fill the destination search input with the authoritative query Nakamata.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 29,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:26.939Z",
+    "browser": {
+      "observationRevision": 30,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "recordingSnapshot": 36
+    },
+    "outputText": "{\"action\": \"CLICK\", \"targetRef\": \"observation:30:target:176\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Submit the authoritative query \\\"Nakamata\\\" via the observed Search button.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 30,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:29.351Z",
+    "browser": {
+      "observationRevision": 31,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=34.726637&geo_longitude=135.498596&geo_distance=1km&auto_geolocate=false&location=Nishinakajima-Minamigata&destination_id=station%3An7811945111&num_people=2&availability_mode=same_meal_time",
+      "recordingSnapshot": 37
+    },
+    "outputText": "{\"action\": \"WAIT\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Search reported temporarily unavailable; wait for results to settle.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 31,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:30.991Z",
+    "browser": {
+      "observationRevision": 33,
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=34.726637&geo_longitude=135.498596&geo_distance=1km&auto_geolocate=false&location=Nishinakajima-Minamigata&destination_id=station%3An7811945111&num_people=2&availability_mode=same_meal_time",
+      "recordingSnapshot": 38
+    },
+    "outputText": "{\"action\": \"REQUEST_HUMAN_HELP\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Search is unavailable right now; query already submitted with no results and no matching route.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 32,
+    "purpose": "restaurant_named_source_query",
+    "startedAt": "2026-11-09T02:09:32.728Z",
+    "browser": null,
+    "outputText": "{\"field\": \"name\", \"fragment\": \"Nakamata\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 33,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:48.103Z",
+    "browser": {
+      "observationRevision": 35,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+      "recordingSnapshot": 44
+    },
+    "outputText": "{\"action\": \"CLICK_AUTHORITATIVE\", \"targetRef\": \"observation:35:target:69\", \"authoritativeField\": \"DATE\", \"requestedState\": \"NONE\", \"reason\": \"Set the authoritative date to 2026-11-11 on the outlet's availability calendar.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 34,
+    "purpose": "browser_read_decide",
+    "startedAt": "2026-11-09T02:09:53.987Z",
+    "browser": {
+      "observationRevision": 36,
+      "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro%2C+Ginza+Nakamata+Hanare&search_mode=",
+      "recordingSnapshot": 45
+    },
+    "outputText": "{\"action\": \"REQUEST_HUMAN_HELP\", \"targetRef\": \"\", \"authoritativeField\": \"NONE\", \"requestedState\": \"NONE\", \"reason\": \"Source reports 0 results for the current query with no matching option or route; caller owns next retrieval term.\"}",
+    "outcome": "SUCCEEDED"
+  },
+  {
+    "sequence": 35,
+    "purpose": "restaurant_agent_decide",
+    "startedAt": "2026-11-09T02:09:56.112Z",
+    "browser": null,
+    "outputText": "{\"type\": \"END_READ\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No legal investigation remains: discovery plan exhausted, no checkable candidates, and no candidate has fresh evidenced availability for 2026-11-11 20:30 for 2. The named outlet is not uniquely resolved across four Ginza-area branches; the one availability read (Nakamata, 4-chome Ginza) returned no offers with uncertain entity match. Ending the bounded read with a scoped no-verified-result outcome.\"}",
+    "outcome": "SUCCEEDED"
+  }
+]

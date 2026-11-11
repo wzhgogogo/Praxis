@@ -8,6 +8,7 @@ import { validateRestaurantAction } from "../../domains/restaurant/action-valida
 import { applyRestaurantIntentPatch } from "../../domains/restaurant/intent-state.js";
 import { ModelRestaurantFactJudgment } from "./model-fact-judgment.js";
 import { assessRestaurantConditions } from "../../domains/restaurant/condition-states.js";
+import { bindRestaurantFactSourceRoles, createRestaurantFactSourceDocument } from "./fact-source-document.js";
 
 const candidate: RestaurantCandidate = {
   restaurant: { id: "a", outletName: "Cafe A", address: "Tokyo", sourceIds: {}, provenance: {} },
@@ -32,6 +33,73 @@ function model(output: unknown): ModelGateway {
     outputText: JSON.stringify({ sourceSelections: [], ...(output as Record<string, unknown>) }), latencyMs: 1,
   }) };
 }
+
+for (const control of [
+  { name: "observed name explicitly includes type", field: "NAME", quote: "Kaga Kaiseki", supported: true },
+  { name: "name without requested type", field: "NAME", quote: "Kaga", supported: false },
+  { name: "review title", field: "CUSTOMER_REVIEW", quote: "My Kaiseki experience", supported: false },
+  { name: "review body", field: "CUSTOMER_REVIEW", quote: "We ate a wonderful Kaiseki meal.", supported: false },
+  { name: "merchant introduction", field: "SOURCE_TEXT", quote: "会席料理をご用意しております。", supported: true },
+] as const) test(`positive model judgment checks source role: ${control.name}`, async () => {
+  const identity: RestaurantReadEvidence = { ...sourceEvidence[0]!, evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE",
+    sourceEntityId: "website-a", sourceUrl: "https://restaurant.example/", claims: { outletName: "Kaga" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } };
+  const document = { id: "document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    statements: [{ id: "statement", text: control.quote }],
+    sourceFieldQuotes: [{ field: control.field, quote: control.quote, sourceUrl: identity.sourceUrl! }] };
+  const result = await new ModelRestaurantFactJudgment(model({ sourceSelections: [{ documentId: "document", statementIds: ["statement"] }],
+    judgments: [{ criterion: "kaiseki restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: ["document"] }] }))
+    .judge({ candidate, intent: { ...positiveIntent, criteria: [{ text: "kaiseki restaurant", polarity: "POSITIVE", strength: "HARD" }] }, evidence: [identity], sourceDocuments: [document] });
+  assert.equal(result.evidence.some(e => Array.isArray(e.claims.verifiedHardCriteria) && e.claims.verifiedHardCriteria.includes("kaiseki restaurant")), control.supported);
+});
+
+test("source roles survive statement truncation and public review regions cannot be relabelled by model selections", async () => {
+  const page = { html: '<h1>Kaga Kaiseki</h1><h2>Reviews</h2><h3>Kaiseki experience</h3><p>Wonderful Kaiseki.</p>',
+    text: ['Kaga Kaiseki', 'x'.repeat(1601), 'Reviews', 'Kaiseki experience', 'Wonderful Kaiseki.'].join('\n') };
+  const identity: RestaurantReadEvidence = { ...sourceEvidence[0]!, evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE",
+    sourceEntityId: "website-a", sourceUrl: "https://restaurant.example/", claims: { outletName: "Kaga Kaiseki" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } };
+  for (const aria of [false, true]) {
+    const snapshot = aria ? { ...page, html: '<h1>Kaga Kaiseki</h1><section aria-label="Customer reviews"><h3>Kaiseki experience</h3><p>Wonderful Kaiseki.</p></section>' } : page;
+    const document = bindRestaurantFactSourceRoles(createRestaurantFactSourceDocument("a", identity.evidenceId, snapshot.text), snapshot);
+    for (const text of ["Kaga Kaiseki", "Kaiseki experience", "Wonderful Kaiseki."]) {
+      const selected = document.statements.find(s => s.text === text)!;
+      let wire: any;
+      const result = await new ModelRestaurantFactJudgment({ async complete(request) { wire = JSON.parse(request.messages[1]!.content); return model({
+        sourceSelections: [{ documentId: document.id, statementIds: [selected.id] }],
+        judgments: [{ criterion: "kaiseki restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [document.id] }],
+      }).complete(request); } }).judge({ candidate, intent: { ...positiveIntent, criteria: [{ text: "kaiseki restaurant", strength: "HARD", polarity: "POSITIVE" }] }, evidence: [identity], sourceDocuments: [document] });
+      assert.equal(result.evidence.some(e => e.provider === "MODEL_JUDGMENT"), text === "Kaga Kaiseki");
+      assert.equal(wire.sourceDocuments[0].statementSourceFields, undefined, "code-owned source roles stay outside model input/output");
+    }
+  }
+});
+
+test("an exact source-observed identity name outside H1 cannot masquerade as merchant introduction", async () => {
+  const page = { html: "<p>Kaga</p>", text: "Kaga" };
+  const identity: RestaurantReadEvidence = { ...sourceEvidence[0]!, evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE",
+    sourceEntityId: "website-a", sourceUrl: "https://restaurant.example/", claims: { outletName: "Kaga" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_NAME_AND_ADDRESS"] } };
+  const document = bindRestaurantFactSourceRoles(createRestaurantFactSourceDocument("a", identity.evidenceId, page.text), page, ["Kaga"]);
+  const result = await new ModelRestaurantFactJudgment(model({ sourceSelections: [{ documentId: document.id, statementIds: [document.statements[0]!.id] }],
+    judgments: [{ criterion: "kaiseki restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [document.id] }] }))
+    .judge({ candidate, intent: { ...positiveIntent, criteria: [{ text: "kaiseki restaurant", polarity: "POSITIVE", strength: "HARD" }] }, evidence: [identity], sourceDocuments: [document] });
+  assert.equal(result.evidence.some(e => e.provider === "MODEL_JUDGMENT"), false, "Kaga is an observed identity name, not kaiseki prose");
+});
+
+test("the non-price source-role filter leaves price judgment conversion and numeric budget authority unchanged", async () => {
+  const identity: RestaurantReadEvidence = { ...sourceEvidence[0]!, evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE",
+    sourceEntityId: "website-a", sourceUrl: "https://restaurant.example/", claims: { outletName: "Cafe A" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } };
+  const priceIntent: RestaurantSearchIntent = { ...positiveIntent, criteria: [{ text: "under 8000 yen per person", strength: "HARD", polarity: "POSITIVE" }] };
+  const document = { id: "price-document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    statements: [{ id: "price-statement", text: "Dinner course JPY 7000" }], sourceFieldQuotes: [{ field: "PRICE" as const, quote: "Dinner course JPY 7000", sourceUrl: identity.sourceUrl! }] };
+  const result = await new ModelRestaurantFactJudgment(model({ sourceSelections: [{ documentId: document.id, statementIds: ["price-statement"] }],
+    judgments: [{ criterion: priceIntent.criteria[0]!.text, outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [document.id] }] }))
+    .judge({ candidate, intent: priceIntent, evidence: [identity], sourceDocuments: [document] });
+  assert.ok(result.evidence.some(e => Array.isArray(e.claims.verifiedHardCriteria) && e.claims.verifiedHardCriteria.includes(priceIntent.criteria[0]!.text)), "preserve the pre-existing price judgment conversion");
+  assert.equal(assessRestaurantConditions(priceIntent, result.evidence)[0]?.status, "NOT_CHECKED", "model labels still cannot replace parsed applicable numeric price facts");
+});
 
 test("a cited model type judgment becomes auditable negative-condition evidence", async () => {
   const result = await new ModelRestaurantFactJudgment(model({
@@ -162,7 +230,7 @@ test("a locality-cuisine UNKNOWN remains unverified while receiving authoritativ
     evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["Tokyo regional cuisine restaurant"] } }],
   });
   assert.deepEqual(result.evidence, []);
-  assert.equal(calls[0]?.promptVersion, "14");
+  assert.equal(calls[0]?.promptVersion, "15");
   assert.match(calls[0]?.messages[0]?.content ?? "", /direct textual entailment/i);
   assert.match(calls[0]?.messages[0]?.content ?? "", /destination's native culinary context/i);
   assert.match(calls[0]?.messages[0]?.content ?? "", /broader national or destination-compatible cuisine does not establish that narrower condition/i);
@@ -222,7 +290,7 @@ test("negative category raw judgments reach conversion and the current presentat
     const result = await new ModelRestaurantFactJudgment(model(raw), now).judge({ candidate, intent: factIntent, evidence });
     assert.deepEqual(result.evidence[0]?.claims[control.claim], [criterion], control.name);
     const state: RestaurantTaskState = {
-      schemaVersion: "24", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
+      schemaVersion: "25", phase: "SEARCHING", candidates: [candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
       intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: "Tokyo" }, addCriteria: [{ text: criterion, polarity: "NEGATIVE", strength: "HARD" }] }),
       readEvidence: [...evidence, ...result.evidence],
     };

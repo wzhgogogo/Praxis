@@ -1,0 +1,175 @@
+{
+  "id": "nr-021",
+  "key": "main-nr-021",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "焼肉 牛目黒",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%20%E7%89%9B%E7%9B%AE%E9%BB%92",
+      "kind": "SEARCH",
+      "query": "焼肉 牛目黒",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-090.html",
+      "sha256": "e83828c15db4c1e8a0417a2e29cbcd3bc249b165e189d9a248b7b1409e655883",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-091.html",
+      "sha256": "4972f18a5f8c8a0ac88f31e8ff6efffeb46bbcbd473c6a2b02b7b0859b14bdda",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:nr-021",
+    "google": {
+      "placeId": "ChIJK8Z3F9SLGGARTTYyTTk1N5E",
+      "outletName": {
+        "value": "焼肉 牛目黒",
+        "normalizedValue": "焼肉牛目黒",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−7−１２ Doors Nakameguro, 1F",
+        "normalizedValue": "japan〒1530051tokyomegurocitykamimeguro2chōme−7−１２doorsnakameguro1f",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "03-6452-2139",
+        "normalizedValue": "0364522139",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1317/A131701/13281273",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+        "outletName": {
+          "value": "Yakiniku Ushi Meguro",
+          "normalizedValue": "yakinikuushimeguro",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1530051 東京都目黒区上目黒2-7-12 ドアーズ中目黒 1F",
+          "normalizedValue": "1530051東京都目黒区上目黒2712ドアーズ中目黒1f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-6452-2139",
+          "normalizedValue": "0364522139",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "03-6452-2139",
+          "role": "STORE",
+          "quote": "03-6452-2139",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 6
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1317/A131701/13281273",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "焼肉 牛目黒"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "焼肉 牛目黒",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%20%E7%89%9B%E7%9B%AE%E9%BB%92",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%20%E7%89%9B%E7%9B%AE%E9%BB%92",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 1,
+      "inspectedResultCount": 1
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1317/A131701/13281273",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+        "outletName": "Yakiniku Ushi Meguro"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1317/A131701/13281273",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+        "title": "Yakiniku Ushi Meguro Reservation - Naka Meguro/Yakiniku (Japanese BBQ) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Yakiniku Ushi Meguro",
+            "normalizedValue": "yakinikuushimeguro",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1530051 東京都目黒区上目黒2-7-12 ドアーズ中目黒 1F",
+            "normalizedValue": "1530051東京都目黒区上目黒2712ドアーズ中目黒1f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-6452-2139",
+            "normalizedValue": "0364522139",
+            "source": "DOM"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%20%E7%89%9B%E7%9B%AE%E9%BB%92",
+    "https://tabelog.com/en/tokyo/A1317/A131701/13281273/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

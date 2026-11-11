@@ -1,0 +1,111 @@
+{
+  "mode": "TC-NODE",
+  "transport": "NODE_FETCH",
+  "startedAtCET": "2026-11-05T08:04:09.432+01:00",
+  "policy": "UNCHANGED_PRODUCTION_SOURCE_POLICY_PLUS_EXISTING_GENERIC_PUBLIC_READ",
+  "credentials": "NOT_LOADED",
+  "proxy": "NO_EXPLICIT_PROXY_DEFAULT_CHROMIUM_PATH",
+  "modelCalls": 0,
+  "googleCalls": 0,
+  "status": "FAILED",
+  "error": {
+    "name": "BrowserRuntimeError",
+    "message": "Local Playwright Chromium operation failed",
+    "cause": {
+      "name": "Error",
+      "message": "page.goto: net::ERR_FAILED at [URL]"
+    }
+  },
+  "networkFailures": [
+    {
+      "outcome": "FAILED",
+      "error": {
+        "name": "Error",
+        "message": "route.fetch: Client network socket disconnected before secure TLS connection was established"
+      },
+      "origin": "https://www.tablecheck.com/",
+      "pathname": "/en/japan/search",
+      "method": "GET",
+      "resourceType": "document",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "document"
+      },
+      "queryKeys": []
+    }
+  ],
+  "afterFailure": {
+    "url": "about:blank",
+    "title": "",
+    "controls": []
+  },
+  "cutoff": {
+    "atCET": "2026-11-05T08:04:10.917+01:00",
+    "monotonicMs": 1829.961958
+  },
+  "guardRequests": [
+    {
+      "outcome": "ADMITTED",
+      "origin": "https://www.tablecheck.com/",
+      "pathname": "/en/japan/search",
+      "method": "GET",
+      "resourceType": "document",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "document"
+      },
+      "queryKeys": []
+    },
+    {
+      "outcome": "FAILED",
+      "error": {
+        "name": "Error",
+        "message": "route.fetch: Client network socket disconnected before secure TLS connection was established"
+      },
+      "origin": "https://www.tablecheck.com/",
+      "pathname": "/en/japan/search",
+      "method": "GET",
+      "resourceType": "document",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "document"
+      },
+      "queryKeys": []
+    }
+  ],
+  "guardDiagnostics": [
+    {
+      "code": "READ_REQUEST_FAILED",
+      "origin": "https://www.tablecheck.com/",
+      "pathname": "/en/japan/search",
+      "method": "GET",
+      "resourceType": "document",
+      "queryKeys": [],
+      "error": {
+        "name": "Error",
+        "message": "route.fetch: Client network socket disconnected before secure TLS connection was established"
+      }
+    }
+  ],
+  "recording": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-real-pages-20261105/stop2/recordings/TC-NODE/source",
+    "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT"
+    },
+    "pages": [
+      {
+        "snapshot": 1,
+        "status": "NOT_REPLAYABLE",
+        "reason": "UNSAFE_DOCUMENT",
+        "diagnostic": {
+          "status": "OMITTED",
+          "reason": "UNSAFE_DOCUMENT"
+        }
+      }
+    ]
+  },
+  "completedAtCET": "2026-11-05T08:04:10.933+01:00",
+  "pageReads": 1
+}

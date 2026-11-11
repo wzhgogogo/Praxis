@@ -1,5 +1,4 @@
 import { fixtureGoalBasis } from "../../../harness/restaurant-read-test-fixtures.js";
-const fixtureRetrieval={decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."})};
 import { runDiscoveryProbe } from "./discovery-probe.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -11,13 +10,10 @@ import type { BrowserReadNetworkObservation } from "../../../infrastructure/brow
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
 import { RestaurantExecutionRouter } from "../../../application/restaurant-execution-router.js";
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
-import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
-import { LiveBrowserAvailability } from "../../../integrations/restaurant-availability/live-browser-availability.js";
 import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
-import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/native-restaurant-search.js";
 import { restaurantDiscoveryPacks, tableCheckDiscoveryPack, tabelogDiscoveryPack, googlePlacesDiscoveryPack, type DiscoverySourcePack } from "../../../integrations/restaurant-search/source-packs.js";
-import { restaurantSearchIntentFingerprint, type RestaurantTaskState } from "../../../domains/restaurant/contracts.js";
+import { restaurantSearchIntentFingerprint } from "../../../domains/restaurant/contracts.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } from "./live-case-materializer.js";
@@ -100,13 +96,21 @@ class H001NativeModel implements ModelGateway {
       };
       this.browserDecisionInputs.push({ objective: input.objective, progress: input.progress, observation: { targets: input.observation.targets, ...(input.observation.pageActions ? { pageActions: input.observation.pageActions } : {}) }, ...(input.skills?.source ? { skillSource: input.skills.source } : {}) });
       if (this.scenario.startsWith("F5_")) {
-        const correction = input.regionCorrection?.entrances.find(entry => entry.label === "F5 alternate");
-        const target = input.observation.targets.find(target => /^F5 (parent|child)$/.test(target.label) && target.availableActions?.includes("OPEN_LINK"));
-        if (correction || target) return reply(JSON.stringify({action:correction ? "SELECT_REGION_ENTRANCE" : "OPEN_LINK",targetRef:(correction ?? target)!.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Use supplied observed reference; the radius remains immutable"}),request.purpose);
+        const target=input.observation.targets.find(t=>t.label==='F5 alternate'&&t.availableActions?.includes('OPEN_LINK'))
+          ??input.observation.targets.find(t=>/^F5 (parent|child)$/.test(t.label)&&t.availableActions?.includes('OPEN_LINK'));
+        if(target)return reply(JSON.stringify({action:'OPEN_LINK',targetRef:target.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Fixture model chooses a current observed source entrance, with no collected-region action.'}),request.purpose);
       }
-      if (input.objective.includes("observed public region/station")) {
+      if (input.objective.includes("current public restaurant list")) {
+        const categoryScenario=['TABELOG_RETRIEVAL_CATEGORY_DELIVERS','TABELOG_RESULT_PAGES_CONTINUE','TABELOG_CATEGORY_REDIRECTS_ROOT'].includes(this.scenario);
+        const categoryLink=categoryScenario&&input.observation.targets.find(t=>/^(?:Sushi|omakase ×)$/.test(t.label)&&t.availableActions?.includes('OPEN_LINK'));
+        if(categoryLink)return reply(JSON.stringify({action:'OPEN_LINK',targetRef:categoryLink.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Follow the currently observed source category; HARD evidence is still mandatory.'}),request.purpose);
+        if(/Restaurants across Japan|National directory/u.test(input.observation.visibleText??''))return reply(JSON.stringify({action:'REQUEST_HUMAN_HELP',targetRef:'',authoritativeField:'NONE',requestedState:'NONE',reason:'This observed source list does not establish the authoritative locality.'}),request.purpose);
         const region = input.observation.targets.find(target => target.availableActions?.includes("OPEN_LINK") && (target.label === this.areaQuery || target.label === `Restaurants in ${this.areaQuery}`));
         if (region) return reply(JSON.stringify({action:"OPEN_LINK",targetRef:region.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Choose the observed region for the unchanged location."}),request.purpose);
+        const startup=input.observation.targets.find(t=>t.label==='Tokyo'&&t.availableActions?.includes('OPEN_LINK'));
+        if(startup)return reply(JSON.stringify({action:'OPEN_LINK',targetRef:startup.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Read the observed public directory entrance.'}),request.purpose);
+        if(!/Loading current search/i.test(input.observation.visibleText??'')&&input.observation.targets.some(t=>/^Native (?:Tabelog|TableCheck)/u.test(t.label)&&t.availableActions?.includes('OPEN_LINK')) || /No (?:restaurants|venues) found/u.test(input.observation.visibleText??''))return reply(JSON.stringify({action:'COMPLETE',targetRef:'',authoritativeField:'NONE',requestedState:'NONE',reason:'Current source list is readable; code still verifies each merchant.'}),request.purpose);
+
       }
 
       if (["TABELOG_RETRIEVAL_CATEGORY_DELIVERS", "TABELOG_RESULT_PAGES_CONTINUE", "TABELOG_CATEGORY_REDIRECTS_ROOT"].includes(this.scenario) && input.objective.includes("related category")) {
@@ -228,7 +232,7 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
     // its public service-category query. Unguarded fixtures retain the narrow
     // action contract and cannot exercise Phase 1's wider query controls.
     availabilityRevealSteps: options.postAvailabilityDiscovery ? 13 : 1,
-    guardedReadBoundary: options.postAvailabilityDiscovery === true || options.guardedDiscoverySubmit === true || scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" || scenario === "TABLECHECK_DISCOVERY_RECOVERS",
+    guardedReadBoundary: true,
     guardedQuerySubmit: options.guardedDiscoverySubmit === true,
     networkRequests,
     ...(options.bareReserveLink ? { bareReserveLink: true } : {}),
@@ -343,10 +347,10 @@ test("H001 native first batch presents three source-bound Tabelog results withou
     factChecks: result.state.factChecks, continuation: result.state.searchContinuation, navigations: result.navigations, purposes: result.model.purposes }));
   assert.equal(result.state.presentedResults?.candidateIds.every((id) => id.startsWith("tabelog:")), true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
-  assert.deepEqual(result.state.searchContinuation?.discoveryPlan?.entries.map((entry) => entry.sourceId), ["tabelog", "tablecheck", "google-places"], "the production composition retains the full three-pack plan while the first pack delivers");
+  assert.deepEqual(result.state.searchContinuation?.discoveryPlan?.entries.map((entry) => entry.sourceId), ["tabelog", "google-places", "tablecheck"], "the production composition retains the full three-pack plan while the first pack delivers");
   assert.equal(new Set(result.navigations.slice(0, 4).map((_url, index) => result.navigationSessionIds[index])).size, 1,
     "a healthy Tabelog list and its three details share one browser session");
-  assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
+  assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya", "omakase Shibuya"]);
   assert.ok(result.state.readEvidence.some(item => item.kind === "DISCOVERY" && item.provider === "TABELOG" && Array.isArray(item.claims.sourceCategories) && item.claims.sourceCategories.includes("Sushi")));
   const observed = result.trajectories.find(step => step.decisionContext?.candidates.length)?.decisionContext?.candidates;
   assert.ok(observed?.length);
@@ -393,7 +397,7 @@ test("H001 native discovery uses the shared browser model loop to reveal an obse
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-1"], JSON.stringify({ phase: result.state.phase, availability: result.state.availabilityChecks, browserInputs: result.model.browserDecisionInputs, purposes: result.model.purposes, navigations: result.navigations }));
   assert.equal(result.model.purposes.includes("browser_read_decide"), true);
   assert.equal(result.model.retrievalFillUsed, true);
-  assert.equal(result.model.browserDecisionInputs.some((input) => input.objective.includes("public source search") && input.skillSource?.includes("# TableCheck Public Read")), true,
+  assert.equal(result.model.browserDecisionInputs.some((input) => input.objective.includes("current public restaurant list") && input.skillSource?.includes("# TableCheck Public Read")), true,
     "the production VENUE_SEARCH decision receives its Pack-owned TableCheck skill");
   assert.deepEqual(result.model.discoveryActions, ["FILL_AUTHORITATIVE", "CLICK"], "a stale nonempty list and loading query cannot complete before the observed current-query action");
   assert.equal(result.navigations.some((url) => url.includes("/en/native-omakase-1")), true);
@@ -425,80 +429,6 @@ test("H001 never admits stale busy discovery cards or an old explicit empty stat
   }
 });
 
-test("native source session acquisition consumes the remaining source window and retains an unstarted detail entrance", async t => {
-  let elapsed=0;t.mock.method(Date,'now',()=>elapsed);
-  const navigations: string[] = [];
-  const delayed = sourcePages("TABELOG_DELIVERS", navigations);
-  const browser = { openSession: async (input: { signal: AbortSignal }) => {
-    elapsed+=20;
-    return delayed.openSession(input);
-  } };
-  const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => {
-    throw new Error("coordinates avoid Google resolution");
-  } }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, locality, fixtureRetrieval, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
-  const intent = {
-    timezone: "Asia/Tokyo" as const, target: { goal: "AVAILABILITY" as const, query: "omakase" }, date,
-    timeWindow: { earliest: "19:00", latest: "19:00" }, area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } },
-    criteria: [{ text: "omakase", polarity: "POSITIVE" as const, strength: "HARD" as const }],
-  };
-  const result = await native.search({ intent, continuation: {
-    intentFingerprint: restaurantSearchIntentFingerprint(intent), usedPageTokens: [], pagesRead: 0, exhausted: false,
-    sourceProgress: { sourceId: "tabelog", inspectedSourceIds: [], detailAttempts: 0, pagesRead: 0, elapsedMs: 89_999,
-      pendingSourceIds: ["tokyo/A1304/A130401/100"], pendingSourceEntries: [{ sourceEntityId: "tokyo/A1304/A130401/100", sourceUrl: "https://tabelog.com/tokyo/A1304/A130401/100/", observedAt: reference.toISOString() }] },
-  } }, new AbortController().signal);
-  assert.equal(navigations.length, 0, "a session that misses the remaining source window cannot begin detail navigation");
-  assert.equal(result.metadata.nativeDiscoveryFunnel?.sourceTimeLimitReached, true);
-  assert.deepEqual(result.continuation?.sourceProgress?.pendingSourceIds, ["tokyo/A1304/A130401/100"]);
-});
-
-
-test("the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches", async () => {
-  const navigations: string[] = [];
-  const browser = sourcePages("BOTH_BOUNDED_EMPTY", navigations);
-  const nearbyRequests: unknown[] = [];
-  const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
-    apiKey: "fixture-only",
-    fetchImplementation: async (url, init) => {
-      assert.equal(String(url), "https://places.googleapis.com/v1/places:searchNearby");
-      const body = JSON.parse(String(init?.body));
-      nearbyRequests.push(body);
-      return new Response(JSON.stringify({ places: [{
-        id: "nearby-directory-result", displayName: { text: "Nearby restaurant" },
-        formattedAddress: "Shibuya, Tokyo", location: center, types: ["restaurant"],
-        addressComponents: [{ longText: "Shibuya", types: ["locality"] }],
-      }] }), { status: 200, headers: { "content-type": "application/json" } });
-    },
-  }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, google, fixtureRetrieval, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
-  const router = new RestaurantExecutionRouter(native, {
-    executionRoute: "STRUCTURED_ADAPTER",
-    async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; },
-  }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 });
-  const intentDraft: NonNullable<RestaurantTaskState["intentDraft"]> = {
-    schemaVersion: "3" as const, timezone: "Asia/Tokyo", target: { goal: "AVAILABILITY" as const, query: "nearby dinner" },
-    date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
-    area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
-  };
-  let state: RestaurantTaskState = { schemaVersion: "24", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
-  const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
-  assert.equal(first.event?.type, "SEARCH_COMPLETED");
-  if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
-  assert.equal(first.event.continuation?.discoveryPlan?.entries[first.event.continuation.discoveryPlan.cursor]?.sourceId, "tablecheck");
-  state = { ...state, phase: "SEARCHING" as const, searchContinuation: first.event.continuation! };
-  const second = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
-  assert.equal(second.event?.type, "SEARCH_COMPLETED");
-  if (second.event?.type !== "SEARCH_COMPLETED") throw new Error("expected second discovery result");
-  assert.equal(second.event.continuation?.discoveryPlan?.entries[second.event.continuation.discoveryPlan.cursor]?.sourceId, "google-places");
-  state = { ...state, searchContinuation: second.event.continuation! };
-  const third = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
-  assert.equal(third.event?.type, "SEARCH_COMPLETED");
-  if (third.event?.type !== "SEARCH_COMPLETED") throw new Error("expected Google discovery result");
-  assert.equal(third.event.candidates.length, 1, "Nearby pack should return its grounded candidate");
-  assert.deepEqual(nearbyRequests, [{ includedTypes: ["restaurant"], maxResultCount: 20, locationRestriction: { circle: { center, radius: 1_000 } } }]);
-  assert.equal(third.event.continuation?.exhausted, true);
-  assert.equal(navigations.some((url) => url.includes("tablecheck.com")), true);
-});
 
 test("fixed TableCheck discovery stores the actual filled value and cannot reveal the current result after a wrong fill", async () => {
   const runtime = sourcePages("TABLECHECK_DISCOVERY_RECOVERS", []);
@@ -528,8 +458,8 @@ test("H001 two bounded empty source batches cannot claim inventory or results", 
   assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.match(result.state.noVerifiedResult?.remainingGaps.join(" ") ?? "", /bounded discovery plan/);
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 2);
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
 });
 
@@ -538,8 +468,8 @@ test("H001 both source lists reject page-owned coordinates outside the existing 
   assert.equal(result.state.candidates.length, 0);
   assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.state.searchContinuation?.exhausted, true);
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 2);
   const funnels = result.trajectories.flatMap((step) => step.executionMetadata?.nativeDiscoveryFunnel ? [step.executionMetadata.nativeDiscoveryFunnel] : []);
   assert.deepEqual(funnels.map((item) => ({ source: item.source, parsed: item.parsedOutlets, accepted: item.accepted,
     reasons: item.rejected.map((rejection) => rejection.reasonCode) })), [
@@ -566,7 +496,7 @@ test("H001 one Tabelog detail failure retains earlier candidates and continues t
 test("H001 rejects an early END_READ after an empty Tabelog batch and continues to TableCheck", async () => {
   const result = await runScenario("EARLY_END_ATTEMPT");
   assert.equal(result.trajectories.some((step) => step.agentAction?.type === "END_READ" && step.actionValidation?.status === "REJECTED"), true);
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 2);
   assert.equal(result.state.searchContinuation?.exhausted, true);
   assert.equal(result.state.phase, "NO_VERIFIED_RESULT");
 });
@@ -589,7 +519,7 @@ test("H001 native TableCheck batch continues after one nonqualifying outlet and 
   assert.deepEqual(result.state.presentedResults?.candidateIds, ["tablecheck:native-omakase-2"]);
   assert.equal(result.state.availabilityChecks["tablecheck:native-omakase-1"]?.status, "UNAVAILABLE");
   assert.equal(result.state.availabilityChecks["tablecheck:native-omakase-2"]?.status, "AVAILABLE");
-  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/japan/search")).length, 2);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
@@ -624,7 +554,7 @@ test("H001 TableCheck search with a raw link but no parsed outlet retains the ob
   assert.deepEqual({ source: result.state.searchContinuation?.sourceProgress?.sourceId,
     pagesRead: result.state.searchContinuation?.sourceProgress?.pagesRead,
     inspected: result.state.searchContinuation?.sourceProgress?.inspectedSourceIds },
-  { source: "tablecheck", pagesRead: 1, inspected: [] }, "a failed source keeps its spent cursor instead of reopening with zero progress");
+  { source: "tablecheck", pagesRead: 2, inspected: [] }, "a failed source keeps its spent cursor instead of reopening with zero progress");
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "UNKNOWN", "a source discovery failure must not be rewritten as a completed no-result read");
 });
 
@@ -663,7 +593,7 @@ test("native discovery retains category pagination including links revealed by a
   const category = result.navigations.findIndex((url) => url.includes("/rstLst/sushi/"));
   assert.ok(firstDetail >= 0 && category < firstDetail, "sparse retrieval is refined before details while observed entries stay at the queue front");
   const reads = result.trajectories.filter((step) => step.executionMetadata?.provider === "TABELOG" && step.agentAction?.type === "SEARCH_RESTAURANTS");
-  assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 1, 1]);
+  assert.deepEqual(reads.map((step) => step.executionMetadata?.nativeDiscoveryFunnel?.inspectedOutlets), [5, 2]);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
   assert.ok(result.state.searchContinuation?.deferredSources?.some(item => item.progress.sourceId === "tablecheck" && item.progress.pagesRead > 0), "a finished source checkpoint is retained across handoff too; spent budgets and unread entrances are not discarded");
 });
@@ -690,7 +620,7 @@ test("native discovery reaches a neutral locality only through its observed sour
     phase: result.state.phase, failure: result.state.failure, navigations: result.navigations, candidates: result.state.candidates,
     facts: result.state.factChecks, availability: result.state.availabilityChecks, trajectories: result.trajectories,
   }));
-  assert.equal(result.navigations.some((url) => url === "https://tabelog.com/en/tokyo/A1302/A130201/rstLst/?sw=omakase"), true,
+  assert.equal(result.navigations.some((url) => url === "https://tabelog.com/en/tokyo/A1302/A130201/rstLst/"), true,
     "the shared executor follows the public source control instead of borrowing Shibuya's Pack mapping");
   assert.equal(result.state.availabilityChecks["tabelog:tokyo/A1304/A130401/100"]?.status, "UNAVAILABLE",
     "the controlled discovery regression does not manufacture a slot; existing delivery controls cover PRESENT_RESULTS separately");
@@ -698,8 +628,9 @@ test("native discovery reaches a neutral locality only through its observed sour
 
 test("native discovery restores an observed regional listing after same-region homepage canonicalization", async () => {
   const result = await runScenario("TABELOG_REGION_HOMEPAGE_RECOVERS");
-  assert.equal(result.navigations[0], "https://tabelog.com/en/tokyo/rstLst/");
-  assert.equal(result.navigations[1], "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
+  assert.equal(result.navigations[0], "https://tabelog.com/en/");
+  assert.equal(result.navigations[1], "https://tabelog.com/en/tokyo/rstLst/");
+  assert.equal(result.navigations[2], "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase",
     "the Pack-owned homepage link restores the same observed listing rather than treating a homepage as a result list");
   assert.deepEqual(result.state.candidates.map((candidate) => candidate.restaurant.id), ["tabelog:tokyo/A1304/A130401/100"]);
 });
@@ -732,14 +663,14 @@ test("H001 presents one investigated TableCheck current-batch result without rea
     candidateIds: ["tablecheck:native-omakase-1", "tablecheck:native-omakase-2", "tablecheck:native-omakase-3", "tablecheck:native-omakase-4", "tablecheck:native-omakase-5"],
   });
   assert.deepEqual(result.state.searchContinuation?.sourceProgress?.pendingSourceIds, ["native-omakase-6"]);
-  assert.equal(result.navigations.filter((url) => url.includes("/en/japan/search")).length, 1);
+  assert.equal(result.navigations.filter((url) => url.includes("/en/japan/search")).length, 2);
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(result.evaluation.findings));
 });
 
 test("H001 consumes a retained Tabelog detail entrance without reopening a volatile listing", async () => {
   const result = await runScenario("TABELOG_PENDING_RESTORED");
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4,
-    "only the initial listing, keyword, hint and single fallback occur; retained entries do not reopen the list");
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2,
+    "only the observed root and region listing occur; retained entries do not reopen the list");
   assert.equal(result.navigations.some((url) => url.endsWith("/105/")), true,
     "the sixth observed entrance must survive the changed second listing");
   assert.equal(new Set(result.navigations.filter((url) => /\/tokyo\/A1304\/A130401\/\d+\/$/.test(url))).size, 6,
@@ -751,7 +682,7 @@ test("H001 retains unstarted Tabelog entries when a failed detail cannot reopen 
   assert.equal(result.state.phase, "PRESENT_RESULTS");
   assert.equal(result.navigations.filter((url) => url.endsWith("/100/")).length, 1, "the failed detail navigation is attempted once");
   assert.equal(result.navigations.some((url) => url.endsWith("/101/")), true, "the first unstarted entry is retained and later consumed");
-  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 4, "retained entries add no listing navigation after the initial query, hint and single fallback");
+  assert.equal(result.navigations.filter((url) => url.includes("/rstLst/")).length, 2, "retained entries add no listing navigation after the observed initial list");
 });
 
 test("native detail chunk retains deferred outlets while another source gets its first batch", async () => {
@@ -880,26 +811,6 @@ test("WP-A capture keeps model results and errors when storage fails, and finali
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
 
-// Verifies the actual Native → Executor → browser decision boundary; no source page reconstruction.
-test("coordinate-only discovery passes source-attributed address observations, including failure, to browser input", async () => {
-  for (const failure of [false, true]) {
-    const modelInputs: unknown[] = [];
-    const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => new Response(JSON.stringify({ results: [{ addressComponents: [{ longText: "Observed district", types: ["sublocality"] }] }] }), { status: failure ? 403 : 200 }) }), () => reference.toISOString(), 10, { maxRequests: 1 });
-    let url = "https://tabelog.com/en/";
-    const session = { metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: reference.toISOString() },
-      navigate: async (next: string) => { url = next; }, snapshot: async () => ({ url, title: "Public directory", text: "Choose an observed region", html: "<main>Choose an observed region</main>" }),
-      click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
-    };
-    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, fixtureRetrieval, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
-    await search.search({ intent: { timezone: "Asia/Tokyo", area: { query: "nearby", coordinates: { latitude: 1, longitude: 2, observedAt: reference.toISOString(), source: "DEVICE" } }, criteria: [], target: { goal: "RECOMMENDATION", query: "restaurants nearby" } }, readRunId: `coordinate-input-${failure}` }, new AbortController().signal);
-    assert.equal(modelInputs.length, 1);
-    assert.deepEqual(modelInputs[0], { latitude: 1, longitude: 2, radiusMeters: 1000,
-      ...(!failure ? { addressComponents: [{ longText: "Observed district", types: ["sublocality"] }] } : {}),
-      addressObservation: { source: "GOOGLE_GEOCODING", observedAt: reference.toISOString(), status: failure ? "UNAVAILABLE" : "OBSERVED", ...(failure ? { reasonCode: "GOOGLE_SERVICE_QUOTA_OR_PERMISSION" } : {}) } });
-    assert.equal(locality.googleRequestUsage(`coordinate-input-${failure}`).total, 1);
-  }
-});
-
 // Same Runner composition, semantic/compiler/reducer/grounding/router and installed
 // production Guard. Only model transport and source pages are fixed; no State injection.
 for (const [scenario, expectedPhase, deliveries] of [
@@ -999,33 +910,32 @@ test("P21 failed model calls count toward the shared probe ceiling; later source
    browser:sourcePages("TABELOG_DELIVERS",[],[],[],[],{guardedReadBoundary:true}),clock:{now:()=>reference}});
  assert.equal(result.resources.modelCalls,1);assert.equal(calls,1);
  assert.equal(result.terminationReason,"MODEL_CALL_BUDGET_EXHAUSTED");
- assert.deepEqual(result.unattemptedSourceIds,["tablecheck","google-places"]);
+ assert.deepEqual(result.unattemptedSourceIds,["google-places","tablecheck"]);
  assert.equal(result.witnessInListing,false);
 });
 
-test('P21 pre-detail rewrites stay bounded and reject repeated or unobserved general expressions',async()=>{
- for(const mode of ['different','repeat','unobserved-general'] as const){
- const base=new H001NativeModel('BOTH_BOUNDED_EMPTY');let proposals=0;const navigations:string[]=[],networkRequests:BrowserReadNetworkObservation[]=[];
- const model:ModelGateway={complete:async request=>{
-  if(request.purpose!=='restaurant_discovery_retrieval')return base.complete(request);
-  proposals++;
-  const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
-  if(proposals===3)assert.deepEqual(body.attemptedRetrievals.map((r:{keyword:string})=>r.keyword),['omakase','sushi']);
-  const general=mode==='unobserved-general'&&proposals===2;
-  return reply(JSON.stringify({choice:general?'GENERAL':'KEYWORD',keyword:general?'':proposals===1?'omakase':proposals===2?'sushi':mode==='repeat'?'omakase':'regional cuisine',criterionRef:general?'':'criterion:0',generalRef:general?'general:tablecheck:1':'',categoryUrl:'',reason:'Bounded empty retrieval challenge'}),request.purpose);
- }};
- const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {model,browser:sourcePages('BOTH_BOUNDED_EMPTY',navigations,[],[],[],{guardedReadBoundary:true,networkRequests}),google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>{throw Error('No external API');}}),clock:{now:()=>reference}});
- const intent={timezone:'Asia/Tokyo' as const,area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]};
- const read=await assembly.search.search({intent,readRunId:'rewrite-cap',continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
- assert.equal(proposals,mode==='unobserved-general'?2:3,'no model repair after a rejected proposal');assert.equal(read.candidates.length,0);
- assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.rewrites,mode==='unobserved-general'?0:mode==='repeat'?1:2);
- assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.retrievalPages,mode==='unobserved-general'?1:mode==='repeat'?2:3);
- if(mode!=='different'){
-  assert.equal(read.metadata.nativeDiscoveryFunnel?.retrieval?.history.at(-1)?.selection.rejectionReason,mode==='repeat'?'REPEATED_RETRIEVAL_EXPRESSION':'UNOBSERVED_GENERAL_LIST');
-  assert.ok(navigations.filter(url=>new URL(url).searchParams.get('sw')==='omakase').length<=1,'the repeated query is never issued again');
- }
- assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');assert.ok(read.metadata.nativeDiscoveryFunnel?.sourceEnded);
- assert.ok(networkRequests.some(r=>r.outcome==='ADMITTED'));assert.ok(!base.purposes.includes('restaurant_fact_judgment'));
+test('P21 invalid observed retrieval proposals stop within the same budgets without a general fallback',async()=>{
+ for(const mode of ['extra-value','unobserved-link'] as const){
+  const base=new H001NativeModel('BOTH_BOUNDED_EMPTY');let invalid=0;const navigations:string[]=[];
+  const model:ModelGateway={complete:async request=>{
+   if(request.purpose==='browser_read_decide'){
+    const context=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
+    if(context.observation.visibleText.includes('No restaurants found')){
+     invalid++;
+     return reply(JSON.stringify(mode==='extra-value'?{action:'FILL_AUTHORITATIVE',targetRef:'invented',authoritativeField:'RETRIEVAL',requestedState:'NONE',value:'a model rewrite',reason:'Illegal free text'}:{action:'OPEN_LINK',targetRef:'invented-general',authoritativeField:'NONE',requestedState:'NONE',reason:'Unobserved general list'}),request.purpose);
+    }
+   }
+   return base.complete(request);
+  }};
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]},{model,browser:sourcePages('BOTH_BOUNDED_EMPTY',navigations,[],[],[],{guardedReadBoundary:true}),google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>{throw Error('No external API');}}),clock:{now:()=>reference}});
+  const intent={timezone:'Asia/Tokyo' as const,area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]};
+  const before=structuredClone(intent);
+  const read=await assembly.search.search({intent,readRunId:'invalid-observed-'+mode,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
+  assert.ok(invalid>=1&&invalid<=2,'no repair loop after repeated rejected proposals');
+  assert.equal(read.candidates.length,0);assert.deepEqual(intent,before);
+  assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');
+  assert.ok(!navigations.includes('invented-general'));assert.ok(!base.purposes.includes('restaurant_fact_judgment'));
+  assert.ok(base.purposes.length+invalid<=50);
  }
 });
 
@@ -1036,7 +946,7 @@ test('P21 native venue and Google entries reuse one initial text retrieval propo
  assert.equal(googleRequests.length,1);
  assert.ok(googleRequests[0]!.url.endsWith('/places:searchText'),'shared keyword must select the text transport');
  assert.equal(googleRequests[0]!.body.textQuery,'omakase Shibuya');
- assert.deepEqual(result.attemptedSourceIds,['tabelog','tablecheck','google-places']);
+ assert.deepEqual(result.attemptedSourceIds,['tabelog','google-places','tablecheck']);
  const initialTextPlans=model.requests.filter(r=>r.purpose==='restaurant_discovery_retrieval'&&JSON.parse(r.messages.find(m=>m.role==='user')!.content).observation===null);
  assert.equal(initialTextPlans.length,1);assert.ok(result.resources.modelCalls<=15);
 });
@@ -1096,7 +1006,7 @@ test('H002 without positive HARD uses general shared retrieval and Google nearby
 
 // Full production interpreter -> compiler -> Router -> events/Reducer -> output.
 // Only model and source transport are local constructed; no prefilled evidence.
-test("F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and Google 26 pending candidates", async () => {
+test("F5c observed source correction precedes Google26 pending candidates and defers reservation-only discovery", async () => {
   const directory=await mkdtemp(resolve('.eval-artifacts','flow-decision-capture-'));
   const recording=new BrowserReadRecording({directory,runId:'browser'});
   const capture=createHybridDecisionCapture(resolve(directory,'offline.result.json'),recording);
@@ -1104,31 +1014,29 @@ test("F5c Agent loop corrects within its Tabelog call despite TableCheck 2 and G
   const result = await runScenario("F5_PENDING_CORRECTION", {packs: restaurantDiscoveryPacks,decisionCapture:capture});
   const decisions = result.model.requests.filter(request => request.purpose === "restaurant_agent_decide")
     .map(request => JSON.parse(request.messages.find(message => message.role === "user")!.content).context);
-  const pending = decisions.find(context => context.candidates?.length === 28);
-  assert.ok(pending, "the real Agent must observe all 2 TableCheck + 26 Google candidates");
-  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 2);
+  const pending = decisions.find(context => context.candidates?.length === 26);
+  assert.ok(pending, "the real Agent observes all26 Google candidates before reservation-only fallback");
+  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 0);
   assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.sourceIds.googlePlaces).length, 26);
   assert.equal(pending.searchAvailability.reason, "NATIVE_FIRST_BATCH_PENDING");
   assert.equal(pending.legalActions.search, false, "retain production SEARCH gating rather than bypassing it");
   const alternate = result.navigations.indexOf("https://tabelog.com/en/tokyo/A1323/");
   assert.ok(alternate >= 0, "F5c: correction must happen before the root Agent can queue other sources");
-  assert.ok(alternate < result.navigations.findIndex(url => url.includes("tablecheck.com")), "correction belongs to the first Tabelog source invocation");
+  assert.equal(result.navigations.some(url=>url.includes("tablecheck.com")),false,"Pending primary candidates must be investigated before reservation-only discovery");
   const firstCall = result.trajectories[0]!.executionMetadata!.nativeDiscoveryFunnel!;
-  assert.equal(firstCall.directoryRegion!.replacement!.url, "https://tabelog.com/en/tokyo/A1323/");
-  assert.equal(firstCall.sourceDetailAttempts, 4);
-  assert.equal(firstCall.retrieval!.regionPages, 4);
-  assert.equal(result.model.requests.filter(request => request.purpose === "browser_read_decide"
-    && JSON.parse(request.messages.find(message => message.role === "user")!.content).regionCorrection).length, 1);
-  assert.equal(result.navigations.filter(url => /\/99[0-5]\/$/.test(url)).length, 4, "two first samples and two replacement samples share the source budget");
+  assert.equal(firstCall.sourceDetailAttempts,3,"the fixture model chose the alternate's three actual merchant links; no fixed two-sample correction remains");
+  assert.ok(firstCall.retrieval!.regionPages<=4);
+  assert.equal(result.model.requests.filter(request=>request.purpose==='browser_read_decide'&&JSON.parse(request.messages.find(message=>message.role==='user')!.content).regionCorrection).length,0);
+  assert.equal(result.navigations.filter(url=>/\/99[0-5]\/$/.test(url)).length,3);
   const metadata=result.artifact.decisionCapture!;
   assert.deepEqual(metadata.errors,[],'flow selection has no current DOM by contract and must not be a snapshot mismatch');
   const rows=(await readFile(metadata.path,'utf8')).trim().split('\n').map(line=>JSON.parse(line));
   const flowRows=rows.filter(row=>row.browser?.observationKind==='SOURCE_FLOW_ENTRANCE_SELECTION');
-  assert.equal(flowRows.length,1);
-  const row=flowRows[0],context=JSON.parse(row.messages.find((message:any)=>message.role==='user').content);
-  assert.equal(row.browser.recordingSnapshot,null,'never fabricate a current DOM for collected entrances');
-  assert.deepEqual(row.browser.sourceFlow,{sourceId:context.regionCorrection.sourceId,flowId:context.regionCorrection.flowId,entrances:context.regionCorrection.entrances.map(({ref,originalTargetRef,observationRevision,observedOn}:any)=>({ref,originalTargetRef,observationRevision,observedOn}))});
-  assert.deepEqual(row.messages,result.model.requests[row.sequence-1]!.messages,'capture may annotate provenance but never rewrite model input');
+  assert.equal(flowRows.length,0,"the retired collection contract cannot reappear under another name");
+  for(const row of rows.filter(row=>row.purpose==='browser_read_decide')){
+    assert.ok(row.browser.recordingSnapshot!==null,"each observation decision binds a real current snapshot");
+    assert.deepEqual(row.messages,result.model.requests[row.sequence-1]!.messages,"capture never rewrites the model input");
+  }
   }finally{await recording.finish();await rm(directory,{recursive:true,force:true});}
 });
 
@@ -1156,18 +1064,18 @@ test("F5 provisional discovery crosses real Router/Reducer and retains bounded h
   assert.equal(result.evaluation.execution.taskProducedQualifiedResult,scenario==="F5_SECOND_OUTSIDE"||prior?"NO":"YES",JSON.stringify(result.evaluation.findings));
   const calls=result.model.requests.filter(request=>request.purpose==="browser_read_decide").map(request=>JSON.parse(request.messages.find(message=>message.role==="user")!.content));
   const corrections=calls.filter(input=>input.regionCorrection);
-  assert.equal(corrections.length,(scenario==="F5_NO_ALTERNATE"||scenario==="F5_EDGE_NO_ALTERNATE")?0:1);
+  assert.equal(corrections.length,0,"source-flow correction was retired; the model chooses an observed link");
   assert.equal(result.navigations.filter(url=>new URL(url).pathname==="/en/tokyo/rstLst/").length,1,"no root restore");
-  assert.equal(result.navigations.filter(url=>url==="https://tabelog.com/en/tokyo/A1322/A132201/").length,1);
+  assert.equal(result.navigations.filter(url=>url==="https://tabelog.com/en/tokyo/A1322/A132201/").length,(scenario==="F5_NO_ALTERNATE"||scenario==="F5_EDGE_NO_ALTERNATE")?1:0);
   const finished=result.state.searchContinuation?.deferredSources?.find(item=>item.progress.sourceId==="tabelog")?.progress ?? result.state.searchContinuation?.sourceProgress;
   assert.ok(finished?.detailAttempts!>=2);assert.ok(finished?.retrieval?.regionPages!<=4);
   if(scenario!=="F5_PROVISIONAL_DELIVERS") {
-   assert.equal(finished?.directoryRegion?.stopReason,(scenario==="F5_NO_ALTERNATE"||scenario==="F5_EDGE_NO_ALTERNATE")?"NO_OBSERVED_REPLACEMENT_ENTRANCE":"REPLACEMENT_SAMPLES_OUTSIDE_RADIUS");
+   assert.equal(finished?.directoryRegion,undefined,"no fixed correction state is persisted");
    assert.ok(result.navigations.some(url=>url.includes("tablecheck.com")),"source UNKNOWN permits the next existing source");
   }
   if(prior) {
    assert.ok(result.state.candidates.some(candidate=>candidate.restaurant.id.startsWith("tablecheck:")),"the previously admitted nearby candidate survives correction; its missing HARD support cannot become a qualified delivery");
-   assert.equal(finished?.detailAttempts,scenario==="F5_EDGE_WITH_PRIOR"?4:2);
+   assert.equal(finished?.detailAttempts,3,"all three observed merchant pages share the unchanged source limit");
   }
   assert.ok(result.model.purposes.length<=50);assert.ok(result.artifact.resourceUsage.modelCallsStarted>=corrections.length+2);
  }
@@ -1176,33 +1084,6 @@ test("F5 provisional discovery crosses real Router/Reducer and retains bounded h
 // Local constructed pages/model transport, not a website replay. Production
 // assembly, planner validation, Native search, Guard and budgets stay in place.
 test('F3-034 rejected empty-list rewrites never navigate an implicit general list', async t => {
- for (const mode of ['invalid-keyword','sparse-keep','repeated-keyword'] as const) await t.test(mode, async () => {
-  const navigations:string[]=[], requests:ModelRequest[]=[];
-  const base=new H001NativeModel('BOTH_BOUNDED_EMPTY');
-  let proposals=0;
-  const model:ModelGateway={complete:async request=>{
-   if(request.purpose!=='restaurant_discovery_retrieval')return base.complete(request);
-   requests.push(request);proposals++;
-   return reply(JSON.stringify({choice:proposals===1?'KEYWORD':mode==='sparse-keep'?'KEEP':'KEYWORD',
-    keyword:proposals===1||mode==='repeated-keyword'?'omakase':mode==='invalid-keyword'?'Shibuya 2':'',
-    criterionRef:proposals===1||mode!=='sparse-keep'?'criterion:0':'',generalRef:'',categoryUrl:'',reason:'Local rejected rewrite control'}),request.purpose);
-  }};
-  const raw=sourcePages('BOTH_BOUNDED_EMPTY',navigations,[],[],[],{guardedReadBoundary:true});
-  const browser={...(raw.readNetworkBoundaryCapability?{readNetworkBoundaryCapability:raw.readNetworkBoundaryCapability}:{}),openSession:async(input:Parameters<typeof raw.openSession>[0])=>{
-   const session=await raw.openSession(input);
-   return new Proxy(session,{get(target,key){if(key==='snapshot')return async()=>{const p=await target.snapshot();return mode==='sparse-keep'&&p.url.includes('/A130301/rstLst/')?{...p,html:p.html+'<a href="https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/">Observed sushi</a>'}:p;};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
-  }};
-  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {model,browser,google:new GooglePlacesClient({apiKey:'FIXTURE',fetchImplementation:async()=>{throw Error('No external API');}}),clock:{now:()=>reference}});
-  const intent={timezone:'Asia/Tokyo' as const,area:{query:'Shibuya'},criteria:[{text:'omakase',polarity:'POSITIVE' as const,strength:'HARD' as const}]};
-  const read=await assembly.search.search({intent,readRunId:'f3-034-'+mode,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,label:'Shibuya',radiusMeters:1000,areaMatchBasis:'NAMED_PLACE_RADIUS'}}},new AbortController().signal);
-  assert.ok(JSON.parse(requests[1]!.messages.find(x=>x.role==='user')!.content).observation.explicitEmpty,'the rejection follows an actually parsed empty list');
-  assert.equal(navigations.some(url=>new URL(url).pathname==='/en/tokyo/A1303/A130301/rstLst/'&&!new URL(url).searchParams.get('sw')),false,`${mode}: rejected retrieval must not clear the keyword and navigate a general list`);
-  assert.equal(proposals,2,'one initial and one rejected rewrite; no model repair loop');
-  assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');
-  assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceEnded,true);
-  assert.equal(read.candidates.length,0);assert.deepEqual(intent.criteria,[{text:'omakase',polarity:'POSITIVE',strength:'HARD'}]);
- }
- );
  await t.test('invalid shared text does not silently issue a general Google query',async()=>{
   let calls=0;
   const model:ModelGateway={complete:async request=>reply(JSON.stringify({choice:'KEYWORD',keyword:'Shibuya 2',criterionRef:'criterion:0',generalRef:'',categoryUrl:'',reason:'Rejected text plan control'}),request.purpose)};

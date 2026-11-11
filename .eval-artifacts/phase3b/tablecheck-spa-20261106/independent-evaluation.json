@@ -1,0 +1,68 @@
+{
+  "status": "BLOCKED_BY_UPSTREAM",
+  "atCET": "2026-11-06T18:16:32.555278+01:00",
+  "sourceSHA": "d6b5d523d75867806d3bb8fc1ee9271dbae83067",
+  "originalOutcomeUnchanged": true,
+  "originalOutcome": {
+    "atCET": "2026-11-06T18:06:57.668+01:00",
+    "sourceSHA": "d6b5d523d75867806d3bb8fc1ee9271dbae83067",
+    "status": "NO_UNIQUE_FULL_NAME_SUGGESTION",
+    "pageReadsCharged": 1,
+    "model": 0,
+    "live": 0
+  },
+  "entryHTTP": 200,
+  "fullNameObservedInInput": true,
+  "currentDocumentNavigationCount": 1,
+  "blockedSearchShapes": 4,
+  "noMatchingClaim": "NOT_SUPPORTED: requests blocked, not evidence of absent restaurant",
+  "selectedResult": "NOT_REACHED",
+  "bindingRedGreen": "NOT_EVALUATED: no admitted full-name query/result response and no replayable DOM/HAR",
+  "areaDiscovery": "Static existing comparison uses full document.href, so SPA URL-query change may already satisfy it after model action. Same-URL dynamic-only list remains unproven. No generalized claim that all SPA area discovery is impossible.",
+  "recording": {
+    "enabled": [
+      "DOM",
+      "NETWORK_HAR",
+      "LAYOUT_SCREENSHOT"
+    ],
+    "snapshotsAttempted": 3,
+    "diagnosticDOMSaved": 0,
+    "maskedScreenshots": 3,
+    "replay": {
+      "status": "NOT_REPLAYABLE",
+      "reason": "UNSAFE_DOCUMENT"
+    },
+    "limitation": "UNSAFE_DOCUMENT omitted all 3 diagnostic DOMs; no replayable document -> no HAR artifact emitted. Network/control/timeline evidence retained, not a completed three-channel replay."
+  },
+  "layers": {
+    "endToEnd": "NOT_EVALUATED; no D8 Live",
+    "stepDecisions": "Entry/open/fill observed; suggestion selection/list/detail not reached",
+    "severity": "No admitted POST in final Guard network; no booking/date/login action; full D8 declaration S0 NOT_EVALUATED",
+    "attribution": "Observed precise search grammar refusal plus separate admitted catalog transport failure. Do not attribute no match to model or restaurant."
+  },
+  "newBudget": {
+    "evaluationPublicGET": 1,
+    "model": 0,
+    "live": 0,
+    "google": 0
+  },
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 653,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 348,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11221
+  },
+  "approved": {
+    "evaluationPublicGET": 460,
+    "fullLive": 42,
+    "realModelCalls": 1600
+  },
+  "reserved": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "remainingProbePages": 1,
+  "remainingD8EvaluationGET": 3
+}

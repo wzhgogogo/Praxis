@@ -1,0 +1,5 @@
+# Approved shared resource policy and navigation floor
+
+Scope: default image/media/font suppression in the shared Guard after existing admission checks; declarative retention exceptions can only remove suppression, never grant permission. Preserve documents/CSS/scripts/data. Record policy decisions through existing resourceTypeDetails so no A recorder change is needed; BLOCKED already excluded by qualification. Navigation floor3000ms based on observed41/1447/1494/1730ms clipped failures; retain all existing time limits. Reject before prepare/dispatch with BROWSER_BUDGET_EXHAUSTED.
+
+Validation: red/green unit and real local Chromium for Tabelog/TableCheck/merchant, required script/CSS/XHR remain; no permissions relaxed. Source counts/times measured offline and exactly3+3 W1 public detail reads at≥5s spacing, no retry, no .env/model. Freeze this probe before first spend; log every GET before dispatch. Five gates and strict G2, clean pre/post, branch review only. Stop before A/C file edits if needed.

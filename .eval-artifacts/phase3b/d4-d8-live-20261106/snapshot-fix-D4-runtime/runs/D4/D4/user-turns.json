@@ -1,0 +1,2805 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-D4-1793957094537-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Could you find a kushikatsu place near Akabane with a table for 2 on …",
+          "status": "NEEDS_YOU",
+          "phase": "PRESENT_RESULTS",
+          "taskVersion": 5,
+          "updatedAt": "2026-11-06T09:26:55.519Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+              "createdAt": "2026-11-06T09:24:58.976Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Akabane.\nThe case is now present results.",
+              "createdAt": "2026-11-06T09:26:55.558Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Akabane"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "kushikatsu place near Akabane with a table for 2",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "kushikatsu",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Wednesday, November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-06T09:24:55.260Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Akabane",
+            "latitude": 35.7799638,
+            "longitude": 139.723053,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "longText": "Akabane",
+                "shortText": "Akabane"
+              },
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Kita City",
+                "shortText": "Kita City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              },
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              },
+              {
+                "types": [
+                  "postal_code"
+                ],
+                "longText": "115-0045",
+                "shortText": "115-0045"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 1,
+          "readyCandidateIds": [
+            "tabelog:en/tokyo/A1323/A132305/13108466"
+          ],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 3,
+            "checkedCount": 3
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13273370",
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13273370",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+                  "sourceIds": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+                  "outletName": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b"
+                },
+                "coordinates": {
+                  "lat": 35.779992038638724,
+                  "lng": 139.7206854854141
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Akabane"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 214,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13108466",
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13108466",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+                  "sourceIds": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+                  "outletName": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14"
+                },
+                "coordinates": {
+                  "lat": 35.77955623783377,
+                  "lng": 139.7211530842476
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Akabane"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 177,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13149916",
+                "address": "1150045 東京都北区赤羽1-10-6",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13149916",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                },
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+                  "sourceIds": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+                  "outletName": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473"
+                },
+                "coordinates": {
+                  "lat": 35.77949633783401,
+                  "lng": 139.72175508424655
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Akabane"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 128,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            }
+          ],
+          "availability": {
+            "tabelog:en/tokyo/A1323/A132305/13108466": [
+              {
+                "id": "offer:tabelog:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-11:19:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-11T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-06T09:26:01.258Z",
+                "expiresAt": "2026-11-06T09:26:01.258Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "tabelog:en/tokyo/A1323/A132305/13108466",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+                "bookingRecheckRequired": true
+              }
+            ],
+            "tabelog:en/tokyo/A1323/A132305/13149916": [],
+            "tabelog:en/tokyo/A1323/A132305/13273370": []
+          },
+          "availabilityChecks": {
+            "tabelog:en/tokyo/A1323/A132305/13108466": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-06T09:26:01.258Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:550df1ef3bf1cb93a98c151d",
+                "evidence:restaurant:tabelog-hard-criteria:61e64bfb5f624a6482dd9840",
+                "evidence:restaurant:tabelog-availability:1405fe00e8077ab740306ee5"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+              "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "tabelog:en/tokyo/A1323/A132305/13149916": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-06T09:25:51.137Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:a4900c45e8bc89997925fd65"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "tabelog:en/tokyo/A1323/A132305/13273370": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-06T09:26:11.744Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:39a01e922c4851bdbe0622fd"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7799638,
+                "longitude": 139.723053,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJveNASxuTGGAR2OV0KRI3zV4",
+                "resolvedPlaceName": "Akabane",
+                "resolvedPlaceTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "locationNameExactMatch": true,
+                "locationResolutionQuery": "Akabane",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "a7b4558b2f7f30cda8bd6786af458ce852ef05f19de3f678c8f462548ab72d4c",
+              "observedAt": "2026-11-06T09:25:02.417Z",
+              "sourceEntityId": "ChIJveNASxuTGGAR2OV0KRI3zV4",
+              "requestFingerprint": "5116861fffca263022af4f9c1ba8a368a1ac481ef17b563e9eade81e7d2d1ac1"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F",
+                "areaMatch": true,
+                "areaQuery": "near Akabane",
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 214,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "evaluationLocationLabel": "Akabane"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+              "observedAt": "2026-11-06T09:25:32.423Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"kushikatsu place near Akabane with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-11\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Akabane\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"kushikatsu\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7799638,\"longitude\":139.723053,\"radiusMeters\":1000,\"label\":\"Akabane\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Akabane\",\"shortText\":\"Akabane\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Kita City\",\"shortText\":\"Kita City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"115-0045\",\"shortText\":\"115-0045\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F",
+                "areaMatch": true,
+                "areaQuery": "near Akabane",
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 177,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "evaluationLocationLabel": "Akabane"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+              "observedAt": "2026-11-06T09:25:35.301Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"kushikatsu place near Akabane with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-11\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Akabane\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"kushikatsu\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7799638,\"longitude\":139.723053,\"radiusMeters\":1000,\"label\":\"Akabane\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Akabane\",\"shortText\":\"Akabane\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Kita City\",\"shortText\":\"Kita City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"115-0045\",\"shortText\":\"115-0045\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-10-6",
+                "areaMatch": true,
+                "areaQuery": "near Akabane",
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 128,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "evaluationLocationLabel": "Akabane"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+              "evidenceId": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+              "observedAt": "2026-11-06T09:25:38.318Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"kushikatsu place near Akabane with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-11\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Akabane\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"kushikatsu\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7799638,\"longitude\":139.723053,\"radiusMeters\":1000,\"label\":\"Akabane\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Akabane\",\"shortText\":\"Akabane\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Kita City\",\"shortText\":\"Kita City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"115-0045\",\"shortText\":\"115-0045\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "observedOutletName": "Kushi Katsu Tanaka Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:a4900c45e8bc89997925fd65",
+              "observedAt": "2026-11-06T09:25:51.137Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Tanaka Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                }
+              ],
+              "requestFingerprint": "b9c2098e9239221d16a2a2b76dbf6af349dbeecc3b0b1457a5386191566db031"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "observedOutletName": "Kushi Katsu Dengana Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:550df1ef3bf1cb93a98c151d",
+              "observedAt": "2026-11-06T09:26:01.258Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Dengana Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "f82ab36fb0b1bcca15f98c1c329d5682eac6caf29db957c31a5645813ac7e4b3"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:61e64bfb5f624a6482dd9840",
+              "observedAt": "2026-11-06T09:26:01.258Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Kushi-age (Deep-fried skewers), Izakaya (Japanese style tavern), Tripe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "63d27d253f41300a8311da3a5f81b04f492ccb31a45ee5c675e90f2522b7d206"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-11",
+                "partySize": 2,
+                "visibleSlots": [
+                  "19:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:1405fe00e8077ab740306ee5",
+              "observedAt": "2026-11-06T09:26:01.258Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:e6a755490e6675ebde92e2edab29bef01e08f4a62ec178803ed91886e2baec4c"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+              "requestFingerprint": "944745be27ee81c04eaa5f28cff57ccb99ecee0954761a576150d62044b5d4cd",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "observedOutletName": "Kushi Katsu Ageage Akabane honten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:39a01e922c4851bdbe0622fd",
+              "observedAt": "2026-11-06T09:26:11.744Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Ageage Akabane honten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                }
+              ],
+              "requestFingerprint": "1ca9845c89d6f463cd2227dbed4a1a01c319d5b81ad103cabd466b13f7db874a"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F",
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Kushi Katsu Dengana Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:b1d1cdb482bb223eafafd824",
+              "observedAt": "2026-11-06T09:26:13.386Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Dengana Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13108466\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1323/A132305/13108466/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:18",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:39",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:47"
+                ],
+                "restaurantTypeFacts": [
+                  "Kushi-age (Deep-fried skewers)",
+                  "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                  "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability."
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+              "observedAt": "2026-11-06T09:26:13.386Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi-age (Deep-fried skewers)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability.",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51\",\"statementIds\":[\"tabelog:en/tokyo/A1323/A132305/13108466:statement:18\",\"tabelog:en/tokyo/A1323/A132305/13108466:statement:39\",\"tabelog:en/tokyo/A1323/A132305/13108466:statement:47\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "kushikatsu"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-06T09:26:18.529Z:tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+              "observedAt": "2026-11-06T09:26:18.529Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13108466\",\"criteria\":[\"kushikatsu\"],\"cited\":[\"tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-10-6",
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Kushi Katsu Tanaka Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:c8e49d14fd1036c82a91f2b4",
+              "observedAt": "2026-11-06T09:26:18.586Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Tanaka Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13149916\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1323/A132305/13149916/\"}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F",
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Kushi Katsu Ageage Akabane honten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:36bfd4b4d11717331daccc27",
+              "observedAt": "2026-11-06T09:26:47.290Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Ageage Akabane honten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13273370\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1323/A132305/13273370/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13273370:statement:18",
+                  "tabelog:en/tokyo/A1323/A132305/13273370:statement:43"
+                ],
+                "restaurantTypeFacts": [
+                  "Kushi-age (Deep-fried skewers)",
+                  "This was our second stop. It seems to be a kushikatsu (deep-fried skewers) place, but sin...View details"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927",
+              "observedAt": "2026-11-06T09:26:47.290Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Kushi-age (Deep-fried skewers)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "This was our second stop. It seems to be a kushikatsu (deep-fried skewers) place, but sin...View details",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927\",\"statementIds\":[\"tabelog:en/tokyo/A1323/A132305/13273370:statement:18\",\"tabelog:en/tokyo/A1323/A132305/13273370:statement:43\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "kushikatsu"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1323/A132305/13273370:2026-11-06T09:26:53.010Z:tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927",
+              "observedAt": "2026-11-06T09:26:53.010Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13273370\",\"criteria\":[\"kushikatsu\"],\"cited\":[\"tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927\"]}"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13273370:statement:18",
+                  "tabelog:en/tokyo/A1323/A132305/13273370:statement:43"
+                ],
+                "restaurantTypeFacts": [
+                  "Kushi-age (Deep-fried skewers)",
+                  "This was our second stop. It seems to be a kushikatsu (deep-fried skewers) place, but sin...View details"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927",
+              "observedAt": "2026-11-06T09:26:47.290Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Kushi-age (Deep-fried skewers)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "This was our second stop. It seems to be a kushikatsu (deep-fried skewers) place, but sin...View details",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927\",\"statementIds\":[\"tabelog:en/tokyo/A1323/A132305/13273370:statement:18\",\"tabelog:en/tokyo/A1323/A132305/13273370:statement:43\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "kushikatsu"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1323/A132305/13273370:2026-11-06T09:26:53.010Z:tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927",
+              "observedAt": "2026-11-06T09:26:53.010Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13273370\",\"criteria\":[\"kushikatsu\"],\"cited\":[\"tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:18",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:39",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:47"
+                ],
+                "restaurantTypeFacts": [
+                  "Kushi-age (Deep-fried skewers)",
+                  "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                  "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability."
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+              "observedAt": "2026-11-06T09:26:13.386Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi-age (Deep-fried skewers)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability.",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51\",\"statementIds\":[\"tabelog:en/tokyo/A1323/A132305/13108466:statement:18\",\"tabelog:en/tokyo/A1323/A132305/13108466:statement:39\",\"tabelog:en/tokyo/A1323/A132305/13108466:statement:47\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "kushikatsu"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-06T09:26:18.529Z:tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+              "observedAt": "2026-11-06T09:26:18.529Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13108466\",\"criteria\":[\"kushikatsu\"],\"cited\":[\"tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51\"]}"
+            }
+          ],
+          "presentedCandidateIds": [
+            "tabelog:en/tokyo/A1323/A132305/13108466"
+          ],
+          "conditionStates": {
+            "tabelog:en/tokyo/A1323/A132305/13108466": [
+              {
+                "text": "kushikatsu",
+                "status": "MET",
+                "sources": [
+                  {
+                    "field": "SOURCE_TEXT",
+                    "quote": "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                  },
+                  {
+                    "meal": "UNSPECIFIED",
+                    "field": "COURSE_DESCRIPTION",
+                    "quote": "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability.",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                  }
+                ],
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceIds": [
+                  "fact-judgment:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-06T09:26:18.529Z:tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+                ],
+                "explanation": "Based on merchant website/menu text. Requested-time course availability has not been verified.",
+                "criterionRef": "criterion:0"
+              }
+            ]
+          },
+          "viewedCandidateIds": [],
+          "shortlistCandidateIds": [],
+          "resultBatchTarget": {
+            "met": false,
+            "candidateCount": 3
+          },
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-06T09:24:55.256Z"
+          },
+          "bookingHandoffs": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "offerId": "offer:tabelog:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-11:19:00:2",
+              "provider": "TABELOG",
+              "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1900",
+              "directLabel": "Book on Tabelog",
+              "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+              "checkedAt": "2026-11-06T09:26:01.258Z",
+              "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+              "platformFee": {
+                "provider": "TABELOG",
+                "channel": "ENGLISH_BOOKING",
+                "amountPerPersonJPY": 440,
+                "userCancellationRefund": false,
+                "restaurantCancellationRefund": true,
+                "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+                "sourceUrl": "https://tabelog.com/en/help",
+                "checkedOn": "2026-10-29",
+                "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+                "quotes": [
+                  "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+                  "Please note that no refunds will be issued for cancellations made for customer reasons.",
+                  "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+                ]
+              },
+              "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+              "linkCarries": [
+                "DATE",
+                "TIME",
+                "PARTY_SIZE"
+              ],
+              "sourceSelection": "UNKNOWN",
+              "terms": []
+            }
+          ]
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 5,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1323/A132305/13273370",
+                    "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1323/A132305/13273370",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                    },
+                    "outletName": "Kushi Katsu Ageage Akabane honten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+                      "sourceIds": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+                      "outletName": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b"
+                    },
+                    "coordinates": {
+                      "lat": 35.779992038638724,
+                      "lng": 139.7206854854141
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Akabane"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 214,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1323/A132305/13108466",
+                    "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1323/A132305/13108466",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                    },
+                    "outletName": "Kushi Katsu Dengana Akabane ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+                      "sourceIds": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+                      "outletName": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14"
+                    },
+                    "coordinates": {
+                      "lat": 35.77955623783377,
+                      "lng": 139.7211530842476
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Akabane"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 177,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1323/A132305/13149916",
+                    "address": "1150045 東京都北区赤羽1-10-6",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1323/A132305/13149916",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                    },
+                    "outletName": "Kushi Katsu Tanaka Akabane ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+                      "sourceIds": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+                      "outletName": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473"
+                    },
+                    "coordinates": {
+                      "lat": 35.77949633783401,
+                      "lng": 139.72175508424655
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Akabane"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 128,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                }
+              ],
+              "availability": {
+                "tabelog:en/tokyo/A1323/A132305/13108466": [
+                  {
+                    "id": "offer:tabelog:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-11:19:00:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-11T19:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-06T09:26:01.258Z",
+                    "expiresAt": "2026-11-06T09:26:01.258Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "tabelog:en/tokyo/A1323/A132305/13108466",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+                    "bookingRecheckRequired": true
+                  }
+                ],
+                "tabelog:en/tokyo/A1323/A132305/13149916": [],
+                "tabelog:en/tokyo/A1323/A132305/13273370": []
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-06T09:24:58.971Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:6bd07917-f0a3-434b-a4d8-428be07786aa",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:6bd07917-f0a3-434b-a4d8-428be07786aa"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "3 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-06T09:25:38.349Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:ae8678b4-a272-405f-af43-b00b98cee767",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:ae8678b4-a272-405f-af43-b00b98cee767"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "1 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-06T09:26:11.748Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:572442a3-20d9-4207-98f3-efd7918aa033",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:572442a3-20d9-4207-98f3-efd7918aa033"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-06T09:26:53.060Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:0df24e31-271f-4385-8b03-2cdf4d8ae05e",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:0df24e31-271f-4385-8b03-2cdf4d8ae05e"
+            },
+            "type": "RESULTS_PRESENTED",
+            "display": {
+              "title": "Read-only results presented",
+              "detail": "1 evidence-grounded result(s) are ready."
+            },
+            "occurredAt": "2026-11-06T09:26:55.519Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    },
+    {
+      "id": "PRIVATE_ROOM",
+      "message": "Does this restaurant have a private room?",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Could you find a kushikatsu place near Akabane with a table for 2 on …",
+          "status": "NEEDS_YOU",
+          "phase": "PRESENT_RESULTS",
+          "taskVersion": 7,
+          "updatedAt": "2026-11-06T09:26:55.581Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+              "createdAt": "2026-11-06T09:24:58.976Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Akabane.\nThe case is now present results.",
+              "createdAt": "2026-11-06T09:26:55.558Z"
+            },
+            {
+              "id": "message:0:a3de3482c310c386b61a6bb9",
+              "role": "USER",
+              "content": "Does this restaurant have a private room?",
+              "createdAt": "2026-11-06T09:26:55.573Z"
+            },
+            {
+              "id": "message:1:a3de3482c310c386b61a6bb9",
+              "role": "ASSISTANT",
+              "content": "The page answer could not be verified.",
+              "createdAt": "2026-11-06T09:26:55.587Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Akabane"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "kushikatsu place near Akabane with a table for 2",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "kushikatsu",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Wednesday, November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-06T09:24:55.260Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Akabane",
+            "latitude": 35.7799638,
+            "longitude": 139.723053,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "longText": "Akabane",
+                "shortText": "Akabane"
+              },
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Kita City",
+                "shortText": "Kita City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              },
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              },
+              {
+                "types": [
+                  "postal_code"
+                ],
+                "longText": "115-0045",
+                "shortText": "115-0045"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 1,
+          "readyCandidateIds": [
+            "tabelog:en/tokyo/A1323/A132305/13108466"
+          ],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 3,
+            "checkedCount": 3
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13273370",
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13273370",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+                  "sourceIds": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+                  "outletName": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b"
+                },
+                "coordinates": {
+                  "lat": 35.779992038638724,
+                  "lng": 139.7206854854141
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Akabane"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 214,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13108466",
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13108466",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+                  "sourceIds": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+                  "outletName": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14"
+                },
+                "coordinates": {
+                  "lat": 35.77955623783377,
+                  "lng": 139.7211530842476
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Akabane"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 177,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13149916",
+                "address": "1150045 東京都北区赤羽1-10-6",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13149916",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                },
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+                  "sourceIds": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+                  "outletName": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473"
+                },
+                "coordinates": {
+                  "lat": 35.77949633783401,
+                  "lng": 139.72175508424655
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Akabane"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 128,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            }
+          ],
+          "availability": {
+            "tabelog:en/tokyo/A1323/A132305/13108466": [
+              {
+                "id": "offer:tabelog:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-11:19:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-11T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-06T09:26:01.258Z",
+                "expiresAt": "2026-11-06T09:26:01.258Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "tabelog:en/tokyo/A1323/A132305/13108466",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+                "bookingRecheckRequired": true
+              }
+            ],
+            "tabelog:en/tokyo/A1323/A132305/13149916": [],
+            "tabelog:en/tokyo/A1323/A132305/13273370": []
+          },
+          "availabilityChecks": {
+            "tabelog:en/tokyo/A1323/A132305/13108466": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-06T09:26:01.258Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:550df1ef3bf1cb93a98c151d",
+                "evidence:restaurant:tabelog-hard-criteria:61e64bfb5f624a6482dd9840",
+                "evidence:restaurant:tabelog-availability:1405fe00e8077ab740306ee5"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+              "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "tabelog:en/tokyo/A1323/A132305/13149916": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-06T09:25:51.137Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:a4900c45e8bc89997925fd65"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "tabelog:en/tokyo/A1323/A132305/13273370": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-06T09:26:11.744Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:39a01e922c4851bdbe0622fd"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7799638,
+                "longitude": 139.723053,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJveNASxuTGGAR2OV0KRI3zV4",
+                "resolvedPlaceName": "Akabane",
+                "resolvedPlaceTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "locationNameExactMatch": true,
+                "locationResolutionQuery": "Akabane",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "a7b4558b2f7f30cda8bd6786af458ce852ef05f19de3f678c8f462548ab72d4c",
+              "observedAt": "2026-11-06T09:25:02.417Z",
+              "sourceEntityId": "ChIJveNASxuTGGAR2OV0KRI3zV4",
+              "requestFingerprint": "5116861fffca263022af4f9c1ba8a368a1ac481ef17b563e9eade81e7d2d1ac1"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F",
+                "areaMatch": true,
+                "areaQuery": "near Akabane",
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 214,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "evaluationLocationLabel": "Akabane"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+              "observedAt": "2026-11-06T09:25:32.423Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"kushikatsu place near Akabane with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-11\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Akabane\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"kushikatsu\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7799638,\"longitude\":139.723053,\"radiusMeters\":1000,\"label\":\"Akabane\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Akabane\",\"shortText\":\"Akabane\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Kita City\",\"shortText\":\"Kita City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"115-0045\",\"shortText\":\"115-0045\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F",
+                "areaMatch": true,
+                "areaQuery": "near Akabane",
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 177,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "evaluationLocationLabel": "Akabane"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+              "observedAt": "2026-11-06T09:25:35.301Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"kushikatsu place near Akabane with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-11\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Akabane\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"kushikatsu\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7799638,\"longitude\":139.723053,\"radiusMeters\":1000,\"label\":\"Akabane\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Akabane\",\"shortText\":\"Akabane\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Kita City\",\"shortText\":\"Kita City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"115-0045\",\"shortText\":\"115-0045\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-10-6",
+                "areaMatch": true,
+                "areaQuery": "near Akabane",
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 128,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "evaluationLocationLabel": "Akabane"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+              "evidenceId": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+              "observedAt": "2026-11-06T09:25:38.318Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"kushikatsu place near Akabane with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-11\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Akabane\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"kushikatsu\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7799638,\"longitude\":139.723053,\"radiusMeters\":1000,\"label\":\"Akabane\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Akabane\",\"shortText\":\"Akabane\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Kita City\",\"shortText\":\"Kita City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"115-0045\",\"shortText\":\"115-0045\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "observedOutletName": "Kushi Katsu Tanaka Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:a4900c45e8bc89997925fd65",
+              "observedAt": "2026-11-06T09:25:51.137Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Tanaka Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                }
+              ],
+              "requestFingerprint": "b9c2098e9239221d16a2a2b76dbf6af349dbeecc3b0b1457a5386191566db031"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "observedOutletName": "Kushi Katsu Dengana Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:550df1ef3bf1cb93a98c151d",
+              "observedAt": "2026-11-06T09:26:01.258Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Dengana Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "f82ab36fb0b1bcca15f98c1c329d5682eac6caf29db957c31a5645813ac7e4b3"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:61e64bfb5f624a6482dd9840",
+              "observedAt": "2026-11-06T09:26:01.258Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Kushi-age (Deep-fried skewers), Izakaya (Japanese style tavern), Tripe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "63d27d253f41300a8311da3a5f81b04f492ccb31a45ee5c675e90f2522b7d206"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-11",
+                "partySize": 2,
+                "visibleSlots": [
+                  "19:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:1405fe00e8077ab740306ee5",
+              "observedAt": "2026-11-06T09:26:01.258Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:e6a755490e6675ebde92e2edab29bef01e08f4a62ec178803ed91886e2baec4c"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+              "requestFingerprint": "944745be27ee81c04eaa5f28cff57ccb99ecee0954761a576150d62044b5d4cd",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "observedOutletName": "Kushi Katsu Ageage Akabane honten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:39a01e922c4851bdbe0622fd",
+              "observedAt": "2026-11-06T09:26:11.744Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Ageage Akabane honten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                }
+              ],
+              "requestFingerprint": "1ca9845c89d6f463cd2227dbed4a1a01c319d5b81ad103cabd466b13f7db874a"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F",
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Kushi Katsu Dengana Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:b1d1cdb482bb223eafafd824",
+              "observedAt": "2026-11-06T09:26:13.386Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Dengana Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13108466\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1323/A132305/13108466/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:18",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:39",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:47"
+                ],
+                "restaurantTypeFacts": [
+                  "Kushi-age (Deep-fried skewers)",
+                  "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                  "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability."
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+              "observedAt": "2026-11-06T09:26:13.386Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi-age (Deep-fried skewers)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability.",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51\",\"statementIds\":[\"tabelog:en/tokyo/A1323/A132305/13108466:statement:18\",\"tabelog:en/tokyo/A1323/A132305/13108466:statement:39\",\"tabelog:en/tokyo/A1323/A132305/13108466:statement:47\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "kushikatsu"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-06T09:26:18.529Z:tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+              "observedAt": "2026-11-06T09:26:18.529Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13108466\",\"criteria\":[\"kushikatsu\"],\"cited\":[\"tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-10-6",
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Kushi Katsu Tanaka Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:c8e49d14fd1036c82a91f2b4",
+              "observedAt": "2026-11-06T09:26:18.586Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Tanaka Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13149916\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1323/A132305/13149916/\"}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F",
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Kushi Katsu Ageage Akabane honten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:36bfd4b4d11717331daccc27",
+              "observedAt": "2026-11-06T09:26:47.290Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Ageage Akabane honten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13273370\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1323/A132305/13273370/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13273370:statement:18",
+                  "tabelog:en/tokyo/A1323/A132305/13273370:statement:43"
+                ],
+                "restaurantTypeFacts": [
+                  "Kushi-age (Deep-fried skewers)",
+                  "This was our second stop. It seems to be a kushikatsu (deep-fried skewers) place, but sin...View details"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927",
+              "observedAt": "2026-11-06T09:26:47.290Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Kushi-age (Deep-fried skewers)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "This was our second stop. It seems to be a kushikatsu (deep-fried skewers) place, but sin...View details",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927\",\"statementIds\":[\"tabelog:en/tokyo/A1323/A132305/13273370:statement:18\",\"tabelog:en/tokyo/A1323/A132305/13273370:statement:43\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "kushikatsu"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1323/A132305/13273370:2026-11-06T09:26:53.010Z:tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927",
+              "observedAt": "2026-11-06T09:26:53.010Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13273370\",\"criteria\":[\"kushikatsu\"],\"cited\":[\"tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927\"]}"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13273370:statement:18",
+                  "tabelog:en/tokyo/A1323/A132305/13273370:statement:43"
+                ],
+                "restaurantTypeFacts": [
+                  "Kushi-age (Deep-fried skewers)",
+                  "This was our second stop. It seems to be a kushikatsu (deep-fried skewers) place, but sin...View details"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+              "evidenceId": "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927",
+              "observedAt": "2026-11-06T09:26:47.290Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Kushi-age (Deep-fried skewers)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "This was our second stop. It seems to be a kushikatsu (deep-fried skewers) place, but sin...View details",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927\",\"statementIds\":[\"tabelog:en/tokyo/A1323/A132305/13273370:statement:18\",\"tabelog:en/tokyo/A1323/A132305/13273370:statement:43\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "kushikatsu"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1323/A132305/13273370:2026-11-06T09:26:53.010Z:tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927",
+              "observedAt": "2026-11-06T09:26:53.010Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13273370\",\"criteria\":[\"kushikatsu\"],\"cited\":[\"tabelog:en/tokyo/A1323/A132305/13273370:document:f26459daf5dc5927\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:18",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:39",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:statement:47"
+                ],
+                "restaurantTypeFacts": [
+                  "Kushi-age (Deep-fried skewers)",
+                  "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                  "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability."
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+              "observedAt": "2026-11-06T09:26:13.386Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+              },
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi-age (Deep-fried skewers)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability.",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51\",\"statementIds\":[\"tabelog:en/tokyo/A1323/A132305/13108466:statement:18\",\"tabelog:en/tokyo/A1323/A132305/13108466:statement:39\",\"tabelog:en/tokyo/A1323/A132305/13108466:statement:47\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "kushikatsu"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-06T09:26:18.529Z:tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+              "observedAt": "2026-11-06T09:26:18.529Z",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1323/A132305/13108466\",\"criteria\":[\"kushikatsu\"],\"cited\":[\"tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51\"]}"
+            }
+          ],
+          "presentedCandidateIds": [
+            "tabelog:en/tokyo/A1323/A132305/13108466"
+          ],
+          "conditionStates": {
+            "tabelog:en/tokyo/A1323/A132305/13108466": [
+              {
+                "text": "kushikatsu",
+                "status": "MET",
+                "sources": [
+                  {
+                    "field": "SOURCE_TEXT",
+                    "quote": "Crispy on the outside, chewy on the inside! Enjoy our piping hot Kushi Katsu!",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                  },
+                  {
+                    "meal": "UNSPECIFIED",
+                    "field": "COURSE_DESCRIPTION",
+                    "quote": "Enjoy a set of 8 Kushi Katsu, our signature dish, along with Tulip Kara-age and a mini beef soup. Includes a two-hour all-you-can-drink option (last order at 90 minutes) with a glass exchange system. Extensions are available upon request (subject to availability during busy times). Please note that the menu items may change depending on ingredient availability.",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                  }
+                ],
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceIds": [
+                  "fact-judgment:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-06T09:26:18.529Z:tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51",
+                  "tabelog:en/tokyo/A1323/A132305/13108466:document:4a7d20b8bb852c51"
+                ],
+                "explanation": "Based on merchant website/menu text. Requested-time course availability has not been verified.",
+                "criterionRef": "criterion:0"
+              }
+            ]
+          },
+          "viewedCandidateIds": [],
+          "shortlistCandidateIds": [],
+          "resultBatchTarget": {
+            "met": false,
+            "candidateCount": 3
+          },
+          "pageQuestion": {
+            "result": {
+              "reason": "INCOMPLETE_PAGE",
+              "status": "UNVERIFIED",
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "checkedPages": [
+                {
+                  "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+                  "readAt": "2026-11-06T09:26:16.927Z"
+                }
+              ]
+            },
+            "question": "Does this restaurant have a private room?",
+            "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "requestId": "PRIVATE_ROOM",
+            "deadlineAt": "2026-11-06T09:27:55.568Z",
+            "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+            "requestedAt": "2026-11-06T09:26:55.568Z",
+            "readStartedAt": "2026-11-06T09:24:55.256Z"
+          },
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-06T09:24:55.256Z"
+          },
+          "bookingHandoffs": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "offerId": "offer:tabelog:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-11:19:00:2",
+              "provider": "TABELOG",
+              "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1900",
+              "directLabel": "Book on Tabelog",
+              "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+              "checkedAt": "2026-11-06T09:26:01.258Z",
+              "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+              "platformFee": {
+                "provider": "TABELOG",
+                "channel": "ENGLISH_BOOKING",
+                "amountPerPersonJPY": 440,
+                "userCancellationRefund": false,
+                "restaurantCancellationRefund": true,
+                "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+                "sourceUrl": "https://tabelog.com/en/help",
+                "checkedOn": "2026-10-29",
+                "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+                "quotes": [
+                  "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+                  "Please note that no refunds will be issued for cancellations made for customer reasons.",
+                  "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+                ]
+              },
+              "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+              "linkCarries": [
+                "DATE",
+                "TIME",
+                "PARTY_SIZE"
+              ],
+              "sourceSelection": "UNKNOWN",
+              "terms": []
+            }
+          ]
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 7,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1323/A132305/13273370",
+                    "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1323/A132305/13273370",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                    },
+                    "outletName": "Kushi Katsu Ageage Akabane honten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+                      "sourceIds": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b",
+                      "outletName": "evidence:restaurant:native-discovery:0404f9fd9041f585dc72882b"
+                    },
+                    "coordinates": {
+                      "lat": 35.779992038638724,
+                      "lng": 139.7206854854141
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Akabane"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 214,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1323/A132305/13108466",
+                    "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1323/A132305/13108466",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                    },
+                    "outletName": "Kushi Katsu Dengana Akabane ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+                      "sourceIds": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14",
+                      "outletName": "evidence:restaurant:native-discovery:f889b53b69fb5af412953d14"
+                    },
+                    "coordinates": {
+                      "lat": 35.77955623783377,
+                      "lng": 139.7211530842476
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Akabane"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 177,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1323/A132305/13149916",
+                    "address": "1150045 東京都北区赤羽1-10-6",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1323/A132305/13149916",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                    },
+                    "outletName": "Kushi Katsu Tanaka Akabane ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+                      "sourceIds": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473",
+                      "outletName": "evidence:restaurant:native-discovery:37d201076ad6221f9b1ba473"
+                    },
+                    "coordinates": {
+                      "lat": 35.77949633783401,
+                      "lng": 139.72175508424655
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Akabane"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 128,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                }
+              ],
+              "availability": {
+                "tabelog:en/tokyo/A1323/A132305/13108466": [
+                  {
+                    "id": "offer:tabelog:tabelog:en/tokyo/A1323/A132305/13108466:2026-11-11:19:00:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-11T19:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-06T09:26:01.258Z",
+                    "expiresAt": "2026-11-06T09:26:01.258Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "tabelog:en/tokyo/A1323/A132305/13108466",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-06T09:36:01.258Z",
+                    "bookingRecheckRequired": true
+                  }
+                ],
+                "tabelog:en/tokyo/A1323/A132305/13149916": [],
+                "tabelog:en/tokyo/A1323/A132305/13273370": []
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-06T09:24:58.971Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:6bd07917-f0a3-434b-a4d8-428be07786aa",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:6bd07917-f0a3-434b-a4d8-428be07786aa"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "3 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-06T09:25:38.349Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:ae8678b4-a272-405f-af43-b00b98cee767",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:ae8678b4-a272-405f-af43-b00b98cee767"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "1 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-06T09:26:11.748Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:572442a3-20d9-4207-98f3-efd7918aa033",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:572442a3-20d9-4207-98f3-efd7918aa033"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-06T09:26:53.060Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:0df24e31-271f-4385-8b03-2cdf4d8ae05e",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:0df24e31-271f-4385-8b03-2cdf4d8ae05e"
+            },
+            "type": "RESULTS_PRESENTED",
+            "display": {
+              "title": "Read-only results presented",
+              "detail": "1 evidence-grounded result(s) are ready."
+            },
+            "occurredAt": "2026-11-06T09:26:55.519Z"
+          },
+          {
+            "activityId": "activity:event:user:f2f4defc505b36bea0b9189f31c42400",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:f2f4defc505b36bea0b9189f31c42400"
+            },
+            "type": "PAGE_QUESTION_REQUESTED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-06T09:26:55.571Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:6b290363-97d2-4611-bc30-c566fbd3d3ac",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:6b290363-97d2-4611-bc30-c566fbd3d3ac"
+            },
+            "type": "PAGE_QUESTION_COMPLETED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-06T09:26:55.581Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1793957095256,
+      "deadlineAtMs": 1793957595256,
+      "elapsedMs": 120300.72,
+      "modelCalls": 22,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "PRIVATE_ROOM",
+      "startedAtMs": 1793957215568,
+      "deadlineAtMs": 1793957715568,
+      "elapsedMs": 25.891459000005852,
+      "modelCalls": 0,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13273370",
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13273370",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13108466",
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13108466",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13149916",
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13149916",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                },
+                "address": "1150045 東京都北区赤羽1-10-6"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:6bd07917-f0a3-434b-a4d8-428be07786aa",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:ae8678b4-a272-405f-af43-b00b98cee767",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:572442a3-20d9-4207-98f3-efd7918aa033",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:0df24e31-271f-4385-8b03-2cdf4d8ae05e",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "RESULTS_PRESENTED",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1323/A132305/13108466"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "turnId": "PRIVATE_ROOM",
+        "userMessage": "Does this restaurant have a private room?",
+        "before": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13273370",
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13273370",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13108466",
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13108466",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13149916",
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13149916",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                },
+                "address": "1150045 東京都北区赤羽1-10-6"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13273370",
+                "outletName": "Kushi Katsu Ageage Akabane honten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13273370",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13273370/"
+                },
+                "address": "1150045 東京都北区赤羽1-22-4 岡村ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13108466",
+                "outletName": "Kushi Katsu Dengana Akabane ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13108466",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                },
+                "address": "1150045 東京都北区赤羽1-15-1 新仲ビル1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1323/A132305/13149916",
+                "outletName": "Kushi Katsu Tanaka Akabane ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1323/A132305/13149916",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/"
+                },
+                "address": "1150045 東京都北区赤羽1-10-6"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13149916",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13149916",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1323/A132305/13273370",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13273370",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:f2f4defc505b36bea0b9189f31c42400",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "PAGE_QUESTION_REQUESTED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:6b290363-97d2-4611-bc30-c566fbd3d3ac",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "PAGE_QUESTION_COMPLETED"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

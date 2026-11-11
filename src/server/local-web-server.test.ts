@@ -1,3 +1,5 @@
+import {fixtureGetRuntime} from "../harness/fixtures/observed-get-session.js";
+import {scriptedBrowserObservation} from "../harness/fixtures/restaurant-observation-model.js";
 import { prepareBookingHandoff, type BookingHandoffContext, type BookingHandoffSource, type PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
 import { groundTabelogAvailability } from "../domains/restaurant/read-grounding.js";
 import { RestaurantPageQuestionReader } from "../integrations/restaurant-facts/page-question-reader.js";
@@ -127,6 +129,7 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
   const server = createLocalWebServer({
     application,
     sessions,
+    ...(options.readAssembly ? {readAssembly:options.readAssembly} : {}),
     ...(options.bookingHandoffs ? {bookingHandoffs:options.bookingHandoffs} : {}),
     ...(options.artifactDirectory ? { artifactDirectory: options.artifactDirectory } : {}),
   });
@@ -163,7 +166,7 @@ class MeteredGoogleFixtureRestaurantSearch implements RestaurantSearchPort, Rest
       evidence: read.candidates.map((candidate) => ({
         evidenceId: `metered-discovery:${candidate.restaurant.id}`, kind: "DISCOVERY" as const, provider: "GOOGLE_PLACES" as const,
         candidateId: candidate.restaurant.id, sourceEntityId: candidate.restaurant.id, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "metered-discovery",
-        claims: { areaMatch: true, areaQuery: request.intent.area.query },
+        claims: { areaMatch: true, areaQuery: request.intent.area!.query },
       })),
       metadata: {
         ...read.metadata,
@@ -1520,8 +1523,10 @@ test("Stage 2B continues an incomplete request and enforces optimistic concurren
 });
 
 
-// Full persistent HTTP composition; only model transport and merchant browser I/O are fixtures.
-// The ordinary identity parser, G1 core, Agent, Validator, Router and Reducer remain real.
+// Persistent HTTP/Agent/Validator/Router/Reducer controls with real identity parsing and G1 core.
+// A manually built PageQuestionReader/GoogleListedWebsiteFactRead and a stub search Port warm
+// the page cache. This bypasses live-read-assembly and GoogleThenWebsiteFactRead; it does not
+// prove production page acquisition. Full G1 assembly coverage belongs to a separate test.
 function questionSessionFixture(clock: FakeClock, output?: (request: ModelRequest) => unknown) {
   const calls = {model:0,search:0,facts:0,availability:0,pages:0};
   let beforeAnswer: (()=>Promise<void>) | undefined;
@@ -1787,9 +1792,10 @@ test("G1 async cancellation and newer question discard a late model answer", asy
   });
 });
 
-// Start/end: authenticated HTTP create -> Interpreter/Compiler/Agent/Validator/Router/Reducer/
-// PGlite -> server B1 projection. Only model transport and source I/O are fixtures.
-// Source JSON/query literals are independent of the URL checker; no website is contacted.
+// Authenticated HTTP/Interpreter/Compiler/Agent/Validator/Router/Reducer/PGlite -> B1 projection.
+// Business Ports, evidence and handoff cache are constructed here, bypassing live-read-assembly;
+// this verifies projection/rechecks/owner isolation, not production source-link acquisition.
+// The "B1 ordinary assembly" test below covers the actual factory/source-response chain.
 test("B1 persistent HTTP composition projects a cached source link, rechecks it and isolates owners", async()=>{
   await withDatabase(async({database,clock})=>{
     const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
@@ -1837,7 +1843,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const view=await createCase(running.baseUrl,cookie,"b1-create",message);
       assert.equal(view.case.phase,"PRESENT_RESULTS");
       assert.equal(view.restaurant.bookingHandoffs?.[0]?.url,"https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900");
-      assert.equal(view.restaurant.selectedCandidateId,undefined);
+      assert.equal(view.restaurant.selectedCandidateId,"fixture:outlet");
       const path="/api/cases/"+encodeURIComponent(view.case.caseId);
       const leave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
       assert.equal(leave.response.status,201,"a validated B1 departure must be durable before leaving");
@@ -1876,7 +1882,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const after=await running.application.getCase("user-a",view.case.caseId);
       assert.equal(after.restaurant.bookingFeedbackAvailable,false);
       assert.equal(after.case.taskVersion,before.case.taskVersion);assert.equal(after.case.phase,before.case.phase);
-      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,undefined);
+      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,before.restaurant.selectedCandidateId);
       const rows=await database.query<{count:string}>("SELECT COUNT(*) AS count FROM restaurant_booking_departures");assert.equal(Number(rows.rows[0]!.count),1);
       for(const choice of ["NO","SKIP"] as const){
         await running.close();decision=0;raw.source.observedAt=clock.now().toISOString();
@@ -1891,5 +1897,139 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
 
 
     } finally {await running.close();}
+  });
+});
+
+// Real persistent HTTP/assembly/Router/Reducer/availability/parser path; only model,
+// Google and BrowserSession transports are constructed fixtures. No prepared B1 record.
+test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
+  await withDatabase(async ({database, clock}) => {
+    const pageUrl = "https://tabelog.com/en/tokyo/A1301/A130101/13123456/";
+    const original = "https://tabelog.com/en/booking/form_course/new?visit_time=%31%39%30%30&member=2&rcd=13123456&visit_date=20260809";
+    let sourceLink: string | undefined = original;
+    let decisions = 0;
+    let opens = 0;
+    let useJapanese = false;
+    let japaneseLookups = 0;
+    const navigations: string[] = [];
+    const fixture: ModelGateway = {async complete(request) {
+      const observed=scriptedBrowserObservation(request);if(observed)return observed;
+      let output: unknown;
+      if (request.purpose === "restaurant_semantic_interpret") output = availabilityProposal(2);
+      else if (request.purpose === "restaurant_source_facts") output = {selections: []};
+      else if (request.purpose === "restaurant_named_source_query") output = {field:"name",fragment:"Fixture Sushi"};
+      else {
+        assert.equal(request.purpose, "restaurant_agent_decide");
+        const context = JSON.parse(request.messages[1]!.content).context;
+        const ids = context.candidates.map((c: {id:string}) => c.id);
+        const hasOffer = Object.values(context.availability).some(v => Array.isArray(v) && v.length);
+        const action = decisions++ === 0 ? {type:"SEARCH_RESTAURANTS",candidateIds:[]}
+          : decisions === 2 ? {type:"CHECK_AVAILABILITY",candidateIds:ids}
+          : hasOffer ? {type:"PRESENT_RESULTS",candidateIds:ids} : {type:"END_READ",candidateIds:[]};
+        output = {...action,question:"",relatedFields:[],retrievalHint:"",candidateId:"",offerId:"",decisionSummary:"Offline B1 transport fixture"};
+      }
+      return {invocationId:"b1-g3-fixture",provider:"FIXTURE",model:"offline",latencyMs:0,finishReason:"TOOL_CALLS",outputText:JSON.stringify(output)};
+    }};
+    const model = new RunBoundedModelGateway(fixture, 50, readLimits.maxAutomaticBrowserMs);
+    const google = new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async (_url,init) => {
+      if (new URL(String(_url)).searchParams.get("languageCode") === "ja") {
+        japaneseLookups++;
+        assert.equal(new URL(String(_url)).pathname,"/v1/places/b1-g3-outlet");
+        assert.equal(new Headers(init?.headers).get("X-Goog-FieldMask"),"id,displayName");
+        return new Response(JSON.stringify({id:"b1-g3-outlet",displayName:{text:"すし本店",languageCode:"ja"}}));
+      }
+      const query = init?.body ? JSON.parse(String(init.body)).textQuery : undefined;
+      return new Response(JSON.stringify({places:query === "Shibuya" ? [{id:"b1-location",displayName:{text:"Shibuya"},types:["train_station"],location:{latitude:35.66,longitude:139.70}}]
+        : [{id:"b1-g3-outlet",displayName:{text:useJapanese ? "Fixture Sushi Tokyo" : "Fixture Sushi"},formattedAddress:"1-2-3 Shibuya Tokyo",types:["restaurant"],location:{latitude:35.66,longitude:139.70},nationalPhoneNumber:"03-1234-5678",...(useJapanese ? {} : {websiteUri:pageUrl})}]}),{status:200});
+    }});
+    const browser: BrowserRuntime = {readNetworkBoundaryCapability:"ISOLATED_CONTEXT",async openSession() {
+      opens++;
+      let currentUrl=pageUrl,query="";
+      return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString(),readNetworkBoundary:"INSTALLED"},
+        async navigate(url) {navigations.push(url);currentUrl=url;assert.ok(url===pageUrl || (useJapanese && ["/en/","/en/rstLst/"].includes(new URL(url).pathname)),"never open a workflow to check the link");},
+        async snapshot() {
+          if (new URL(currentUrl).pathname.includes("rstLst")||new URL(currentUrl).pathname==="/en/") {
+            const found=new URL(currentUrl).searchParams.get("sw")==="すし本店";
+            return {url:currentUrl,title:"Search",text:found ? "すし本店" : "No restaurants were found that match your search criteria",html:found ? `<a href="${pageUrl}">すし本店</a>` : ""};
+          }
+          return {url:pageUrl,title:"Fixture Sushi",text:"Fixture Sushi Availability Guests 2 19:00",
+          html:`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Fixture Sushi",address:"1-2-3 Shibuya Tokyo",telephone:"03-1234-5678"})}</script><select name="party"><option selected value="2">2 guests</option></select><select name="date"><option selected value="2026-08-09">2026-08-09</option></select>`,
+          responses:[{url:"https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20260809&svps=2",status:200,sequence:7,observedAt:clock.now().toISOString(),
+            body:{base_date:{year:2026,month:8,day:9},members:2,selection:sourceLink === undefined ? [] : [{time:"19:00",url:sourceLink}]}}]};},
+        async observeControls(){return new URL(currentUrl).pathname===new URL(pageUrl).pathname?[]:[{id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Name",type:"search",value:query,structure:{tag:"INPUT",name:"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false},{id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false}];},async select(_selector,value) {return [value];},async click() {currentUrl="https://tabelog.com/en/rstLst/?sw="+encodeURIComponent(query);navigations.push(currentUrl);},async fill(_id,value){query=value;},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
+    }};
+    const readAssembly = createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {
+      google,browser:fixtureGetRuntime(browser),model,clock,currentTaskId:()=>model.currentTaskId(),
+    });
+    let running = await startServer(database,clock,{model,modelRunBudget:model,readAssembly,mode:"LIVE_READ",liveReadLimits:readAssembly.runCeilings});
+    try {
+      const cookie = await login(running.baseUrl,"token-a");
+      let last:RestaurantCaseView | undefined;
+      for (const [label,link,accepted] of [
+        ["original",original,true],
+        ["relative",original.slice("https://tabelog.com".length),true],
+        ["missing",undefined,false],
+        ["date",original.replace("20260809","20260810"),false],
+        ["party",original.replace("member=2","member=3"),false],
+        ["time",original.replace("%31%39%30%30","1930"),false],
+        ["outlet",original.replace("rcd=13123456","rcd=99999999"),false],
+        ["domain",original.replace("tabelog.com","example.invalid"),false],
+        ["path",original.replace("/en/booking/form_course/new","/yoyaku/tabelog_booking/confirm"),false],
+        ["extra-query",original+"&redirect=https%3A%2F%2Fexample.invalid",false],
+        ["japanese-name",original,true],
+      ] as const) await t.test(label,async()=>{
+        sourceLink=link;decisions=0;useJapanese=label==="japanese-name";
+        const navigationStart=navigations.length;
+        let finish!:()=>void;const done=new Promise<void>(resolve=>{finish=resolve;});
+        const unsubscribe=running.application.subscribeReadFinished(()=>{finish();});
+        try {
+          const created=await createCase(running.baseUrl,cookie,"b1-g3-"+label,"Tomorrow at 7pm for two in Shibuya, find a table.");
+          await withinTestTimeout(done,"G3 availability and B1 projection");
+          const result=await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(created.case.caseId));
+          const view=result.payload.view as RestaurantCaseView;
+          const handoffs=view.restaurant.bookingHandoffs ?? [];
+          if(useJapanese && process.env.PRAXIS_G4_JAPANESE_DIAGNOSTIC === "1"){
+            const artifact=await running.application.exportReadArtifact(created.case.caseId);
+            console.log("G4_JAPANESE_DIAGNOSTIC "+JSON.stringify({phase:view.case.phase,handoffs:handoffs.length,checks:view.restaurant.availabilityChecks,
+              evidence:view.restaurant.readEvidence.map(e=>({kind:e.kind,provider:e.provider,sourceEntityId:e.sourceEntityId,confidence:e.entityMatch?.confidence})),
+              resourceUsage:artifact.resourceUsage,navigations:navigations.slice(navigationStart)}));
+          }
+          if(accepted){
+            assert.equal(view.case.phase,"PRESENT_RESULTS",JSON.stringify(view));
+            if(useJapanese)assert.equal(view.restaurant.availabilityChecks[view.restaurant.candidates[0]!.restaurant.id]?.sourceProvider,"TABELOG");
+            assert.equal(handoffs.length,1,"ordinary startup assembly must supply the source reader without a test-prepared handoff");
+            assert.equal(handoffs[0]!.url,original,"original bytes/order/encoding must survive, with only the source origin for a relative URL");
+            assert.equal(handoffs[0]!.directLabel,"Book on Tabelog");
+            assert.equal(handoffs[0]!.sourceSelection,"UNKNOWN");
+            last=view;
+            if(label === "original" && process.env.PRAXIS_B1_UI_SNAPSHOT === "1") console.log("B1_G3_HTTP_VIEW " + Buffer.from(JSON.stringify(view)).toString("base64"));
+            if(useJapanese){
+              assert.deepEqual(navigations.slice(navigationStart).filter(url=>url.includes("rstLst")).map(url=>new URL(url).searchParams.get("sw")),["Fixture Sushi Tokyo","Fixture Sushi","すし本店"]);
+              assert.equal(japaneseLookups,1,"one same-ID source name, after both earlier terms fail");
+              const artifact=await running.application.exportReadArtifact(created.case.caseId);
+              assert.equal((artifact.resourceUsage as {googleRequests?:{placeDetails:number}}).googleRequests?.placeDetails,1,"the source-name Details request appears in the ordinary run artifact");
+            }
+          }else assert.equal(handoffs.length,0,"mismatched or unsupported link must hide the button");
+        }finally{unsubscribe();}
+      });
+      assert.ok(last);
+      const stranger=await login(running.baseUrl,"token-b");
+      assert.equal((await api(running.baseUrl,stranger,"/api/cases/"+encodeURIComponent(last.case.caseId))).response.status,404);
+      const before=opens;
+      const current=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;
+      assert.equal(current.restaurant.bookingHandoffs?.[0]?.url,original,"other Cases with identical clocks/evidence IDs cannot replace this Case cache");
+      const freshAssembly=createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {google,browser:fixtureGetRuntime(browser),model,clock,currentTaskId:()=>model.currentTaskId()});
+      await running.close();
+      running=await startServer(database,clock,{model,modelRunBudget:model,readAssembly:freshAssembly,mode:"LIVE_READ"});
+      const restarted=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;
+      assert.deepEqual(restarted.restaurant.bookingHandoffs,[],"a new process cache cannot reconstruct a lost source URL from the offer");
+      assert.ok(Object.values(restarted.restaurant.availability).some(items=>items.length),"restart control retains fresh authoritative availability");
+      assert.equal(opens,before,"restart/projection never triggers a new source read");
+      clock.advance(600_000);
+      const stale=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;
+      assert.deepEqual(stale.restaurant.bookingHandoffs,[]);
+      assert.equal(opens,before,"projection/expiry may not open or re-read a source");
+      assert.ok(navigations.length>0);
+    }finally{await running.application.stopActiveReads();await running.close();}
   });
 });

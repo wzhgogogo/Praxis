@@ -1,0 +1,46 @@
+✖ blocked POST suppresses entry recovery: NO_HEADERS (10228.875833ms)
+✖ blocked POST suppresses entry recovery: IDLE_ABORT (20126.004708ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30646.458125
+
+✖ failing tests:
+
+test at src/harness/browser/entry-unsafe-no-retry.test.ts:1:274
+✖ blocked POST suppresses entry recovery: NO_HEADERS (10228.875833ms)
+  Error [BrowserRuntimeError]: Observed target changed or detached; inspect a fresh page observation before acting
+      at PlaywrightControlRegistry.target (/private/tmp/praxis-heldout-read-reliability/src/infrastructure/browser/playwright-browser-controls.ts:514:13)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async <anonymous> (/private/tmp/praxis-heldout-read-reliability/src/infrastructure/browser/local-playwright-chromium.ts:154:23)
+      at async LocalPlaywrightChromiumSession.run (/private/tmp/praxis-heldout-read-reliability/src/infrastructure/browser/local-playwright-chromium.ts:264:14)
+      at async LocalPlaywrightChromiumSession.click (/private/tmp/praxis-heldout-read-reliability/src/infrastructure/browser/local-playwright-chromium.ts:152:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-unsafe-no-retry.test.ts:24:29)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_STALE_TARGET',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/entry-unsafe-no-retry.test.ts:1:274
+✖ blocked POST suppresses entry recovery: IDLE_ABORT (20126.004708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-unsafe-no-retry.test.ts:26:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual'
+  }

@@ -50,7 +50,7 @@ export interface GooglePlacesTextSearchRequest {
 
 export interface GooglePlacesRawPlace {
   id?: unknown;
-  displayName?: { text?: unknown };
+  displayName?: { text?: unknown; languageCode?: unknown };
   formattedAddress?: unknown;
   addressComponents?: unknown;
   location?: { latitude?: unknown; longitude?: unknown };
@@ -60,6 +60,13 @@ export interface GooglePlacesRawPlace {
   googleMapsUri?: unknown;
   websiteUri?: unknown;
   regularOpeningHours?: { weekdayDescriptions?: unknown };
+}
+
+/** A source-provided name, never a translation or an outlet identity verdict. */
+export interface GooglePlacesSourceName {
+  readonly placeId: string;
+  readonly text: string;
+  readonly languageCode: string | null;
 }
 
 export interface GooglePlacesTextSearchResponse {
@@ -84,6 +91,7 @@ export class GooglePlacesError extends Error {
   constructor(
     readonly code: "GOOGLE_SEARCH_FAILED" | "GOOGLE_NETWORK_FAILED" | "GOOGLE_SERVICE_REJECTED" | "GOOGLE_RATE_LIMITED" | "GOOGLE_SERVICE_QUOTA_OR_PERMISSION" | "GOOGLE_TIMEOUT" | "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" | "GOOGLE_LOCATION_UNRESOLVED" | "GOOGLE_LOCATION_AMBIGUOUS" | "GOOGLE_MALFORMED_RESPONSE" | "GOOGLE_CONFIGURATION_ERROR",
     message: string,
+    readonly status?:number,
   ) {
     super(message);
     this.name = "GooglePlacesError";

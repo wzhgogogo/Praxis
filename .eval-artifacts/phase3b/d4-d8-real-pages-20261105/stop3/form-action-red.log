@@ -1,0 +1,137 @@
+✖ real homepage GET Search keeps its approved queryless form action (3.566833ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 357.949959
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/browser-read-recording.test.ts:1:626
+✖ real homepage GET Search keeps its approved queryless form action (3.566833ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /action="https:\/\/tabelog.com\/en\/rstLst\/"/. Input:
+  
+  '<!DOCTYPE html><html lang="en"><head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">\n' +
+    '    <title>Tabelog - Japan Food &amp; Restaurant Guide for Travelers</title>\n' +
+    '    <meta content="Find and book your perfect restaurant with &quot;Tabelog&quot;! Explore 906,981 restaurants across Japan. Discover top-rated spots in various categories based on unique rankings, user reviews, and photos that fit your purpose and budget!" name="description">\n' +
+    '    <link media="only screen and (max-width: 640px)" rel="alternate">\n' +
+    '    <meta content="width=1260" name="viewport">\n' +
+    '    <link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css?rst-v1-202611051539-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0">\n' +
+    '    <link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/inbound/desktop/object.css?rst-v1-202611051539-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"><link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css?rst-v1-202611051539-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"><noscript></noscript><link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css?rst-v1-202611051539-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"><link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css?rst-v1-202611051539-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d">\n' +
+    '    <link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/lib/colorbox.css?rst-v1-202611051539-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"><link rel="stylesheet" media="screen" href="https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css?rst-v1-202611051539-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"><script src="https://tblg.k-img.com/javascripts/assets/sentry_initializer.js?rst-v1-202611051539-71e7e9b9e60c755b11aeb339f925ce66a8786822bab76edd84669dcd4a938b36"></script><script src="https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js?rst-v1-202611051539-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"></script>\n' +
+    '    <link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css?rst-v1-202611051539-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075">\n' +
+    '    <link href="https://tabelog.com/en/" rel="canonical">\n' +
+    '    <script src="https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js?rst-v1-202611051539-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"></script>\n' +
+    '    <link href="https://tabelog.com/" hreflang="ja" rel="alternate">\n' +
+    '    <link href="https://tabelog.com/en/" hreflang="en" rel="alternate">\n' +
+    '    <link href="https://tabelog.com/kr/" hreflang="ko" rel="alternate">\n' +
+    '    <link href="https://tabelog.com/cn/" hreflang="zh-CN" rel="alternate">\n' +
+    '    <link href="https://tabelog.com/tw/" hreflang="zh-TW" rel="alternate">\n' +
+    '    <link href="https://tabelog.com/th/" hreflang="th" rel="alternate">\n' +
+    '  </head>\n' +
+    '  <body class="rst theme-en">\n' +
+    '    <a id="pagetop" name="pagetop"></a>\n' +
+    '    <div class="flexible-rstlst-header" id="js-global-header">\n' +
+    '      <div class="l-container inbound-about">\n' +
+    '        <div class="l-contents l-contents--fixed">\n' +
+    '          <a data-analytics-btn=":menu_about" data-analytics-add-page-prefix="true" class="inbound-about__link js-analytics" href="https://tabelog.com/en/help/beginner">About Tabelog</a><a data-analytics-btn=":menu_faq" data-analytics-add-page-prefix="true" class="inbound-about__link js-analytics" href="https://tabelog.com/en/help">FAQ</a><a data-analytics-btn=":culture_guide" data-analytics-add-page-prefix="true" class="inbound-about__link js-analytics" href="https://tabelog.com/en/column/japanese-table-manners/">Japanese Culture and Etiquette Guide</a>\n' +
+    '        </div>\n' +
+    '      </div>\n' +
+    '      <div class="l-container p-header-wrapper p-header-wrapper--top">\n' +
+    '        <div class="l-contents l-contents--fixed">\n' +
+    '          <div class="p-header p-header--inbound">\n' +
+    '            <div class="p-header__title">\n' +
+    '              <h1>\n' +
+    "                Japan's No. 1* Restaurant Listing and Reservation Site.\n" +
+    '              </h1>\n' +
+    '            </div>\n' +
+    '            <ul class="p-lang-switch">\n' +
+    '              <li class="p-lang-switch__item is-selected">\n' +
+    '                <a class="js-analytics" data-analytics-btn=":menu_change_language_en" data-analytics-add-page-prefix="true" href="https://tabelog.com/en/">English</a>\n' +
+    '              </li>\n' +
+    '              <li class="p-lang-switch__item">\n' +
+    '                <a class="js-analytics" data-analytics-btn=":menu_change_language_cn" data-analytics-add-page-prefix="true" href="https://tabelog.com/cn/">简体中文</a>\n' +
+    '              </li>\n' +
+    '              <li class="p-lang-switch__item">\n' +
+    '                <a class="js-analytics" data-analytics-btn=":menu_change_language_tw" data-analytics-add-page-prefix="true" href="https://tabelog.com/tw/">繁體中文</a>\n' +
+    '              </li>\n' +
+    '              <li class="p-lang-switch__item">\n' +
+    '                <a class="js-analytics" data-analytics-btn=":menu_change_language_kr" data-analytics-add-page-prefix="true" href="https://tabelog.com/kr/">한국어</a>\n' +
+    '              </li>\n' +
+    '              <li class="p-lang-switch__item">\n' +
+    '                <a class="js-analytics" data-analytics-btn=":menu_change_language_th" data-analytics-add-page-prefix="true" href="https://tabelog.com/th/">ไทย</a>\n' +
+    '              </li>\n' +
+    '              <li class="p-lang-switch__item">\n' +
+    '                <a class="js-analytics" data-analytics-btn=":menu_change_language_jp" data-analytics-add-page-prefix="true" href="https://tabelog.com/">日本語</a>\n' +
+    '              </li>\n' +
+    '            </ul>\n' +
+    '          </div>\n' +
+    '        </div>\n' +
+    '      </div>\n' +
+    '      <div class="l-container p-header-wrapper p-header-wrapper--bottom">\n' +
+    '        <div class="l-contents l-contents--fixed">\n' +
+    '          <div class="p-header">\n' +
+    '            <p class="p-header__logo">\n' +
+    '              <a class="p-header__logo-img" href="https://tabelog.com/en/" title="Tabelog">Tabelog </a>\n' +
+    '            </p>\n' +
+    '          </div>\n' +
+    '        </div>\n' +
+    '      </div>\n' +
+    '    </div>\n' +
+    '    <div id="container">\n' +
+    '      <div class="rsttop-inbound">\n' +
+    '        <div class="rsttop-inbound-kv">\n' +
+    '          <div class="rsttop-inbound-kv__slide-img">\n' +
+    '            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--01">\n' +
+    '              <img loading="eager" width="1860" height="380" alt="top kv 01">\n' +
+    '            </div>\n' +
+    '            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--02">\n' +
+    '              <img loading="lazy" width="1860" height="380" alt="top kv 02">\n' +
+    '            </div>\n' +
+    '            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--03">\n' +
+    '              <img loading="lazy" width="1860" height="380" alt="top kv 03">\n' +
+    '            </div>\n' +
+    '            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--04">\n' +
+    '              <img loading="lazy" width="1860" height="380" alt="top kv 04">\n' +
+    '            </div>\n' +
+    '            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--05">\n' +
+    '              <img loading="lazy" width="1860" height="380" alt="top kv 05">\n' +
+    '            </div>\n' +
+    '            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--06">\n' +
+    '              <img loading="lazy" width="1860" height="380" alt="top kv 06">\n' +
+    '            </div>\n' +
+    '          </div>\n' +
+    '          <div class="rsttop-inbound-kv__inner">\n' +
+    '            <div class="rsttop-inbound-kv__title">\n' +
+    "              <strong>Japan's No. 1* Restaurant Listing and Reservation Site.</strong>\n" +
+    '            </div>\n' +
+    '          </div>\n' +
+    '          <div class="rsttop-inbound-search-form l-container">\n' +
+    '            <div class="rsttop-inbound-search-form__contents l-contents l-contents--flexible">\n' +
+    '              <div class="rsttop-inbound-kv__notice">\n' +
+    '                *As of May 2024, according to in-house survey.\n' +
+    '              </div>\n' +
+    '              <div class="rsttop-inbound-search-form__item">\n' +
+    '                <form class="p-global-search rsttop-inbound-search-form__item-frame js-top-search-form js-keyword-suggest-form" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">\n' +
+    '                          <div class="p-global-search__input-wrap p-global-search__input-wrap--area rsttop-inbound-search-form__input-wrap rsttop-inbound-search-form__input-wrap--area">\n' +
+    '                            <div class="p-keyword-suggest__input-inner js-keyword-suggest-input-inner">\n' +
+    '                              <input class="js-keyword-suggest-input p-keyword-suggest__input js-analytics" data-analytics-add-page-prefix="true" data-analytics-btn=":search_filter_open" placeholder="Location, cuisine, restaurant name, etc." type="text">\n' +
+    '                            </div>\n' +
+    '                            <div class="p-global-search__clear-btn p-global-search-suggest__clear-btn rsttop-inbound-search-form__clear-btn js-keyword-text-reset">\n' +
+    '                              <i>Reset</i>\n' +
+    '                            </div>\n' +
+    '                            <input type="hidden" name="pal" id="pal" class="js-pal"><input type="hidden" name="LstPrf" id="LstPrf" class="js-LstPrf"><input type="hidden" name="LstAre" id="LstAre" class="js-LstAre"><input type="hidden" name="station_id" id="station_id" class="js-station-id"><input type="hidden" name="area_datatype" id="area_datatype" class="js-area-datatype"><input type="hidden" name="area_id" id="area_id" class="js-area-id"><input type="hidden" name="genre_name" id="genre_name" class="js-genre-name"><input type="hidden" name="sw" id="sw" class="js-sw" value=""><input type="hidden" name="search_mode" id="search_mode" class="js-search-mode">\n' +
+    '                            <div class="p-keyword'... 261817 more characters
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/browser-read-recording.test.ts:20:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: `<!DOCTYPE html><html lang="en"><head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">\n    <title>Tabelog - Japan Food &amp; Restaurant Guide for Travelers</title>\n    <meta content="Find and book your perfect restaurant with &quot;Tabelog&quot;! Explore 906,981 restaurants across Japan. Discover top-rated spots in various categories based on unique rankings, user reviews, and photos that fit your purpose and budget!" name="description">\n    <link media="only screen and (max-width: 640px)" rel="alternate">\n    <meta content="width=1260" name="viewport">\n    <link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css?rst-v1-202611051539-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0">\n    <link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/inbound/desktop/object.css?rst-v1-202611051539-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"><link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css?rst-v1-202611051539-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"><noscript></noscript><link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css?rst-v1-202611051539-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"><link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css?rst-v1-202611051539-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d">\n    <link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/lib/colorbox.css?rst-v1-202611051539-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"><link rel="stylesheet" media="screen" href="https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css?rst-v1-202611051539-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"><script src="https://tblg.k-img.com/javascripts/assets/sentry_initializer.js?rst-v1-202611051539-71e7e9b9e60c755b11aeb339f925ce66a8786822bab76edd84669dcd4a938b36"></script><script src="https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js?rst-v1-202611051539-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"></script>\n    <link rel="stylesheet" media="all" href="https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css?rst-v1-202611051539-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075">\n    <link href="https://tabelog.com/en/" rel="canonical">\n    <script src="https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js?rst-v1-202611051539-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"></script>\n    <link href="https://tabelog.com/" hreflang="ja" rel="alternate">\n    <link href="https://tabelog.com/en/" hreflang="en" rel="alternate">\n    <link href="https://tabelog.com/kr/" hreflang="ko" rel="alternate">\n    <link href="https://tabelog.com/cn/" hreflang="zh-CN" rel="alternate">\n    <link href="https://tabelog.com/tw/" hreflang="zh-TW" rel="alternate">\n    <link href="https://tabelog.com/th/" hreflang="th" rel="alternate">\n  </head>\n  <body class="rst theme-en">\n    <a id="pagetop" name="pagetop"></a>\n    <div class="flexible-rstlst-header" id="js-global-header">\n      <div class="l-container inbound-about">\n        <div class="l-contents l-contents--fixed">\n          <a data-analytics-btn=":menu_about" data-analytics-add-page-prefix="true" class="inbound-about__link js-analytics" href="https://tabelog.com/en/help/beginner">About Tabelog</a><a data-analytics-btn=":menu_faq" data-analytics-add-page-prefix="true" class="inbound-about__link js-analytics" href="https://tabelog.com/en/help">FAQ</a><a data-analytics-btn=":culture_guide" data-analytics-add-page-prefix="true" class="inbound-about__link js-analytics" href="https://tabelog.com/en/column/japanese-table-manners/">Japanese Culture and Etiquette Guide</a>\n        </div>\n      </div>\n      <div class="l-container p-header-wrapper p-header-wrapper--top">\n        <div class="l-contents l-contents--fixed">\n          <div class="p-header p-header--inbound">\n            <div class="p-header__title">\n              <h1>\n                Japan's No. 1* Restaurant Listing and Reservation Site.\n              </h1>\n            </div>\n            <ul class="p-lang-switch">\n              <li class="p-lang-switch__item is-selected">\n                <a class="js-analytics" data-analytics-btn=":menu_change_language_en" data-analytics-add-page-prefix="true" href="https://tabelog.com/en/">English</a>\n              </li>\n              <li class="p-lang-switch__item">\n                <a class="js-analytics" data-analytics-btn=":menu_change_language_cn" data-analytics-add-page-prefix="true" href="https://tabelog.com/cn/">简体中文</a>\n              </li>\n              <li class="p-lang-switch__item">\n                <a class="js-analytics" data-analytics-btn=":menu_change_language_tw" data-analytics-add-page-prefix="true" href="https://tabelog.com/tw/">繁體中文</a>\n              </li>\n              <li class="p-lang-switch__item">\n                <a class="js-analytics" data-analytics-btn=":menu_change_language_kr" data-analytics-add-page-prefix="true" href="https://tabelog.com/kr/">한국어</a>\n              </li>\n              <li class="p-lang-switch__item">\n                <a class="js-analytics" data-analytics-btn=":menu_change_language_th" data-analytics-add-page-prefix="true" href="https://tabelog.com/th/">ไทย</a>\n              </li>\n              <li class="p-lang-switch__item">\n                <a class="js-analytics" data-analytics-btn=":menu_change_language_jp" data-analytics-add-page-prefix="true" href="https://tabelog.com/">日本語</a>\n              </li>\n            </ul>\n          </div>\n        </div>\n      </div>\n      <div class="l-container p-header-wrapper p-header-wrapper--bottom">\n        <div class="l-contents l-contents--fixed">\n          <div class="p-header">\n            <p class="p-header__logo">\n              <a class="p-header__logo-img" href="https://tabelog.com/en/" title="Tabelog">Tabelog </a>\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div id="container">\n      <div class="rsttop-inbound">\n        <div class="rsttop-inbound-kv">\n          <div class="rsttop-inbound-kv__slide-img">\n            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--01">\n              <img loading="eager" width="1860" height="380" alt="top kv 01">\n            </div>\n            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--02">\n              <img loading="lazy" width="1860" height="380" alt="top kv 02">\n            </div>\n            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--03">\n              <img loading="lazy" width="1860" height="380" alt="top kv 03">\n            </div>\n            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--04">\n              <img loading="lazy" width="1860" height="380" alt="top kv 04">\n            </div>\n            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--05">\n              <img loading="lazy" width="1860" height="380" alt="top kv 05">\n            </div>\n            <div class="rsttop-inbound-kv__slide-img-item rsttop-inbound-kv__slide-img-item--06">\n              <img loading="lazy" width="1860" height="380" alt="top kv 06">\n            </div>\n          </div>\n          <div class="rsttop-inbound-kv__inner">\n            <div class="rsttop-inbound-kv__title">\n              <strong>Japan's No. 1* Restaurant Listing and Reservation Site.</strong>\n            </div>\n          </div>\n          <div class="rsttop-inbound-search-form l-container">\n            <div class="rsttop-inbound-search-form__contents l-contents l-contents--flexible">\n              <div class="rsttop-inbound-kv__notice">\n                *As of May 2024, according to in-house survey.\n              </div>\n              <div class="rsttop-inbound-search-form__item">\n                <form class="p-global-search rsttop-inbound-search-form__item-frame js-top-search-form js-keyword-suggest-form" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">\n                          <div class="p-global-search__input-wrap p-global-search__input-wrap--area rsttop-inbound-search-form__input-wrap rsttop-inbound-search-form__input-wrap--area">\n                            <div class="p-keyword-suggest__input-inner js-keyword-suggest-input-inner">\n                              <input class="js-keyword-suggest-input p-keyword-suggest__input js-analytics" data-analytics-add-page-prefix="true" data-analytics-btn=":search_filter_open" placeholder="Location, cuisine, restaurant name, etc." type="text">\n                            </div>\n                            <div class="p-global-search__clear-btn p-global-search-suggest__clear-btn rsttop-inbound-search-form__clear-btn js-keyword-text-reset">\n                              <i>Reset</i>\n                            </div>\n                            <input type="hidden" name="pal" id="pal" class="js-pal"><input type="hidden" name="LstPrf" id="LstPrf" class="js-LstPrf"><input type="hidden" name="LstAre" id="LstAre" class="js-LstAre"><input type="hidden" name="station_id" id="station_id" class="js-station-id"><input type="hidden" name="area_datatype" id="area_datatype" class="js-area-datatype"><input type="hidden" name="area_id" id="area_id" class="js-area-id"><input type="hidden" name="genre_name" id="genre_name" class="js-genre-name"><input type="hidden" name="sw" id="sw" class="js-sw" value=""><input type="hidden" name="search_mode" id="search_mode" class="js-search-mode">\n                            <div class="p-keyword`... 261817 more characters,
+    expected: /action="https:\/\/tabelog.com\/en\/rstLst\/"/,
+    operator: 'match'
+  }

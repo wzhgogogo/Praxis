@@ -1,3 +1,8 @@
+import {mkdtemp,writeFile,rm} from "node:fs/promises";
+import {tmpdir} from "node:os";
+import {join} from "node:path";
+import {replayHarPages} from "../../../harness/browser/browser-read-test-fixtures.js";
+import {discoveryPackNetworkPolicy,tabelogDiscoveryPack,tableCheckDiscoveryPack} from "../../../integrations/restaurant-search/source-packs.js";
 import type { BrowserActionOptions, BrowserReadNetworkObservation, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
 import { chromium, type BrowserContext, type Route } from "playwright-core";
 import { PlaywrightReadNetworkGuard } from "../../../infrastructure/browser/playwright-read-network-guard.js";
@@ -56,7 +61,11 @@ class NativeFixtureSession implements BrowserSession {
     await this.admitDocument?.(url);
     try { this.current = this.lookup(url); } catch (error) { this.navigationUnusable = true; throw error; }
   }
-  async snapshot(): Promise<BrowserSnapshot> { if (!this.current) throw new Error("No source page navigated"); return this.current; }
+  async snapshot(): Promise<BrowserSnapshot> {
+    // Match the real isolated Chromium page before its first navigation. A
+    // current-page check must not make the fixture throw instead of observing blank.
+    return this.current ?? {url:"about:blank",title:"",html:"<html><head></head><body></body></html>",text:""};
+  }
   async observeControls(): Promise<BrowserPageControl[]> {
     if (!this.current) return [];
     const controls: BrowserPageControl[] = [];
@@ -77,6 +86,7 @@ class NativeFixtureSession implements BrowserSession {
         stableKey: `button|${label}|${controls.length}`,
         kind: "BUTTON", role: "button", label,
         ...(type ? { type } : {}),
+        ...([...this.current.html.matchAll(/<form\b([^>]*)>([\s\S]*?)<\/form>/gi)].find(form=>form[0].includes(match[0]))?{formMethod:(this.current.html.match(/<form[^>]*method=["']([^"']+)/i)?.[1]?.toUpperCase()==='POST'?'POST':'GET') as 'POST'|'GET',formObservation:{owner:'native-fixture-form',visibleLines:[label]}}:{}),
         disabled: /\bdisabled\b|aria-disabled=["']true/i.test(attrs), visible: true,
       });
     }
@@ -166,7 +176,7 @@ export function sourcePages(
 ) {
   let tableCheckDiscoveryRevealed = false;
   let tableCheckDiscoveryInputValue = "stale query";
-  let tableCheckDiscoveryExpectedQuery = "";
+  let tableCheckDiscoveryExpectedQuery = "omakase";
   const tableCheckAvailabilityRevealed = new Set<string>();
   const availabilityClicks = new Map<string, number>();
   let tableCheckScopedCategory = "";
@@ -185,6 +195,7 @@ export function sourcePages(
   const sourcePoint = scenario === "OUTSIDE_RADIUS" ? { latitude: 35.75, longitude: 139.80 } : center;
   const lookup = (url: string): BrowserSnapshot => {
     const parsed = new URL(url);
+    if(parsed.origin==='https://tabelog.com'&&parsed.pathname==='/en/')return page(url,'<a href="/en/tokyo/rstLst/">Tokyo</a>','Source search home','Tabelog');
     // Local-constructed F5 contract controls, not website Replay. Independent
     // oracle: first two details outside; the alternate has normal H001 venues.
     if (scenario.startsWith("F5_") && parsed.hostname === "tabelog.com") {
@@ -196,7 +207,7 @@ export function sourcePages(
       if (path === parent) return page(url, link(child,"F5 child"), "Observed local child menu");
       if (path === child || path === alternate) {
         const ids = path === child ? [990,991,992] : (scenario === "F5_PENDING_CORRECTION" || scenario === "F5_SECOND_OUTSIDE" || scenario === "F5_EDGE_WITH_PRIOR") ? [993,994,995] : [100,101,102];
-        return page(url, ids.map(id => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join(""), "Local constructed list");
+        return page(url, ids.map(id => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join(""), "Local constructed list in Shibuya");
       }
       if (/\/99[0-5]\/$/.test(parsed.pathname)) return page(url, `<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:`Native Tabelog ${parsed.pathname.split("/").at(-2)}`,address:"Tokyo",geo:{latitude:35.63,longitude:139.68}})}</script>`, "Outside detail");
     }
@@ -214,7 +225,7 @@ export function sourcePages(
         return page(url, [
           ...ids.map((id) => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`),
           category ? `<a href="${categoryUrl("sushi/")}">omakase ×</a>` : `<a href="${categoryUrl("sushi/?sw=omakase")}">Sushi</a>`,
-        ].join(""), `${category ? "Sushi" : "Restaurants"} in Tokyo\n1～${ids.length}／${ids.length}`, "Tabelog search");
+        ].join(""), `${category ? "Sushi" : "Restaurants"} in Shibuya\n1～${ids.length}／${ids.length}`, "Tabelog search");
       }
       if (scenario === "TABELOG_CATEGORY_REDIRECTS_ROOT") {
         if (parsed.pathname.includes("/sushi/")) {
@@ -259,7 +270,7 @@ export function sourcePages(
           : second ? `<a rel="next" href="${categoryUrl("sushi/3/")}">Next 20</a>`
           : `<a rel="next" href="${categoryUrl("sushi/2/")}">Next 20</a>`;
         return page(url, ids.map((id) => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join("") + route,
-          `Sushi in Tokyo\n${third ? "7～7" : second ? "6～6" : "1～5"}／7`, "Tabelog search");
+          `Sushi in Shibuya\n${third ? "7～7" : second ? "6～6" : "1～5"}／7`, "Tabelog search");
       }
       if (scenario === "TABELOG_STALE_REJECTS") return page(url,
         '<input type="search" name="search_text" aria-label="Search restaurants" value="omakase" data-live-value="old-query"><div class="result-list" aria-busy="true">Loading current search</div><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/">Old Tabelog result</a>',
@@ -281,7 +292,7 @@ export function sourcePages(
         const id = 100 + index;
         return `<article><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/" data-address="Shibuya ${id}, Tokyo">Native Tabelog ${id}</a><span class="category">Sushi</span></article>`;
       }).join("");
-      return page(url, links, count ? "Restaurants" : "No restaurants found", "Tabelog search");
+      return page(url, "<h1>Restaurants in Shibuya</h1>"+links, count ? "Restaurants in Shibuya" : "No restaurants found in Shibuya", "Tabelog search");
     }
     const tabelogId = parsed.pathname.match(/^\/tokyo\/A1304\/A130401\/(\d+)\/$/)?.[1];
     if (tabelogId) {
@@ -320,6 +331,9 @@ export function sourcePages(
       return page(url, `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Native Tabelog 100", address: "Shibuya 100, Tokyo" })}</script><link rel="canonical" href="/tokyo/A1304/A130401/100/"><h1>Native Tabelog 100</h1><p class="rstinfo-table__address">Shibuya 100, Tokyo</p><main>Omakase course</main>`, "Native Tabelog 100\nShibuya 100, Tokyo\nOmakase course");
     }
     if (parsed.hostname === "www.tablecheck.com" && parsed.pathname === "/en/japan/search") {
+      // Mock source entrance now requires an observed model-driven document
+      // transition; its homepage recommendations alone cannot certify a query.
+      if (!parsed.search) return page(url, '<a href="/en/japan/search?service_mode=dining&amp;sort_by=distance&amp;venue_type=restaurant&amp;geo_latitude=35.6619707&amp;geo_longitude=139.703795&amp;geo_distance=1000&amp;auto_geolocate=false">Restaurants in Shibuya</a>', "Public venue search entrance", "TableCheck search");
       if (scenario === "TABLECHECK_UNPARSED") return page(url, '<a href="/en/search">Search</a>', "Search results loading", "TableCheck search");
       if (scenario === "TABLECHECK_DISCOVERY_RECOVERS") {
         const queryFromSourceUrl = parsed.searchParams.get("search_text")?.trim() ?? "";
@@ -328,19 +342,19 @@ export function sourcePages(
         const liveValue = tableCheckDiscoveryInputValue;
         if (tableCheckDiscoveryRevealed) return page(url,
           `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><article><a href="/en/native-omakase-1">Native TableCheck 1</a><span class="cuisine">Japanese</span></article>`,
-          "1 venue found", "TableCheck search");
+          "Shibuya: 1 venue found", "TableCheck search");
         return page(url,
           `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/stale-result">Stale venue</a>${liveValue === currentValue ? '<div class="result-list" aria-busy="true">Loading current search</div>' : ''}${options.guardedQuerySubmit ? '<form><button type="submit">Show public venues</button></form>' : '<button type="button">Show public venues</button>'}`,
           liveValue === currentValue ? "Loading current search" : "Search filters ready", "TableCheck search");
       }
       if (scenario === "TABLECHECK_QUERY_READY") return page(url,
         '<input type="search" name="search_text" aria-label="Search venues" value="omakase"><script>const loading = false;</script><div class="is-hidden" aria-busy="true">Loading old results</div><a href="/en/native-omakase-1">Native TableCheck 1</a>',
-        "1 venue found", "TableCheck search");
+        "Shibuya: 1 venue found", "TableCheck search");
       if (scenario === "TABLECHECK_STALE_REJECTS") return page(url,
         '<input type="search" name="search_text" aria-label="Search venues" value="omakase" data-live-value="old-query"><div class="result-list" aria-busy="true">Loading current search</div><a href="/en/native-omakase-1">Old venue</a><p>No venues found</p>',
         "Loading current search\nNo venues found", "TableCheck search");
       const links = Array.from({ length: tablecheckCount }, (_, index) => `<article><a href="/en/native-omakase-${index + 1}">Native TableCheck ${index + 1}</a><span class="cuisine">Japanese</span></article>`).join("");
-      return page(url, links, tablecheckCount ? `${tablecheckCount} venues found` : "No venues found", "TableCheck search");
+      return page(url, "<h1>Venues in Shibuya</h1>"+links, tablecheckCount ? `Shibuya: ${tablecheckCount} venues found` : "No venues found in Shibuya", "TableCheck search");
     }
     if (scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" && parsed.pathname === "/en/native-omakase-1") {
       const name = "Native TableCheck 1";
@@ -402,7 +416,7 @@ export function sourcePages(
       // redirect interception, not this source-model composition.
       const fixturePage = {};
       await networkGuard.install({ route: async (_pattern: string, handler: typeof handle) => { handle = handler; },
-        pages: () => [fixturePage], newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }),
+        pages: () => [fixturePage], newCDPSession: async () => ({ on: () => {}, send: async (method: string) => method === "Page.getFrameTree" ? {frameTree:{frame:{id:"fixture-root"}}} : ({}) }),
         routeWebSocket: async () => {} } as unknown as BrowserContext, { replay: true });
       const guard = networkGuard;
       admitDocument = async url => {
@@ -463,79 +477,40 @@ export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNA
     <h1 class="rstinfo-table__name">Native Dynamic Tabelog 100</h1><p class="rstinfo-table__address">Shibuya 100, Tokyo</p>
     <div class="course menu">Omakase course</div><p>Reserve Guests</p>
     <div class="p-booking-calendar"><table class="p-booking-calendar__calendar"><caption><em>Aug 2026</em></caption><tbody><tr>
-      <td><p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="8" data-day="18" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">18</span></p></td>
+      <td><p aria-current="date" class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="8" data-day="18" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">18</span></p></td>
       <td><p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="19" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">19</span></p></td>
     </tr></tbody></table>
-    <div class="js-select-member"><button type="button" class="p-booking-calendar__people-button js-people-button is-active" onclick="pickGuests(this)">1</button>
-    <button type="button" class="p-booking-calendar__people-button js-people-button" onclick="pickGuests(this)">2</button></div>
+    <div role="group" aria-label="Guests" class="js-select-member"><button type="button" aria-pressed="true" class="p-booking-calendar__people-button js-people-button is-active" onclick="pickGuests(this)">1</button>
+    <button type="button" aria-pressed="false" class="p-booking-calendar__people-button js-people-button" onclick="pickGuests(this)">2</button></div>
     <input class="js-people-hidden-value" type="hidden" value="1"><div id="availability"></div></div>
     <script>
       const fixtureResult='${result}'; let selectedDate='2026-08-18'; let selectedGuests=1;
-      function guestButton(value,active){const button=document.createElement('button');button.type='button';button.classList.add('p-booking-calendar__people-button','js-'+'people-button');if(active)button.classList.add('is-'+'active');button.textContent=String(value);button.onclick=()=>pickGuests(button);return button}
+      function guestButton(value,active){const button=document.createElement('button');button.type='button';button.classList.add('p-booking-calendar__people-button','js-'+'people-button');if(active)button.classList.add('is-'+'active');button.setAttribute('aria-pressed',String(active));button.textContent=String(value);button.onclick=()=>pickGuests(button);return button}
       function renderGuests(active){document.querySelector('.js-select-member').replaceChildren(guestButton(1,active===1),guestButton(2,active===2))}
       function refresh(){ if(selectedDate!=='2026-08-19'||selectedGuests!==2)return;
-        fetch('${vacancyPath}?date='+selectedDate+'&member='+selectedGuests).then(r=>r.json()).then(()=>{
+        fetch('${vacancyPath}?rst_id=100&svd='+selectedDate.replaceAll('-','')+'&svps='+selectedGuests).then(r=>r.json()).then(()=>{
           const button=document.createElement('button');button.classList.add('slot',fixtureResult==='AVAILABLE'?'is-'+'available':'is-'+'unavailable');button.dataset.time='19:00';button.textContent='19:00';document.querySelector('#availability').replaceChildren(button);
         }); }
-      function pickDate(node){document.querySelector('.js-calendar-day-target.is-current').classList.remove('is-current');node.classList.add('is-current');selectedDate='2026-08-'+node.dataset.day;
+      function pickDate(node){document.querySelector('.js-calendar-day-target.is-current').removeAttribute('aria-current');document.querySelector('.js-calendar-day-target.is-current').classList.remove('is-current');node.classList.add('is-current');node.setAttribute('aria-current','date');selectedDate='2026-08-'+node.dataset.day;
         if(${memberLoaderAfterDateMs}>0&&selectedDate==='2026-08-19'){selectedGuests=2;document.querySelector('.js-people-hidden-value').value='2';const member=document.querySelector('.js-select-member');const loader=document.createElement('i');loader.className='js-'+'select-loader';member.replaceChildren(loader);setTimeout(()=>{renderGuests(2);refresh()},${memberLoaderAfterDateMs});return}refresh();}
-      function pickGuests(node){document.querySelector('.js-people-button.is-active').classList.remove('is-active');node.classList.add('is-active');selectedGuests=Number(node.textContent);document.querySelector('.js-people-hidden-value').value=String(selectedGuests);refresh();}
+      function pickGuests(node){document.querySelector('.js-people-button.is-active').setAttribute('aria-pressed','false');document.querySelector('.js-people-button.is-active').classList.remove('is-active');node.classList.add('is-active');node.setAttribute('aria-pressed','true');selectedGuests=Number(node.textContent);document.querySelector('.js-people-hidden-value').value=String(selectedGuests);refresh();}
     </script>`;
-  const pages: Record<string, { contentType: string; body: string }> = {
-    [detailUrl]: { contentType: "text/html; charset=utf-8", body: detailHtml },
+  const responseBody={base_date:{year:2026,month:8,day:19},members:2,selection:{0:{time:result==="AVAILABLE"?"19:00":"21:00",url:result==="AVAILABLE"?"/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=1900":"/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=2100"}}};
+  const sourcePages={
+    [detailUrl]:detailHtml,
+    "https://tabelog.com/en/":'<a href="https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase">Shibuya</a>',
+    "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase":`<h1>Restaurants in Shibuya</h1><a href="${detailUrl}">Native Dynamic Tabelog 100</a>`,
+    "https://www.tablecheck.com/en/japan/search":"<title>TableCheck search</title><main>0 venues found</main>",
+    ["https://tabelog.com"+vacancyPath+"?rst_id=100&svd=20260819&svps=2"]:JSON.stringify(responseBody),
   };
-  const browserType = {
-    async launch(options: Parameters<typeof chromium.launch>[0]) {
-      const browser = await chromium.launch(options);
-      const createContext = browser.newContext.bind(browser);
-      browser.newContext = async (contextOptions) => {
-        const context = await createContext(contextOptions);
-        await context.route("**/*", async (route) => {
-          const request = new URL(route.request().url());
-          if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/rstLst/") {
-            await route.fulfill({contentType:"text/html",body:'<a href="https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase">Shibuya</a>'}); return;
-          }
-          if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/A1303/A130301/rstLst/") {
-            // The native search owns the URL shape; the fixture only accepts the
-            // frozen HARD criterion and deliberately tolerates parameter order.
-            if (request.searchParams.get("sw") !== "omakase") { await route.abort(); return; }
-            // Keep the source-shaped class but also meet the native parser's
-            // observed name-marker contract.  Otherwise the dynamic page has
-            // a raw link but deliberately yields no parsed outlet, which
-            // exercises neither the same-source availability path nor the
-            // fixed-order continuation it is meant to cover.
-            await route.fulfill({ contentType: "text/html; charset=utf-8", body: `<h1>Restaurants in Shibuya</h1><a class="list-rst__rst-name-target restaurant-name" href="${detailUrl}" data-address="Shibuya 100, Tokyo">Native Dynamic Tabelog 100</a>` });
-            return;
-          }
-          if (request.origin === "https://www.tablecheck.com" && request.pathname === "/en/japan/search") {
-            // A legal second native source must end as observed no-result, not
-            // as an unconfigured browser failure, if the Router reaches it.
-            await route.fulfill({ contentType: "text/html; charset=utf-8", body: "<title>TableCheck search</title><main>0 venues found</main>" });
-            return;
-          }
-          if (request.origin === "https://tabelog.com" && request.pathname === vacancyPath) {
-            const member = Number(request.searchParams.get("member"));
-            const requestedDate = request.searchParams.get("date");
-            const exactQuery = member === 2 && requestedDate === "2026-08-19";
-            const body = exactQuery
-              ? { base_date: { year: 2026, month: 8, day: 19 }, members: 2,
-                selection: result === "AVAILABLE"
-                  ? { 0: { time: "19:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=1900" } }
-                  // A bound source slot outside 19:00 proves no matching slot;
-                  // an empty payload without merchant binding stays UNKNOWN.
-                  : { 0: { time: "21:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=2100" } } }
-              : { base_date: { year: 2026, month: 8, day: 18 }, members: 1, selection: {} };
-            await route.fulfill({ contentType: "application/json; charset=utf-8", body: JSON.stringify(body) });
-            return;
-          }
-          const page = pages[request.toString()];
-          if (!page) { await route.abort(); return; }
-          await route.fulfill(page);
-        });
-        return context;
-      };
-      return browser;
-    },
-  };
-  return new LocalPlaywrightChromium({ browserType });
+  const raw=new LocalPlaywrightChromium();
+  return {readNetworkBoundaryCapability:"ISOLATED_CONTEXT",async openSession(input){
+    const directory=await mkdtemp(join(tmpdir(),"native-dynamic-")),har=join(directory,"source.har");
+    await writeFile(har,replayHarPages(sourcePages));
+    try{
+      const session=await raw.openSession({...input,networkPolicy:input.networkPolicy??discoveryPackNetworkPolicy([tabelogDiscoveryPack,tableCheckDiscoveryPack]),replayHarPath:har});
+      const close=session.close.bind(session);session.close=async()=>{try{await close();}finally{await rm(directory,{recursive:true,force:true});}};
+      return session;
+    }catch(error){await rm(directory,{recursive:true,force:true});throw error;}
+  }};
 }

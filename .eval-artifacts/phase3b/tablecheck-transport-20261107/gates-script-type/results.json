@@ -1,0 +1,89 @@
+{
+  "sha": "5afe1d4a01f8f6df144d00ed1e448630aea945cd",
+  "reason": "Recorder script-type scope correction after first full green; new red and green saved separately",
+  "results": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "5afe1d4a01f8f6df144d00ed1e448630aea945cd",
+      "startUtc": "2026-11-07T10:41:22.769251+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "architecture",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "5afe1d4a01f8f6df144d00ed1e448630aea945cd",
+      "startUtc": "2026-11-07T10:41:23.356125+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "default-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "5afe1d4a01f8f6df144d00ed1e448630aea945cd",
+      "startUtc": "2026-11-07T10:41:23.681863+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "5afe1d4a01f8f6df144d00ed1e448630aea945cd",
+      "startUtc": "2026-11-07T10:42:17.876029+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "chromium-fixtures",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "5afe1d4a01f8f6df144d00ed1e448630aea945cd",
+      "startUtc": "2026-11-07T10:42:18.507897+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "sha": "5afe1d4a01f8f6df144d00ed1e448630aea945cd",
+      "startUtc": "2026-11-07T10:44:47.321911+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    }
+  ]
+}

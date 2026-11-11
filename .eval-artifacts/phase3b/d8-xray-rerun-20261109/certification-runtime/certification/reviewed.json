@@ -1,0 +1,89 @@
+{
+  "status": "CURRENT_AVAILABILITY_RECERTIFIED_WITH_REVIEWED_STATIC_IDENTITY",
+  "reviewed": true,
+  "reviewer": "Codex independent public vacancy recheck; identity/qualification pairs were previously human reviewed, not claimed newly read",
+  "reviewedAtCET": "2026-11-08T17:19:14.515+01:00",
+  "identityChecks": {
+    "name": true,
+    "address": true,
+    "phone": true
+  },
+  "identityMaterial": {
+    "historicalDetailMeta": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/certification/03-W2_DETAIL.meta.json",
+    "historicalReadStartedAtUTC": "2026-11-06T05:24:47.861Z",
+    "originalHumanReview": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/certification/reviewed.json",
+    "current20261108MetadataRef": ".eval-artifacts/phase3b/tablecheck-shop-validation-20261108/runtime/source-read/events.json",
+    "currentMetadataLimits": "name/phone controls and route were observed; complete address/body is older material; no fresh detail claim",
+    "newRead": "availability only; old checkedAt is never copied into current certification"
+  },
+  "publicGETAttempts": 1,
+  "packSHA256": {
+    "D8": "db5427f13eb2b4012cc7d6638c267f37e3b8ab002d83ce2b8ff21055cbc0e01e"
+  },
+  "rawFiles": {
+    "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/certification/03-W2_DETAIL.body": "f4b7503d95e1fdbc10b81274667b1a2ec20a5ffbb31eb6722f538c3bf6edb878",
+    "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/certification/05-W2_TABLECHECK_IDENTITY.body": "d5eefd56757b9d9f98a43c684b4c5f73dd3c3494aef3539d7db8148cd4a793cd",
+    "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/preparation/historical-provenance.json": "1179e1e391cc06f34d94e488ae90b7b40dfac90ae6b1568afcd1f0ab5f05d461",
+    "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/certification/reviewed.json": "4cb58cb0d9843d1ca191c290390aeb7a276ff32799982cc7c07af84479c678da",
+    "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/tablecheck-shop-validation-20261108/runtime/source-read/events.json": "88ad6f2fd5d6f68d80f403562297e69dec6f694dd48a9b21cddddbf8c3346f56",
+    "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-xray-rerun-20261109/certification-runtime/certification/001-vacancy.body": "63763e087c6b5e663d2646adaf541e9601907f36e0cfd9cd45f7935f0a988e9e"
+  },
+  "certificates": [
+    {
+      "checkedAt": "2026-11-08T16:19:14.515Z",
+      "kind": "BEFORE",
+      "target": {
+        "candidateId": "witness-W2",
+        "name": "Nodoguro Senmon Ginza Nakamata",
+        "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+        "phone": "03-6264-3229",
+        "provider": "TABELOG",
+        "sourceEntityId": "13186922",
+        "date": "2026-11-11",
+        "time": "20:30",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+        "identityText": [
+          "Nodoguro Senmon Ginza Nakamata",
+          "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+          "03-6264-3229"
+        ]
+      },
+      "evidenceMode": "AVAILABILITY",
+      "exists": true,
+      "vacancy": {
+        "ref": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-xray-rerun-20261109/certification-runtime/certification/001-vacancy.body",
+        "phase": "BEFORE",
+        "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=2030",
+        "candidateId": "witness-W2",
+        "body": {
+          "selection": {
+            "0": {
+              "time": "20:30",
+              "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2030"
+            },
+            "1": {
+              "time": "20:45",
+              "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2045"
+            },
+            "2": {
+              "time": "21:00",
+              "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2100"
+            }
+          },
+          "base_date": {
+            "year": 2026,
+            "month": 11,
+            "day": 11,
+            "dow": "Wed"
+          },
+          "members": 2,
+          "time": "20:30"
+        }
+      },
+      "responseSHA256": "63763e087c6b5e663d2646adaf541e9601907f36e0cfd9cd45f7935f0a988e9e",
+      "detailRef": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/certification/03-W2_DETAIL.body",
+      "detailSHA256": "f4b7503d95e1fdbc10b81274667b1a2ec20a5ffbb31eb6722f538c3bf6edb878"
+    }
+  ]
+}

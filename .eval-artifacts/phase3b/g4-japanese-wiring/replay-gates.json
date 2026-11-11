@@ -1,0 +1,110 @@
+{
+  "sourceCommit": "d17ee4bca6e82f28053d70d930ed41769293a4e8",
+  "startedAtCET": "2026-10-30T17:56:01.324579+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/verify.py"
+      ],
+      "exitCode": 0,
+      "seconds": 0.396,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/replay-logs/integrity.log",
+      "sha256": "3a7e2802da790ac4963b4331691c5835c848c5ba3459718f0acc15953cfa9280"
+    },
+    {
+      "name": "simulation",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/run-simulation.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 8.171,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/replay-logs/simulation.log",
+      "sha256": "3d3d2ae6f82fb9415ac4a1b6617dc47344eb4959399f6a55c1bf14bd1354fda3"
+    },
+    {
+      "name": "score-simulation",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/score-simulation.py"
+      ],
+      "exitCode": 0,
+      "seconds": 0.069,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/replay-logs/score-simulation.log",
+      "sha256": "5fd9f8cafb2651ec86e858c0249738b4df5984afea08ea8364b2ab01ac99efd4"
+    },
+    {
+      "name": "independent-simulation",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/verify-results.py",
+        "--write"
+      ],
+      "exitCode": 0,
+      "seconds": 0.138,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/replay-logs/independent-simulation.log",
+      "sha256": "540c1716a6a6d27cf4714e5f25d65ad6bcc30f2829850c6127cf8c265e366ed6"
+    },
+    {
+      "name": "product-replay",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/run-product-replay.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 27.59,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/replay-logs/product-replay.log",
+      "sha256": "90d26395d3ea3d5544576acd33b534407f404fa7dcb3dc62b9931f480f26c7ab"
+    },
+    {
+      "name": "score-product",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/score-product.py"
+      ],
+      "exitCode": 0,
+      "seconds": 0.08,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/replay-logs/score-product.log",
+      "sha256": "d477eca44799c32a5ccac460827077df60ccdc4cebcaa193f50979a136a82fdc"
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-japanese-wiring/verify.py"
+      ],
+      "exitCode": 0,
+      "seconds": 0.178,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-japanese-wiring/replay-logs/integrity-after.log",
+      "sha256": "3a7e2802da790ac4963b4331691c5835c848c5ba3459718f0acc15953cfa9280"
+    }
+  ],
+  "newCalls": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-10-30T17:56:38.205662+01:00"
+}

@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-D4-1793949613020-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Could you find a kushikatsu place near Akabane with a table for 2 on …",
+          "status": "COMPLETED",
+          "phase": "FAILED",
+          "taskVersion": 1,
+          "pendingUserAction": "REVIEW_ATTENTION",
+          "updatedAt": "2026-11-06T07:20:24.309Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+              "createdAt": "2026-11-06T07:20:24.317Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "The read-only investigation stopped: Restaurant Semantic Interpreter did not produce a proposal: MODEL_FAILURE No verified availability result was presented.",
+              "createdAt": "2026-11-06T07:20:24.322Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "missingRequiredFields": [
+            "date",
+            "timeWindow",
+            "partySize",
+            "area"
+          ],
+          "requestRevision": 0,
+          "readyCandidateIds": [],
+          "progress": {
+            "active": false,
+            "stopped": false
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "readEvidence": [],
+          "currentFactEvidence": [],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:0",
+            "startedAt": "2026-11-06T07:20:13.784Z"
+          },
+          "bookingHandoffs": []
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:outcome:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "OUTCOME",
+            "sourceVersion": 1,
+            "data": {
+              "outcome": {
+                "reason": "Restaurant Semantic Interpreter did not produce a proposal: MODEL_FAILURE",
+                "status": "FAILED"
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_INTERPRETATION_FAILED",
+            "display": {
+              "title": "Request interpretation failed",
+              "detail": "Restaurant Semantic Interpreter did not produce a proposal: MODEL_FAILURE"
+            },
+            "occurredAt": "2026-11-06T07:20:24.309Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1793949613784,
+      "deadlineAtMs": 1793950113784,
+      "elapsedMs": 10547.587542,
+      "modelCalls": 1,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [],
+          "readEvidence": []
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_INTERPRETATION_FAILED"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

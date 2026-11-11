@@ -1,4 +1,405 @@
+<a id="calendar-day-normalization-20261110"></a>
+
+2026-11-10 CET — 源码50bd3349全门禁通过：用户确认跨午夜含义并授权转换，eval认证保留营业日/原始时间并派生实际日期时间，24:30→次日00:30，不能算原日00:30。07原录制正常同日19:00离线认证true，六证书离线重解释符合05=false其余true，旧证书不改，不冒充新GET。62项转换/反例/真实回归绿，Evaluator@9；type/arch/default1572/build/Chromium274+G6 126/strictG2全12通过，scan0，产品diff0。仅eval、真实调用0，原a91执行工作区/425和账本保持。[报告](../../.eval-artifacts/phase3b/calendar-day-normalization-20261110/report.md)。
+
+2026-11-10 CET — R2准备源码3eb7bea2净树全门禁PASS：type/arch/default1572/build/Chromium274+G6 115/strictG2全12，scan0，产品diff0。仅eval核对用户新额度36Live/220GET/2800模型/4环境；后续批准的轮间随机120–240秒外层等待已日志化/持久化，产品时限不变。D02补评QUALIFIED_DELIVERY/s0=0、用户D01/D02浏览器B1均核对正确。main发布后新私有R2账本继承12/86/1410，6GET预认证符合（05=false其余true）则立即正式开跑，用户已撤销等11-11；私有原文只交运行器，不人工读，原425/旧账本不动。当前新增真实调用0。[计划](../../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
+
+<a id="heldout-r2-preparation-20261110"></a>
+
+2026-11-10 CET — R2准备draft：仅eval CLI额度核对改为用户批准2800模型/220GET/36Live/4环境，其他原规则不变；后续用户明确预认证符合后立即开跑，另批准轮间随机120–240秒外层冷却，首轮不等、完成时间/抽样/实际等待持久化，产品时限不变。25项CLI/认证/续跑/pacing夹具通过。D02 review bacd6391补评QUALIFIED_DELIVERY/s0=0，用户真实浏览器核对D01/D02两个B1正确。冻结门禁与main后新外部R2账本继承12/86/1410，以baseLedger/SHA保留旧审计，新R2 entries为空，原425/旧账本不改。私有原文/清单只核SHA未人工读取；下一步6GET预认证，05=false其余true才立即正式执行。[计划](../../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
+
+<a id="heldout-round2-commitment-20261110"></a>
+
+2026-11-10 CET — R2承诺已按用户提供JSON逐字节入库：`.eval-artifacts/phase3b-holdout/commitment-r2.json`，JSON SHAb81d83eee099a351fa24fc2efa942800eafd0cd84b6422596e353244206756ee。03/04a/04b/05沿用哈希不变，新增06/07只登记哈希，六例顺序固定；旧承诺保持，不读私有题目/清单。后续显式--commitment选R2，原默认不改；未认证/体检/运行，新增真实调用0、原425/账本不动。B1修复已在main69e0e5ed，D02待资格补评；停止等待。[登记报告](../../.eval-artifacts/phase3b/heldout-round2-commitment-20261110/report.md)。
+
+2026-11-10 CET — B1多时段评测修复e373d557净树全门禁PASS：type/arch/default1571/build/Chromium274+G6 115/strictG2全12、scan0、产品diff0。按offerId或精确日期/时间/人数唯一配对，重复/伪造原链接仍S0；来源日历按店/日/人数及原返回链接核对。D02离线recovery-2为PENDING_REVIEW/s0=0/stopBatch=false，仅资格注释待复核；5B1均逐字存在svt1900/6人原响应。D01/D8结论不变，旧failure/s0=9保留；真实调用0，原425/账本保持。先main发布再按用户文件原样入库R2承诺，停止不跑held-out。[报告](../../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。
+
+<a id="b1-slot-pairing-20261110"></a>
+
+## 2026-11-10 CET — independent B1 multi-slot pairing
+
+2026-11-10 CET — draft / not integrated：Evaluator@8修同店多时段B1一对一配对，优先真实offerId，历史缺ID用日期/时间/人数，重复/错配仍S0；来源响应店/日/人数绑定并逐字核对应时段原链接，svt不再逐offer相等。D02原录制+两后验重评PENDING_REVIEW/s0=0/stopBatch=false，原failure和s0=9保留；svt1900的6人响应确有5B1。D01/D8真实结论不变，虚构51项通过。仅eval代码、真实调用0，待完整门禁/main，再原样入库R2承诺，不读题目原文。[报告](../../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。
+
+2026-11-10 CET — eval后验分组源码f215d59d净树全门禁通过：type/arch/default1571/build/Chromium274+G6 107/strictG2全12，写死扫描0、产品diff0。店/日/人数每组1GET，最多2；第三NOT_EXECUTED而非异常，缺证仍不伪造PASS。D01审核072ddab5补评QUALIFIED_DELIVERY/s0=0；D02两份原响应离线恢复5后验PASS，但旧B1多时段绑定仍报9项S0检查，NOT_EVALUATED/stopBatch=true，原failure保留、未改合同消除报错，停止等待复核。新真实调用0，开发账本12/86/1410与原425/871文件均未变。[一页报告](../../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
+
+<a id="post-delivery-grouping-20261110"></a>
+
+## 2026-11-10 CET — grouped post checks and immutable offline reviews
+
+2026-11-10 CET — draft / not integrated：eval后验按店/日/人数分组、首时间svt、最多2组，第三NOT_EXECUTED而非运行器异常；未执行库存仍缺证，认证/SOURCE_CAPTURE严格时段绑定不变。虚构分组与G6组装47+项绿，Evaluator@7。D01审核SHA072ddab5补评合格/s0=0，原评价保留；D02原响应离线恢复5后验PASS，但B1多时段配对/来源svt绑定使原检查s0=9、NOT_EVALUATED，独立边界200PASS；未放宽/伪造以消除，停止补评，不追加真实调用。待完整门禁/main。[报告](../../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
+
+2026-11-10 CET — 三卡点修复后main38479f8b开发检查已结束：D01首轮22模型/66.9秒交付Bar014+B1、追问9/33.6保留，PENDING_REVIEW；D02决策22以Sumika自己的Robatayaki分类引用完成HARD，47/156.5秒交付同店5时段+B1，但后验循环第三时段触及每例3GET上限，发送前拒绝，FAILED/无正式评价。未补读/补评/重跑，不报通过率。独立边界128/128、200/200通过；原生候选均0，核对成本改善仅组件验证。新增2Live/13GET/78模型，累计12/26、86/126、1410/2500，原425/871文件/账本未变；停止不进held-out。[一页报告](../../.eval-artifacts/phase3b/category-discovery-cost-20261110/report.md)。
+
+2026-11-10 CET — category/discovery/cost final freeze8ca251f8: all six clean gates PASS, default1571/Chromium274+G6 103/strictG2 all12. Three scan hits generic text/phone normalization. First full gate d14ce131 caught D4 independent timestamp mismatch; frame readAt retained and source observedAt added separately, no assertion removed. Publish main before public developer D01/D02 exactly once; inherited10/73/1332, max +2Live/+14GET, original425 preserved. [Report](../../.eval-artifacts/phase3b/category-discovery-cost-20261110/offline-report.md).
+
+<a id="category-discovery-cost-20261110"></a>
+
+## 2026-11-10 CET — source category, discovery scope and candidate fact cost
+
+Production CATEGORY proof is same candidate/source/read, HIGH, raw quote verified against captured page. Existing semantic judgment remains authoritative; citation evidenceId retained into qualification claims, independent source parsing unchanged. Discovery COMPLETE carries optional visible scope ref/raw text without asserting cuisine. Planned structured supplement no longer waits behind native candidate work, conservative exact identity dedup; source-evidenced candidates ordered first. Native missing-identity followup hands back one new route and preserves UNKNOWN; known captured category avoids repeated browser facts. Prompt browser24/action14, fact15, agent30; state/schema budgets and Guard/G1 unchanged.
+
+<a id="heldout-read-reliability-20261109"></a>
+## 2026-11-09 — paused held-out read reliability (CET)
+
+User explicitly pauses the original4256303d batch without invalidating it; code changes occur in a separate worktree. Source/ledger hashes retained, no original/manifest viewing, no Live/model/sourceGET.01/02 are exposed development regressions, original evaluations remain baseline. Health observes phases/statuses and races startup against10s. Node HTTP diagnostics scope each actual route.fetch request and count body bytes without changing headers/permissions. A zero-body document transport timeout may retry the same URL once,10s per attempt/20s total; abort the original paused navigation before failing its route to retain the CDP boundary. Supersedes old partial-static whole-entry reload; ordinary static limits remain. Area TableCheck requires current source-bound entrance evidence using existing pack metadata; skips are not provider failures. Named outlet path and identity/G1/Guard unchanged. Local component failures preserved and corrected. Frozen cfd5a5ce clean gates all PASS: type/arch/build, default1559, Chromium263+G6 89, strictG2 all12; scan5 generic/metadata hits, no business hardcoding. Original4256303d/871 files/ledger unchanged. User-authorized main publication followed by stop; no further held-out or source/model calls. [Plan/report](../../.eval-artifacts/phase3b/heldout-read-reliability-20261109/report.md).
+
+<a id="d8-direct-outlet-live-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — direct availability produces B1, independent review pending
+
+2026-11-09（Asia/Shanghai）— C查位直达修复已合远端main，产品fc62b663全门禁1512/260+G6 78/strictG2全12。main bd0da528单次D8：30模型全成功/204.191秒，决策#28快照38在provider12.649秒选日、18.298秒核到11/11 20:30/2 AVAILABLE，B1已生成；追问后结果和B1保留，条款两次NO_PAGES仍未验证。实际S0=0、106/106边界PASS、GETHEAD ABSENT，但独立资格注释缺失，原s0Status NOT_EVALUATED/stopBatch=true保留，不能签收合格交付。仅用1Live/1GET，累计31/49、382/492、849/1800余951；后验2未用，留出18/108不动。停止D8，进入held-out准备清单，独立资格签收前不执行留出。 [一页报告](../../.eval-artifacts/phase3b/d8-direct-outlet-live-20261109/report.md)。
+
+<a id="d8-direct-outlet-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — confirmed outlet direct availability
+
+2026-11-09（Asia/Shanghai）— C查位直达修复fc62b663同SHA净树全绿：默认1512、Chromium260+G6 78、strictG2全12、type/arch/build；真实店页旧DISCOVERY红→当前页零导航/异页仅绑定URL、模型首步日期选择绿，LOW/歧义/冲突实体拒绝。Router派生HIGH唯一来源绑定，店页实时重核，Guard/身份/时限不变；Mock空白页修正保留原业务断言。用户已授权合main后1次D8，模型1800、Live49/GET492，留出18/108不动；尚未新增外部调用。 [离线结论](../../.eval-artifacts/phase3b/d8-direct-outlet-20261109/offline-result.md)。
+
+<a id="d8-entry-idle-retry-live-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — D8 entry succeeds, availability deadline miss
+
+2026-11-09（Asia/Shanghai）— C按用户“重试一次d8”在6a832abb输入/6ce1a6bc源码单次运行：198.914秒、35模型全成功，DNS/CORS/403均0，入口重载0；TableCheck正确店页HIGH且唯一，查位前再检索/等待至provider40.968秒才选日期，45.031秒超时，最终NO_VERIFIED_RESULT/库存UNKNOWN，无B1与追问。独立114/114边界PASS、GETHEAD ABSENT、原S0=0；旧审计缺陷不由本轮关闭。46份DOM/34清洗保存/2页qualified部分Replay，店铺JSON200仍隐私拒录；原评分NOT_EVALUATED与两条能力FAIL保留，补充CAPABILITY_MISS/S2。累计Live30/48、GET381/489、模型819/1600余781；留出18Live108GET不动，无再读/Live/源码修复/推送/合main。 [报告](../../.eval-artifacts/phase3b/d8-entry-idle-retry-live-20261109/report.md)。
+
+<a id="entry-idle-retry-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — bounded first-entry reload
+
+2026-11-09（Asia/Shanghai）— C首次入口一次重载候选已离线完成（draft / not integrated）：源码6ce1a6bc同SHA净树门禁PASS，默认1511、Chromium257+完整G6 78、严格G2全部12页及type/arch/build。已审核原生静态GET的2xx响应5秒无数据才触发，确认旧网络终止后重开一次、共用原预算；4xx/5xx、未知连接、POST/交互/独立子目标不恢复，Recorder保留attempt/retryCount及首次停顿。本地恢复约5.1秒，真实站点/D8未跑；旧无响应头CSS、DNS和403不宣称修复。Guard准入/代理/.env/身份不变；外部GET/模型/Live均0，留出预留不动，未推送/合main。 [报告](../../.eval-artifacts/phase3b/entry-idle-retry-20261109/implementation-report.md)。
+
+<a id="d8-connectivity-restored-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — D8 font stylesheet pending after completed main JS
+
+2026-11-09（Asia/Shanghai）— C按用户“通了再跑D8”只跑一次，输入a63e1ce9/产品仍8c9cae41=main de503304。154.021秒、13模型全成功，仍NEEDS_INPUT无B1/追问；TC三入口HTML和主JS均200完成，但cdn0/common/css/tablekit-font-faces.v1.min.css三次无响应头至20秒截止，未发搜索API，不能证明旧403已修复或复现。Tabelog commons四次200/0.65–3.35s，主候选详情provider到期。本轮独立11/11边界PASS/GETHEAD ABSENT，原S0=0；旧文字查询审计缺陷本轮未覆盖，不宣布关闭。旧原件保留、不改Guard/CSS/路由/时限，不合main/推送，停止无额外Live。累计Live29/47、GET378/486、模型784/1600余816，留出18Live108GET不动。 [报告](../../.eval-artifacts/phase3b/d8-connectivity-restored-20261109/report.md)。
+
+<a id="d8-xray-rerun-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — D8 static entry recovers, search API403 and audit pending
+
+2026-11-09（Asia/Shanghai）— C按用户单次D8重跑，输入2aeae98f/产品8c9cae41=main de503304。94.849秒、23模型全成功，仍NEEDS_INPUT/无B1/追问未触发。静态入口完成（TC主JS2.325s，Tabelog commons多次200），新阻断为search-v4.tablecheck.net的16GET全部403，不能视为无匹配或Guard拒绝；路由相关性待核，不改出口/Guard。原G6S0=0与外层40/40PASS保留，但独立总项PRESENT未签收，已停新读；离线指出规则find首条遮蔽精确合同/name提前敏感拒绝及日志双斜杠非实际路径，不擅改为绿。原失败保留，未合main/推送。累计Live28/46、GET375/483、模型771/1600余829，留出18Live108GET不动。 [报告](../../.eval-artifacts/phase3b/d8-xray-rerun-20261109/report.md)。
+
+<a id="xray-single-listener-preflight-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — Tabelog preflight passes at original10s
+
+2026-11-09（Asia/Shanghai）— C按用户要求在重复xray消失后仅重跑一次Tabelog标准preflight：原孤儿50585已不在、只剩v2rayN管理的54155，本轮未停进程。原10秒限制下GET返回200/3069ms，PASS；没有触发条件放宽，TableCheck/浏览器入口20秒/Guard/重试/.env/xray规则均不改。只证明本次连接预检，不称D8或大脚本稳定。GET+1累计372/480、Live27/45、模型748/1600，留出18Live108GET不动，停止无Live。 [报告](../../.eval-artifacts/phase3b/xray-cleanup-preflight-20261109/report.md)。
+
+<a id="xray-browser-preflight-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — Browser public requests delegated to xray
+
+2026-11-09（Asia/Shanghai）— C按用户指令让当前工作区公网站点浏览器请求全部交给现有xray10808，应用DIRECT_HOSTS仅保留localhost/127.0.0.1；proxy行原已存在，xray规则/生产源码/Guard/入口20秒及重试策略未改。15项本地相关测试通过。实测Tabelog preflight10秒超时，TC206/1.85秒；唯一commons.js浏览器原生GET200/完整2,044,071字节，5.064秒，严格5秒条件未通过。只读发现两个xray监听10808、未停进程，不推断其运行内存规则一致。3GET/0模型/0Live，累计GET371/479、Live27/45、模型748/1600，留出18Live108GET不动。 [报告](../../.eval-artifacts/phase3b/xray-browser-preflight-20261108/report.md)。
+
+<a id="d8-network-retry-20261108"></a>
+
+## 2026-11-08 CET — C one D8 rerun with intermittent native scripts
+
+2026-11-08 CET — C按用户“重跑一次d8”单次执行：原11/11 20:30/2见证仍有位，输入冻结f060d38c，产品仍等于main de503304/source8c9cae41。174.259秒、21模型全成功，最终NEEDS_INPUT，无B1/追问。主候选TC及Tabelog均HTML200、关键原生脚本入口20秒未完成；同一TC脚本随后两次约2.14秒成功，DNS错误本次0。后两候选上下文到主店但未产出可接纳来源身份；不据COMPLETE推HIGH。原评价NOT_EVALUATED保留、正向后验未交付能力缺口；独立69/69边界PASS/S0=0。23份DOM、2页qualified部分Replay，店铺JSON仍按隐私拒录。无源码/配置/预算内时限修改；仅工作分支证据、不推进main，停止不追加Live。累计Live27/45、GET368/476、模型748/1600余852，留出18Live/108GET不动。 [报告](../../.eval-artifacts/phase3b/d8-network-retry-20261108/report.md)。
+
+<a id="network-path-diagnosis-20261108"></a>
+
+## 2026-11-08 CET — C direct routing and native static path diagnosis
+
+2026-11-08 CET — C按用户要求继续排查网络、不重跑Live。两次D8分流/Guard/工厂源码相同，当前.env早于两次运行；本地实际Chromium本域/子域绕过代理对照通过，静态仍原生、document/data仍Node，既有13/13通过。旧正向Live的同一TC脚本已4次200/2次未完成；本次1次200/2次未完成。旧Tabelog CDN15次200/2次未完成，本次4次DNS失败。当前系统名称查询有IP，但独立TC DNS A单次2秒查询ETIMEOUT；这是解析波动线索，不是旧超时的确定根因。旧录制缺DNS/IP/握手及有效进程代理信息，无法追溯逐连接；未发现分流回退，未修改产品或网络，不宣称修复。来源GET/模型/Live新增均0，原额度和留出预留不变。 [报告](../../.eval-artifacts/phase3b/network-path-diagnosis-20261108/report.md)。
+
+<a id="d8-b1-closeout-failed-20261108"></a>
+
+## 2026-11-08 CET — C single D8 closeout blocked by recorded static dependencies
+
+2026-11-08 CET — C B1/追问修复已合入并发布 main de503304（产品8c9cae41不变）。新有位见证冻结后单次D8用25模型/138.432秒，全部模型成功，但主候选TableCheck原生主脚本20秒无响应头；Tabelog四个JS浏览器DNS失败。最终NEEDS_INPUT，无B1、追问未触发；原评价NOT_EVALUATED保留，正向后验未交付是能力缺口；独立37/37边界PASS/S0=0。26份DOM清洗保存，静态缺失使完整Replay不可用，店铺JSON仍按隐私拒录。离线完成归因，无已证明可修的产品缺陷，不猜改网络/Guard/时限；失败证据仅工作分支复核。累计Live26/44、GET365/473、模型727/1600（余873），18Live/108GET留出预留不动，无额外读取/Live。 [完整报告](../../.eval-artifacts/phase3b/d8-b1-closeout-20261108/report.md)。
+
+2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
+
+<a id="d8-b1-closeout-main-20261108"></a>
+
+## 2026-11-08 CET — C reviewed B1 and followup repair main integration
+
+2026-11-08 CET — C B1/追问修复已由用户复核批准合入：1fd2d296/source8c9cae41，复用该SHA全绿1511/246+G6 78/strictG2全12，生产源码不变。TableCheck精确联想→店页→HIGH→唯一→查位已在Live验证；B1入口与同目标新G1作用域连续性只经离线真实组件/生产组合，待本次单一D8确认。更新main并推送核对后，先重新认证11/11 20:30/2；1Live+3GET新额度，shared44/473，模型余额898如实计、不动15/30模型只调用余额，留出18Live/108GET保留。[本轮计划](../../.eval-artifacts/phase3b/d8-b1-closeout-20261108/plan.md)。
+
+
+<a id="d8-positive-slot-repair-verified-20261108"></a>
+
+## 2026-11-08 CET — C positive-slot D8 offline fixes frozen for review
+
+2026-11-08 CET — C正向D8离线收尾（draft / not integrated）：源码8c9cae41净树同SHA全门禁PASS，默认1511、Chromium246+G6 78、严格G2全12及type/arch/build。真实B1控件/状态红绿与生产组合同目标重复检索红绿有效；首轮6bd75c29默认1510/1511抓出旧条款复用，原断言保留，现为新G1作用域、复用新鲜库存，过期及变更请求仍重查。写死扫描新增0。真实Live仍最终未交付；main ca0bd139不含新修复，工作分支提交证据交复核，不追加Live/GET/模型。[完整报告](../../.eval-artifacts/phase3b/d8-positive-slot-20261108/report.md)。
+
+
+<a id="d8-positive-slot-result-20261108"></a>
+
+## 2026-11-08 CET — C positive-slot D8: availability reached, B1/followup failure preserved
+
+2026-11-08 CET — draft / not integrated：正向D8已在main ca0bd139实际运行一次（20:30/2人；认证1+后验2GET）。初回合TableCheck已HIGH且唯一，模型选日期后代码读到20:30 AVAILABLE；B1因全页PENDING过滤入口未生成。随后完全相同TARGET补丁重置已展示结果，第二回合来源超时，最终NO_VERIFIED_RESULT；30模型全成功，独立边界无S0。原失败冻结7c8732c4。工作分支正在离线修复B1被动入口与保留新鲜相同请求，不改Guard/身份/G1完整性，不追加Live；main仍停已审阅冻结，不将新修复自动合入。累计GET362/470、Live25/43、模型702/1600；留出108GET/18Live未动。[本次报告](../../.eval-artifacts/phase3b/d8-positive-slot-20261108/report.md)。
+
+
+<a id="d8-positive-slot-main-verified-20261108"></a>
+
+## 2026-11-08 CET — C reviewed TableCheck safety integration verified for main
+
+2026-11-08 CET — C复核通过的TableCheck安全/身份修复按用户批准快进纳入main发布。源码保持2e4e2fcb；新增真实录制组件回归后8b14d8d6净树全门禁PASS：默认1497、Chromium246+完整G6 78、严格G2全部12页及type/arch/build。独立冻结清单21条覆盖全部20条已批准动态读取合同（含4文字形状和店铺GET）。TableCheck精确联想→店页→HIGH身份已Live验证；唯一性修复仅离线真实snapshot5–17，查位/B1待新时段D8。D4交付和联想到店页按缺失响应标COMPONENT_REPLAY，原录制/NOT_EVALUATED不改；本次合入未新增外部调用。后续预算只用新批1Live/3GET，留出18Live/108GET保留。[合入及验证](../../.eval-artifacts/phase3b/d8-positive-slot-20261108/integration-report.md)。
+
+
+<a id="d8-positive-slot-main-20261108"></a>
+
+## 2026-11-08 CET — C reviewed safety integration and recorded components
+
+2026-11-08 CET — C按用户复核批准准备快进合入8ac9067f/source2e4e2fcb；最新origin/main f324f17b为祖先，无代码冲突。生产/Guard/身份/预算字节不变；将D4实际交付DOM/JSON/B1组件、TableCheck精确联想请求/路由组件、D8真实snapshot5–17名称关联组件接入既有门禁，缺失动态响应/构造信封均标明，未补造响应或改旧录制。TableCheck精确联想→店页→HIGH已Live验证；唯一性修复只经离线真实快照，查位/B1待新增1次有位时段D8。共享上限Live43/GET470，留出18Live/108GET保留；本条尚未消费新增额度。冻结净树完整验证与发布回执见[本轮](../../.eval-artifacts/phase3b/d8-positive-slot-20261108/plan.md)。
+
+
+2026-11-04 CET：B完成D6 Ito候选60.008s保存时间线诊断，按用户停止条件交复核；导航43.746s、稳定等待9.836s、模型2.165s、Google日文名1.527s，其余2.734s。十次候选导航均完成且完整URL哈希各异，最终详情在59.262s才DCL完成、快照时仅剩18ms，尚未查位；未证实可安全删除足够重复工作，检索顺序改进涉及C身份路径。产品/预算/版本/A-C文件不改，不宣称修复或提速。df27dc1d净树五门禁全绿：默认1417、Chromium189+main G6 18、严格G2全12页PASS；新增真实调用0，账本原字节保留。只推诊断分支，不合main。 [报告](../../.eval-artifacts/phase3b/candidate-budget-d6-20261104/report.md)。
+
 # Development Log
+
+<a id="reused-session-control-fallback-verified-20261104"></a>
+
+## 2026-11-04 CET — C control-recovery repair verified for main
+
+Frozen e7963151/860: seven clean steps all pass (default1417; ordinaryChromium189 plus imported original G618; strictG2 all12; reuse5; type/arch/build). No full-gate repair/retry or input mutation. Explicit runtime lifecycle prevents treating hidden-control timeouts as session loss; original non-reuse and navigation/abort cleanup preserved. A13 files unchanged, only minimal test dependencies/wiring imported. No version, identity, Guard or production budget change; prior C broad-retirement claim superseded, raw old evidence intact. Ledger832 preserves main/A rows and existing A approval, real calls0/no .env. User-authorized main publication follows latest remote sync and independent saved-output audit, then A/B notice. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
+<a id="reused-session-control-fallback-20261104"></a>
+
+## 2026-11-04 CET — C restores observation after reused-session control failure
+
+User-approved direct main repair. Original A89e87665 test/dependency/wiring bytes imported (13 files; two test files contain3 reported failures/18 total, not the entire66-test A corpus). Frozen54805c31 exact three reds and reuse-only next-snapshot failure; a1363db7 restores all18 G6,67 executor/reuse and13 runtime controls. Navigation failure still retires; non-navigation errors retire in reuse mode only on runtime-owned closed/disconnected state. Two current runtimes expose synchronous lifecycle fact; non-reuse predicate unchanged. Original reuse fault fixture now explicitly marks actual context loss, assertions unchanged. Versions, Guard/identity, B resource/floor unchanged. Fresh gates pending; real calls0, no .env. Preserve main830/A831 rows plus C0=832 and A's existing user-approved ceilings. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
+2026-11-04 CET clarification: the integration conflicts were six documentation files plus one budget ledger (seven files total); the earlier “Seven documentation conflicts” shorthand included the ledger. No historical source or execution evidence changed.
+
+<a id="named-search-session-reuse-main-verified-20261104"></a>
+
+## 2026-11-04 CET — C integration passes all fresh gates
+
+bc8f31b7 froze850 inputs; nine steps clean before/after, source unchanged: default1415/1415, Chromium189/189, strictG2 five/all12, type/arch/build pass, post-fill navigation floor1, actual local Guard form, source/reserve target18. Both Executor deltas and22 unshared sources retained exactly; all32 original C artifacts untouched. No assertion or product repair during integration. Source/Guard/budgets/versions unchanged;830 ledger rows preserve all parent values and approved main410 GET ceiling. User-authorized standard main publication follows remote recheck and exact-tree proof; notify A after verified push. Real calls0, no .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md).
+
+<a id="named-search-session-reuse-main-20261104"></a>
+
+## 2026-11-04 CET — C approved reuse integrates after B
+
+User approved cc42fd8e after independent Linux gates; B d692366c is now main. Ordinary main→C merge automatically preserves both Executor deltas byte-for-byte after line-number normalization. All22 unshared source/config files and32 original C artifacts preserved. Seven documentation conflicts retain both sides; ledger union830 preserves829 main rows and C0, approvedGET ceiling410. Freeze then fresh five gates/strict G2, no publication until green. Add only a constructed overlap probe for post-fill <3000ms no-submit; no source or existing assertion edits. Real calls0, no .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md).
+
+<a id="named-search-session-reuse-verified-20261104"></a>
+
+## 2026-11-04 CET — C source-session reuse complete offline
+
+Candidate366c699c froze849 inputs; all seven clean-tree checks passed (default1409, Chromium189, strictG2 five tests/all12 pages, target18). Same public-source candidates reduce entrance navigations6→2 with unchanged conclusions; real local Guard/DOM1 entry+2 submits. Source identity remains independent per candidate; wrong shop/ambiguity/failure/cancellation/run isolation stay closed. No current-site timing or new Live claim. Main/B829 ledger rows preserved plus C0 entry; no credentials, main merge or A changes. Independent artifact audit and review stop follow. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
+
+<a id="named-search-session-reuse-20261104"></a>
+
+## 2026-11-04 CET — C run-scoped source sessions
+
+User approved diagnosis8145e062. Source-specific anonymous sessions now belong to one Agent read; observed unique GET forms may accept the next code-owned query, with fresh post-fill references. Missing controls use existing navigation. Identity/Guard/20-second reserve/ceilings unchanged; no cross-run pool. Reviewed TableCheck incomplete-stage fields applied. Agent finally awaits all source contexts. Two existing C fixture sequences now represent separate source sessions; original business assertions retained. Five gates/strict G2 pending, real calls0, no .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
+<a id="tabelog-timeout-diagnosis-verified-20261103"></a>
+
+2026-11-03 CET：B的Tabelog超时诊断分支净树门禁通过：默认1404/1404、Chromium188/188、严格G2 5/5及12页PASS，type/arch/build通过。产品源码与a7abbc0f逐字相同，未实施修复/未测提速；逐请求时间线与原查询身份缺失，资源主因及限流均未定。按A/C归属约束交接补证后停下，6次公开GET未使用、真实模型/网站调用0；只推诊断分支、不合main。 [报告](../../.eval-artifacts/phase3b/tabelog-timeout-20261103/report.md)。
+
+<a id="tabelog-timeout-diagnosis-20261103"></a>
+
+2026-11-03 CET：B完成Tabelog超时保存材料诊断，未实施修复。HAR无真实逐请求时间，D8有41/1447/1494ms导航余量；D3保留DOM检出1份忙碌页，重复URL口径受query脱敏限制。资源负载主因尚未证实，不推断限流；完整时间线/查询关联需A录制与trace补证，按用户归属边界停止。产品/A/C源码不改，6次W1 GET额度未使用，真实调用0。诊断分支待门禁与复核，不合main。 [报告](../../.eval-artifacts/phase3b/tabelog-timeout-20261103/report.md)。
+
+<a id="hard-evidence-main-verified-20261103"></a>
+
+2026-11-03 CET：B已获批HARD证据修复合main，新鲜合入候选1ee97d94全绿：type/arch/build通过，默认1397/1397、Chromium188/188（130.342秒）、严格G2 5/5及12页PASS，每项前后status为空，无重试/跳过/取消。merge172c20af的树与复核d58d377a完全一致，发布记录不改源码/fixture/脚本；State25/TaskDefinition23及Prompt/Schema不变。744条账本完整保留743旧条目、累计/额度不变；新增真实调用0。按批准发布main，ls-remote核对后通知C/A，实际main SHA以交付回执为准。[合入证据](../../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。
+
+<a id="hard-evidence-main-20261103"></a>
+
+2026-11-03 CET：用户复核B d58d377a通过并批准先合main；已fetch最新main db1f44a2，集成merge 172c20af与获批树完全相同，无冲突、无实现或版本变化。复核者Linux2核/Node24五门禁1397/188及G2通过作为复核输入保留；本机新的五门禁/严格G2待运行，全绿前不发布。账本744条，743旧条目完整保留、额度与累计不变；真实调用0，不读.env/答案。发布后ls-remote核对并通知C/A。[合入报告](../../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。
+
+<a id="positive-hard-source-roles-verified-20261103"></a>
+
+2026-11-03 CET：B的正向非价格HARD证据修复完成待复核。冻结候选a5625ddf净树五门禁全绿：默认1397/1397、Chromium188/188（130.647秒）、严格G2 5/5及12页PASS；每项前后status为空。D4保留同一句日文菜单引用并显示MET；c05依据同次保存页Kaiseki店名显示MET，评论/无类型店名/异店页/过期控制拒绝，Web英文依据标签2项通过。c05及两条Motsu-nabe旧卡片合同同步单列，15条角色补回按原run绑定，未补造原文。旧44,197字节控制的分段/选择/模型请求一致，完整产物因2处来源角色元数据变为47,208字节，未声称全量逐字节一致。State25/TaskDefinition23和Prompt/Schema不变，A eval/harness、C身份及Guard/站点目录不改；743条账本保留main计数和额度，新增真实调用0。只推工作分支、不合main，通知A后停复核。[完整证据](../../.eval-artifacts/phase3b/hard-evidence-scope-20261103/report.md)。
+
+<a id="positive-hard-source-roles-20261103"></a>
+
+2026-11-03 CET：B按用户“店名可算、评论不算”统一正向非价格HARD接纳与投影。D4原串カツ引用、c05保存页Kaiseki店名及评论/异店/过期控制绿；c05与两条Motsu-nabe旧卡片断言单独合同同步，未补造原文。首轮576c6406净树五门禁1395/188及严格G2全12页通过；Web依据标签已补，最终候选完整复跑待完成。State25/TaskDefinition23及Prompt/Schema不变，A eval/harness与C身份文件不改；真实调用0，仅工作分支待复核，不合main。 [报告](../../.eval-artifacts/phase3b/hard-evidence-scope-20261103/report.md)。
+
+<a id="named-continuity-main-verified-20261103"></a>
+
+2026-11-03 CET：获批a1cd798e连续性修复已同步最新main533f1bc5，无源码冲突。0d2fff0e冻结786项后净树11步全绿：默认1382/1382、Chromium188/188、严格G2 5/5及12页PASS，独立29帧及组件控制通过；本机未复现PGlite崩溃。账本740条并集，main限额保留，本轮真实调用0、不读.env。按用户批准发布main，D2多候选与D3条款缺口另开分支。 [报告](../../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
+
+
+<a id="named-continuity-main-20261103"></a>
+
+2026-11-03 CET：用户复核a1cd798e通过并批准合入；最新main仍533f1bc5，无产品代码冲突。合入分支源码与获批版本相同，账本并集740行（A新增42+C零调用1），main限额不扩大。完整门禁/严格G2待新鲜验证；真实调用0，不读.env。D2/D3新问题在发布后另分支处理。 [报告](../../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
+
+
+<a id="named-outlet-continuity-verified-20261103"></a>
+
+2026-11-03 CET：D6连续性候选完成离线验证。用户获批两文件合同补丁逐字应用，单独提交beff503b；产品源码与fafd8edc相同，State25/TaskDefinition23/Prompt不变。0147ed6a冻结782项后净树11步全部通过：默认1382/1382、Chromium188/188、严格G2 5/5及12页PASS，独立原9+名称7+D6 13帧和三个组件控制通过。保留历史S0=1、1381/1382和186/188原件；不重算Live，真实调用0、不读.env，仅推工作分支交复核、不合main。 [交付报告](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+<a id="named-outlet-continuity-approved-sync-20261103"></a>
+
+2026-11-03 CET：用户窄授权两处A归属合同同步；beff503b只含workspace-fixture-server.ts和web-workspace.test.ts，逐字等于原冻结提案：SPECIFIC只返回全名点名候选、来源ID及catalog不变；该次Check this one等1 of 1，其他路径仍默认三家；JUDGMENT/不选店及原断言不变。产品源码与fafd8edc相同，版本不变，真实调用0。已另冻结批准记录与新完整门禁配置，原186/188及停止点证据保留；新五门禁/严格G2待运行，仅工作分支复核，不合main。 [报告](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+
+<a id="named-outlet-continuity-contract-20261103"></a>
+
+2026-11-03 CET：C D6修复停在A归属测试合同确认。fafd8edc（准确源码SHA见报告）type/arch/build、默认1382/1382、独立D6 13+原无地区9+名称7帧及严格G2 5/5、12页PASS；Chromium186/188，两个尺寸在“Check this one”后仍等三家，与SPECIFIC只展示点名店冲突。最小两文件补丁已冻结，尚未应用，不放宽产品守卫、不改A/B文件；五门禁未全绿。历史Live S0=1保持；本轮真实调用0、不读.env、State25/TaskDefinition23不变，仅工作分支停止点交复核，不合main。 [报告](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+
+<a id="named-outlet-continuity-20261103"></a>
+
+2026-11-03 CET：C D6具名连续性已取得守卫/组装/B1缓存有效红灯，当前相关63项全绿；原D6三回合语义及Agent字节不改，补人数后按选定Place ID重读/重绑，错误五店原PRESENT被拒；失败点名Ito，明确用户OPEN后才给其他店。历史Live按用户裁定S0=1次展示，旧A自动未评不改。引用从既有Runtime事件重建，State25/TaskDefinition23及Prompt不变，A/B保护文件未改。条款入口/上下文仅补同一名称守卫，读取/预算/20秒保留原样。最终五门禁/严格G2待运行，真实调用0、不读.env、只推新分支待复核。 [报告](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+
+<a id="named-outlet-main-verified-20261103"></a>
+
+2026-11-03 CET：C名称匹配ca18d02b经用户复核批准，已同步最新main d4d8ea33。abaf8266净树十步全绿：type/arch/build、默认1372/1372、Chromium188/188、严格G2全12页、独立16帧；源码与复核候选相同。账本A/C并集696条，累计含A的4 Live/321模型/270评测GET，C本轮新增0；上限不扩大、不读.env。按批准合入远端main并核对，具体发布SHA以Git回执为准；D6 S0另开分支修复，不能把本合入当作该S0已修。 [合入证据](../../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
+
+
+<a id="named-outlet-main-20261103"></a>
+
+2026-11-03 CET：C名称匹配ca18d02b已复核批准合入。已同步origin/main d4d8ea33，源码相同；A5912账本67条并集，额度快照不扩权。本轮五门禁/严格G2待新鲜验证、真实调用0；D6具名店替换S0下一分支独立修复。 [合入报告](../../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
+
+
+<a id="named-outlet-source-names-verified-20261103"></a>
+
+2026-11-03 CET：C来源名唯一性补修离线全绿。D1真实Google短名+D3原字节有效红→查位→展示→B1/条款；同店来源全名与包含+typed地址地名分别核对，多店/错地名/身份冲突拒绝，未知别名/建筑词/字内片段不放行。2354b2bd冻结756项，净树十步全绿：默认1372/1372、Chromium188/188、严格G2 5/5及12页PASS，独立新7+原9帧PASS。State25/TaskDefinition23、语义/Agent版本与A/B保护文件不变；原627行全保留、账本628行，本轮真实调用0、不读.env。只推工作分支交复核，不合main；不是新Live或37家通过率。 [证据及完整记录](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
+
+<a id="named-outlet-source-names-20261103"></a>
+
+2026-11-03 CET：C补来源名唯一性，D1真实Google短名+D3原语义红→绿；现有G4电话/地址规则不改，来源全名与包含+地址地名两规则分开验证。原八控制、用户选店、Google预算及TableCheck合计50/50通过（首次TableCheck受本地Chromium启动权限阻塞，原件保留；受控本地重跑通过）。State25/TaskDefinition23及Prompt/Schema不变；A/B受保护文件不改。最终输入和独立oracle待冻结，五门禁/严格G2待运行；本次真实调用0、只推工作分支待复核、不合main。 [证据](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
+
+<a id="named-outlet-area-verified-20261103"></a>
+
+2026-11-03 CET：C无地区具名店离线完成待复核。State25/TaskDefinition23获批；原D3 #1字节冻结，普通组装唯一店→查位→展示→B1/条款，无伪造AREA/圆心/距离。歧义/近似分店先询问、恶意SELECT被拒；OPEN缺地区、未找到/无关/非Tokyo和后补地区不替店均覆盖。A五处机械同步3d632a49、C两例交接预期28c45602经用户窄授权分别提交，原断言/Gold/模型字节及B三个G3其余原样。d793fccf冻结784项，净树九步全绿：默认1363/1363、Chromium188/188、严格G2 5/5且12页PASS、独立九帧PASS，type/arch/build通过。旧红灯和1361/1363保留；仅构造来源/D3原语义，不是真实Dengana库存或新Live签收，缩写/跨语言名不猜。账本627条并集，本轮真实调用0、不读.env。只推工作分支并通知A，不合main。 [报告及原件](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/report.md)。
+
+<a id="named-outlet-area-approved-sync-20261103"></a>
+
+2026-11-03 CET：C两项窄授权已应用并分别提交：3d632a49原样同步A五文件版本/可选字段，28c45602仅同步AMBIGUOUS/PARTIAL交接预期。其余原断言/Gold/模型字节和B三个G3不改；State25/TaskDefinition23，语义Prompt26/Proposal4/Draft3及Agent版本不变。源码和输入冻结待最终五门禁/严格G2，旧1361/1363与先前绿灯均保留而不替代本轮验证。本任务只推分支交复核、不合main，真实调用0。 [证据](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/authorizations.json)。
+
+<a id="named-outlet-area-contract-review-20261103"></a>
+
+2026-11-03 CET：C无地区具名店候选State25/TaskDefinition23已实现，语义字节不变；D3及七项补充控制通过，原名/地区和B1条款闭环。后补地区反例红→修复后不再换店；当前完整回归1361/1363，仅旧选店AMBIGUOUS/PARTIAL仍要求存在B1交接，与新唯一性合同冲突。按原断言不改要求停下，精确同步补丁未应用；A五处版本/可选字段机械同步亦仍待授权，A/B受保护文件原字节。类型/五门禁/严格G2尚未全绿，未推送/未合main，真实调用0。 [原件/候选补丁](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/contract-review.md)。
+
+<a id="named-outlet-area-version-review-20261103"></a>
+
+2026-11-03：C具名店无地区切片停在版本确认点，尚未实施。SearchIntent.area必填且RESTAURANTS_FOUND会写入State.intent，建议State24→25、TaskDefinition22→23；Draft3/语义Proposal4/Prompt26不变，不回填伪造AREA。A cc9562cd的D3决策#1原字节已冻结，尚未取得整组装红/绿或运行本次门禁，产品/A/B文件不动，真实调用0、不读.env。不推送或合main，待复核者确认版本。 [方案和原件](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/version-review.md)。
+
+<a id="dev-2026-11-02-b1-visible-candidates-verified"></a>
+
+2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
+
+<a id="dev-2026-11-02-b1-visible-candidates"></a>
+
+2026-11-02 CET：C按用户批准修复B1对外候选集合。有效整组装红灯1bf90606：HARD kushikatsu未核实，NO_VERIFIED_RESULT/无就绪展示却泄交接，HTTP离开201；39d7823f同四项全绿，隐藏交接清空且离开400。共享领域集合函数用于投影和条款入口，准备缓存保留，SEARCHING就绪→展示→用户选店两项条款正控制不退化。只补C自有TableCheck组件桩的phase/ready输入，不改断言；A eval/harness、G6/B1 HTTP测试、B G3/前端及版本原字节不变。第一次夹具端口遗漏/本机监听沙箱失败单列保留，不冒充目标红灯。账本与A f094e034原618条并集后加C零调用为619，main限额不提高。冻结后待五门禁/严格G2；真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
+
+<a id="dev-2026-11-02-user-selection-main"></a>
+
+2026-11-02 CET：C 用户预订选择 ec93c249 已获独立复核及合入批准。原 main549061e8 的1351/187/严格G2全绿证据原样保留；A随后发布fixture生命周期修复，439fceeb同步main31d482aa并保留双方五处文档记录，恰两份fixture文件与主线原字节一致。最终冻结881项，九步前后净树：默认1351/1351、Chromium188/188、严格G2 5/5及12页PASS，独立九份组装产物PASS，无超时/重试。选店产品/State/TaskDefinition/Prompt/Schema/条款逻辑与复核源不变，95份旧产物保留，账本570条保留原569条及累计数，本次真实调用0、不读.env。按用户批准正常合入并推送main，以Git合并和ls-remote为最终SHA凭据，随后通知A、C待命。全名相等之外的部分名/跨语言名称仍交Agent，保持已批准的保守限制。 [Report](../../.eval-artifacts/phase3b/user-booking-selection-main-20261102/report.md)
+
+<a id="dev-2026-11-02-user-booking-selection-review"></a>
+
+2026-11-02 CET：C 用户消息选店离线完成待复核。A 原 P1/P2 PRESENT_RESULTS 四红→4413e4ff 同九项全绿；549061e8 已同步，02a7df74 冻结821项，默认1351/1351、Chromium187/187、严格G2 5/5及12页PASS，九步前后净树。用户选择经既有事件、消息因果链和 USER_MESSAGE 轨迹记录，补人数延续原请求，重复选择幂等，不产生预约授权。State24/TaskDefinition22/Prompt、条款及20秒保留、A eval/browser 断言和B G3不改；两处HTTP预期与A夹具单标签按三次窄授权单独记录，原红灯保留。账本569条并集，累计模型228含A已记57次、GET255/290，本批真实调用0，不读.env。只推工作分支、不合main，通知A等待复核。 [Report](../../.eval-artifacts/phase3b/user-booking-selection-20261102/report.md)
+
+<a id="user-booking-selection-20261102-preparation"></a>
+
+2026-11-02 CET：C用户消息选店离线修复，main efeab254上A原P1/P2 PRESENT_RESULTS回放及具名/来源4红→4413e4ff同9项全绿。复用现有选择事件，USER来源与消息因果链，跨补人数由已接纳事件携带待解析请求；非唯一、非订位、开放推荐/G1/出发不记选择，重复同店/offer幂等。State24/TaskDefinition22、Agent Prompt、G1条款及A/B受保护文件不改。原始响应不改，真实调用0，不读.env；待冻结完整五门禁/严格G2与独立核验，只推工作分支交复核、不合main。 [计划](../../.eval-artifacts/phase3b/user-booking-selection-20261102/plan.md)。
+
+<a id="dev-browser-fixture-lifecycle-main-verified-20261102"></a>
+2026-11-02 CET：浏览器fixture生命周期修复已达到用户批准的main发布门槛。独立分支仅逐字提取49e37c55两份harness；af11c443晚调度+旧helper出现真实退休/等待标记后8秒保护红灯，b0285800同控制0.888秒绿。737 SHA全程不变，默认1342/1342、Chromium188/188（149.341秒）、严格G2 5/5及12页PASS，type/arch/build全绿，7项前后净树。原断言、30ms/180s/600s不改，不带G6 Runner/评价器，不改产品/版本/脚本/package和账本，真实调用0不加载.env。正常推送main并ls-remote核对后通知B/C，再同步G6分支；最终SHA以Git发布回执为准。 [报告](../../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/report.md)。
+
+<a id="dev-browser-fixture-lifecycle-main-20261102"></a>
+2026-11-02 CET：A按用户批准把浏览器fixture生命周期修复单独从main549061e8提取。两份harness来自获复核49e37c55，先晚调度回归配main旧helper取红，再同断言绿；不带G6 Runner/评价器/产品/版本，不改budget原值、不加载.env，真实调用0。完整净树五门禁/严格G2通过后直接发布main并通知B/C，随后G6同步。 [计划](../../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/plan.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-report-stop1"></a>
+
+2026-11-02修订指令，CET口径：运行诊断报告从最新main efeab254独立开分支，仅完成停止点1设计/字段盘点。原判定照搬、观察到达与通过分开，体验指标不作门槛；登记5条主校准、22条冻结输入和9份已合main多回合产物，不重跑/重评。保留首点口径分歧、缺逐环节独立结论/消息时钟/追问Gold等未评边界，指出新目录glob及生产判断禁入范围缺口待复核。仅文档/草案，不碰A未合分支、产品/Prompt/Schema/State/判定，真实调用0、不读.env；推分支后停止，不合main。[设计](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。
+
+2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。
+
+2026-11-01 CET：C已在5cda89b7产品原字节取得4个保留区红灯，677334e5同6项实际组装全部绿；20001可开始、20000零取页/模型、两次模型间及语言导航前重核、deadline减20秒主动取消，链接保留。固定I/O助手消息等待约5.3ms，注入2×40ms模型等待后约88.1ms，均为实际持久追加观察。96494220同步main1d65b8e8，保留4处双方文档/16项main源码及账本510条、累计不变；不改A/B受保护文件。待冻结合并候选五门禁/严格G2及独立起始时刻核验，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
+
+2026-11-01 CET：C按复核补B1条款20秒保留；先在5cda89b7产品原字节上冻结C自有实际组装边界20001/20000、模型间跨区、语言导航及提前取消反例。A原三文件/B G3不改，旁听实际助手消息持久追加并量测等待。修后同步main1d65b8e8，完整五门禁/严格G2全绿才合main推送；真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
+
+2026-11-01 CET：C B1卡片条款离线完成待复核。b6e155bd冻结748项，A原取消测试及helper原字节绿；默认1319/1319、Chromium187/187（130.264秒）、标准/严格G2均5/5、12页PASS，独立14帧+原A产物核验12条C引文。选店主动同渠道取消/卡，已有答案复用；冲突两页并列，异店/渠道/旧run/过期/预算/取消省略条款且B1保留。身份见证及Agent非用户选择两反例红→绿；前两轮C测试错误原件保留，完整门禁一次全绿、10步净树。ADR0049仅追加11-01决定；Agent/G1 Prompt、State/TaskDefinition、B G3、前端和原链接读取器不改。真实调用0、不读.env/独立答案/私有留出集；账本509条累计不变。仅推C分支不合main，通知A停复核。 [报告](../../.eval-artifacts/phase3b/b1-card-terms-20261101/report.md)。
+
+2026-11-01 CET：C B1条款定向整组装11/11通过（A原取消追问不改）；两渠道主动取消/卡、已接纳复用、日英冲突、错店/渠道、共享模型20次封顶、取消/过期/未写均有实际链路证据，链接继续有效。前两轮C测试包装/URL及时序原件保留；另补原凭据ID矛盾的条款二次展示单测红灯→收紧，以及Agent内部选店不等于用户选店的整组装红灯→以权威SPECIFIC_OUTLET约束主动读取；不改Agent/State/链接接纳规则。ADR0049追加11-01决定。待最终冻结五门禁/严格G2和独立产物核验；真实调用0，不读.env；账本main507与A508完整并集后追加C零调用为509，累计用量不变。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+
+2026-11-01 CET：C开始用户批准的B1卡片条款生产切片，从main74dd2faf开分支；A31ba2a84原测试/取消输入/helper三文件逐字导入，冻结后先取G1已接纳但B1 terms为空的原目标红灯。主动读取只为已选且已有交接的店，复用G1并沿用选店轮预算；不改Agent/State版本、B G3及A断言，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+<a id="dev-2026-11-01-eval-assembly-gate-main-publication"></a>
+
+2026-11-01 CET：用户复核通过0e24d9ab并批准直接合main。核对远端74dd2faf已为祖先，在本工作树以main为第一父创建普通合并，初始完整树等于获批候选，只追加合入文档；不触碰其他对话工作树，不改源码/规则/例外/测试/样本。730冻结输入和全部旧门禁证据保持，复用原验收，不新增运行。正常推main并ls-remote核对后，按用户授权通知A/B/C新SHA与factory/组件白名单边界，之后待命。真实调用0、不读.env。[记录](../../.eval-artifacts/phase3b/eval-assembly-gate/main-publication-20261101/report.md)。
+
+<a id="dev-2026-11-01-eval-assembly-components-split"></a>
+
+2026-11-01 CET：按用户转述的复核第3节原样迁出三条native组件测试；核心导入和局部retrieval替身随迁，两条白名单改指向新文件，composition无例外。三条正文逐字SHA一致、静态test调用71不变；只删例外说明中失效的同文件factory从句，不改生产、样本或门禁规则。9cd4c8e冻结730项后arch和默认1308/1308全绿，type/build同绿，四项单次净树。用户确认原复核在Claude项目且无需取得；仅推原分支待复核，不合main，真实调用0、不读.env。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/component-split-20261101/report.md)。
+
+<a id="dev-2026-11-01-eval-assembly-gate-main-sync"></a>
+
+2026-11-01 CET：按用户既定交接合入获批main74dd2faf到组装门禁分支，原调度修复仅随main取得。六处文档冲突保留双方正文，产品与传入main相同，原门禁/白名单/SF退役/机械清理及A新G6输入不改；44份原门禁证据逐字保留。冻结b5e804b8/729项，五门禁全绿，默认1308、Chromium187，原调度断言在完整套件通过。仅补归档/状态，不新增能力、真实模型、Google、网站或Live，不读.env；推工作分支交独立复核，不合main。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。
+
+2026-11-01 CET：获批TableCheck B1普通组装合入验证完成。main fceecaad已在ffe8fc8e祖先，源码/config原字节；dfc3bc2b冻结735项，八步前后净树，默认1306/1306、Chromium187/187（131.777秒）、标准及严格G2均5/5、严格12页PASS。原修复包36文件、A原5文件和账本507条原样保留（GET255/290、模型171）；无失败豁免/重试，真实调用0、不读.env。按用户批准正常发布main并以Git合并及ls-remote作最终SHA回执，随后通知A与测试优化对话待命；本地离线验证不代表真实网站选中或预约。 [合入报告](../../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/report.md)。
+
+2026-11-01 CET：用户复核通过TableCheck B1修复ffe8fc8e并批准合入main。最新main fceecaad已在分支祖先，同步后产品/config与复核候选原字节；A原测试/5输入、Tabelog/B G3、两次校验与账本507条/GET255/290不变。冻结后重跑五门禁和严格G2，各步前后净树，任一失败停；全绿才正常快进发布main、ls-remote核对并通知A与测试优化对话，之后待命。本次真实调用0、不读.env。 [合入计划](../../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/plan.md)。
+
+2026-11-01 CET：C TableCheck B1普通组装修复完成待复核。main fceecaad上A原测试有效红→并列TC来源读取器后绿；A测试/helper/构造输入5文件与02d01196原字节。只旁听已有snapshot/observeControls，不导航；初始及选店后均有同店精确2026-11-11/19:00/2人filled-in交接，红绿初始来源IO逐项相同5次。组件17项含错店/日期/人数/时段/宽窗无精确时刻/域名路径/隔离过期与二次校验均绿。首轮C测试readonly类型失败保留，复制数组后34c2b4bc冻结740项：五门禁默认1306/1306、Chromium187/187、标准及严格G2均5/5、严格12页PASS，8步前后净树。Tabelog/B G3/领域/前端不改，真实模型/Google/网站/Live0，账本507条并集累计255/290GET及171模型不变。不合main，推分支后通知A，停复核。 [修复报告](../../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/report.md)。
+
+2026-11-01 CET：C从B取页修复主线fceecaad新建TableCheck B1组装修复分支；A 02d01196测试及最小5文件输入原字节，e2de4d99冻结729项，实际PRESENT_RESULTS/AVAILABLE但交接空，断言Initial ordinary source cache must produce B1有效红灯。ce6f02a6并列旁听现有snapshot/observeControls的TableCheck读取器，A原测试绿、组件17/17绿；持久应用初始/选店后均正确B1，红绿初始来源IO逐项相同5次。Tabelog/B G3/领域双校验/A断言不改，模型/Google/GET/Live0，不读.env；待冻结五门禁和严格G2，完成仅推工作分支交复核、通知A，不合main。 [修复计划](../../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/plan.md)。
+
+<a id="dev-g1-page-capture-main"></a>
+
+2026-11-01 CET：用户复核通过B a7860924并批准合入main。已同步main6db445ea和A原集成5683dcfb（只有所有者调度测试变化，B产品/其它源码原字节）；冻结d99a0c2b/727项，五门禁默认1288/1288、Chromium187/187（130.203秒）、严格G2 5/5测试及12/12页面PASS，旧HARD44,197字节一致。七项前后净树，无失败豁免或重试；门禁后仅归档/文档/零调用记账。504旧账目保留、追加至505、累计不变；真实调用0，不读.env/答案/私有留出集。按用户授权发布main并以Git合并和ls-remote作最终回执，随后待命；历史600秒挂起根因仍未知。 [合入验证报告](../../.eval-artifacts/phase3b/g1-page-capture-main/report.md)。
+
+<a id="dev-fixture-scheduling-events-verified"></a>
+
+2026-11-01 CET：A调度事件同步修复完成待复核。基于B a7860924，受控延迟真实TEST_START复现原断言，等待父监听器消费后再触发原600秒时钟；20行原断言、首测试/断言尾段及60秒/G2180秒/600秒全部保留，B产品/生产脚本原字节。同延迟绿、普通整文件3次绿。17b9cb1d冻结721项，五门禁默认1288/1288、Chromium187/187（130.485秒）及严格G2 5/5、12页PASS，各项前后净树；归档前缀解析错误和首轮全部命令PASS原件另存。账本503旧条不变、A旧条已含、追加为504，真实调用0；不读.env/留出集/QA答案。只推A工作分支，不合main，G6未续跑；历史600秒卡死仍未知。 [报告](../../.eval-artifacts/phase3b/fixture-scheduling-events/report.md)。
+
+<a id="dev-fixture-scheduling-events-prepared"></a>
+
+2026-11-01 CET：A按用户指令在B a7860924上修复调度测试。自然全套一次1288/1288未复现；真实TEST_START消息受控延迟复现原lastObservedTests断言失败。仅生成driver等待实际held生命周期消息并在父监听器消费后检查，20行原断言/首用例/断言尾段原字节，60s/600s/G2180s不变；同延迟绿、普通整文件3次2/2。B产品和生产脚本不改，账本503旧条保留、A旧条已含不重复、追加为504、累计用量不变；真实调用0，不读.env/留出集/QA答案。待冻结完整B+A候选五门禁和严格G2，仅推A工作分支不合main；原600秒卡死仍未知。 [报告](../../.eval-artifacts/phase3b/fixture-scheduling-events/report.md)。
+
+<a id="dev-2026-11-01-eval-assembly-gate-evidence"></a>
+
+2026-11-01 CET：组装门禁证据归档，执行代码冻结da92154c；9个隔离正常/反例对照均核对真实退出码和目标错误，未改工作分支生产源码或C文件。SF四文件/命令退役、命名检索模拟保留；用户追加批准两处当前引用最小清理，历史原文不改。五门禁4/5，唯一默认调度失败已在干净main6db445ea同命令第3次复现，前两次通过及单文件对照全保留；按用户安排，修复C5683dcfb待先合main，本分支再同步重跑。本候选只推工作分支交独立复核，不合main、不宣称全绿或Live能力；真实调用0。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
+<a id="dev-2026-11-01-eval-assembly-gate"></a>
+
+2026-11-01 CET：按已通过停止点1复核与用户SF退役授权实施组装门禁，当前待冻结五门禁。复用arch:check扫描与既有Evaluator依赖规则，加入eval MJS、25核心、24文件/核心组件例外的严格及陈旧检查；退役旧SF四文件/命令/两处说明，保留命名检索模拟。原有测试行为/生产代码未改，Web测试仅纠正范围注释；Test Skill仅加一条签收边界。旧临时副本TS/MJS都漏拦已保存，后续目标红绿在同一隔离工作树；真实调用0，五门禁前先冻结。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
+2026-11-01 CET：组装门禁仅完成停止点 1 静态盘点，`draft / not integrated`。从远端 main `6db445ea` 在独立工作树建立 `codex/chore-eval-assembly-gate`，未触碰原工作区资料。记录全部 eval Runner、程序化入口、独立评分入口，以及默认组合/集成声明的实际调用路径；混合 composition 文件按具体入口区分。已有 arch:check 可承接规则，核心集合/分类/白名单留待复核；不实现门禁，不改 A/B/C 文件。真实模型/Google/网站/Live0，不读.env；推报告后停。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop1-report.md)。
+
+2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。
+
+2026-10-31 CET：用户复核通过C efee5a81并批准合入main；6e0f134a已同步最新main90559cc9，产品无冲突，保留A三文件诊断和双方文档，账本500条/GET255/260不变。冻结合入候选后顺序重跑五门禁及严格G2，每项前后净树，任一失败即停；全绿才发布main并核对远端。四家定向证据保持3正确/1未评、错认0，T第6位缺口不改；本次真实模型/Google/网站GET/Live0，不读.env。 [合入计划](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/plan.md)。
+
+2026-10-31 CET：C按批准恢复G4定向实测完成待复核。bcba61cb单独冻结修正副本781项，原停批包47文件原样保留；内部上限/共享预算1，无模型端口，尝试即拒绝，四条身份回放均在调用前/finally/保存前三处断言0并关闭本地浏览器。Beef只用旧原件预检正确后继续原8详情，8/8均200、网络失败0；Beef/Kappo/Sumi正确接纳且日文词实际贡献3家，T已观察5详情不认错店，但缺历史片段，完整回归未评。不是新37家通过率。新增GET8、Google/模型/Live/robots/Beef请求0；共享GET255/260，491旧条目不变、追加8，并入最新main的A零调用记录1条（共500）。产品/身份/排序/评分口径不变；仅推工作分支、不合main。 [恢复报告](../../.eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/report.md)。
+
+2026-10-31 CET：用户已批准C按d2607b34修正提案恢复。仅外层新副本内部上限/共享预算1、无模型端口、尝试即中断和三处计数0断言，构造纳入浏览器清理；原47文件与STOPPED保留。先冻结本地Beef完整身份前缀和独立评分预检，通过后仅原8详情GET，Google/模型/Live0，不读.env；共享当前247/260，原491条保留。产品/策略/身份/评分口径不变，恢复未完成、不合main。 [恢复计划](../../.eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/plan.md)。
+
+2026-10-31 CET：C按批准启动G4四家分阶段定向实测，robots、同ID Google日文名、Beef日文首屏及1详情均200。随后外层Runner把执行器正整数内部上限误配为0，身份前缀构造即失败；按用户偏离即停规则停止，未请求已知8详情、未改冻结输入或追加请求。4家身份/错认/第三词接纳贡献均未评，不能当作37家新通过率；Beef首屏事后核对含认证店不等于接纳。网站2/14+robots1（共享计入）、Google1/1、模型/Live0；共享GET247/260，487旧条目完整保留、追加4。740冻结SHA/170旧接线产物及产品源码原样保留；只推C分支、不合main，外层Runner修正提案待复核。 [中断报告](../../.eval-artifacts/phase3b/g4-japanese-directed-20261031/report.md)。
+
+2026-10-31 CET：C获准范围外来源修正完成：e4b0e27e独立仅1文件+1行；19项红→绿，正向TABELOG且原B1交接1份、反向TABLECHECK，五路径除来源字段外全部相同，双失败完整原件一致，单源有效来源不变，attempts全不变。全部12处读取/局部使用及其它写入/类型/测试/历史脚本逐项影响已写报告。90c90a50冻结1585项，五门禁1271/1271、Chromium186/186（130.136秒）和严格G2 5/5、12页PASS；9步前后净树，142旧artifact原样保留，账本不变。真实模型/Google/GET/Live0，不读.env；Beef最终精确清单仍缺来源绑定、8个详情URL和单次Google提案未执行。推C工作分支停复核，不合main。 [报告](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/report.md)。
+
+2026-10-31 CET：用户已窄授权仅在resolver成功分支加一行sourceProvider: provider.provider，范围外修正独立提交e4b0e27e（1文件+1行）。743dca0d冻结有效红灯→同19项全绿：TableCheck失败后Tabelog成功来源TABELOG、B1原URL交接1份；反向TABLECHECK；五路径固定Date红绿对照除显式来源字段外全部返回值/attempts不变，双失败完整相同、单源有效来源不变。grep逐12处读取/局部使用说明影响，写入/类型/测试与冻结脚本单列。待冻结重跑五门禁与严格G2，原37+4回放证据保留；Beef清单仍缺来源原件、不执行提案。真实模型/Google/GET/Live0，不读.env，账本不变，不合main。 [计划](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/plan.md)。
+
+2026-10-30 CET：C日文名候选已完成零真实调用的模拟及生产身份前缀：各原23/23、focus3/3、错认0；默认1263/1265仍红（同一个B1跨来源sourceProvider缺口子用例+父用例），type/arch/build和Chromium186/186、严格G2全12 PASS，10步前后净树、1674 SHA一致。绑定一行修复已请求用户窄授权但未动。8个详情URL+精确单次Google提案已物化；Beef原日文名/首屏尚无原件，完整最终GET清单NOT_EXECUTABLE，不用Gold/模板补造。共享486旧条目逐条保留、追加0调用记录，GET244/260；真实模型/Google/GET/Live0，不读.env。B1第一步已发main74afd956并远端核对；第二步未完成、不合main，推候选停等范围与来源依赖复核。 [报告](../../.eval-artifacts/phase3b/g4-japanese-wiring/report.md)。
+
+2026-10-30 CET：B1已按批准发布并ls-remote核对main74afd956（五门禁1254/186、严格G2全12）。C另开日文名产品接线：原名→合法片段→同ID日文全文，前两词4+日文1、未用退还，详情上限不重置，Google额外Details进入既有run预算/导出，不改变身份/排序/库存/响应绑定。d17ee4bc冻结1571项；37主视图+4复跑的模拟及生产身份前缀均原23/23、focus3/3、错认0，缺页15主视图仍未评。新增普通HTTP已从NO_VERIFIED_RESULT走到PRESENT_RESULTS，但暴露先TableCheck失败再Tabelog成功的旧check.sourceProvider误归总resolver，B1按钮拒绝；保留断言及红灯，绑定修复已向用户申请一行窄授权、尚未实施。Beef同ID日文名及首屏未读，完整精确GET清单尚不能离线物化；当前真实调用0、GET244/260，历史486账本条目保留，模型/Google各0新增，不读取.env。候选不合main；门禁和缺页前沿随后归档交复核。 [计划](../../.eval-artifacts/phase3b/g4-japanese-wiring/plan.md)。
+
+<a id="dev-browser-timeout-main-verified"></a>
+
+## 2026-10-31 CET：已审浏览器超时诊断发布验证通过
+
+用户批准055e1d1c合入；已同步main74afd956（含B1），冻结0e2e2098/721项，五门禁默认1255/1255、Chromium186/186（130.668秒）全绿，各项前后净树与SHA不变。三份诊断源码同已审055e1d1c，其他源码同最新main；四处文档两边记录保留，账本487并集完整。600秒/G2180秒与并发1/4不变，原2核5次证据保留、原卡死根因仍未知。本批只按批准发布合并到main并推送，精确main SHA以Git/ls-remote回执为准，之后待命；真实业务调用0、不读.env。[发布报告](../../.eval-artifacts/phase3b/browser-timeout-main/report.md)。
+
+<a id="dev-browser-timeout-main-preparation"></a>
+
+## 2026-10-31 CET：已审浏览器超时诊断合入准备
+
+用户批准055e1d1c发布。已同步最新main74afd956（含B1），三份诊断源码逐字保留，其余源码与main一致；四处文档冲突两边记录全留、487条账本并集无覆盖。冻结整合候选重跑五门禁，预期默认1255、Chromium186；600秒/G2180秒和并发1/4不变。原2核5次证据保留、卡死根因仍未知；本批只合入，不增加实现或真实调用，不读.env。全绿后合并推送main并核对远端，之后待命。[计划](../../.eval-artifacts/phase3b/browser-timeout-main/plan.md)。
+
+<a id="dev-browser-timeout-diagnostics-complete"></a>
+
+## 2026-10-30 CET：浏览器外层超时诊断离线完成，原卡住未复现（待复核）
+
+当前工作分支基于main7c83e02e：外层600秒保护现报告未结束文件、已运行时间及最后观察到的测试，保留输出并有界关闭；G2原180秒/独占1、其余并发4不变，全部37个浏览器测试文件原字节不改。构造的旧入口缺诊断红灯→条件驱动注入外层时钟控制绿；Mac/Linux五门禁均绿（默认1243、Chromium186）。2核Linux连续5次完整186/186，142.532 / 140.923 / 141.117 / 140.353 / 141.897秒，中位141.117；未复现历史600秒卡住，未定位文件/测试或归因，不修改B/C或具体浏览器测试。718输入SHA、逐门禁净树；VM与临时运行时/镜像/SSH状态已删除，真实业务调用0。只推工作分支，不合main，等待复核。 [报告](../../.eval-artifacts/phase3b/browser-timeout-diagnostics/report.md)。
+
+<a id="dev-browser-timeout-diagnostics-preparation"></a>
+
+## 2026-10-30 CET：浏览器外层保护诊断准备（待验证）
+
+从main7c83e02e建立A独立分支；600秒外层保护及G2原180秒/独占调度不变。旧入口在本地构造、缩短外层保护的对照中缺少未结束文件/耗时诊断（不是偶发600秒复现）；新入口通过Node生命周期独立通道记录文件，并取消后等待输出排空。所属原生回归2/2，完整五门禁与2核Linux五次全套尚待运行。产品及B/C测试不变，真实调用0，不合main。[计划](../../.eval-artifacts/phase3b/browser-timeout-diagnostics/plan.md)。
+
+2026-10-30 CET：用户复核通过B1接线7e701207，按批准从main7c83e02e构造发布merge；源码与复核候选逐字一致。47c6c5ef冻结728项，五门禁默认1254/1254、Chromium186/186（129.171秒）和严格G2 5/5、12页PASS，8步前后净树。两入口原URL与所有拒绝/隔离控制沿现有默认套件重跑；ADR0050前端保留，复用两尺寸UI证据。Tabelog/TableCheck B1普通组合离线可用，内存缓存重启后等新查位，不改变现实预约状态。真实模型/Google/GET/Live/真实PG0，不读.env。按授权发布main，远端SHA以ls-remote为准；日文名接线另分支、清单复核前不请求。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md)。
 
 2026-10-30 CET：G3/G3c已复核签收，已同步main4cbc521b，统一候选8025362b五门禁全绿：默认1242/1242、Chromium186/186（130.563秒）、严格G2 5/5及12/12页面PASS；八项前后净树，721输入SHA不变。旧HARD44,197字节一致，481状态仅既有批准人数反例改变。源码冲突0，6份文档保留双方正文；按用户批准合入推送main，确切SHA以Git远端回执为准，随后通知C待命。真实调用0，账本486条。后续（本批不做）：删除无非空生产者的provider observation verifiedHardCriteria可选字段、透传、旧matchReasons投影与直接构造测试，保留Google及Source2 MODEL_JUDGMENT合法criterion claims；G3b等首次Live有时段TableCheck日历。 [报告](../../.eval-artifacts/phase3b/g3-main/report.md)。
 
@@ -33,10 +434,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.352
+- Document revision: 4.367
 
 
-- Last updated: 2026-10-30
+- Last updated: 2026-11-02
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -5372,38 +5773,369 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 
 最终验证：474febbaffbe7c2b22a26a698707e40b027b1980冻结736项，五门禁1211/1211默认、181/181 Chromium全绿（29.210/121.601秒）；每项前后净树、HEAD和输入SHA不变。两尺寸完整十项及长条款/取消冲突两个来源入口滚动后完整可见并实际点击，原来源/问答回归共9/9；21张PNG逐张目视与尺寸/SHA核对。56份原输入/守卫/v26评分材料、37份main PG证据字节不变。模型API/Google/来源GET/Live/外部写入/私有Holdout新增0。诊断机制关闭，原传输故障具体原因未确认，旧真实失败/严格0/15不改。门禁后只增报告/附件，推工作分支交合入复核、不合main。[结果与截图](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
 
-<a id="dev-2026-10-30-web-slice2-start"></a>
+<a id="dev-2026-10-30-b1-g3-output-dependency"></a>
 
-## 2026-10-30 第1段快进合主线与第2段开始
+## 2026-10-30 CET：B1 G3接线接口依赖停止
 
-用户批准快进且不重跑门禁。拉取后远端main仍404a766e且是4cbc521b祖先，净树；本地main登记在失效工作树（无.git），仅在当前工作树checkout忽略失效登记，不清理其他目录。ff-only至origin/codex/feat-web-workspace-slice1并推main，远端回读等于4cbc521bb9e4fb177e247266561bd90eb5d34e3f，无新合并提交、无额外内容。随后从该main建立codex/feat-web-workspace-slice2，STATUS记录随第2段，不新增main提交。
+2026-10-30 CET：C从B当前G3提交8c66921a建立B1接线分支，预检发现保护文件vacancy-response核对链接后只返回时段、未返回原form_course URL；普通provider也未透传链接。按用户“B三文件不改/不另写解析器”的停止条件，先冻结只读接口反例，不改产品或A/前端。普通启动按钮红绿及拒绝反例尚未执行；不宣称接线完成，待B提供已核对原链接输出后再续。真实调用0，不读.env；准备证据推分支停报。 [计划](../../.eval-artifacts/phase3b/b1-g3-wiring/plan.md)。
 
-第2段只读预检确认G1展示候选绑定和最近单条问答、旧候选完整事件及现有消息/续批/refresh；无模型结构化条件接口，按指令仅预填。空结果NO_VERIFIED_RESULT被another-batch应用/Reducer拒绝，已询问是否授权最小只读续查扩展；未获准不改。按[计划](../WEB-WORKSPACE-SLICE2-PLAN.md)推进不依赖它的前端；真实业务/模型/Google/来源/Live/Holdout0。
+停止点证据：2026-10-30 CET：C B1接线按跨归属规则停止。基于B8c66921a，0ad7282d冻结8项；两条合法原链接均OBSERVED却输出同一19:00时段对象，原URL未保留，B1_EXACT_SOURCE_LINK_OUTPUT_MISSING有效红灯（exit1）。未改任何src/受保护文件、未另写解析器，调用0；按钮链路红绿/反例、五门禁与严格G2均未运行，接线未完成。推准备分支，待B提供已核对原链接输出；G3入main后再rebase及完整验证。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/report.md)。
 
-<a id="dev-2026-10-30-web-slice2-implementation"></a>
+<a id="dev-2026-10-30-b1-g3-wiring"></a>
 
-## 2026-10-30 第2段局部实现与空结果续查停止点
+## 2026-10-30 CET：B1 G3原链接接线候选
 
-主输入框按视图确定路由、回答底部面板与按店完整问答历史、条件胶囊预填、服务端需求差异/备选原因、正常批末续批、短失败文案、原生SSE恢复、过期refresh已接通。原State只投影最后一问，但既有PAGE_QUESTION事件可恢复完整历史，因此复用原事件而不新增存储或改G1路径。服务端投影复用原project已读取的事件与状态，无额外数据库/模型/来源调用；原因未知为No longer matches，重复保存不抹除原需求版本关联。误名requestRevision更名searchRevision并更新全部当前调用方，需求版本另投影，不新增兼容字段。Domain/Runtime、Prompt28、Proposal4、State24、TaskDefinition22、A评测/B搜索G3/C客户端未改。
+2026-10-30 CET：C已同步B的G3原链接输出02163d39（含main404a766e），B1普通服务端组合接线候选完成。按root Task隔离的暂态缓存只消费原解析器输出，响应引用/原URL保留；相对链接只补来源origin，原生路径ID只取对应rcd数字部分、完整身份核对不变。有效HTTP红灯PRESENT_RESULTS但按钮0→绿；缺链/日期/人数/时刻/店号/域名/路径/额外参数反例及同钟跨Case、重启缺缓存、过期/权限控制通过。B三文件、A评测/harness和前端未改，真实调用0；冻结五门禁/严格G2/UI验证后仅推准备分支，不合main，G3合main后仍须rebase再验。
 
-开发旧第1段/新两尺寸21条通过，另空结果Adjust两尺寸2条通过；来源分类混合成功反例红→绿，未知/未查不冒充全部失败。冻结后的完整五门禁、全部新短状态与截图待执行。NO_VERIFIED_RESULT的Find more和全部来源失败后的Try again缺少原接口准入，已询问未获准，不伪造可用动作。整段未完成，最小后端方案及当前证据见[报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)；新真实调用/Holdout0。
+首轮HTTP fixture误设20秒总期限，等于既有20秒收尾保留窗，SEARCH被READ_TIME_RESERVED拒；该次不算红灯，原日志保留。改用原生产预算后，bcff9e1c同按钮断言0≠1成为有效红灯；对应正式输入与记录见[续行目录](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md)。
 
-<a id="dev-2026-10-30-web-slice2-continuation"></a>
+最终准备结果：2026-10-30 CET：C B1 G3接线离线准备完成，依赖B02163d39。72e3745b冻结723项：五门禁默认1253/Chromium180全绿（130.955s），严格G2 5/5、12页PASS，真实HTTP产物经Chromium实际显示两个原链接按钮；9步前后净树、SHA一致。root Task缓存隔离/缺链错配白名单/原生ID完整核对/重启缺缓存/过期权限控制通过；两次服务端检查保留。B三文件、A评测/harness、前端和账本不改，真实模型/Google/GET/Live/真实PG0。TAP解码失败和输出隔离中止记录保留，最终完整PASS。最新main4cbc521b尚无G3；仅推准备分支，不合main，待G3入main后rebase及重验再复核。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/report.md)。
 
-## 2026-10-30 用户批准有未查工作才续接
+<a id="dev-2026-10-30-b1-g3-main-rebase"></a>
 
-此前cbe036f5冻结741项的局部五门禁1213/197全部通过、逐项净树；empty/all-failed两项another-batch400证据保留，不当作新允许行为的验收。用户批准后，TaskDefinition22→23、State24形状不变，NO_VERIFIED_RESULT只有完整条件及已知池内未查对象/同条件观察游标或计划剩余工作时才接受NEXT_BATCH_REPLENISHMENT_REQUESTED。保留旧检查/游标/备选，Context和Validator排除上一轮已调查对象；全部失败单走原refresh事件，不调用语义。两个入口复用版本、requestId幂等、有界预算、Stop和迟到丢弃，不重置发现计划，无新条件事件或问答存储。
+## 2026-10-30 CET：B1 G3合main后重放与复验
 
-新增两尺寸续查/取消/失败恢复开发10/10、领域/投影37/37通过；最终全量冻结门禁及截图待执行。B来源搜索/G3、C Google、A评测、G1/B1执行及通用Runtime不改。只推第2段分支停复核，新增真实调用/Holdout0。[实现与验收](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+2026-10-30 CET：C按用户原授权在G3已合main后，将B1准备分支rebase到7c83e02e（含前端4cbc521b/ADR0050）。8个C提交重放，源码冲突0，文档双方记录保留；B三文件、A评测/harness、前端与ADR保持新main字节，C缓存/作用域/组合代码同20ff1466。字体依赖仅npm缓存离线恢复，不运行生命周期脚本；当前UI观察改用既有My plans→Choose this→交接入口。冻结后重跑五门禁/严格G2/两尺寸真实HTTP产物渲染，真实调用0、不读.env；只推C分支不合main。 [计划](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/plan.md)。
 
-最终交付验证：cbcd667b67e1c9592cb7f737a907a93181139afc冻结742项SHA，五门禁1215/1215默认、203/203 Chromium（含G2 5）全绿，六步前后净树/HEAD一致。第2段22条+原工作区/G1脚本9条通过，两尺寸十项/新增五项和第1段十一项均覆盖。版本旧断言22已同步批准的23，原失败保留；首次卡片截图淡入中间帧改capture原生结束动画，不改产品动画。截图自查又发现模型失败提示在长卡下面，补同一视口断言两尺寸红→绿，将原节点移到条件下，草稿/卡片保持；40张新图仅此两图较已审查前轮变化，另21张回归图均留存。产品/输入不再变，补报告/附件后只推工作分支停复核，不合main；真实模型/Google/来源GET/Live/外写/Holdout0，无生产凭据或数据库重置。[最终报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+复验完成：2026-10-30 CET：C B1接线已rebase到G3 main7c83e02e。ec58c3ec冻结725项，五门禁默认1254/Chromium186全绿（129.449s），严格G2 5/5及12页PASS；当前前端两尺寸两个入口保留原URL，Choose this写请求0。9步前后净树、SHA一致。B三文件、A评测/harness、前端/ADR/账本同main；C缓存/作用域/组合源码同20ff1466。npm依赖仅本机缓存离线恢复，不读.env，真实模型/Google/GET/Live/真实PG0。按原授权用精确lease更新C分支，未合main，交复核。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md)。
 
-<a id="dev-2026-10-30-web-slice2-main-sync"></a>
+<a id="dev-2026-10-29-g4-retrieval-analysis"></a>
 
-## 2026-10-30 第2段复核后同步G3与零变化行
+## 2026-10-29 CET：G4检索只读分析
 
-用户复核通过9ca34bea，要求合入前同步main7c83e02e；本轮已核对远端精确SHA。de9e73bc将其合入工作分支，四份文档冲突保留双方正文、冲突元数据统一下一revision；六份文档对两父提交12项非元数据行核对缺失0。read-assessment.ts自动保留G3的等时戳因果证据修复和本段续查排除，不改来源/G3规则。
+2026-10-29 CET：B1已合并并推送main00519783，ls-remote核对，B已收到ADR0049/迁移0010同步通知。C从该main另开G4只读分析分支；原37家网络8例逐次归因及4家日文名线索，最多两方案，真实调用0。第三次检索/详情名额的合同变化仅列建议不实施，GET保持244/257。
 
-唯一产品改动为新增/移除均0隐藏整行。复用两尺寸完整HTTP问答→需求修改场景，服务端先确认0/0，隐藏行断言原2红；修复后连同非0差异、原因、备选相关6/6绿。待冻结新组合跑五门禁与两尺寸全部验收，不能用旧门禁代替。结构化条件修改方案仍draft / not integrated，不新增事件/状态，TaskDefinition23/State24及Prompt不因本修复变化。真实模型/Google/来源GET/Live/Holdout0，只推工作分支交合入复核，后续main ff-only，本轮不更新main。[报告](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+分析交付：2026-10-29 CET：B1已发布main00519783并ls-remote核对，B已收到ADR0049/迁移0010通知。C G4纯分析完成待复核：八例=4超时/4连接错误，搜索2/详情6，均Tabelog；同ID日文原名已存3/4，旧替代首屏3日文+1更短英文片段均含认证店，但身份增量未评价。T实际只查一次即耗尽5详情；第三次检索及4+1名额仅待批准方案，未实施。模型/Google/GET/Live新增0，GET244/257；685冻结SHA、源码及账本零差异核对通过。 推荐先复用原件、Google≤1/GET≤13/模型0；替代新鲜分组基准Google≤4/GET≤60/模型≤8，若直接选择后者需共享GET上限304，当前不分配额度。[报告](../../.eval-artifacts/phase3b/g4-retrieval-analysis/report.md)。
 
-最终复验：55d7096353b270f4ac3765ede224f3e17c512991冻结763项SHA，五门禁1246/1246默认、208/208 Chromium全绿，各项前后净树/HEAD一致；390×844与1280×900本段十项、追加五项、第1段十一项和零变化行通过。0/0隐藏，0/3及2/1保留；共享read-assessment精确等于7c83e02e加既有续查排除，G3/集成/评测/phase3b内容相对main不变。63张PNG核对尺寸/SHA，59张与原交付相同、2批末更新、2零变化新增，四图目视通过。门禁后仅报告/附件，结构化方案仍draft无实施，真实模型/Google/来源GET/Live/外写/Holdout0。本轮只推工作分支交合入复核，main未更新，后续ff-only。[最终报告与截图](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+<a id="dev-2026-10-29-g4-japanese-prep"></a>
+
+## 2026-10-29 CET: G4 Japanese-name offline preparation
+
+2026-10-29 CET: C G4 scheme-one offline preparation frozen. Google same-ID ja name reader uses id/displayName only, run-local sharing; valid old-wire red and 3 green controls retained. Eval-only 4+1 simulation covers 37 main views plus four separately frozen reruns; unknown pages/proposals are not success. Product source search/B files unchanged; no shared versions or credentials. New calls0, GET244/257; exact known URLs and source-bound Beef slots to be reviewed, no live execution.
+
+Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for review. Google run-scoped source-name reader (same ID, explicit ja, id/displayName only) is not connected to production. Offline 4+1: prior23/23 plus nr010/022/0263/3 retained, wrong0; main37=22 accepted/15 NOT_EVALUATED, rerun4=4 accepted. T certified result ranks6 in Japanese search with only1 slot and has no recorded fragment. Eight known detail URLs frozen; Beef name/search/detail URLs remain source-bound unknowns. Worst frontier14GET exceeds approved13, so manifest is NOT_EXECUTABLE and quota stays244/257. Frozen57bd09a5/855 SHA, five gates1216/175 + G25/5 PASS, ten steps clean. New real calls0; B paths/identity/shared versions unchanged. [Report](../../.eval-artifacts/phase3b/g4-japanese-prep/report.md).
+
+
+## 2026-11-01 CET：G1追问页面获取修复（A调度测试门禁停止）
+
+2026-11-01 CET：G1追问capturePagesOnly产品修复已验证（唯一产品文件GoogleThenWebsiteFactRead，原事实读取无标志时不变）；A27cf175c原P4红NO_BOUND_PAGE/模型0→绿ANSWERED/模型1，同店原文“至少4人”条件保留，A评测输入原字节。事实/问答114、真实Guard2、Chromium187及严格G2全部12页PASS，旧HARD44,197字节一致；但默认1287/1288，唯一红灯为A的browser-fixture-scheduling.test.ts:109，文件同main。按归属停下等安排，未改A文件、不以重跑碰绿，未推送、不合main；真实调用0。
+
+实际分支codex/fix-phase3b-g1-page-capture；产品847359b3、候选789bfc02，完整红绿/失败/其余检查及SHA见[本批报告](../../.eval-artifacts/phase3b/g1-page-capture/report.md)。默认FAIL仍是FAIL，尚未推送或合main。
+
+
+## 2026-11-01 CET：G1交付与A调度已知失败对照
+
+2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。
+
+完整未过滤命令、10次独立日志、原失败和冻结SHA见[最新交付报告](../../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-report-stop2"></a>
+
+## 2026-11-02 CET：运行诊断报告停止点2候选
+
+按停止点1复核决定实施，只定位和度量，不重判。新代码仅eval/restaurant/diagnosis；实际evaluateArtifactAfterFinish保存评价后生成不可覆盖JSON/Markdown，报告错误独立sidecar，原outcome/severity/execution不变。13环节到达与判断分开，首个确认偏离/可行见证覆盖/永远HYPOTHESIS的blocker三栏分开；合格交付无确认偏离时首点明确无确认偏离。现有productionJudgment禁入范围扩到新目录，默认glob仅追加该目录，无新检查框架。
+
+钩子修前实际正常评价已保存但诊断0→修后1；blocker-only目标断言2≠0→修后0，推测仍保留；临时副本值导入生产判断旧漏拦→修后精确拒绝，type-only及正常控制绿。12项行为覆盖包括实际Evaluator接线、四组时间、追问/排序正反、不可覆盖与汇总分母。独立人工对照只由compare入口读取，生成器不读labels、不按运行ID写规则。5份单轮/8份多回合正式报告的545个自产指针可定位，5份既有判定均深相等；来源51文件SHA不变。
+
+5e490a69/854项最终冻结，净树五门禁1339/1339、Chromium187/187及type/arch/build全绿，各一次。首点原始2/5，四组8时间点均≤2秒；神乐坂见证匹配和h002/中目黑新旧口径分歧全部保留，不删分母。A真实逐环节grader红灯对接按用户决定延期且未完成；多回合缺独立结论、真实消息时钟、追问Gold保持未评。产品/Prompt/State/Schema/Gold/见证/A文件不改；历史运行和历史评价不重执行，真实模型/Google/网站/Live0，不读.env。开发诊断证据已暴露，非Clean Baseline。仅推工作分支待独立复核，不合main。[交付](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-review-followup"></a>
+
+## 2026-11-02 CET：诊断报告复核三项补充
+
+按用户最后更正完成2a全量盘点：E1三份登记含备用44条/27店，既有页面原始JSON-LD与20份result的原始visibleTextExcerpt逐字核对，无可接纳两源电话或完整日文地址对照。原Konya同店判断仅由名称/地区推断，电话+81-3-3266-1611与050-3184-1511不同且缺地址；撤回已确认评测器缺陷的归因，改为疑似/缺证未确认。按明确例外不改登记、不生成新见证SHA、不重评22例；原文件及22份原评价逐字保留。旧人工标签不改，原始2/5保留，h002/中目黑说明旧人工混淆覆盖与首点。
+
+Markdown结论优先：13份摘要均前27行，三栏带确定性、13环节短引用、关键时间与未评计数，正文每店一行七列漏斗；全部原始JSON移文末。覆盖汇总独立于首点，计入已交付，SUPPORTED与可行性未评分层，门店数与运行×门店次数分开。两项具体目标红灯→绿；另修正LOCATION既有来源指针遗漏，节点状态/判定不变。比较oracle@2要求显式归因级别，未提供拒绝，不默认确认；生成器不读人工归类。
+
+3c9f3289/862项冻结，09:28–09:30 CET净树八步（报告三条＋五门禁）全通过，默认1342/1342、Chromium187/187。15项诊断行为进入默认套件；原判定、首点、漏斗、体验及8时间点不变，557自产引用可定位。仅diagnosis四文件改动，产品/Evaluator/Gold/见证/Prompt/State/A文件不改。身份缺证和A真实grader红灯仍保留；开发归档已暴露，非Clean Baseline。真实模型/Google/网站/Live0、不读.env或labels，仅推工作分支交复核，不合main。[补充报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-main-publication"></a>
+
+## 2026-11-02 CET：运行诊断获批合入main
+
+用户复核8bc20f8a通过并批准合入。fetch确认最新main仍efeab254，已在获批版本祖先中；无新代码同步或冲突。按要求在8bc20f8a/862冻结项净树执行五门禁全部通过，之后既有干净main工作树从旧fceecaad快进到远端，再普通合并814dfa6cf2499c9086ce59afb65281b8ab392b1b；两父提交分别为efeab254与8bc20f8a，完整树与获批验证树相同。新路径忽略文件冲突0，无重置/强推/历史删除。
+
+其后仅追加发布文档和完整日志，不再修改源码或输入。原44条/27店缺证、2/5历史校准、Konya未确认归因和A真实grader延期继续保留，不执行模型、Live或历史重评。正常推进/推送main并ls-remote核对后待命；最终发布SHA以Git回执为准。[合入记录](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。
+
+<a id="named-identity-terms-20261103"></a>
+## 2026-11-03 CET — C 同品牌前三家身份调查与条款首因修复
+
+从已发布main db1f44a2开独立分支。用户澄清五家也查原顺序前三，并批准两站HIGH后identityOnly提前返回；9008f7bb只含两provider共13插入，其他G3和A文件不动。现有事实动作承载临时identity-only，所有前三家HIGH后恰好一全名才允许选/查位/展示，不增加State/TaskDefinition/Prompt版本、身份放宽或预算。只需身份的读取不当HARD已核实；无实际到访字段则沿既有事实读取器，不编造条件。
+
+D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的失败保留；录制323原visibleHtml复原精确。诊断-only仍红：INCOMPLETE_PAGE在模型前拒绝已绑定PENDING页面；修复复用既有Executor稳定性观察，BUSY仍零模型。原文只有付款接受，没有预约要卡/取消证据；问题到达后NOT_STATED，不能称Live条款已填。root/run原因导出在State外，现有缓存寿命内保留，无SQL/写权限变化。完整门禁与独立评分另记。 [报告](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+
+<a id="named-identity-terms-verified-20261103"></a>
+## 2026-11-03 CET — C 身份前三家和条款就绪候选离线完成
+
+最终90eaa67380369183b853cfad6e1eab63a1939e45与5ec63ea9产品相同，814项冻结后十步各前后净树全绿：默认1389/1389、Chromium188/188、严格G2 5/5且12页PASS、22整组装测试和26帧独立oracle通过。17原件逐字对应A，9008f7bb批准补丁仍恰13插入；A eval/harness、server/web、另两个G3文件与原身份/问题完整页守卫均不变。State25/TaskDefinition23、Prompt/Schema/SQL和741账本累计/上限不变。
+
+原外层路径预检、两个oracle格式预检、渲染少8字符及产品红灯全部保留；格式修正仅接纳既定相对链接和真实selection容器，不调产品或评分条件。D3稳定观察后两问到达，无原文则NOT_STATED，持续BUSY无模型；诊断独立导出，已有B1继续。实际本地选店条款阶段518.3ms、开始后520.7ms追加助手消息，非Live耗时。四层结论、模型开始/响应计数差别及资源未评项在报告中分开记录；只推工作分支待复核，不合main，真实调用0、不读.env，随后通知A。 [交付报告](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+
+<a id="named-identity-terms-main-20261103"></a>
+## 2026-11-03 CET — C 在B之后整合获批身份/条款修复
+
+用户批准fd07f44e，要求B先合；从对话A最新用户消息核验授权后，等待B远端发布f0bee7d7（含d58d377a）才从该main建合入候选。native-source-facts自动保留来源角色绑定与capture-only就绪观察；read-assessment只解import，保留两个引用，不改逻辑。文档同时保留双方，账本ID并集746行、同ID无差异、限额/累计不变。原C产物原字节，State25/TaskDefinition23/Prompt/Schema不递增，真实调用0、不读.env。五门禁/严格G2/独立26帧待新鲜验证，未全绿不发布。 [合入报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+<a id="named-identity-terms-main-verified-20261103"></a>
+## 2026-11-03 CET — C 在B之后的合入候选验证通过
+
+822a7cd3基于B先发布的f0bee7d7普通合并fd07f44e，799项冻结后十步前后净树全绿：默认1404/1404、Chromium188/188、严格G2全12页、22组装测试/26帧独立核验。源码并集34个C独有、20个B独有、两个重叠，与已批准两侧逐字或三方合并一致，read-assessment仅同时保留两个import；B来源角色与C capture-only稳定观察均在。746行账本保留原值/限额/累计，原C全部产物不变。之后只归档与文档，不再改实现，按批准发布main并ls-remote核对、通知A；最终SHA以Git回执为准。版本不变、真实调用0、不读.env，不新增Live能力结论。[报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+
+<a id="browser-resource-budget-20261103"></a>
+
+2026-11-03 CET：B按新批准实现共享资源默认抑制image/media/font与3000ms导航余量检查，Guard权限和所有预算不扩大，录制策略标记复用@5；A/C源码不改，版本不变。两项有效红绿、本地Chromium组件26→4请求且必需内容保留。W1公开GET已用6/6：前3次DCL中位10.75秒，后3次均20秒超时，admitted请求56→17；不能宣称Live提速或故障关闭，需复核。最终五门禁/严格G2待运行，只推分支、不合main。 [报告](../../.eval-artifacts/phase3b/browser-resource-budget-20261103/report.md)。
+
+
+<a id="browser-resource-budget-stop-20261103"></a>
+
+2026-11-03 CET：B资源策略/导航预算候选4d3d844e停止待复核。type/arch/build通过、默认1410/1410、严格G2 5/5及12页PASS；Chromium185/188，三项A归属fixture需要实际加载图片，与新默认抑制冲突，未修改/未跳过/未降断言，全部门禁前后净树。W1已用6/6公开GET：前DCL中位10.75秒，后3次均20秒超时，admitted请求56→17；后测首样本与预检约4秒重叠，不能归因或宣称提速。814旧账目原值保留，新增6条、网站admitted+219；模型/Google/完整Live/环境重跑新增0。只推停止分支、不合main，通知A/C；A三处fixture同步和外部超时仍待复核。 [报告](../../.eval-artifacts/phase3b/browser-resource-budget-20261103/report.md)。
+
+
+<a id="blocked-request-terminal-20261103"></a>
+
+2026-11-03 CET：B完成“被拒请求是否挂起”离线机制诊断。三配置真实本地Chromium、普通route/CDP请求/首跳与原生二跳/38图片突发均有毫秒级失败终态，无暂停遗留；故意吞failRequest时DCL2秒未发生、CDP pending5而PW pending0，检错有效。当前证据不支持以这些路径挂起解释W1，但未覆盖真实TLS/代理/HTTP2/全部脚本，不关闭真实超时。产品/A三个fixture不改、图片策略保留；真实调用0，完整门禁待运行后如实单列既有冲突。 [报告](../../.eval-artifacts/phase3b/blocked-request-terminal-20261103/report.md)。
+
+
+<a id="blocked-request-terminal-delivery-20261103"></a>
+
+2026-11-03 CET：B被拒请求终态诊断完成（不合main）。本地三配置DCL中位45.467/45.656/44.750ms；普通route/CDP/首跳及原生二跳/38图片均及时失败，无遗留pause。故意吞failRequest会DCL2秒超时并留CDP pending5/PW0，oracle有效；不能据此解释真实W1超时，未改产品。新鲜净树type/arch/build、默认1410、严格G2全12页通过；Chromium185/188仍仅用户暂缓的A三个图片fixture，未改/未跳过。真实调用0，图片策略留分支待复核。 [报告](../../.eval-artifacts/phase3b/blocked-request-terminal-20261103/report.md)。
+
+
+<a id="w1-request-timeline-20261104"></a>
+
+2026-11-04 CET：B完成W1真实逐请求测量8/8（HTTP2、main3、资源策略3，均200），旧20s超时未复现。HTTP首字节1.45–1.80s；main DCL中位4.064s、load7.191s，策略3.866s/3.909s。末个成功Script/CSS多commons/Sentry，main2 colorbox.css4.08s；最后失败图片/字体不能当阻塞因果。CDP headers不是wire TTFB，策略组initial_vacancy关闭后物理结束未知，不宣称业务提速/故障关闭。产品/A/C不改，新增模型0、GET8、Guard admitted+HTTP222；总GET余102小于预留108，后续预算差6交复核，不擅调总额/预留。静态预检通过，完整门禁复用同源码8e1ff388（1410/185-of-188、严格G2全12页）；三A fixture继续暂缓。不合main，工作分支交复核。 [报告](../../.eval-artifacts/phase3b/w1-request-timeline-20261104/report.md)。
+
+## 2026-11-04 CET：三个图片 fixture 保留声明同步
+
+基于B c1c1187a；仅三份harness文件，原断言SHA相同，本地三条有效红灯→3/3绿。无生产例外，新增真实调用0、账本不变。净树五门禁/严格G2全部通过：默认1410/1410、Chromium188/188、G2 5/5及12页PASS，六步前后status为空；gate候选 d419bfede780ad5891b1e44d06b48582fc194331，最终仅归档原日志/文档，fixture SHA不变。工作分支交付不合main。[证据](../../.eval-artifacts/phase3b/retained-image-fixtures-20261104/report.md)。
+
+### 2026-11-03 CET - A request timeline
+
+2026-11-03 CET：A按批准补评测逐请求/导航时间线；真实CDP requestID/loader、开始/响应头/结束/阻断、完整URL哈希、导航预算/超时/等待事件/结束原因均单列。Guard route.fetch传输与浏览器观察不按URL猜配，取消线上终态未知时明确null。未改产品、评分或Recorder准入。真实Chromium loopback红绿及并发隔离通过，净树五门禁/严格G2待最终运行；真实调用0。main账本并入A既有实际支出并保留已批准29Live/400GET。 [report](../../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
+
+
+### 2026-11-03 CET - Request timeline gates
+
+2026-11-03 CET：A逐请求时间线main候选净树五门禁全绿：默认1404/1404、Chromium189/189、严格G2 5/5且12页PASS。字段来自真实CDP和独立Guard传输观察，query只保留全URL SHA，准入/脱敏/评分不变；真实调用0。将按用户批准快进发布main，再同步G6工作分支预算回调。
+
+
+### 2026-11-03 CET - Request timeline final publication
+
+2026-11-03 CET：逐请求/导航录制交付完成。main共享代码净树五门禁1404/189、严格G2 5/5；G6分支10dfc1d9实际Chromium接线红绿及完整1412/189+66/严格G2全绿。生产Guard/评分/Recorder脱敏准入不变，新真实调用0。G6代码未合main，未来Live使用已同步分支。账本并入B既有6次比较读，821条原值保留，累计GET290/400、Live11/29、模型401/1600。B/C已收到首次发布通知，最终回执随后发送。
+
+
+<a id="resource-policy-main-20261104"></a>
+
+2026-11-04 CET：B按批准集成A44973e83与最新main22415b57，merge e50f935d无源码冲突，文档双方保留。829账目原值保留，总公开GET上限按用户改410，累计298不变、余112覆盖留出预留108；新增真实调用0。新鲜五门禁/严格G2待跑；最新main多1项时间线测试，完整Chromium预计189（原188全保留），验收数量待澄清后才发布main。 [集成报告](../../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。
+
+
+<a id="resource-policy-main-verified-20261104"></a>
+
+2026-11-04 CET：B资源策略/导航预算下限+A44973e83+main22415b57集成完成验证。用户确认189/189口径，冻结68a9a175净树六步全绿：type/arch/build、默认1410/1410、Chromium189/189（131.639秒）、严格G2 5/5及12页PASS；每项前后status空，无删测/跳过/重试。A三个fixture与main新增时间线原字节保留；829账目原值保留，GET总上限410、累计298、余112覆盖预留108，新增真实调用0。后续仅归档；按授权发布main并通知A/C，实际SHA以远端回执为准。W1真实旧超时根因仍未知，不称Live提速关闭。 [合入报告](../../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。
+
+<a id="named-region-resolution-20261104"></a>
+
+## 2026-11-04 CET — D8 sole verified name and Akabane saved-record diagnosis
+
+Exposed development, offline candidate, not integrated. D8 original authoritative fields plus unknown exact-name/same-ID Japanese-name/two HIGH homonym controls. Isolated old-source ordinary assembly fails NEEDS_INPUT vs PRESENT_RESULTS; fixed assembly passes without source/identity/availability changes. Four observed region menus have no Akabane target; model guesses Itabashi. Later outlet breadcrumbs show Sugamo→Akabane, with no captured parent-menu transition. Identical Google searchText restrictions return25/25/25/0; latest raw response HTTP200 `{}`. No region/Google code change or new external request. Imported A92bc1032 G6 tests and dependencies byte-for-byte, all assertions unchanged; required historical evidence preserves original scores. Full clean-tree gates pending. [Report](../../.eval-artifacts/phase3b/named-region-resolution-20261104/report.md).
+
+<a id="named-region-resolution-verified-20261104"></a>
+
+## 2026-11-04 CET — D8 and four-run region diagnosis verified
+
+Frozen bebe0a41 /934 source+input SHAs: typecheck, arch, default1425/1425, build, ordinary Chromium189/189 plus A-original fullG6 66/66, strictG2 5/5 and all12 valid pages PASS, target D8 component9 plus ordinary assembly1. Every gate before/after clean; no formal gate failure, assertion edits, skip or retry. Original D8 component red (2 failures) and isolated old-source assembly business assertion red retained. The only product delta is the approved name predicate; source adapters, Google, region routing, Guard, budget, reserve and versions unchanged. Independent audit and final report archived; work branch only, no main merge and no external calls. [Report](../../.eval-artifacts/phase3b/named-region-resolution-20261104/report.md).
+
+<a id="d8-main-integration-20261104"></a>
+
+## 2026-11-04 CET — reviewed D8 integration candidate
+
+User approved aba06e16 after independent1425/189+G6 66/strictG2. Merge candidate f791378c starts at current main de2b7ecc, preserves all source and original artifacts from both sides byte-for-byte; both append-only doc conflicts retained. No new location-suggestion code, version, source behavior or external calls. Original ledger rows retained, one zero-call integration row. Fresh clean gates pending. [Report](../../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md).
+
+<a id="d8-main-integration-verified-20261104"></a>
+
+## 2026-11-04 CET — approved D8 main integration verified
+
+Frozen1980ed01/895 source-input SHAs: fresh first-pass type/arch/default1430/build/Chromium189+originalG6 66/strictG2 all12 green, every before/after status empty;171 independent checks pass. Reviewed C aba06e16 and latest main de2b7ecc source/artifacts preserved118 rows, append docs both retained; original A8 G6 files and helpers immutable. Main mandatory browser gate now includes66 cases; default+5 reflects already-approved B candidate budget. No source fix, test/assertion change, skip, retry, version or external call.881 ledger rows retain both sides and one zero-call row. User authorized publication to main and notifications; final SHA follows remote receipt. [Report](../../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md).
+
+<a id="tabelog-location-suggestions-20261104"></a>
+
+## 2026-11-04 CET — observed location suggestions, offline candidate
+
+D4 original31-region menu lacks Akabane but contains3 equivalent public home links. Constructed homepage under real Chromium/HAR+Guard exercises exact Tokyo station link and owned option, merchant/foreign exclusion, no-match/ambiguity fallback and unchanged radius;9 target controls. Effective isolated old main red actually opens Itabashi and reads out-of-radius details. Earlier HAR/model/Skill fixture setup errors retained and explicitly excluded from effective-red claim. Source shortcut changes no versions or quotas, synchronized B main de2b7ecc. Fresh clean gates pending; full original A66 corpus imported without edits, original historical S0 scores preserved. Calls0, branch review only. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).
+
+<a id="tabelog-location-suggestions-verified-20261104"></a>
+
+## 2026-11-04 CET — observable location suggestions verified
+
+Final frozen9aadfce3/930 SHA entries: typecheck, arch, default1431/1431, build, ordinary Chromium189/189 + unchanged original fullG6 66/66, strictG2 5/5 and all12 pages PASS; each before/after status empty. Independent literal audit108 checks passes. First formal attempt ae5b8b75 (188/189) is retained; only Native source-priority logic then changed, preserving outlet-pointer and exact observed district-name routes. Original A six-region test passes unchanged. Constructed Tokyo link/owned-option paths each return5 in-radius source candidates with0 browser decisions, foreign/merchant/ambiguous/unmatched and outside-radius controls reject;3 admission controls preserve Guard/reserve/caps. This is not current-site DOM/network or booking completion; real calls0, no .env. Shared ledger881 immutable rows includes one new zero-call row, all main/A/prior C rows and caps preserved. Push work branch only, stop review, no main merge. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).
+
+<a id="location-main-integration-20261104"></a>
+
+## 2026-11-04 CET — reviewed location suggestions after D8 main
+
+User approved a96f4d4e and main publication after latest D8 main. Merge7c523eae starts at3527936c; both side source/original evidence and all doc additions retained, no source conflict or implementation change. Shared budget immutable row union, one zero-call integration row, caps/counters unchanged. Fresh frozen five gates incl fullG6/strictG2 pending. C reads no .env and runs no real external call; A notification follows verified publication. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+<a id="location-main-integration-verified-20261104"></a>
+
+## 2026-11-04 CET — reviewed location suggestions main integration verified
+
+Frozen c708493d/900 source-input SHAs: fresh first-pass type/arch/default1439/build/Chromium189+fullG6 66/strictG2 all12 green; every before/after status empty.253 independent checks pass, including7 D8 and6 location expectations from this exact run. Both source/original-artifact sides preserved170 rows, no source conflict or repair; A originals and D8 unchanged. Shared ledger883 rows preserves both prior sets and one zero-call integration entry; caps/counters unchanged. No fixture/oracle/assertion/timeout change, skip, retry, .env read or C real call. User approved main publication and A notification; A then follows its own A-section instructions for D4/D8. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+<a id="location-main-publication-blocked-20261104"></a>
+
+## 2026-11-04 CET — Location publication blocked
+
+2026-11-04 CET：地点联想合入发布受阻。源码净树五门禁1439/1439、Chromium189/189+G6 66/66、严格G2全12页均绿；GitHub四次推送返回服务端错误（含commit_refs_rules），最终ls-remote确认main仍为3527936c，合入分支未建立。未通知A开跑；本地合入与证据保留，无源码/冻结输入改动，待远端发布后才交接。 [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+
+## 2026-11-06 CET — TableCheck SPA 诊断切片
+
+Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送且ls-remote一致。一次Guard探查HTTP200、Destination完整店名已填，但search-v4 /search/的country/kind/q/destination/name查询键不在当前审核范围，预检被拒；catalog另有net::ERR_FAILED。联想/后续跳转未到达，不能当作无匹配。三通道开启但3份DOM被UNSAFE_DOCUMENT拒录、未产HAR，不能做真实录制红绿。产品/Guard不改，新增GET1/model0/Live0，累计GET348/460/model653/1600/Live23/42，预留18Live/108GET不动；尚余1探查页与原D8三次GET。先复核来源请求形状及录制缺口，不启动D8 Live。[报告](../../.eval-artifacts/phase3b/tablecheck-spa-20261106/report.md)。
+
+
+## 2026-11-07 CET — TableCheck text query explicit stop
+
+2026-11-07 CET：TableCheck文字搜索候选（draft / not integrated）已实现六类查询观测、四种精确键集合及当前权威文本约束。第二次真实探查1页后destination=OTHER拒绝并按用户停止；q预检/GET实际EQUAL获准后CORS MissingAllowOriginHeader，旧失败侧OTHER单独更正、不覆盖。真实新旧Recorder同输入0→3份清洗DOM，但10,284,255字节脚本超过原2,500,000上限，完整Replay仍不可用。绑定/地区动态验收未到达，D8 Live未启动。d32c604e第二轮全门禁1456/232/完整G675/严格G2五项及12页配对全绿；首轮4红保留。新增GET1/model0/Live0，累计GET349/461、model653/1600、Live23/42；备用1及D8三GET、留出18Live/108GET不动。 [报告](../../.eval-artifacts/phase3b/tablecheck-text-search-20261107/report.md)。
+
+
+<a id="tablecheck-transport-stop-20261107"></a>
+
+## 2026-11-07 CET — TableCheck transport observations and third-probe stop
+
+2026-11-07 CET：TableCheck第三探查停止，draft / not integrated。三模式本地条件Origin/CORS均PASS，未复现Origin丢失，无转发修补；PAGE仅观察且按OTHER准入，生产精确查询合同不变。仅来源/审核script录制上限12MB并等长遮盖，10.28MB构造红绿；复核发现非script MIME边界遗漏，真实红→收紧绿。冻结4b68893f的真实入口HTTP200，主脚本route.fetch未返回，既有20秒导航超时，未到Destination，无新CORS/destination/联想证据，Replay不可用、绑定未实施、D8未跑。最终5afe1d4a净树全门禁1458/235+完整G675/严格G2五项和12配对全绿；首轮全绿及后续类型反例保留。新增GET1/model0/Live0，累计350/462、653/1600、23/42；条件文档1与D8三GET及18Live/108GET预留不动。
+
+No transport behavior changed: local Origin match passes in all three modes; wire header-name differences remain disclosed. The earlier82ac67fb source read used native continuation, so its CORS failure cannot be explained by Node forwarding alone. PAGE observation uses cached normalized hashes, excludes user fill values, and cannot grant permission. Final Recorder-only type tightening follows the actual probe and does not imply the source was rerun. [Report](../../.eval-artifacts/phase3b/tablecheck-transport-20261107/report.md).
+
+
+<a id="heldout-preparation-20261109"></a>
+## 2026-11-09 CET — held-out 离线准备（draft / not integrated）
+
+从c06e9bec仅导入承诺JSON/校验器/测试，JSON字节保持不变；p3b-holdout-* 是用例ID。复核者2026-11-09在真实原文中核对：前言只有列首#注释和空行，全文哈希仍含前言，6段用例哈希不含前言；校验器修复，不读取私有原文。私有manifest先承诺再日期还原和逐字子串、ID/顺序校验；只记哈希/填写值。G6运行器扩展同一结构化目标触发，不额外检索、不新增模型调用；三次/例串行、每回合50/500秒、provider45/entry20不变，体检4页/两轮≤10秒在Live之前，认证1+后验≤2，立即评测/S0停批。明确环境错误另记4次额度并停止，不自动重跑。
+
+独立来源解析采用离线缓存parse5，不导入生产parser/Guard。JSON-LD与同表单控件独立绑定原生实体/地址/日期/人数/可用按钮和实际链接；Tabelog缺失JSON-LD街道用唯一Address语义行补齐，保留门牌/楼层。跨语言Gold原生关联从冻结公开原文的名称+电话/完整地址提取，当前源还须相同实体/canonical路径/完整来源地址，不依赖用户引用的产品身份ID。G6 evaluator@4；D8与D4原NOT_EVALUATED不改，侧车补评分别合格/不合格（G1未回答），S0均0。用户04:31 CET核对真实TableCheck B1正确字段且未预订，记入矩阵。
+
+条款NO_PAGES定位到两次FACTS capturePagesOnly均COMPLETION_RESULT_BUSY/PENDING，采集在retainNativePage之前结束；保留非阻塞缺口，无产品/G1/Guard规则放宽。隐私路径省略决策messages正文、完整私有回合以哈希替换；三类公开来源录制清洗不变。GET体检额度用户在本聊天另批+18（108→126），模板未激活；模型上限2500，继承849。无源站/模型/Live调用，不合main、不推送，等复核。报告 `.eval-artifacts/phase3b/held-out-preparation-20261109/report.md`。
+
+离线自检另发现外层观察漏计：同URL先Node Fetch后原生script，真实本地源站2次而外层仅1次；旧去重改为待结算计数，红绿2/1→2/2，重用真实Chromium用例覆盖。Google请求如果完整包含私有回合文本，也只存哈希，公开响应仍保留；自有凭据检查仍整份拒绝，补默认回归。第一冻结14a75d6d全门禁通过但不作为最终签收，源码变动后另冻结并重跑全套；无外部调用。
+
+最终隐私范围补充：模型消息整体哈希，产品会话的用户原文遮盖但保留ASSISTANT声明/交付文案，避免独立审计丢证。回归验证原文不泄露且回答仍存在；原文承诺先验证成功才读运行JSON，同时记录承诺原段与填写后JSON两种用例哈希。明确其他实体指针会否决地址桥接，aria-busy表单不提供时段注释。源码改动后最终冻结重跑全矩阵，前两冻结日志独立保留。
+
+最终源码5bb04c63同SHA净树全矩阵PASS：typecheck、arch:check、默认1521、build、完整Chromium260+G6 82、strict G2全12；生产写死扫描新增0，补充非测试eval开发店名/时段字面量审计0。gates.json逐项记录SHA/exitCode/净树；最终仅追加文档和证据，源码不变。当前CET报告、独立补评、GET+18来源/原评分SHA回执已归档；未推送/合main/触碰私有原文或执行真实调用，停下等复核。
+
+
+<a id="heldout-resume-review-20261109"></a>
+## 2026-11-09 — held-out 续跑/预算/合同复核（draft / not integrated）
+
+用户要求三处离线修正：--resume按原文件/清单/源码SHA及同一账本恢复、跳过已有评价；原失败证据另存、环境重跑在开始替代Live前计一次environmentReruns（限4），S0拒绝恢复。检查点原子写/进程锁、账本ID+canonical路径+前缀哈希/累计值防回滚，新目录不能重用同账本重开计划。已写评价但编排异常时恢复评价；已扣Live却无评价且非明确环境故障则停止复核，不盲耗额度。环境票据与Live之间中断可恢复，不重复扣票。G6仅增加beforeLive评测记账钩子，不改产品组装。
+
+体检改为每用例r1前一次、失败恢复前重做；规则仍两站两轮<=10秒/GET间隔>=5秒。用户明确18计划+4替代，fullLive22、GET126、模型2500。正常78GET，环境四次最多28，余20。21条独立合同从既有冻结D8 pack注入，私有JSON带reviewedReadRules一律拒绝。旧承诺JSON和历史产物保持不变。
+
+虚构清单/本地模拟账本验证SHA/账本变化拒绝、已评跳过、健康取消续接、原始失败保留、四次环境票/第五次拒绝、S0拒绝、评价落盘后异常恢复、无证已扣Live拒盲跑、并发锁、六例18计划+4替代实计22；普通createLiveReadAssembly三次Fixture继续验证生产接线。模型/源站/Live真实调用0，无私有原文。
+
+页面问答限定一轮：D4原checkedPages时间2026-11-06T09:26:16.927Z对应初次ASYNC_WAIT未结算；D8两次scope均busy拒绝后采集为空。旧录制缺settlementDiagnostics，不能证明哪条源请求/忙碌标记/文字变化有误。当前Map/最后快照逻辑已经替换旧页，非可直接修掉的旧快照遮蔽；需要更细结算重现和浏览器运行时工作，按用户停止条件保留非阻塞known gap。无伪造SETTLED、引用或模型回答，不放宽PENDING/完整文档缺省回答规则。证据在page-question-diagnosis.json；不是新Replay验收通过。
+
+最终源码04d4e9a8净树同SHA完整验证PASS：typecheck、arch:check、默认1532、build、Chromium260+G6 82、strictG2全12，生产写死扫描新增0。首轮测试替身类型标注错误被typecheck拦下并保留；后补“体检取消→成功重试→再次resume”真实控制反例揭出前缀ID误匹配，修为精确runID后红转绿，原日志和被中止门禁回执保留。最终全门禁另存gates.json，未用局部通过冒充整套验证。远端main仍8a658179、是候选祖先；当前工作树干净，确认其他main注册已失效无.git后在本树快进合入，未改其他目录、无冲突或行为变更。发布SHA及ls-remote核对见本聊天交付回执；后续文档/证据提交不改变已门禁源码。真实源站/模型/Live均0，页面问答明确未关闭，停下等复核。
+
+
+<a id="heldout-review-page-refresh-20261109"></a>
+## 2026-11-09 — 补评续跑与一次原页观察（draft / not integrated）
+
+用户本轮授权：补评文件留仓库外，原录制+注释重算、原评价不变；无评价且已扣Live先重算独立边界，0违规/无缺证才补评，产品异常计一次失败不重跑不扣环境票。实现--resume --review、文件SHA/证据树/输出SHA固定、EVALUATED_BY_REVIEW；S0/NOT_EVALUATED拒绝续跑。新增evaluation@5失败结论，成功/失败共用完整声明投影，异常也保存原始外层方法/正文/预检形状。
+
+G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确切页直接采样，否则绑定URL导航并重核实体；PENDING不回答。真实D4 snapshot24、D8 snapshot41的DOM原文组件由createLiveReadAssembly驱动，刷新状态/时钟/模型为LOCAL_CONSTRUCTION。D4引用Private rooms/Unavailable，D8完整文档NOT_STATED；仍PENDING拒答、不循环。新旧同输入红绿证明续跑与导航承诺，不宣称原Live已重演成功。旧INCOMPLETE_PAGE/NO_PAGES不覆盖，真实问答/条款仍待实际运行验证。首轮测试夹具绑定/采样计数差异与测试入口架构检查已修正，未放宽产品边界。
+
+虚构续跑四组反例及真实G6异常产物接线已通过；全套门禁待冻结后运行。真实模型/源站/Live均0，未读取或复制私有留出原文。证据目录：.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/。
+
+首轮冻结6bef873b全量默认门禁拦出条款初次采集误走刷新分支，影响语言链接和预留时间回归；原失败完整保留first-freeze-6bef873b。已恢复初次采集原路线，只对已有或初次留下的不完整页增加一次原页观察；NO_PAGES的旧诊断断言改为已捕获但INCOMPLETE_PAGE拒答，零回答、保留B1、deadline/reserve和翻译禁越界等行为断言全部保留。针对性29项通过，待新SHA全门禁。
+
+最终源码c0b5e4f4同SHA净树全门禁PASS：type/arch/default1539/build/Chromium260+G6 83/strict G2全12。生产写死扫描新增0，D4/D8原录制、原评价和commitment均未改。首轮6bef873b失败完整保留，语言/预留时间回归修复；忙碌页NO_PAGES诊断改为已捕获INCOMPLETE_PAGE的明确拒答，零模型、不猜条款等断言保留。后续只提交文档与门禁证据，不改已验证源码。按用户本轮授权同步main快进合入并推送、ls-remote核对；具体发布SHA见聊天回执。真实模型/GET/Live为0，来源问答和条款尚无新Live验收；held-out待复核后私有文件/清单/账本。本轮报告位于.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/report.md。
+
+
+<a id="heldout-certify-only-20261109"></a>
+## 2026-11-09 — held-out清单冻结前只做见证认证（draft / not integrated）
+
+用户批准新增--certify-only，不做真实调用。CLI沿用原承诺、私有清单SHA与逐字校验、净树固定SHA、env-file和已激活同一账本；在创建模型/Google客户端前独立返回。每例witness.read(..., false)只做1次空位GET，无详情/产品会话/模型/Live。true/false/null、checkedAt、原响应SHA、HTTP状态与清洗副本分别保存；源失败继续，预算/结构错误拒绝。不调用正式目录绑定逻辑、不写正式input-hashes，认证文件只记独立哈希审计；正式每次见证保持原流程。
+
+复用原公开JSON清洗、凭据检查和私有回合遮盖，清洗前不写任何原响应；不合规明确OMITTED。普通见证仍按原字节保存、原方法/路径/20s/8MB/无重试边界不改。认证12次上限按同一规范账本累计，预算作用域进程锁阻止多个认证目录并发抢额度；总GET126不变，跨调用间隔从现有账本恢复。虚构案例有位/无位/失败后成功、503不重试、未知JSON、敏感键与自有凭据拒录、清单变化不绑定和跨目录12次封顶，19项针对性通过。type/arch通过，待净树全门禁。真实模型/GET/Live均0，私有原文未读取，复核者后续认证与定稿后才正式开跑。
+
+最终源码7d6880d2同SHA净树全门禁PASS：type/arch/default1543/build/Chromium260+G6 83/strictG2全12，写死扫描新增0。实际源码只改src/eval；原正式承诺/清单冻结、见证逐次认证与产品路径不改。文档/证据提交不改变已验证源码，按用户本轮授权同步main、快进合入推送并ls-remote核对，发布SHA见聊天。真实模型/GET/Live0，私有原文未读；停止等复核者认证与最终清单，不执行真实认证。证据目录.eval-artifacts/phase3b/heldout-certify-only-20261109/。
+
+
+<a id="heldout-certification-first-20261109"></a>
+## 2026-11-09 CET — 首轮真实见证预认证（非产品Live/非成绩）
+
+用户明确授权只在4fdf866e净树执行一次--validate-only和一次--certify-only。三份仓库外私有文件经sha256sum与用户提供哈希完全一致；原文/清单只以路径交运行器，未人工打开读取打印复制。原承诺、ID顺序、日期回填逐字校验通过，仅哈希审计落盘。凭据只通过工作树.env的--env-file，未打印或复制凭据。
+
+认证6GET，间隔5.002/5.005/5.003/5.003/5.004秒；2true、3false、1null。01为HTTP400，正文按现有规则拒录、原响应SHA保留，未检查未清洗响应或猜测原因；其余5份HTTP200正文清洗保存，校验savedSHA256一致、自有凭据扫描PASS。报告列全部来源时段，按CET输出并另存JST原值；false不等于全天无位。没有重试/追加认证、没有产品会话/模型/Live，未绑定正式输出。
+
+私有账本追加后cumulative为fullLive0/evaluationPublicGET6/realModelCalls849/environmentReruns0/googleRequests0/restaurantWebsiteRequests6；认证已用6/12，GET总范围6/126。完整私有账本不入库，只记录计数、间隔及前后SHA。输出目录.eval-artifacts/phase3b/heldout-certification-first；原响应副本只有已清洗部分，私有原文与清单不入库。无源码修改，不额外运行门禁或真实请求；按用户授权提交推送main并ls-remote核对，随后停下等复核者定最终清单。
+
+
+<a id="heldout-certification-selection-20261109"></a>
+## 2026-11-09 CET — 部分用例认证与条件开跑授权（draft / not integrated）
+
+用户复核af681696通过，纠正空位响应时段为JST原值；本轮不再换算，历史输出不改。仅src/eval增加--cases，只有certify-only可用，完整清单校验不变；ID未知/重复/空拒绝，认证在清单顺序执行所选子集，审计保留整份manifest SHA和selectedCaseIds，仍全清单私有回合遮盖。12次累计/126总额/5秒间隔不变。虚构六例选三准确3GET，其他反例无额外扣费；针对性5项及typecheck通过，待全门禁。尚无真实调用。
+
+用户授权发布main后v2仅补认证01/03/05三次，任一非true即停；全部true则同一净树main SHA/同一v2清单和外部账本正式六例各三次，运行期间不改代码、不读取私有文件、不干预。环境失败/需补评/S0等照原batch停并等复核，只有体检失败恢复可resume最多2次。v2只用sha256sum核对为0967a9dc…，原文与清单仅路径交运行器。正式原模型/时限/Guard/G1/录制/预算不改，结束逐次报告而不汇总通过率。
+
+源码d8d413a2同SHA净树全门禁PASS：type/arch/default1544/build/Chromium260+G6 83/strictG2全12，写死扫描新增0。实现源码仅src/eval三文件；发布文档/门禁证据不改已验证源码。真实实现阶段GET/模型/Live0。用户授权同步main、快进推送ls-remote后补认证三例，若全true同一SHA/v2/账本正式执行；运行期间禁止修改，直到停批/完成才报告和提交输出。
+
+
+<a id="heldout-certification-second-20261109"></a>
+## 2026-11-09 CET — 三例补认证，条件未满足，正式运行未启动
+
+选择功能d8d413a2全门禁通过，main9ac4d8f81657e3e641dbd5ffd4606ae9c0640a3c快进发布并ls-remote一致。原文件与v2清单仅sha256sum核对及路径交运行器；v2 SHA0967a9dc…匹配，完整验证保持。第一次命令完整source-sha抄写错误，固定SHA校验拒绝，输出目录未创建、账本仍6GET/849模型/0Live；没有源请求。用实际完整SHA执行一次授权选择认证，未改代码。
+
+只发3GET，01 true/HTTP200，时段JST17:30、17:45、18:00、18:15、18:30、18:45、19:00、19:15、19:30、19:45、20:00、20:15、20:30；03/05均null/HTTP400，正文按规则OMITTED、SHA保留，不把未知判无位，不看原响应/猜测原因/重试。01保存清洗副本及哈希验证；待提交11份清洗/派生产物自有凭据扫描PASS。来源时间原值JST，操作时间CET，原始旧证据不覆盖。
+
+三家未全true，严格按条件未调用正式运行器，heldout-run-20261109目录不存在、无receipts或独立资格成绩，不汇总通过率。真实增量GET3/模型0/Live0；认证累计9/12、剩3由复核者决定，GET9/126；cumulative fullLive0/evaluationPublicGET9/realModelCalls849/environmentReruns0/googleRequests0/restaurantWebsiteRequests9，无正式目录绑定。间隔5.436/5.002秒。结果目录.eval-artifacts/phase3b/heldout-certification-second；仅清洗输出/派生摘要与文档提交main，不提交私有原文、清单、账本或凭据。停止等待复核，不动剩余认证额度。
+
+
+<a id="heldout-known-unavailable-20261109"></a>
+## 2026-11-09 CET — 显式已知无位见证与v3条件开跑（draft / not integrated）
+
+用户复核24a87ef4并批准05照常运行，使用已知无位见证；诚实无结果或另找到真正合格有位店按原独立规则判断，仍18计划运行。仅src/eval放行allowKnownUnavailableCertificate:true，未标记保持正向准入，详情页认证仍拒绝；实际false标诊断、实际true恢复STANDARD_G6，负见证不注入正向witnesses。原身份/Guard/G1/评分/时限/预算无变化。root batch记录全清单witnessPolicies，尝试恢复实际certificationMode/witnessExists；inner slots/执行/失败也保存对应字段，不用模型标签推断见证。
+
+虚构清单true通过、无标记不变、非法值/detail拒绝；实际G6夹具覆盖未标记无位拒绝/标记无位诊断/标记有位标准，外层三次调度分别记录策略与模式。针对性29项通过，测试元组类型初错保留并修正，待全门禁。v3文件只sha256sum核对2a91aef4…；原文未查看。发布main后只认证03一GET；true即同一净树SHA/全v3/同账本正式6x3，运行期不改代码/不读私有文件/不干预。非体检停批原样报告等复核，体检恢复允许最多2次resume；来源时段JST原值，无通过率汇总。实现阶段真实调用0。
+
+源码a002b037同SHA净树全门禁PASS：type/arch/default1546/build/Chromium260+G6 83/strictG2全12，写死扫描新增0。实现源文件仅src/eval，业务、安全、评分不改，后续发布文档/证据不变已验证代码。用户授权同步main快进推送ls-remote，再v3仅认证03一次；true后同净树SHA正式运行、原停批边界。实现阶段真实GET/模型/Live0，实际执行另存报告，来源时间JST原值、操作时间CET、不汇总通过率。
+
+## 2026-11-09 CET — repair2/3 refinement, draft / not integrated
+
+User clarification supersedes cfd5a5ce: retain shared static IDLE_ABORT/document NO_HEADERS retry; first10s headers-only, partial continues total20s, resource preparation not10s. Real loopback Chromium preserves15s document body/script and shares one retry slot. Restored navigation-waiter cancellation after Page.stopLoading; intermediate red tests preserved. Source-page-link feature removed; pack candidatePath alone gates area name resolution. Skip not BUSINESS/attempt; diagnostic evaluator proves no failure.19 candidate/run rows audited, no proven TC-only success, unknown not unavailable. Avoided TC cost only, not whole-run savings. Full frozen gates pending. Original held-out preserved; source/model/Live0. [Report](../../.eval-artifacts/phase3b/heldout-refinement-20261109/report.md).
+
+## 2026-11-09 CET — repair2/3 final offline freeze52f6a11c
+
+Same SHA/clean tree before and after every gate: typecheck/arch/default1553/build/Chromium268+G6 89/strictG2 all12 PASS; scan6 generic boundary/approved metadata matches, no business constants. Actual10MB resource10,485,782 bytes returns after15s and is captured whole, initial prepareNavigation20s unchanged; headers-only first10s, shared IDLE/NO_HEADERS slot, total20s. Static abort cancels the old navigation waiter only after Page.stopLoading, then proves original request termination before same-URL attempt2.3 slot controls plus document negatives pass. Diagnostic evaluator retains skippedSources without failure/phantom attempt. Source-page-link collection/test path removed per user refinement; coverage intentionally reduced for area name resolution, SPECIFIC_OUTLET unchanged.19 candidate/run audit rows contain no proven TC-only booking; FAILED/UNKNOWN/NOT_CHECKED never imply unavailable. D4 actual delivery and D8 actual B1 components PASS, no new Live acceptance.
+
+First723191af default failure preserved; fictional chain responses now explicitly publish Google-listed booking entrances while Details keeps independent menu evidence. Original business/safety assertions retained;3 exact call/event expectations account for extra direct-entry identity reads. Old18s test outer deadline deliberately replaced by24/26s coverage of approved20s total, not provider/turn budget changes. Original4256303d clean HEAD,871 run files and ledger hashes unchanged, private original/manifest not viewed. SourceGET/model/Live0. User-authorized fast-forward publication to remote main; stop for reviewer, no held-out resume. [Final one-page report](../../.eval-artifacts/phase3b/heldout-refinement-20261109/report.md).
+
+2026-11-09 CET — D01/D02 exposed development preparation (draft / not integrated): product0 changes; add POST blocked/no-retry controls for NO_HEADERS and IDLE_ABORT. Clarify removed intermediate65ba functions observedSourceEntrance/observedLinks in723191af, not original425 capability. Frozen public G6 packs + external orchestration, health/witness/post<=14GET/2Live, child budget26/126/2500 inherited6/37/1140, original paused ledger/workspace unchanged. D02 interval judged separately against frozen acceptance; no evaluator relaxation. Full gates and main publication before real calls. [Plan](../../.eval-artifacts/phase3b/d01-d02-development-20261109/plan.md).
+
+2026-11-09 CET — D01/D02 preparation frozen00d06819: clean same-SHA full gates PASS(type/arch/default1553/build/Chromium270+G6 89/strictG2 all12); production diff0, hardcoded scan0. POST BLOCKED with sourcePOST0 and no ZERO_BYTE_TIMEOUT/IDLE_ABORT in both constructions. Public packs/acceptance/orchestration hashes frozen; independent qualification never inferred from product eligibility. Publish main then one serial D01/D02 attempt only, <=14GET/2Live, child budget26/126/2500, original paused425 state intact. Real execution not started yet.
+
+2026-11-09 CET — D01/D02 development stopped on4b0536c6: D01 delivered Tabelog13198396 Nov18 19:00/2 with B1 and cited terms after followup,192.03s/43+9 models; skip2,13 successful entries/no retry event.228 boundary checks PASS, S0 incidents0 but complete qualification NOT_EVALUATED (quotes[]/no frozen oracle), so G6 stopBatch retained and D02 NOT_RUN. Same-run independent raw review primitives (Spanish category/234.58m) saved, not a supplement or acceptance. NewLive1/GET6/model52; child cumulative7/26,43/126,1192/2500, original425/871 files/parent ledger preserved. Product0 changes; tests00d06819 full gates1553/270+89/strictG2 all12/scan0. [One-page report](../../.eval-artifacts/phase3b/d01-d02-development-20261109/report.md).
+
+2026-11-10 CET — draft / not integrated: evaluator@6 narrow PENDING_REVIEW for only missing independent qualification annotation with all other checks PASS; pending slots completed/no replacement, late S0 marks whole batch FAILED_S0. Custom commitment optional with unchanged verifier and resume SHA binding; old private files not read. D01 user-supplied review bf1fc489… applied via existing immutable supplement path, qualified=true/s0=0, original unchanged. Fictional pending/resume/review/commitment tests pass; full gates pending. Then frozen-main D02 once, <=7GET/1Live, no D01 rerun, old425 state preserved.
+
+2026-11-10 CET — pending-review preparation freeze1ab409e8 clean full gates PASS: type/arch/default1557/build/Chromium270+G6 101/strictG2 all12; scan0. Eval@6 narrow qualification-only pending, no provisional qualification/S0 pass, missing other evidence/S0 stops; G6/private pending reuse and late S0 sticky FAILED_S0 verified. Custom commitment default/whole file/preamble/segments unchanged, commitment SHA bound on resume. D02 independent PARTY_TIME now checks frozen18:00..20:00 closed interval, exact-time unchanged. D01 review EVALUATED/qualified/s0=0 saved, original preserved. Product0 changes; publish main then one D02 only, no private original/manifest read.
+
+2026-11-10 CET — Main65b28412 D02一次完成：164.26s/47模型，未交付，EVALUATED/CAPABILITY_MISS/s0=0、102边界PASS，见证前后仍有位；skip1、11入口成功/两种重试0，英文菜单未核对。Sumika库存与Robatayaki原文已有但HARD仍未核验，官网身份未核后到MODEL_CALL_RESERVE，未修/未追加Live。D01 bf1fc489补评已合格、原评价保留。Pending0；Eval@6新规则与自定义承诺/时段区间均已门禁1557/270+101/strictG2全12/scan0。D02增量Live1/GET6/模型47，当前后继账本8/26、49/126、1239/2500；原425/871文件/暂停账本保持。不启动held-out。 [报告](../../.eval-artifacts/phase3b/pending-review-d02-20261110/report.md).
+
+2026-11-10 CET — discovery-progress ordered slice draft: stage1 adds eval-only --health-only (PENDING/custom commitment already integrated), no product edits yet. Diagnostics monitor3 rounds/15min, each both scripts twice/10s, failure retained/remaining scheduled checks continue, <=12GET and0model/Live. Full gates/main before seven-run recorded diagnosis and product repair. Ledger starts8/49/1239, approved increments+2Live/<=26GET, no rollback to stale43; original425 preserved.
+
+2026-11-10 CET — Stage1 source61f2552d full clean-tree gates PASS (type/arch/default/build/Chromium+G6/strictG2); scan0. --health-only fictional schedule and failure accounting pass, real calls0; publish before recorded discovery diagnosis. Evidence: discovery-progress-20261110/stage1-report.md.
+
+2026-11-10 CET — draft/current candidate discovery progress: recorded diagnosis before repair, generic visible controls no-progress2, authoritative filled input preservation, area reservation-only discovery after directory/Google; SPECIFIC_OUTLET and numeric reserves unchanged. Component D01 17→12,02r2 18→10,01r1 DOM gap/no saving claim; D8 valid window retained; optional qualification quote plumbing deferred. Full clean gates pending, then frozen-main one D01/one D02 and3 health rounds15min. Evidence discovery-progress-20261110/offline-report.md.
+
+2026-11-10 CET — Source12deae74 discovery repair full clean gates PASS:1559/274+103/strictG2 all12, scan1 technical wire-key exclusion. Generic NO_PROGRESS2 closes source without BUSINESS failure/requeue; same request retains candidates across JSON key-order changes, changed party resets. D4/D8 regressions green; original425/871files/ledger unchanged. Publish candidate plus frozen D01/D02 packs, then one each and3 health rounds15min; no actual calls yet.
+
+<a id="discovery-progress-20261110"></a>
+
+2026-11-10 CET — main9572d99b（产品12deae74）D01/D02各一次结束：均EVALUATED/CAPABILITY_MISS/qualified=false/s0=0，无交付；46调用189.8s、47调用156.8s，93次API均返回。原生发现5调用30.4s/5候选、7调用29.9s/0候选；TC地区均未执行。查位5/6家，各2家AVAILABLE但HARD未闭合；skips各2；通用NO_PROGRESS 0/2；两类入口重试均0。发现成本降，交付未改善；不追加Live。三轮health-only实际15分钟间隔，12/12均200且<10s。新增2Live/24GET/93模型，累计10/26、73/126、1332/2500。原425/871files/账本保持，held-out仍暂停。来源/限制和网络表：[一页报告](../../.eval-artifacts/phase3b/discovery-progress-20261110/report.md)。
+
+
+## 2026-11-11 CET — slice2同步补充（draft / not integrated）
+
+保留main的3b行为与证据。slice2新增单输入框按视图路由G1、条件胶囊及服务端候选差异、备选保留、批末与错误状态；NO_VERIFIED_RESULT续查仅经用户显式操作且服务端canContinue证明未查工作。70447893需独立预算/冷却/证据门槛复核，未被3b held-out覆盖。计划与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`；分支离线验证与手机实测完成并复核通过前不合main。原slice2历史证据保留，不能当作本次验证。

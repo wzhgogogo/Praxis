@@ -1,0 +1,15 @@
+diff --git a/src/application/live-read-investigation-budget.ts b/src/application/live-read-investigation-budget.ts
+index 7b4f5b36..888a3749 100644
+--- a/src/application/live-read-investigation-budget.ts
++++ b/src/application/live-read-investigation-budget.ts
+@@ -28,8 +28,8 @@ export const LIVE_READ_DEBUG_INVESTIGATION_BUDGET = {
+   maxFactBrowserMs: 45_000,
+   maxFactProviderMs: 30_000,
+   /** Keeps one outlet/provider path from consuming the entire Live deadline. */
+-  maxCandidateBrowserMs: 60_000,
+-  /** Extends one slow public observation while preserving 15s of the 60s candidate cap for an alternate. */
++  maxCandidateBrowserMs: 90_000,
++  /** Independent provider window within the cumulative candidate ceiling. */
+   maxProviderBrowserMs: 45_000,
+   /** Whole read budget. Candidate/provider limits retain time for a legal alternate. */
+   maxAutomaticBrowserMs: 500_000,

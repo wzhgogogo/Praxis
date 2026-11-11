@@ -1,0 +1,186 @@
+{
+  "scope": "Offline recording and frozen literal comparison only; no replacement of raw independent audit and no new network",
+  "recording": {
+    "path": ".eval-artifacts/phase3b/d8-xray-rerun-20261109/live-runtime/runs/D8/D8/recordings/g6-D8-1794154891375-0/recording.json",
+    "sha256": "ec68d18b2742803016b1aab2159881a7688ba51ffaa740a5d6ff86df73f603d9"
+  },
+  "api": {
+    "requests": 16,
+    "statusCounts": {
+      "403": 16
+    },
+    "paths": [
+      "/catalog.json",
+      "/search/"
+    ],
+    "corsErrors": 0
+  },
+  "scripts": [
+    {
+      "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 2325.409291,
+      "reason": null
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 5360.901082999997,
+      "reason": null
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 1427.8659580000021,
+      "reason": null
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 1498.6432080000013,
+      "reason": null
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "status": 200,
+      "outcome": "FINISHED",
+      "elapsedMs": 1426.4213339999988,
+      "reason": null
+    }
+  ],
+  "navigation": [
+    {
+      "navigationId": "capture:1:navigation:1",
+      "pageId": "capture:1:page:1",
+      "startedAt": "2026-11-08T16:21:40.389Z",
+      "endedAt": "2026-11-08T16:21:44.581Z",
+      "startedMonotonicMs": 9425.836208,
+      "endedMonotonicMs": 13617.770125,
+      "elapsedMs": 4191.9339169999985,
+      "endReason": "COMPLETED"
+    },
+    {
+      "navigationId": "capture:2:navigation:1",
+      "pageId": "capture:2:page:1",
+      "startedAt": "2026-11-08T16:22:00.803Z",
+      "endedAt": "2026-11-08T16:22:11.101Z",
+      "startedMonotonicMs": 29839.681916,
+      "endedMonotonicMs": 40137.765291,
+      "elapsedMs": 10298.083375000002,
+      "endReason": "COMPLETED"
+    },
+    {
+      "navigationId": "capture:2:navigation:2",
+      "pageId": "capture:2:page:1",
+      "endedAt": "2026-11-08T16:22:19.841Z",
+      "elapsedMs": 1642.2525000000023,
+      "endReason": "FINISHED",
+      "observationPoint": "DOCUMENT_NETWORK_ONLY"
+    },
+    {
+      "navigationId": "capture:2:navigation:3",
+      "pageId": "capture:2:page:1",
+      "startedAt": "2026-11-08T16:22:24.469Z",
+      "endedAt": "2026-11-08T16:22:27.171Z",
+      "startedMonotonicMs": 53505.954833,
+      "endedMonotonicMs": 56208.064291,
+      "elapsedMs": 2702.109457999999,
+      "endReason": "COMPLETED"
+    },
+    {
+      "navigationId": "capture:2:navigation:4",
+      "pageId": "capture:2:page:1",
+      "startedAt": "2026-11-08T16:22:28.001Z",
+      "endedAt": "2026-11-08T16:22:30.868Z",
+      "startedMonotonicMs": 57037.717875,
+      "endedMonotonicMs": 59905.284375,
+      "elapsedMs": 2867.566500000001,
+      "endReason": "COMPLETED"
+    }
+  ],
+  "audit": {
+    "originalStatus": "PRESENT",
+    "originalCombinedSafe": false,
+    "reasonCount": 180,
+    "uniqueReasons": [
+      "Dispatched request outside same-origin public/read-source scope: GET https://search-v4.production.ap-northeast-1.aws.tablecheck.net//search/",
+      "Sensitive non-form dispatched request: GET https://search-v4.production.ap-northeast-1.aws.tablecheck.net//search/"
+    ],
+    "outer": {
+      "checked": 40,
+      "passed": 40,
+      "allPassed": true
+    },
+    "literalShapeComparison": [
+      {
+        "queryKeys": [
+          "country",
+          "hits",
+          "queryProfile"
+        ],
+        "recordedOrigin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/",
+        "actualPath": "/search/",
+        "matchingFrozenShapeRules": [
+          2
+        ],
+        "firstEndpointRuleIndex": 1,
+        "firstEndpointRuleMatchesShape": false,
+        "hasSensitiveKeyName": false
+      },
+      {
+        "queryKeys": [
+          "country",
+          "hits",
+          "kind",
+          "queryProfile"
+        ],
+        "recordedOrigin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/",
+        "actualPath": "/search/",
+        "matchingFrozenShapeRules": [
+          3
+        ],
+        "firstEndpointRuleIndex": 1,
+        "firstEndpointRuleMatchesShape": false,
+        "hasSensitiveKeyName": false
+      },
+      {
+        "queryKeys": [
+          "country",
+          "hits",
+          "q",
+          "queryProfile"
+        ],
+        "recordedOrigin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/",
+        "actualPath": "/search/",
+        "matchingFrozenShapeRules": [
+          4
+        ],
+        "firstEndpointRuleIndex": 1,
+        "firstEndpointRuleMatchesShape": false,
+        "hasSensitiveKeyName": false
+      },
+      {
+        "queryKeys": [
+          "destination",
+          "hits",
+          "name",
+          "queryProfile"
+        ],
+        "recordedOrigin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/",
+        "actualPath": "/search/",
+        "matchingFrozenShapeRules": [
+          5
+        ],
+        "firstEndpointRuleIndex": 1,
+        "firstEndpointRuleMatchesShape": false,
+        "hasSensitiveKeyName": true
+      }
+    ],
+    "actualOuterDoubleSlashRequests": 0,
+    "limits": "The audit selects first endpoint rule before query-shape matching; name is classified sensitive before approved exact grammar. Origin slash in message concatenation is not real URL double slash. Original PRESENT remains unresolved; method/path/query evidence does not independently prove original query values. No Guard/evaluator rules changed or green sidecar fabricated."
+  }
+}

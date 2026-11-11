@@ -1,0 +1,131 @@
+{
+  "status": "NO_LOCAL_CORS_FAILURE_REPRODUCED",
+  "summaries": [
+    {
+      "transport": "UNGUARDED_NATIVE",
+      "cors": "PASS",
+      "receiver": [
+        {
+          "mode": "UNGUARDED_NATIVE",
+          "method": "OPTIONS",
+          "headerNames": [
+            "accept",
+            "accept-encoding",
+            "access-control-request-headers",
+            "access-control-request-method",
+            "connection",
+            "host",
+            "origin",
+            "referer",
+            "sec-fetch-dest",
+            "sec-fetch-mode",
+            "sec-fetch-site",
+            "user-agent"
+          ],
+          "originMatched": true
+        },
+        {
+          "mode": "UNGUARDED_NATIVE",
+          "method": "GET",
+          "headerNames": [
+            "accept",
+            "accept-encoding",
+            "connection",
+            "host",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "sec-fetch-dest",
+            "sec-fetch-mode",
+            "sec-fetch-site",
+            "user-agent",
+            "x-api-key"
+          ],
+          "originMatched": true
+        }
+      ],
+      "observedBrowserHeaderNames": null,
+      "missingHeaderNames": []
+    },
+    {
+      "transport": "NODE_FETCH",
+      "cors": "PASS",
+      "receiver": [
+        {
+          "mode": "NODE_FETCH",
+          "method": "GET",
+          "headerNames": [
+            "accept",
+            "accept-encoding",
+            "connection",
+            "host",
+            "origin",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "user-agent",
+            "x-api-key"
+          ],
+          "originMatched": true
+        }
+      ],
+      "observedBrowserHeaderNames": [
+        "accept",
+        "origin",
+        "referer",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile",
+        "sec-ch-ua-platform",
+        "user-agent",
+        "x-api-key"
+      ],
+      "missingHeaderNames": []
+    },
+    {
+      "transport": "BROWSER_GET_HEAD",
+      "cors": "PASS",
+      "receiver": [
+        {
+          "mode": "BROWSER_GET_HEAD",
+          "method": "GET",
+          "headerNames": [
+            "accept",
+            "accept-encoding",
+            "cache-control",
+            "connection",
+            "host",
+            "origin",
+            "pragma",
+            "referer",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform",
+            "sec-fetch-dest",
+            "sec-fetch-mode",
+            "sec-fetch-site",
+            "user-agent",
+            "x-api-key"
+          ],
+          "originMatched": true
+        }
+      ],
+      "observedBrowserHeaderNames": [
+        "accept",
+        "origin",
+        "referer",
+        "sec-ch-ua",
+        "sec-ch-ua-mobile",
+        "sec-ch-ua-platform",
+        "user-agent",
+        "x-api-key"
+      ],
+      "missingHeaderNames": []
+    }
+  ],
+  "scope": "Conditional-Origin local receiver; header names and Origin-match booleans only, not a claim of all-header-value equivalence.",
+  "priorActualSourceTransport": "82ac67fb used BROWSER_GET_HEAD, so Node forwarding cannot alone explain that run.",
+  "forwardingChange": "NONE: no loss among observable browser header names and no Origin/CORS failure reproduced. Wire header-name differences are retained; no browser headers synthesized."
+}

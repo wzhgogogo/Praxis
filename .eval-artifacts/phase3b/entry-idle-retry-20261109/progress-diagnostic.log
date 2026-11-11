@@ -1,0 +1,48 @@
+ENTRY_DEBUG_REQUEST A4256A6A4C168162CFEADD8B4D87C9B3 Document
+ENTRY_DEBUG_RESPONSE A4256A6A4C168162CFEADD8B4D87C9B3 200
+ENTRY_DEBUG_ELIGIBLE 36329.2 false
+ENTRY_DEBUG_ELIGIBLE 36329.3 false
+ENTRY_DEBUG_REQUEST 36329.2 Stylesheet
+ENTRY_DEBUG_REQUEST 36329.3 Script
+ENTRY_DEBUG_RESPONSE 36329.2 200
+ENTRY_DEBUG_RESPONSE 36329.3 200
+✖ entry aborts a successful stalled native response before its one reload, preserving both attempts in recording (10164.387875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10474.250709
+
+✖ failing tests:
+
+test at src/harness/browser/entry-idle-retry.test.ts:1:541
+✖ entry aborts a successful stalled native response before its one reload, preserving both attempts in recording (10164.387875ms)
+  Error [BrowserRuntimeError]: Local Playwright Chromium operation failed
+      at LocalPlaywrightChromiumSession.run (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:265:13)
+      at async LocalPlaywrightChromiumSession.navigate (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:70:5)
+      at async Proxy.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/browser-case-slice-evidence.ts:306:33)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/entry-idle-retry.test.ts:24:100)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_RUNTIME_FAILED',
+    cause: page.goto: Timeout 9999ms exceeded.
+    Call log:
+    [2m  - navigating to "http://127.0.0.1:65185/", waiting until "domcontentloaded"[22m
+    
+        at _Page.page.goto (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/browser-request-timeline.ts:116:27)
+        at PlaywrightEntryNavigation.navigate (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-entry-navigation.ts:59:36)
+        at PlaywrightReadNetworkGuard.navigateEntry (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.ts:105:26)
+        at <anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:72:53)
+        at LocalPlaywrightChromiumSession.run (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:262:20)
+        at LocalPlaywrightChromiumSession.navigate (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:70:16)
+        at Proxy.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/runners/browser-case-slice-evidence.ts:306:45)
+        at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/entry-idle-retry.test.ts:24:114) {
+      name: 'TimeoutError',
+      log: [ '  - navigating to "http://127.0.0.1:65185/", waiting until "domcontentloaded"' ]
+    },
+    scope: undefined,
+    networkFailures: []
+  }

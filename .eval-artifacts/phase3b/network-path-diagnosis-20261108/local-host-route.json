@@ -1,0 +1,191 @@
+{
+  "scope": "Local mapped DNS hosts only; all receivers on loopback. NO source HTTP, model or Live; mappings/permissions fixture-only, no production change.",
+  "controls": [
+    {
+      "mode": "INTENTIONAL_CDN_BYPASS_OMISSION",
+      "launchMetadata": {
+        "proxyArguments": [
+          "--proxy-server=http://127.0.0.1:53047",
+          "--proxy-bypass-list=tablecheck.com;*.tablecheck.com;tablecheck.net;*.tablecheck.net;tabelog.com;*.tabelog.com;localhost;*.localhost;127.0.0.1;*.127.0.0.1"
+        ],
+        "resolverOverride": "Fixture-only map of all tested names to loopback"
+      },
+      "proxyScriptHosts": [
+        "nottabelog.com",
+        "proxied.fixture.invalid",
+        "sub.tblg.k-img.com",
+        "tablecheck.com.evil.invalid",
+        "tblg.k-img.com"
+      ],
+      "expectedProxyHosts": [
+        "nottabelog.com",
+        "proxied.fixture.invalid",
+        "sub.tblg.k-img.com",
+        "tablecheck.com.evil.invalid",
+        "tblg.k-img.com"
+      ],
+      "scripts": 10,
+      "scriptTransport": "BROWSER_GET_HEAD",
+      "documentDataTransport": "NODE_FETCH",
+      "seen": [
+        {
+          "host": "127.0.0.1:53046",
+          "path": "/",
+          "viaProxy": false
+        },
+        {
+          "host": "tablecheck.com:53046",
+          "path": "/assets/0.js",
+          "viaProxy": false
+        },
+        {
+          "host": "www.tablecheck.com:53046",
+          "path": "/assets/1.js",
+          "viaProxy": false
+        },
+        {
+          "host": "cdn0.tablecheck.com:53046",
+          "path": "/assets/2.js",
+          "viaProxy": false
+        },
+        {
+          "host": "search-v4.production.ap-northeast-1.aws.tablecheck.net:53046",
+          "path": "/assets/3.js",
+          "viaProxy": false
+        },
+        {
+          "host": "tabelog.com:53046",
+          "path": "/assets/4.js",
+          "viaProxy": false
+        },
+        {
+          "host": "tblg.k-img.com:53046",
+          "path": "/assets/5.js",
+          "viaProxy": true
+        },
+        {
+          "host": "sub.tblg.k-img.com:53046",
+          "path": "/assets/6.js",
+          "viaProxy": true
+        },
+        {
+          "host": "proxied.fixture.invalid:53046",
+          "path": "/assets/7.js",
+          "viaProxy": true
+        },
+        {
+          "host": "tablecheck.com.evil.invalid:53046",
+          "path": "/assets/8.js",
+          "viaProxy": true
+        },
+        {
+          "host": "nottabelog.com:53046",
+          "path": "/assets/9.js",
+          "viaProxy": true
+        },
+        {
+          "host": "127.0.0.1:53046",
+          "path": "/data",
+          "viaProxy": false
+        },
+        {
+          "host": "proxied.fixture.invalid:53046",
+          "path": "/data",
+          "viaProxy": false
+        }
+      ],
+      "passed": true
+    },
+    {
+      "mode": "CURRENT_SUFFIX_CONFIGURATION",
+      "launchMetadata": {
+        "proxyArguments": [
+          "--proxy-server=http://127.0.0.1:53069",
+          "--proxy-bypass-list=tablecheck.com;*.tablecheck.com;tablecheck.net;*.tablecheck.net;tabelog.com;*.tabelog.com;tblg.k-img.com;*.tblg.k-img.com;localhost;*.localhost;127.0.0.1;*.127.0.0.1"
+        ],
+        "resolverOverride": "Fixture-only map of all tested names to loopback"
+      },
+      "proxyScriptHosts": [
+        "nottabelog.com",
+        "proxied.fixture.invalid",
+        "tablecheck.com.evil.invalid"
+      ],
+      "expectedProxyHosts": [
+        "nottabelog.com",
+        "proxied.fixture.invalid",
+        "tablecheck.com.evil.invalid"
+      ],
+      "scripts": 10,
+      "scriptTransport": "BROWSER_GET_HEAD",
+      "documentDataTransport": "NODE_FETCH",
+      "seen": [
+        {
+          "host": "127.0.0.1:53068",
+          "path": "/",
+          "viaProxy": false
+        },
+        {
+          "host": "tablecheck.com:53068",
+          "path": "/assets/0.js",
+          "viaProxy": false
+        },
+        {
+          "host": "www.tablecheck.com:53068",
+          "path": "/assets/1.js",
+          "viaProxy": false
+        },
+        {
+          "host": "cdn0.tablecheck.com:53068",
+          "path": "/assets/2.js",
+          "viaProxy": false
+        },
+        {
+          "host": "search-v4.production.ap-northeast-1.aws.tablecheck.net:53068",
+          "path": "/assets/3.js",
+          "viaProxy": false
+        },
+        {
+          "host": "tabelog.com:53068",
+          "path": "/assets/4.js",
+          "viaProxy": false
+        },
+        {
+          "host": "tblg.k-img.com:53068",
+          "path": "/assets/5.js",
+          "viaProxy": false
+        },
+        {
+          "host": "sub.tblg.k-img.com:53068",
+          "path": "/assets/6.js",
+          "viaProxy": false
+        },
+        {
+          "host": "proxied.fixture.invalid:53068",
+          "path": "/assets/7.js",
+          "viaProxy": true
+        },
+        {
+          "host": "tablecheck.com.evil.invalid:53068",
+          "path": "/assets/8.js",
+          "viaProxy": true
+        },
+        {
+          "host": "nottabelog.com:53068",
+          "path": "/assets/9.js",
+          "viaProxy": true
+        },
+        {
+          "host": "127.0.0.1:53068",
+          "path": "/data",
+          "viaProxy": false
+        },
+        {
+          "host": "proxied.fixture.invalid:53068",
+          "path": "/data",
+          "viaProxy": false
+        }
+      ],
+      "passed": true
+    }
+  ]
+}

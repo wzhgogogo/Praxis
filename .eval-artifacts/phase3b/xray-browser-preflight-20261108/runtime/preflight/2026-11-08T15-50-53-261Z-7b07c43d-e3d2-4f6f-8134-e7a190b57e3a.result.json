@@ -1,0 +1,65 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "BROWSER_READ_PROBE",
+  "plannedTargets": [
+    "TABELOG",
+    "TABLECHECK"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "ENVIRONMENT",
+    "googleProxy": "http://127.0.0.1:10808/",
+    "browserProxy": "http://127.0.0.1:10808/",
+    "browserDirectHosts": [
+      "localhost",
+      "127.0.0.1"
+    ]
+  },
+  "status": "FAILED",
+  "stage": "NETWORK_READINESS",
+  "failureCode": "PREFLIGHT_TIMEOUT",
+  "attempts": [
+    {
+      "target": "BROWSER_PROXY",
+      "request": {
+        "method": "TCP_CONNECT",
+        "url": "http://127.0.0.1:10808/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 0,
+      "outcome": "REACHABLE",
+      "tls": "NOT_CHECKED"
+    },
+    {
+      "target": "TABELOG",
+      "request": {
+        "method": "GET",
+        "url": "https://tabelog.com/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 10004,
+      "outcome": "FAILED",
+      "tls": "NOT_ESTABLISHED",
+      "failureCode": "PREFLIGHT_TIMEOUT"
+    }
+  ],
+  "elapsedMs": 10529,
+  "configuration": {
+    "proxyMode": "ENVIRONMENT",
+    "googleProxyConfigured": true,
+    "browserProxyConfigured": true
+  },
+  "schemaVersion": "1",
+  "runId": "7b07c43d-e3d2-4f6f-8134-e7a190b57e3a",
+  "startedAt": "2026-11-08T15:50:53.261Z",
+  "finishedAt": "2026-11-08T15:51:03.791Z"
+}

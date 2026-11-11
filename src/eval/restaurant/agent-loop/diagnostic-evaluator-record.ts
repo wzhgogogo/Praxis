@@ -63,7 +63,7 @@ function numericFields(fields: string[]): Decoder<Record<string, number>> {
   };
 }
 const window = object({ earliest: text, latest: text });
-const target = object({ goal: text });
+const target = object({ goal: text, query: text, selectionScope: text });
 const criterionFields = object({ text, value: text, polarity: text, strength: text, criterionRef: text, semanticId: text });
 const criterion: typeof criterionFields = (value, path, issues) => {
   const parsed = criterionFields(value, path, issues);
@@ -98,7 +98,8 @@ const trajectory = object({ stepNumber: number, occurredAt: text, stateVersionAf
   actionValidation: object({ status: text }), observation,
   executionMetadata: object({ provider: text, failureCode: text, recheckReason: text,
     nativeDiscoveryFunnel: object({ pagesRead: number, listingObservations: array(object({ sourceUrl: text, resultCount: number, parsedOutlets: number })) }),
-    providerAttempts: array(object({ candidateId: text, provider: text, outcome: text, failureCode: text })) }) });
+    providerAttempts: array(object({ candidateId: text, provider: text, outcome: text, failureCode: text })),
+    skippedSources: array(object({candidateId:text,provider:text,reason:text})) }) });
 const control = object({ structure: object({ name: text, radioGroupKey: text }), name: text, label: text, kind: text,
   checked: boolean, selected: boolean, calendarDate: text, visible: boolean, disabled: boolean, value: text, options: array(object({ selected: boolean, value: text, label: text })) });
 const tabelogSelection = object({ time: text, link: object({ rcd: text, member: text, visit_date: text, visit_time: text }) });
@@ -106,12 +107,16 @@ const tabelogBody = object({ base_date: object({ year: number, month: number, da
 const bodyObservation = object({ bodySha256: text, contentType: text, fieldTypes: dictionary(text) });
 const corsPreflight = object({ initiator: text, secFetchMode: text, requestOrigin: text, requestedMethod: text, requestedHeaderNames: texts, bodyBytes: number });
 const resourceTypeDetails = object({ selectedFrom: text, playwright: text, network: text, fetch: text });
-const networkRequest = object({ outcome: text, origin: text, pathname: text, method: text, resourceType: text, queryKeys: texts, bodyObservation, corsPreflight, resourceTypeDetails, outerRequestId: text });
+const formSubmission = object({ documentOrigin: text, actionOrigin: text, actionPathname: text,
+  fields: array(object({ key: text, valueSha256: text, source: text })) });
+const networkRequest = object({ outcome: text, origin: text, pathname: text, method: text, resourceType: text, queryKeys: texts, bodyObservation, corsPreflight, resourceTypeDetails, outerRequestId: text, formSubmission });
 const effectiveLimits = numericFields(["maxModelCallsPerCandidate", "maxModelCallsTotal", "maxOperationsPerCandidate", "maxAutomaticElapsedMs"]);
 const lifecycle = numericFields(["candidateModelCalls", "runModelCalls", "candidateRuntimeOperations", "candidateElapsedMs"]);
 const executorFields = { source: text, stage: text, event: text, candidateId: text, elapsedMs: number, effectiveLimits, lifecycle };
 const browserExecution = object(executorFields);
-const traceDetail = object({ snapshotSequence: number, controls: array(control), stage: text, candidateId: text,
+const nativeForm = object({ observationPoint:text,documentOrigin:text,actionOrigin:text,actionPathname:text,method:text,matches:number,
+  fields:array(object({key:text,valueSha256:text})),typed:array(object({key:text,valueSha256:text,sensitiveFormat:boolean})) });
+const traceDetail = object({ nativeForm, urlSha256:text, pageId:text, nativeReason:text, snapshotSequence: number, controls: array(control), stage: text, candidateId: text,
   source: text, event: text, elapsedMs: number, effectiveLimits, lifecycle,
   readNetworkBoundary: text, networkRequests: array(networkRequest),
   url: text, htmlSha256: text, method: text, args: array(raw), responses: array(object({ url: text, status: number, observedAt: text, body: tabelogBody })),

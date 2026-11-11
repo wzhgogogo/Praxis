@@ -1,0 +1,352 @@
+{
+  "omitCDN": true,
+  "seen": [
+    {
+      "host": "127.0.0.1:52980",
+      "path": "/",
+      "viaProxy": false
+    },
+    {
+      "host": "tablecheck.com:52980",
+      "path": "/assets/0.js",
+      "viaProxy": false
+    },
+    {
+      "host": "www.tablecheck.com:52980",
+      "path": "/assets/1.js",
+      "viaProxy": false
+    },
+    {
+      "host": "cdn0.tablecheck.com:52980",
+      "path": "/assets/2.js",
+      "viaProxy": false
+    },
+    {
+      "host": "search-v4.production.ap-northeast-1.aws.tablecheck.net:52980",
+      "path": "/assets/3.js",
+      "viaProxy": false
+    },
+    {
+      "host": "tabelog.com:52980",
+      "path": "/assets/4.js",
+      "viaProxy": false
+    },
+    {
+      "host": "tblg.k-img.com:52980",
+      "path": "/assets/5.js",
+      "viaProxy": true
+    },
+    {
+      "host": "sub.tblg.k-img.com:52980",
+      "path": "/assets/6.js",
+      "viaProxy": true
+    },
+    {
+      "host": "proxied.fixture.invalid:52980",
+      "path": "/assets/7.js",
+      "viaProxy": true
+    },
+    {
+      "host": "tablecheck.com.evil.invalid:52980",
+      "path": "/assets/8.js",
+      "viaProxy": true
+    },
+    {
+      "host": "nottabelog.com:52980",
+      "path": "/assets/9.js",
+      "viaProxy": true
+    },
+    {
+      "host": "127.0.0.1:52980",
+      "path": "/data",
+      "viaProxy": false
+    }
+  ],
+  "proxied": [
+    {
+      "host": "tblg.k-img.com",
+      "path": "/assets/5.js"
+    },
+    {
+      "host": "sub.tblg.k-img.com",
+      "path": "/assets/6.js"
+    },
+    {
+      "host": "proxied.fixture.invalid",
+      "path": "/assets/7.js"
+    },
+    {
+      "host": "tablecheck.com.evil.invalid",
+      "path": "/assets/8.js"
+    },
+    {
+      "host": "nottabelog.com",
+      "path": "/assets/9.js"
+    }
+  ],
+  "launchMetadata": {
+    "proxyArguments": [
+      "--proxy-server=http://127.0.0.1:52981",
+      "--proxy-bypass-list=tablecheck.com;*.tablecheck.com;tablecheck.net;*.tablecheck.net;tabelog.com;*.tabelog.com;localhost;*.localhost;127.0.0.1;*.127.0.0.1"
+    ],
+    "resolverOverride": "Fixture-only map of all tested names to loopback"
+  },
+  "requests": [
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:52980",
+      "pathname": "/",
+      "method": "GET",
+      "resourceType": "document",
+      "transport": "NODE_FETCH",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "document"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://tablecheck.com:52980",
+      "pathname": "/assets/0.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 0
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://www.tablecheck.com:52980",
+      "pathname": "/assets/1.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 1
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://cdn0.tablecheck.com:52980",
+      "pathname": "/assets/2.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 2
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://search-v4.production.ap-northeast-1.aws.tablecheck.net:52980",
+      "pathname": "/assets/3.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 3
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://tabelog.com:52980",
+      "pathname": "/assets/4.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 4
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://tblg.k-img.com:52980",
+      "pathname": "/assets/5.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 5
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://sub.tblg.k-img.com:52980",
+      "pathname": "/assets/6.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 6
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://proxied.fixture.invalid:52980",
+      "pathname": "/assets/7.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 7
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://tablecheck.com.evil.invalid:52980",
+      "pathname": "/assets/8.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 8
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://nottabelog.com:52980",
+      "pathname": "/assets/9.js",
+      "method": "GET",
+      "resourceType": "script",
+      "transport": "BROWSER_GET_HEAD",
+      "admissionRule": {
+        "collection": "staticResources",
+        "index": 9
+      },
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "script"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://proxied.fixture.invalid:52980",
+      "pathname": "/data",
+      "method": "GET",
+      "resourceType": "fetch",
+      "transport": "NODE_FETCH",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "fetch"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "ADMITTED",
+      "origin": "http://127.0.0.1:52980",
+      "pathname": "/data",
+      "method": "GET",
+      "resourceType": "fetch",
+      "transport": "NODE_FETCH",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "fetch"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    },
+    {
+      "outcome": "FAILED",
+      "error": {
+        "name": "Error",
+        "message": "route.fetch: Proxy connection ended before receiving CONNECT response"
+      },
+      "origin": "http://proxied.fixture.invalid:52980",
+      "pathname": "/data",
+      "method": "GET",
+      "resourceType": "fetch",
+      "transport": "NODE_FETCH",
+      "resourceTypeDetails": {
+        "selectedFrom": "PLAYWRIGHT",
+        "playwright": "fetch"
+      },
+      "queryKeys": [],
+      "queryValues": []
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "READ_REQUEST_FAILED",
+      "origin": "http://proxied.fixture.invalid:52980",
+      "pathname": "/data",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [],
+      "queryValues": [],
+      "error": {
+        "name": "Error",
+        "message": "route.fetch: Proxy connection ended before receiving CONNECT response"
+      }
+    }
+  ],
+  "text": "PendingRead"
+}

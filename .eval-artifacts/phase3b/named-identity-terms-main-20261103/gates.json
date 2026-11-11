@@ -1,0 +1,186 @@
+{
+  "sourceCommit": "822a7cd3deda922bb87cd576eac3076b4b2ea98c",
+  "startedAtCET": "2026-11-03T11:06:38.772997+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 19.074,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/integrity.log",
+      "sha256": "5fbffde31790460113d0e2c4ff66a99a85835d379302f47d1acc651c07b3f3bc",
+      "outerTimeout": false
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.51,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "outerTimeout": false
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.225,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "outerTimeout": false
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 50.76,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/test.log",
+      "sha256": "81d73bcc41930cad4e3941f7984392a0ad06e2c525a16b8493185b539047ebf5",
+      "outerTimeout": false
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.538,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "outerTimeout": false
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 133.133,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/browser-fixture.log",
+      "sha256": "60b674f14315518e63b5d408a6d70058a0a05aab95d89ef2a148393076cdc6bd",
+      "outerTimeout": false
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "seconds": 24.659,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/strict-g2.log",
+      "sha256": "565819b02c4bd917d5c620026b676d4f082bd473db461287c9dad055ed755414",
+      "outerTimeout": false
+    },
+    {
+      "name": "composition",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/application/restaurant-named-identity-prefix.test.ts",
+        "src/application/restaurant-saved-booking-terms.test.ts",
+        "src/application/restaurant-booking-terms-composition.test.ts",
+        "src/application/restaurant-booking-terms-reserve.test.ts"
+      ],
+      "environment": {
+        "PRAXIS_NAMED_PREFIX_CAPTURE": "1",
+        "PRAXIS_SAVED_TERMS_CAPTURE": "1",
+        "PRAXIS_B1_TERMS_CAPTURE": "1",
+        "PRAXIS_B1_RESERVE_CAPTURE": "1"
+      },
+      "exitCode": 0,
+      "seconds": 11.976,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/composition.log",
+      "sha256": "372866a84466f298e2b6d267df5c1329a42b94469cbdaaafb5ff3ca03df2d257",
+      "outerTimeout": false
+    },
+    {
+      "name": "independent",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-20261103/evaluate.py",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/composition.log"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.145,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/independent.log",
+      "sha256": "104d795480a3bafa08470e809212532447375898a8e2ccbcce1b590ee6e0a782",
+      "outerTimeout": false
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 20.699,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-main-20261103/gates/integrity-after.log",
+      "sha256": "5fbffde31790460113d0e2c4ff66a99a85835d379302f47d1acc651c07b3f3bc",
+      "outerTimeout": false
+    }
+  ],
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "outerTimeoutSeconds": 600,
+  "automaticRetries": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-11-03T11:11:01.026757+01:00"
+}

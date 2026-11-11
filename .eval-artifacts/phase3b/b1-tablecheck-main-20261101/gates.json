@@ -1,0 +1,147 @@
+{
+  "sourceCommit": "dfc3bc2b9a2b47a64022aef16988a53912a46f0b",
+  "startedAtCET": "2026-11-01T13:47:08.997079+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.114,
+      "startedAtCET": "2026-11-01T13:47:09.029590+01:00",
+      "finishedAtCET": "2026-11-01T13:47:09.143437+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/gates/integrity.log",
+      "sha256": "4c6136f465a70cf7965f3c247377e84884707d6dcfe47f44b3f348b926a36d50"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.451,
+      "startedAtCET": "2026-11-01T13:47:09.178594+01:00",
+      "finishedAtCET": "2026-11-01T13:47:09.629239+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.213,
+      "startedAtCET": "2026-11-01T13:47:09.663489+01:00",
+      "finishedAtCET": "2026-11-01T13:47:09.876176+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 31.736,
+      "startedAtCET": "2026-11-01T13:47:09.911815+01:00",
+      "finishedAtCET": "2026-11-01T13:47:41.647785+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/gates/test.log",
+      "sha256": "621b2583cc1bc7e9b9fa740452a268c324b947d7a7ff7cc0577ce99bb688ac07"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.525,
+      "startedAtCET": "2026-11-01T13:47:41.691703+01:00",
+      "finishedAtCET": "2026-11-01T13:47:42.216551+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 131.777,
+      "startedAtCET": "2026-11-01T13:47:42.251735+01:00",
+      "finishedAtCET": "2026-11-01T13:49:54.028264+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/gates/browser-fixture.log",
+      "sha256": "d6d7a31c493406c7b33c0e894a896cc7d34932e7e5aeb1f0da1d0457a53635d9"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "seconds": 24.645,
+      "startedAtCET": "2026-11-01T13:49:54.063489+01:00",
+      "finishedAtCET": "2026-11-01T13:50:18.708566+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/gates/strict-g2.log",
+      "sha256": "248af9993cf31571b3e6f286fa56c89daa55c891e1ce4a3690c2875f375e4c9b"
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.176,
+      "startedAtCET": "2026-11-01T13:50:18.743952+01:00",
+      "finishedAtCET": "2026-11-01T13:50:18.920354+01:00",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-tablecheck-main-20261101/gates/integrity-after.log",
+      "sha256": "4c6136f465a70cf7965f3c247377e84884707d6dcfe47f44b3f348b926a36d50"
+    }
+  ],
+  "realExternalCalls": 0,
+  "envFileLoaded": false,
+  "status": "PASS",
+  "finishedAtCET": "2026-11-01T13:50:18.920898+01:00"
+}

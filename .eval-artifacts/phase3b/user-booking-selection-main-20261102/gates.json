@@ -1,0 +1,159 @@
+{
+  "sourceCommit": "439fceeb445adf464089a1952dcda860f90793da",
+  "startedAtCET": "2026-11-02T11:50:35.675801+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.129,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/integrity.log",
+      "sha256": "7c12987aa691f2af22119c2eabfedbec142a5dc0ed38c30ab8732f7d8db5062a",
+      "outerTimeout": false
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.484,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "outerTimeout": false
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.211,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "outerTimeout": false
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {
+        "PRAXIS_USER_SELECTION_CAPTURE": "1"
+      },
+      "exitCode": 0,
+      "seconds": 36.396,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/test.log",
+      "sha256": "35eb5cf5298a13662e011e734e64ddaf66e86aa5e51be3431c1d1401f578bb11",
+      "outerTimeout": false
+    },
+    {
+      "name": "independent",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/evaluate.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.109,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/independent.log",
+      "sha256": "6f0a783b539cac92398227d2c80b7e4cc03fcd91d02d37de52406b8804b0d5ca",
+      "outerTimeout": false
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.466,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "outerTimeout": false
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 129.495,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/browser-fixture.log",
+      "sha256": "79d2e7d4ab5ec2a15157d814bae14cd4bc57e4146493700be0b1224567cf409f",
+      "outerTimeout": false
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "seconds": 23.759,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/strict-g2.log",
+      "sha256": "67240b92843bcad450e3d8aede04d9f2b0e85e7082f7e83c65770edbf090ac04",
+      "outerTimeout": false
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.129,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-main-20261102/gates/integrity-after.log",
+      "sha256": "7c12987aa691f2af22119c2eabfedbec142a5dc0ed38c30ab8732f7d8db5062a",
+      "outerTimeout": false
+    }
+  ],
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "outerTimeoutSeconds": 600,
+  "automaticRetries": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-11-02T11:53:47.331825+01:00"
+}

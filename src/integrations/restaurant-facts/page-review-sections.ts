@@ -11,7 +11,7 @@ function headingKey(text: string): string {
  * private class/testid or a fixed element position. This is NOT a universal
  * review detector; the unmarked-content risk belongs in the ADR/evaluation.
  */
-export function reviewStatementIndices(snapshot: Pick<BrowserSnapshot, "html" | "text">): Set<number> {
+export function reviewStatementIndices(snapshot: Pick<BrowserSnapshot, "html" | "text">, includeTrailingSection = false): Set<number> {
   const headings = [...snapshot.html.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1\s*>/giu)]
     .map(match => ({ level: Number(match[1]), key: headingKey(publicPriceText(match[2]!)) }));
   // Same nonblank line sequence as createRestaurantFactSourceDocument. The G1
@@ -26,8 +26,8 @@ export function reviewStatementIndices(snapshot: Pick<BrowserSnapshot, "html" | 
     const heading = headings[index]!;
     if (!/^(?:reviews?|customer reviews?|user reviews?|口コミ|クチコミ|お客様の声)[?？]?$/iu.test(heading.key)) continue;
     const next = headings.slice(index + 1).find(other => other.level <= heading.level);
-    if (!next) continue;
-    const start = uniqueLine(heading.key), end = uniqueLine(next.key);
+    if (!next && !includeTrailingSection) continue;
+    const start = uniqueLine(heading.key), end = next ? uniqueLine(next.key) : lines.length;
     if (start === undefined || end === undefined || end <= start) continue;
     for (let line = start; line < end; line++) indices.add(line);
   }

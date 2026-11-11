@@ -1,0 +1,56 @@
+✔ H001 native first batch presents three source-bound Tabelog results without TableCheck (88.16675ms)
+✔ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (19.172584ms)
+✖ H001 TableCheck reserve-menu facts cannot bypass the permanent form prohibition (16.922125ms)
+✖ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (19.109208ms)
+✖ src/eval/restaurant/agent-loop/native-discovery-composition.test.ts (163982.1115ms)
+✔ native source-plan resolution is reused by the subsequent Google pack request (14.378458ms)
+✔ coordinate-only address observations reach the discovery goal once and failures keep the exact center (1.216042ms)
+✔ saved h06 bare named location reaches native source discovery with the observed circle (1.930541ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 163985.158584
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:25139
+✖ H001 TableCheck reserve-menu facts cannot bypass the permanent form prohibition (16.922125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'UNKNOWN'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:374:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'UNKNOWN',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:26131
+✖ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (19.109208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 3
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:386:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 3,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:1
+✖ src/eval/restaurant/agent-loop/native-discovery-composition.test.ts (163982.1115ms)
+  'Promise resolution is still pending but the event loop has already resolved'

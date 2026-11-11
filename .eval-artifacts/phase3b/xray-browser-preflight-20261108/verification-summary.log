@@ -1,0 +1,83 @@
+{
+  "generatedAtUTC": "2026-11-08T16:03:12.358Z",
+  "sourceRuntimeSHA": "e5e8c70ebdc5e7a791de65c19ffa72bbbed61740",
+  "firstPreflight": {
+    "outcome": "FAILED",
+    "code": "PREFLIGHT_TIMEOUT",
+    "artifact": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/xray-browser-preflight-20261108/runtime/preflight/2026-11-08T15-50-53-261Z-7b07c43d-e3d2-4f6f-8134-e7a190b57e3a.result.json"
+  },
+  "tablecheckPreflight": [
+    {
+      "target": "BROWSER_PROXY",
+      "request": {
+        "method": "TCP_CONNECT",
+        "url": "http://127.0.0.1:10808/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 0,
+      "outcome": "REACHABLE",
+      "tls": "NOT_CHECKED"
+    },
+    {
+      "target": "TABLECHECK",
+      "request": {
+        "method": "GET",
+        "url": "https://www.tablecheck.com/en/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1850,
+      "outcome": "REACHABLE",
+      "status": 206,
+      "tls": "ESTABLISHED"
+    }
+  ],
+  "commons": {
+    "status": 200,
+    "outcome": "FINISHED",
+    "elapsedMs": 5063.777334,
+    "browserElapsedMs": 5056.184999994002,
+    "thresholdMs": 5000,
+    "withinThreshold": false,
+    "headersObservedMs": 5062.653709,
+    "bytes": 2044071,
+    "sanitizedBytes": 2044071,
+    "nativeContinueRecorded": true,
+    "sourceRequests": 1
+  },
+  "evidence": {
+    "recording": ".eval-artifacts/phase3b/xray-browser-preflight-20261108/runtime-remaining/commons-recording/recording.json",
+    "sha256": "89c20854f3935cb9efe3eb94702e1a3c95d3e7173abd1471b507ea333ee1b6e3",
+    "rawReportingErrorPreserved": {
+      "name": "Error",
+      "code": "EISDIR",
+      "artifactPath": null
+    },
+    "scope": "Offline derived from original request/response/finished/body-capture records. No new network; no rounding down to pass. No proof of xray per-connection outbound selection."
+  },
+  "budget": {
+    "delta": {
+      "GET": 3,
+      "models": 0,
+      "Live": 0
+    },
+    "after": {
+      "fullLive": 27,
+      "realModelCalls": 748,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 371,
+      "googleRequests": 100,
+      "restaurantWebsiteRequests": 11505
+    },
+    "sharedLimits": {
+      "evaluationPublicGET": 479,
+      "fullLive": 45,
+      "realModelCalls": 1600
+    },
+    "reserved": {
+      "fullLive": 18,
+      "evaluationPublicGET": 108
+    }
+  }
+}

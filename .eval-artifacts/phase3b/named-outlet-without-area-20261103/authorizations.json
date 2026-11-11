@@ -1,0 +1,33 @@
+{
+  "stateTaskVersions": {
+    "approved": true,
+    "state": "24 -> 25",
+    "taskDefinition": "22 -> 23",
+    "semanticPrompt": "unchanged 26",
+    "semanticProposal": "unchanged 4",
+    "intentDraft": "unchanged 3"
+  },
+  "A_sync": {
+    "approved": true,
+    "files": [
+      "src/harness/restaurant-execution-router.test.ts",
+      "src/harness/restaurant-harness.ts",
+      "src/eval/restaurant/agent-loop/native-discovery-components.test.ts",
+      "src/eval/restaurant/agent-loop/runners/run-d1-fact-judgment-controls.ts",
+      "src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts"
+    ],
+    "commit": "3d632a492f0dd94f349d60a035fb7b77d88275c2",
+    "scope": "Exact approved patch; further same-class version/type-only sync allowed and reported. No Gold/assertion/scoring/probe strategy changes."
+  },
+  "C_expectations": {
+    "approved": true,
+    "file": "src/application/restaurant-user-booking-selection.test.ts",
+    "controls": [
+      "AMBIGUOUS",
+      "PARTIAL"
+    ],
+    "expectedBookingHandoffs": [],
+    "commit": "28c45602f34aa7425870ab0c3acd868ea63cb4dd",
+    "scope": "Only handoff presence/terms access for these two controls; all other inputs/assertions/raw model bytes retained."
+  }
+}

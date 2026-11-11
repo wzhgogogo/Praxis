@@ -19,7 +19,7 @@ import type { BrowserRuntime, BrowserSnapshot } from "../../../../infrastructure
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import type { GooglePlacesClientOptions } from "../../../../integrations/google/google-places-client.js";
-import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
+import type { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
 import { discoveryPackNetworkPolicy } from "../../../../integrations/restaurant-search/source-packs.js";
 import { createLiveReadAssembly } from "../../../../integrations/restaurant-search/live-read-assembly.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";
@@ -106,7 +106,7 @@ async function waitForManualTabelogIntervention(input: TabelogUserInterventionRe
 }
 
 /** Eval-only capture; importing this Runner never starts providers or Live preflight. */
-export function createHybridDecisionCapture(resultPath: string, recording?: BrowserReadRecording) {
+export function createHybridDecisionCapture(resultPath: string, recording?: BrowserReadRecording, artifactTransform?: (value:unknown)=>unknown) {
   const path = resultPath.replace(/\.result\.json$/, "") + ".decisions.jsonl";
   const insideArtifacts = relative(resolve(".eval-artifacts"), resolve(path));
   if (!insideArtifacts || insideArtifacts.startsWith("..")) throw new Error("Decision capture must stay below .eval-artifacts");
@@ -145,7 +145,7 @@ export function createHybridDecisionCapture(resultPath: string, recording?: Brow
     const row = { ...attempt.record, latencyMs: Math.max(0, Date.now() - attempt.startedAtMs), ...result };
     writes = writes.then(async () => {
       if (!writable) return;
-      try { await appendFile(path, JSON.stringify(row) + "\n"); rowsWritten += 1; }
+      try { await appendFile(path, JSON.stringify(artifactTransform?artifactTransform(row):row) + "\n"); rowsWritten += 1; }
       catch (error) { report("APPEND", error); }
     });
   };
@@ -163,23 +163,12 @@ export function createHybridDecisionCapture(resultPath: string, recording?: Brow
           responseFormat: request.responseFormat, messages: structuredClone(request.messages),
         };
         if (request.purpose === "browser_read_decide" || request.purpose === "restaurant_discovery_retrieval" && JSON.parse(request.messages.find(message=>message.role==="user")!.content).observation) {
-          const { observation, regionCorrection } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
-          // ADR-0043 selects from a source-flow collection without a current DOM.
-          // Preserve each original observation reference rather than inventing a
-          // link to whichever global recording snapshot happened most recently.
-          const sourceFlowSelection=request.purpose==="browser_read_decide"&&observation.revision===0&&observation.url===""&&observation.visibleText===""
-            &&Array.isArray(observation.targets)&&observation.targets.length===0&&Array.isArray(observation.pageActions)&&observation.pageActions.length===0
-            &&typeof regionCorrection?.sourceId==="string"&&regionCorrection.sourceId.length>0&&typeof regionCorrection.flowId==="string"&&regionCorrection.flowId.length>0
-            &&Array.isArray(regionCorrection.entrances)&&regionCorrection.entrances.length>0
-            &&regionCorrection.entrances.every((entry:any)=>entry.sourceId===regionCorrection.sourceId&&entry.flowId===regionCorrection.flowId
-              &&typeof entry.ref==="string"&&typeof entry.originalTargetRef==="string"&&Number.isSafeInteger(entry.observationRevision)&&entry.observationRevision>0&&typeof entry.observedOn==="string");
+          const { observation } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
           const matches = latestSnapshot?.url === observation.url && latestSnapshot?.title === observation.title
             && latestSnapshot?.visibleText === observation.visibleText;
           record.browser = { observationRevision: observation.revision, url: observation.url,
-            recordingSnapshot: recording && matches && !sourceFlowSelection ? latestSnapshot!.recordingSnapshot : null,
-            ...(sourceFlowSelection?{observationKind:"SOURCE_FLOW_ENTRANCE_SELECTION",sourceFlow:{sourceId:regionCorrection.sourceId,flowId:regionCorrection.flowId,
-              entrances:regionCorrection.entrances.map(({ref,originalTargetRef,observationRevision,observedOn}:any)=>({ref,originalTargetRef,observationRevision,observedOn}))}}:{}) };
-          if (recording && !matches && !sourceFlowSelection) report("SNAPSHOT_LINK", Object.assign(new Error(), { code: "DECISION_SNAPSHOT_MISMATCH" }));
+            recordingSnapshot: recording && matches ? latestSnapshot!.recordingSnapshot : null };
+          if (recording && !matches) report("SNAPSHOT_LINK", Object.assign(new Error(), { code: "DECISION_SNAPSHOT_MISMATCH" }));
         }
         if (!finished) pending.set(index, { record, startedAtMs });
       } catch (error) { report("CAPTURE_INPUT", error); }
@@ -465,7 +454,7 @@ try {
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots
   // carry the actual safe origin for independent evaluation.
-  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace, decisionCapture?.snapshotSink ?? browserRecording?.snapshotSink());
+  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace, decisionCapture?.snapshotSink ?? browserRecording?.snapshotSink(), {remainingBudgetMs:()=>Math.max(0,liveReadLimits.maxAutomaticBrowserMs-(Date.now()-startedAt.valueOf()))});
   const recordBrowserDiagnostic = (diagnostic: BrowserExecutionDiagnostic) => {
     browserExecutionDiagnostics.push(structuredClone(diagnostic));
     recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);

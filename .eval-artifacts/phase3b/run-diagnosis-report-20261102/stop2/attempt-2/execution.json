@@ -1,0 +1,239 @@
+{
+  "schema": "run-diagnosis-verification@1",
+  "sourceHead": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+  "freeze": {
+    "path": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/verified-code-and-inputs-freeze.json",
+    "sha256": "a386d44138989c8a5dca01ad7b7539a89d9a5be1537d5ec507cc44a626b41749"
+  },
+  "steps": [
+    {
+      "name": "primary-reports",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/files.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/primary-inputs.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/primary-reports"
+      ],
+      "startedAtCET": "2026-11-02T07:29:20.609860+01:00",
+      "finishedAtCET": "2026-11-02T07:29:21.013542+01:00",
+      "elapsedMs": 403.562,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/primary-reports.log.gz",
+      "rawSha256": "97ec3ccbbffba9518613fc550e378c42523da9d398747f45ff34178715626e10",
+      "gzipSha256": "83326be1fe67fecd5394b0da0a8c524cb9a2ea9d7dc582bd508d376eef9ceb22"
+    },
+    {
+      "name": "multiturn-reports",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/files.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-inputs.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/multiturn-reports"
+      ],
+      "startedAtCET": "2026-11-02T07:29:21.088373+01:00",
+      "finishedAtCET": "2026-11-02T07:29:21.307746+01:00",
+      "elapsedMs": 219.369,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/multiturn-reports.log.gz",
+      "rawSha256": "426d39a518e3e2cf6f129225d233b1188fc72bae2fa6fa90811b4da34b2f866e",
+      "gzipSha256": "1c8d138c446c07e5bf8e1ecfd5429926ee2efbaba80b2dc6ec3b08b68d70723c"
+    },
+    {
+      "name": "calibration-compare",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/compare-recorded.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/primary-reports/summary.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/comparison-oracle.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/calibration"
+      ],
+      "startedAtCET": "2026-11-02T07:29:21.381915+01:00",
+      "finishedAtCET": "2026-11-02T07:29:21.667443+01:00",
+      "elapsedMs": 285.524,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/calibration-compare.log.gz",
+      "rawSha256": "b85bbef530094c4b1f2b09ebc61de7d9f43d8d096b134562402de66ae6346fa3",
+      "gzipSha256": "8d0535aa62c6958db67b591ddbe6fcb4031c7a07a41cf857532026ac80add25d"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-02T07:29:21.775614+01:00",
+      "finishedAtCET": "2026-11-02T07:29:22.377020+01:00",
+      "elapsedMs": 601.398,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/typecheck.log.gz",
+      "rawSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gzipSha256": "c18f3e6f8c5294a227ce64bac5e4096a3d1f92a4d21b8686dcb072cc1717e546"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-02T07:29:22.450976+01:00",
+      "finishedAtCET": "2026-11-02T07:29:22.726393+01:00",
+      "elapsedMs": 275.413,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/arch-check.log.gz",
+      "rawSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gzipSha256": "ed37f0f55fc69af94cfe7e210b3745b798dc6578344af6cedb0d44e1560d4f39"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-02T07:29:22.820672+01:00",
+      "finishedAtCET": "2026-11-02T07:29:57.529970+01:00",
+      "elapsedMs": 34708.819,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/npm-test.log.gz",
+      "rawSha256": "95ecbe9cf9782a0bcf21a677bb38e4cf36f5f5a09e2ef8904485965dfd8712f3",
+      "gzipSha256": "899953e407c7a096123d764724605fa941bf40a9aa7f39d9e9ab0abc24f0dc4b"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-02T07:29:57.608363+01:00",
+      "finishedAtCET": "2026-11-02T07:29:58.173578+01:00",
+      "elapsedMs": 565.208,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/build.log.gz",
+      "rawSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gzipSha256": "a553805f9e6bf293e03bcaef987e41853c67e7d21aaa5eab9fc33e385e4dbcb2"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-02T07:29:58.252442+01:00",
+      "finishedAtCET": "2026-11-02T07:32:20.455248+01:00",
+      "elapsedMs": 142200.905,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "5e490a6921120a2557b65ccec7e9132411ff8a33",
+        "frozenFiles": 854,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/browser-fixture.log.gz",
+      "rawSha256": "23bc97219ab134a44aa3c30fa51e66c59555332eec3eeb80b4f1fe2042488839",
+      "gzipSha256": "d375036a0fdf51aaeeb41148139794096e64c78e638866ce54844f68aa469a52"
+    }
+  ],
+  "runtimeReruns": 0,
+  "historicalEvaluatorReruns": 0,
+  "modelAndBusinessNetworkCalls": 0,
+  "timezone": "CET UTC+1"
+}

@@ -41,12 +41,12 @@ test("real source packs own URLs, reviewed reads, skills, and opaque source IDs"
   assert.ok(tableCheckDiscoveryPack.availability?.ground, "TableCheck grounding remains pack-owned");
   for (const label of ["Shibuya", "Shinjuku City", "Higashi-Ginza", "Ebisu"]) {
     const neutral = tabelogDiscoveryPack.buildQuery({...query, location: { ...query.location, label, areaMatchBasis: "NAMED_PLACE_RADIUS" } });
-    assert.equal(neutral.url, "https://tabelog.com/en/tokyo/rstLst/");
+    assert.equal(neutral.url, "https://tabelog.com/en/");
     assert.equal(neutral.areaEntrance, "OBSERVE_SOURCE_REGION");
   }
   const tableCheck = new URL(tableCheckDiscoveryPack.buildQuery({...query, keyword: "omakase" }).url);
-  assert.equal(tableCheck.searchParams.get("search_text"), "omakase");
-  assert.equal(tableCheck.searchParams.get("geo_distance"), "3km");
+  assert.equal(tableCheck.toString(), "https://www.tablecheck.com/en/japan/search");
+  assert.equal(tableCheck.search, "", "source controls, rather than code, construct search parameters");
   const noHardTabelog = new URL(tabelogDiscoveryPack.buildQuery(query).url);
   const noHardTableCheck = new URL(tableCheckDiscoveryPack.buildQuery(query).url);
   assert.equal(noHardTabelog.searchParams.has("sw"), false, "a structured category does not become a Tabelog text expression");
@@ -61,26 +61,9 @@ test("real source packs own URLs, reviewed reads, skills, and opaque source IDs"
   assert.equal(googlePlacesDiscoveryPack.buildQuery({...query, keyword: "omakase" }).retrievalExpression, "omakase Higashi-Ginza");
 });
 
-test("TableCheck request URL construction is consumed through its source pack", () => {
-  const buildRequestUrl = tableCheckDiscoveryPack.availability?.buildRequestUrl;
-  assert.ok(buildRequestUrl);
-  const candidate = { id: "tablecheck:fixture", outletName: "Fixture", address: "Tokyo", sourceIds: {} } as import("../../domains/restaurant/contracts.js").RestaurantOutlet;
-  const request = { date: "2026-10-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" } } as import("../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest;
-  const url = new URL(buildRequestUrl({ candidate, request, target: { kind: "EMBEDDED_AVAILABILITY", url: "https://www.tablecheck.com/en/fixture" } })!);
-  assert.equal(url.searchParams.get("date"), "2026-10-08");
-  assert.equal(url.searchParams.get("num_people"), "2");
-  assert.equal(url.searchParams.get("time"), "19:00");
-  assert.equal(tabelogDiscoveryPack.availability?.buildRequestUrl({ candidate, request }), "https://tabelog.com/en/tokyo/rstLst/?sw=Fixture");
-});
-
-test("directory retrieval URL grammar stays inside its pack", () => {
-  const directory = tabelogDiscoveryPack.browser?.directory;
-  assert.ok(directory);
-  const initial = "https://tabelog.com/en/tokyo/rstLst/";
-  const queried = directory.withRetrievalExpression(initial, "omakase");
-  assert.equal(tabelogDiscoveryPack.browser!.retrievalExpression(queried), "omakase");
-  assert.equal(tabelogDiscoveryPack.browser!.retrievalExpression(directory.withoutRetrievalExpression(queried)), undefined);
-  assert.equal(tabelogDiscoveryPack.browser!.isExplicitEmptyListing({ url: initial, title: "", text: "No restaurants found", html: "" }), true);
+test("source packs do not construct inventory navigation URLs", () => {
+  assert.equal("buildRequestUrl" in tableCheckDiscoveryPack.availability!,false);
+  assert.equal("buildRequestUrl" in tabelogDiscoveryPack.availability!,false);
 });
 
 test("both browser source packs parse their own current listing entrances before the shared cursor schedules details", () => {
@@ -96,51 +79,6 @@ test("both browser source packs parse their own current listing entrances before
 });
 
 
-test("Tabelog region selection requires an exact source-owned region label and recognizes only local homepage cards", () => {
-  const directory = tabelogDiscoveryPack.browser?.directory;
-  assert.ok(directory);
-  const nationalMention = {
-    url: "https://tabelog.com/en/tokyo/rstLst/",
-    title: "Tokyo", text: "All restaurants mentioning Shibuya", html: '<a href="/en/rstLst/">All restaurants in Shibuya</a>',
-  };
-  assert.equal(directory.isRegionEntrance("https://tabelog.com/en/rstLst/"), false, "a national anchor mentioning an area cannot re-ground the source query");
-  const exactRegion = {
-    url: "https://tabelog.com/en/tokyo/rstLst/",
-    title: "Tokyo", text: "Shibuya", html: '<a href="/en/rstLst/">All restaurants in Shibuya</a><a href="/en/tokyo/A1303/A130301/rstLst/">Shibuya</a>',
-  };
-  assert.equal(directory.isRegionEntrance("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/"), true);
-  const homepage = "https://tabelog.com/en/tokyo/A1303/A130301/";
-  assert.equal(directory.isObservedRegionHomepageListing?.({ url: homepage, title: "Shibuya", text: "", html: '<a class="list-rst__rst-name-target" href="/tokyo/A1303/A130301/100/">Local outlet</a>' }, "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/"), true);
-  assert.equal(directory.isObservedRegionHomepageListing?.({ url: homepage, title: "Shibuya", text: "", html: '<a href="/en/rstLst/">National directory</a>' }, "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/"), false);
-});
-
-test('search availability URL values overwrite source links with the authoritative request, without creating stock',()=>{
- const binding={date:'2026-10-27',time:'19:00',partySize:2};
- const capability=tabelogDiscoveryPack.browser!.searchAvailability!;assert.ok('withRequest' in capability);
- const filtered=new URL(capability.withRequest('https://tabelog.com/en/tokyo/A1303/rstLst/?svd=19990101&svps=99&svt=1000',binding)!);
- assert.equal(filtered.searchParams.get('svd'),'20261027');assert.equal(filtered.searchParams.get('svt'),'1900');assert.equal(filtered.searchParams.get('svps'),'2');
- assert.deepEqual(capability.observe({url:filtered.toString(),title:'Unbound result',text:'2026-10-27 19:00 2 guests',html:'<p>2026-10-27 19:00 2 guests</p>'},[]),{},'URL/prose co-occurrence cannot confirm selected query');
- assert.equal(capability.withRequest('https://tabelog.com/en/tokyo/A1303/rstLst/',{...binding,time:'19:15'}),undefined);
-});
-
-test('search filters restore only the already observed same-region listing root from a homepage',()=>{
- const capability=tabelogDiscoveryPack.browser!.searchAvailability!;assert.ok('withRequest' in capability);
- const binding={date:'2026-10-27',time:'19:00',partySize:2};
- const homepage='https://tabelog.com/en/tokyo/A1303/?sw=omakase';
- const observed='https://tabelog.com/en/tokyo/A1303/rstLst/';
- const filtered=capability.withRequest(homepage,binding,observed);
- assert.equal(filtered,'https://tabelog.com/en/tokyo/A1303/rstLst/?sw=omakase&vac_net=1&svd=20261027&svt=1900&svps=2');
- assert.equal(capability.withRequest(homepage,binding),undefined,'a guessed root is not an observation');
- assert.equal(capability.withRequest(homepage,binding,'https://tabelog.com/en/tokyo/A1301/rstLst/'),undefined,'a different region cannot supply the root');
-});
-
-test('unsupported TableCheck search filters are explicitly disabled without broadening transport reads',()=>{
- assert.deepEqual(tableCheckDiscoveryPack.browser!.searchAvailability,{disabledReason:'FILTER_TRANSPORT_NOT_REVIEWED'});
- const search=tableCheckDiscoveryPack.reviewedReads.find(rule=>rule.pathname==='/search/');
- assert.equal(search?.queryKeyRules?.allowed?.includes('open_from'),false);
- assert.equal(search?.queryKeyRules?.allowed?.includes('open_until'),false);
-});
-
 test("C8 list categories stay source-attributed to one outlet, without borrowing neighbouring or hidden text", () => {
   const directory = tabelogDiscoveryPack.parseListing({ url: "https://tabelog.com/en/tokyo/rstLst/", title: "List", text: "List", html: `
     <li class="list-rst"><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/?ref=list">A</a><span class="list-rst__genre">Sushi</span></li>
@@ -150,19 +88,4 @@ test("C8 list categories stay source-attributed to one outlet, without borrowing
     <article><a href="/en/outlet-one">One</a><span class="VisibleCuisineText">Japanese, Seafood</span></article>
     <article><a href="/en/outlet-two">Two</a><span class="VisibleCuisineText">French</span></article>` });
   assert.deepEqual(venues.outlets.map(outlet => outlet.sourceCategories), [["Japanese, Seafood"], ["French"]]);
-});
-
-
-test("observed regional homepage exposes only its own category listing links", () => {
-  const html = readFileSync(new URL('../tabelog/fixtures/p21-region-homepage-categories.html', import.meta.url), 'utf8');
-  const directory = tabelogDiscoveryPack.browser!.directory!;
-  const homepage = 'https://tabelog.com/en/tokyo/A1303/';
-  const foreign = 'https://tabelog.com/en/tokyo/A1301/rstLst/sushi/';
-  for (const url of [homepage, homepage + '?sw=omakase']) {
-    const links = directory.links({url, html: html + `<a href="${foreign}">Foreign category</a>`, title:'Region',text:'Region'}).filter(link => link.category);
-    assert.ok(links.length > 0, 'real A1 homepage category fragment must be exposed');
-    assert.ok(links.every(link => directory.listingRoot(link.url) === '/en/tokyo/A1303/rstLst/'));
-    assert.equal(links.some(link => link.url === foreign), false);
-  }
-  assert.equal(directory.links({url:'https://tabelog.com/en/',html,title:'National',text:''}).length,0);
 });

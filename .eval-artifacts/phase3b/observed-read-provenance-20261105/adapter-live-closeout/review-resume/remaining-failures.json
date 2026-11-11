@@ -1,0 +1,346 @@
+{
+  "status": "draft / not integrated",
+  "candidate": "b54e629d8b366f12fb8edb9e5eae3d2a4f26d225",
+  "defaultFailures": 3,
+  "browserFailures": 23,
+  "rows": [
+    {
+      "gate": "test",
+      "file": "src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts",
+      "test": "source text handoff reaches request-bound availability and presentation through the production composition (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected useful output within the existing bounded path, got 12 calls",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:995:10)",
+        "      at async Test.run (node:internal/test_runner/test:1069:7)",
+        "      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {",
+        "    generatedMessage: false,"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "test",
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe.test.ts",
+      "test": "live source-stage discovery delegates to the production NativeRestaurantSearch flow instead of a direct Pack snapshot",
+      "firstFailureLines": [
+        "  Error [BrowserRuntimeError]: Shared browser-model budget exhausted for this read run",
+        "      at BrowserTaskExecutor.runSkill (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:636:23)",
+        "      at async NativeRestaurantSearch.batch (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:285:24)",
+        "      at async NativeRestaurantSearch.search (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:411:15)",
+        "      at async runSourceStageNativeDiscoveryProbe (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/source-stage-probe.ts:457:16)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "test",
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe.test.ts",
+      "test": "source-stage discovery keeps a parsed list without any frozen-radius candidate as NO_COVERAGE",
+      "firstFailureLines": [
+        "  Error [BrowserRuntimeError]: Shared browser-model budget exhausted for this read run",
+        "      at BrowserTaskExecutor.runSkill (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:636:23)",
+        "      at async NativeRestaurantSearch.batch (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:285:24)",
+        "      at async NativeRestaurantSearch.search (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:411:15)",
+        "      at async runSourceStageNativeDiscoveryProbe (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/source-stage-probe.ts:457:16)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-category.test.ts",
+      "test": "P21 discovery uses DOM category links despite CSS and rejects foreign regions",
+      "firstFailureLines": [
+        "  TypeError [Error]: Cannot read properties of null (reading 'categories')",
+        "      at Object.complete (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-category.test.ts:43:34)",
+        "      at ModelDiscoveryRetrievalPlanner.decide (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/discovery-retrieval-planner.ts:46:39)",
+        "      at prepareTextRetrieval (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:367:41)",
+        "      at NativeRestaurantSearch.search (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/native-restaurant-search.ts:377:13)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-discovery.test.ts",
+      "test": "name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"sampleId\":\"chromium\",\"method\":\"A\",\"platform\":\"TABELOG\",\"accepted\":false,\"identityRecorded\":false,\"observedOutletUrls\":[],\"searchCompleted\":false,\"elapsedMs\":115,\"modelCalls\":0,\"failure\":\"ENTITY_MATCH_UNCERTAIN\"}",
+        "  ",
+        "  false !== true",
+        "  ",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts:60:10)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-discovery.test.ts",
+      "test": "F5 G3 Chromium follows four observed region pages and directly selects the retained entrance without restoring a menu",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"provider\":\"TABELOG\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":93,\"nativeDiscoveryFunnel\":{\"source\":\"TABELOG\",\"rawSourceLinks\":0,\"parsedOutlets\":0,\"inspectedOutlets\":0,\"batchCap\":5,\"sourceDetailCap\":10,\"sourceDetailAttempts\":0,\"sourcePageCap\":7,\"sourceElapsedCapMs\":90000,\"sourceElapsedMs\":91,\"sourceTimeLimitReached\":false,\"deferredByBatchCap\":[],\"rejected\":[],\"accepted\":0,\"pagesRead\":1,\"batchLimitReached\":false,\"sourceExhausted\":\"UNKNOWN\",\"batchEnded\":true,\"sourceEnded\":true,\"progressionReason\":\"SOURCE_FAILURE\",\"listingObservations\":[],\"retrieval\":{\"selection\":{\"accepted\":true,\"reason\":\"General retrieval: no positive criteria.\"},\"rewrites\":0,\"regionPages\":1,\"retrievalPages\":0,\"history\":[]}},\"failureCode\":\"BROWSER_RUNTIME_FAILED\",\"googleRequests\":{\"limit\":100,\"total\":0,\"namedPlaceResolution\":0,\"discovery\":0,\"placeDetails\":0,\"reverseAddressObservation\":0}}",
+        "  ",
+        "  0 !== 2",
+        "  ",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts:96:10)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-option-controls.test.ts",
+      "test": "empty input reads its own selected display and confirms a changed option",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+        "  ",
+        "  '' !== '17:30'",
+        "  ",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:123:14)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-option-controls.test.ts",
+      "test": "empty input reads its own selected display and avoids a duplicate choice",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+        "  ",
+        "  '' !== '19:00'",
+        "  ",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-option-controls.test.ts:123:14)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-request-binding.test.ts",
+      "test": "native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"schemaVersion\":\"25\",\"phase\":\"NO_VERIFIED_RESULT\",\"searchRevision\":3,\"investigationRevision\":1,\"intentDraft\":{\"schemaVersion\":\"3\",\"timezone\":\"Asia/Tokyo\",\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}],\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"temporalResolution\":{\"policyVersion\":\"restaurant-temporal-materialization@6\",\"referenceTime\":\"2026-08-19T16:20:00+08:00\",\"timezone\":\"Asia/Tokyo\",\"date\":{\"expression\":\"tonight\",\"resolvedDate\":\"2026-08-19\",\"basis\":\"EXPLICIT_DATE\"},\"timeWindow\":{\"expression\":\"7 PM\",\"resolvedTimeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"basis\":\"EXPLICIT_CLOCK\"}},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"}},\"candidates\":[],\"availability\":{},\"availabilityChecks\":{},\"factChecks\":{},\"readEvidence\":[{\"evidenceId\":\"dd8f1db2517ab010999263ecccd28ec6718e1de9ba515b13703345faaba19484\",\"kind\":\"DISCOVERY\",\"provider\":\"GOOGLE_PLACES\",\"sourceEntityId\":\"shibuya\",\"observedAt\":\"2026-08-19T07:20:00.000Z\",\"requestFingerprint\":\"2483e903ea1cd8a7639f4260721058bdfa1c31b5d8413c387804a2d13363d41a\",\"claims\":{\"locationResolutionQuery\":\"Shibuya\",\"resolvedPlaceName\":\"Shibuya\",\"locationNameExactMatch\":true,\"resolvedPlaceTypes\":[\"train_station\"],\"resolvedPlaceId\":\"shibuya\",\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"locationResolutionSource\":\"GOOGLE_TEXT_SEARCH\"}}],\"intent\":{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}]},\"searchContinuation\":{\"intentFingerprint\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"omakase spot\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-08-19\\\",\\\"timeWindow\\\":{\\\"earliest\\\":\\\"19:00\\\",\\\"latest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Shibuya\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"omakase\\\",\\\"strength\\\":\\\"HARD\\\",\\\"polarity\\\":\\\"POSITIVE\\\"}]}\",\"usedPageTokens\":[],\"pagesRead\":1,\"exhausted\":true,\"locationContext\":{\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Tokyo\",\"types\":[\"locality\"]}]},\"sourceRequestContext\":{\"textQuery\":\"omakase Shibuya\"},\"discoveryPlan\":{\"entries\":[{\"sourceId\":\"tabelog\",\"query\":{\"category\":\"restaurant\",\"positiveCriteria\":[{\"criterionRef\":\"criterion:0\",\"text\":\"omakase\",\"strength\":\"HARD\"}],\"location\":{\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Tokyo\",\"types\":[\"locality\"]}]},\"keyword\":\"omakase\"}},{\"sourceId\":\"tablecheck\",\"query\":{\"category\":\"restaurant\",\"positiveCriteria\":[{\"criterionRef\":\"criterion:0\",\"text\":\"omakase\",\"strength\":\"HARD\"}],\"location\":{\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Tokyo\",\"types\":[\"locality\"]}]},\"keyword\":\"omakase\"}},{\"sourceId\":\"google-places\",\"query\":{\"category\":\"restaurant\",\"positiveCriteria\":[{\"criterionRef\":\"criterion:0\",\"text\":\"omakase\",\"strength\":\"HARD\"}],\"location\":{\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Tokyo\",\"types\":[\"locality\"]}]},\"keyword\":\"omakase\"}}],\"cursor\":3,\"textRetrieval\":{\"accepted\":true,\"reason\":\"Controlled retrieval; preserve the current sparse source result.\",\"keyword\":\"omakase\",\"criterionRef\":\"criterion:0\"}},\"currentDiscoveryBatch\":{\"sourceId\":\"google-places\",\"candidateIds\":[]},\"deferredSources\":[{\"progress\":{\"sourceId\":\"tabelog\",\"inspectedSourceIds\":[],\"detailAttempts\":0,\"pagesRead\":0,\"elapsedMs\":102,\"retrieval\":{\"selection\":{\"accepted\":true,\"reason\":\"Controlled retrieval; preserve the current sparse source result.\",\"keyword\":\"omakase\",\"criterionRef\":\"criterion:0\"},\"rewrites\":0,\"regionPages\":0,\"retrievalPages\":0,\"history\":[]},\"visitedListingUrls\":[],\"pendingSourceEntries\":[],\"pendingSourceIds\":[]},\"usedPageTokens\":[],\"pagesRead\":0},{\"progress\":{\"sourceId\":\"tablecheck\",\"inspectedSourceIds\":[],\"detailAttempts\":0,\"pagesRead\":0,\"elapsedMs\":89,\"retrieval\":{\"selection\":{\"accepted\":true,\"reason\":\"Controlled retrieval; preserve the current sparse source result.\",\"keyword\":\"omakase\",\"criterionRef\":\"criterion:0\"},\"rewrites\":0,\"regionPages\":0,\"retrievalPages\":0,\"history\":[]},\"visitedListingUrls\":[],\"pendingSourceEntries\":[],\"pendingSourceIds\":[]},\"usedPageTokens\":[],\"pagesRead\":0}]},\"pendingResultBatchTarget\":3,\"noVerifiedResult\":{\"termination\":{\"type\":\"END_READ\",\"reasonCode\":\"AGENT_END_READ\",\"isSystemReason\":false,\"initiator\":\"AGENT\"},\"endedAt\":\"2026-08-19T07:20:00.000Z\",\"investigatedCandidateIds\":[],\"unresolvedCandidateIds\":[],\"remainingGaps\":[\"The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated\"]}}",
+        "  + actual - expected",
+        "  ",
+        "  + undefined",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-request-binding.test.ts",
+      "test": "native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"schemaVersion\":\"25\",\"phase\":\"NO_VERIFIED_RESULT\",\"searchRevision\":3,\"investigationRevision\":1,\"intentDraft\":{\"schemaVersion\":\"3\",\"timezone\":\"Asia/Tokyo\",\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}],\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"temporalResolution\":{\"policyVersion\":\"restaurant-temporal-materialization@6\",\"referenceTime\":\"2026-08-19T16:20:00+08:00\",\"timezone\":\"Asia/Tokyo\",\"date\":{\"expression\":\"tonight\",\"resolvedDate\":\"2026-08-19\",\"basis\":\"EXPLICIT_DATE\"},\"timeWindow\":{\"expression\":\"7 PM\",\"resolvedTimeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"basis\":\"EXPLICIT_CLOCK\"}},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"}},\"candidates\":[],\"availability\":{},\"availabilityChecks\":{},\"factChecks\":{},\"readEvidence\":[{\"evidenceId\":\"dd8f1db2517ab010999263ecccd28ec6718e1de9ba515b13703345faaba19484\",\"kind\":\"DISCOVERY\",\"provider\":\"GOOGLE_PLACES\",\"sourceEntityId\":\"shibuya\",\"observedAt\":\"2026-08-19T07:20:00.000Z\",\"requestFingerprint\":\"2483e903ea1cd8a7639f4260721058bdfa1c31b5d8413c387804a2d13363d41a\",\"claims\":{\"locationResolutionQuery\":\"Shibuya\",\"resolvedPlaceName\":\"Shibuya\",\"locationNameExactMatch\":true,\"resolvedPlaceTypes\":[\"train_station\"],\"resolvedPlaceId\":\"shibuya\",\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"locationResolutionSource\":\"GOOGLE_TEXT_SEARCH\"}}],\"intent\":{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}]},\"searchContinuation\":{\"intentFingerprint\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"omakase spot\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-08-19\\\",\\\"timeWindow\\\":{\\\"earliest\\\":\\\"19:00\\\",\\\"latest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Shibuya\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"omakase\\\",\\\"strength\\\":\\\"HARD\\\",\\\"polarity\\\":\\\"POSITIVE\\\"}]}\",\"usedPageTokens\":[],\"pagesRead\":1,\"exhausted\":true,\"locationContext\":{\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Tokyo\",\"types\":[\"locality\"]}]},\"sourceRequestContext\":{\"textQuery\":\"omakase Shibuya\"},\"discoveryPlan\":{\"entries\":[{\"sourceId\":\"tabelog\",\"query\":{\"category\":\"restaurant\",\"positiveCriteria\":[{\"criterionRef\":\"criterion:0\",\"text\":\"omakase\",\"strength\":\"HARD\"}],\"location\":{\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Tokyo\",\"types\":[\"locality\"]}]},\"keyword\":\"omakase\"}},{\"sourceId\":\"tablecheck\",\"query\":{\"category\":\"restaurant\",\"positiveCriteria\":[{\"criterionRef\":\"criterion:0\",\"text\":\"omakase\",\"strength\":\"HARD\"}],\"location\":{\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Tokyo\",\"types\":[\"locality\"]}]},\"keyword\":\"omakase\"}},{\"sourceId\":\"google-places\",\"query\":{\"category\":\"restaurant\",\"positiveCriteria\":[{\"criterionRef\":\"criterion:0\",\"text\":\"omakase\",\"strength\":\"HARD\"}],\"location\":{\"latitude\":35.6619707,\"longitude\":139.703795,\"radiusMeters\":1000,\"label\":\"Shibuya\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Tokyo\",\"types\":[\"locality\"]}]},\"keyword\":\"omakase\"}}],\"cursor\":3,\"textRetrieval\":{\"accepted\":true,\"reason\":\"Controlled retrieval; preserve the current sparse source result.\",\"keyword\":\"omakase\",\"criterionRef\":\"criterion:0\"}},\"currentDiscoveryBatch\":{\"sourceId\":\"google-places\",\"candidateIds\":[]},\"deferredSources\":[{\"progress\":{\"sourceId\":\"tabelog\",\"inspectedSourceIds\":[],\"detailAttempts\":0,\"pagesRead\":0,\"elapsedMs\":86,\"retrieval\":{\"selection\":{\"accepted\":true,\"reason\":\"Controlled retrieval; preserve the current sparse source result.\",\"keyword\":\"omakase\",\"criterionRef\":\"criterion:0\"},\"rewrites\":0,\"regionPages\":0,\"retrievalPages\":0,\"history\":[]},\"visitedListingUrls\":[],\"pendingSourceEntries\":[],\"pendingSourceIds\":[]},\"usedPageTokens\":[],\"pagesRead\":0},{\"progress\":{\"sourceId\":\"tablecheck\",\"inspectedSourceIds\":[],\"detailAttempts\":0,\"pagesRead\":0,\"elapsedMs\":88,\"retrieval\":{\"selection\":{\"accepted\":true,\"reason\":\"Controlled retrieval; preserve the current sparse source result.\",\"keyword\":\"omakase\",\"criterionRef\":\"criterion:0\"},\"rewrites\":0,\"regionPages\":0,\"retrievalPages\":0,\"history\":[]},\"visitedListingUrls\":[],\"pendingSourceEntries\":[],\"pendingSourceIds\":[]},\"usedPageTokens\":[],\"pagesRead\":0}]},\"pendingResultBatchTarget\":3,\"noVerifiedResult\":{\"termination\":{\"type\":\"END_READ\",\"reasonCode\":\"AGENT_END_READ\",\"isSystemReason\":false,\"initiator\":\"AGENT\"},\"endedAt\":\"2026-08-19T07:20:00.000Z\",\"investigatedCandidateIds\":[],\"unresolvedCandidateIds\":[],\"remainingGaps\":[\"The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated\"]}}",
+        "  + actual - expected",
+        "  ",
+        "  + undefined",
+        "  - 'UNAVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tabelog-public-list.test.ts",
+      "test": "G3 real Chromium Agent reveals public renamed results and retains same-branch grounding",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: renamed public result must reach the same-outlet availability path",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "test": "Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+        "  + actual - expected",
+        "  ",
+        "  + 'ENTITY_MATCH_UNCERTAIN'",
+        "  - 'TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "test": "LOCAL selects Tabelog paragraph dates and labelled guests without treating time options as slots",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+        "  ",
+        "  false !== true",
+        "  ",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:264:14)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "test": "CLOUDFLARE_SESSION selects Tabelog paragraph dates and labelled guests without treating time options as slots",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+        "  ",
+        "  false !== true",
+        "  ",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tabelog.test.ts:264:14)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "test": "LOCAL legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:15.664Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABELOG\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":88,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"LOCAL_PLAYWRIGHT_CHROMIUM\",\"engine\":\"CHROMIUM\",\"sessionId\":\"local:466e769e-6dd9-496f-aa95-c8cdd096699d\",\"startedAt\":\"2026-11-05T18:01:15.664Z\"}}}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "test": "LOCAL current Tabelog Adapter grounds passive exact-query responses and clears them on navigation",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:15.778Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABELOG\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":100,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"LOCAL_PLAYWRIGHT_CHROMIUM\",\"engine\":\"CHROMIUM\",\"sessionId\":\"local:c6c9d487-5ffc-4bd4-9bb3-110d0ebd04c0\",\"startedAt\":\"2026-11-05T18:01:15.777Z\"}}}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "test": "CLOUDFLARE_SESSION legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:15.904Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABELOG\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":101,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"CLOUDFLARE_BROWSER_RUN\",\"engine\":\"CHROMIUM\",\"startedAt\":\"2026-11-05T18:01:15.904Z\"}}}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tabelog.test.ts",
+      "test": "CLOUDFLARE_SESSION current Tabelog Adapter grounds passive exact-query responses and clears them on navigation",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:16.018Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABELOG\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":100,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"CLOUDFLARE_BROWSER_RUN\",\"engine\":\"CHROMIUM\",\"startedAt\":\"2026-11-05T18:01:16.018Z\"}}}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "test": "TableCheck waits for its guide result and grounds exact-query empty availability",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:16.507Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABLECHECK\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":103,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"LOCAL_PLAYWRIGHT_CHROMIUM\",\"engine\":\"CHROMIUM\",\"sessionId\":\"local:30197941-f45e-40f6-9dfa-2e97c1328e7f\",\"startedAt\":\"2026-11-05T18:01:16.507Z\"}}}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'UNAVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "test": "real Chromium TableCheck source observation completes inside the current 45s provider window",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:16.666Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABLECHECK\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":135,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"LOCAL_PLAYWRIGHT_CHROMIUM\",\"engine\":\"CHROMIUM\",\"sessionId\":\"local:42bb000f-ebd4-42b2-8944-8b2af4bfa920\",\"startedAt\":\"2026-11-05T18:01:16.666Z\"}}}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "test": "TableCheck handles multiple current search links and reads only the identity-bound outlet",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:16.768Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABLECHECK\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":87,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"LOCAL_PLAYWRIGHT_CHROMIUM\",\"engine\":\"CHROMIUM\",\"sessionId\":\"local:a7052943-d948-4ead-8a73-3d00a855e44a\",\"startedAt\":\"2026-11-05T18:01:16.768Z\"}}}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "test": "TableCheck form waits past old inventory until a current same-outlet slot link appears",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "test": "LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"result\":{\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:17.013Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABLECHECK\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":104,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"LOCAL_PLAYWRIGHT_CHROMIUM\",\"engine\":\"CHROMIUM\",\"sessionId\":\"local:45a83198-91e2-4a25-868a-47b729fba5f8\",\"startedAt\":\"2026-11-05T18:01:17.012Z\"}}},\"calls\":0,\"diagnostics\":[\"REJECTED: Source start is missing or ambiguous\"]}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "test": "CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: {\"result\":{\"offers\":[],\"availabilityChecks\":{\"restaurant-1\":{\"status\":\"UNKNOWN\",\"checkedAt\":\"2026-11-05T18:01:17.130Z\",\"evidenceIds\":[],\"reasonCode\":\"ENTITY_MATCH_UNCERTAIN\"}},\"evidence\":[],\"metadata\":{\"provider\":\"TABLECHECK\",\"route\":\"GENERIC_BROWSER\",\"latencyMs\":104,\"failureCode\":\"ENTITY_MATCH_UNCERTAIN\",\"browser\":{\"runtimeProvider\":\"CLOUDFLARE_BROWSER_RUN\",\"engine\":\"CHROMIUM\",\"startedAt\":\"2026-11-05T18:01:17.130Z\"}}},\"calls\":0,\"diagnostics\":[\"REJECTED: Source start is missing or ambiguous\"]}",
+        "  + actual - expected",
+        "  ",
+        "  + 'UNKNOWN'",
+        "  - 'AVAILABLE'"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/group-window.test.ts",
+      "test": "group-window Chromium: available keeps exact request and explicit coverage",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+        "  ",
+        "  1 !== 0",
+        "  ",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/group-window.test.ts:47:9)"
+      ],
+      "status": "OPEN; assertion retained"
+    },
+    {
+      "gate": "browser",
+      "file": "src/harness/browser/group-window.test.ts",
+      "test": "group-window Chromium: all-empty keeps exact request and explicit coverage",
+      "firstFailureLines": [
+        "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+        "  ",
+        "  1 !== 0",
+        "  ",
+        "      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/group-window.test.ts:47:9)"
+      ],
+      "status": "OPEN; assertion retained"
+    }
+  ]
+}

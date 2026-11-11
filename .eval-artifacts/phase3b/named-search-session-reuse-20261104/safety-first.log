@@ -1,0 +1,12 @@
+✔ one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions (8.904625ms)
+✔ missing observed search controls retain the navigation path and conclusions without reopening source sessions (1.158667ms)
+✔ a failed reused session retires without retry; the next candidate gets a fresh source session (1.182333ms)
+✔ a completed run never lends its source contexts to a later run; cancellation still closes every context (0.877458ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 140.93125

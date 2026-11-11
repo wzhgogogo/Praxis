@@ -1,3 +1,4 @@
+import {observeQueryValues, type BrowserQueryValueObservation} from "../../../../infrastructure/browser/browser-query-values.js";
 import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
@@ -10,7 +11,7 @@ import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-se
 import { GooglePlacesHarCapture } from "./google-places-recording.js";
 
 export interface BrowserReadRecordingEntry { sequence: number; kind: string; detail: unknown; }
-export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@5";
+export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@6";
 type ReplayFailure = "NO_CAPTURED_PUBLIC_DOCUMENT" | "UNSAFE_DOCUMENT" | "CHALLENGE_DOCUMENT" | "DOCUMENT_SIZE_LIMIT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY";
 type Replay = { status: "REPLAYABLE" | "PARTIALLY_REPLAYABLE"; reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE"; harPath: string }
   | { status: "NOT_REPLAYABLE"; reason: ReplayFailure };
@@ -22,6 +23,8 @@ export interface RecordingPage {
 export interface BrowserReadRecordingResult { path: string; screenshot: "LAYOUT_ONLY_CONTENT_MASKED" | "NOT_CAPTURED_NO_SANITIZER"; replay: Replay; pages: RecordingPage[]; }
 export interface BrowserReadRecordingOptions {
   directory: string; runId: string;
+  /** Eval-only private-input omission; applied before wire metadata is retained. */
+  artifactTransform?: (value:unknown)=>unknown;
   /**
    * Public JavaScript may be replayed only when the source Pack already
    * admitted its origin, path grammar and cache-buster keys. Guard-admitted
@@ -44,6 +47,7 @@ export class BrowserReadRecording {
   private readonly stylesheets = new Map<string, string>();
   /** Recording-only exact URLs; these never change the Runtime or Guard policy. */
   private readonly loadedStylesheetRules: BrowserReadNetworkRequestRule[] = [];
+  private readonly documentOrigins=new Set<string>();
   private readonly documents = new Map<string, string>();
   private readonly documentSnapshots: Array<{ snapshot: number; url?: string; html?: string; failure?: ReplayFailure; requests: readonly BrowserReadNetworkObservation[] }> = [];
   private readonly responses = new Map<string, { method: "GET" | "HEAD"; status: number; mimeType: string; text: string; redirectLocation?: string }>();
@@ -60,14 +64,15 @@ export class BrowserReadRecording {
   record(kind: string, detail: unknown): void {
     if (this.finished) throw new Error("Browser recording is already finalized");
     this.google.observeOwnCredentials(detail);
-    this.entries.push({ sequence: this.entries.length + 1, kind, detail: safeRecordingDetail(detail) });
+    this.entries.push({ sequence: this.entries.length + 1, kind, detail: safeRecordingDetail(this.options.artifactTransform?this.options.artifactTransform(detail):detail) });
   }
   recordWire(wire: BrowserActionWireRecord): void { this.record("MODEL_WIRE", wire); }
   captureGoogleFetch(transport: typeof fetch): typeof fetch { return this.google.wrap(transport); }
   traceSink(): BrowserTraceRecordingSink { return { record: (kind, detail) => this.record(kind, detail), recordSnapshot: (snapshot) => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
   /** Lets a runner retain its single canonical trace while supplying captured documents to this recorder. */
   snapshotSink(): BrowserTraceRecordingSink { return { record: () => undefined, recordSnapshot: snapshot => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
-  recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, queryKeys: [...item.queryKeys], ...(item.resourceTypeDetails ? { resourceTypeDetails: { ...item.resourceTypeDetails } } : {}), ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}), ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}), ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
+  recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, ...(item.transport?{transport:item.transport}:{}),...(item.admissionRule?{admissionRule:{...item.admissionRule}}:{}), queryKeys: [...item.queryKeys], ...(item.queryValues ? {queryValues:structuredClone(item.queryValues)} : {}), ...(item.error ? { error: item.error } : {}), ...(item.resourceTypeDetails ? { resourceTypeDetails: { ...item.resourceTypeDetails } } : {}), ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}), ...(item.formSubmission ? { formSubmission: structuredClone(item.formSubmission) } : {}),
+      ...(item.dynamicRead ? {dynamicRead:structuredClone(item.dynamicRead)} : {}), ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}), ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
   async recordResponse(response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }): Promise<void> {
     if (this.finished) throw new Error("Browser recording is already finalized");
     this.google.observeOwnCredentials([response.url,response.redirectLocation]);
@@ -78,11 +83,14 @@ export class BrowserReadRecording {
       ? publicStylesheetRecordingRule(response.url) : undefined;
     const staticResources = [...(this.options.reviewedStaticResources ?? []), ...(stylesheetRule ? [stylesheetRule] : [])];
     const url = safeReplayUrl(response.url, staticResources, this.options.reviewedReads);
-    if (!url || !/^(?:GET|HEAD)$/.test(response.method)) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    const responseMetadata = {responseUrlSha256:createHash("sha256").update(response.url).digest("hex"),...(url?{origin:new URL(url).origin,pathname:new URL(url).pathname,queryKeys:[...new URL(url).searchParams.keys()]}:{}),method:response.method,resourceType:response.resourceType,status:response.status,mimeType,bytes:response.body.byteLength};
+    const omit=(reason:string)=>{this.uncapturedResponsePaths.add(responsePath(response.url));this.record("RESPONSE_OMITTED",{...responseMetadata,reason});};
+    if (!url || !/^(?:GET|HEAD)$/.test(response.method)) { omit("UNREVIEWED_RECORDING_URL_OR_METHOD"); return; }
+    if(response.resourceType==="document"&&response.status>=200&&response.status<300&&/^(?:text\/html|application\/xhtml\+xml)$/.test(mimeType))this.documentOrigins.add(new URL(response.url).origin);
     let text: string;
     // Keep a CSS UTF-8 BOM as content so the existing byte-length/hash check remains exact.
     try { text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: Boolean(stylesheetRule) }).decode(response.body); }
-    catch { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    catch { omit("INVALID_UTF8"); return; }
     this.google.observeOwnCredentials(text);
     const redirectLocation = response.redirectLocation
       ? safeReplayUrl(response.redirectLocation, this.options.reviewedStaticResources, this.options.reviewedReads)
@@ -91,13 +99,16 @@ export class BrowserReadRecording {
     // A public redirect's response body is not needed to faithfully preserve
     // navigation. Keep its approved status and Location even when it is empty.
     const isRecordedRedirect = response.status >= 300 && response.status < 400 && Boolean(redirectLocation);
-    const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? sanitizePublicJson(text)
+    const publicSourceScript=response.resourceType==="script"&&(reviewedStaticScriptUrl(response.url,this.options.reviewedStaticResources)||this.documentOrigins.has(new URL(response.url).origin));
+    let rejectionReason="PUBLIC_BODY_SANITIZER_REJECTED";
+    const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? (tabelogSuggestionRecordingUrl(response.url) ? sanitizeTabelogSuggestions(text) : sanitizePublicJson(text,reason=>{rejectionReason=reason;}))
       : /^(?:text\/(?:html|plain)|application\/(?:xhtml\+xml))$/.test(mimeType) ? sanitizePublicHtml(text, response.url, this.options.reviewedStaticResources, this.options.reviewedReads)
       : /^(?:application|text)\/(?:javascript|ecmascript)$/.test(mimeType)
-        ? (reviewedStaticScriptUrl(response.url, this.options.reviewedStaticResources) && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
+        ? (publicSourceScript ? sanitizePublicSourceScript(text,response.body.byteLength) : reviewedStaticScriptUrl(response.url,this.options.reviewedStaticResources)&&safePublicStaticCode(text,response.body.byteLength)?text:undefined)
       : mimeType === "text/css" ? (stylesheetRule && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
       : undefined;
-    if (sanitized === undefined || !this.google.accept([url,sanitized,redirectLocation])) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    if (sanitized === undefined || !this.google.accept([url,sanitized,redirectLocation])) { omit(sanitized===undefined?rejectionReason:"OWN_CREDENTIAL_CHECK"); return; }
+    this.record("RESPONSE_CAPTURED",{...responseMetadata,sanitizedBytes:Buffer.byteLength(sanitized)});
     if (stylesheetRule && response.status === 200) {
       if (!this.stylesheets.has(url)) this.loadedStylesheetRules.push(stylesheetRule);
       this.stylesheets.set(url, sanitized);
@@ -117,10 +128,11 @@ export class BrowserReadRecording {
     const requests = snapshot.networkRequests ?? [];
     this.recordNetwork(requests);
     if (snapshot.networkResourceTypes?.length) this.record("NETWORK_RESOURCE_TYPES", snapshot.networkResourceTypes);
-    const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads);
+    const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads, snapshot.urlQueryValues);
     const challenge = restaurantDiscoveryPacks.some(pack => pack.documentOrigins.some(origin => { try { return new URL(snapshot.url).origin === origin; } catch { return false; } }) && pack.browser?.hasChallenge(snapshot));
     const sanitized = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
     const html = sanitized !== undefined && this.google.accept(sanitized) ? sanitized : undefined;
+    this.record("DOCUMENT_SANITIZATION",{urlAccepted:Boolean(url),documentAccepted:Boolean(html),inputBytes:Buffer.byteLength(snapshot.html),queryKeys:[...new Set(new URL(snapshot.url).searchParams.keys())].sort(),reason:!url?"UNREVIEWED_DOCUMENT_QUERY_SHAPE":!html?"DOCUMENT_PRIVACY_OR_SIZE":"SANITIZED"});
     this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(url && html && !challenge ? { html } : {}),
       ...(challenge ? { failure: "CHALLENGE_DOCUMENT" as const } : !url || !html ? { failure: Buffer.byteLength(snapshot.html) > MAX_PUBLIC_DOCUMENT_BYTES ? "DOCUMENT_SIZE_LIMIT" as const : "UNSAFE_DOCUMENT" as const } : {}), requests: structuredClone(requests) });
   }
@@ -173,10 +185,23 @@ export class BrowserReadRecording {
       const responses = new Map([...this.responses].filter(([url, response]) => !/html/.test(response.mimeType) || this.documents.has(url) || response.redirectLocation && this.documents.has(response.redirectLocation)));
       const harPath = resolve(path, "replay.har");
       const har = sanitizedHar(this.documents, responses);
-      const completeHar = { ...har, log: { ...har.log, entries: [...har.log.entries, ...this.google.entries] } };
+      const googleEntries=this.google.entries.map(entry=>{
+        if(!this.options.artifactTransform||!entry||typeof entry!=="object")return entry;
+        const row=entry as {request:unknown},request=this.options.artifactTransform(row.request);
+        return JSON.stringify(request)===JSON.stringify(row.request)?entry:{...row,request,_privateInputOmitted:{requestSHA256:createHash("sha256").update(JSON.stringify(row.request)).digest("hex")}};
+      });
+      const completeHar = { ...har, log: { ...har.log, entries: [...har.log.entries, ...googleEntries] } };
       if (!await this.google.writeHar(harPath, completeHar)) replay = { status: "NOT_REPLAYABLE", reason: "UNSAFE_DOCUMENT" };
     }
+    // Diagnostic components never turn an incomplete page into a full Replay.
+    // Keep only bodies that already passed the unchanged sanitizer and final credential scan.
+    let componentCapture: {harPath:string;scope:string}|undefined;
+    if(!this.google.rejectsRecording&&!qualified.length){
+      const components=new Map([...this.responses].filter(([,response])=>!/html/.test(response.mimeType)));
+      if(components.size&&await this.google.writeHar(resolve(path,"components.har"),sanitizedHar(new Map(),components)))componentCapture={harPath:"components.har",scope:"SANITIZED_NON_DOCUMENT_RESPONSES_ONLY"};
+    }
     if (this.google.rejectsRecording) {
+      componentCapture=undefined;
       replay = {status:"NOT_REPLAYABLE",reason:"UNSAFE_DOCUMENT"};qualified = [];
       pages = pages.map(page => ({snapshot:page.snapshot,status:"NOT_REPLAYABLE",reason:"UNSAFE_DOCUMENT",diagnostic:{status:"OMITTED",reason:"UNSAFE_DOCUMENT"}}));
       this.documents.clear();this.stylesheets.clear();this.screenshotImages.length=0;this.screenshots.length=0;
@@ -199,7 +224,7 @@ export class BrowserReadRecording {
       await writeFile(resolve(path, file), css, { flag: "wx" });
       stylesheets.push({ url, file, sha256: createHash("sha256").update(css).digest("hex"), bytes: Buffer.byteLength(css) });
     }
-    const recording = { schemaVersion: BROWSER_READ_RECORDING_SCHEMA_VERSION, stylesheets, status: "RECORDED", entries: this.entries, pages, documents: qualified.map(snapshot => ({ snapshot: snapshot.snapshot, url: snapshot.url, file: `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html` })), screenshot, screenshots: this.screenshots, replay: replay.status !== "NOT_REPLAYABLE" ? { ...replay, harPath: "replay.har" } : replay, contentSha256: createHash("sha256").update(JSON.stringify(this.entries)).digest("hex") };
+    const recording = { schemaVersion: BROWSER_READ_RECORDING_SCHEMA_VERSION, ...(componentCapture?{componentCapture}:{}), stylesheets, status: "RECORDED", entries: this.entries, pages, documents: qualified.map(snapshot => ({ snapshot: snapshot.snapshot, url: snapshot.url, file: `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html` })), screenshot, screenshots: this.screenshots, replay: replay.status !== "NOT_REPLAYABLE" ? { ...replay, harPath: "replay.har" } : replay, contentSha256: createHash("sha256").update(JSON.stringify(this.entries)).digest("hex") };
     await writeFile(resolve(path, "recording.json"), JSON.stringify(recording, null, 2), { flag: "wx" }); return { path, screenshot, replay, pages };
   }
 }
@@ -226,7 +251,8 @@ function observedRequestPath(origin: string, pathname: string): string | undefin
   } catch { return undefined; }
 }
 function staticRuleMatchesUrl(rule: BrowserReadNetworkRequestRule, url: URL, resourceType: "script" | "stylesheet" = "script"): boolean {
-  if (url.origin !== rule.origin || (rule.pathname ? url.pathname !== rule.pathname : !rule.pathnamePrefix || !url.pathname.startsWith(rule.pathnamePrefix))) return false;
+  if (url.origin !== rule.origin || !recordingPathMatches(rule,url)) return false;
+      if(rule.queryValuePatterns && (observeQueryValues(url,[]).some(field=>field.valueClass==="SENSITIVE_FORMAT") || Object.entries(rule.queryValuePatterns).some(([key,pattern])=>!pattern.startsWith("^")||!pattern.endsWith("$")||url.searchParams.getAll(key).some(value=>!new RegExp(pattern).test(value)))))return false;
   if (!rule.resourceTypes.includes(resourceType)) return false;
   const counts = new Map<string, number>(); for (const key of url.searchParams.keys()) counts.set(key, (counts.get(key) ?? 0) + 1);
   const required = new Set(rule.queryKeyRules?.required ?? rule.queryKeys ?? []);
@@ -243,11 +269,17 @@ function reviewedStaticScriptUrl(value: string, staticResources: readonly Browse
 function reviewedStaticStylesheetUrl(value: string, staticResources: readonly BrowserReadNetworkRequestRule[] | undefined): boolean {
   try { const url = new URL(value); return !url.username && !url.password && (staticResources ?? []).some(rule => staticRuleMatchesUrl(rule, url, "stylesheet")); } catch { return false; }
 }
+function recordingPathMatches(rule:BrowserReadNetworkRequestRule,url:URL):boolean {
+ return rule.pathname!==undefined ? url.pathname===rule.pathname : rule.pathnamePattern!==undefined
+  ? rule.pathnamePattern.startsWith("^")&&rule.pathnamePattern.endsWith("$")&&new RegExp(rule.pathnamePattern).test(url.pathname)
+  : rule.pathnamePrefix!==undefined&&url.pathname.startsWith(rule.pathnamePrefix);
+}
 function reviewedPublicReadUrl(value: string, reviewedReads: readonly BrowserReadNetworkRequestRule[] | undefined): boolean {
   try {
     const url = new URL(value);
     return !url.username && !url.password && (reviewedReads ?? []).some((rule) => {
-      if (url.origin !== rule.origin || (rule.pathname ? url.pathname !== rule.pathname : !rule.pathnamePrefix || !url.pathname.startsWith(rule.pathnamePrefix))) return false;
+      if (url.origin !== rule.origin || !recordingPathMatches(rule,url)) return false;
+      if(rule.queryValuePatterns && (observeQueryValues(url,[]).some(field=>field.valueClass==="SENSITIVE_FORMAT") || Object.entries(rule.queryValuePatterns).some(([key,pattern])=>!pattern.startsWith("^")||!pattern.endsWith("$")||url.searchParams.getAll(key).some(value=>!new RegExp(pattern).test(value)))))return false;
       const counts = new Map<string, number>(); for (const key of url.searchParams.keys()) counts.set(key, (counts.get(key) ?? 0) + 1);
       const required = new Set(rule.queryKeyRules?.required ?? rule.queryKeys ?? []);
       const allowed = new Set(rule.queryKeyRules?.allowed ?? []);
@@ -259,7 +291,51 @@ function reviewedPublicReadUrl(value: string, reviewedReads: readonly BrowserRea
     });
   } catch { return false; }
 }
-function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined { try { const u = new URL(value); const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
+/** Observed public suggestion response; recording permission only, never network authority. */
+function tabelogSuggestionRecordingUrl(value: string): boolean {
+  try {
+    const url = new URL(value), keyword = url.searchParams.get("keyword");
+    return url.origin === "https://tabelog.com" && url.pathname === "/en/suggest/keyword_suggest" && !url.username && !url.password
+      && [...url.searchParams.keys()].length === 1 && keyword !== null && keyword.length > 0 && keyword.length <= 160
+      && !/[@\r\n]|Bearer\s|sk-|\+?\d[\d()\s-]{8,}\d/i.test(keyword);
+  } catch { return false; }
+}
+function sanitizeTabelogSuggestions(text: string): string | undefined {
+  if (Buffer.byteLength(text) > 200_000) return undefined;
+  try {
+    const rows: unknown = JSON.parse(text);
+    if (!Array.isArray(rows) || rows.length > 100) return undefined;
+    const publicFields = new Set(["name", "sub_name", "datatype", "id_in_datatype", "site_name", "exact_match", "url", "pal", "LstPrf", "LstAre", "station_id", "area_codes"]);
+    for (const row of rows) {
+      if (!row || typeof row !== "object" || Array.isArray(row) || typeof row.name !== "string" || typeof row.datatype !== "string") return undefined;
+      for (const [field, value] of Object.entries(row)) {
+        if (!publicFields.has(field)) return undefined;
+        if (value === null || typeof value === "boolean" || typeof value === "number" && Number.isFinite(value)) continue;
+        if (typeof value !== "string" || value.length > 1000 || /[@\r\n]|Bearer\s|sk-|\+?\d[\d()\s-]{8,}\d/i.test(value)) return undefined;
+        if (field === "url") { const url = new URL(value, "https://tabelog.com"); if (url.origin !== "https://tabelog.com" || url.username || url.password || /(?:^|\/)(?:yoyaku|booking|reserve|account|login|confirm|payment)(?:\/|$)/i.test(url.pathname) || url.search || url.hash) return undefined; }
+      }
+    }
+    return text;
+  } catch { return undefined; }
+}
+/** A history route can omit network-required defaults. Recording it never
+ * grants a request: keep only declared public document fields, no sensitive values. */
+function publicDocumentRouteUrl(url:URL,reads:readonly BrowserReadNetworkRequestRule[]|undefined,queryValues?:readonly BrowserQueryValueObservation[]):boolean {
+ const routes=restaurantDiscoveryPacks.flatMap(pack=>pack.publicDocumentRoutes??[]);
+ if(routes.some(rule=>rule.origin===url.origin&&recordingPathMatches(rule,url)
+   && [...url.searchParams].every(([key])=>rule.queryKeyRules?.allowed?.includes(key)&&url.searchParams.getAll(key).length===1)
+   && observeQueryValues(url,[]).every(field=>rule.queryValueClasses?.[field.queryKey]?.includes(field.valueClass))
+   && !(queryValues??[]).some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT","SENSITIVE_FORMAT"].includes(field.valueClass))))return true;
+ return (reads??[]).some(rule=>{
+  if(!rule.resourceTypes.includes("document")||rule.origin!==url.origin||rule.pathname!==url.pathname)return false;
+  const allowed=new Set([...(rule.queryKeys??[]),...(rule.queryKeyRules?.required??[]),...(rule.queryKeyRules?.allowed??[]),...(rule.queryKeyRules?.repeatable??[])]);
+  const counts=new Map<string,number>();for(const key of url.searchParams.keys())counts.set(key,(counts.get(key)??0)+1);
+  return [...counts].every(([key,count])=>allowed.has(key)&&(count===1||rule.queryKeyRules?.repeatable?.includes(key)))
+   &&[...url.searchParams].every(([key,value])=>!sensitiveKey(key)&&!/(?:@|Bearer\s|\bsk-|(?:token|password|cookie|authorization)\s*[:=])/i.test(value)
+    && (/^\d{4}-\d{2}-\d{2}$/.test(value)||!/\+?\d[\d()\s-]{8,}\d/.test(value)));
+ });
+}
+function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[],queryValues?:readonly BrowserQueryValueObservation[]): string | undefined { try { const u = new URL(value); if(queryValues?.some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT","SENSITIVE_FORMAT"].includes(field.valueClass))&&restaurantDiscoveryPacks.some(pack=>pack.publicDocumentRoutes?.some(rule=>rule.origin===u.origin&&recordingPathMatches(rule,u))))return undefined; const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (!tabelogSuggestionRecordingUrl(value) && ![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads) && !publicDocumentRouteUrl(u,reviewedReads,queryValues))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
 /** Public third-party asset credentials are not replay permissions. Mask their
  * values before either diagnostic or replay HTML can be published. */
 function redactThirdPartyUrlCredentials(html: string, sourceUrl: string): string {
@@ -292,11 +368,12 @@ function redactThirdPartyUrlCredentials(html: string, sourceUrl: string): string
 function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined {
   if (Buffer.byteLength(html) > MAX_PUBLIC_DOCUMENT_BYTES) return undefined;
   const preservedJsonLd: string[] = [];
+  const ownScriptUrls=new Set<string>();
   let result = redactThirdPartyUrlCredentials(html,sourceUrl).replace(/<!--[\s\S]*?-->|<(template|iframe|object|embed|svg)\b[\s\S]*?<\/\1\s*>/gi, "")
   result = result.replace(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi, (whole, css) => safeReplayCss(css) ? whole : "");
   result = result.replace(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi, (whole, attrs, script) => {
     const src = String(attrs).match(/\bsrc=(['"])([^'"]+)\1/i)?.[2];
-    if (src) return reviewedStaticScriptUrl(new URL(src.replace(/&amp;/gi, "&"), sourceUrl).toString(), staticResources) ? whole : "";
+    if(src){const url=new URL(src.replace(/&amp;/gi,"&"),sourceUrl).toString();const own=new URL(url).origin===new URL(sourceUrl).origin&&Boolean(safeReplayUrl(url,staticResources,reviewedReads));if(own)ownScriptUrls.add(url);return own||reviewedStaticScriptUrl(url,staticResources)?whole:"";}
     if (/\btype=(['"])application\/ld\+json\1/i.test(String(attrs))) {
       const sanitized = sanitizePublicJsonLd(script);
       if (sanitized === undefined) return "";
@@ -308,7 +385,7 @@ function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: r
   });
   // A DOM snapshot may contain hidden auth/challenge elements. Remove the
   // whole element before any artifact exists; keep public date/party/time fields.
-  const sensitiveValue = String.raw`(?:csrf|token|password|turnstile|recaptcha|session|authorization|cookie)`;
+  const sensitiveValue = String.raw`(?:csrf|token|password|turnstile|recaptcha|session|authorization|cookie|api[_-]?key|secret|private[_-]?key)`;
   // Attribute markers can occur on a useful public container. Remove only
   // the marker there; form fields and meta/textarea token carriers are removed
   // as complete elements so their hidden value never reaches an artifact.
@@ -334,7 +411,7 @@ function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: r
     const url = new URL(value.replace(/&amp;/gi, "&"), sourceUrl);
     const safe = safeReplayUrl(url.toString(), staticResources, reviewedReads);
     const sameDocumentOrigin = new URL(safe ?? sourceUrl).origin === new URL(sourceUrl).origin;
-    const approvedStaticScript = name.toLowerCase() === "src" && reviewedStaticScriptUrl(url.toString(), staticResources)
+    const approvedStaticScript = name.toLowerCase() === "src" && (reviewedStaticScriptUrl(url.toString(), staticResources)||ownScriptUrls.has(url.toString()))
       || name.toLowerCase() === "href" && reviewedStaticStylesheetUrl(url.toString(), staticResources);
     if (!safe || (!sameDocumentOrigin && !approvedStaticScript)) return "";
     if (approvedStaticScript) {
@@ -409,12 +486,21 @@ function sanitizeReplayForm(
   let safeAction: string | undefined;
   if (action) {
     try {
+      // Recording preserves the observed native same-origin GET destination.
+      // This is transport fidelity, not request admission: runtime provenance,
+      // forbidden paths and Guard/CDP still decide every serialized request.
+      const destination = new URL(action.replace(/&amp;/gi, "&"), sourceUrl);
+      const publicFormEndpoint = !destination.search && !destination.hash && !destination.username && !destination.password
+        && !/(?:^|\/)(?:booking|yoyaku|reserve|review|confirm|payment|checkout|login|signin|account|cancel)(?:\/|$)/i.test(destination.pathname);
       const resolved = safeReplayUrl(
-        new URL(action.replace(/&amp;/gi, "&"), sourceUrl).toString(),
+        destination.toString(),
         staticResources,
         reviewedReads,
       );
-      if ((!method || method === "get") && resolved && new URL(resolved).origin === new URL(sourceUrl).origin && reviewedPublicReadUrl(resolved, reviewedReads)) safeAction = resolved;
+      if ((!method || method === "get") && destination.origin === new URL(sourceUrl).origin) {
+        if (publicFormEndpoint) safeAction = destination.toString();
+        else if (resolved && reviewedPublicReadUrl(resolved, reviewedReads)) safeAction = resolved;
+      }
     }
     catch { /* Omit an unreviewed or malformed action destination. */ }
   }
@@ -434,7 +520,14 @@ function safeReplayScript(script: string): boolean {
     && !/(?:cookie|token|secret|password|csrf|authorization|localStorage|sessionStorage|document\.write|eval\s*\(|Function\s*\(|fetch\s*\(\s*["']https?:\/\/)/i.test(script)
     && !/\b(?:form\.submit|location\s*=|window\.open)\b/i.test(script);
 }
-/** Admitted public CSS or reviewed JavaScript is retained byte-for-byte, without session or credential material. */
+/** Only Guard-admitted source/reviewed public JavaScript gets the user-approved cap.
+ * ASCII replacement preserves code-unit/byte length and quote/newline structure. */
+function sanitizePublicSourceScript(script:string,originalByteLength:number):string|undefined {
+  if(!script.length||originalByteLength>12_000_000||Buffer.byteLength(script)!==originalByteLength||/\u0000/.test(script))return undefined;
+  const fieldMasked=script.replace(/((?:["']?(?:api[_-]?key|x-api-key|access[_-]?token|token|authorization|cookie|session[_-]?id|secret|password|private[_-]?key)["']?)\s*[:=]\s*)("(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*')/gi,(_all,prefix,literal)=>prefix+literal[0]+literal.slice(1,-1).replace(/\\\r?\n|[^\r\n]/g,(value:string)=>value.startsWith("\\")&&/[\r\n]/.test(value)?value:"x".repeat(Buffer.byteLength(value)))+literal.at(-1));
+  const masked=fieldMasked.replace(/-----BEGIN (?:RSA )?PRIVATE KEY-----[\s\S]*?-----END (?:RSA )?PRIVATE KEY-----|\bAIza[0-9A-Za-z_-]{30,}|\bAKIA[A-Z0-9]{16}|\bBearer\s+[A-Za-z0-9._~-]{8,}|\bsk-[A-Za-z0-9_-]{8,}/gi,value=>value.replace(/[^\r\n]/g,"x"));
+  return Buffer.byteLength(masked)===originalByteLength?masked:undefined;
+}
 function safePublicStaticCode(script: string, originalByteLength: number): boolean {
   // The admitted public static response is retained byte-for-byte only if it is
   // valid bounded UTF-8 public code and has no literal credential material.
@@ -446,17 +539,17 @@ function safePublicStaticCode(script: string, originalByteLength: number): boole
     && !/\u0000/.test(script)
     && !/(?:\bBearer\s+[A-Za-z0-9._~-]{8,}|\bsk-[A-Za-z0-9_-]{8,})/i.test(script);
 }
-function sanitizePublicJson(text: string): string | undefined {
-  if (text.length > 200_000) return undefined;
+export function sanitizePublicJson(text: string,rejected?:(reason:string)=>void): string | undefined {
+  if (text.length > 200_000) {rejected?.("JSON_SIZE_LIMIT");return undefined;}
   try { const value = JSON.parse(text); const clean = (item: unknown, key = ""): unknown => {
-    if (/(?:cookie|token|secret|password|csrf|authorization|email|phone|address|name)/i.test(key)) throw new Error("sensitive key");
+    if (/(?:cookie|token|secret|password|csrf|authorization|email|phone|address|name)/i.test(key)) throw new Error("JSON_SENSITIVE_KEY");
     if (item === null || typeof item === "boolean" || typeof item === "number") return item;
     const isoDateOrTime = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$/.test(item as string);
     if (typeof item === "string" && item.length <= 160 && !/(?:@|Bearer\s|sk-)/i.test(item) && (isoDateOrTime || !/\+?\d[\d()\s-]{8,}\d/.test(item))) return item;
     if (Array.isArray(item) && item.length <= 100) return item.map(value => clean(value, key));
     if (item && typeof item === "object") return Object.fromEntries(Object.entries(item).map(([name, value]) => [name, clean(value, name)]));
-    throw new Error("unsafe value");
-  }; return JSON.stringify(clean(value)); } catch { return undefined; }
+    throw new Error("JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT");
+  }; return JSON.stringify(clean(value)); } catch(error) {rejected?.(error instanceof Error&&["JSON_SENSITIVE_KEY","JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"].includes(error.message)?error.message:"JSON_PARSE_FAILED");return undefined; }
 }
 function sanitizedHar(documents: ReadonlyMap<string, string>, responses: ReadonlyMap<string, { method: "GET" | "HEAD"; status: number; mimeType: string; text: string; redirectLocation?: string }>) { const entries: Array<[string, string | { method: "GET" | "HEAD"; status: number; mimeType: string; text: string; redirectLocation?: string }]> = [...documents].filter(([url]) => !responses.has(url)); entries.push(...responses); return { log: { version: "1.2", creator: { name: "Praxis sanitized browser recorder", version: "1" }, entries: entries.map(([url, item]) => { const html = typeof item === "string" ? item : item.text; const mimeType = typeof item === "string" ? "text/html" : item.mimeType; const method = typeof item === "string" ? "GET" : item.method; const status = typeof item === "string" ? 200 : item.status; const redirectLocation = typeof item === "string" ? undefined : item.redirectLocation; return ({ startedDateTime: "1970-01-01T00:00:00.000Z", time: 0, request: { method, url, httpVersion: "HTTP/1.1", headers: [], queryString: [], cookies: [], headersSize: -1, bodySize: -1 }, response: { status, statusText: status === 200 ? "OK" : "RECORDED", httpVersion: "HTTP/1.1", headers: [{ name: "content-type", value: `${mimeType}; charset=utf-8` }, ...(redirectLocation ? [{ name: "location", value: redirectLocation }] : [])], cookies: [], content: { size: Buffer.byteLength(html), mimeType, text: html }, redirectURL: redirectLocation ?? "", headersSize: -1, bodySize: Buffer.byteLength(html) }, cache: {}, timings: { send: 0, wait: 0, receive: 0 } }); }) } }; }
 function sensitiveKey(key: string): boolean { return /(?:cookie|authorization|api[_-]?key|access[_-]?token|csrf|session[_-]?id|secret|password)/i.test(key); }

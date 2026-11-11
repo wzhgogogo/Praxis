@@ -1,0 +1,43 @@
+{
+  "source": "769766455c38c369fa61bad56112de45230dfc68:.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/runs/D4/execution.result.json",
+  "sha": "d74f901dfa54b5a42e9bfd8823da291b23ecb16c08dd132602e9a11f229eaa18",
+  "now": "2026-11-02T16:28:47.738Z",
+  "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+  "before": {
+    "text": "kushikatsu",
+    "status": "NOT_CHECKED",
+    "sources": [
+      {
+        "field": "CATEGORY",
+        "quote": "揚げ物メニュー：串カツ、アジフライなど",
+        "sourceUrl": "https://www.1bangai.org/daioh"
+      }
+    ],
+    "polarity": "POSITIVE",
+    "strength": "HARD",
+    "evidenceIds": [
+      "fact-judgment:praxis:restaurant:c446fe0b901cca8ffb43b42e:2026-11-02T16:27:28.159Z:website-document:f6ca6b6e87c2294ddabf86a9c639bc8baff89d1bf84a2b921f969bab36eed256"
+    ],
+    "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+    "criterionRef": "criterion:0"
+  },
+  "after": {
+    "text": "kushikatsu",
+    "polarity": "POSITIVE",
+    "strength": "HARD",
+    "criterionRef": "criterion:0",
+    "status": "NOT_CHECKED",
+    "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+    "evidenceIds": [
+      "fact-judgment:praxis:restaurant:c446fe0b901cca8ffb43b42e:2026-11-02T16:27:28.159Z:website-document:f6ca6b6e87c2294ddabf86a9c639bc8baff89d1bf84a2b921f969bab36eed256"
+    ],
+    "sources": [
+      {
+        "field": "CATEGORY",
+        "quote": "揚げ物メニュー：串カツ、アジフライなど",
+        "sourceUrl": "https://www.1bangai.org/daioh"
+      }
+    ]
+  },
+  "eligible": true
+}

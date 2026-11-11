@@ -10,7 +10,7 @@ import { tableCheckDiscoveryPack, tabelogDiscoveryPack } from "../restaurant-sea
 
 const candidate = fixtureCandidates[0]!;
 const request: RestaurantAvailabilityRequest = {
-  candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date,
+  selectionScope:"SPECIFIC_OUTLET",candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date,
   timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: ["yakiniku"],
 };
 
@@ -43,7 +43,7 @@ function resolver(tableCheck: RestaurantAvailabilityProvider, tabelog: Restauran
   return new AvailabilitySourceResolver([{ pack: tableCheckDiscoveryPack, provider: tableCheck }, { pack: tabelogDiscoveryPack, provider: tabelog }]);
 }
 
-test("source resolver always prefers TableCheck and does not call Tabelog after a conclusive read", async () => {
+test("named-source resolver prefers TableCheck and does not call Tabelog after a conclusive read", async () => {
   const calls: string[] = [];
   const result = await resolver(
     provider("TABLECHECK", { status: "AVAILABLE" }, calls),
@@ -109,10 +109,41 @@ test("source resolver falls back from a TableCheck provider failure to Tabelog",
   ).check(request, new AbortController().signal);
   assert.deepEqual(calls, ["TABLECHECK", "TABELOG"]);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNAVAILABLE");
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.sourceProvider, "TABELOG");
   assert.deepEqual(result.metadata.providerAttempts, [
     { candidateId: candidate.restaurant.id, provider: "TABLECHECK", outcome: "PROVIDER_FAILURE", failureCode: "EXTRACTION_FAILED" },
     { candidateId: candidate.restaurant.id, provider: "TABELOG", outcome: "UNAVAILABLE" },
   ]);
+});
+
+test("successful source attribution changes no conclusion or attempt across fallback and direct reads", async t => {
+  t.mock.timers.enable({apis:["Date"],now:Date.parse("2026-08-05T09:00:00.000Z")});
+  try {
+    const hinted={...candidate,restaurant:{...candidate.restaurant,sourceIds:{...candidate.restaurant.sourceIds,googleWebsiteUri:"https://tabelog.com/tokyo/A1301/example/"}}};
+    const cases=[
+      {id:"tablecheck-fails-tabelog-succeeds",preferred:false,tc:{status:"UNKNOWN" as const,reasonCode:"EXTRACTION_FAILED"},tl:{status:"AVAILABLE" as const},source:"TABELOG",calls:["TABLECHECK","TABELOG"]},
+      {id:"tabelog-fails-tablecheck-succeeds",preferred:true,tc:{status:"AVAILABLE" as const},tl:{status:"UNKNOWN" as const,reasonCode:"BOT_CHALLENGE"},source:"TABLECHECK",calls:["TABELOG","TABLECHECK"]},
+      {id:"tablecheck-direct",preferred:false,tc:{status:"AVAILABLE" as const},tl:{status:"AVAILABLE" as const},source:"TABLECHECK",calls:["TABLECHECK"]},
+      {id:"tabelog-direct",preferred:true,tc:{status:"AVAILABLE" as const},tl:{status:"AVAILABLE" as const},source:"TABELOG",calls:["TABELOG"]},
+      {id:"both-fail",preferred:false,tc:{status:"UNKNOWN" as const,reasonCode:"EXTRACTION_FAILED"},tl:{status:"UNKNOWN" as const,reasonCode:"BOT_CHALLENGE"},source:undefined,calls:["TABLECHECK","TABELOG"]},
+    ];
+    for(const row of cases)await t.test(row.id,async()=>{
+      const calls:string[]=[];
+      const result=await resolver(provider("TABLECHECK",row.tc,calls),provider("TABELOG",row.tl,calls))
+        .check({...request,candidates:[row.preferred?hinted:candidate]},new AbortController().signal);
+      const check=result.availabilityChecks[candidate.restaurant.id]!;
+      if(process.env.PRAXIS_SOURCE_PROVIDER_TRACE==="1")console.log("SOURCE_PROVIDER_TRACE "+Buffer.from(JSON.stringify({id:row.id,result})).toString("base64"));
+      assert.deepEqual(calls,row.calls);
+      assert.equal(check.sourceProvider,row.source);
+      assert.equal(check.status,row.source?"AVAILABLE":"UNKNOWN");
+      const failed=row.source?row.calls.slice(0,-1):row.calls;
+      assert.deepEqual(check.sourceAttempts,[...failed.map(source=>({source,outcome:"FAILED",reasonCode:source==="TABLECHECK"?"EXTRACTION_FAILED":"BOT_CHALLENGE"})),
+        ...(row.source?[{source:row.source,outcome:"AVAILABLE"}]:[])]);
+      assert.equal(result.offers.length,row.source?1:0);
+      if(row.source)assert.equal(result.offers[0]!.source,row.source);
+      else assert.equal(result.metadata.failureCode,"AVAILABILITY_SOURCES_EXHAUSTED");
+    });
+  } finally {t.mock.timers.reset();}
 });
 
 test("Tabelog bot challenge remains provider-scoped and all providers exhausted fail closed", async () => {
@@ -141,4 +172,11 @@ test("group-window: one unsupported source does not erase another source's UNKNO
  const calls:string[]=[];
  const result=await resolver(provider("TABLECHECK",{status:"UNKNOWN",reasonCode:"REQUEST_UNCONFIRMED"},calls),provider("TABELOG",{status:"SOURCE_UNSUPPORTED",reasonCode:"SOURCE_UNSUPPORTED"},calls)).check(request,new AbortController().signal);
  assert.deepEqual(calls,["TABLECHECK","TABELOG"]);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"UNKNOWN");assert.equal(result.offers.length,0);
+});
+
+for(const mode of ['NONE','DIRECT','NAMED','SEARCH'] as const)test(`TableCheck path-cost skip is not a failed attempt: ${mode}`,async()=>{
+ const calls:string[]=[],copy=structuredClone(candidate);copy.restaurant.sourceIds=mode==='DIRECT'?{googleWebsiteUri:'https://www.tablecheck.com/en/observed-venue'}:mode==='SEARCH'?{googleWebsiteUri:'https://www.tablecheck.com/en/japan/search'}:{};
+ const result=await resolver(provider('TABLECHECK',{status:'AVAILABLE'},calls),provider('TABELOG',{status:'AVAILABLE'},calls)).check({...request,candidates:[copy],selectionScope:mode==='NAMED'?'SPECIFIC_OUTLET':'OPEN_ENDED'},new AbortController().signal);
+ const skip=mode!=='DIRECT'&&mode!=='NAMED';assert.deepEqual(calls,[skip?'TABELOG':'TABLECHECK']);assert.equal(result.metadata.providerAttempts!.length,1);assert.equal(result.metadata.skippedSources!.length,skip?1:0);
+ assert.ok(!result.metadata.providerAttempts?.some(a=>a.outcome==='PROVIDER_FAILURE'));assert.equal(result.metadata.failureCode,undefined);
 });

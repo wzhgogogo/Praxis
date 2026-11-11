@@ -1,0 +1,35 @@
+{
+  "status": "draft / not integrated; independent handwritten review contract",
+  "guardAdmission": "UNCHANGED",
+  "sourceHandoff": {
+    "uniqueExactObservedOption": true,
+    "visibleEnabledAndNotOccluded": true,
+    "successfulClickRequired": true,
+    "boundaryBeforeDispatch": "Guard readScopeId/pageId/requestSequence includes in-flight starts",
+    "receipt": "reviewed dynamic GET; ADMITTED; browser requestfinished; HTTP200; current scope/page; start sequence after click boundary",
+    "destination": "same pageId and origin, different pathname, settled; not not-found/404/error",
+    "output": "source handoff only; adapter identity checks unchanged"
+  },
+  "recording": {
+    "shopPath": "existing single-slug reviewed pathnamePattern and existing locale queryValuePatterns",
+    "SPA": {
+      "declaredOrigin": "https://www.tablecheck.com",
+      "declaredPath": "language + one public slug, reserved workflows/error excluded",
+      "queryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type"
+      ],
+      "valueClass": "SHORT_TOKEN",
+      "currentInputEqualityOrPrefix": "DENY"
+    },
+    "unchanged": [
+      "JSON sensitive-key rejection",
+      "JSON size limit",
+      "HTML privacy sanitizer",
+      "own-credential scanning",
+      "script12MB and equal-length credential masking"
+    ]
+  },
+  "evidenceBoundary": "Real20261108 metadata/controls/status/route. Missing final HTML/JSON and new receipt envelope are LOCAL_CONSTRUCTION. No original-body Replay or D8 claim."
+}

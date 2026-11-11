@@ -1,0 +1,107 @@
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+▶ B1 ordinary assembly exposes only the exact G3 source link
+  ✖ original (32.659458ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✖ relative (14.234625ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✔ missing (12.341166ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✔ date (15.294792ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✔ party (11.273916ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✔ time (10.0305ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✔ outlet (10.098875ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✔ domain (10.79175ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✔ path (15.045625ms)
+B1_FIXTURE_ACTION {"type":"SEARCH_RESTAURANTS","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+B1_FIXTURE_ACTION {"type":"CHECK_AVAILABILITY","candidateIds":[],"question":"","relatedFields":[],"retrievalHint":"","candidateId":"","offerId":"","decisionSummary":"Offline B1 transport fixture"}
+  ✔ extra-query (9.925666ms)
+✖ B1 ordinary assembly exposes only the exact G3 source link (1102.291417ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 8
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1538.247208
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:3:37676
+✖ original (32.659458ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"LIVE_READ","case":{"caseId":"restaurant:54dd88d26ece8e98b09613f5","conversationId":"conversation:54dd88d26ece8e98b09613f5","rootTaskId":"restaurant:54dd88d26ece8e98b09613f5","title":"Tomorrow at 7pm for two in Shibuya, find a table.","status":"COMPLETED","phase":"FAILED","taskVersion":2,"pendingUserAction":"REVIEW_ATTENTION","updatedAt":"2026-08-08T09:00:00.000Z"},"conversation":{"id":"conversation:54dd88d26ece8e98b09613f5","messages":[{"id":"message:0:15dcd92187ba8c46f0888525","role":"USER","content":"Tomorrow at 7pm for two in Shibuya, find a table.","createdAt":"2026-08-08T09:00:00.000Z"},{"id":"message:1:15dcd92187ba8c46f0888525","role":"ASSISTANT","content":"The read-only investigation stopped: Model action was invalid: CHECK_AVAILABILITY requires one or more candidateIds No verified availability result was presented.","createdAt":"2026-08-08T09:00:00.000Z"}]},"restaurant":{"intentDraft":{"area":{"query":"Shibuya"},"date":"2026-08-09","target":{"goal":"AVAILABILITY","query":"find a table"},"criteria":[],"timezone":"Asia/Tokyo","partySize":2,"timeWindow":{"latest":"19:00","earliest":"19:00"},"schemaVersion":"3","partySizeSource":"EXPLICIT","temporalResolution":{"date":{"basis":"EXPLICIT_DATE","expression":"tomorrow","resolvedDate":"2026-08-09"},"timezone":"Asia/Tokyo","timeWindow":{"basis":"EXPLICIT_CLOCK","expression":"7pm","resolvedTimeWindow":{"latest":"19:00","earliest":"19:00"}},"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-08T09:00:00.000Z"}},"missingRequiredFields":[],"bookingFeedbackAvailable":false,"candidates":[],"availability":{},"availabilityChecks":{},"readEvidence":[],"currentFactEvidence":[]},"artifacts":[{"artifactId":"artifact:outcome:restaurant:54dd88d26ece8e98b09613f5:2","caseId":"restaurant:54dd88d26ece8e98b09613f5","domain":"restaurant","type":"OUTCOME","sourceVersion":2,"data":{"outcome":{"reason":"Model action was invalid: CHECK_AVAILABILITY requires one or more candidateIds","status":"FAILED"}}}],"activities":[{"activityId":"activity:event:user:91ac6cf2f7f8cb681fe8e7fcc54a2420","caseId":"restaurant:54dd88d26ece8e98b09613f5","sourceRef":{"kind":"EVENT","id":"event:user:91ac6cf2f7f8cb681fe8e7fcc54a2420"},"type":"SEMANTIC_PROPOSAL_COMPILED","display":{"title":"Request updated","detail":"A validated semantic proposal was compiled into the Restaurant state path."},"occurredAt":"2026-08-08T09:00:00.000Z"},{"activityId":"activity:event:restaurant-agent:6e4e9d3c-ac3d-4902-89da-d5f32ff70026","caseId":"restaurant:54dd88d26ece8e98b09613f5","sourceRef":{"kind":"EVENT","id":"event:restaurant-agent:6e4e9d3c-ac3d-4902-89da-d5f32ff70026"},"type":"AGENT_DECISION_FAILED","display":{"title":"Agent model decision failed","detail":"Model action was invalid: CHECK_AVAILABILITY requires one or more candidateIds"},"occurredAt":"2026-08-08T09:00:00.000Z"}],"note":"Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."}
+  + actual - expected
+  
+  + 'FAILED'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1959:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1948:19)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:245:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1890:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/server/local-web-server.test.ts:3:37676
+✖ relative (14.234625ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"LIVE_READ","case":{"caseId":"restaurant:d0e66fb756f39aff23c0ff26","conversationId":"conversation:d0e66fb756f39aff23c0ff26","rootTaskId":"restaurant:d0e66fb756f39aff23c0ff26","title":"Tomorrow at 7pm for two in Shibuya, find a table.","status":"COMPLETED","phase":"FAILED","taskVersion":2,"pendingUserAction":"REVIEW_ATTENTION","updatedAt":"2026-08-08T09:00:00.000Z"},"conversation":{"id":"conversation:d0e66fb756f39aff23c0ff26","messages":[{"id":"message:0:f254bcb842e2a302a8bf5d32","role":"USER","content":"Tomorrow at 7pm for two in Shibuya, find a table.","createdAt":"2026-08-08T09:00:00.000Z"},{"id":"message:1:f254bcb842e2a302a8bf5d32","role":"ASSISTANT","content":"The read-only investigation stopped: Model action was invalid: CHECK_AVAILABILITY requires one or more candidateIds No verified availability result was presented.","createdAt":"2026-08-08T09:00:00.000Z"}]},"restaurant":{"intentDraft":{"area":{"query":"Shibuya"},"date":"2026-08-09","target":{"goal":"AVAILABILITY","query":"find a table"},"criteria":[],"timezone":"Asia/Tokyo","partySize":2,"timeWindow":{"latest":"19:00","earliest":"19:00"},"schemaVersion":"3","partySizeSource":"EXPLICIT","temporalResolution":{"date":{"basis":"EXPLICIT_DATE","expression":"tomorrow","resolvedDate":"2026-08-09"},"timezone":"Asia/Tokyo","timeWindow":{"basis":"EXPLICIT_CLOCK","expression":"7pm","resolvedTimeWindow":{"latest":"19:00","earliest":"19:00"}},"policyVersion":"restaurant-temporal-materialization@6","referenceTime":"2026-08-08T09:00:00.000Z"}},"missingRequiredFields":[],"bookingFeedbackAvailable":false,"candidates":[],"availability":{},"availabilityChecks":{},"readEvidence":[],"currentFactEvidence":[]},"artifacts":[{"artifactId":"artifact:outcome:restaurant:d0e66fb756f39aff23c0ff26:2","caseId":"restaurant:d0e66fb756f39aff23c0ff26","domain":"restaurant","type":"OUTCOME","sourceVersion":2,"data":{"outcome":{"reason":"Model action was invalid: CHECK_AVAILABILITY requires one or more candidateIds","status":"FAILED"}}}],"activities":[{"activityId":"activity:event:user:c844142f8212b84eecebd06a6ef8711b","caseId":"restaurant:d0e66fb756f39aff23c0ff26","sourceRef":{"kind":"EVENT","id":"event:user:c844142f8212b84eecebd06a6ef8711b"},"type":"SEMANTIC_PROPOSAL_COMPILED","display":{"title":"Request updated","detail":"A validated semantic proposal was compiled into the Restaurant state path."},"occurredAt":"2026-08-08T09:00:00.000Z"},{"activityId":"activity:event:restaurant-agent:47172900-11b4-4e17-a8ef-6408ca7620bb","caseId":"restaurant:d0e66fb756f39aff23c0ff26","sourceRef":{"kind":"EVENT","id":"event:restaurant-agent:47172900-11b4-4e17-a8ef-6408ca7620bb"},"type":"AGENT_DECISION_FAILED","display":{"title":"Agent model decision failed","detail":"Model action was invalid: CHECK_AVAILABILITY requires one or more candidateIds"},"occurredAt":"2026-08-08T09:00:00.000Z"}],"note":"Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."}
+  + actual - expected
+  
+  + 'FAILED'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1959:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1948:19)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:245:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1890:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/server/local-web-server.test.ts:3:33369
+✖ B1 ordinary assembly exposes only the exact G3 source link (1102.291417ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.equal(refreshResolver.messages.length, 0, "availability refresh never re-interprets or supplements the original request")
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1968:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:245:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1890:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }

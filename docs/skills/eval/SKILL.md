@@ -5,8 +5,8 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.15
-- Last updated: 2026-10-26
+- Document revision: 2.20
+- Last updated: 2026-11-10
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
 
@@ -236,14 +236,30 @@ R6对无结果记录同时要求：终态failure、search failure或remainingGap
 
 无进展诊断上限（代码`INVESTIGATION_PROGRESS_LIMITS`；严格超过才不满足）：拒绝动作3、连续无新观察4步、同请求/来源/动作/失败类重复3次、同一完整URL重复加载5次（首次不算重复）。首次新增候选/证据、首次实读候选范围或首次新来源空观察计进展，不把UNKNOWN变成无位或成功；失败/被拒提议不能用伪observation重置。连续同检索词另报逐步序列，换来源本身不是错误，不把三次合法来源查询直接等同不充分。完整URL缺失而只留脱敏路径时，URL子项未评价、路径次数仅描述，不因删除query制造重复。调查不满足可与合格交付并存；claim仍必须过条件、同请求观察、原始支持和展示时序检查。通过计数检查也不证明调查充分。
 
+G6原生来源的机械资格注释只能从同次原始公开DOM/JSON提取，不读取生产HIGH/AVAILABLE/Guard结论。名称与完整地址/电话、原生实体和canonical路径、同一表单的选中日期/人数及可用时段、实际观察的预约入口分别保留来源引用。跨语言Gold绑定须有独立冻结公开来源的名称+电话或完整地址，并要求当前来源实体/canonical路径/完整来源地址连续；不能从执行候选临时生成别名。机械注释不推断HARD/范围语义，缺语义Gold仍明确未评价；旧评价文件不覆盖，补评另存。私有留出输入的公开审计仅存承诺/清单/用例哈希和占位符填写值；三类录制继续原隐私清洗，私有请求正文省略，复算权威引用时需同一私有清单。
+
+私有held-out的人工补评只提供独立标注，不替换原始请求、交付、引用或网络证据。`--resume --review <attempt-key> <external-file>`绑定原录制与补评文件SHA，另存`evaluation.supplement.json`，原评价不可覆盖；补评仍NOT_EVALUATED或S0则停批。无原评价的已计费产品失败，须先用原录制和完整外层方法/正文/预检观察重新计算独立边界，零违规且无证据缺口才补评。G6 evaluation@5将已核实的这种失败计为`PLANNED_RUN_FAILED`、qualified=false的一次计划运行，不冒充诚实无结果、不中止已有S0检查、不获得环境重跑；缺原始边界/声明材料仍停批。
+
+显式允许已知无位的见证仍须读取当前空位，未知不能冒充无位。实际false的运行单列NO_POSITIVE_WITNESS_DIAGNOSTIC，不将其作为正向KNOWN_FEASIBLE见证；重新认证为true按STANDARD_G6处理。声明的允许策略和每次实际认证模式分别记录；产品交付或诚实无结果仍按原独立条件判定，不因标记获得合格结论，报告不混同正向与无正向见证的运行。
+
+### 2026-11-10：仅缺资格注释的待复核例外
+
+G6 evaluation@6：当唯一非PASS检查是COMPLETE_REQUEST_QUALIFICATION，且已有同次同店来源观察、缺失原因仅为独立资格注释时，标PENDING_REVIEW、qualified=null、stopBatch=false；已核实引用但尚待完整请求语义/地区独立注释同此。它不宣称S0不存在或合格，其他所有检查须PASS。没有来源捕获、任何其他NOT_EVALUATED或S0仍停批，不改变身份、Guard或G1。
+
+独立请求可携带timeWindow，PARTY_TIME按冻结HH:mm闭区间核对（精确time仍照旧）；D02不再只靠报告人工核对时段。
+
+开发G6与held-out均将待复核槽位作为已完成，不重跑、不扣环境额度；批次单列pendingReviewCount，所有待复核补评完成前不得报告通过率。外部--review仍只接受三类独立注释，原评价保留，另存evaluation.supplement.json并绑定文件/证据/结果SHA；补评清楚则EVALUATED_BY_REVIEW，晚发现S0则整批FAILED_S0（包括后来已完成的槽位），以后不得续跑。没有评价的已计费失败仍须原有独立边界补评流程，不获得此例外。
+
+run-holdout可用--commitment指定新的承诺JSON，省略仍读原承诺；格式及前言/原始全文件/每段哈希校验不变，承诺字节SHA也纳入续跑输入绑定。
+
 ## 8 当前评价入口与覆盖
 
 | 目的 | 当前入口 | 证明边界 |
 | --- | --- | --- |
 | 语义开发回归 | `npm run eval:restaurant:semantic:fixture` / `...:deepseek` | 前者是离线契约，后者是授权真实模型诊断；均非Clean Baseline |
 | 私有Holdout准备 | `npm run eval:restaurant:semantic:holdout:preflight` | 标注与状态检查 |
-| 搜索本地纵向检查 | `npm run eval:restaurant:search:fixture` | 本地Fixture链，停在授权前 |
 | 固定来源或Hybrid只读 | `npm run eval:restaurant:agent-loop:fixed-source-model` / `...:hybrid-live-read` | 前者受控来源，后者本次真实只读；都不证明预约成功 |
+| 私有held-out预认证 | `run-holdout.ts --certify-only` | 清单定稿前的独立空位见证；不绑定正式输出，不替代正式逐次认证，不启动产品/模型/Live |
 | 已有artifact补评 | `npm run eval:restaurant:agent-loop:artifact` | 结论支持性与终止行为 |
 | 决策回放 | `run-decision-replay.ts`（原样、注入、history模式） | 单步决策在冻结输入上的表现 |
 

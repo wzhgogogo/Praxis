@@ -1,0 +1,173 @@
+{
+  "testedCommit": "c300d268bfa02b1e5be5fa00c00d583cfa173f4e",
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE_MODEL",
+  "environment": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpus": 10,
+    "node": "v24.4.1"
+  },
+  "startedAtCET": "2026-10-30T17:54:16.013186+01:00",
+  "frozenPaths": 718,
+  "newRealCalls": 0,
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.496,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.206,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 28.685,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "66669a89ee98c3780f1d8d52fc6c81fa8cd5e2085efd1e8165ac29caa2021c53",
+      "summary": {
+        "tests": 1243,
+        "suites": 5,
+        "pass": 1243,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.473,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "browser-1",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 130.017,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "f6af78312c09e5fe802547affcf18c74bcd05cbd18a35e23e42f2c9b4b0c96be",
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "lifecycle": {
+        "filesStarted": 37,
+        "filesEnded": 37,
+        "expectedFiles": 37,
+        "allFileStartsEndsOnce": true,
+        "outerTimeout": false,
+        "unfinished": [],
+        "slowestFiles": [
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-stability.test.ts",
+            "elapsedMs": 48287.503791,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-discovery.test.ts",
+            "elapsedMs": 46722.392875000005,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tablecheck.test.ts",
+            "elapsedMs": 41990.04333300001,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-request-binding.test.ts",
+            "elapsedMs": 32391.543375,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-category.test.ts",
+            "elapsedMs": 25190.823167,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-search-controls.test.ts",
+            "elapsedMs": 24229.596000000005,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-tabelog.test.ts",
+            "elapsedMs": 19772.481874999998,
+            "passed": true
+          },
+          {
+            "phase": "remaining fixtures",
+            "event": "FILE_END",
+            "file": "src/harness/browser/browser-read-regions.test.ts",
+            "elapsedMs": 19207.455500000004,
+            "passed": true
+          }
+        ]
+      },
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "frozenInputsUnchanged": true,
+  "finishedAtCET": "2026-10-30T17:56:56.789949+01:00"
+}

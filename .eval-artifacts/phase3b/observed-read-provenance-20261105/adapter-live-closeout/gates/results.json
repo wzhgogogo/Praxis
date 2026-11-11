@@ -1,0 +1,40 @@
+[
+  {
+    "gate": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 0.529199667,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "arch",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 0.223027875,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "env": {},
+    "exitCode": 1,
+    "elapsedSeconds": 65.117316625,
+    "before": "",
+    "after": ""
+  }
+]

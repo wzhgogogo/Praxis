@@ -551,11 +551,11 @@ try {
         let discoveryCoverage: SourceStageProbeAttempt["discoveryCoverage"];
         if (manifest.stage === "DISCOVERY" && !pack.browser) {
           const intent = discoveryIntent(sample.input);
-          const location = locationContext ?? (intent.area.coordinates ? {
-            latitude: intent.area.coordinates.latitude,
-            longitude: intent.area.coordinates.longitude,
-            radiusMeters: intent.area.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS,
-            label: intent.area.query,
+          const location = locationContext ?? (intent.area!.coordinates ? {
+            latitude: intent.area!.coordinates.latitude,
+            longitude: intent.area!.coordinates.longitude,
+            radiusMeters: intent.area!.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS,
+            label: intent.area!.query,
             areaMatchBasis: "TASK_LOCATION_RADIUS" as const,
           } : undefined);
           if (!location) throw Object.assign(new Error("Frozen Google discovery sample requires a resolved location context"), { code: "LOCATION_RESOLUTION_UNRESOLVED" });
@@ -587,7 +587,7 @@ try {
           } : rawRuntime;
           const browserProvider = manifest.stage === "WEBSITE_FACTS" ? "RESTAURANT_WEBSITE" : pack.browser?.provider;
           if (!browserProvider) throw Object.assign(new Error("Source Pack has no browser provider for this stage"), { code: "SOURCE_STAGE_BROWSER_NOT_APPLICABLE" });
-          const browser = traceBrowserRuntime(replayRuntime, browserProvider, recordTrace, recording?.snapshotSink());
+          const browser = traceBrowserRuntime(replayRuntime, browserProvider, recordTrace, recording?.snapshotSink(), {remainingBudgetMs:()=>Math.max(0,manifest.budget.sampleMaxElapsedMs-(Date.now()-startedAt))});
           const model = replayHarPath
             ? { async complete() { throw Object.assign(new Error("Replay never dispatches a model request"), { code: "REPLAY_MODEL_DISABLED" }); } }
             : sharedSourceStageModelGateway(providerModel(), sampleBudget);

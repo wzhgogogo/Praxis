@@ -98,7 +98,8 @@ export interface RestaurantSearchIntent {
   permittedAlternativeTimeWindow?: { earliest: string; latest: string };
   /** Discovery ordering may use an already-authoritative group size; it never grants an availability claim. */
   partySize?: number;
-  area: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
+  /** Absent only for an explicit named outlet; never filled from a provider address. */
+  area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
 }
@@ -416,6 +417,7 @@ export interface RestaurantSearchContinuation {
       address?: string;
       phone?: string;
       sourceCategories?: string[];
+      listingScope?: {ref:string;text:string;url:string};
     }>;
     pendingSourceIds: string[];
   };
@@ -427,6 +429,10 @@ export function restaurantSearchIntentFingerprint(intent: RestaurantSearchIntent
 }
 
 export interface RestaurantAvailabilityRequest {
+  /** Router-owned navigation context; never supplied by the Agent. */
+  selectionScope?: NonNullable<RestaurantSearchIntent['target']>['selectionScope'];
+  /** Router-derived HIGH/unique source identities. Navigation hints only; every live page is reverified. */
+  verifiedOutletPages?: readonly {candidateId:string;provider:RestaurantReadEvidenceProvider;sourceEntityId:string;sourceUrl:string}[];
   candidateIds: string[];
   /** Bound by Router from authoritative State; never supplied by the Agent. */
   candidates: RestaurantCandidate[];
@@ -448,8 +454,14 @@ export interface RestaurantAvailabilityRequest {
 
 /** A bounded read of source facts for an already-discovered outlet; never an availability query. */
 export interface RestaurantCandidateFactRequest {
+  /** Router-bound current-request evidence; never supplied by the model. */
+  sourceEvidence?: RestaurantReadEvidence[];
   /** G1 source acquisition only; no HARD/menu interpretation and no original-state write. */
   capturePagesOnly?: true;
+  /** One fresh observation of the exact bound page; no capture skill loop. */
+  reobservePageOnce?: true;
+  /** B1 may read one actually observed same-outlet language link via the same fact reader. */
+  captureLinkedTranslation?: true;
   candidateIds: string[];
   /** Bound by the Router from authoritative State; never supplied by the Agent. */
   candidates: RestaurantCandidate[];
@@ -488,6 +500,7 @@ export interface RestaurantCandidateFactRead {
 export interface RestaurantFactSourceDocument {
   /** Private metadata from this same source read; omitted from model messages. */
   sourceFieldQuotes?: RestaurantSourceFieldQuote[];
+  statementSourceFields?: Record<string, RestaurantSourceFieldQuote["field"]>;
   priceFacts?: RestaurantPriceFacts;
   id: string;
   candidateId: string;
@@ -542,6 +555,7 @@ export interface RestaurantReadExecutionMetadata {
     }>;
   };
   /** Internal read-only source chain trace; never projected into Agent context. */
+  skippedSources?: Array<{candidateId:string;provider:'TABLECHECK'|'TABELOG';reason:'TABLECHECK_NOT_EVIDENCED'}>;
   providerAttempts?: Array<{
     candidateId: string;
     provider: "TABLECHECK" | "TABELOG";
@@ -560,6 +574,7 @@ export interface RestaurantReadExecutionMetadata {
     reason: string;
   }>;
   /** Observed native batch funnel; `exhausted` on the durable cursor includes the next source. */
+  supplementaryDiscovery?: {sourceId:string;status:"COMPLETED"|"INCOMPLETE";candidateCount:number;reason?:string};
   nativeDiscoveryFunnel?: {
     directoryRegion?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["directoryRegion"];
     regionEntrances?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["regionEntrances"];
@@ -602,7 +617,7 @@ export interface RestaurantReadExecutionMetadata {
     batchEnded: boolean;
     /** True only when this source's observed work or configured source ceiling ended. */
     sourceEnded: boolean;
-    progressionReason: "FIRST_SOURCE_BATCH" | "FIRST_SOURCE_BATCH_ENDED" | "SOURCE_FAILURE";
+    progressionReason: "FIRST_SOURCE_BATCH" | "FIRST_SOURCE_BATCH_ENDED" | "SOURCE_FAILURE" | "NO_PROGRESS";
   };
   browser?: {
     runtimeProvider: "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";
@@ -746,7 +761,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "24";
+  schemaVersion: "25";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;
@@ -850,6 +865,8 @@ export type RestaurantEvent =
   | (DomainEvent & {
       type: "SEMANTIC_PROPOSAL_COMPILED";
       patch: RestaurantIntentPatch;
+      /** Code-admitted user choice request; never raw semantic goalBasis or booking authority. */
+      userBookingSelection?: { candidateId?: string };
       /** Links party-size diagnostic provenance to the persisted user message, never to provider evidence. */
       partySizeSourceMessageRequestId?: string;
       /** Records whether the bounded supplementary resolver ran; never stores raw user text. */

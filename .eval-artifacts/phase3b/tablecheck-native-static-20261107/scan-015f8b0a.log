@@ -1,0 +1,3 @@
+src/infrastructure/browser/playwright-read-network-guard.ts:598 [ WORDLIST ]     const reviewedStaticNative=this.admittedGetTransport==="REVIEWED_STATIC_BROWSER"&&["GET","HEAD"].includes(method)&&["script","stylesheet","font","image"].includes(type)&&static
+src/infrastructure/browser/playwright-read-network-guard.ts:599 [ WORDLIST ]       &&!this.queryMetadata(url).queryValues.some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT"].includes(field.valueClass));
+src/infrastructure/browser/playwright-read-network-guard.ts:600 [ WORDLIST ]     const native=reviewedStaticNative||this.admittedGetTransport==="BROWSER_GET_HEAD"&&["GET","HEAD"].includes(method);

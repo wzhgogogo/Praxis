@@ -1,0 +1,3 @@
+# Runner preflight correction
+
+The first invocation rejected the existing DeepSeek beta chat endpoint before invoking fetch or chargeG6. Actual requests0, ledger entries0, cumulative507 unchanged. This is a Runner whitelist omission (thinking=disabled uses the existing beta endpoint), not provider/network failure. Preserve original ModelGatewayError/NETWORK as wrapped output in model-only-rejected-before-fetch; no external call occurred. Allow exactly the provider library’s two existing chat-completions URLs, no source/site/Google endpoints. Freeze correction before executing the planned32 requests.

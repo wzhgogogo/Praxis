@@ -4,6 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { test } from "node:test";
 import { BrowserTaskExecutor, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
+import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { url, localFixture } from "./browser-read-test-fixtures.js";
 
 test("Tabelog category discovery expands observed links and removes the keyword within the same area", async () => {
@@ -52,7 +53,7 @@ test("Tabelog category discovery expands observed links and removes the keyword 
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABELOG", "DISCOVERY");
   try {
-    await executor.navigate({ source: "TABELOG", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://tabelog.com"], url: keywordUrl });
+    await executor.navigate({ observed: true, source: "TABELOG", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://tabelog.com"], url: keywordUrl });
     const result = await executor.runSkill({ taskId: "observed-category-discovery", source: "TABELOG", stage: "DISCOVERY", session, signal,
       allowedOrigins: ["https://tabelog.com"], goal: { outlet: { name: "omakase", address: "Shibuya" }, hardCriteria: ["omakase"] },
       objective: "Use an observed related category and remove the keyword while keeping the same area.",
@@ -139,6 +140,7 @@ test("Tabelog Adapter consumes loading-to-restricted calendar without model acti
   const candidate = structuredClone(fixtureCandidates[0]!);
   candidate.restaurant.sourceIds.phone = "03-1111-2222";
   const sourceUrl = "https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
+  candidate.restaurant.sourceIds.googleWebsiteUri = sourceUrl; // Source-bound exact entrance for this calendar component control.
   const searchUrl = "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201";
   const calendarUrl = "https://tabelog.com/fixture-calendar";
   const saved = readFileSync(new URL("./fixtures/tabelog-teppen-calendar-20260929.html", import.meta.url), "utf8");
@@ -159,29 +161,54 @@ test("Tabelog Adapter consumes loading-to-restricted calendar without model acti
   } finally { await executor.close(); }
 });
 
-for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
-  test(`${runtimeKind} retires a real Chromium session after a delayed failed navigation`, async () => {
+for (const [runtimeKind,lateDispatch] of [["LOCAL",false],["CLOUDFLARE_SESSION",false],["LOCAL",true]] as const) {
+  test(`${runtimeKind} retires a real Chromium session after a delayed failed navigation${lateDispatch ? " (source dispatch follows retirement)" : ""}`, async () => {
     const failedUrl = "https://www.tablecheck.com/en/delayed-failure";
     let releaseOld!: () => void;
     let oldFinished!: () => void;
     const release = new Promise<void>(resolve => { releaseOld = resolve; });
     const finished = new Promise<void>(resolve => { oldFinished = resolve; });
-    const runtime = localFixture({ [url]: "<title>Fresh page</title><h1>New candidate</h1>" }, runtimeKind, { url: failedUrl, release, finished: oldFinished });
+    const raw = localFixture({ [url]: "<title>Fresh page</title><h1>New candidate</h1>" }, runtimeKind, { url: failedUrl, release, finished: oldFinished });
+    let releaseDispatch!:()=>void,oldClosed!:()=>void;
+    const dispatch=new Promise<void>(r=>{releaseDispatch=r;}),retired=new Promise<void>(r=>{oldClosed=r;});
+    let sessions=0;
+    const runtime:BrowserRuntime={async openSession(input){
+      const session=await raw.openSession(input),first=sessions++===0;
+      return new Proxy(session,{get(target,key){
+        if(key==="navigate")return async(...args:Parameters<BrowserSession["navigate"]>)=>{
+          if(first&&lateDispatch){
+            let timer:ReturnType<typeof setTimeout>|undefined;
+            try{return await Promise.race([dispatch.then(()=>target.navigate(...args)),new Promise<never>((_,reject)=>{
+              timer=setTimeout(()=>reject(new BrowserRuntimeError("BROWSER_TIMEOUT","Controlled source transport failed before request dispatch")),args[1]?.timeoutMs??30);
+            })]);}finally{if(timer)clearTimeout(timer);}
+          }
+          return target.navigate(...args);
+        };
+        if(key==="close")return async()=>{await target.close();if(first)oldClosed();};
+        const value=Reflect.get(target,key,target);return typeof value==="function"?value.bind(target):value;
+      }});
+    }};
     const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
     const signal = new AbortController().signal;
     executor.beginCandidate("failed");
     const failedSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
     await assert.rejects(
-      executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", session: failedSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url: failedUrl, timeoutMs: 30 }),
+      executor.navigate({ observed: true, source: "TABLECHECK", stage: "IDENTITY", session: failedSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url: failedUrl, timeoutMs: 30 }),
       { code: "BROWSER_TIMEOUT" },
     );
     executor.beginCandidate("next");
     const freshSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
     try {
       assert.notEqual(freshSession, failedSession);
-      await executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       assert.match((await executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal })).text, /New candidate/);
+      if(lateDispatch){
+        await retired;
+        if(process.env.PRAXIS_G6_NAV_TRACE==="1")console.log("G6_NAVIGATION_OLD_SESSION_RETIRED_BEFORE_DISPATCH");
+      }
+      releaseDispatch();
       releaseOld();
+      if(lateDispatch&&process.env.PRAXIS_G6_NAV_TRACE==="1")console.log("G6_NAVIGATION_WAITING_FOR_OLD_FIXTURE_FINISHED");
       await finished;
       assert.match((await executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal })).text, /New candidate/);
     } finally { await executor.close(); }
@@ -230,6 +257,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
       const candidate = structuredClone(fixtureCandidates[0]!);
       candidate.restaurant.sourceIds.phone = "03-1111-2222";
+      candidate.restaurant.sourceIds.googleWebsiteUri = sourceUrl;
       const result = await new TabelogBrowserAvailability(executor).check({
         candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,
         timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[],
@@ -255,6 +283,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const {fixtureCandidates}=await import("../restaurant-fixtures.js");
     const candidate=structuredClone(fixtureCandidates[0]!);candidate.restaurant.sourceIds.phone="03-1111-2222";
     const sourceUrl="https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
+    candidate.restaurant.sourceIds.googleWebsiteUri=sourceUrl;
     const endpoint="https://tabelog.com/en/booking/calendar/find_vacancy"+(markup==="legacy"?"/":"");
     let html=`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p>
       <div class="rstdtl-course-list js-rstdtl-course-list"><span class="rstdtl-course-list__course-title-text">Seasonal lunch course</span><p class="rstdtl-course-list__desc">Lunch only, 11:30 to 14:00.</p><del>JPY 9,000</del><span class="rstdtl-course-list__price-num">JPY<em>8,000</em><span>（Price including tax）per person</span></span><dl class="rstdtl-course-list__course-rule"><dt>Number of people</dt><dd>2 - 4</dd></dl></div>

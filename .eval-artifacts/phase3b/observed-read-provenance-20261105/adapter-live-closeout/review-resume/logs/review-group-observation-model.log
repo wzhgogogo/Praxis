@@ -1,0 +1,50 @@
+✖ group-window Chromium: available keeps exact request and explicit coverage (1607.964542ms)
+✖ group-window Chromium: all-empty keeps exact request and explicit coverage (1565.627792ms)
+✔ group-window Chromium: wrong-party keeps exact request and explicit coverage (498.161458ms)
+✔ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (1381.086167ms)
+✔ group-window Chromium: disabled exact party stops without clicking or changing the count (469.464625ms)
+✔ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (813.643875ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 4
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6669.501709
+
+✖ failing tests:
+
+test at src/harness/browser/group-window.test.ts:5:95
+✖ group-window Chromium: available keeps exact request and explicit coverage (1607.964542ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"tablecheck:window-fixture":{"status":"UNKNOWN","checkedAt":"2026-10-22T00:00:00.000Z","evidenceIds":["evidence:restaurant:tablecheck-entity-match:a9e97a10194b32bbbceb8d92"],"reasonCode":"SELECTED_MEALTIME_EMPTY","timeWindowCoverage":{"date":"2026-11-06","partySize":6,"requestedWindow":{"earliest":"18:00","latest":"20:00"},"covered":[{"earliest":"18:00","latest":"18:00","status":"EMPTY"}],"uncovered":[{"earliest":"18:00","latest":"20:00","earliestExclusive":true,"latestExclusive":false}],"stopReason":"OBSERVED_TIMES_EXHAUSTED"},"sourceAttempts":[{"source":"TABLECHECK","outcome":"UNKNOWN","reasonCode":"SELECTED_MEALTIME_EMPTY"}]}},"evidence":[{"evidenceId":"evidence:restaurant:tablecheck-entity-match:a9e97a10194b32bbbceb8d92","kind":"ENTITY_MATCH","provider":"TABLECHECK","candidateId":"tablecheck:window-fixture","sourceEntityId":"window-fixture","sourceUrl":"https://www.tablecheck.com/en/window-fixture","observedAt":"2026-10-22T00:00:00.000Z","requestFingerprint":"fc408bc27d04994ec0816a2f3c1352e9bee979e3f1e501670bfea1f62d6346be","claims":{"outletName":"Window fixture","observedOutletName":"Window fixture"},"entityMatch":{"confidence":"HIGH","matchedBy":["NATIVE_SOURCE_ID_AND_DETAIL"]},"sourceFieldQuotes":[{"field":"NAME","quote":"Window fixture","sourceUrl":"https://www.tablecheck.com/en/window-fixture"}]}],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":1587,"providerAttempts":[{"candidateId":"tablecheck:window-fixture","provider":"TABLECHECK","outcome":"UNKNOWN","failureCode":"SELECTED_MEALTIME_EMPTY"}],"browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:c067180d-b307-4740-99ff-144321d28aca","startedAt":"2026-11-05T18:04:13.916Z","readNetworkBoundary":"INSTALLED"},"googleRequests":{"limit":40,"total":0,"namedPlaceResolution":0,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/group-window.test.ts:49:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/group-window.test.ts:5:95
+✖ group-window Chromium: all-empty keeps exact request and explicit coverage (1565.627792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 4
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/group-window.test.ts:55:151)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 4,
+    operator: 'strictEqual'
+  }

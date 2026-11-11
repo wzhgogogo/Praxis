@@ -1,0 +1,54 @@
+✖ B1 G1 page witnesses are current-run same-channel identities, without hiding the link on rejection (3.419917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.149458
+
+✖ failing tests:
+
+test at src/domains/restaurant/booking-handoff.test.ts:1:2225
+✖ B1 G1 page witnesses are current-run same-channel identities, without hiding the link on rejection (3.419917ms)
+  AssertionError [ERR_ASSERTION]: wrong native source ID
+  + actual - expected
+  
+  + [
+  +   {
+  +     citations: [
+  +       {
+  +         identityEvidenceId: 'fixture:identity',
+  +         readAt: '2026-10-29T10:00:00.000Z',
+  +         text: 'Cancellations on the day cost 100%.',
+  +         url: 'https://tabelog.com/en/tokyo/A1301/A130101/13123456/'
+  +       }
+  +     ],
+  +     label: 'Same-day cancellation costs 100%.'
+  +   },
+  +   {
+  +     citations: [
+  +       {
+  +         identityEvidenceId: 'fixture:identity',
+  +         readAt: '2026-10-29T10:00:00.000Z',
+  +         text: 'A credit card is required.',
+  +         url: 'https://tabelog.com/en/tokyo/A1301/A130101/13123456/'
+  +       }
+  +     ],
+  +     label: 'Card required'
+  +   }
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/booking-handoff.test.ts:57:144)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ { label: 'Same-day cancellation costs 100%.', citations: [Array] }, { label: 'Card required', citations: [Array] } ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

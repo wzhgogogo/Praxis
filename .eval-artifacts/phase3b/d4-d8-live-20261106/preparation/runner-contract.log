@@ -1,0 +1,39 @@
+✔ outer raw request evidence is independently audited: VALID (1.604ms)
+✔ outer raw request evidence is independently audited: EXTRA_FIELD (0.127125ms)
+✔ outer raw request evidence is independently audited: WRONG_TYPE (0.095125ms)
+✔ outer raw request evidence is independently audited: WRONG_PATH (0.075375ms)
+✔ outer raw request evidence is independently audited: WRONG_METHOD (0.07525ms)
+✔ outer raw request evidence is independently audited: MISSING_BODY (0.6875ms)
+✔ outer raw request evidence is independently audited: MISSING_HASH (0.158333ms)
+✔ outer raw request evidence is independently audited: MISSING_CONTENT_TYPE (0.086334ms)
+✔ outer raw request evidence is independently audited: WRONG_PREFLIGHT (0.108416ms)
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (3057.187375ms)
+✔ G6 each user message receives a fresh read budget after an initial 483-second read (669.6465ms)
+✔ G6 records a safe unassessed clarification and continues to the next full Live-assembly slot (1115.115708ms)
+✔ G6 serial Runner obtains G1 pages through Live assembly, records all channels, checks each slot and stops before the next slot on independent S0 (1229.358417ms)
+✔ G6 frozen pack refuses changed bytes before constructing any source transport (1.040625ms)
+✔ G6 Runner authoritative pending question controls date reply: asked date (591.101375ms)
+✔ G6 Runner authoritative pending question controls date reply: asked partySize (501.261542ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 15
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7661.632958
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/runner.test.ts:1:534
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (3057.187375ms)
+  AssertionError [ERR_ASSERTION]: {"binding":{"history":[],"presentations":[],"issues":[]},"turns":[{"id":"INITIAL","phase":"FAILED","target":{"goal":"AVAILABILITY","query":"restaurant in Shibuya","selectionScope":"OPEN_ENDED","requestedResultCount":1}}],"references":{"initial":null,"turns":[{"turnId":"INITIAL","userMessage":"Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM.","before":{"candidates":[]},"after":{"candidates":[],"intentDraft":{"target":{"selectionScope":"OPEN_ENDED"}},"readEvidence":[]},"events":[{"id":"event:user:5909354f22b62ab5d4a658f4cac942a6","trace":{"actor":"USER"},"event":{"type":"SEMANTIC_PROPOSAL_COMPILED","patch":{"target":{"selectionScope":"OPEN_ENDED"}}}},{"id":"event:restaurant-agent:064a926e-3e96-4cb8-b59d-376354f1676e","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:fc56bba7-e01d-48ce-abc0-81258fb7f1af","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:5efe1361-ec7d-44e7-942a-c76d9cb12f4b","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:707c1767-e55c-4eb6-9435-205a87c0fbf0","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:acdad3b7-5fde-4a39-a765-59021f406434","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_FAILED"}},{"id":"event:restaurant-agent:71db1c08-9499-4512-9d88-671b82cf0e75","trace":{"actor":"SYSTEM"},"event":{"type":"AGENT_LOOP_TERMINATED"}}]}]}}
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/runner.test.ts:27:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }

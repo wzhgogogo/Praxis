@@ -66,25 +66,6 @@ export class PlaywrightControlRegistry {
     this.targets.clear();
   }
 
-  private async selectedDisplay(element: ElementHandle<SVGElement | HTMLElement>): Promise<string | undefined> {
-    return element.evaluate(node => {
-      if (!(node instanceof HTMLInputElement) || node.getAttribute("role") !== "combobox"
-        || node.getAttribute("aria-readonly") !== "true" || node.value) return undefined;
-      // An explicit value container and its unique single-value child bind the
-      // displayed selection to this input. Nearby page text is not a value.
-      const container = [node.parentElement, node.parentElement?.parentElement]
-        .find(parent => parent?.getAttribute("data-testid") === "Value Container");
-      if (!container || container.querySelectorAll('input[role="combobox"]').length !== 1) return undefined;
-      const displays = [...container.children].filter(child =>
-        [...child.classList].some(name => /(?:^|-)singleValue$/.test(name)));
-      if (displays.length !== 1 || displays[0]!.contains(node)) return undefined;
-      const display = displays[0]!;
-      if (!(display as HTMLElement).getClientRects().length || display.querySelector("input,select,button,[role=option]")) return undefined;
-      const value = display.textContent?.replace(/\s+/g, " ").trim();
-      return value && value.length <= 160 ? value : undefined;
-    });
-  }
-
   /**
    * Read the inexpensive, browser-owned control projection once.  The
    * `signature` intentionally excludes presentation-only fields such as the
@@ -199,6 +180,17 @@ export class PlaywrightControlRegistry {
       const monthNumber = monthYear ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(monthYear[1]!.slice(0,3).toLowerCase())+1 : Number(numericMonthYear?.[2]);
       const calendarDate = yearNumber && monthNumber > 0 && monthNumber <= 12 && dayNumber > 0 && dayNumber <= new Date(Date.UTC(yearNumber,monthNumber,0)).getUTCDate()
         ? `${yearNumber}-${String(monthNumber).padStart(2,'0')}-${String(dayNumber).padStart(2,'0')}` : undefined;
+      const formVisibleLines: string[] = [];
+      if (form) {
+        const walker = document.createTreeWalker(form, NodeFilter.SHOW_TEXT);
+        for (let next = walker.nextNode(), visited = 0; next && visited < 1000 && formVisibleLines.length < 80; next = walker.nextNode(), visited++) {
+          const owner = next.parentElement;
+          if (!owner || owner.closest("script,style,template,noscript,select,option") || !(owner as HTMLElement).getClientRects().length) continue;
+          const style = getComputedStyle(owner); if (style.display === "none" || style.visibility === "hidden") continue;
+          const text = next.textContent?.replace(/\s+/g, " ").trim();
+          if (text && text.length <= 160) formVisibleLines.push(text);
+        }
+      }
       const projection = {
         tag: node.tagName, classes: [...node.classList], role: node.getAttribute("role"), type: node.getAttribute("type"),
         label: node.getAttribute("aria-label"), title: node.getAttribute("title"),
@@ -207,7 +199,9 @@ export class PlaywrightControlRegistry {
         associatedLabel: [...((node as HTMLInputElement).labels ?? [])].map(label => label.innerText.replace(/\s+/g, " ").trim()).join(" "),
         value, href: node.getAttribute("href"), name: node.getAttribute("name"), placeholder: node.getAttribute("placeholder"),
         formOwner: form ? `${form.id || formIndex}` : "", radioGroupKey,
+        formVisibleLines,
         formMethodOverride: node.getAttribute("formmethod"), formTarget: node.getAttribute("formtarget"),
+        readOnly: (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) && node.readOnly,
         disabled: (node as HTMLElement).matches(":disabled") || node.getAttribute("aria-disabled") === "true" || node.getAttribute("data-state") === "disabled",
         selectionAttributes: Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current"].map(name => [name, node.getAttribute(name)])),
         expanded: node.getAttribute("aria-expanded"), controls: node.getAttribute("aria-controls"),
@@ -235,6 +229,7 @@ export class PlaywrightControlRegistry {
         formClass: _formClass,
         controlGroupLabel: _groupLabel,
         controlGroupKey: _groupKey,
+        formVisibleLines: _formVisibleLines,
         ...signature
       } = projection;
       return { projection, signature };
@@ -250,20 +245,20 @@ export class PlaywrightControlRegistry {
     tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
     associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
     controlGroupLabel?: string; controlGroupKey?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
-    disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
+    readOnly?: boolean; disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
     calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
     rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
-    formOwner?: string; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
+    formOwner?: string; formVisibleLines?: string[]; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
     radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
   } } {
     const parsed = JSON.parse(snapshot) as { signature: object; projection: {
       tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
       associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
       controlGroupLabel?: string; controlGroupKey?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
-      disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
+      readOnly?: boolean; disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
       calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
       rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
-      formOwner?: string; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
+      formOwner?: string; formVisibleLines?: string[]; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
       radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
     } };
     return { signature: JSON.stringify(parsed.signature), projection: parsed.projection };
@@ -317,7 +312,6 @@ export class PlaywrightControlRegistry {
           : undefined;
         const inputValue = group.kind === "INPUT" || group.kind === "SELECT" || group.kind === "RANGE"
           ? projection.value ?? "" : comboboxInput?.value ?? "";
-        const selectedDisplay = role === "combobox" && !inputValue ? await this.selectedDisplay(locator).catch(() => undefined) : undefined;
         const inputFallback = group.kind === "INPUT" ? projection.placeholder || projection.name || undefined : undefined;
         let label = (projection.label || projection.title || projection.associatedLabel || inputFallback || text || inputValue).replace(/\s+/g, " ").trim().slice(0, 240);
         const alternativeLabel = !label && group.kind === "LINK" ? projection.linkAlternativeText : undefined;
@@ -339,7 +333,7 @@ export class PlaywrightControlRegistry {
         let value = group.kind === "RANGE"
           ? projection.rangeValue ?? projection.value
           : group.kind === "INPUT" || group.kind === "SELECT" || comboboxInput !== undefined
-          ? selectedDisplay || projection.value
+          ? projection.value
             : dataDate ?? dataValue ?? projection.value;
         // HTML's default method is GET, but only for a control whose actual
         // form owner was observed. A bare submit-looking button remains
@@ -416,7 +410,9 @@ export class PlaywrightControlRegistry {
           ...(value !== undefined ? { value } : {}),
           ...(resolvedHref ? { href: resolvedHref } : {}),
           ...(method ? { formMethod: method === "GET" ? "GET" : "POST" } : {}),
+          ...(projection.formOwner ? { formObservation: { owner: projection.formOwner, visibleLines: projection.formVisibleLines ?? [] } } : {}),
           ...(type ? { type } : {}),
+          ...(projection.readOnly ? { readOnly: true } : {}),
           disabled,
           visible: true,
           ...(optionState?.clipped ? { outsideViewport: true } : {}),
@@ -594,7 +590,15 @@ export async function waitForPageSettled(
           clearInterval(timer); observer.disconnect(); resolve({ settled, busySelectors: busyElements.slice(0, 12).map(element => element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')), visibleTextChanging: performance.now() - visibleSince < 300 });
         }
       }, 50);
-    }), Math.max(1, deadline - Date.now()));
+    }), Math.max(1, deadline - Date.now())).catch(async error => {
+      // A chosen observed link can commit while the passive DOM sample is
+      // pending. Follow that already-started navigation within this same
+      // settling window; never reissue the click or request.
+      if (!(error instanceof Error) || !/Execution context was destroyed|Cannot find context with specified id/u.test(error.message) || page.isClosed()) throw error;
+      if (Date.now() < deadline) await page.waitForLoadState("domcontentloaded", {timeout: Math.max(1, deadline-Date.now())}).catch(() => undefined);
+      return undefined;
+    });
+    if (!ready) continue;
     const after = activity();
     diagnostic?.({ url: page.url(), pendingByType: after.pendingByType ?? {}, oldestPendingMs: after.oldestPendingMs ?? 0, blockingDataRequests: after.pending, busySelectors: ready.busySelectors, visibleTextChanging: ready.visibleTextChanging });
     if (ready.settled && before.pending === 0 && after.pending === 0 && before.revision === after.revision) return true;

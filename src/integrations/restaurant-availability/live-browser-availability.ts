@@ -1,6 +1,6 @@
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
-import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
+import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest,RestaurantCandidateFactRead } from "../../domains/restaurant/contracts.js";
 import { ModelBrowserReadActionDecision, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
@@ -13,6 +13,7 @@ import { restaurantPublicReadNetworkPolicy } from "./public-browser-read-network
 import { restaurantDiscoveryPacks } from "../restaurant-search/source-packs.js";
 import type { DiscoverySourcePack } from "../restaurant-search/source-packs.js";
 import { ModelNamedSourceQuery, type NamedSourceAlternative } from "../restaurant-search/named-source-query.js";
+import type { GooglePlacesSourceName } from "../google/google-places-contracts.js";
 
 export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
   now?: () => string;
@@ -37,11 +38,12 @@ export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
   packs?: readonly DiscoverySourcePack[];
   /** Offline Replay may bind a frozen fragment instead of a new model proposal. */
   alternativeSearch?: NamedSourceAlternative;
+  japaneseName?: (placeId: string, readRunId: string | undefined, signal: AbortSignal) => Promise<GooglePlacesSourceName>;
 }
 
 /**
  * The one real Live availability composition used by both the local Web and H001.
- * Each call owns one shared browser session, which is closed after the source chain.
+ * An Agent read owns source-specific sessions; standalone calls close after their source chain.
  */
 export class LiveBrowserAvailability {
   readonly executionRoute = "GENERIC_BROWSER" as const;
@@ -50,6 +52,7 @@ export class LiveBrowserAvailability {
   private readonly networkPolicy: BrowserReadNetworkPolicy | undefined;
   private tableCheckEntryLedger = new TableCheckEntryLedger();
   private readonly namedQueries: ModelNamedSourceQuery;
+  private readExecutor: BrowserTaskExecutor | undefined;
 
   constructor(
     private readonly runtime: BrowserRuntime,
@@ -69,20 +72,40 @@ export class LiveBrowserAvailability {
 
   /** Called by the Router once per Agent loop, not once per candidate batch. */
   beginReadRun(): void {
+    if (this.readExecutor) throw new Error("A browser read run is already active");
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
     this.namedQueries.clear();
+    this.readExecutor = this.createExecutor(true);
   }
 
-  /** No session survives a check; reset avoids carrying a completed case into another one. */
-  endReadRun(): void {
+  /** Session ownership ends at the Agent read boundary, never at a candidate checkpoint. */
+  async endReadRun(): Promise<void> {
+    const executor=this.readExecutor;this.readExecutor=undefined;
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
     this.namedQueries.clear();
+    await executor?.closeAll();
   }
 
-  async check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead> {
-    const executor = new BrowserTaskExecutor(this.runtime, { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs,
+  async check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead> {
+    return this.read(request,signal,readRunId,false);
+  }
+
+  /** Existing source search/match, stopped before any inventory controls. */
+  async identify(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId?:string,targetQuery?:string):Promise<RestaurantCandidateFactRead>{
+    const read=await this.read(request,signal,readRunId,true,targetQuery);
+    const evidence=read.evidence.filter(e=>e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH");
+    return {evidence,factChecks:Object.fromEntries(request.candidateIds.map(candidateId=>{
+      const bound=evidence.filter(e=>e.candidateId===candidateId);
+      return [candidateId,{status:bound.length?"COMPLETED" as const:"UNKNOWN" as const,
+        checkedAt:this.options.now?.()??new Date().toISOString(),evidenceIds:bound.map(e=>e.evidenceId),
+        reasonCode:bound.length?"NAMED_OUTLET_IDENTITY_ONLY":"NAMED_OUTLET_IDENTITY_UNCONFIRMED"}];
+    })),metadata:read.metadata};
+  }
+
+  private createExecutor(reuseSourceSessions:boolean):BrowserTaskExecutor {
+    return new BrowserTaskExecutor(this.runtime, { reuseSourceSessions, maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs,
       maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate,
       maxModelCallsTotal: this.options.maxModelCallsTotal,
       maxOperationsPerCandidate: this.options.maxOperationsPerCandidate,
@@ -93,14 +116,23 @@ export class LiveBrowserAvailability {
       ...(this.options.onBrowserDiagnostic ? { onDiagnostic: this.options.onBrowserDiagnostic } : {}),
       budget: this.browserBudget,
     });
+  }
+
+  private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean,targetQuery?:string):Promise<RestaurantAvailabilityRead>{
+    const executor=this.readExecutor??this.createExecutor(true);
+    if(identityOnly&&targetQuery)request={...request,selectionScope:"SPECIFIC_OUTLET"};
     const providerContext = {
       executor,
+      ...(identityOnly?{identityOnly:true}:{}),
+      ...(targetQuery?{targetQuery}:{}),
       sourceFactsModel: this.model,
       ...(this.options.now ? { now: this.options.now } : {}),
       ...(this.options.maxAvailabilitySourceBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxAvailabilitySourceBrowserSessions } : {}),
       ...(this.options.maxAvailabilitySourceCandidateMatches !== undefined ? { maxCandidateMatches: this.options.maxAvailabilitySourceCandidateMatches } : {}),
       tableCheckEntryLedger: this.tableCheckEntryLedger,
       alternativeSearch: this.options.alternativeSearch ?? this.namedQueries.alternative,
+      ...(this.options.japaneseName ? {japaneseName: (candidate: RestaurantAvailabilityRequest["candidates"][number], nameSignal: AbortSignal) =>
+        this.options.japaneseName!(candidate.restaurant.sourceIds.googlePlaces!, readRunId, nameSignal)} : {}),
       ...(this.options.onTableCheckIdentityDiagnostic ? { onTableCheckIdentityDiagnostic: this.options.onTableCheckIdentityDiagnostic } : {}),
       ...(this.options.onTabelogIdentityDiagnostic ? { onTabelogIdentityDiagnostic: this.options.onTabelogIdentityDiagnostic } : {}),
       ...(this.options.onTabelogUserInterventionRequired ? { onTabelogUserInterventionRequired: this.options.onTabelogUserInterventionRequired } : {}),
@@ -108,6 +140,9 @@ export class LiveBrowserAvailability {
     };
     const bindings = (this.options.packs ?? restaurantDiscoveryPacks)
       .flatMap((pack) => pack.availability ? [{ pack, provider: pack.availability.createProvider(providerContext) }] : []);
-    return new AvailabilitySourceResolver(bindings, { afterRead: () => executor.close() }).check(request, signal);
+    return new AvailabilitySourceResolver(bindings, { afterRead: async () => {
+      if (this.readExecutor === executor) executor.endReadScope();
+      else await executor.closeAll();
+    },...(identityOnly?{identityOnly:true}:{}) }).check(request, signal);
   }
 }

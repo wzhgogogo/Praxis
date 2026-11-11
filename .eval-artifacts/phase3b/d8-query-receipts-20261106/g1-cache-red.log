@@ -1,0 +1,29 @@
+✖ G1 refreshes a pending fact-cache page before answering and still rejects a persistently incomplete read (8.397667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 183.166292
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:7517
+✖ G1 refreshes a pending fact-cache page before answering and still rejects a persistently incomplete read (8.397667ms)
+  AssertionError [ERR_ASSERTION]: A pending cache is a reason to acquire a complete page within the existing question budget
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:95:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }

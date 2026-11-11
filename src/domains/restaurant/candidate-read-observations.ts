@@ -23,13 +23,3 @@ export function observedCandidateDistance(evidence: readonly RestaurantReadEvide
   return item ? { distanceObservation: { meters: Math.round(item.claims.distanceMeters as number),
     centerBasis: item.claims.areaMatchBasis as CandidateDistanceObservation["centerBasis"], source: item.provider } } : {};
 }
-
-/** Restrict new first reads only when at least three grounded direct paths are available.
- * Candidate order and the caller's prior permission scope remain authoritative. */
-export function availabilityCheckSelectionScope(eligibleIds: readonly string[], candidates: readonly {
-  id: string; availabilityPath: "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE"; inRadius: boolean; alreadyChecked: boolean;
-}[]): string[] {
-  const direct = new Set(candidates.filter(candidate => eligibleIds.includes(candidate.id) && !candidate.alreadyChecked
-    && candidate.inRadius && candidate.availabilityPath === "DIRECT_SOURCE_PAGE").map(candidate => candidate.id));
-  return direct.size >= 3 ? eligibleIds.filter(id => direct.has(id)) : [...eligibleIds];
-}

@@ -1,0 +1,54 @@
+{
+  "status": "PASS_OFFLINE_PARTIAL_SOURCE_STOP",
+  "atCET": "2026-11-07T13:59:49.268922+01:00",
+  "greenSourceSHA": "664f8ad28c76c82ad476c10b329ef16a6a3bdba5",
+  "firstSourceSHA": "93965f14c63313aa6f3bc0ccfc10019506ccce6a",
+  "rerunSourceSHA": "92e985bcd3aa776af004bb207ac52da2ab3b3501",
+  "allOriginalEvidenceUnchanged": true,
+  "firstSourceSelectionFailurePreserved": true,
+  "rerunEntryTimeoutPreserved": true,
+  "newPageGET": 2,
+  "newModel": 0,
+  "newLive": 0,
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 653,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 353,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11226
+  },
+  "approvedCeiling": {
+    "evaluationPublicGET": 464,
+    "fullLive": 42,
+    "realModelCalls": 1600
+  },
+  "heldOut": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "D8GETUntouched": 3,
+  "D8LiveUntouched": 1,
+  "extraDocumentsTransmitted": 0,
+  "sourceFilesChanged": [
+    "src/eval/restaurant/agent-loop/browser-read-recording.test.ts",
+    "src/eval/restaurant/agent-loop/g6/source-read-check.ts",
+    "src/eval/restaurant/agent-loop/g6/source-read-recorded.test.ts",
+    "src/eval/restaurant/agent-loop/runners/browser-read-recording.ts",
+    "src/eval/restaurant/agent-loop/runners/run-c-closeout-live.ts",
+    "src/harness/browser/g6-source-read-check.test.ts",
+    "src/harness/browser/query-values.test.ts",
+    "src/infrastructure/browser/browser-query-values.ts",
+    "src/infrastructure/browser/playwright-read-network-guard.test.ts",
+    "src/integrations/tablecheck/tablecheck-public-query.ts"
+  ],
+  "scan": {
+    "b5de6678": 2,
+    "72b18bee": 11,
+    "f324f17b": 49
+  },
+  "independentContract": "reviewed-read-rules.json literal transcription, not generated from production",
+  "binding": "NOT_IMPLEMENTED; actual post-selection routing not reached",
+  "noMainMerge": true,
+  "noHeldOut": true
+}

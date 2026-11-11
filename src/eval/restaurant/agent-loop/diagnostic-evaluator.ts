@@ -22,10 +22,11 @@ import { assessEffectiveResources } from "./diagnostic-evaluator-resources.js";
 import type { EffectiveResourceAssessment } from "./diagnostic-evaluator-resources.js";
 import { assessUserConditions, loadSoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
 import type { CandidateConditionStates, SoftPreferenceObservations } from "./diagnostic-evaluator-preferences.js";
+import { writeDiagnosisAfterEvaluation } from "../diagnosis/files.js";
 
 
-export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@36";
-export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@31";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION = "restaurant-hybrid-read-diagnostic-evaluator@37";
+export const RESTAURANT_HYBRID_DIAGNOSTIC_RUBRIC_VERSION = "restaurant-hybrid-read-diagnostic-rubric@32";
 
 export type DiagnosticEvaluationStatus = "SATISFIED" | "NOT_SATISFIED" | "NOT_EVALUATED";
 
@@ -1272,12 +1273,14 @@ export async function evaluateArtifactFile(inputPath: string, options: Diagnosti
 export async function evaluateArtifactAfterFinish(inputPath: string, evaluate: typeof evaluateArtifactFile = evaluateArtifactFile): Promise<{ outputPath?: string; evaluation?: RestaurantHybridDiagnosticEvaluation; evaluationFailure?: string; failurePath?: string }> {
   try {
     const outcome = await evaluate(inputPath);
+    await writeDiagnosisAfterEvaluation(inputPath, outcome.outputPath);
     return { outputPath: outcome.outputPath, evaluation: outcome.evaluation };
   } catch (error) {
     const artifactPath = resolve(inputPath); const code = error instanceof Error && "code" in error && typeof error.code === "string" && /^[A-Z][A-Z0-9_]{0,63}$/.test(error.code) ? error.code : "EVALUATION_FAILED"; const failurePath = evaluationOutputPath(artifactPath, "failed");
     try {
       await mkdir(dirname(failurePath), { recursive: true });
       await writeFile(failurePath, JSON.stringify({ schemaVersion: "1", evaluatorVersion: RESTAURANT_HYBRID_DIAGNOSTIC_EVALUATOR_VERSION, sourceArtifact: { path: artifactPath }, status: "EVALUATION_FAILED", failureCode: code }, null, 2), { flag: "wx" });
+      await writeDiagnosisAfterEvaluation(inputPath, failurePath);
       return { evaluationFailure: code, failurePath };
     } catch { return { evaluationFailure: code }; }
   }

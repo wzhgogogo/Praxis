@@ -1,0 +1,27 @@
+✖ recorded DIRECTORY components stop on second equivalent visible-state/action stall, despite changing refs/prose (10.570125ms)
+ℹ {"run":"D01","oldCalls":17,"used":12,"avoided":5,"noProgress":2}
+✔ changing controls through exact suggestion, outlet and date/party has no stall; hidden/opaque refs/prose aren't progress (0.820833ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 102.305042
+
+✖ failing tests:
+
+test at src/harness/browser/browser-visible-progress.test.ts:1:261
+✖ recorded DIRECTORY components stop on second equivalent visible-state/action stall, despite changing refs/prose (10.570125ms)
+  Error: ENOENT: no such file or directory, open '/private/tmp/praxis-heldout-read-reliability/src/harness/browser/fixtures/discovery-visible-progress/p3b-holdout-01-r1-retry1.json'
+      at async open (node:internal/fs/promises:640:25)
+      at async readFile (node:internal/fs/promises:1277:14)
+      at async TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/browser-visible-progress.test.ts:8:27)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/tmp/praxis-heldout-read-reliability/src/harness/browser/fixtures/discovery-visible-progress/p3b-holdout-01-r1-retry1.json'
+  }

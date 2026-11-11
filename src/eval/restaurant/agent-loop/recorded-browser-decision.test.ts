@@ -37,20 +37,9 @@ test("recorded DOM reference changes only the opaque handle and refuses ambiguou
 
 });
 
-test("recorded region reference uses this flow's observed collection and rejects foreign/invented entries", () => {
-  const record = rows[5]!, current = context(record), wire = JSON.parse(record.outputText);
-  const flow = current.regionCorrection!; flow.flowId = "fresh-flow";
-  flow.entrances = flow.entrances.map(entrance => ({ ...entrance, flowId: flow.flowId, ref: "fresh:" + entrance.ref }));
-  const result = rebindRecordedBrowserDecision(record, request(record, current));
-  assert.deepEqual(JSON.parse(result.outputText), { ...wire, targetRef: "fresh:" + wire.targetRef });
-  assert.equal(result.binding?.kind, "OBSERVED_REGION_COLLECTION");
-  const selected = flow.entrances.find(entrance => entrance.ref === "fresh:" + wire.targetRef)!;
-  for (const patch of [{ sourceId: "tablecheck" }, { flowId: "old-flow" }, { href: "https://tabelog.com/en/tokyo/invented/" }]) {
-    const changed = structuredClone(current); Object.assign(changed.regionCorrection!.entrances.find(entrance => entrance.ref === selected.ref)!, patch);
-    assert.throws(() => rebindRecordedBrowserDecision(record, request(record, changed)), { code: "REPLAY_REGION_TARGET_MISSING_OR_AMBIGUOUS" });
-  }
-  const empty = structuredClone(current); empty.regionCorrection!.entrances = [];
-  assert.throws(() => rebindRecordedBrowserDecision(record, request(record, empty)), { code: "REPLAY_REGION_TARGET_MISSING_OR_AMBIGUOUS" });
+test("retired region actions fail closed rather than reviving an old collection path", () => {
+  const record = rows[5]!;
+  assert.throws(() => rebindRecordedBrowserDecision(record, request(record, context(record))), { code: "REPLAY_RETIRED_ACTION" });
 });
 
 test("an intentional old-contract Replay stop returns a bounded incomplete receipt without upgrading its output", async () => {

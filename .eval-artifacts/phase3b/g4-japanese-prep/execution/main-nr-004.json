@@ -1,0 +1,205 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "鮨処 みこし",
+      "kind": "ORIGINAL",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132301/13072420",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+          "outletName": "Sushi Dokoro Miyoshi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13034967",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+          "outletName": "Mikoshi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131907/13238586",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13238586/",
+          "outletName": "Nikudokoro Mikoshi"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+      "query": "鮨処 みこし",
+      "phase": "FIRST_FOUR",
+      "problem": "RECORDED_NETWORK_FAILURE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+      "query": "鮨処 みこし",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1319/A131907/13238586/",
+      "query": "鮨処 みこし",
+      "phase": "FIRST_FOUR"
+    }
+  ],
+  "uncertainties": [
+    "DETAIL:RECORDED_NETWORK_FAILURE:https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+    "UNRECORDED_FRAGMENT_PROPOSAL",
+    "UNRECORDED_JAPANESE_NAME"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "HIGH",
+      "outlet": {
+        "sourceEntityId": "en/tokyo/A1320/A132001/13034967",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+        "outletName": "Mikoshi",
+        "address": "1800004 東京都武蔵野市吉祥寺本町1-13-9 山本ビル １Ｆ・２Ｆ",
+        "phone": "0422-21-0263"
+      },
+      "matchedBy": [
+        "EXACT_PHONE"
+      ]
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-004",
+      "google": {
+        "placeId": "ChIJ9ze-r0fuGGARMWlEfmmY-BI",
+        "outletName": {
+          "value": "鮨処 みこし",
+          "normalizedValue": "鮨処みこし",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "9 13 1, １丁目-１３-9 吉祥寺本町 武蔵野市 東京都 180-0004, Japan",
+          "normalizedValue": "9131１丁目１３9吉祥寺本町武蔵野市東京都1800004japan",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "0422-21-0263",
+          "normalizedValue": "0422210263",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13034967",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+          "outletName": {
+            "value": "Mikoshi",
+            "normalizedValue": "mikoshi",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1800004 東京都武蔵野市吉祥寺本町1-13-9 山本ビル １Ｆ・２Ｆ",
+            "normalizedValue": "1800004東京都武蔵野市吉祥寺本町1139山本ビル１ｆ２ｆ",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "0422-21-0263",
+            "normalizedValue": "0422210263",
+            "source": "SEARCH_RESULT"
+          },
+          "matchedContactPhone": {
+            "value": "0422-21-0263",
+            "role": "RESERVATION",
+            "quote": "0422-21-0263",
+            "label": "Phone number (for reservation and inquiry)",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "MATCH",
+            "phone": "MATCH"
+          },
+          "score": 6
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131907/13238586",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13238586/",
+          "outletName": {
+            "value": "Nikudokoro Mikoshi",
+            "normalizedValue": "nikudokoromikoshi",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1670053 東京都杉並区西荻南2-25-13 キョウリンコート 1F",
+            "normalizedValue": "1670053東京都杉並区西荻南22513キョウリンコート1f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "source": "ABSENT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "MISSING_TABELOG"
+          },
+          "score": 0
+        }
+      ],
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1320/A132001/13034967",
+        "reason": "HIGH_EXACT_PHONE"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 1,
+    "details": 3,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-004",
+  "key": "main-nr-004",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-004.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E9%AE%A8%E5%87%A6%20%E3%81%BF%E3%81%93%E3%81%97",
+      "kind": "SEARCH",
+      "query": "鮨処 みこし",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-010.html",
+      "sha256": "a2d8ce0e389afeb9b1531057dc131512fd0fbc78c4a0549218c7cbeba0a41165",
+      "originLedgerId": "phase3b-c-g4-e2e-get-010",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "RECORDED_NETWORK_FAILURE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-072.html",
+      "sha256": "183d4f93962ba7c233b762c4afb11f0a151e039396eba4caa8f44307eedd8839",
+      "originLedgerId": "phase3b-c-g4-cont-get-072",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1319/A131907/13238586/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-073.html",
+      "sha256": "53099fb3ce3776d8b36afaaf4e27267b548ad363b5cd17747914b58ecb8a56c1",
+      "originLedgerId": "phase3b-c-g4-cont-get-073",
+      "realGET": 0
+    }
+  ],
+  "fragmentOrigin": {
+    "mode": "NOT_CAPTURED"
+  },
+  "japaneseOrigin": null
+}

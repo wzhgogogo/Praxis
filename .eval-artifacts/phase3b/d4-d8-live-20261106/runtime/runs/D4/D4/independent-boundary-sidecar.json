@@ -1,0 +1,64 @@
+{
+  "scope": "METHOD/BODY/PREFLIGHT: frozen G6 raw outer evidence; GET/HEAD/provenance: independent diagnostic audit. Not a Guard verdict.",
+  "rulesSHA256": "09764d142f4358dde5b8c846918686afb16ccf72666486cc6c8343712185cd9f",
+  "recordingRefs": [
+    {
+      "path": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/d4-d8-live-20261106/runtime/runs/D4/D4/recordings/g6-D4-1793948267164-0/recording.json",
+      "sha256": "ba402badb7a176343534f1c10928f21fa4c9615981448ae86109e2ae05e11630",
+      "status": "RECORDED",
+      "replay": {
+        "status": "NOT_REPLAYABLE",
+        "reason": "NO_CAPTURED_PUBLIC_DOCUMENT"
+      }
+    }
+  ],
+  "traceDecodeIssues": [],
+  "getHead": {
+    "status": "NOT_EVALUATED",
+    "reasons": [
+      "EVIDENCE_GAP: run: missing network request records",
+      "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+    ],
+    "evidenceRefs": [
+      "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/search-stability-20261106/reviewed-public-reads.json#sha256=09764d142f4358dde5b8c846918686afb16ccf72666486cc6c8343712185cd9f",
+      "docs/decisions/0036-generic-public-read-network-policy.md",
+      "docs/decisions/0035-browser-read-network-boundary.md"
+    ],
+    "gaps": [
+      {
+        "kind": "EVIDENCE_GAP",
+        "request": "run",
+        "missing": [
+          "network request records"
+        ],
+        "evidenceRefs": [
+          "browserTrace.networkRequests"
+        ]
+      },
+      {
+        "kind": "EVIDENCE_GAP",
+        "request": "session",
+        "missing": [
+          "recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          "browserTrace.SESSION_OPENED"
+        ]
+      }
+    ]
+  },
+  "outerRequestBoundary": {
+    "checked": 0,
+    "passed": 0,
+    "allPassed": true
+  },
+  "originalG6Verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "combinedSafeToContinue": false
+}

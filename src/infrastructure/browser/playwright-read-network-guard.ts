@@ -1,10 +1,17 @@
+import {observeNodeRead} from './playwright-node-read-progress.js';
+import {PlaywrightEntryNavigation} from "./playwright-entry-navigation.js";
+import {createHash} from "node:crypto";
+import {normalizedTextKey} from "../../core/text-key.js";
+import {observeQueryValues,type BrowserQueryValueObservation} from "./browser-query-values.js";
+import { browserTransportError, type BrowserTransportError } from "./browser-runtime-errors.js";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
+import { traceFormEvidence, PlaywrightObservedGetForms, type ObservedGetFormSubmission } from "./playwright-observed-get-forms.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
-import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
+import type { BrowserReadBoundary, BrowserDynamicReadReceipt, BrowserReadTransportProfile, BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
 
-type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT";
-type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[] };
+type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT" | "RESOURCE_POLICY_BLOCKED";
+type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[]; error?: BrowserTransportError };
 
 function requestKey(value: string): string {
   const url = new URL(value);
@@ -51,8 +58,18 @@ function matchesReadProjection(rule: BrowserReadNetworkRequestRule, url: URL, me
   return true;
 }
 
-async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string): Promise<boolean> {
-  if (!matchesReadProjection(rule, url, method, resourceType)) return false;
+function matchesQueryValues(rule:BrowserReadNetworkRequestRule,url:URL,fields:readonly BrowserQueryValueObservation[]):boolean {
+  if(!rule.queryValueClasses&&!rule.queryValuePatterns)return true;
+  if(fields.length!==[...url.searchParams].length || fields.some(field=>field.valueClass==="SENSITIVE_FORMAT"))return false;
+  return fields.every(field=>{
+    const classes=rule.queryValueClasses?.[field.queryKey];
+    if(classes&&!classes.includes(field.valueClass==="PAGE_OBSERVED_VALUE"?"OTHER":field.valueClass))return false;
+    const pattern=rule.queryValuePatterns?.[field.queryKey];
+    return pattern===undefined || pattern.startsWith("^")&&pattern.endsWith("$")&&url.searchParams.getAll(field.queryKey).every(value=>new RegExp(pattern).test(value));
+  });
+}
+async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string, fields:readonly BrowserQueryValueObservation[]): Promise<boolean> {
+  if (!matchesReadProjection(rule, url, method, resourceType) || !matchesQueryValues(rule,url,fields)) return false;
   if (method !== "POST") return true;
   if (!rule.bodyFields || !/application\/json/i.test(await request.headerValue("content-type") ?? "")) return false;
   try {
@@ -78,6 +95,102 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
  * relative-resource, method and cookie semantics instead of flattening a chain.
  */
 export class PlaywrightReadNetworkGuard {
+  readonly forms = new PlaywrightObservedGetForms();
+  private readonly entries=new WeakMap<Page,PlaywrightEntryNavigation>();
+  private readonly documentAttemptTimeouts=new WeakMap<Page,number>();
+  private readonly abortedForEntry=new WeakSet<Request>();
+  private readonly nodeTransports=new Map<Request,AbortController>();
+  entryNavigationEvents(page:Page) {return this.entries.get(page)?.events??[];}
+  entryInteraction(page:Page):void {this.entries.get(page)?.interaction();}
+  async navigateEntry(page:Page,url:string,options:{waitUntil?:"domcontentloaded"|"load";timeoutMs?:number},initialAction?:(timeoutMs:number)=>Promise<void>):Promise<void> {
+    const entry=this.entries.get(page);
+    if(entry)try{await entry.navigate(url,options,initialAction);}finally{this.documentAttemptTimeouts.delete(page);}
+    else if(initialAction)await initialAction(options.timeoutMs??5_000);
+    else await page.goto(url,{waitUntil:options.waitUntil??"domcontentloaded",...(options.timeoutMs===undefined?{}:{timeout:options.timeoutMs})});
+  }
+  private abortEntryTransports(page:Page):void {
+    for(const request of this.pending.keys()){
+      try{if(request.frame().page()!==page)continue;}catch{continue;}
+      this.abortedForEntry.add(request);this.nodeTransports.get(request)?.abort();
+    }
+  }
+
+  private readonly queryObservations=new WeakMap<URL,BrowserQueryValueObservation[]>();
+  private readonly requestQueryObservations=new WeakMap<Request,BrowserQueryValueObservation[]>();
+  private recordNativeFailure(request:Request,error:unknown):void {
+    const url=new URL(request.url()),observed=this.requestQueryObservations.get(request);
+    if(observed)this.queryObservations.set(url,observed);
+    this.blocked("READ_REQUEST_FAILED",url,request.method(),request.resourceType(),error);
+  }
+  private async inspectQuery(url:URL,page:Page|undefined):Promise<void> {
+    const inputs=url.search&&page?await this.forms.authoritativeInputs(page):[];
+    this.queryObservations.set(url,observeQueryValues(url,inputs,page?this.forms.observedPageValueHashes(page):new Set()));
+  }
+  private queryMetadata(url:URL) {return {queryValues:this.queryObservations.get(url)??observeQueryValues(url,[])};}
+
+  private readonly formAdmissions = new WeakMap<Page, Map<string, { evidence: ObservedGetFormSubmission; startedAt: number }>>();
+  private readonly popupForms = new Map<string, Promise<{ evidence?: ObservedGetFormSubmission; startedAt: number; opener: Page } | undefined>>();
+  private readonly preparedPopups = new WeakSet<Page>();
+  private readonly blockedPopupForms = new WeakMap<Page, string>();
+  private async observedSubmission(page: Page, url: URL): Promise<ObservedGetFormSubmission | undefined> {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      return await Promise.race([this.forms.submission(page, url).catch(() => undefined),
+        new Promise<undefined>(resolve => { timer = setTimeout(() => resolve(undefined), this.requestTimeoutMs); })]);
+    } finally { if (timer) clearTimeout(timer); }
+  }
+  private async observedPopupSubmission(page: Page, url: URL, windowName: string): Promise<{ evidence?: ObservedGetFormSubmission } | undefined> {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      return await Promise.race([this.forms.popupSubmission(page, url, windowName).catch(() => ({})),
+        new Promise<{}>(resolve => { timer = setTimeout(() => resolve({}), this.requestTimeoutMs); })]);
+    } finally { if (timer) clearTimeout(timer); }
+  }
+  private context?: BrowserContext;
+  private readonly nativeRequests = new WeakSet<Request>();
+  private readonly nativeTimers = new WeakMap<Request, ReturnType<typeof setTimeout>>();
+  private readonly recordingTasks = new Set<Promise<void>>();
+  /** Records are observational and never confer network permission. */
+  async flushRecordedResponses(): Promise<void> { await Promise.allSettled([...this.recordingTasks]); }
+  private nativeRequest(request: Request): boolean {
+    // The strict static profile records its ordinary native leg here; native
+    // redirect legs retain the existing CDP body-capture path below.
+    if(this.admittedGetTransport==="REVIEWED_STATIC_BROWSER")return this.nativeRequests.has(request);
+    for (let current: Request | null = request, hops = 0; current && hops < 11; current = current.redirectedFrom(), hops++) {
+      if (this.nativeRequests.has(current)) return true;
+    }
+    return false;
+  }
+  private captureNativeResponse(response: import("playwright-core").Response): void {
+    if (!this.recordResponse || !this.nativeRequest(response.request())) return;
+    const task = (async () => {
+      const request = response.request(), url = new URL(response.url()), method = request.method(), type = request.resourceType();
+      const headers = response.headers(), status = response.status();
+      const location = headers.location ? new URL(headers.location, url) : undefined;
+      const allowedLocation = location && await this.admitsRedirectRequest(location, request, method, type);
+      let body:Uint8Array;
+      try{body=method === "HEAD" || status === 204 || status === 304 || status >= 300 && status < 400 ? new Uint8Array() : await response.body();}
+      catch(error){if(this.abortedForEntry.has(request))return;throw error;}
+      await this.recordResponse!({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
+        ...(allowedLocation ? { redirectLocation: location!.toString() } : {}) });
+    })();
+    this.recordingTasks.add(task);
+    void task.catch(error => {
+      if (!this.context?.pages().some(page => !page.isClosed())) return;
+      const request = response.request();
+      this.recordNativeFailure(request,error);
+      void this.context?.close().catch(() => {});
+    }).finally(() => this.recordingTasks.delete(task));
+  }
+  private pageSequence=0;
+  private readSequence=0;
+  private requestSequence=0;
+  private readonly pageIds=new WeakMap<Page,string>();
+  private readonly readScopes=new WeakMap<Page,string>();
+  private readonly dynamicReads=new WeakMap<Request,{observation:BrowserReadNetworkObservation;receipt:Omit<BrowserDynamicReadReceipt,"completedAt"|"status">;status?:number}>();
+  pageId(page:Page):string { let id=this.pageIds.get(page);if(!id){id=`page:${++this.pageSequence}`;this.pageIds.set(page,id);}return id; }
+  beginReadScope(page:Page):void {this.forms.beginReadScope(page);this.readScopes.set(page,`read:${++this.readSequence}`);}
+  readBoundary(page:Page):BrowserReadBoundary|undefined {const readScopeId=this.readScopes.get(page);return readScopeId?{readScopeId,pageId:this.pageId(page),requestSequence:this.requestSequence}:undefined;}
   private readonly pending = new Map<Request, number>();
   private activityRevision = 0;
   settlementActivity(): { pending: number; revision: number; pendingByType: Record<string, number>; oldestPendingMs: number } {
@@ -104,14 +217,29 @@ export class PlaywrightReadNetworkGuard {
   private readonly popupBootstraps = new Set<string>();
   private readonly redirectTimers = new Set<ReturnType<typeof setTimeout>>();
 
-  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
+  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void, private readonly admittedGetTransport: BrowserReadTransportProfile = "NODE_FETCH", private readonly onResponseHeaders?: (response:{url:string;resourceType:string;status:number;mainDocument:boolean})=>void) { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
+    this.context = context;
+    context.on?.("response",response=>{const request=response.request();let mainDocument=false;try{mainDocument=request.resourceType()==="document"&&request.frame()===request.frame().page().mainFrame();}catch{/* detached */}this.onResponseHeaders?.({url:response.url(),resourceType:request.resourceType(),status:response.status(),mainDocument});});
+    context.on?.("response",response=>{const current=this.dynamicReads.get(response.request());if(current)current.status=response.status();try{this.entries.get(response.request().frame().page())?.responseStatus(response.status());}catch{/* worker without an owning frame */}});
+    context.on?.("requestfinished",request=>{const current=this.dynamicReads.get(request);if(current?.status===200)current.observation.dynamicRead={...current.receipt,status:current.status,completedAt:Date.now()};this.dynamicReads.delete(request);});
+    context.on?.("requestfailed",request=>{this.dynamicReads.delete(request);});
+    if (this.admittedGetTransport !== "NODE_FETCH" && !options.replay) {
+      context.on("response", response => this.captureNativeResponse(response));
+      context.on("requestfinished", request => {
+        const timer = this.nativeTimers.get(request); if (timer) { clearTimeout(timer); this.redirectTimers.delete(timer); }
+      });
+      context.on("requestfailed", request => {
+        const timer = this.nativeTimers.get(request); if (timer) { clearTimeout(timer); this.redirectTimers.delete(timer); }
+        if (this.nativeRequest(request) && request.failure()) this.recordNativeFailure(request,new Error(request.failure()!.errorText));
+      });
+    }
     context.on?.("close", () => { for (const timer of this.redirectTimers) clearTimeout(timer); this.redirectTimers.clear(); });
     context.on?.("page", page => {
       const bootstrap = this.popupBootstraps.delete(requestKey(page.url()));
       const url = page.url();
-      void this.preparePage(context, page, options.replay === true)
+      void this.preparePopupForm(page, url).then(() => this.preparePage(context, page, options.replay === true))
         .then(async () => { if (bootstrap) await page.goto(url, { timeout: this.requestTimeoutMs }).catch(() => {}); })
         .catch(() => context.close().catch(() => {}));
     });
@@ -128,12 +256,20 @@ export class PlaywrightReadNetworkGuard {
         // Commit an empty local bootstrap, never a source response, so its page
         // can be protected before the original GET is issued exactly once.
         if (request.isNavigationRequest() && request.method() === "GET") {
+          if (!await this.preparePopupForm(undefined, request.url())) {
+            this.blocked("BLOCKED_FIELDS", new URL(request.url()), request.method(), request.resourceType());
+            await route.abort("blockedbyclient"); return;
+          }
           this.popupBootstraps.add(requestKey(request.url()));
           await route.fulfill({ status: 200, contentType: "text/html", body: '<body aria-busy="true"></body>' });
         } else await route.abort("blockedbyclient");
         return;
       }
       const ready = this.redirectReady.has(page);
+      if (!await this.preparePopupForm(page, request.url())) {
+        this.blocked("BLOCKED_FIELDS", new URL(request.url()), request.method(), request.resourceType());
+        await route.abort("blockedbyclient"); return;
+      }
       await this.installRedirectProtection(context, page, options.replay === true);
       if (!ready) {
         // A popup's first loader can exist before a page CDP session. Abort it
@@ -154,6 +290,28 @@ export class PlaywrightReadNetworkGuard {
     return this.installRedirectProtection(context, page, replay);
   }
 
+  private async preparePopupForm(page: Page | undefined, value: string): Promise<boolean> {
+    if (page && this.preparedPopups.has(page)) return this.blockedPopupForms.get(page) !== requestKey(value);
+    const pending = this.popupForms.get(requestKey(value));
+    if (!pending) return true;
+    const opener = page ? await page.opener() : undefined;
+    if (page && !opener) return true;
+    const form = await pending;
+    if (form && page && opener !== form.opener) return true;
+    if (page) {
+      this.preparedPopups.add(page);
+      this.popupForms.delete(requestKey(value));
+    }
+    if (!form) return true; // Ordinary link/window navigation keeps its old policy.
+    if (!form.evidence) { if (page) this.blockedPopupForms.set(page, requestKey(value)); return false; }
+    if (page) {
+      const receipts = this.formAdmissions.get(page) ?? new Map();
+      receipts.set(requestKey(value), { evidence: form.evidence, startedAt: form.startedAt });
+      this.formAdmissions.set(page, receipts);
+    }
+    return true;
+  }
+
   private async installRedirectProtection(context: BrowserContext, page: Page, replay: boolean): Promise<void> {
     const existing = this.redirectSessions.get(page);
     if (existing) return existing;
@@ -164,19 +322,41 @@ export class PlaywrightReadNetworkGuard {
 
   private async attachRedirectProtection(context: BrowserContext, page: Page, replay: boolean): Promise<void> {
     const session = await context.newCDPSession(page);
+    await session.send("Page.enable");
+    const rootFrameId = (await session.send("Page.getFrameTree")).frameTree.frame.id;
+    const entry=!replay
+      ?new PlaywrightEntryNavigation(page,session,()=>this.abortEntryTransports(page),(url,remaining)=>this.prepareNavigation(url,remaining),timeout=>{this.documentAttemptTimeouts.set(page,timeout);}):undefined;
+    if(entry)this.entries.set(page,entry);
+    session.on("Page.frameNavigated",event=>{if(event.frame.id===rootFrameId)this.forms.clearObservedPageValues(page);});
+    session.on("Page.windowOpen", event => {
+      const startedAt = Date.now();
+      this.popupForms.set(requestKey(event.url), this.observedPopupSubmission(page, new URL(event.url), event.windowName)
+        .then(form => form ? { ...form, startedAt, opener: page } : undefined).catch(() => ({ startedAt, opener: page })));
+    });
     // Child targets (OOPIFs and dedicated workers) have their own CDP sessions.
     // Keep them paused until the same interception is installed. This private
     // wire adapter only transports CDP; it never makes an admission decision.
     type Send = CDPSession["send"];
     type On = (method: string, handler: (params: any) => void) => void;
     let sequence = 0;
-    const configure = async (send: Send, on: On): Promise<void> => {
+    const configure = async (send: Send, on: On, root = false): Promise<void> => {
+      const formNavigations = new Map<string, { evidence: Promise<ObservedGetFormSubmission | undefined>; startedAt: number }>();
+      on("Page.frameRequestedNavigation", event => {
+        if (event.reason !== "formSubmissionGet" && event.reason !== "formSubmissionPost") return;
+        const key = `${event.frameId}|${requestKey(event.url)}`;
+        // Only the observed active document can own a form receipt. An iframe,
+        // popup or unobserved native form cannot borrow a top-page observation.
+        formNavigations.set(key, { startedAt: Date.now(), evidence: event.reason === "formSubmissionGet" && event.frameId === rootFrameId
+          ? this.observedSubmission(page, new URL(event.url)) : Promise.resolve(undefined) });
+      });
       // Fetch can label a worker script "Other". Use the same Network type
       // that Playwright's ordinary request boundary uses, keyed by networkId.
       const networkTypes = new Map<string, string>();
+      const nativeNetworkTimers = new Map<string, ReturnType<typeof setTimeout>>();
+      const finishNative = (id: string) => { const timer = nativeNetworkTimers.get(id); if (timer) { clearTimeout(timer); this.redirectTimers.delete(timer); nativeNetworkTimers.delete(id); } };
       on("Network.requestWillBeSent", event => { if (event.type) networkTypes.set(event.requestId, event.type); });
-      on("Network.loadingFinished", event => { networkTypes.delete(event.requestId); });
-      on("Network.loadingFailed", event => { networkTypes.delete(event.requestId); });
+      on("Network.loadingFinished", event => { networkTypes.delete(event.requestId); finishNative(event.requestId); });
+      on("Network.loadingFailed", event => { networkTypes.delete(event.requestId); finishNative(event.requestId); });
       const pending = new Map<number, { resolve: (value: any) => void; reject: (error: Error) => void }>();
       const childEvents = new Map<string, Map<string, (params: any) => void>>();
       on("Target.receivedMessageFromTarget", event => {
@@ -187,6 +367,9 @@ export class PlaywrightReadNetworkGuard {
         } else childEvents.get(event.sessionId)?.get(value.method)?.(value.params);
       });
       on("Target.attachedToTarget", event => {
+        // Page.stopLoading cannot prove termination of a separate target's loaders.
+        // Leave such an entry to its original deadline rather than replay it.
+        entry?.disallow();
         const handlers = new Map<string, (params: any) => void>(); childEvents.set(event.sessionId, handlers);
         const childSend: Send = (method, params) => new Promise((resolve, reject) => {
           const id = ++sequence; pending.set(id, { resolve, reject });
@@ -205,6 +388,8 @@ export class PlaywrightReadNetworkGuard {
       on("Fetch.requestPaused", event => {
         const process = async () => {
           const url = new URL(event.request.url), method = event.request.method;
+          if(!["GET","HEAD","OPTIONS"].includes(method))entry?.disallow();
+          await this.inspectQuery(url,page);
           const network = networkTypes.get(event.networkId);
           const type = String(network ?? event.resourceType).toLowerCase();
           const resourceTypeDetails = { selectedFrom: network ? "NETWORK" as const : "FETCH" as const,
@@ -220,9 +405,9 @@ export class PlaywrightReadNetworkGuard {
               const location = headers.location ? new URL(headers.location, url) : undefined;
               const nextMethod = status === 303 && method !== "HEAD" || [301, 302].includes(status) && method === "POST" ? "GET" : method;
               const targetAdmitted = method !== "OPTIONS" && location && await this.admitsRedirectRequest(location, request, nextMethod, type);
-              const body = !this.recordResponse || status >= 300 && status < 400 || method === "HEAD" || status === 204
+              const body = this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method) || !this.recordResponse || status >= 300 && status < 400 || method === "HEAD" || status === 204
                 ? new Uint8Array() : await send("Fetch.getResponseBody", { requestId: event.requestId }).then(value => Buffer.from(value.body, value.base64Encoded ? "base64" : "utf8"));
-              await this.recordResponse?.({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
+              if (!(this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method))) await this.recordResponse?.({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
                 ...(location && targetAdmitted ? { redirectLocation: location.toString() } : {}) });
               if (location && [301, 302, 303, 307, 308].includes(status)) {
                 if (!targetAdmitted) {
@@ -233,7 +418,7 @@ export class PlaywrightReadNetworkGuard {
                 this.expectedRedirectTargets.set(requestKey(location.toString()), { hops: chain.hops + 1, started: chain.started });
               }
               await send("Fetch.continueResponse", { requestId: event.requestId });
-            } finally { clearTimeout(entry.timer); this.redirectTimers.delete(entry.timer); redirected.delete(event.requestId); }
+            } finally { if (!(this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method))) { clearTimeout(entry.timer); this.redirectTimers.delete(entry.timer); } redirected.delete(event.requestId); }
             return;
           }
           const expected = this.expectedRedirectTargets.get(requestKey(url.toString()));
@@ -250,17 +435,40 @@ export class PlaywrightReadNetworkGuard {
                 requestedMethod: await request.headerValue("access-control-request-method") ?? "",
                 requestedHeaderNames: (await request.headerValue("access-control-request-headers") ?? "").split(",").map(name => name.trim().toLowerCase()).filter(Boolean),
                 bodyBytes: Buffer.byteLength(request.postData() ?? "") } : undefined;
-          const admitted = method === "OPTIONS"
+          const formKey = `${event.frameId}|${requestKey(url.toString())}`;
+          const formNavigation = !isRedirect ? formNavigations.get(formKey) : undefined;
+          formNavigations.delete(formKey);
+          const inherited = !isRedirect && event.frameId === rootFrameId ? this.formAdmissions.get(page)?.get(requestKey(url.toString())) : undefined;
+          const formSubmission = formNavigation ? await traceFormEvidence("GUARD_EVIDENCE", () => formNavigation.evidence) : inherited?.evidence;
+          const formAdmitted = Boolean(formSubmission && method === "GET" && type === "document"
+            && !this.prohibitedRead(url) && !this.sensitiveWorkflow(url) && !url.username && !url.password
+            && (this.policy.documentOrigins.includes(url.origin) || this.policy.genericPublicRead && this.genericOrigins.has(url.origin)));
+          const admitted = formNavigation || inherited ? formAdmitted : method === "OPTIONS"
             ? !isRedirect && !replay && await this.admitsPreflight(url, type, corsPreflight)
             : await this.admitsRedirectRequest(url, request, method, type);
           if (!admitted) {
             this.blocked(isRedirect ? "BLOCKED_REDIRECT" : ["GET", "HEAD"].includes(method) ? "BLOCKED_ENDPOINT" : "BLOCKED_METHOD", url, method, type);
             await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
           }
+          if (this.suppressResource(url, method, type)) {
+            this.resourcePolicyBlocked(url, method, type, "FETCH");
+            await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
+          }
+          if (formAdmitted && formSubmission) {
+            const receipts = this.formAdmissions.get(page) ?? new Map<string, { evidence: ObservedGetFormSubmission; startedAt: number }>();
+            receipts.set(requestKey(url.toString()), { evidence: formSubmission, startedAt: formNavigation?.startedAt ?? inherited!.startedAt });
+            this.formAdmissions.set(page, receipts);
+          }
           const previous = event.redirectedRequestId ? chains.get(event.redirectedRequestId) : undefined;
           chains.set(event.requestId, expected ?? { hops: previous ? previous.hops + 1 : isRedirect ? 1 : 0, started: previous?.started ?? Date.now() });
           // An admitted unrecognized/initial request also traverses the normal route.
-          if (!isRedirect && method !== "OPTIONS") { await send("Fetch.continueRequest", { requestId: event.requestId }); return; }
+          if (!isRedirect && method !== "OPTIONS") {
+            if(root&&entry&&event.networkId&&method==='GET'&&['script','stylesheet','font','image'].includes(type)
+              &&!this.queryMetadata(url).queryValues.some(f=>['EQUALS_AUTHORITATIVE_INPUT','PREFIX_OF_AUTHORITATIVE_INPUT'].includes(f.valueClass))
+              &&(await Promise.all(this.policy.staticResources.map(rule=>allows(rule,request,url,method,type,this.queryMetadata(url).queryValues)))).some(Boolean))entry.eligible(event.networkId);
+
+            await send("Fetch.continueRequest", { requestId: event.requestId }); return;
+          }
           const chain = chains.get(event.requestId)!;
           // HAR never gets a live-network fallback for a redirect it did not
           // fulfill itself. Every request that reaches this branch is native.
@@ -268,26 +476,29 @@ export class PlaywrightReadNetworkGuard {
             this.blocked("BLOCKED_REDIRECT", url, method, type);
             await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
           }
-          this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...(corsPreflight ? { corsPreflight } : {}) });
+          this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(corsPreflight ? { corsPreflight } : {}) });
           const timer = setTimeout(() => {
             this.redirectTimers.delete(timer);
-            this.blocked("READ_TIMEOUT", url, method, type);
-            void send("Fetch.failRequest", { requestId: event.requestId, errorReason: "TimedOut" }).catch(() => {});
+            this.blocked("READ_TIMEOUT", url, method, type, Object.assign(new Error("Guard redirect read timed out"), { name: "TimeoutError" }));
+            if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method)) void context.close().catch(() => {});
+            else void send("Fetch.failRequest", { requestId: event.requestId, errorReason: "TimedOut" }).catch(() => {});
           }, Math.max(1, this.requestTimeoutMs - (Date.now() - chain.started)));
           timer.unref(); this.redirectTimers.add(timer); redirected.set(event.requestId, { url, method, type, timer });
+          if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method) && event.networkId) nativeNetworkTimers.set(event.networkId, timer);
           await send("Fetch.continueRequest", { requestId: event.requestId, interceptResponse: true });
         };
-        void process().catch(async () => { this.blocked("READ_REQUEST_FAILED", new URL(event.request.url), event.request.method, String(event.resourceType).toLowerCase()); await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "Failed" }).catch(() => {}); });
+        void process().catch(async error => { this.blocked("READ_REQUEST_FAILED", new URL(event.request.url), event.request.method, String(event.resourceType).toLowerCase(), error); await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "Failed" }).catch(() => {}); });
       });
       await send("Network.enable");
+      await send("Page.enable").catch(() => {});
       await send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
       await send("Target.setAutoAttach", { autoAttach: true, waitForDebuggerOnStart: true, flatten: false });
     };
-    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); });
+    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); }, true);
   }
 
   private async admitsPreflight(url: URL, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
-    if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol) || !["other", "fetch", "xhr"].includes(type)
+    if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol)
       || !facts || facts.secFetchMode !== "cors" || !["GET", "HEAD", "POST"].includes(facts.requestedMethod) || facts.bodyBytes !== 0) return false;
     for (const rule of [...this.policy.staticResources, ...this.policy.dynamicReads]) {
       const cors = rule.corsPreflight;
@@ -295,14 +506,14 @@ export class PlaywrightReadNetworkGuard {
         || facts.requestedHeaderNames.some(name => !name || !cors.requestedHeaderNames.includes(name))) continue;
       // Only the approved actual read's projection is available now. Its full
       // body is checked separately when the actual POST reaches this boundary.
-      if (matchesReadProjection(rule, url, facts.requestedMethod, "fetch")) return true;
+      if (matchesReadProjection(rule, url, facts.requestedMethod, "fetch") && matchesQueryValues(rule,url,this.queryMetadata(url).queryValues)) return true;
     }
     return false;
   }
 
   private async admitsRedirectRequest(url: URL, request: Pick<Request, "headerValue" | "postData">, method: string, type: string): Promise<boolean> {
     if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol)) return false;
-    const sourceRule = (await Promise.all([...this.policy.staticResources, ...this.policy.dynamicReads].map(rule => allows(rule, request, url, method, type)))).some(Boolean);
+    const sourceRule = (await Promise.all([...this.policy.staticResources, ...this.policy.dynamicReads].map(rule => allows(rule, request, url, method, type,this.queryMetadata(url).queryValues)))).some(Boolean);
     if (type === "document" && ["GET", "HEAD"].includes(method) && (!this.sensitiveGenericRead(url) || sourceRule)
       && (this.policy.documentOrigins.includes(url.origin) || this.policy.genericPublicRead && this.genericOrigins.has(url.origin))) return true;
     if (sourceRule) return true;
@@ -351,19 +562,39 @@ export class PlaywrightReadNetworkGuard {
   }
 
   snapshotDiagnostics(): NetworkDiagnostic[] { return [...this.diagnostics]; }
+  async observeUrlQueryValues(page:Page,value:string) { return observeQueryValues(new URL(value),await this.forms.authoritativeInputs(page)); }
   snapshotRequests(): BrowserReadNetworkObservation[] { return [...this.requests]; }
   snapshotResourceTypes(): BrowserReadResourceTypeObservation[] { return [...this.resourceTypes]; }
 
-  private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string): void {
-    const request = { origin: url.origin, pathname: url.pathname, method, resourceType, queryKeys: [...new Set(url.searchParams.keys())].sort() };
+  private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string, error?: unknown): void {
+    const request = { origin: url.origin, pathname: url.pathname, method, resourceType, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(error === undefined ? {} : { error: browserTransportError(error) }) };
     this.diagnostics.push({ code, ...request });
-    this.requests.push({ outcome: code === "BLOCKED_REDIRECT" ? "REDIRECT_BLOCKED" : "BLOCKED", ...request });
+    this.requests.push({ outcome: code === "BLOCKED_REDIRECT" ? "REDIRECT_BLOCKED" : code === "READ_REQUEST_FAILED" ? "FAILED" : code === "READ_TIMEOUT" ? "TIMED_OUT" : "BLOCKED", ...request });
+  }
+
+  /** Suppression is evaluated only after admission; an exception cannot grant permission. */
+  private suppressResource(url: URL, method: string, type: string): boolean {
+    return ["image", "media", "font"].includes(type)
+      && !(this.policy.retainedResources ?? []).some(rule => matchesReadProjection(rule, url, method, type));
+  }
+
+  private resourcePolicyBlocked(url: URL, method: string, type: string, selectedFrom: "PLAYWRIGHT" | "FETCH"): void {
+    this.blocked("RESOURCE_POLICY_BLOCKED", url, method, type);
+    // Recorder preserves protocol details and excludes BLOCKED requests from missing dependencies.
+    this.requests[this.requests.length - 1]!.resourceTypeDetails = {
+      selectedFrom, ...(selectedFrom === "PLAYWRIGHT" ? { playwright: type } : { fetch: type }), policyBlock: "NONESSENTIAL_RESOURCE",
+    };
   }
 
   private async handle(route: Route, replay: boolean): Promise<void> {
     const request = route.request();
     const method = request.method();
     const url = new URL(request.url());
+    let requestPage:Page|undefined;try{requestPage=request.frame().page();}catch{ /* Unowned requests have no fill authority. */ }
+    const requestSequence=++this.requestSequence,startedAt=Date.now();
+    const boundary=requestPage?this.readBoundary(requestPage):undefined;
+    await this.inspectQuery(url,requestPage);
+    this.requestQueryObservations.set(request,this.queryMetadata(url).queryValues);
     const type = request.resourceType();
     if (this.prohibitedRead(url)) {
       this.blocked("BLOCKED_ENDPOINT", url, method, type);
@@ -371,17 +602,40 @@ export class PlaywrightReadNetworkGuard {
       return;
     }
     const key = requestKey(url.toString());
+    let formSubmission: ObservedGetFormSubmission | undefined;
+    let formStartedAt: number | undefined;
+    if (type === "document" && method === "GET") {
+      try {
+        if (!request.isNavigationRequest()) throw new Error("Not a navigation");
+        const page = request.frame().page();
+        if (request.frame() === page.mainFrame()) {
+          const receipt = this.formAdmissions.get(page)?.get(key);
+          formSubmission = receipt?.evidence; formStartedAt = receipt?.startedAt;
+          this.formAdmissions.get(page)?.delete(key);
+        }
+      } catch { /* Unobserved frames do not receive form permission. */ }
+    }
+    const observedForm = Boolean(formSubmission && !this.sensitiveWorkflow(url));
+    const documentAttemptMs=type==='document'&&method==='GET'&&requestPage?this.documentAttemptTimeouts.get(requestPage):undefined;
+    const requestTimeoutMs=this.requestTimeoutMs;
+    const remainingRequestMs = formStartedAt === undefined ? requestTimeoutMs : requestTimeoutMs - (Date.now() - formStartedAt);
+    if (remainingRequestMs <= 0) {
+      this.blocked("READ_TIMEOUT", url, method, type);
+      await route.abort("timedout"); return;
+    }
     const preparedDocument = type === "document" && (method === "GET" || method === "HEAD") && this.documents.delete(key);
     const rules = [...this.policy.staticResources, ...this.policy.dynamicReads];
-    const sourceRule = (await Promise.all(rules
-      .map(rule => allows(rule, request, url, method, type)))).some(Boolean);
+    const ruleMatches=await Promise.all(rules.map(rule=>allows(rule,request,url,method,type,this.queryMetadata(url).queryValues)));
+    const sourceRule=ruleMatches.some(Boolean);
+    const staticRuleIndex=ruleMatches.slice(0,this.policy.staticResources.length).findIndex(Boolean);
+    const staticAdmission=staticRuleIndex<0?{}:{admissionRule:{collection:"staticResources" as const,index:staticRuleIndex}};
     const document = preparedDocument && (!this.sensitiveGenericRead(url) || sourceRule);
     const genericRead = this.policy.genericPublicRead === true
       && this.genericOrigins.has(url.origin)
       && (method === "GET" || method === "HEAD")
       && ["document", "script", "stylesheet", "font", "image", "media", "xhr", "fetch"].includes(type)
       && !this.sensitiveGenericRead(url);
-    if (!document && !sourceRule && !genericRead) {
+    if (!observedForm && !document && !sourceRule && !genericRead) {
       const endpointKnown = rules.some(rule => matchesEndpoint(rule, url, type));
       this.blocked(endpointKnown
         ? ((method !== "GET" && method !== "HEAD" && !rules.some(rule => matchesEndpoint(rule, url, type) && (rule.methods ?? ["GET", "HEAD"]).includes(method as "GET" | "HEAD" | "POST"))) ? "BLOCKED_METHOD" : "BLOCKED_FIELDS")
@@ -389,17 +643,53 @@ export class PlaywrightReadNetworkGuard {
       await route.abort("blockedbyclient");
       return;
     }
+    if (this.suppressResource(url, method, type)) {
+      this.resourcePolicyBlocked(url, method, type, "PLAYWRIGHT");
+      await route.abort("blockedbyclient");
+      return;
+    }
     // HAR routing is installed before this boundary. Falling through only after
     // admission preserves the same policy in replay and lets routeFromHAR abort
     // every missing entry without a route.fetch network escape.
     if (replay) {
-      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() });
+      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(formSubmission ? { formSubmission } : {}) });
+      const ruleIndex=ruleMatches.slice(this.policy.staticResources.length).findIndex(Boolean);
+      if(boundary&&ruleIndex>=0&&method==="GET"&&["fetch","xhr"].includes(type))this.dynamicReads.set(request,{observation:this.requests[this.requests.length-1]!,receipt:{...boundary,requestSequence,startedAt,ruleIndex,fields:[...url.searchParams].map(([key,value])=>({key,normalizedValueSha256:createHash("sha256").update(normalizedTextKey(value)).digest("hex")}))}});
       await route.fallback();
       return;
     }
+    const reviewedStaticNative=this.admittedGetTransport==="REVIEWED_STATIC_BROWSER"&&["GET","HEAD"].includes(method)&&["script","stylesheet","font","image"].includes(type)&&staticRuleIndex>=0
+      &&!this.queryMetadata(url).queryValues.some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT"].includes(field.valueClass));
+    const native=reviewedStaticNative||this.admittedGetTransport==="BROWSER_GET_HEAD"&&["GET","HEAD"].includes(method);
     try {
-      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() });
-      const response = await route.fetch({ maxRedirects: 0, timeout: this.requestTimeoutMs });
+      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, transport:native?"BROWSER_GET_HEAD":"NODE_FETCH",...staticAdmission,resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(formSubmission ? { formSubmission } : {}) });
+      const ruleIndex=ruleMatches.slice(this.policy.staticResources.length).findIndex(Boolean);
+      if(boundary&&ruleIndex>=0&&method==="GET"&&["fetch","xhr"].includes(type))this.dynamicReads.set(request,{observation:this.requests[this.requests.length-1]!,receipt:{...boundary,requestSequence,startedAt,ruleIndex,fields:[...url.searchParams].map(([key,value])=>({key,normalizedValueSha256:createHash("sha256").update(normalizedTextKey(value)).digest("hex")}))}});
+      if (native) {
+        this.nativeRequests.add(request);
+        // A native request has no Route.abort capability after continue(). Keep
+        // the same transport deadline and fail closed by retiring this context.
+        const timer = setTimeout(() => {
+          this.redirectTimers.delete(timer);
+          this.blocked("READ_TIMEOUT", url, method, type, Object.assign(new Error("Native browser read timed out"), { name: "TimeoutError" }));
+          void this.context?.close().catch(() => {});
+        }, remainingRequestMs);
+        timer.unref(); this.nativeTimers.set(request, timer); this.redirectTimers.add(timer);
+        await route.continue();
+        return;
+      }
+      const controller=new AbortController();this.nodeTransports.set(request,controller);
+      let response: Awaited<ReturnType<Route["fetch"]>>;
+      try{
+        let mainDocument=false;try{mainDocument=type==="document"&&method==="GET"&&requestPage!==undefined&&request.frame()===requestPage.mainFrame();}catch{/* Detached/unowned frames cannot supply document progress. */}
+        if(mainDocument)response=await observeNodeRead(url,controller.signal,progress=>{
+          this.entries.get(requestPage!)?.documentProgress(url.toString(),progress);
+          if(progress.status!==undefined&&progress.receivedBodyBytes===0&&!progress.finished)this.onResponseHeaders?.({url:url.toString(),resourceType:type,status:progress.status,mainDocument:true});
+        },()=>route.fetch({maxRedirects:0,timeout:remainingRequestMs,signal:controller.signal}),documentAttemptMs);
+        else response=await route.fetch({maxRedirects:0,timeout:remainingRequestMs,signal:controller.signal});
+      }catch(error){if(type==="document"&&requestPage)await this.entries.get(requestPage)?.documentFailure(url.toString(),error);throw error;}
+      finally{this.nodeTransports.delete(request);}
+      try{this.entries.get(request.frame().page())?.responseStatus(response.status());}catch{/* detached frame */}
       if (response.status() >= 300 && response.status() < 400) {
         let target: URL | undefined;
         try { if (response.headers()["location"]) target = new URL(response.headers()["location"]!, url); } catch { /* rejected below */ }
@@ -425,9 +715,9 @@ export class PlaywrightReadNetworkGuard {
       await route.fulfill({ response });
     } catch (error) {
       const code = error instanceof Error && error.name === "TimeoutError" ? "READ_TIMEOUT" : "READ_REQUEST_FAILED";
-      this.blocked(code, url, method, type);
-      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() };
-      await route.abort("failed");
+      this.blocked(code, url, method, type, error);
+      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", error: browserTransportError(error), origin: url.origin, pathname: url.pathname, method, resourceType: type, transport:native?"BROWSER_GET_HEAD":"NODE_FETCH",...staticAdmission,resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url) };
+      try{await route.abort("failed");}catch(abortError){if(!this.abortedForEntry.has(request))throw abortError;}
     }
   }
 
@@ -438,9 +728,13 @@ export class PlaywrightReadNetworkGuard {
 
   /** ADR-0036 permits public GET/HEAD exploration, not sensitive endpoint or PII query shapes. */
   private sensitiveGenericRead(url: URL): boolean {
-    const path = url.pathname.toLowerCase();
     if(this.policy.dynamicReads.some(rule=>url.origin===rule.origin&&matchesPath(rule,url)
       &&rule.strictQueryKeys?.some(key=>url.searchParams.has(key))))return true;
+    return this.sensitiveWorkflow(url) || [...url.searchParams.keys()].some(key => /(?:email|e-mail|phone|tel|address|name|password|passcode|token|secret|cookie|api_?key|card|payment|credit)/i.test(key));
+  }
+
+  private sensitiveWorkflow(url: URL): boolean {
+    const path = url.pathname.toLowerCase();
     // Explicit sensitive segments always win, including below a public
     // calendar namespace. Only the booking/reserve container itself gets the
     // narrow public-query exception below.
@@ -450,7 +744,6 @@ export class PlaywrightReadNetworkGuard {
     // booking/reserve descendants remain fail-closed.
     const publicQueryNamespace = /\/(?:booking|reserve)\/(?:calendar|availability|vacancy|status|search|list)(?:\/|$)/.test(path);
     if (!publicQueryNamespace && /(?:^|\/)(?:booking|reserve)(?:\/|$)/.test(path)) return true;
-    if ([...url.searchParams.keys()].some(key => /(?:email|e-mail|phone|tel|address|name|password|passcode|token|secret|cookie|api_?key|card|payment|credit)/i.test(key))) return true;
     return [...url.searchParams].some(([key, value]) => /^(?:action|cmd|command|operation)$/i.test(key) && /^(?:cancel|delete|remove|confirm|purchase|pay|book|reserve)$/i.test(value));
   }
 }

@@ -1,0 +1,8 @@
+# D8 diagnostic offline repair
+Status: draft / not integrated; exposed regression; times CET. Original Live source22215c6b and all its raw outputs are immutable. No new external/model calls.
+
+Slice: recover an already-HIGH source name from the actual same-outlet SPA snapshot, so unchanged named-outlet uniqueness can consume it; independently correct four approved text preflight rules omitted from frozen evaluation inputs. No change to Guard admission, identity thresholds, budgets, request, source name vocabulary, or original score.
+
+Evidence: actual initial Google candidate/state, original source ENTITY_MATCH, snapshot0006 (retained real DOM, not construction), browser decision7 plus shop GET and route metadata. Real component regression through ObservedOutletNames and unchanged G4. Negative: other outlet/source/page, non-HIGH, absent source name, suffix name; existing ambiguity/source-conflict tests retained. Independent boundary red uses original four rejected preflight rows; literal rule correction comes from user-approved tablecheck-destination-20261107/reviewed-read-rules.json, not production policy. Sidecar re-evaluation only; original S0=4 report preserved.
+
+Acceptance: real component red/green; complete independent GET/HEAD/provenance and outer method/body/preflight audit or explicit gap; same-SHA clean typecheck/arch/default/build/browser-fixture+G6/strictG2; hardcoded scan. Original Live still identity uniqueness/availability UNKNOWN, no main merge, no new Live. Missing replay JSON/privacy omissions reported, not relaxed. Deferred causal receipt/not-found work remains after3b.

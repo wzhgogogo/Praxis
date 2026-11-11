@@ -1,0 +1,158 @@
+{
+  "mode": "RECORDED_OFFLINE_DIAGNOSIS",
+  "exposedDevelopmentEvidence": true,
+  "privateHoldoutRead": false,
+  "realCalls": 0,
+  "productCodeChanged": false,
+  "conclusion": "Nonblocking known gap retained under user-approved one-pass stop",
+  "cases": [
+    {
+      "case": "D4",
+      "sourcePath": ".eval-artifacts/phase3b/d4-d8-live-20261106/snapshot-fix-D4-runtime/runs/D4/D4",
+      "originalEvaluationSHA256": "bf3203242c61bda11d97a3a7d2344144f4dbf9e4d260770d9dd1982790aa7bd7",
+      "diagnosis": {
+        "originalQuestionResult": {
+          "reason": "INCOMPLETE_PAGE",
+          "status": "UNVERIFIED",
+          "candidateId": "tabelog:en/tokyo/A1323/A132305/13108466",
+          "checkedPages": [
+            {
+              "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "readAt": "2026-11-06T09:26:16.927Z"
+            }
+          ]
+        },
+        "questionRequestedAtUTC": "2026-11-06T09:26:55.568Z",
+        "initialFactSnapshot": {
+          "index": 24,
+          "atUTC": "2026-11-06T09:26:16.325Z"
+        },
+        "finding": "Initial 700ms navigation settlement sample did not finish. The page retained for later G1 was rejected as incomplete; subsequent same-outlet complete observation is not proven by the saved recording."
+      },
+      "recordedTimelineUTC": [
+        {
+          "sequence": 234,
+          "at": "2026-11-06T09:26:16.264Z",
+          "event": "ASYNC_WAIT",
+          "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+        },
+        {
+          "sequence": 240,
+          "at": "2026-11-06T09:26:18.530Z",
+          "event": "PROVIDER_FINISHED",
+          "operation": "PROVIDER_SCOPE"
+        }
+      ],
+      "settlementDetailsMissingFromSnapshotRecording": true,
+      "status": "KNOWN_GAP_NOT_CLOSED",
+      "notProven": "Which busy selector/data request/visible-text transition caused the false or genuine pending state. Stored HTML completeness is not settlement proof.",
+      "decision": "Stop one offline diagnostic pass; no fabricated readiness or model answer. A safe fix requires detailed settlement reproduction/runtime work, outside the small collector correction. G1 still rejects genuinely PENDING pages."
+    },
+    {
+      "case": "D8",
+      "sourcePath": ".eval-artifacts/phase3b/d8-direct-outlet-live-20261109/live-runtime/runs/D8/D8",
+      "originalEvaluationSHA256": "8d6c5dd0292f7fce0dcaf6601991fec39e892bb53b740ee5a9ad41b8c1cbbaeb",
+      "diagnosis": {
+        "originalTermsDiagnostics": [
+          {
+            "at": "2026-11-09T03:06:22.429Z",
+            "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+            "reason": "NO_PAGES",
+            "pageCount": 0,
+            "boundPageCount": 0
+          },
+          {
+            "at": "2026-11-09T03:06:36.632Z",
+            "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+            "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+            "reason": "NO_PAGES",
+            "pageCount": 0,
+            "boundPageCount": 0
+          }
+        ],
+        "finding": "capturePagesOnly checks the bounded skill result before retainNativePage. Completion remains busy in both G1 scopes, so no page is retained. Existing cache does replace later observations at the same scope+URL; no evidence supports declaring these observations SETTLED."
+      },
+      "recordedTimelineUTC": [
+        {
+          "sequence": 457,
+          "at": "2026-11-09T03:06:17.011Z",
+          "event": "ASYNC_WAIT",
+          "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+        },
+        {
+          "sequence": 468,
+          "at": "2026-11-09T03:06:17.902Z",
+          "event": "REJECTED",
+          "operation": "COMPLETION_RESULT_BUSY"
+        },
+        {
+          "sequence": 471,
+          "at": "2026-11-09T03:06:21.911Z",
+          "event": "ASYNC_WAIT",
+          "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+        },
+        {
+          "sequence": 477,
+          "at": "2026-11-09T03:06:22.402Z",
+          "event": "REJECTED",
+          "operation": "COMPLETION_RESULT_BUSY"
+        },
+        {
+          "sequence": 478,
+          "at": "2026-11-09T03:06:22.402Z",
+          "event": "REJECTED",
+          "operation": "COMPLETION_RESULT_BUSY"
+        },
+        {
+          "sequence": 479,
+          "at": "2026-11-09T03:06:22.402Z",
+          "event": "PROVIDER_FINISHED",
+          "operation": "PROVIDER_SCOPE"
+        },
+        {
+          "sequence": 488,
+          "at": "2026-11-09T03:06:31.254Z",
+          "event": "ASYNC_WAIT",
+          "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+        },
+        {
+          "sequence": 499,
+          "at": "2026-11-09T03:06:32.085Z",
+          "event": "REJECTED",
+          "operation": "COMPLETION_RESULT_BUSY"
+        },
+        {
+          "sequence": 502,
+          "at": "2026-11-09T03:06:36.091Z",
+          "event": "ASYNC_WAIT",
+          "operation": "PAGE_STILL_LOADING_WITHIN_BOUND"
+        },
+        {
+          "sequence": 508,
+          "at": "2026-11-09T03:06:36.603Z",
+          "event": "REJECTED",
+          "operation": "COMPLETION_RESULT_BUSY"
+        },
+        {
+          "sequence": 509,
+          "at": "2026-11-09T03:06:36.603Z",
+          "event": "REJECTED",
+          "operation": "COMPLETION_RESULT_BUSY"
+        },
+        {
+          "sequence": 510,
+          "at": "2026-11-09T03:06:36.603Z",
+          "event": "PROVIDER_FINISHED",
+          "operation": "PROVIDER_SCOPE"
+        }
+      ],
+      "settlementDetailsMissingFromSnapshotRecording": true,
+      "status": "KNOWN_GAP_NOT_CLOSED",
+      "notProven": "Which busy selector/data request/visible-text transition caused the false or genuine pending state. Stored HTML completeness is not settlement proof.",
+      "decision": "Stop one offline diagnostic pass; no fabricated readiness or model answer. A safe fix requires detailed settlement reproduction/runtime work, outside the small collector correction. G1 still rejects genuinely PENDING pages."
+    }
+  ]
+}

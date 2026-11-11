@@ -1,0 +1,87 @@
+import {mkdtemp,writeFile,rm,readFile} from "node:fs/promises";
+import {tmpdir} from "node:os";
+import {join} from "node:path";
+import {createLiveReadAssembly} from "../../live-read-assembly.js";
+import {tabelogDiscoveryPack} from "../../source-packs.js";
+import {LocalPlaywrightChromium} from "../../../../infrastructure/browser/local-playwright-chromium.js";
+import type {BrowserRuntime,BrowserSession} from "../../../../infrastructure/browser/browser-runtime.js";
+import {GooglePlacesClient} from "../../../google/google-places-client.js";
+import {LIVE_READ_DEBUG_INVESTIGATION_BUDGET} from "../../../../application/live-read-investigation-budget.js";
+import type {RestaurantSearchIntent} from "../../../../domains/restaurant/contracts.js";
+import type {ModelGateway,ModelRequest} from "../../../../core/model/contracts.js";
+import {replayHarPages} from "../../../../harness/browser/browser-read-test-fixtures.js";
+
+export type Mode="LINK"|"SCRIPT"|"NONE"|"AMBIGUOUS"|"OUTSIDE"|"MERCHANT_ONLY"|"HOME_CARDS"|"INERT_SUBMIT";
+export async function locationSuggestionAssembly(mode:Mode){
+  const saved=JSON.parse(await readFile(new URL("./d4-menu.json",import.meta.url),"utf8"));
+  const origin="https://tabelog.com",home=origin+"/en/",root=origin+"/en/tokyo/rstLst/",menu=origin+"/en/tokyo/";
+  const result=origin+"/en/tokyo/A1323/A132305/rstLst/?sw=kushikatsu",wrong=origin+"/en/tokyo/A1322/";
+  const station="Akabane Sta. (Tokyo)";
+  const optionResult=origin+"/en/tokyo/A1323/A132305/rstLst/?location=Akabane&sw=kushikatsu";
+  const menuHtml=`<title>Tokyo restaurants</title>${Array.from({length:3},()=>`<a href="${home}"><img alt="Tabelog"></a>`).join(" ")}<main>${saved.regions.map((r:{label:string;href:string})=>`<a href="${r.href}">${r.label}</a>`).join(" ")}</main>`;
+  const locationChoices=mode==="NONE"||mode==="MERCHANT_ONLY"?[]:[{name:station,href:result},...(mode==="AMBIGUOUS"?[{name:"Akabane Station (Tokyo)",href:origin+"/en/tokyo/R99999/rstLst/"}]:[])];
+  const locationHtml=locationChoices.map(c=>mode==="SCRIPT"?`<a href="${home}#">${c.name}</a>`:`<a href="${c.href}">${c.name}</a>`).join("");
+  const suggestions=`<section role="group" aria-label="Locations">${locationHtml}<a href="${origin}/en/aichi/R88888/rstLst/">Michi no Eki Akabane Roko Station [Aichi]</a></section><section role="group" aria-label="Restaurants"><a href="${origin}/en/tokyo/A1323/A132305/13999999/">Akabane</a><a href="${origin}/en/tokyo/A1323/A132305/13999998/">Akabane Sta. (Tokyo)</a></section>`;
+  const homeHtml=`<title>Tabelog public search</title><a href="${menu}">Tokyo</a><form aria-label="Public restaurant search" method="GET" action="${origin}/en/tokyo/A1323/A132305/rstLst/"><label>Area / Station<input role="combobox" aria-label="Area / Station" type="search" name="location" aria-expanded="false" aria-controls="choices"></label><input type="hidden" name="sw" value="kushikatsu"><div id="choices" role="listbox" aria-label="Search suggestions"></div><button type="button" onclick="${mode==='INERT_SUBMIT'?'void 0':'this.form.requestSubmit()'}">Search</button></form><script>
+    const field=document.querySelector('input[type=search]'),list=document.getElementById('choices');
+    field.addEventListener('input',()=>{field.setAttribute('aria-expanded','true');setTimeout(()=>{list.innerHTML=${JSON.stringify(suggestions)};for(const option of list.querySelectorAll('a'))if(option.getAttribute('href')===${JSON.stringify(home+'#')})option.addEventListener('click',e=>{e.preventDefault();const tag=document.createElement('span');tag.textContent=option.textContent;field.before(tag);field.setAttribute('aria-expanded','false');list.hidden=true;});},80);});
+  </script>`;
+  const pages:Record<string,string>={[home]:homeHtml,[root]:menuHtml,[root+"?sw=kushikatsu"]:menuHtml,[menu]:menuHtml};
+  const urls:string[]=[];
+  for(let i=0;i<5;i++){
+    const url=origin+`/en/tokyo/A1323/A132305/${13123450+i}/`;urls.push(url);
+    const point=mode==="OUTSIDE"?{latitude:35.4,longitude:139.4}:saved.goal.location;
+    pages[url]=`<title>Controlled restaurant ${i}</title><script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Controlled restaurant "+i,address:"東京都北区赤羽1-1-1",geo:{latitude:point.latitude,longitude:point.longitude}})}</script><h1>Controlled restaurant ${i}</h1><address>東京都北区赤羽1-1-1</address>`;
+  }
+  const list=urls.map((url,i)=>`<a class="list-rst__rst-name-target" href="${url}">Controlled restaurant ${i}</a>`).join("");
+  if(mode==="HOME_CARDS"||mode==="INERT_SUBMIT")pages[home]=homeHtml+"<h1>Recommendations</h1>"+list+"<footer>Other places: Akabane</footer>";
+  pages[result]="<h1>Restaurants in Akabane</h1>"+list;pages[optionResult]="<h1>Restaurants in Akabane</h1>"+list;
+  const wrongLinks=[];
+  for(let i=0;i<5;i++){
+    const url=origin+`/en/tokyo/A1322/A132201/${13123550+i}/`;wrongLinks.push(`<a class="list-rst__rst-name-target" href="${url}">Outside restaurant ${i}</a>`);
+    pages[url]=`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Outside restaurant "+i,address:"東京都板橋区",geo:{latitude:35.74,longitude:139.72}})}</script><h1>Outside restaurant ${i}</h1>`;
+  }
+  pages[wrong]=wrongLinks.join("");
+  pages[wrong+"?sw=kushikatsu"]=pages[wrong]!;
+  const folder=await mkdtemp(join(tmpdir(),"praxis-location-suggestions-")),har=join(folder,"source.har");await writeFile(har,replayHarPages(pages));
+  const actual=new LocalPlaywrightChromium(),sessions:BrowserSession[]=[],actions:Array<{operation:string;args:unknown[]}>=[],models:ModelRequest[]=[],diagnostics:unknown[]=[];
+  const browser:BrowserRuntime={readNetworkBoundaryCapability:actual.readNetworkBoundaryCapability,async openSession(input){
+    const raw=await actual.openSession({...input,replayHarPath:har});sessions.push(raw);
+    return new Proxy(raw,{get(target,key){const value=Reflect.get(target,key,target);if(typeof value!=="function")return value;
+      return (...args:unknown[])=>{if(["navigate","openLink","fill","click","select"].includes(String(key)))actions.push({operation:String(key),args:args.slice(0,2)});return value.apply(target,args);};}});
+  }};
+  const model:ModelGateway={async complete(request){
+    models.push(request);const context=JSON.parse(request.messages.find(m=>m.role==="user")!.content);
+    let body:unknown;
+    if(request.purpose==="restaurant_discovery_retrieval")body={choice:context.current?"KEEP":"KEYWORD",keyword:context.current?"":"kushikatsu",criterionRef:context.current?"":"criterion:0",categoryUrl:"",generalRef:"",reason:"Constructed fixed retrieval, not a real model"};
+    else if(request.purpose==="browser_read_decide"){
+      const targets=context.observation.targets;
+      const field=targets.find((t:{label:string})=>t.label==="Area / Station");
+      const wire=(action:string,targetRef="",authoritativeField="NONE")=>({action,targetRef,authoritativeField,requestedState:"NONE",reason:"Constructed model chooses only current observed targets"});
+      if(field&&field.value!=="Akabane")body=wire("FILL_AUTHORITATIVE",field.ref,"LOCATION");
+      else if(context.observation.url===home&&(mode==='HOME_CARDS'||mode==='INERT_SUBMIT')){
+        const clicked=context.history.some((step:{action:string})=>step.action==='CLICK');
+        const submit=targets.find((t:{label:string})=>t.label==='Search');
+        body=mode==='INERT_SUBMIT'&&!clicked?wire('CLICK',submit.ref):wire('COMPLETE');
+      }
+      else if(context.observation.url===home){
+        const choices=targets.filter((t:{label:string;controlGroupLabel?:string})=>["Akabane Sta. (Tokyo)","Akabane Station (Tokyo)"].includes(t.label)&&t.controlGroupLabel==="Locations");
+        if(context.observation.visibleText.includes(station)&&!choices.length&&mode==="SCRIPT"){
+          const submit=targets.find((t:{label:string})=>t.label==="Search");body=submit?wire("CLICK",submit.ref):wire("REQUEST_HUMAN_HELP");
+        }else if(choices.length===1)body=wire(choices[0].availableActions?.includes("CLICK")?"CLICK":"OPEN_LINK",choices[0].ref);
+        else if(!context.observation.visibleText.includes("Michi no Eki"))body=wire("WAIT");
+        else {const target=targets.find((t:{href?:string})=>t.href===menu);body=target?wire("OPEN_LINK",target.ref):wire("REQUEST_HUMAN_HELP");}
+      }else{
+        const target=targets.find((t:{href?:string})=>t.href===wrong);
+        body=target?wire("OPEN_LINK",target.ref):wire("COMPLETE");
+      }
+
+    }else throw Error("Unexpected model purpose "+request.purpose);
+    return {invocationId:"fixture:"+models.length,latencyMs:0,provider:"FIXTURE",model:"fixture",outputText:JSON.stringify(body),finishReason:request.purpose==="browser_read_decide"?"TOOL_CALLS":"STOP"};
+  }};
+  const now="2026-11-04T08:00:00.000Z";
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {model,browser,clock:{now:()=>new Date(now)},google:new GooglePlacesClient({apiKey:"fixture-unused",fetchImplementation:async()=>{throw Error("No external Google request permitted");}}),onBrowserDiagnostic:d=>diagnostics.push(d)});
+  const intent:RestaurantSearchIntent={timezone:"Asia/Tokyo",target:{goal:"RECOMMENDATION",selectionScope:"OPEN_ENDED",query:"Restaurants near Akabane"},area:{query:"near Akabane",radiusMeters:1000},criteria:[{text:"kushikatsu",strength:"HARD",polarity:"POSITIVE"}]};
+  const locationContext={latitude:saved.goal.location.latitude,longitude:saved.goal.location.longitude,radiusMeters:1000,label:"Akabane",areaMatchBasis:"NAMED_PLACE_RADIUS" as const,addressComponents:saved.goal.location.addressComponents};
+  return {saved,actions,models,diagnostics,result,root,home,async search(){return assembly.search.search({intent,readRunId:"location-fixture",continuation:{intentFingerprint:JSON.stringify(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext}},new AbortController().signal);},async close(){for(const s of sessions)await s.close();await rm(folder,{recursive:true,force:true});}};
+}

@@ -1,11 +1,15 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.25
-- Last updated: 2026-10-30
+- Document revision: 0.33
+- Last updated: 2026-11-03
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Visual Direction](VISUAL-DIRECTION.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
+
+## Positive HARD basis on result cards (2026-11-03 user decision)
+
+A current, identity-bound merchant menu, introduction or recognized source category can establish a positive non-price HARD. A source-observed outlet name/H1/alias can do so when it explicitly contains the requested cuisine/type words. Customer review titles, bodies and ratings cannot establish it. A review-only candidate is not a qualified result. The card follows qualification, shows the original quote and labels outlet-name or category evidence; a recognized category without a quote is shown as a basis without made-up quotation text. A menu dish is not presented as a specialty claim. Negative HARD, price applicability, identity, service scope and freshness rules remain. Implementation/review state is recorded in [STATUS](../STATUS.md).
 
 ## 三个位置与工作区视图
 
@@ -17,7 +21,7 @@
 
 顶部仅有菜单、`praxis`加群青方块光标及新安排入口。工作区底部输入框为`Adjust anything?`。查看、展开、备选和明确选定分别处理；返回候选视图时回到原来的卡片。
 
-前端第一段已复核并快进合main4cbc521b，接通了本节的外壳、当前指代、逐家候选和B1呈现；本地Fixture两尺寸浏览器链路、五门禁与视觉证据见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
+前端第一段在工作分支接通了本节的外壳、当前指代、逐家候选和B1呈现，本地Fixture两尺寸浏览器链路已通过；五门禁/独立视觉复核状态见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
 
 ## 明确空位与来源交接
 
@@ -148,7 +152,7 @@ After results are displayed, ask through the question field on one restaurant ca
 
 The answer panel shows one short answer, verbatim source quotations in their original language, source URLs and read times. `NOT_STATED` shows “Not stated on the page” and the pages actually checked. Sensitive categories or model-reported source contradictions add “Please confirm with the restaurant”; unverified answers are discarded. This does not establish HARD satisfaction, reception policy or availability.
 
-Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
 
@@ -156,12 +160,42 @@ Independent review of the original 102 model answers was reported by the user: z
 
 Current source-bound slot → two server URL checks → explicit Book/Continue click → persist Case departure → user-owned source tab. On return/focus or reload, atomically claim at most one feedback prompt per Case; respond Yes/No/Skip without follow-ups. Duplicate requests, unanswered prompts and restarts do not re-ask; only USER_REPORTED feedback changes, not booking state. Cancellation conflicts show Japanese and English originals with their paraphrases/citations and ask the user to confirm on the website. The first TableCheck Live must be checked by the user for actual date/time/guests, with num_people and encoded start_time=19%3A00; this is a checklist, not run evidence. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
 
-## 第2段：问答、条件、变化与收尾
 
-主输入框由视图确定路由：DETAILS发往已有单店questions接口并绑定当前展示候选；CANDIDATES/CONVERSATION发往需求消息。回答底部面板不重排当前卡片或清除草稿，外点/下滑收起。You asked按当前店显示持久事件已有的历史，最新在上，保留原引文与敏感确认；没有新增问答存储或修改G1执行规则。
+## B1 G3 wiring preparation branch (2026-10-30 CET)
 
-条件胶囊点击只聚焦预填Change <condition> to，按原消息链调整；只有明确来源标记的推测条件才带问号。新批完成后的removed/added、移除原因和不符合新条件的备选均来自服务端投影；移除和新增均0时隐藏整行，任一非0仍显示。不把搜索页数当需求版本，不从前端缓存或自由文本猜原因。
+Preparation-branch flow: current Tabelog availability → Book/Continue link carrying the checked request → explicit user departure → existing once-only self-report feedback. No booking page opens automatically. After a server restart, missing transient link evidence hides the handoff; an explicit availability refresh can obtain it again. The original preparation preceded G3 main integration; the completed rebase checkpoint is below, and C’s own merge remains pending. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
 
-翻过最后候选显示Any of these work?，Saved/Adjust为文字动作，Find more调用原another-batch，返回仍是最后候选。来源读取失败但有合格结果时继续展示，末尾短提示；模型理解失败保留输入，断线Reconnecting自动恢复，明确过期的交接调用原refresh。没有合格结果只写Nothing matched yet.，不能写附近没店/没有空位。
+Historical B1 rebase checkpoint (2026-10-30 CET): the current My plans → Choose this → handoff flow has been rechecked with source-bound links. Choose this remains a view change; no booking submission occurs. C wiring awaits review and its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
 
-按用户2026-10-30批准，TaskDefinition22→23（State24形状不变）：NO_VERIFIED_RESULT只有服务端证明池内尚未调查的候选或既有同条件搜索续接仍有工作，且必要条件齐全时，canContinue才为true，显示Find more；否则只显示Adjust。使用原NEXT_BATCH_REPLENISHMENT_REQUESTED，保留检查/游标/备选，不重新调查已失败或不合格的店；版本、requestId幂等、预算、Stop和迟到丢弃沿用原路径。全部来源失败不使用续查，Try again复用refresh和显式刷新事件，仅重查确认失败的候选，不跑语义。工作分支验证状态见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，不是Live能力。
+Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).
+
+
+## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
+
+用户选定已核实有空位且有B1链接的门店后，服务端在该次读取预算与deadline内用G1补齐取消规定、是否需要订位信用卡；英文转述及原文/页面/时间随卡片呈现。已问过且当前绑定的答案复用，不重复回答模型调用；未知/失败省略条款，Book on来源按钮不等条款完成才可用。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+
+
+## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
+
+选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。
+
+## Explicit booking message records user choice (2026-11-02 CET; approved main integration)
+
+When the user explicitly asks to book one specific restaurant and the reference is unambiguous, Praxis records that restaurant as the user's choice. An ambiguous or partial name stays unselected. Missing guests are asked first, and the requested slot is still checked before a source handoff and optional card terms appear. This does not submit or authorize a reservation. See the appended user decision in [ADR0049](../decisions/0049-source-bound-b1-booking-handoff.md); this local implementation passed independent review and is approved for main integration. Live limitations remain separate.
+
+### Named outlet with source-owned name variants (2026-11-03; offline candidate)
+
+A specific named Tokyo outlet can be found without asking for a separate area. Google and the booking source may use different names: exact source-owned full names require same-store identity, and a containing short name requires a unique candidate plus address-supported locality/cuisine/branch terms. Multiple branches, unknown abbreviations and conflicting identity require clarification. The source address does not become a user-supplied area. Availability, qualified presentation and both B1 server checks remain required before a booking handoff. Validation and remaining Live uncertainty are in the [C report](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md).
+
+### Booking a selected outlet after supplying missing details (2026-11-03; offline candidate)
+
+If the user books a displayed restaurant and then supplies the party size or another missing visit field, the next result remains bound to that restaurant's source identity. The area cannot replace the selected store with nearby results. If it cannot be verified for that visit, the reply names the store and visit and asks whether other nearby restaurants are acceptable; only a subsequent accepted open request permits those alternatives. A selection still requires fresh availability before B1/terms and does not authorize booking submission.
+
+## 2026-11-03 near-name branch investigation (offline implementation candidate)
+
+For an explicit full outlet name with multiple possible branches, Praxis can investigate the first three in source order within the current read's budget. One full source name match after all three identity checks permits the existing availability → presentation → B1 flow; zero/multiple matches keep the clarification prompt. The remaining candidates are not alternatives offered without user agreement. Selected-outlet policy capture observes bounded page readiness before asking the two G1 questions. Missing or unverified policy text stays absent; a still-valid B1 link is unaffected, with task/run-bound omission diagnostics available outside the user's Task State.
+
+
+## 2026-11-11 CET — slice2同步补充（draft / not integrated）
+
+保留main的3b行为与证据。slice2新增单输入框按视图路由G1、条件胶囊及服务端候选差异、备选保留、批末与错误状态；NO_VERIFIED_RESULT续查仅经用户显式操作且服务端canContinue证明未查工作。70447893需独立预算/冷却/证据门槛复核，未被3b held-out覆盖。计划与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`；分支离线验证与手机实测完成并复核通过前不合main。原slice2历史证据保留，不能当作本次验证。

@@ -30,7 +30,7 @@ test("Google raw bytes survive capture without key headers/query, even with no r
  }finally{await rm(root,{recursive:true,force:true});}
 });
 
-test("Runner Google factory keeps fixture transport and validates proxy configuration",async()=>{
+test("Runner Google recording factory keeps both fixture and scoped proxy transports",async()=>{
  const errors:any[]=[],capture=new GooglePlacesHarCapture(reason=>errors.push(reason));let calls=0;
  const client=createEvalGooglePlacesClient({apiKey:"synthetic-client-credential",timeoutMs:1000,fetchImplementation:async()=>{calls++;return new Response('{"places":[],"results":[]}',{headers:{"content-type":"application/json"}});}},source=>capture.wrap(source));
  assert.deepEqual(await client.textSearch({textQuery:"fixture",pageSize:1},new AbortController().signal),[]);
@@ -38,6 +38,16 @@ test("Runner Google factory keeps fixture transport and validates proxy configur
  assert.equal(calls,2);assert.equal(capture.entries.length,2);assert.deepEqual(errors,[]);
  const reverse=capture.entries[1] as any;assert.equal(reverse.request.method,"GET");assert.equal(reverse.request.url,"https://geocode.googleapis.com/v4/geocode/location?location.latitude=35&location.longitude=139");assert.equal(reverse.request.postData,undefined);
  assert.throws(()=>createEvalGooglePlacesClient({apiKey:"synthetic",proxyServer:"ftp://localhost"},source=>capture.wrap(source)),(e:any)=>e.code==="GOOGLE_CONFIGURATION_ERROR");
+ const {createServer}=await import("node:http"),targets:string[]=[];let wrapped=0;
+ const proxy=createServer();proxy.on("connect",(req,socket)=>{targets.push(req.url??"");socket.end("HTTP/1.1 502 Bad Gateway\r\nContent-Length: 0\r\n\r\n");});
+ await new Promise<void>(resolve=>proxy.listen(0,"127.0.0.1",resolve));
+ try{
+  const address=proxy.address();assert.ok(address&&typeof address!=="string");
+  const proxied=createEvalGooglePlacesClient({apiKey:"fixture-proxy-key",timeoutMs:1000,proxyServer:`http://127.0.0.1:${address.port}`},transport=>async(url,init)=>{wrapped++;return transport(url,init);});
+  await assert.rejects(proxied.textSearch({textQuery:"fixture",pageSize:1},new AbortController().signal),(e:any)=>e.code==="GOOGLE_NETWORK_FAILED");
+  assert.equal(wrapped,1);assert.deepEqual(targets,["places.googleapis.com:443"]);
+ }finally{proxy.closeAllConnections();await new Promise<void>(resolve=>proxy.close(()=>resolve()));}
+
 });
 
 test("strict key scans isolate foreign entries before/after writing and reject owned credentials globally",async()=>{

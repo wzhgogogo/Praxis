@@ -1,0 +1,300 @@
+[
+  {
+    "sequence": 1,
+    "kind": "REQUEST_TIMELINE_READY",
+    "detail": {
+      "pageId": "capture:1:page:1",
+      "observationPoint": "BROWSER_CDP_AND_GUARD_ROUTE",
+      "at": "2026-11-05T06:38:24.766Z",
+      "monotonicMs": 439.788709
+    }
+  },
+  {
+    "sequence": 2,
+    "kind": "SESSION_OPENED",
+    "detail": {
+      "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "engine": "CHROMIUM",
+      "sessionId": "[REDACTED]",
+      "startedAt": "2026-11-05T06:38:24.767Z",
+      "readNetworkBoundary": "INSTALLED"
+    }
+  },
+  {
+    "sequence": 3,
+    "kind": "SESSION_CALL",
+    "detail": {
+      "method": "navigate",
+      "args": [
+        "https://www.tablecheck.com/en/japan/search",
+        {
+          "waitUntil": "domcontentloaded",
+          "timeoutMs": 20000
+        }
+      ]
+    }
+  },
+  {
+    "sequence": 4,
+    "kind": "NAVIGATION_START",
+    "detail": {
+      "navigationId": "capture:1:navigation:1",
+      "pageId": "capture:1:page:1",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "urlSha256": "208dadfbb2db7bc9339424de9f5d5c0a93ef4ed5aefaeb2208d7c4188029fdc3",
+      "method": "GOTO",
+      "remainingReadBudgetMs": null,
+      "navigationAllowanceMs": 20000,
+      "configuredTimeoutMs": 20000,
+      "timeoutSource": "EXPLICIT",
+      "waitUntil": "domcontentloaded",
+      "at": "2026-11-05T06:38:24.768Z",
+      "monotonicMs": 441.843792
+    }
+  },
+  {
+    "sequence": 5,
+    "kind": "NETWORK_REQUEST_START",
+    "detail": {
+      "requestId": "capture:1:page:1:request:1",
+      "navigationId": "capture:1:navigation:1",
+      "navigationAssociation": "DOCUMENT_LOADER",
+      "loaderId": "73934BAA54BD9850EF65B46AA136F259",
+      "frameId": "8FB634D207E06A720F58AC25BEC939D7",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "urlSha256": "208dadfbb2db7bc9339424de9f5d5c0a93ef4ed5aefaeb2208d7c4188029fdc3",
+      "method": "GET",
+      "resourceType": "Document",
+      "startedAt": "2026-11-05T06:38:24.769Z",
+      "startedMonotonicMs": 443.460167,
+      "status": null,
+      "blocked": false,
+      "blockReason": null,
+      "implicit": false,
+      "browserStartedAt": "2026-11-05T06:38:24.769Z",
+      "browserTimestamp": 579807.039741,
+      "redirectedFromRequestId": null,
+      "pageId": "capture:1:page:1",
+      "cdpRequestId": "73934BAA54BD9850EF65B46AA136F259",
+      "cdpTimestamp": 579807.039741,
+      "observationPoint": "BROWSER_CDP"
+    }
+  },
+  {
+    "sequence": 6,
+    "kind": "GUARD_TRANSPORT_START",
+    "detail": {
+      "transportId": "capture:1:transport:1",
+      "pageId": "capture:1:page:1",
+      "navigationId": "capture:1:navigation:1",
+      "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "urlSha256": "208dadfbb2db7bc9339424de9f5d5c0a93ef4ed5aefaeb2208d7c4188029fdc3",
+      "method": "GET",
+      "resourceType": "document",
+      "observationPoint": "GUARD_ROUTE_FETCH",
+      "at": "2026-11-05T06:38:24.772Z",
+      "monotonicMs": 446.518875
+    }
+  },
+  {
+    "sequence": 7,
+    "kind": "GUARD_TRANSPORT_END",
+    "detail": {
+      "transportId": "capture:1:transport:1",
+      "pageId": "capture:1:page:1",
+      "navigationId": "capture:1:navigation:1",
+      "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "urlSha256": "208dadfbb2db7bc9339424de9f5d5c0a93ef4ed5aefaeb2208d7c4188029fdc3",
+      "method": "GET",
+      "resourceType": "document",
+      "observationPoint": "GUARD_ROUTE_FETCH",
+      "startedAt": "2026-11-05T06:38:24.772Z",
+      "endedAt": "2026-11-05T06:38:26.091Z",
+      "elapsedMs": 1318.956584,
+      "status": null,
+      "outcome": "FAILED",
+      "errorName": "Error"
+    }
+  },
+  {
+    "sequence": 8,
+    "kind": "GUARD_ROUTE_BLOCK",
+    "detail": {
+      "transportId": "capture:1:transport:1",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "urlSha256": "208dadfbb2db7bc9339424de9f5d5c0a93ef4ed5aefaeb2208d7c4188029fdc3",
+      "reason": "failed",
+      "at": "2026-11-05T06:38:26.092Z",
+      "monotonicMs": 1766.274417
+    }
+  },
+  {
+    "sequence": 9,
+    "kind": "NETWORK_REQUEST_END",
+    "detail": {
+      "requestId": "capture:1:page:1:request:1",
+      "navigationId": "capture:1:navigation:1",
+      "navigationAssociation": "DOCUMENT_LOADER",
+      "loaderId": "73934BAA54BD9850EF65B46AA136F259",
+      "frameId": "8FB634D207E06A720F58AC25BEC939D7",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "urlSha256": "208dadfbb2db7bc9339424de9f5d5c0a93ef4ed5aefaeb2208d7c4188029fdc3",
+      "method": "GET",
+      "resourceType": "Document",
+      "startedAt": "2026-11-05T06:38:24.769Z",
+      "startedMonotonicMs": 443.460167,
+      "status": null,
+      "blocked": false,
+      "blockReason": null,
+      "implicit": false,
+      "browserStartedAt": "2026-11-05T06:38:24.769Z",
+      "browserTimestamp": 579807.039741,
+      "redirectedFromRequestId": null,
+      "pageId": "capture:1:page:1",
+      "endedAt": "2026-11-05T06:38:26.095Z",
+      "endedMonotonicMs": 1769.448792,
+      "elapsedMs": 1325.988625,
+      "browserEndedAt": "2026-11-05T06:38:26.093Z",
+      "browserElapsedMs": 1324.8589999275282,
+      "browserEndTimestamp": 579808.3646,
+      "endObservation": "CDP_NETWORK_TERMINAL",
+      "outcome": "FAILED",
+      "endReason": "net::ERR_FAILED"
+    }
+  },
+  {
+    "sequence": 10,
+    "kind": "NAVIGATION_END",
+    "detail": {
+      "navigationId": "capture:1:navigation:1",
+      "pageId": "capture:1:page:1",
+      "startedAt": "2026-11-05T06:38:24.768Z",
+      "endedAt": "2026-11-05T06:38:26.100Z",
+      "startedMonotonicMs": 441.843792,
+      "endedMonotonicMs": 1773.721042,
+      "elapsedMs": 1331.87725,
+      "endReason": "FAILED"
+    }
+  },
+  {
+    "sequence": 11,
+    "kind": "SESSION_ERROR",
+    "detail": {
+      "method": "navigate",
+      "error": {
+        "name": "BrowserRuntimeError",
+        "message": "Local Playwright Chromium operation failed",
+        "code": "BROWSER_RUNTIME_FAILED",
+        "cause": {
+          "name": "Error",
+          "message": "page.goto: net::ERR_FAILED at [URL]"
+        },
+        "networkFailures": [
+          {
+            "outcome": "FAILED",
+            "error": {
+              "name": "Error",
+              "message": "route.fetch: Client network socket disconnected before secure TLS connection was established"
+            },
+            "origin": "https://www.tablecheck.com/",
+            "pathname": "/en/japan/search",
+            "method": "GET",
+            "resourceType": "document",
+            "resourceTypeDetails": {
+              "selectedFrom": "PLAYWRIGHT",
+              "playwright": "document"
+            },
+            "queryKeys": []
+          }
+        ]
+      }
+    }
+  },
+  {
+    "sequence": 12,
+    "kind": "SNAPSHOT",
+    "detail": {
+      "url": "about:blank",
+      "title": "",
+      "textSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "textLength": 0,
+      "pageId": "page:1",
+      "htmlSha256": "a7fe83ec64bb23eb28090598db3d166ed98e52e39d1afbbfd74c579553f93e4e",
+      "htmlLength": 39,
+      "observedStateTags": [],
+      "queryRegions": [],
+      "priceRegions": [],
+      "responses": [],
+      "networkDiagnostics": [
+        {
+          "code": "READ_REQUEST_FAILED",
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/japan/search",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": [],
+          "error": {
+            "name": "Error",
+            "message": "route.fetch: Client network socket disconnected before secure TLS connection was established"
+          }
+        }
+      ],
+      "networkResourceTypes": [
+        {
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/japan/search",
+          "method": "GET",
+          "resourceType": "document",
+          "resourceTypeDetails": {
+            "selectedFrom": "NETWORK",
+            "network": "Document",
+            "fetch": "Document"
+          }
+        }
+      ],
+      "networkRequests": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/japan/search",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": [],
+          "resourceTypeDetails": {
+            "selectedFrom": "PLAYWRIGHT",
+            "playwright": "document"
+          }
+        },
+        {
+          "outcome": "FAILED",
+          "origin": "https://www.tablecheck.com/",
+          "pathname": "/en/japan/search",
+          "method": "GET",
+          "resourceType": "document",
+          "queryKeys": [],
+          "error": {
+            "name": "Error",
+            "message": "route.fetch: Client network socket disconnected before secure TLS connection was established"
+          },
+          "resourceTypeDetails": {
+            "selectedFrom": "PLAYWRIGHT",
+            "playwright": "document"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "sequence": 13,
+    "kind": "CONTROLS",
+    "detail": {
+      "snapshotSequence": 12,
+      "url": "about:blank",
+      "totalObserved": 0,
+      "scope": "ALL_OBSERVED_REDACTED",
+      "controls": []
+    }
+  }
+]

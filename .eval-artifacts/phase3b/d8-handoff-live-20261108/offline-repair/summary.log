@@ -1,0 +1,82 @@
+{
+  "modelCalls": {
+    "count": 19,
+    "purposes": {
+      "restaurant_semantic_interpret": 1,
+      "restaurant_agent_decide": 3,
+      "browser_read_decide": 14,
+      "restaurant_named_source_query": 1
+    },
+    "outcomes": {
+      "SUCCEEDED": 19
+    }
+  },
+  "elapsedMs": 134310.433792,
+  "recording": {
+    "status": "RECORDED",
+    "replay": {
+      "status": "PARTIALLY_REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "harPath": "replay.har"
+    },
+    "pages": 21,
+    "qualified": 2,
+    "ratio": 0.09523809523809523,
+    "documentAdmissions": {
+      "SANITIZED": 19,
+      "UNREVIEWED_DOCUMENT_QUERY_SHAPE": 2
+    },
+    "omissions": {
+      "JSON_SENSITIVE_KEY": 5,
+      "UNREVIEWED_RECORDING_URL_OR_METHOD": 13,
+      "JSON_SIZE_LIMIT": 5,
+      "INVALID_UTF8": 2,
+      "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT": 1
+    },
+    "shopResponse": [
+      {
+        "responseUrlSha256": "0b3596d34e219e4a7273aeb676f6e1747d3897ccdc84375542f58f021f890f7b",
+        "origin": "https://production.tablecheck.com/",
+        "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+        "queryKeys": [
+          "locale"
+        ],
+        "method": "GET",
+        "resourceType": "fetch",
+        "status": 200,
+        "mimeType": "application/json",
+        "bytes": 11139,
+        "reason": "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"
+      }
+    ]
+  },
+  "usage": {
+    "elapsedMs": 133604,
+    "agentDecisions": 3,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "namedPlaceResolution": 0,
+      "reverseAddressObservation": 0
+    },
+    "modelCallsStarted": 19
+  },
+  "boundary": {
+    "forbiddenRequestsReachedSource": 0,
+    "sourceReadsStartedInReserve": 0,
+    "termsWorkStartedInReserve": 0,
+    "turnBudgets": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794116421561,
+        "deadlineAtMs": 1794116921561,
+        "elapsedMs": 133611.255959,
+        "modelCalls": 19,
+        "googleRequests": 1,
+        "exceeded500Seconds": false
+      }
+    ]
+  }
+}

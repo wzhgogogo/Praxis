@@ -1,0 +1,65 @@
+{
+  "sourceSHA": "61f2552defe8e8b6b5abef0c5ff5f4b1b7a81557",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "sourceSHA": "61f2552defe8e8b6b5abef0c5ff5f4b1b7a81557",
+      "startedAtCET": "2026-11-10T03:36:23.614575+01:00",
+      "finishedAtCET": "2026-11-10T03:36:24.122508+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true
+    },
+    {
+      "gate": "architecture",
+      "command": "npm run arch:check",
+      "sourceSHA": "61f2552defe8e8b6b5abef0c5ff5f4b1b7a81557",
+      "startedAtCET": "2026-11-10T03:36:24.217757+01:00",
+      "finishedAtCET": "2026-11-10T03:36:24.409339+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true
+    },
+    {
+      "gate": "default",
+      "command": "npm test",
+      "sourceSHA": "61f2552defe8e8b6b5abef0c5ff5f4b1b7a81557",
+      "startedAtCET": "2026-11-10T03:36:24.504908+01:00",
+      "finishedAtCET": "2026-11-10T03:37:21.742542+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true
+    },
+    {
+      "gate": "build",
+      "command": "npm run build",
+      "sourceSHA": "61f2552defe8e8b6b5abef0c5ff5f4b1b7a81557",
+      "startedAtCET": "2026-11-10T03:37:21.851785+01:00",
+      "finishedAtCET": "2026-11-10T03:37:22.399853+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true
+    },
+    {
+      "gate": "browser",
+      "command": "npm run test:browser:fixture",
+      "sourceSHA": "61f2552defe8e8b6b5abef0c5ff5f4b1b7a81557",
+      "startedAtCET": "2026-11-10T03:37:22.496339+01:00",
+      "finishedAtCET": "2026-11-10T03:41:04.649226+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true
+    },
+    {
+      "gate": "strict-g2",
+      "command": "PRAXIS_G2_REQUIRE_PASS=1 npm run test:dom-change",
+      "sourceSHA": "61f2552defe8e8b6b5abef0c5ff5f4b1b7a81557",
+      "startedAtCET": "2026-11-10T03:41:04.747424+01:00",
+      "finishedAtCET": "2026-11-10T03:41:29.494672+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+ENTRY_BEFORE_ASSERT 1 0 [{"outcome":"ADMITTED","origin":"http://127.0.0.1:65065","pathname":"/","method":"GET","resourceType":"document","transport":"NODE_FETCH","resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"document"},"queryKeys":[],"queryValues":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:65065","pathname":"/stall.css","method":"GET","resourceType":"stylesheet","transport":"BROWSER_GET_HEAD","admissionRule":{"collection":"staticResources","index":0},"resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"stylesheet"},"queryKeys":[],"queryValues":[]}]
+✖ entry aborts a successful stalled native response before its one reload, preserving both attempts in recording (10183.972041ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10499.627792
+
+✖ failing tests:
+
+test at src/harness/browser/entry-idle-retry.test.ts:1:541
+✖ entry aborts a successful stalled native response before its one reload, preserving both attempts in recording (10183.972041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/entry-idle-retry.test.ts:24:123)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }

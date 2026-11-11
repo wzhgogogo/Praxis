@@ -1,0 +1,3145 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-D01-1794294119591-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "Could you find a Spanish restaurant near Takadanobaba with a table for 2 on Wednesday, November 18 at 7 PM?",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Could you find a Spanish restaurant near Takadanobaba with a table fo…",
+          "status": "NEEDS_YOU",
+          "phase": "PRESENT_RESULTS",
+          "taskVersion": 7,
+          "updatedAt": "2026-11-10T07:03:09.512Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "Could you find a Spanish restaurant near Takadanobaba with a table for 2 on Wednesday, November 18 at 7 PM?",
+              "createdAt": "2026-11-10T07:02:05.220Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Takadanobaba.\nThe case is now present results.",
+              "createdAt": "2026-11-10T07:03:09.568Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Takadanobaba"
+            },
+            "date": "2026-11-18",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Spanish restaurant near Takadanobaba with a table for 2",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "Spanish restaurant",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Wednesday, November 18",
+                "resolvedDate": "2026-11-18"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T07:02:02.659Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Takadanobaba",
+            "latitude": 35.7121396,
+            "longitude": 139.7026251,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "longText": "Takadanobaba",
+                "shortText": "Takadanobaba"
+              },
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Shinjuku City",
+                "shortText": "Shinjuku City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              },
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              },
+              {
+                "types": [
+                  "postal_code"
+                ],
+                "longText": "169-0075",
+                "shortText": "169-0075"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 1,
+          "readyCandidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 4,
+            "checkedCount": 4
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan",
+                "sourceIds": {
+                  "phone": "03-3371-9633",
+                  "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                  "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "LA CEPA",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:ba399ca3d97e71560d281822",
+                  "sourceIds": "evidence:restaurant:google-discovery:ba399ca3d97e71560d281822",
+                  "outletName": "evidence:restaurant:google-discovery:ba399ca3d97e71560d281822"
+                },
+                "coordinates": {
+                  "lat": 35.7126334,
+                  "lng": 139.7001464
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Takadanobaba"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 231,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+                "sourceIds": {
+                  "phone": "03-6205-6517",
+                  "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                  "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "バル014 馬場ワイン食堂",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:967e88be3e5320fe700b45b3",
+                  "sourceIds": "evidence:restaurant:google-discovery:967e88be3e5320fe700b45b3",
+                  "outletName": "evidence:restaurant:google-discovery:967e88be3e5320fe700b45b3"
+                },
+                "coordinates": {
+                  "lat": 35.712308,
+                  "lng": 139.70521499999998
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Takadanobaba"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 235,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+                "address": "3-chōme-10-18 Takada, Toshima City, Tokyo 171-0033, Japan",
+                "sourceIds": {
+                  "phone": "03-6380-3501",
+                  "googlePlaces": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+                  "googleMapsUri": "https://maps.google.com/?cid=10870037893060367767&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "http://blog.livedoor.jp/vivodailystand-takadanobaba/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "vivo daily stand 高田馬場店",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:0d000a068496cefd2dd3a5fd",
+                  "sourceIds": "evidence:restaurant:google-discovery:0d000a068496cefd2dd3a5fd",
+                  "outletName": "evidence:restaurant:google-discovery:0d000a068496cefd2dd3a5fd"
+                },
+                "coordinates": {
+                  "lat": 35.713992499999996,
+                  "lng": 139.70632
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Takadanobaba"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 393,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:f99903343f3a6b510d078be0",
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 2-chōme−19−８ メゾン高田馬場 ST105",
+                "sourceIds": {
+                  "phone": "080-9531-5700",
+                  "googlePlaces": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                  "googleMapsUri": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "http://estasi.tokyo/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "ESTASI",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:1c0b041dd26eaf78c706121d",
+                  "sourceIds": "evidence:restaurant:google-discovery:1c0b041dd26eaf78c706121d",
+                  "outletName": "evidence:restaurant:google-discovery:1c0b041dd26eaf78c706121d"
+                },
+                "coordinates": {
+                  "lat": 35.714491100000004,
+                  "lng": 139.7047374
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Takadanobaba"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 324,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            }
+          ],
+          "availability": {
+            "praxis:restaurant:b1471ffa1b7a3a7550d225ae": [],
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1": [],
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-18:19:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-18T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T07:02:46.727Z",
+                "expiresAt": "2026-11-10T07:02:46.727Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T07:12:46.727Z",
+                "bookingRecheckRequired": true
+              }
+            ],
+            "praxis:restaurant:f99903343f3a6b510d078be0": []
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:b1471ffa1b7a3a7550d225ae": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T07:02:53.455Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T07:02:46.735Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-10T07:02:46.727Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:2cde143bb1f5297ee1775e82",
+                "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513",
+                "evidence:restaurant:tabelog-availability:28953285eccb86ae8b7a8c42"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T07:12:46.727Z",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "praxis:restaurant:f99903343f3a6b510d078be0": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T07:02:49.055Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7121396,
+                "longitude": 139.7026251,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJkRf-6jmNGGAR1DA2OocB2h8",
+                "resolvedPlaceName": "Takadanobaba",
+                "resolvedPlaceTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "locationNameExactMatch": true,
+                "locationResolutionQuery": "Takadanobaba",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "f296bd615b07675e1833a03ad5293512c8c9ebce64b841c6a21b7c4dabb8f3e2",
+              "observedAt": "2026-11-10T07:02:07.818Z",
+              "sourceEntityId": "ChIJkRf-6jmNGGAR1DA2OocB2h8",
+              "requestFingerprint": "44baf685aed9140df30116268ce8e6d6648d45c078f3485e2330c2d2d04b1218"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "spanish_restaurant",
+                  "european_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan",
+                "placeId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "LA CEPA",
+                "primaryType": "spanish_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 231,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: Closed",
+                  "Tuesday: 6:00 – 10:30 PM",
+                  "Wednesday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Thursday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Friday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Saturday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Sunday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM"
+                ],
+                "evaluationLocationLabel": "Takadanobaba",
+                "matchedAddressComponent": "Takadanobaba",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:ba399ca3d97e71560d281822",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan",
+                "placeId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "outletName": "LA CEPA"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:ba399ca3d97e71560d281822",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: Closed",
+                  "Tuesday: 6:00 – 10:30 PM",
+                  "Wednesday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Thursday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Friday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Saturday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Sunday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "spanish restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:2e283c20507ad2795d272d5b",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "spanish_restaurant",
+                  "bistro",
+                  "wine_bar",
+                  "european_restaurant",
+                  "bar",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+                "placeId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "バル014 馬場ワイン食堂",
+                "primaryType": "spanish_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 235,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 1:00 AM",
+                  "Tuesday: 5:00 PM – 1:00 AM",
+                  "Wednesday: 5:00 PM – 1:00 AM",
+                  "Thursday: 5:00 PM – 1:00 AM",
+                  "Friday: 5:00 PM – 1:00 AM",
+                  "Saturday: 5:00 PM – 1:00 AM",
+                  "Sunday: 5:00 PM – 1:00 AM"
+                ],
+                "evaluationLocationLabel": "Takadanobaba",
+                "matchedAddressComponent": "Takadanobaba",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:967e88be3e5320fe700b45b3",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+                "placeId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "outletName": "バル014 馬場ワイン食堂"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:967e88be3e5320fe700b45b3",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 1:00 AM",
+                  "Tuesday: 5:00 PM – 1:00 AM",
+                  "Wednesday: 5:00 PM – 1:00 AM",
+                  "Thursday: 5:00 PM – 1:00 AM",
+                  "Friday: 5:00 PM – 1:00 AM",
+                  "Saturday: 5:00 PM – 1:00 AM",
+                  "Sunday: 5:00 PM – 1:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "spanish restaurant",
+                  "bistro",
+                  "wine bar",
+                  "european restaurant",
+                  "bar",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "wine_bar",
+                  "coffee_stand",
+                  "snack_bar",
+                  "meal_takeaway",
+                  "spanish_restaurant",
+                  "european_restaurant",
+                  "bar",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "3-chōme-10-18 Takada, Toshima City, Tokyo 171-0033, Japan",
+                "placeId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "vivo daily stand 高田馬場店",
+                "primaryType": "wine_bar",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 393,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 5:00 PM – 12:00 AM",
+                  "Sunday: 3:00 PM – 12:00 AM"
+                ],
+                "evaluationLocationLabel": "Takadanobaba"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10870037893060367767&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:0d000a068496cefd2dd3a5fd",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-10-18 Takada, Toshima City, Tokyo 171-0033, Japan",
+                "placeId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+                "outletName": "vivo daily stand 高田馬場店"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10870037893060367767&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:0d000a068496cefd2dd3a5fd",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "http://blog.livedoor.jp/vivodailystand-takadanobaba/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 5:00 PM – 12:00 AM",
+                  "Sunday: 3:00 PM – 12:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "wine bar",
+                  "coffee stand",
+                  "snack bar",
+                  "meal takeaway",
+                  "spanish restaurant",
+                  "european restaurant",
+                  "bar",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10870037893060367767&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:ba23b1e367e5ec8618f199e4",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "italian_restaurant",
+                  "bar_and_grill",
+                  "spanish_restaurant",
+                  "european_restaurant",
+                  "bar",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 2-chōme−19−８ メゾン高田馬場 ST105",
+                "placeId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "ESTASI",
+                "primaryType": "italian_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 324,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 6:00 PM – 12:00 AM",
+                  "Tuesday: 6:00 PM – 12:00 AM",
+                  "Wednesday: 6:00 PM – 12:00 AM",
+                  "Thursday: 6:00 PM – 12:00 AM",
+                  "Friday: 6:00 PM – 12:00 AM",
+                  "Saturday: 6:00 PM – 12:00 AM",
+                  "Sunday: Closed"
+                ],
+                "evaluationLocationLabel": "Takadanobaba",
+                "matchedAddressComponent": "Takadanobaba",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:1c0b041dd26eaf78c706121d",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 2-chōme−19−８ メゾン高田馬場 ST105",
+                "placeId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                "outletName": "ESTASI"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:1c0b041dd26eaf78c706121d",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "http://estasi.tokyo/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 6:00 PM – 12:00 AM",
+                  "Tuesday: 6:00 PM – 12:00 AM",
+                  "Wednesday: 6:00 PM – 12:00 AM",
+                  "Thursday: 6:00 PM – 12:00 AM",
+                  "Friday: 6:00 PM – 12:00 AM",
+                  "Saturday: 6:00 PM – 12:00 AM",
+                  "Sunday: Closed"
+                ],
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "bar and grill",
+                  "spanish restaurant",
+                  "european restaurant",
+                  "bar",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:874fc746180c4d933d531edb",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "バル014 馬場ワイン食堂",
+                "observedOutletName": "Bar 014 Baba Wine Shokudo"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:2cde143bb1f5297ee1775e82",
+              "observedAt": "2026-11-10T07:02:46.727Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Bar 014 Baba Wine Shokudo",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+                }
+              ],
+              "requestFingerprint": "6cf7f914c2397dfa9797023c6f7755e0822ad1a601de3b6702147a0437761dee"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513",
+              "observedAt": "2026-11-10T07:02:46.727Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Wine bar, Spanish, Bistro",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+                }
+              ],
+              "requestFingerprint": "76b770177f248d86055f1a148a22b9b4b8e88a8362d1787863546788cc99878b"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-18",
+                "partySize": 2,
+                "visibleSlots": [
+                  "19:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:28953285eccb86ae8b7a8c42",
+              "observedAt": "2026-11-10T07:02:46.727Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:5d36cb31549fbe0348af7baf59b682d90635f3a1fc6bfb62003adb17897c3f92"
+              },
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "displayExpiresAt": "2026-11-10T07:12:46.727Z",
+              "requestFingerprint": "082b239496b3454e3962e7280cf43cf3a0d502b9085ab5a41c3ce4b0e7854907",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan",
+                "placeId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "outletName": "LA CEPA"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:581246781d867429d26e0b95",
+              "observedAt": "2026-11-10T07:02:57.418Z",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "requestFingerprint": "8153a6cdc63b07d04f56ca803604c8002bb432d9a408fed757fa07511bf03fab"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: Closed",
+                  "Tuesday: 6:00 – 10:30 PM",
+                  "Wednesday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Thursday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Friday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Saturday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Sunday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "spanish restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:50a594b2887045c7e39c2b64",
+              "observedAt": "2026-11-10T07:02:57.418Z",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "requestFingerprint": "8153a6cdc63b07d04f56ca803604c8002bb432d9a408fed757fa07511bf03fab"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:50a594b2887045c7e39c2b64"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:cbc86e1eaefc621c16ec39b1:2026-11-10T07:02:59.720Z:evidence:restaurant:google-facts:50a594b2887045c7e39c2b64",
+              "observedAt": "2026-11-10T07:02:59.720Z",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:cbc86e1eaefc621c16ec39b1\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:50a594b2887045c7e39c2b64\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-10-18 Takada, Toshima City, Tokyo 171-0033, Japan",
+                "placeId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+                "outletName": "vivo daily stand 高田馬場店"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10870037893060367767&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:7514217fa22e9811b26f4b56",
+              "observedAt": "2026-11-10T07:02:59.722Z",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "requestFingerprint": "52306e74eb62912d641c83df3035e3da91786c9af0cfd52c863a9d9ae0864034"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "http://blog.livedoor.jp/vivodailystand-takadanobaba/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 5:00 PM – 12:00 AM",
+                  "Sunday: 3:00 PM – 12:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "wine bar",
+                  "coffee stand",
+                  "spanish restaurant",
+                  "snack bar",
+                  "bar",
+                  "meal takeaway",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10870037893060367767&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f",
+              "observedAt": "2026-11-10T07:02:59.722Z",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "requestFingerprint": "52306e74eb62912d641c83df3035e3da91786c9af0cfd52c863a9d9ae0864034"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:b1471ffa1b7a3a7550d225ae:2026-11-10T07:03:01.086Z:evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f",
+              "observedAt": "2026-11-10T07:03:01.086Z",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:b1471ffa1b7a3a7550d225ae\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 2-chōme−19−８ メゾン高田馬場 ST105",
+                "placeId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                "outletName": "ESTASI"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10734175401335474503&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:5fa28aa121ad3cd89ab9d145",
+              "observedAt": "2026-11-10T07:03:01.086Z",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "requestFingerprint": "c485655d614578054ad56b8eecab982517ac4a0ed75c5c27a4c2990825afaa70"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "http://estasi.tokyo/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 6:00 PM – 12:00 AM",
+                  "Tuesday: 6:00 PM – 12:00 AM",
+                  "Wednesday: 6:00 PM – 12:00 AM",
+                  "Thursday: 6:00 PM – 12:00 AM",
+                  "Friday: 6:00 PM – 12:00 AM",
+                  "Saturday: 6:00 PM – 12:00 AM",
+                  "Sunday: Closed"
+                ],
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "bar and grill",
+                  "spanish restaurant",
+                  "bar",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10734175401335474503&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36",
+              "observedAt": "2026-11-10T07:03:01.086Z",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "requestFingerprint": "c485655d614578054ad56b8eecab982517ac4a0ed75c5c27a4c2990825afaa70"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:f99903343f3a6b510d078be0:2026-11-10T07:03:02.778Z:evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36",
+              "observedAt": "2026-11-10T07:03:02.778Z",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:f99903343f3a6b510d078be0\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822",
+                  "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:07.838Z:evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822,evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513",
+              "observedAt": "2026-11-10T07:03:07.838Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:f5bcca1e7bf7ddde44fe5925\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822\",\"evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513\"]}"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: Closed",
+                  "Tuesday: 6:00 – 10:30 PM",
+                  "Wednesday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Thursday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Friday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Saturday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM",
+                  "Sunday: 11:30 AM – 2:30 PM, 6:00 – 10:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "spanish restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:50a594b2887045c7e39c2b64",
+              "observedAt": "2026-11-10T07:02:57.418Z",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "requestFingerprint": "8153a6cdc63b07d04f56ca803604c8002bb432d9a408fed757fa07511bf03fab"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:50a594b2887045c7e39c2b64"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:cbc86e1eaefc621c16ec39b1:2026-11-10T07:02:59.720Z:evidence:restaurant:google-facts:50a594b2887045c7e39c2b64",
+              "observedAt": "2026-11-10T07:02:59.720Z",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:cbc86e1eaefc621c16ec39b1\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:50a594b2887045c7e39c2b64\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 1:00 AM",
+                  "Tuesday: 5:00 PM – 1:00 AM",
+                  "Wednesday: 5:00 PM – 1:00 AM",
+                  "Thursday: 5:00 PM – 1:00 AM",
+                  "Friday: 5:00 PM – 1:00 AM",
+                  "Saturday: 5:00 PM – 1:00 AM",
+                  "Sunday: 5:00 PM – 1:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "spanish restaurant",
+                  "bistro",
+                  "wine bar",
+                  "european restaurant",
+                  "bar",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822",
+              "observedAt": "2026-11-10T07:02:31.943Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "requestFingerprint": "16c96b21529816b5e3edb5e2e3fd3dda1fa6b91390e25bed222598e9e199924d"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513",
+              "observedAt": "2026-11-10T07:02:46.727Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Wine bar, Spanish, Bistro",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+                }
+              ],
+              "requestFingerprint": "76b770177f248d86055f1a148a22b9b4b8e88a8362d1787863546788cc99878b"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822",
+                  "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:07.838Z:evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822,evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513",
+              "observedAt": "2026-11-10T07:03:07.838Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:f5bcca1e7bf7ddde44fe5925\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822\",\"evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "http://blog.livedoor.jp/vivodailystand-takadanobaba/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 5:00 PM – 12:00 AM",
+                  "Sunday: 3:00 PM – 12:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "wine bar",
+                  "coffee stand",
+                  "spanish restaurant",
+                  "snack bar",
+                  "bar",
+                  "meal takeaway",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10870037893060367767&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f",
+              "observedAt": "2026-11-10T07:02:59.722Z",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "requestFingerprint": "52306e74eb62912d641c83df3035e3da91786c9af0cfd52c863a9d9ae0864034"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:b1471ffa1b7a3a7550d225ae:2026-11-10T07:03:01.086Z:evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f",
+              "observedAt": "2026-11-10T07:03:01.086Z",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:b1471ffa1b7a3a7550d225ae\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "http://estasi.tokyo/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 6:00 PM – 12:00 AM",
+                  "Tuesday: 6:00 PM – 12:00 AM",
+                  "Wednesday: 6:00 PM – 12:00 AM",
+                  "Thursday: 6:00 PM – 12:00 AM",
+                  "Friday: 6:00 PM – 12:00 AM",
+                  "Saturday: 6:00 PM – 12:00 AM",
+                  "Sunday: Closed"
+                ],
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "bar and grill",
+                  "spanish restaurant",
+                  "bar",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "openingHoursMatchedWindow": [
+                  "19:00",
+                  "19:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10734175401335474503&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36",
+              "observedAt": "2026-11-10T07:03:01.086Z",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "requestFingerprint": "c485655d614578054ad56b8eecab982517ac4a0ed75c5c27a4c2990825afaa70"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:f99903343f3a6b510d078be0:2026-11-10T07:03:02.778Z:evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36",
+              "observedAt": "2026-11-10T07:03:02.778Z",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:f99903343f3a6b510d078be0\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36\"]}"
+            }
+          ],
+          "presentedCandidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "conditionStates": {
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": [
+              {
+                "text": "Spanish restaurant",
+                "status": "MET",
+                "sources": [
+                  {
+                    "field": "GOOGLE_TYPE",
+                    "quote": "spanish restaurant",
+                    "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+                  },
+                  {
+                    "meal": "UNSPECIFIED",
+                    "field": "CATEGORY",
+                    "quote": "Wine bar, Spanish, Bistro",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+                  }
+                ],
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceIds": [
+                  "evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822",
+                  "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:07.838Z:evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822,evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513",
+                  "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513"
+                ],
+                "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+                "criterionRef": "criterion:0"
+              }
+            ]
+          },
+          "viewedCandidateIds": [],
+          "shortlistCandidateIds": [],
+          "resultBatchTarget": {
+            "met": false,
+            "candidateCount": 3
+          },
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-10T07:02:02.656Z"
+          },
+          "bookingHandoffs": [
+            {
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "offerId": "offer:tabelog:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-18:19:00:2",
+              "provider": "TABELOG",
+              "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13198396&visit_date=20261118&visit_time=1900",
+              "directLabel": "Book on Tabelog",
+              "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+              "checkedAt": "2026-11-10T07:02:46.727Z",
+              "displayExpiresAt": "2026-11-10T07:12:46.727Z",
+              "platformFee": {
+                "provider": "TABELOG",
+                "channel": "ENGLISH_BOOKING",
+                "amountPerPersonJPY": 440,
+                "userCancellationRefund": false,
+                "restaurantCancellationRefund": true,
+                "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+                "sourceUrl": "https://tabelog.com/en/help",
+                "checkedOn": "2026-10-29",
+                "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+                "quotes": [
+                  "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+                  "Please note that no refunds will be issued for cancellations made for customer reasons.",
+                  "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+                ]
+              },
+              "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+              "linkCarries": [
+                "DATE",
+                "TIME",
+                "PARTY_SIZE"
+              ],
+              "sourceSelection": "UNKNOWN",
+              "terms": []
+            }
+          ]
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 7,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+                    "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan",
+                    "sourceIds": {
+                      "phone": "03-3371-9633",
+                      "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                      "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "LA CEPA",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:ba399ca3d97e71560d281822",
+                      "sourceIds": "evidence:restaurant:google-discovery:ba399ca3d97e71560d281822",
+                      "outletName": "evidence:restaurant:google-discovery:ba399ca3d97e71560d281822"
+                    },
+                    "coordinates": {
+                      "lat": 35.7126334,
+                      "lng": 139.7001464
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Takadanobaba"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 231,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                    "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+                    "sourceIds": {
+                      "phone": "03-6205-6517",
+                      "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                      "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "バル014 馬場ワイン食堂",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:967e88be3e5320fe700b45b3",
+                      "sourceIds": "evidence:restaurant:google-discovery:967e88be3e5320fe700b45b3",
+                      "outletName": "evidence:restaurant:google-discovery:967e88be3e5320fe700b45b3"
+                    },
+                    "coordinates": {
+                      "lat": 35.712308,
+                      "lng": 139.70521499999998
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Takadanobaba"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 235,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+                    "address": "3-chōme-10-18 Takada, Toshima City, Tokyo 171-0033, Japan",
+                    "sourceIds": {
+                      "phone": "03-6380-3501",
+                      "googlePlaces": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+                      "googleMapsUri": "https://maps.google.com/?cid=10870037893060367767&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "http://blog.livedoor.jp/vivodailystand-takadanobaba/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "vivo daily stand 高田馬場店",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:0d000a068496cefd2dd3a5fd",
+                      "sourceIds": "evidence:restaurant:google-discovery:0d000a068496cefd2dd3a5fd",
+                      "outletName": "evidence:restaurant:google-discovery:0d000a068496cefd2dd3a5fd"
+                    },
+                    "coordinates": {
+                      "lat": 35.713992499999996,
+                      "lng": 139.70632
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Takadanobaba"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 393,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:f99903343f3a6b510d078be0",
+                    "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 2-chōme−19−８ メゾン高田馬場 ST105",
+                    "sourceIds": {
+                      "phone": "080-9531-5700",
+                      "googlePlaces": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                      "googleMapsUri": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "http://estasi.tokyo/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "ESTASI",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:1c0b041dd26eaf78c706121d",
+                      "sourceIds": "evidence:restaurant:google-discovery:1c0b041dd26eaf78c706121d",
+                      "outletName": "evidence:restaurant:google-discovery:1c0b041dd26eaf78c706121d"
+                    },
+                    "coordinates": {
+                      "lat": 35.714491100000004,
+                      "lng": 139.7047374
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Takadanobaba"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 324,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                }
+              ],
+              "availability": {
+                "praxis:restaurant:b1471ffa1b7a3a7550d225ae": [],
+                "praxis:restaurant:cbc86e1eaefc621c16ec39b1": [],
+                "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": [
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-18:19:00:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-18T19:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T07:02:46.727Z",
+                    "expiresAt": "2026-11-10T07:02:46.727Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T07:12:46.727Z",
+                    "bookingRecheckRequired": true
+                  }
+                ],
+                "praxis:restaurant:f99903343f3a6b510d078be0": []
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-10T07:02:05.215Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:192326c7-ffd1-4c92-9017-3eeb172eb572",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:192326c7-ffd1-4c92-9017-3eeb172eb572"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "4 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T07:02:31.949Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:ad70092c-cdf7-4f5c-904b-5c5120cc4ce8",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:ad70092c-cdf7-4f5c-904b-5c5120cc4ce8"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "1 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T07:02:51.771Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:0f02dd79-5121-4e06-9175-b386b1e33da5",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:0f02dd79-5121-4e06-9175-b386b1e33da5"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "0 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T07:02:55.704Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:0a163b3b-07d9-4755-b7a9-fe3a5607c122",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:0a163b3b-07d9-4755-b7a9-fe3a5607c122"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T07:03:02.779Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:45390171-7fb4-4462-ac9b-b4a16706d563",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:45390171-7fb4-4462-ac9b-b4a16706d563"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T07:03:07.839Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:ee775e3c-106d-4a22-b99f-a4934a3175cc",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:ee775e3c-106d-4a22-b99f-a4934a3175cc"
+            },
+            "type": "RESULTS_PRESENTED",
+            "display": {
+              "title": "Read-only results presented",
+              "detail": "1 evidence-grounded result(s) are ready."
+            },
+            "occurredAt": "2026-11-10T07:03:09.512Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    },
+    {
+      "id": "BOOK_FIRST",
+      "message": "Let's book the first one.",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Could you find a Spanish restaurant near Takadanobaba with a table fo…",
+          "status": "NEEDS_YOU",
+          "phase": "PRESENT_RESULTS",
+          "taskVersion": 13,
+          "updatedAt": "2026-11-10T07:03:32.744Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "Could you find a Spanish restaurant near Takadanobaba with a table for 2 on Wednesday, November 18 at 7 PM?",
+              "createdAt": "2026-11-10T07:02:05.220Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Takadanobaba.\nThe case is now present results.",
+              "createdAt": "2026-11-10T07:03:09.568Z"
+            },
+            {
+              "id": "message:0:4d934a1bdda5ce8353543e05",
+              "role": "USER",
+              "content": "Let's book the first one.",
+              "createdAt": "2026-11-10T07:03:11.223Z"
+            },
+            {
+              "id": "message:1:4d934a1bdda5ce8353543e05",
+              "role": "ASSISTANT",
+              "content": "Searching around Takadanobaba.\nThe case is now present results.",
+              "createdAt": "2026-11-10T07:03:43.108Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Takadanobaba"
+            },
+            "date": "2026-11-18",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "バル014 馬場ワイン食堂",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [
+              {
+                "text": "Spanish restaurant",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Wednesday, November 18",
+                "resolvedDate": "2026-11-18"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T07:02:02.659Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Takadanobaba",
+            "latitude": 35.7121396,
+            "longitude": 139.7026251,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "longText": "Takadanobaba",
+                "shortText": "Takadanobaba"
+              },
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Shinjuku City",
+                "shortText": "Shinjuku City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              },
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              },
+              {
+                "types": [
+                  "postal_code"
+                ],
+                "longText": "169-0075",
+                "shortText": "169-0075"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 2,
+          "readyCandidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 1,
+            "checkedCount": 1
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+                "sourceIds": {
+                  "phone": "03-6205-6517",
+                  "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                  "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/"
+                },
+                "outletName": "バル014 馬場ワイン食堂",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1",
+                  "sourceIds": "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1",
+                  "outletName": "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1"
+                },
+                "coordinates": {
+                  "lat": 35.712308,
+                  "lng": 139.70521499999998
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Takadanobaba"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 235,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            }
+          ],
+          "availability": {
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-18:19:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-18T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T07:03:28.603Z",
+                "expiresAt": "2026-11-10T07:03:28.603Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T07:13:28.603Z",
+                "bookingRecheckRequired": true
+              }
+            ]
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-10T07:03:28.603Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:220e059b8c932b22a2db2fbb",
+                "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+                "evidence:restaurant:tabelog-availability:1fdf842fd7981d3197cc0474"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T07:13:28.603Z",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7121396,
+                "longitude": 139.7026251,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJkRf-6jmNGGAR1DA2OocB2h8",
+                "resolvedPlaceName": "Takadanobaba",
+                "resolvedPlaceTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "locationNameExactMatch": true,
+                "locationResolutionQuery": "Takadanobaba",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "e95dbd102f5774c10609efa142b7dae0f14b34d56f0a23cd1296dc545c2637fc",
+              "observedAt": "2026-11-10T07:03:13.966Z",
+              "sourceEntityId": "ChIJkRf-6jmNGGAR1DA2OocB2h8",
+              "requestFingerprint": "44baf685aed9140df30116268ce8e6d6648d45c078f3485e2330c2d2d04b1218"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "spanish_restaurant",
+                  "wine_bar",
+                  "bistro",
+                  "bar",
+                  "european_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+                "placeId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "バル014 馬場ワイン食堂",
+                "primaryType": "spanish_restaurant",
+                "serviceArea": "Tokyo",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 235,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "namedOutletStatus": "UNIQUE",
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 1:00 AM",
+                  "Tuesday: 5:00 PM – 1:00 AM",
+                  "Wednesday: 5:00 PM – 1:00 AM",
+                  "Thursday: 5:00 PM – 1:00 AM",
+                  "Friday: 5:00 PM – 1:00 AM",
+                  "Saturday: 5:00 PM – 1:00 AM",
+                  "Sunday: 5:00 PM – 1:00 AM"
+                ],
+                "requestedOutletName": "バル014 馬場ワイン食堂",
+                "userSelectionEventId": "event:user:03b9d97bd78aedd6b506787cdf3b6de1",
+                "namedOutletLocalities": [
+                  "27",
+                  "27",
+                  "1-chōme",
+                  "1-chōme",
+                  "Takadanobaba",
+                  "Takadanobaba",
+                  "Shinjuku City",
+                  "Shinjuku City",
+                  "Tokyo",
+                  "Tokyo"
+                ],
+                "evaluationLocationLabel": "Takadanobaba",
+                "matchedAddressComponent": "Takadanobaba",
+                "selectedIdentity:tabelog": "en/tokyo/A1305/A130503/13198396",
+                "namedOutletCandidateCount": 1,
+                "namedOutletSearchComplete": true,
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "selectedIdentity:googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1",
+              "observedAt": "2026-11-10T07:03:12.869Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"バル014 馬場ワイン食堂\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Takadanobaba\"},\"criteria\":[{\"text\":\"Spanish restaurant\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+                "placeId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "outletName": "バル014 馬場ワイン食堂"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:bd37478b3a2dbe0d087478f1",
+              "observedAt": "2026-11-10T07:03:12.869Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"バル014 馬場ワイン食堂\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Takadanobaba\"},\"criteria\":[{\"text\":\"Spanish restaurant\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 1:00 AM",
+                  "Tuesday: 5:00 PM – 1:00 AM",
+                  "Wednesday: 5:00 PM – 1:00 AM",
+                  "Thursday: 5:00 PM – 1:00 AM",
+                  "Friday: 5:00 PM – 1:00 AM",
+                  "Saturday: 5:00 PM – 1:00 AM",
+                  "Sunday: 5:00 PM – 1:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "spanish restaurant",
+                  "wine bar",
+                  "bistro",
+                  "bar",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+              "observedAt": "2026-11-10T07:03:12.869Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"バル014 馬場ワイン食堂\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Takadanobaba\"},\"criteria\":[{\"text\":\"Spanish restaurant\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "バル014 馬場ワイン食堂",
+                "observedOutletName": "Bar 014 Baba Wine Shokudo"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:220e059b8c932b22a2db2fbb",
+              "observedAt": "2026-11-10T07:03:28.603Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Bar 014 Baba Wine Shokudo",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+                }
+              ],
+              "requestFingerprint": "6cf7f914c2397dfa9797023c6f7755e0822ad1a601de3b6702147a0437761dee"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+              "observedAt": "2026-11-10T07:03:28.603Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Wine bar, Spanish, Bistro",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+                }
+              ],
+              "requestFingerprint": "76b770177f248d86055f1a148a22b9b4b8e88a8362d1787863546788cc99878b"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-18",
+                "partySize": 2,
+                "visibleSlots": [
+                  "19:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:1fdf842fd7981d3197cc0474",
+              "observedAt": "2026-11-10T07:03:28.603Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:5d36cb31549fbe0348af7baf59b682d90635f3a1fc6bfb62003adb17897c3f92"
+              },
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "displayExpiresAt": "2026-11-10T07:13:28.603Z",
+              "requestFingerprint": "7e72698dc7ef5aac70cecbacb9f53b188a01dd75f75321a25870bcd117df0cce",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+                  "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:31.360Z:evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac,evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+              "observedAt": "2026-11-10T07:03:31.360Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:f5bcca1e7bf7ddde44fe5925\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac\",\"evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971\"]}"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 1:00 AM",
+                  "Tuesday: 5:00 PM – 1:00 AM",
+                  "Wednesday: 5:00 PM – 1:00 AM",
+                  "Thursday: 5:00 PM – 1:00 AM",
+                  "Friday: 5:00 PM – 1:00 AM",
+                  "Saturday: 5:00 PM – 1:00 AM",
+                  "Sunday: 5:00 PM – 1:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "spanish restaurant",
+                  "wine bar",
+                  "bistro",
+                  "bar",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+              "observedAt": "2026-11-10T07:03:12.869Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"バル014 馬場ワイン食堂\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Takadanobaba\"},\"criteria\":[{\"text\":\"Spanish restaurant\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+              "observedAt": "2026-11-10T07:03:28.603Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Wine bar, Spanish, Bistro",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+                }
+              ],
+              "requestFingerprint": "76b770177f248d86055f1a148a22b9b4b8e88a8362d1787863546788cc99878b"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Spanish restaurant"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+                  "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:31.360Z:evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac,evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+              "observedAt": "2026-11-10T07:03:31.360Z",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:f5bcca1e7bf7ddde44fe5925\",\"criteria\":[\"Spanish restaurant\"],\"cited\":[\"evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac\",\"evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971\"]}"
+            }
+          ],
+          "presentedCandidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "conditionStates": {
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": [
+              {
+                "text": "Spanish restaurant",
+                "status": "MET",
+                "sources": [
+                  {
+                    "field": "GOOGLE_TYPE",
+                    "quote": "spanish restaurant",
+                    "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA"
+                  },
+                  {
+                    "meal": "UNSPECIFIED",
+                    "field": "CATEGORY",
+                    "quote": "Wine bar, Spanish, Bistro",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+                  }
+                ],
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceIds": [
+                  "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:31.360Z:evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac,evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+                  "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+                  "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+                ],
+                "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+                "criterionRef": "criterion:0"
+              }
+            ]
+          },
+          "viewedCandidateIds": [],
+          "shortlistCandidateIds": [],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+            "startedAt": "2026-11-10T07:02:02.656Z"
+          },
+          "selectedCandidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+          "bookingHandoffs": [
+            {
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "offerId": "offer:tabelog:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-18:19:00:2",
+              "provider": "TABELOG",
+              "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13198396&visit_date=20261118&visit_time=1900",
+              "directLabel": "Book on Tabelog",
+              "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+              "checkedAt": "2026-11-10T07:03:28.603Z",
+              "displayExpiresAt": "2026-11-10T07:13:28.603Z",
+              "platformFee": {
+                "provider": "TABELOG",
+                "channel": "ENGLISH_BOOKING",
+                "amountPerPersonJPY": 440,
+                "userCancellationRefund": false,
+                "restaurantCancellationRefund": true,
+                "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+                "sourceUrl": "https://tabelog.com/en/help",
+                "checkedOn": "2026-10-29",
+                "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+                "quotes": [
+                  "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+                  "Please note that no refunds will be issued for cancellations made for customer reasons.",
+                  "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+                ]
+              },
+              "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+              "linkCarries": [
+                "DATE",
+                "TIME",
+                "PARTY_SIZE"
+              ],
+              "sourceSelection": "UNKNOWN",
+              "terms": [
+                {
+                  "label": "The page states only that any change in the number of guests after arrival incurs a 3,000 yen per-person cancellation fee; no separate Japanese-language policy text is given, so no conflict can be reported.",
+                  "citations": [
+                    {
+                      "text": "* Please note that any changes in the number of guests after your arrival will incur a cancellation fee of 3,000 yen per person.",
+                      "url": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+                      "readAt": "2026-11-10T07:03:38.946Z",
+                      "identityEvidenceId": "evidence:restaurant:native-fact-identity:6a42b6bc5928adeb56796f69"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:2",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 13,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                    "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+                    "sourceIds": {
+                      "phone": "03-6205-6517",
+                      "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                      "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+                      "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/"
+                    },
+                    "outletName": "バル014 馬場ワイン食堂",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1",
+                      "sourceIds": "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1",
+                      "outletName": "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1"
+                    },
+                    "coordinates": {
+                      "lat": 35.712308,
+                      "lng": 139.70521499999998
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Takadanobaba"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 235,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                }
+              ],
+              "availability": {
+                "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": [
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-18:19:00:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-18T19:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T07:03:28.603Z",
+                    "expiresAt": "2026-11-10T07:03:28.603Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T07:13:28.603Z",
+                    "bookingRecheckRequired": true
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-10T07:02:05.215Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:192326c7-ffd1-4c92-9017-3eeb172eb572",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:192326c7-ffd1-4c92-9017-3eeb172eb572"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "4 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T07:02:31.949Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:ad70092c-cdf7-4f5c-904b-5c5120cc4ce8",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:ad70092c-cdf7-4f5c-904b-5c5120cc4ce8"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "1 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T07:02:51.771Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:0f02dd79-5121-4e06-9175-b386b1e33da5",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:0f02dd79-5121-4e06-9175-b386b1e33da5"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "0 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T07:02:55.704Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:0a163b3b-07d9-4755-b7a9-fe3a5607c122",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:0a163b3b-07d9-4755-b7a9-fe3a5607c122"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T07:03:02.779Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:45390171-7fb4-4462-ac9b-b4a16706d563",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:45390171-7fb4-4462-ac9b-b4a16706d563"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T07:03:07.839Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:ee775e3c-106d-4a22-b99f-a4934a3175cc",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:ee775e3c-106d-4a22-b99f-a4934a3175cc"
+            },
+            "type": "RESULTS_PRESENTED",
+            "display": {
+              "title": "Read-only results presented",
+              "detail": "1 evidence-grounded result(s) are ready."
+            },
+            "occurredAt": "2026-11-10T07:03:09.512Z"
+          },
+          {
+            "activityId": "activity:event:user:03b9d97bd78aedd6b506787cdf3b6de1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:03b9d97bd78aedd6b506787cdf3b6de1"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-10T07:03:11.216Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:27930a3d-1125-4ff8-ba3e-f80d12f731ae",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:27930a3d-1125-4ff8-ba3e-f80d12f731ae"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "1 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T07:03:14.247Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:305b4d9f-8624-4984-a4ad-764edddfe0f5",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:305b4d9f-8624-4984-a4ad-764edddfe0f5"
+            },
+            "type": "CANDIDATE_SELECTED",
+            "display": {
+              "title": "Candidate selected",
+              "detail": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            },
+            "occurredAt": "2026-11-10T07:03:14.263Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:978aeb9a-f234-4b0a-bc23-90b4178d3f53",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:978aeb9a-f234-4b0a-bc23-90b4178d3f53"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "1 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T07:03:28.610Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:f12cc714-db57-4bf1-9e5c-bf8f3ef37d0f",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:f12cc714-db57-4bf1-9e5c-bf8f3ef37d0f"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T07:03:31.361Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:265e18c8-7bb3-43bb-80d9-64b016e9c791",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:265e18c8-7bb3-43bb-80d9-64b016e9c791"
+            },
+            "type": "RESULTS_PRESENTED",
+            "display": {
+              "title": "Read-only results presented",
+              "detail": "1 evidence-grounded result(s) are ready."
+            },
+            "occurredAt": "2026-11-10T07:03:32.744Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794294122655,
+      "deadlineAtMs": 1794294622655,
+      "elapsedMs": 66920.11600000001,
+      "modelCalls": 22,
+      "googleRequests": 5,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "BOOK_FIRST",
+      "startedAtMs": 1794294189580,
+      "deadlineAtMs": 1794294689580,
+      "elapsedMs": 33550.04066700001,
+      "modelCalls": 9,
+      "googleRequests": 2,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "Could you find a Spanish restaurant near Takadanobaba with a table for 2 on Wednesday, November 18 at 7 PM?",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+                "outletName": "LA CEPA",
+                "sourceIds": {
+                  "phone": "03-3371-9633",
+                  "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                  "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                "outletName": "バル014 馬場ワイン食堂",
+                "sourceIds": {
+                  "phone": "03-6205-6517",
+                  "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                  "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+                "outletName": "vivo daily stand 高田馬場店",
+                "sourceIds": {
+                  "phone": "03-6380-3501",
+                  "googlePlaces": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+                  "googleMapsUri": "https://maps.google.com/?cid=10870037893060367767&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "http://blog.livedoor.jp/vivodailystand-takadanobaba/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-10-18 Takada, Toshima City, Tokyo 171-0033, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f99903343f3a6b510d078be0",
+                "outletName": "ESTASI",
+                "sourceIds": {
+                  "phone": "080-9531-5700",
+                  "googlePlaces": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                  "googleMapsUri": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "http://estasi.tokyo/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 2-chōme−19−８ メゾン高田馬場 ST105"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:192326c7-ffd1-4c92-9017-3eeb172eb572",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:ad70092c-cdf7-4f5c-904b-5c5120cc4ce8",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:0f02dd79-5121-4e06-9175-b386b1e33da5",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:0a163b3b-07d9-4755-b7a9-fe3a5607c122",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:45390171-7fb4-4462-ac9b-b4a16706d563",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:ee775e3c-106d-4a22-b99f-a4934a3175cc",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "RESULTS_PRESENTED",
+              "candidateIds": [
+                "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "turnId": "BOOK_FIRST",
+        "userMessage": "Let's book the first one.",
+        "before": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+                "outletName": "LA CEPA",
+                "sourceIds": {
+                  "phone": "03-3371-9633",
+                  "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                  "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                "outletName": "バル014 馬場ワイン食堂",
+                "sourceIds": {
+                  "phone": "03-6205-6517",
+                  "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                  "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+                "outletName": "vivo daily stand 高田馬場店",
+                "sourceIds": {
+                  "phone": "03-6380-3501",
+                  "googlePlaces": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+                  "googleMapsUri": "https://maps.google.com/?cid=10870037893060367767&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "http://blog.livedoor.jp/vivodailystand-takadanobaba/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-10-18 Takada, Toshima City, Tokyo 171-0033, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f99903343f3a6b510d078be0",
+                "outletName": "ESTASI",
+                "sourceIds": {
+                  "phone": "080-9531-5700",
+                  "googlePlaces": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                  "googleMapsUri": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "http://estasi.tokyo/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 2-chōme−19−８ メゾン高田馬場 ST105"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+                "outletName": "バル014 馬場ワイン食堂",
+                "sourceIds": {
+                  "phone": "03-6205-6517",
+                  "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                  "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/"
+                },
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "SPECIFIC_OUTLET"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13198396",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:03b9d97bd78aedd6b506787cdf3b6de1",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "userBookingSelection": {
+                "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+              },
+              "patch": {
+                "target": {
+                  "selectionScope": "SPECIFIC_OUTLET"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:27930a3d-1125-4ff8-ba3e-f80d12f731ae",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:305b4d9f-8624-4984-a4ad-764edddfe0f5",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "CANDIDATE_SELECTED",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:978aeb9a-f234-4b0a-bc23-90b4178d3f53",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:f12cc714-db57-4bf1-9e5c-bf8f3ef37d0f",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:265e18c8-7bb3-43bb-80d9-64b016e9c791",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "RESULTS_PRESENTED",
+              "candidateIds": [
+                "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

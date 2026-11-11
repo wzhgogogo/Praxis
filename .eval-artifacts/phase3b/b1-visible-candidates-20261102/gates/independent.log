@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "mode": "OFFLINE_WHOLE_COMPOSITION_WITH_FIXED_EXTERNAL_IO",
+  "frames": 6,
+  "wholeCompositionFrames": 5,
+  "boundaryOnlyFrames": 1,
+  "sourceOracle": "literal fixture vacancy URL, original page text and HTTP reply",
+  "redHiddenHTTP": 201,
+  "greenHiddenHTTP": 400,
+  "keptPreparedCache": true,
+  "positiveHandoffsByteEqual": true,
+  "realCalls": 0,
+  "newLiveCapabilityRate": "NOT_EVALUATED",
+  "rows": [
+    {
+      "label": "HARD_UNKNOWN",
+      "phase": "NO_VERIFIED_RESULT",
+      "prepared": 1,
+      "outwardHandoffs": 0,
+      "fixtureModelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 4,
+        "restaurant_discovery_retrieval": 1,
+        "restaurant_source_facts": 2,
+        "browser_read_decide": 2
+      },
+      "secondsToLastObservation": 0.3263533340000004
+    },
+    {
+      "label": "HIDDEN_HTTP",
+      "phase": "NO_VERIFIED_RESULT",
+      "prepared": 1,
+      "outwardHandoffs": 0,
+      "fixtureModelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 4,
+        "restaurant_discovery_retrieval": 1,
+        "restaurant_source_facts": 2,
+        "browser_read_decide": 2
+      },
+      "secondsToLastObservation": 0.1170292500000005
+    },
+    {
+      "label": "SEARCHING_READY",
+      "phase": "SEARCHING",
+      "prepared": 1,
+      "outwardHandoffs": 1,
+      "fixtureModelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 2
+      },
+      "secondsToLastObservation": 0.12059250000000066
+    },
+    {
+      "label": "PRESENTED",
+      "phase": "PRESENT_RESULTS",
+      "prepared": 1,
+      "outwardHandoffs": 1,
+      "fixtureModelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3
+      },
+      "secondsToLastObservation": 0.15984979200000088
+    },
+    {
+      "label": "SELECTED_PRESENTED",
+      "phase": "PRESENT_RESULTS",
+      "prepared": 1,
+      "outwardHandoffs": 1,
+      "fixtureModelCallsByPurpose": {
+        "restaurant_semantic_interpret": 2,
+        "restaurant_agent_decide": 6,
+        "restaurant_page_question": 2
+      },
+      "secondsToLastObservation": 0.28490500000000063
+    },
+    {
+      "label": "BOUNDARY_ONLY",
+      "phase": "PRESENT_RESULTS",
+      "prepared": 1,
+      "outwardHandoffs": 1,
+      "fixtureModelCallsByPurpose": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3
+      },
+      "secondsToLastObservation": 0.06513604200000009
+    }
+  ]
+}

@@ -1,12 +1,12 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.19
-- Last updated: 2026-10-15
+- Document revision: 0.21
+- Last updated: 2026-11-07
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
 
-当前Recorder为`browser-read-recording@5`：NETWORK保留值为空的资源类型、预检事实及独立外层POST的body哈希/字段类型/请求绑定；NETWORK_RESOURCE_TYPES分别保存CDP Network、Fetch原始类型和采用路径。Playwright原始类型随普通route记录，未按URL/顺序将两个事件流伪配对。fetch/xhr属于同一页面脚本读取类，非脚本类型仍独立。CORS只证明握手投影；缺未来POST body或完整录制时仍未知／NOT_REPLAYABLE。历史录制原字节保留，不写回升级。[ADR补充](../decisions/0036-script-request-types-and-preflight-draft.md)。
+当前Recorder为`browser-read-recording@6`：NETWORK保留值为空的资源类型、预检事实及独立外层POST的body哈希/字段类型/请求绑定；NETWORK_RESOURCE_TYPES分别保存CDP Network、Fetch原始类型和采用路径。Playwright原始类型随普通route记录，未按URL/顺序将两个事件流伪配对。fetch/xhr属于同一页面脚本读取类，非脚本类型仍独立。CORS只证明握手投影；缺未来POST body或完整录制时仍未知／NOT_REPLAYABLE。历史录制原字节保留，不写回升级。[ADR补充](../decisions/0036-script-request-types-and-preflight-draft.md)。
 
 ## 当前切片
 
@@ -104,7 +104,24 @@ PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1 \
 npm run probe:restaurant:browser:read -- --url 'https://www.tablecheck.com/实际公开入口' --network-path DIRECT --timeout-ms 20000
 ```
 
-本地Chromium可显式设置`PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER=http://127.0.0.1:10808`，通过Playwright的proxy参数应用于临时及专用持久eval profile。不设置时保持默认网络路径；不改变系统代理、TUN或模型出口，也不自动回退。该变量只由`fromEnvironment`读取；直接构造运行时的诊断须显式传入`proxyServer`。
+本地Chromium的测试分流由显式环境配置控制，通过Playwright原有proxy/bypass同时应用于浏览器原生请求和Guard的Node `route.fetch`。默认不配置时保持原网络路径；不改变系统代理、VPN/TUN、证书、Guard准入、传输方式或时限，不重试/回退。
+
+```dotenv
+PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM
+PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER=http://127.0.0.1:10808
+PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS=localhost,127.0.0.1
+PRAXIS_GOOGLE_API_PROXY_SERVER=http://127.0.0.1:10808
+PRAXIS_DEEPSEEK_API_PROXY_SERVER= # DeepSeek直连
+```
+
+当前本机测试配置只在应用层绕过本地回环；公网站点、CDN和API全部先进入现有xray10808，由其现有规则决定direct/proxy，不修改系统或xray规则。若以后明确选择应用层直连，可将对应域名加入名单；名单只接受逗号分隔主机名，同时匹配本域及其子域，不接受URL、路径、端口或通配符。不要把需要xray分流的CDN加入应用直连名单，否则会在进入xray前被绕过。Google API仍使用服务端显式代理；DeepSeek代理留空、保持直连，两者不受浏览器名单影响。所有请求仍须通过各自原有权限/授权检查。
+
+普通Web/诊断运行器从同一有效环境读配置；D8 closeout自定义浏览器工厂也复用该网络配置并记录代理是否配置及直连名单。直接构造Local运行时时使用`proxyServer`和`directHosts`。网络预检按目标域名采用同一分流，直连的餐厅目标不因无关浏览器代理不可用而失败；Google仍检查其代理；DeepSeek按直连检查。支持`--no-proxy`的标准诊断入口会在副本环境同时清除三种代理及直连名单，不改.env；自定义冻结D8编排消费其显式提供的Node环境，不额外声明CLI开关。
+
+“直连”只表示按应用代理 bypass 选择 DIRECT，不能证明系统 DNS、路由或 VPN/TUN 不参与。已审核静态资源的原生 Chromium 请求与 document/Fetch/XHR 的 Node route.fetch 请求是不同网络客户端；HTML 200 不能证明脚本已解析、连接并下载。直连失败不会自动回退到代理。连接诊断需区分配置意图、当前本地路由行为和历史逐连接证据；单次成功不关闭间歇网络故障，当前 DNS 查询也不能重建旧浏览器的 DNS/连接状态。[2026-11-08诊断范围与证据](../../.eval-artifacts/phase3b/network-path-diagnosis-20261108/report.md)。
+
+
+配置存在于当前工作区私有.env；Node入口需按现有命令加载，例如`node --env-file-if-exists=.env ...`（npm现有开发/真实诊断命令已带此参数）。离线测试不加载.env、不调用真实服务。重跑前仍须按既有流程冻结环境/编排并核对额度；配置成功与本地分流通过不等于来源页面已完整加载。
 
 示例URL必须替换为实际公开入口。`--network-path DIRECT|PROXY|UNKNOWN`是操作者报告，工具不检测系统TUN。可按页面证据添加`--ready-selector`；不得猜测选择器后把超时认作网站不可用。可选`--outlet-name`、`--address`、`--phone`提供对照身份；`--date YYYY-MM-DD`与`--party-size`必须一起提供。工具观察已有页面参数，不操作日期人数控件。手工输入不充当Google Discovery证据。`--capture-controls`可保留脱敏控件投影；不透明`dom:`引用只属于本次观察，不是后续动作授权。
 

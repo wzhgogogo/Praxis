@@ -1,0 +1,56 @@
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: REAL_CATEGORY (51.501292ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: LOW (1.815042ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: WRONG_QUOTE (1.718375ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: REVIEW (1.656959ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: PARENT_UNKNOWN (1.0595ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: BAD_CITATION (1.6745ms)
+✔ positive model judgment checks source role: observed name explicitly includes type (2.626ms)
+✔ positive model judgment checks source role: name without requested type (0.368417ms)
+✔ positive model judgment checks source role: review title (0.159125ms)
+✔ positive model judgment checks source role: review body (0.167666ms)
+✔ positive model judgment checks source role: merchant introduction (0.265083ms)
+✔ source roles survive statement truncation and public review regions cannot be relabelled by model selections (2.163792ms)
+✔ an exact source-observed identity name outside H1 cannot masquerade as merchant introduction (0.157209ms)
+✔ the non-price source-role filter leaves price judgment conversion and numeric budget authority unchanged (1.257541ms)
+✔ a cited model type judgment becomes auditable negative-condition evidence (0.460083ms)
+✔ a category conflict from a generic type needs a same-source HIGH grounded entity (0.179791ms)
+✔ a cited concrete type judgment can ground a positive HARD condition (0.108625ms)
+✔ a positive HARD criterion cannot be grounded by an uncited assertion or conflict label (0.052208ms)
+✔ an uncited model assertion cannot become a negative-condition fact (0.052667ms)
+✔ a broad source type cannot be promoted by the model into exclusion evidence (0.052083ms)
+✔ a cited restaurant-category UNKNOWN is auditable without becoming a verified-negative claim (0.065125ms)
+✔ a generic restaurant fact is sent only for the same negative category judgment and remains UNKNOWN (0.0835ms)
+✔ a venue name alone never becomes a fast-food fact, and non-category UNKNOWN stays fail-closed (0.062334ms)
+✖ a locality-cuisine UNKNOWN remains unverified while receiving authoritative locality context (1.4445ms)
+✔ candidate address and venue name alone never invoke or verify a locality-food criterion (0.046875ms)
+✔ a cited native-cuisine support remains a model judgment rather than a deterministic cuisine mapping (0.067125ms)
+✔ negative category raw judgments reach conversion and the current presentation gate without changing the source facts (1.808333ms)
+✔ website judgments preserve selected source statements and reject invented or cross-candidate citations (0.299166ms)
+✔ a selection spanning merchant and review fields preserves each complete field's own role (0.151291ms)
+✔ a model fact judgment keeps one cited service scope and rejects mixed scope citations (0.172333ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 29
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 173.801208
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-fact-judgment.test.ts:1:14952
+✖ a locality-cuisine UNKNOWN remains unverified while receiving authoritative locality context (1.4445ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '15' !== '14'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/integrations/restaurant-facts/model-fact-judgment.test.ts:233:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '15',
+    expected: '14',
+    operator: 'strictEqual'
+  }

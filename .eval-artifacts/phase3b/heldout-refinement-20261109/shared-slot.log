@@ -1,0 +1,45 @@
+✖ shared entry retry slot: IDLE_THEN_NO_HEADERS (20151.584708ms)
+✔ shared entry retry slot: NO_HEADERS_THEN_IDLE (20143.411875ms)
+✖ shared entry retry slot: IDLE_RECOVERS (20132.002625ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 60713.778625
+
+✖ failing tests:
+
+test at src/harness/browser/entry-shared-retry.test.ts:1:310
+✖ shared entry retry slot: IDLE_THEN_NO_HEADERS (20151.584708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-shared-retry.test.ts:22:50)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/entry-shared-retry.test.ts:1:310
+✖ shared entry retry slot: IDLE_RECOVERS (20132.002625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-shared-retry.test.ts:22:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

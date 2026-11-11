@@ -50,18 +50,8 @@ export function rebindRecordedBrowserDecision(record: CapturedDecision, request:
     || before.objective !== after.objective || before.observation.url !== after.observation.url || canonical(before.goal) !== canonical(after.goal)) return fail("REPLAY_BROWSER_CONTEXT_DIVERGED");
   if (pageActions.has(String(wire.action))) return { outputText: record.outputText };
   let key: string, recordedRef: string, replayRef: string;
-  if (wire.action === "SELECT_REGION_ENTRANCE") {
-    const original = before.regionCorrection, current = after.regionCorrection;
-    if (before.stage !== "DISCOVERY" || !original || !current || original.sourceId !== current.sourceId
-      || canonical(original.samples) !== canonical(current.samples) || original.replacementsUsed !== 0 || current.replacementsUsed !== 0) return fail("REPLAY_REGION_CONTEXT_DIVERGED");
-    const selected = original.entrances.filter(entrance => entrance.ref === wire.targetRef && entrance.sourceId === original.sourceId && entrance.flowId === original.flowId);
-    if (selected.length !== 1) return fail("RECORDED_REGION_REFERENCE_MISSING");
-    key = canonical({ sourceId: selected[0]!.sourceId, href: selected[0]!.href, label: selected[0]!.label, observedOn: selected[0]!.observedOn });
-    const matches = current.entrances.filter(entrance => entrance.sourceId === current.sourceId && entrance.flowId === current.flowId
-      && canonical({ sourceId: entrance.sourceId, href: entrance.href, label: entrance.label, observedOn: entrance.observedOn }) === key);
-    if (matches.length !== 1) return fail("REPLAY_REGION_TARGET_MISSING_OR_AMBIGUOUS");
-    recordedRef = selected[0]!.ref; replayRef = matches[0]!.ref;
-  } else {
+  if (wire.action === "SELECT_REGION_ENTRANCE") return fail("REPLAY_RETIRED_ACTION");
+  {
     const selected = before.observation.targets.filter(target => target.ref === wire.targetRef);
     if (selected.length !== 1) return fail("RECORDED_DOM_REFERENCE_MISSING");
     key = targetKey(selected[0]!);
@@ -70,7 +60,7 @@ export function rebindRecordedBrowserDecision(record: CapturedDecision, request:
     recordedRef = selected[0]!.ref; replayRef = matches[0]!.ref;
   }
   return { outputText: JSON.stringify({ ...wire, targetRef: replayRef }), binding: {
-    kind: wire.action === "SELECT_REGION_ENTRANCE" ? "OBSERVED_REGION_COLLECTION" : "CURRENT_DOM", recordedRef, replayRef,
+    kind: "CURRENT_DOM", recordedRef, replayRef,
     semanticSha256: createHash("sha256").update(key).digest("hex"),
   } };
 }
