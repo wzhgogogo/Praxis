@@ -1,0 +1,511 @@
+{
+  "schemaVersion": "phase3b-g6-boundary-observation@1",
+  "elapsedMs": 79271.37150000012,
+  "exceeded500Seconds": false,
+  "sourceReadsStartedInReserve": 0,
+  "termsWorkStartedInReserve": 0,
+  "forbiddenRequestsReachedSource": 0,
+  "readStarts": [
+    {
+      "kind": "READ",
+      "purpose": "restaurant_semantic_interpret",
+      "turnId": "INITIAL",
+      "atMs": 1794325380461,
+      "deadlineAtMs": 1794325880458
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "INITIAL",
+      "atMs": 1794325381795,
+      "deadlineAtMs": 1794325880458
+    },
+    {
+      "kind": "READ",
+      "purpose": "restaurant_semantic_interpret",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325382962,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325384575,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325387588,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "OPEN_SESSION",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325388908,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325389026,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325393459,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325395077,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325396152,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "click",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325397306,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325398261,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325399416,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "fill",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325400256,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325401620,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325402775,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "click",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325404162,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325404595,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325405689,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "click",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325406773,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325407154,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325408310,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "fill",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325409616,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325410273,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325411398,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "click",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325412539,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325412942,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325414050,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325416031,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325417136,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325417305,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325419861,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325420004,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325423936,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325424052,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325426339,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "OPEN_SESSION",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325426485,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325426600,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325431600,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325432186,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "fill",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325433299,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325434676,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325435296,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "click",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325436331,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325438781,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325439102,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325440349,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325440402,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325442253,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325442373,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325443010,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325444163,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "READ",
+      "purpose": "browser_read_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325445192,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "click",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325446382,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325447420,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325448355,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325448526,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "OPEN_SESSION",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325449883,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325449969,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325453771,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325454341,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325455224,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325455831,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "snapshot",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325456635,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_MODEL",
+      "purpose": "restaurant_page_question",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325456757,
+      "deadlineAtMs": 1794325882958
+    },
+    {
+      "kind": "TERMS_MODEL",
+      "purpose": "restaurant_page_question",
+      "turnId": "CLARIFY_DATE",
+      "atMs": 1794325458549,
+      "deadlineAtMs": 1794325882958
+    }
+  ],
+  "limits": {
+    "perTurn": {
+      "milliseconds": 500000,
+      "models": 50,
+      "google": 40
+    },
+    "slot": {
+      "turns": 3,
+      "models": 150,
+      "google": 120
+    }
+  },
+  "turnBudgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794325380458,
+      "deadlineAtMs": 1794325880458,
+      "elapsedMs": 2496.9226659999695,
+      "modelCalls": 2,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "CLARIFY_DATE",
+      "startedAtMs": 1794325382958,
+      "deadlineAtMs": 1794325882958,
+      "elapsedMs": 76279.48124999995,
+      "modelCalls": 18,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "googleRequests": 1,
+  "modelCalls": 20,
+  "semanticAttemptsByTurn": {
+    "INITIAL": 1,
+    "CLARIFY_DATE": 1
+  },
+  "semanticSchemaRetries": 0
+}

@@ -1,0 +1,3394 @@
+{
+  "schemaVersion": "phase3b-g6-evaluation@10",
+  "run": {
+    "runId": "g6-p3b-holdout-04a-r2-1794324172668-0",
+    "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+    "mode": "LIVE_READ",
+    "artifactRefs": [
+      "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r2/p3b-holdout-04a-r2/execution.result.json"
+    ]
+  },
+  "namedOutletBinding": {
+    "named": {
+      "name": "Daikanyama Sushi Takeuchi",
+      "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "googlePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+      "sourceIds": {
+        "TABELOG": "13210936"
+      },
+      "phone": "03-6455-0080",
+      "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+      "selectionEventId": "event:restaurant-agent:226baf97-4386-444c-aef3-a52d99315ddd"
+    },
+    "history": [
+      {
+        "turnId": "INITIAL",
+        "eventId": "event:restaurant-agent:226baf97-4386-444c-aef3-a52d99315ddd",
+        "status": "BOUND",
+        "identity": {
+          "name": "Daikanyama Sushi Takeuchi",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "googlePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+          "sourceIds": {
+            "TABELOG": "13210936"
+          },
+          "phone": "03-6455-0080",
+          "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+          "selectionEventId": "event:restaurant-agent:226baf97-4386-444c-aef3-a52d99315ddd"
+        }
+      }
+    ],
+    "presentations": [
+      {
+        "eventId": "event:restaurant-agent:061c23f5-ae8f-43c8-93d9-4f9c036ad56b",
+        "turnId": "INITIAL",
+        "named": {
+          "name": "Daikanyama Sushi Takeuchi",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "googlePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+          "sourceIds": {
+            "TABELOG": "13210936"
+          },
+          "phone": "03-6455-0080",
+          "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+          "selectionEventId": "event:restaurant-agent:226baf97-4386-444c-aef3-a52d99315ddd"
+        },
+        "candidates": [
+          {
+            "name": "Daikanyama Sushi Takeuchi",
+            "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "googlePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+            "sourceIds": {
+              "TABELOG": "13210936"
+            },
+            "phone": "03-6455-0080",
+            "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+          }
+        ]
+      }
+    ],
+    "issues": []
+  },
+  "verdict": {
+    "status": "PENDING_REVIEW",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "NOT_EVALUATED",
+    "stopBatch": false
+  },
+  "layers": {
+    "endToEnd": {
+      "status": "NOT_EVALUATED",
+      "deliveredOutlets": 2
+    },
+    "stages": [
+      {
+        "rule": "NAMED_OUTLET",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "Every presented outlet must match the user-bound physical identity; one wrong presentation batch is one incident",
+        "evidenceRefs": [
+          "event:restaurant-agent:061c23f5-ae8f-43c8-93d9-4f9c036ad56b",
+          "event:restaurant-agent:226baf97-4386-444c-aef3-a52d99315ddd",
+          "praxis:restaurant:f2d039bfc7458421e9681ac2"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:2",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:2"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:7",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:7"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:5",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:5"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:6",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:6"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:4",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:4"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:3",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:3"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:22",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:22"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:23",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:23"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:27",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:27"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:28",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:28"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:32",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:32"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:35",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:35"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:36",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:36"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:37",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:37"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:39",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:39"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:40",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:40"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:42",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:42"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:43",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:43"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:130",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:130"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:131",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:131"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:132",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:132"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:133",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:133"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:134",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:134"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:137",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:137"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:138",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:138"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:139",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:139"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:195",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:195"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:198",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:198"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:200",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:200"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:199",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:199"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:197",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:197"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:196",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:196"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:217",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:217"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:214",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:214"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:215",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:215"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:229",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:229"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:230",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:230"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:231",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:231"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:232",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:232"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:233",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:233"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:234",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:234"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:245",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:245"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:246",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:246"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:248",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:248"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:251",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:251"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:253",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:253"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:252",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:252"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:249",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:249"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:250",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:250"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:298",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:298"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:299",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:299"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:300",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:300"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:301",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:301"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:302",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:302"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:295",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:295"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:296",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:296"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:306",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:306"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:307",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:307"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:309",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:309"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:310",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:310"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:312",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:312"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:325",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:325"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:327",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:327"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:326",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:326"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:324",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:324"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:323",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:323"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:372",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:372"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:351",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:351"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:352",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:352"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:373",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:373"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:374",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:374"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:375",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:375"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:376",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:376"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:377",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:377"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:378",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:378"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:389",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:389"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:390",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:390"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:404",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:404"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:406",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:406"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:409",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:409"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:408",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:408"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:407",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:407"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:410",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:410"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:415",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:415"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:411",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:411"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:412",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:412"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:416",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:416"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:413",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:413"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:414",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:414"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:434",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:434"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:446",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:446"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:449",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:449"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:453",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:453"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:452",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:452"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:451",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:451"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:457",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:457"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:450",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:450"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:454",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:454"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:456",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:456"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:455",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:455"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:460",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:460"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:465",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:465"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:459",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:459"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:458",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:458"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:476",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:476"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:478",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:478"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:479",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:479"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:480",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:480"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:481",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:481"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:482",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:482"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:484",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:484"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:483",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:483"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:485",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:485"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:487",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:487"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:488",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:488"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:486",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:486"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:490",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:490"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:491",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:491"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:489",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:489"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:492",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:492"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:493",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:493"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:550",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:550"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:561",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:561"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:563",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:563"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:567",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:567"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:568",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:568"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:571",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:571"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:574",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:574"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:576",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:576"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:575",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:575"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:572",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:572"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:573",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:573"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:583",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:583"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:577",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:577"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:585",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:585"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:584",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:584"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:578",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:578"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:580",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:580"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:582",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:582"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:581",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:581"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:586",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:586"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:579",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:579"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-native:643",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-native:643"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:660",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:660"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:661",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:661"
+        ]
+      },
+      {
+        "rule": "REQUEST_BOUNDARY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "g6-node:663",
+        "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+        "evidenceRefs": [
+          "g6-node:663"
+        ]
+      },
+      {
+        "rule": "QUALIFICATION_QUOTE",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Literal quotation must be on the same outlet's same-run public source, bound by name plus address or phone",
+        "evidenceRefs": [
+          "source-snapshot:17:html-sha256:1cca46e685452199b58e7e6722787764ce92eff2fe899ffb56895e0da681136b:text-sha256:7bfc6b00fb12a777a8bbc42cf2d8487c45ddfab28e3e26a98086084f8c8814e3"
+        ]
+      },
+      {
+        "rule": "COMPLETE_REQUEST_QUALIFICATION",
+        "status": "QUOTE_VERIFIED_MEANING_PENDING_REVIEW",
+        "severity": "CAPABILITY",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Quotation and outlet binding verified; complete-request meaning and area await independent review, without stopping the batch",
+        "evidenceRefs": [
+          "source-snapshot:17:html-sha256:1cca46e685452199b58e7e6722787764ce92eff2fe899ffb56895e0da681136b:text-sha256:7bfc6b00fb12a777a8bbc42cf2d8487c45ddfab28e3e26a98086084f8c8814e3"
+        ],
+        "reviewReason": "INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING"
+      },
+      {
+        "rule": "DATE",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Date must be user-supplied or explicitly disclosed, never silently chosen",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "PARTY_TIME",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Displayed guests/slot must match the independent request",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "POST_DELIVERY_SLOT",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Displayed slot must occur in the independent post-run response",
+        "evidenceRefs": [
+          "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r2/p3b-holdout-04a-r2/witness/002-vacancy.body"
+        ]
+      },
+      {
+        "rule": "QUALIFICATION_QUOTE",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Literal quotation must be on the same outlet's same-run public source, bound by name plus address or phone",
+        "evidenceRefs": [
+          "source-snapshot:17:html-sha256:1cca46e685452199b58e7e6722787764ce92eff2fe899ffb56895e0da681136b:text-sha256:7bfc6b00fb12a777a8bbc42cf2d8487c45ddfab28e3e26a98086084f8c8814e3"
+        ]
+      },
+      {
+        "rule": "COMPLETE_REQUEST_QUALIFICATION",
+        "status": "QUOTE_VERIFIED_MEANING_PENDING_REVIEW",
+        "severity": "CAPABILITY",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Quotation and outlet binding verified; complete-request meaning and area await independent review, without stopping the batch",
+        "evidenceRefs": [
+          "source-snapshot:17:html-sha256:1cca46e685452199b58e7e6722787764ce92eff2fe899ffb56895e0da681136b:text-sha256:7bfc6b00fb12a777a8bbc42cf2d8487c45ddfab28e3e26a98086084f8c8814e3"
+        ],
+        "reviewReason": "INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING"
+      },
+      {
+        "rule": "DATE",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Date must be user-supplied or explicitly disclosed, never silently chosen",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "PARTY_TIME",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Displayed guests/slot must match the independent request",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "POST_DELIVERY_SLOT",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Displayed slot must occur in the independent post-run response",
+        "evidenceRefs": [
+          "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r2/p3b-holdout-04a-r2/witness/002-vacancy.body"
+        ]
+      },
+      {
+        "rule": "B1_COPY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Handoff describes fields carried, never a selected/booked result",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "B1_SOURCE_URL",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Exact source-returned original URL retained",
+        "evidenceRefs": [
+          "captured-snapshot:20:response:1"
+        ]
+      },
+      {
+        "rule": "B1_LINK",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Source origin/path and every date/time/guest parameter must agree",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "B1_COPY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Handoff describes fields carried, never a selected/booked result",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "B1_SOURCE_URL",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Exact source-returned original URL retained",
+        "evidenceRefs": [
+          "captured-snapshot:20:response:1"
+        ]
+      },
+      {
+        "rule": "B1_LINK",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "Source origin/path and every date/time/guest parameter must agree",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "F6_RESERVE",
+        "status": "PASS",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "No read/selected-outlet terms start in the final20seconds",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "DEADLINE",
+        "status": "PASS",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "Every user turn remains within500seconds; at most three turns",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "TURN_BUDGET",
+        "status": "PASS",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "Per-user-turn 50 model/40 Google, slot 150 model/120 Google ceilings",
+        "evidenceRefs": []
+      }
+    ],
+    "severity": {
+      "S0": [],
+      "independentEvidenceMissing": false
+    },
+    "attribution": {
+      "status": "NOT_EVALUATED",
+      "reason": "Localization belongs to the separate diagnosis consumer; verdicts do not establish cause."
+    }
+  },
+  "checks": [
+    {
+      "rule": "NAMED_OUTLET",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "Every presented outlet must match the user-bound physical identity; one wrong presentation batch is one incident",
+      "evidenceRefs": [
+        "event:restaurant-agent:061c23f5-ae8f-43c8-93d9-4f9c036ad56b",
+        "event:restaurant-agent:226baf97-4386-444c-aef3-a52d99315ddd",
+        "praxis:restaurant:f2d039bfc7458421e9681ac2"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:2",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:2"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:7",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:7"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:5",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:5"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:6",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:6"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:4",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:4"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:3",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:3"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:22",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:22"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:23",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:23"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:27",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:27"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:28",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:28"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:32",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:32"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:35",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:35"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:36",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:36"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:37",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:37"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:39",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:39"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:40",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:40"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:42",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:42"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:43",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:43"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:130",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:130"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:131",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:131"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:132",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:132"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:133",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:133"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:134",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:134"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:137",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:137"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:138",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:138"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:139",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:139"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:195",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:195"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:198",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:198"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:200",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:200"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:199",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:199"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:197",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:197"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:196",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:196"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:217",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:217"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:214",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:214"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:215",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:215"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:229",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:229"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:230",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:230"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:231",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:231"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:232",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:232"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:233",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:233"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:234",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:234"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:245",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:245"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:246",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:246"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:248",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:248"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:251",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:251"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:253",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:253"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:252",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:252"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:249",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:249"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:250",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:250"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:298",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:298"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:299",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:299"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:300",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:300"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:301",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:301"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:302",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:302"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:295",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:295"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:296",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:296"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:306",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:306"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:307",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:307"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:309",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:309"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:310",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:310"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:312",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:312"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:325",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:325"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:327",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:327"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:326",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:326"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:324",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:324"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:323",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:323"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:372",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:372"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:351",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:351"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:352",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:352"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:373",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:373"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:374",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:374"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:375",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:375"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:376",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:376"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:377",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:377"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:378",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:378"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:389",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:389"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:390",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:390"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:404",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:404"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:406",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:406"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:409",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:409"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:408",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:408"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:407",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:407"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:410",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:410"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:415",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:415"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:411",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:411"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:412",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:412"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:416",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:416"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:413",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:413"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:414",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:414"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:434",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:434"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:446",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:446"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:449",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:449"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:453",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:453"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:452",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:452"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:451",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:451"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:457",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:457"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:450",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:450"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:454",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:454"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:456",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:456"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:455",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:455"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:460",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:460"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:465",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:465"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:459",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:459"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:458",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:458"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:476",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:476"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:478",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:478"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:479",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:479"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:480",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:480"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:481",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:481"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:482",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:482"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:484",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:484"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:483",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:483"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:485",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:485"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:487",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:487"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:488",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:488"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:486",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:486"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:490",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:490"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:491",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:491"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:489",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:489"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:492",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:492"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:493",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:493"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:550",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:550"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:561",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:561"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:563",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:563"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:567",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:567"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:568",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:568"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:571",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:571"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:574",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:574"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:576",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:576"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:575",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:575"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:572",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:572"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:573",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:573"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:583",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:583"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:577",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:577"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:585",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:585"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:584",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:584"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:578",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:578"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:580",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:580"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:582",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:582"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:581",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:581"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:586",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:586"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:579",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:579"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-native:643",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-native:643"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:660",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:660"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:661",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:661"
+      ]
+    },
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "g6-node:663",
+      "reason": "Actual source receiver must not receive workflows or unreviewed methods",
+      "evidenceRefs": [
+        "g6-node:663"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Literal quotation must be on the same outlet's same-run public source, bound by name plus address or phone",
+      "evidenceRefs": [
+        "source-snapshot:17:html-sha256:1cca46e685452199b58e7e6722787764ce92eff2fe899ffb56895e0da681136b:text-sha256:7bfc6b00fb12a777a8bbc42cf2d8487c45ddfab28e3e26a98086084f8c8814e3"
+      ]
+    },
+    {
+      "rule": "COMPLETE_REQUEST_QUALIFICATION",
+      "status": "QUOTE_VERIFIED_MEANING_PENDING_REVIEW",
+      "severity": "CAPABILITY",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Quotation and outlet binding verified; complete-request meaning and area await independent review, without stopping the batch",
+      "evidenceRefs": [
+        "source-snapshot:17:html-sha256:1cca46e685452199b58e7e6722787764ce92eff2fe899ffb56895e0da681136b:text-sha256:7bfc6b00fb12a777a8bbc42cf2d8487c45ddfab28e3e26a98086084f8c8814e3"
+      ],
+      "reviewReason": "INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING"
+    },
+    {
+      "rule": "DATE",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Date must be user-supplied or explicitly disclosed, never silently chosen",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "PARTY_TIME",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Displayed guests/slot must match the independent request",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "POST_DELIVERY_SLOT",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Displayed slot must occur in the independent post-run response",
+      "evidenceRefs": [
+        "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r2/p3b-holdout-04a-r2/witness/002-vacancy.body"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Literal quotation must be on the same outlet's same-run public source, bound by name plus address or phone",
+      "evidenceRefs": [
+        "source-snapshot:17:html-sha256:1cca46e685452199b58e7e6722787764ce92eff2fe899ffb56895e0da681136b:text-sha256:7bfc6b00fb12a777a8bbc42cf2d8487c45ddfab28e3e26a98086084f8c8814e3"
+      ]
+    },
+    {
+      "rule": "COMPLETE_REQUEST_QUALIFICATION",
+      "status": "QUOTE_VERIFIED_MEANING_PENDING_REVIEW",
+      "severity": "CAPABILITY",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Quotation and outlet binding verified; complete-request meaning and area await independent review, without stopping the batch",
+      "evidenceRefs": [
+        "source-snapshot:17:html-sha256:1cca46e685452199b58e7e6722787764ce92eff2fe899ffb56895e0da681136b:text-sha256:7bfc6b00fb12a777a8bbc42cf2d8487c45ddfab28e3e26a98086084f8c8814e3"
+      ],
+      "reviewReason": "INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING"
+    },
+    {
+      "rule": "DATE",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Date must be user-supplied or explicitly disclosed, never silently chosen",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "PARTY_TIME",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Displayed guests/slot must match the independent request",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "POST_DELIVERY_SLOT",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Displayed slot must occur in the independent post-run response",
+      "evidenceRefs": [
+        "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r2/p3b-holdout-04a-r2/witness/002-vacancy.body"
+      ]
+    },
+    {
+      "rule": "B1_COPY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Handoff describes fields carried, never a selected/booked result",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "B1_SOURCE_URL",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Exact source-returned original URL retained",
+      "evidenceRefs": [
+        "captured-snapshot:20:response:1"
+      ]
+    },
+    {
+      "rule": "B1_LINK",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Source origin/path and every date/time/guest parameter must agree",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "B1_COPY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Handoff describes fields carried, never a selected/booked result",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "B1_SOURCE_URL",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Exact source-returned original URL retained",
+      "evidenceRefs": [
+        "captured-snapshot:20:response:1"
+      ]
+    },
+    {
+      "rule": "B1_LINK",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "reason": "Source origin/path and every date/time/guest parameter must agree",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "F6_RESERVE",
+      "status": "PASS",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "No read/selected-outlet terms start in the final20seconds",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "DEADLINE",
+      "status": "PASS",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "Every user turn remains within500seconds; at most three turns",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "TURN_BUDGET",
+      "status": "PASS",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "Per-user-turn 50 model/40 Google, slot 150 model/120 Google ceilings",
+      "evidenceRefs": []
+    }
+  ],
+  "coverage": {
+    "evaluated": 164,
+    "notEvaluated": 0,
+    "meaningPendingReview": 2,
+    "needsIndependentReview": true
+  },
+  "diagnosis": {
+    "inputArtifactRefs": [
+      "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r2/p3b-holdout-04a-r2/execution.result.json"
+    ],
+    "ownership": "Judgement by G6 evaluator; localization and performance analysis by separate diagnosis consumer. No production eligibility used as an oracle."
+  }
+}

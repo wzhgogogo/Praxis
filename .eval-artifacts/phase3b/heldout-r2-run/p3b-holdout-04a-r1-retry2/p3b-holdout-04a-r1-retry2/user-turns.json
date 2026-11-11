@@ -1,0 +1,818 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-p3b-holdout-04a-r1-retry2-1794323903081-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "[PRIVATE_TURN_SHA256:a28dd4a1e3c91f61a3b446ad2f2f66d0a475ab8001e4602fb182d65b1708da4b]",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Can you check whether Daikanyama Sushi Takeuchi has a table for 2 on …",
+          "status": "NEEDS_YOU",
+          "phase": "PRESENT_RESULTS",
+          "taskVersion": 5,
+          "updatedAt": "2026-11-10T15:19:40.236Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "[PRIVATE_TURN_SHA256:a28dd4a1e3c91f61a3b446ad2f2f66d0a475ab8001e4602fb182d65b1708da4b]",
+              "createdAt": "2026-11-10T15:18:25.774Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "The case is now present results.",
+              "createdAt": "2026-11-10T15:19:50.233Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "date": "2026-11-24",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Daikanyama Sushi Takeuchi",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "23:00",
+              "earliest": "18:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Tuesday, November 24",
+                "resolvedDate": "2026-11-24"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "DAYPART:EVENING",
+                "expression": "any time in the evening",
+                "resolvedTimeWindow": {
+                  "latest": "23:00",
+                  "earliest": "18:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:18:24.194Z"
+            }
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 1,
+          "readyCandidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 1,
+            "checkedCount": 1
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                "sourceIds": {
+                  "phone": "03-6455-0080",
+                  "googlePlaces": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                  "googleMapsUri": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://daikanyamasushitakeuchi.com/"
+                },
+                "outletName": "Daikanyama Sushi Takeuchi",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:0c8a8c1f95eac0309dd85f20",
+                  "sourceIds": "evidence:restaurant:google-discovery:0c8a8c1f95eac0309dd85f20",
+                  "outletName": "evidence:restaurant:google-discovery:0c8a8c1f95eac0309dd85f20"
+                },
+                "coordinates": {
+                  "lat": 35.65242,
+                  "lng": 139.703894
+                }
+              },
+              "matchReasons": [
+                "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "availability": {
+            "praxis:restaurant:f2d039bfc7458421e9681ac2": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-24:18:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-24T18:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T15:19:38.955Z",
+                "expiresAt": "2026-11-10T15:19:38.955Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T15:29:38.955Z",
+                "bookingRecheckRequired": true
+              },
+              {
+                "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-24:20:30:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-24T20:30:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T15:19:38.955Z",
+                "expiresAt": "2026-11-10T15:19:38.955Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T15:29:38.955Z",
+                "bookingRecheckRequired": true
+              }
+            ]
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:f2d039bfc7458421e9681ac2": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-10T15:19:38.955Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:d364d4e795a11ef364eb21a0",
+                "evidence:restaurant:tabelog-hard-criteria:4c0382fab912dd013058ec88",
+                "evidence:restaurant:tabelog-availability:f5cea0ee48120676f78bc7fa"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABLECHECK",
+                  "outcome": "FAILED",
+                  "reasonCode": "BROWSER_TIMEOUT"
+                },
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T15:29:38.955Z",
+              "requestFingerprint": "{\"date\":\"2026-11-24\",\"timeWindow\":{\"latest\":\"23:00\",\"earliest\":\"18:00\"},\"partySize\":2}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "sushi_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                "placeId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                "outletName": "Daikanyama Sushi Takeuchi",
+                "primaryType": "sushi_restaurant",
+                "serviceArea": "Tokyo",
+                "locationBasis": "NAMED_OUTLET_RESOLUTION",
+                "availabilityPath": "NAME_RESOLUTION",
+                "namedOutletStatus": "UNIQUE",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+                ],
+                "requestedOutletName": "Daikanyama Sushi Takeuchi",
+                "namedOutletLocalities": [
+                  "5",
+                  "5",
+                  "Sarugakuchō",
+                  "Sarugakuchō",
+                  "Shibuya",
+                  "Shibuya",
+                  "Tokyo",
+                  "Tokyo"
+                ],
+                "namedOutletCandidateCount": 1,
+                "namedOutletSearchComplete": true
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:0c8a8c1f95eac0309dd85f20",
+              "observedAt": "2026-11-10T15:18:27.067Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-24\",\"timeWindow\":{\"latest\":\"23:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                "placeId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                "outletName": "Daikanyama Sushi Takeuchi"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:0c8a8c1f95eac0309dd85f20",
+              "observedAt": "2026-11-10T15:18:27.067Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-24\",\"timeWindow\":{\"latest\":\"23:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://daikanyamasushitakeuchi.com/",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "sushi restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:2b57ba6649b99d37d237018d",
+              "observedAt": "2026-11-10T15:18:27.067Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-24\",\"timeWindow\":{\"latest\":\"23:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Daikanyama Sushi Takeuchi",
+                "observedOutletName": "Daikanyama Sushi Takeuchi"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:d364d4e795a11ef364eb21a0",
+              "observedAt": "2026-11-10T15:19:38.955Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Daikanyama Sushi Takeuchi",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+                }
+              ],
+              "requestFingerprint": "02bf7961beba35e5b7e6f0590ea74ba9eaf028beae5963cedcba2be764c77bdd"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:4c0382fab912dd013058ec88",
+              "observedAt": "2026-11-10T15:19:38.955Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Sushi, Seafood, Japanese sake bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+                }
+              ],
+              "requestFingerprint": "eb3db4405e9df25031f797b3782132b2ba12a63b959fd2f482c6c8d9e18c779d"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-24",
+                "partySize": 2,
+                "visibleSlots": [
+                  "18:00",
+                  "20:30"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:f5cea0ee48120676f78bc7fa",
+              "observedAt": "2026-11-10T15:19:38.955Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:4bc6f0109d9c9db13af1e269ae6afebf6ab2b6512be923500c36768b2e7d56e2"
+              },
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+              "displayExpiresAt": "2026-11-10T15:29:38.955Z",
+              "requestFingerprint": "2d1e194ecc9a78ff65a19159c2b442639c1317ee9e6074ed137b099b7b8536f9",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://daikanyamasushitakeuchi.com/",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "sushi restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:2b57ba6649b99d37d237018d",
+              "observedAt": "2026-11-10T15:18:27.067Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-24\",\"timeWindow\":{\"latest\":\"23:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:4c0382fab912dd013058ec88",
+              "observedAt": "2026-11-10T15:19:38.955Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Sushi, Seafood, Japanese sake bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+                }
+              ],
+              "requestFingerprint": "eb3db4405e9df25031f797b3782132b2ba12a63b959fd2f482c6c8d9e18c779d"
+            }
+          ],
+          "presentedCandidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ],
+          "conditionStates": {
+            "praxis:restaurant:f2d039bfc7458421e9681ac2": []
+          },
+          "viewedCandidateIds": [],
+          "shortlistCandidateIds": [],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-10T15:18:24.191Z"
+          },
+          "selectedCandidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "bookingHandoffs": [
+            {
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "offerId": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-24:18:00:2",
+              "provider": "TABELOG",
+              "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261124&visit_time=1800",
+              "directLabel": "Book on Tabelog",
+              "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+              "checkedAt": "2026-11-10T15:19:38.955Z",
+              "displayExpiresAt": "2026-11-10T15:29:38.955Z",
+              "platformFee": {
+                "provider": "TABELOG",
+                "channel": "ENGLISH_BOOKING",
+                "amountPerPersonJPY": 440,
+                "userCancellationRefund": false,
+                "restaurantCancellationRefund": true,
+                "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+                "sourceUrl": "https://tabelog.com/en/help",
+                "checkedOn": "2026-10-29",
+                "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+                "quotes": [
+                  "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+                  "Please note that no refunds will be issued for cancellations made for customer reasons.",
+                  "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+                ]
+              },
+              "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+              "linkCarries": [
+                "DATE",
+                "TIME",
+                "PARTY_SIZE"
+              ],
+              "sourceSelection": "UNKNOWN",
+              "terms": [
+                {
+                  "label": "The page states a 100% cancellation fee applies to cancellations made 2 days prior to the reservation (\"A cancellation fee of 100% will be charged for cancellations made 2 days prior.\" / \"A 100% cancellation fee will be charged for cancellations made 2 days prior to your reservation.\"); no differing Japanese-language policy text appears on this page.",
+                  "citations": [
+                    {
+                      "text": "A cancellation fee of 100% will be charged for cancellations made 2 days prior.",
+                      "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+                      "readAt": "2026-11-10T15:19:46.467Z",
+                      "identityEvidenceId": "evidence:restaurant:native-fact-identity:d872f57b142a6687f1d4b284"
+                    },
+                    {
+                      "text": "A 100% cancellation fee will be charged for cancellations made 2 days prior to your reservation.",
+                      "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+                      "readAt": "2026-11-10T15:19:46.467Z",
+                      "identityEvidenceId": "evidence:restaurant:native-fact-identity:d872f57b142a6687f1d4b284"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "offerId": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-24:20:30:2",
+              "provider": "TABELOG",
+              "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261124&visit_time=2030",
+              "directLabel": "Book on Tabelog",
+              "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+              "checkedAt": "2026-11-10T15:19:38.955Z",
+              "displayExpiresAt": "2026-11-10T15:29:38.955Z",
+              "platformFee": {
+                "provider": "TABELOG",
+                "channel": "ENGLISH_BOOKING",
+                "amountPerPersonJPY": 440,
+                "userCancellationRefund": false,
+                "restaurantCancellationRefund": true,
+                "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+                "sourceUrl": "https://tabelog.com/en/help",
+                "checkedOn": "2026-10-29",
+                "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+                "quotes": [
+                  "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+                  "Please note that no refunds will be issued for cancellations made for customer reasons.",
+                  "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+                ]
+              },
+              "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+              "linkCarries": [
+                "DATE",
+                "TIME",
+                "PARTY_SIZE"
+              ],
+              "sourceSelection": "UNKNOWN",
+              "terms": [
+                {
+                  "label": "The page states a 100% cancellation fee applies to cancellations made 2 days prior to the reservation (\"A cancellation fee of 100% will be charged for cancellations made 2 days prior.\" / \"A 100% cancellation fee will be charged for cancellations made 2 days prior to your reservation.\"); no differing Japanese-language policy text appears on this page.",
+                  "citations": [
+                    {
+                      "text": "A cancellation fee of 100% will be charged for cancellations made 2 days prior.",
+                      "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+                      "readAt": "2026-11-10T15:19:46.467Z",
+                      "identityEvidenceId": "evidence:restaurant:native-fact-identity:d872f57b142a6687f1d4b284"
+                    },
+                    {
+                      "text": "A 100% cancellation fee will be charged for cancellations made 2 days prior to your reservation.",
+                      "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+                      "readAt": "2026-11-10T15:19:46.467Z",
+                      "identityEvidenceId": "evidence:restaurant:native-fact-identity:d872f57b142a6687f1d4b284"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 5,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                    "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                    "sourceIds": {
+                      "phone": "03-6455-0080",
+                      "googlePlaces": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                      "googleMapsUri": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://daikanyamasushitakeuchi.com/"
+                    },
+                    "outletName": "Daikanyama Sushi Takeuchi",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:0c8a8c1f95eac0309dd85f20",
+                      "sourceIds": "evidence:restaurant:google-discovery:0c8a8c1f95eac0309dd85f20",
+                      "outletName": "evidence:restaurant:google-discovery:0c8a8c1f95eac0309dd85f20"
+                    },
+                    "coordinates": {
+                      "lat": 35.65242,
+                      "lng": 139.703894
+                    }
+                  },
+                  "matchReasons": [
+                    "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+                  ],
+                  "executionConfidence": "LOW"
+                }
+              ],
+              "availability": {
+                "praxis:restaurant:f2d039bfc7458421e9681ac2": [
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-24:18:00:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-24T18:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T15:19:38.955Z",
+                    "expiresAt": "2026-11-10T15:19:38.955Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T15:29:38.955Z",
+                    "bookingRecheckRequired": true
+                  },
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-24:20:30:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-24T20:30:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T15:19:38.955Z",
+                    "expiresAt": "2026-11-10T15:19:38.955Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T15:29:38.955Z",
+                    "bookingRecheckRequired": true
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-10T15:18:25.768Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:8a5daac8-dc28-44b1-906d-cee13e3b9a13",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:8a5daac8-dc28-44b1-906d-cee13e3b9a13"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "1 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T15:18:29.464Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:26ae5223-d73b-4c52-b615-ceefb2558e86",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:26ae5223-d73b-4c52-b615-ceefb2558e86"
+            },
+            "type": "CANDIDATE_SELECTED",
+            "display": {
+              "title": "Candidate selected",
+              "detail": "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            },
+            "occurredAt": "2026-11-10T15:18:29.481Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:3489aa3f-cb45-4366-a1ef-a3a854667fd9",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:3489aa3f-cb45-4366-a1ef-a3a854667fd9"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "2 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T15:19:38.964Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:08a9e511-2415-454a-b069-a2f19a47e22a",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:08a9e511-2415-454a-b069-a2f19a47e22a"
+            },
+            "type": "RESULTS_PRESENTED",
+            "display": {
+              "title": "Read-only results presented",
+              "detail": "1 evidence-grounded result(s) are ready."
+            },
+            "occurredAt": "2026-11-10T15:19:40.236Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794323904190,
+      "deadlineAtMs": 1794324404190,
+      "elapsedMs": 86068.60399999999,
+      "modelCalls": 18,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": {
+      "name": "Daikanyama Sushi Takeuchi",
+      "address": "東京都渋谷区猿楽町5-8",
+      "phone": "03-6455-0080",
+      "sourceIds": {
+        "TABELOG": "13210936"
+      }
+    },
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "[PRIVATE_TURN_SHA256:a28dd4a1e3c91f61a3b446ad2f2f66d0a475ab8001e4602fb182d65b1708da4b]",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "outletName": "Daikanyama Sushi Takeuchi",
+                "sourceIds": {
+                  "phone": "03-6455-0080",
+                  "googlePlaces": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                  "googleMapsUri": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://daikanyamasushitakeuchi.com/"
+                },
+                "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "SPECIFIC_OUTLET"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "userBookingSelection": {},
+              "patch": {
+                "target": {
+                  "selectionScope": "SPECIFIC_OUTLET"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:8a5daac8-dc28-44b1-906d-cee13e3b9a13",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:26ae5223-d73b-4c52-b615-ceefb2558e86",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "CANDIDATE_SELECTED",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:3489aa3f-cb45-4366-a1ef-a3a854667fd9",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:08a9e511-2415-454a-b069-a2f19a47e22a",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "RESULTS_PRESENTED",
+              "candidateIds": [
+                "praxis:restaurant:f2d039bfc7458421e9681ac2"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

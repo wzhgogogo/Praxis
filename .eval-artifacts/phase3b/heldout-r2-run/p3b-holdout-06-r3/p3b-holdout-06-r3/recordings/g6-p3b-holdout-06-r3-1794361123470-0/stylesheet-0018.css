@@ -1,0 +1,3460 @@
+@charset "UTF-8";
+
+/*
+  scssでカスタマイズしています。
+  css編集するときはscssから変更するか、cssファイルを直接編集する場合は
+  編集以降はcssのみ編集してください。
+*/
+
+/*---------------	リセットcss	---------------*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+  font-style: normal;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+input,
+textarea {
+  margin: 0;
+  padding: 0;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption,
+th {
+  text-align: left;
+}
+
+a:focus {
+  outline: none;
+}
+
+input,
+textarea,
+button {
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  -webkit-appearance: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+/* ========================================
+	Component(共通利用の部品。幅とか色は持たせない)
+	命名規則: .c-
+========================================= */
+
+.c-container {
+  width: 95%;
+  max-width: 1000px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/*----- レスポンシブ表示切り替え -----*/
+
+.c-pc_only {
+  display: block !important;
+}
+
+.c-pc_only--flex {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+
+.c-sp_only {
+  display: none !important;
+}
+
+/*----- 共通パーツ -----*/
+
+/* ヘッダー */
+
+.c-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 1.875rem 0 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/*
+.c-header__logo {
+  display: block;
+  width: 7.875rem;
+  height: auto;
+  margin: 0 auto 1.625rem;
+}
+*/
+.c-header__logo {
+    display: block;
+    width: 7.875rem;
+    height: 70px;
+    margin: 0 auto 1.625rem;
+    background: url(../images/common/logo-toriichizu.png) no-repeat;
+    background-size: contain;
+}
+.c-header__logo h1{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.c-header__logo img {
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.c-header__logo img:hover {
+  opacity: .7;
+}
+
+.c-header__nav_container {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.c-header__nav_lists {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.c-header__nav_list {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.c-header__nav_list:not(:last-child) {
+  margin-right: 5%;
+}
+
+.c-header__nav_list a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #fff;
+}
+
+.c-header__nav_list__trigger {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c-header__nav_list__trigger img {
+  width: 1rem;
+  height: auto;
+  margin-left: .75rem;
+}
+
+.c-header__navToggle {
+  position: relative;
+  width: 1.5625rem;
+  height: 1.75rem;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.c-header__navToggle span {
+  position: absolute;
+  left: 1px;
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  background-color: #fff;
+  -webkit-transition: .35s ease-in-out;
+  transition: .35s ease-in-out;
+}
+
+.c-header__navToggle span:nth-child(1) {
+  top: 0;
+}
+
+.c-header__navToggle span:nth-child(2) {
+  top: .4375rem;
+}
+
+.c-header__navToggle span:nth-child(3) {
+  top: .875rem;
+}
+
+.c-header__navToggle span:nth-child(4) {
+  top: 1.25rem;
+  left: -.11875rem;
+  -webkit-transform: scale(.8);
+  transform: scale(.8);
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  font-size: .625rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+/* 店舗一覧リンク部分 */
+
+.c-linkto_shoplist {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  background: url(../images/top/bg-top_shop.png) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.c-linkto_shoplist .c-container {
+  position: relative;
+}
+
+.c-linkto_shoplist__contentbox {
+  width: 68%;
+  height: auto;
+  margin: 0 auto;
+  padding: 7.25rem 0;
+  background: url(../images/top/bg-top_shop_whitearea.png) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.c-linkto_shoplist__contentbox.delivery {
+  padding: 3.5rem 0;
+}
+
+.c-linkto_shoplist__header {
+  width: 53.1%;
+  height: auto;
+  margin: 0 auto 2.125rem;
+}
+
+.c-linkto_shoplist__header.delivery {
+  margin: 0 auto 1.625rem;
+}
+
+.c-linkto_shoplist__sentence {
+  margin: 0 auto 2.125rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.75;
+  letter-spacing: -.01em;
+}
+
+.c-linkto_shoplist__sentence.delivery {
+  margin: 0 auto .9375rem;
+}
+
+.c-linkto_shoplist__delivery {
+  width: 75%;
+  height: auto;
+  margin: 0 auto 1.4375rem;
+}
+
+.c-linkto_shoplist__linkbtn {
+  margin: 0 auto;
+}
+
+.c-linkto_shoplist__linkbtn img {
+  width: 8.875rem;
+}
+
+/* フッター */
+
+.c-footer {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: auto;
+  padding: 3.625rem 0 2.875rem;
+  background-color: #000;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.c-footer__logo {
+/*
+  width: 7.5rem;
+  height: auto;
+  margin: 0 auto 1.875rem;
+*/
+    width: 7.5rem;
+    height: 50px;
+    margin: 0 auto 1.875rem;
+    background: url(https://toriichizu.net/wp-content/themes/toriichizu/images/common/logo-toriichizu.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.c-footer__logo h4 {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.c-footer__nav {
+  width: 100%;
+  height: auto;
+  margin: 0 auto 2.375rem;
+}
+
+.c-footer__nav_lists {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  flex-flow: wrap;
+}
+
+.c-footer__nav_list a {
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.c-footer__nav_list:not(:last-child) {
+  margin-right: 3.3%;
+  margin-bottom: 5px;
+}
+
+.c-footer__partition {
+  width: 6.25rem;
+  height: 1px;
+  margin: 0 auto 2.5rem;
+  background-color: #fff;
+}
+
+.c-footer__copyright {
+  display: block;
+  margin: 0 auto;
+  font-size: .75rem;
+  font-weight: 500;
+  color: #bfbfbf;
+  text-align: center;
+  line-height: 1;
+}
+
+/* パンくずリスト */
+
+.c-breadcrumb {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  background-color: #000;
+}
+
+.c-breadcrumb__lists {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: 2.5rem;
+  margin: 0 auto;
+  background-color: #000;
+}
+
+.c-breadcrumb__list {
+  position: relative;
+  font-size: .875rem;
+  color: #b2b2b2;
+  line-height: 1;
+}
+
+.c-breadcrumb__list:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.c-breadcrumb__list:not(:last-child):after {
+  position: absolute;
+  top: 50%;
+  right: -.25rem;
+  -webkit-transform: translate(100%, -50%);
+  transform: translate(100%, -50%);
+  padding-bottom: .125rem;
+  font-size: .75rem;
+  color: #b2b2b2;
+  line-height: 1;
+  content: ">";
+}
+
+.c-breadcrumb__list a {
+  text-decoration: none;
+  color: #b2b2b2;
+}
+
+/* リンクボタン */
+
+.c-linkbtn {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 18.75rem;
+  height: 4.625rem;
+  padding: 0;
+  background: url(../images/common/btn-link.png) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.c-linkbtn:after {
+  position: absolute;
+  top: 50%;
+  right: 1.375rem;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  display: block;
+  width: .625rem;
+  height: 1.25rem;
+  background: url(../images/common/icon-chevron-right.png) 50% 50% no-repeat;
+  background-size: contain;
+  content: "";
+}
+
+/* TOPへ戻るボタン */
+
+.c-btn--to_top {
+  position: absolute;
+  right: 1.875rem;
+  bottom: 14.375rem;
+  z-index: 50;
+  width: 4.125rem;
+  height: auto;
+}
+
+/*----- margin調整 -----*/
+
+.c-mb--0 {
+  margin-bottom: 0 !important;
+}
+
+/*----- フォント変更mixin -----*/
+
+/* ========================================
+	Utility(わずかな調整などを行うための便利要素)
+	命名規則: .u-
+========================================= */
+
+/* ========================================
+	Founfation (id推奨)
+========================================= */
+
+html {
+  font-size: 100%;
+}
+
+body {
+  position: relative;
+  font-size: 1rem;
+  font-family: YuGothic, "Yu Gothic", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "ＭＳ ゴシック", sans-serif;
+  color: #000;
+}
+
+picture {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+a,
+button {
+  -webkit-transition: .3s;
+  transition: .3s;
+  cursor: pointer;
+}
+
+a:hover,
+button:hover {
+  opacity: .7;
+}
+
+/* ========================================
+	Layout (id推奨)
+	命名規則: #id-
+========================================= */
+
+#l-top__fv {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+#l-top__introduction {
+  position: relative;
+  z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+#l-top__enkai {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 20rem 0 5rem;
+  background: url(../images/top/bg-top_enkai.png) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-top__menu {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 24.625rem 0 5rem;
+  background: url(../images/top/bg-top_menu.png) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-top__gyoza {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 36.25rem 0 3.125rem;
+  /* 2024.04.02 */
+  background: url(../images/top/bg-top_gyoza.jpg) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-top__gyoza .c-container {
+  position: relative;
+}
+
+#l-top__drink {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 3.3125rem 0 3.125rem;
+  /* 2024.04.02 */
+  background: url(../images/top/bg-top_drink.jpg) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-top__drink .c-container {
+  position: relative;
+}
+
+#l-about__fv {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 15rem 0 1rem 0;
+  background: url(../images/about/bg-about_fv.png) 50% 50% no-repeat;
+  background-color: #000;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-about__wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #000;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-enkai__fv {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 15rem 0 1rem 0;
+}
+
+#l-enkai__fv.l-enkai__fv__course3 {
+  background: url(../images/enkai/bg-enkai_3hour_fv.png) 50% 50% no-repeat;
+  background-color: #000;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-enkai__fv.l-enkai__fv__course2 {
+  background: url(../images/enkai/bg-enkai_2hour_fv.png) 50% 50% no-repeat;
+  background-color: #000;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-enkai__fv.l-enkai__fv__buffet {
+  background: url(../images/enkai/bg-enkai_buffet_fv.jpg) 50% 50% no-repeat;
+  background-color: #000;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-enkai__courses {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 1rem 0 2.5rem;
+  background-color: #000;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-food__fv {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  /*padding: 16.5625rem 0 7.3125rem;*/
+	padding: 15rem 0 1rem 0;
+  background: url(../images/food/bg-food_fv.png) 50% 50% no-repeat;
+  background-color: #000;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-drink__fv {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  /*padding: 15.1875rem 0 8.625rem;*/
+	padding: 15rem 0 0.1rem;
+  background: url(../images/drink/bg-drink_fv.png) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-menu__wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 5rem 0 3.75rem;
+  background-color: #000;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-food__wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 5.25rem 0 2.8125rem;
+  background-color: #000;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-shop__fv {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 20rem 0 10.8125rem;
+	padding: 20rem 0 4rem 0;
+  background: url(../images/shop/bg-shop_fv.png) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#l-shop__wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 5rem 0 9.375rem;
+  background-color: #000;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* ========================================
+	Project(コンテンツを構成する具体的な要素)
+	命名規則: .p-
+========================================= */
+
+/*----- TOPページ FVカスタマイズ -----*/
+
+.p-top__fv__imgbox {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-top__fv__imgbox video {
+  width: 100%;
+  height: 100vh;
+}
+
+.p-top__fv__imgbox img {
+  width: 100%;
+  height: auto;
+}
+
+.p-top__fv__linkbtn {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 4.0625rem;
+  height: auto;
+}
+
+/*----- TOPページ 導入部カスタマイズ -----*/
+
+.p-top__introduction__yakitori,
+.p-top__introduction__mizutaki {
+  position: relative;
+  width: 25.714286%;
+  height: auto;
+}
+
+.p-top__introduction__yakitori__label {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: translateX(50%);
+  transform: translateX(50%);
+  z-index: 100;
+  width: 5rem;
+  height: auto;
+}
+
+.p-top__introduction__mizutaki__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 5rem;
+  height: auto;
+}
+
+.p-top__introduction__main {
+  position: relative;
+  width: 48.571429%;
+}
+
+.p-top__introduction__main__header {
+  position: absolute;
+  top: 2.5%;
+  left: 0;
+  -webkit-transform: translateX(-7%);
+  transform: translateX(-7%);
+  z-index: 2;
+  width: 85.44%;
+  height: auto;
+}
+
+.p-top__introduction__main__contentbox {
+  position: absolute;
+  top: 30.14%;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-top__introduction__main__shopname {
+  width: 37.06%;
+  height: auto;
+  margin: 0 auto .9375rem;
+}
+
+.p-top__introduction__main__sentence {
+  width: 76.91%;
+  height: auto;
+  margin: 0 auto 2.6875rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 2.25;
+  letter-spacing: -.01em;
+}
+
+.p-top__introduction__main__linkbtn {
+  margin: 0 auto;
+}
+
+.p-top__introduction__main__linkbtn img {
+  width: 8.5rem;
+}
+
+.p-top__introduction__main__bg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+}
+
+.p-top__introduction__ornament {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: translateY(7.69%);
+  transform: translateY(7.69%);
+  z-index: 2;
+  width: 33.21%;
+  height: auto;
+}
+
+/*----- TOPページ 宴会コース誘導部カスタマイズ -----*/
+
+.p-top__enkai__header {
+  width: 41.5%;
+  height: auto;
+  margin: 0 4% .375rem auto;
+}
+
+.p-top__enkai__flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-top__enkai__sentence {
+  height: auto;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 2.25;
+  letter-spacing: -.01em;
+}
+
+.p-top__enkai__linkbtn {
+  margin: 0 4%;
+}
+
+.p-top__enkai__linkbtn img {
+  width: 9.9375rem;
+}
+
+/*----- TOPページ お料理誘導部カスタマイズ -----*/
+
+.p-top__menu__header {
+  width: 39.7%;
+  height: auto;
+  margin: 0 auto .5rem 4.6%;
+}
+
+.p-top__menu__flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-top__menu__sentence {
+  height: auto;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 2.25;
+  letter-spacing: -.01em;
+}
+
+.p-top__menu__linkbtn {
+  min-height: 0;
+  margin: 0 4.4% 0 4.6%;
+}
+
+.p-top__menu__linkbtn img {
+  width: 7.4375rem;
+}
+
+/*----- TOPページ 鶏餃子エリアカスタマイズ -----*/
+
+.p-top__gyoza__header {
+  position: relative;
+  width: 62%;
+  height: auto;
+  margin: 0 auto 0 19%;
+}
+
+.p-top__gyoza__header:before {
+  position: absolute;
+  top: 0;
+  left: -.625rem;
+  -webkit-transform: translate(-100%, -15%);
+  transform: translate(-100%, -15%);
+  display: block;
+  width: 12.125rem;
+  height: 15rem;
+  background: url(../images/top/img-top_gyoza_balloon.png) 50% 50% no-repeat;
+  background-size: contain;
+  content: "";
+}
+
+.p-top__gyoza__sentence {
+  height: auto;
+  /* 2024.04.02 */
+  margin: 0 auto 0 30%;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 2.25;
+  letter-spacing: -.01em;
+}
+
+.p-top__gyoza__rakuten {
+  position: absolute;
+  top: -60%;
+  right: -2%;
+  width: 20%;
+}
+
+@media all and (max-width: 768px) {
+  .p-top__gyoza__rakuten {
+    width: 27%;
+    top: -75%;
+  }
+}
+
+/*----- TOPページ ドリンク誘導部カスタマイズ -----*/
+
+.p-top__drink__contentbox {
+  width: 18.75rem;
+  height: auto;
+  margin: 0 10.5% 0 auto;
+}
+
+.p-top__drink__header {
+  position: relative;
+  z-index: 2;
+  width: 40.666667%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-top__drink__header:before {
+  position: absolute;
+  bottom: -.75rem;
+  left: .625rem;
+  -webkit-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+  display: block;
+  width: 12rem;
+  height: 15.3125rem;
+  background: url(../images/top/img-top_drink_balloon.png) 50% 50% no-repeat;
+  background-size: contain;
+  content: "";
+}
+
+.p-top__drink__sentence {
+  position: relative;
+  z-index: 2;
+  width: 97%;
+  height: auto;
+  margin: 0 auto 1.0625rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 1.75;
+  letter-spacing: -.01em;
+}
+
+.p-top__drink__linkbtn {
+  position: relative;
+  z-index: 2;
+}
+
+.p-top__drink__linkbtn img {
+  width: 12.875rem;
+}
+
+.p-top__drink__ornament {
+  position: absolute;
+  bottom: 17%;
+  left: 0;
+  -webkit-transform: translateY(17%);
+  transform: translateY(17%);
+  z-index: 1;
+  width: 55%;
+  height: auto;
+}
+
+/*----- とりいちずとはページ カスタマイズ -----*/
+
+.p-about__fv__messagebox {
+/*
+  width: 87%;
+  height: auto;
+  margin: 0 auto;
+*/  
+    width: 87%;
+    height: 226px;
+    margin: 0 auto;
+    background: url(../images/about/str-about_fv_message.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.p-about__fv__messagebox h2{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.p-about__recommend_menu1 {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-about__recommend_menu1__image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-about__recommend_menu1__text {
+  position: absolute;
+  top: 68%;
+  right: 14.14%;
+  z-index: 2;
+  width: 26%;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 2.25;
+  letter-spacing: .01em;
+}
+
+.p-about__recommend_menu2 {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.p-about__recommend_menu2__image {
+  position: relative;
+  z-index: 1;
+  width: 86%;
+  height: auto;
+  margin: -3.75rem 0 0 auto;
+  padding-bottom: 5rem;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.p-about__recommend_menu2__text {
+  position: absolute;
+  top: 65.6%;
+  left: 15.1%;
+  z-index: 2;
+  width: 30%;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 2.2;
+  letter-spacing: -.01em;
+}
+
+.p-about__recommend_menu2__rakuten {
+  position: absolute;
+  top: 75%;
+  right: 13%;
+  z-index: 101;
+  width: 14%;
+}
+
+.p-about__enkai {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  height: auto;
+  padding: 31.6875rem 0 .75rem;
+  background: url(../images/about/bg-about_enkai.jpg) 50% 50% no-repeat;
+  background-size: cover;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.p-about__enkai__textbox {
+  position: relative;
+  width: 68.5%;
+  height: auto;
+  margin: 0 auto 0 15.714286%;
+}
+
+.p-about__enkai__text {
+  position: absolute;
+  top: 63%;
+  left: 19%;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 2.1;
+}
+
+.p-about__enkai__ornament {
+  position: absolute;
+  top: 0;
+  left: 7.8%;
+  -webkit-transform: translateY(-15%);
+  transform: translateY(-15%);
+  width: 40.5%;
+  height: auto;
+}
+
+.p-about__kodawari {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 5.5625rem 0 4.375rem;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.p-about__kodawari__header {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-about__kodawari__text {
+  position: relative;
+  z-index: 2;
+  margin: 0 auto 1.0625rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 2.25;
+}
+
+.p-about__kodawari__flexbox {
+  position: relative;
+  z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+}
+
+.p-about__kodawari__image {
+  width: 48%;
+  height: auto;
+  margin-bottom: 2.375rem;
+}
+
+.p-about__kodawari__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+}
+
+.p-about__top_bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+}
+
+/*----- 宴会ページ カスタマイズ -----*/
+
+.p-enkai__fv__messagebox_2{
+    height: 207px;
+    background: url('../images/enkai/str-enkai_2hour_fv_message.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;    
+}
+.p-enkai__fv__messagebox_2 h2 {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.p-enkai__fv__messagebox_3{
+    height: 207px;
+    background: url('../images/enkai/str-enkai_3hour_fv_message.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;    
+}
+.p-enkai__fv__messagebox_3 h2 {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.p-enkai__fv__messagebox_buffet{
+    height: 270px;
+    background: url('../images/enkai/str-enkai_buffet_fv_message.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;    
+}
+.p-enkai__fv__messagebox_buffet h2 {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.p-enkai__courses__top_flexbox {
+  position: relative;
+  z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 2rem;
+}
+
+.p-enkai__courses__top_label {
+  width: 8.5%;
+  height: auto;
+}
+
+.p-enkai__courses__top_message {
+  width: 86.2%;
+  height: auto;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 2.25;
+  letter-spacing: -.02em;
+}
+
+.p-enkai__courses__course_container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 5rem;
+}
+
+.p-enkai__courses__course_image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+}
+
+.p-enkai__courses__course_contentbox {
+  position: relative;
+  z-index: 2;
+  width: 92%;
+  height: auto;
+  margin: -3.875rem auto 0;
+  padding: 3.25rem 6.3% 3.3125rem;
+  background: url(../images/enkai/bg-enkai_course.png) 50% 50% repeat;
+  background-size: contain;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.p-enkai__courses__course_name {
+  margin: 0 auto 1.3125rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: "Yu Mincho Light", "YuMincho", "Yu Mincho", "游明朝体",
+  "ヒラギノ明朝 ProN", "Hiragino Mincho ProN", "ＭＳ 明朝", "MS Mincho",
+  sans-serif;
+  color: #952b06;
+  line-height: 1.5;
+  letter-spacing: -.01em;
+}
+
+.p-enkai__courses__course_description {
+  margin: 0 auto 1.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: justify;
+  line-height: 2.25;
+  letter-spacing: -.02em;
+}
+
+.p-enkai__courses__course_info_flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 1.8125rem;
+}
+
+.p-enkai__courses__course_info_box1 {
+  width: 53.27%;
+  height: auto;
+}
+
+.p-enkai__courses__course_info_box2 {
+  width: 46.73%;
+  height: auto;
+}
+
+.p-enkai__courses__course_infolist {
+  margin-bottom: .6875rem;
+}
+
+.p-enkai__courses__course_infolist dl {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.p-enkai__courses__course_infolist dl dt {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 3.5rem;
+  height: 1.625rem;
+  margin-right: 1rem;
+  background-color: #7c5612;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.p-enkai__courses__course_infolist dl dd {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.p-enkai__courses__course_smallheader {
+  margin-bottom: 1.375rem;
+  border-bottom: 1px solid #c3a97a;
+  padding-bottom: 1.1875rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.p-enkai__courses__course_menu_flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 1.875rem;
+}
+
+.p-enkai__courses__course_menu_box1 {
+  width: 53.27%;
+  height: auto;
+}
+
+.p-enkai__courses__course_menu_box2 {
+  width: 46.73%;
+  height: auto;
+}
+
+.p-enkai__courses__course_menulist {
+  margin-bottom: 1.1875rem;
+}
+
+.p-enkai__courses__course_menulist dl {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.p-enkai__courses__course_menulist dl dt {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.p-enkai__courses__course_menulist dl dd {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.p-enkai__courses__course_supplements {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+}
+
+.p-enkai__courses__course_supplement {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: .75rem;
+  font-weight: 500;
+  line-height: 1.833333;
+  letter-spacing: -.01em;
+}
+
+.p-enkai__courses__course_supplement:before {
+  content: "※";
+}
+
+.p-enkai__courses__course_ornament {
+  position: absolute;
+  right: 1%;
+  bottom: .5625rem;
+  z-index: 1;
+  width: 14.89%;
+  height: auto;
+}
+
+.p-enkai__courses__top_bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+}
+
+/*----- お料理/ドリンクページ共通部 カスタマイズ -----*/
+
+.p-menu__container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 3.5625rem;
+}
+
+.p-menu__title {
+  width: 100%;
+  margin-bottom: 1.875rem;
+  border-left: 6px solid #fff;
+  padding-left: 1.25rem;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: "Yu Mincho Light", "YuMincho", "Yu Mincho", "游明朝体",
+  "ヒラギノ明朝 ProN", "Hiragino Mincho ProN", "ＭＳ 明朝", "MS Mincho",
+  sans-serif;
+  color: #fff;
+  line-height: 2.125rem;
+}
+
+.p-menu__flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 2.125rem;
+}
+
+.p-menu__halfbox {
+  width: 48.5%;
+  height: auto;
+}
+
+.p-menu__triplebox {
+  width: 31.2%;
+  height: auto;
+  margin-bottom: 2.0625rem;
+}
+
+.p-menu__triplebox:nth-child(n + 4) {
+  margin-bottom: 0;
+}
+
+.p-menu__image {
+  width: 100%;
+  height: auto;
+  margin: 0 auto 1.0625rem;
+}
+
+.p-menu__name,
+.p-menu__name_no_description {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: .75rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1;
+}
+
+.p-menu__name_no_description {
+  margin-bottom: 0;
+  padding-bottom: .3125rem;
+}
+
+.p-menu__price {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1;
+}
+
+.p-menu__price .small {
+  font-size: .75rem;
+  font-weight: 500;
+}
+
+.p-menu__description {
+  font-size: .875rem;
+  font-weight: 500;
+  color: #fff;
+  text-align: justify;
+  line-height: 1.71428571;
+  letter-spacing: -.03em;
+}
+
+.p-menu__list {
+  border-bottom: 1px solid #4c4c4c;
+  padding-bottom: .8125rem;
+}
+
+.p-menu__list:not(:last-child) {
+  margin-bottom: 1.25rem;
+}
+
+.p-menu__top_bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+}
+
+/*----- お料理ページ カスタマイズ -----*/
+
+.p-food__fv__messagebox {
+/*
+    width: 95%;
+    height: auto;
+    margin: 0 auto;
+*/
+    width: 95%;
+    height: 210px;
+    margin: 0 auto;
+    background: url('../images/food/str-food_fv_message.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;   
+}
+.p-food__fv__messagebox h2{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;    
+}
+.p-drink__fv__messagebox {
+    width: 100%;
+    height: 206px;
+    margin: 0 auto;
+    background: url('../images/drink/str-drink_fv_message.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;   
+}
+.p-drink__fv__messagebox h2{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;    
+}
+
+.p-food__innerlinkboxes {
+  position: relative;
+  z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 5rem;
+}
+
+.p-food__innerlinkbox {
+  width: 19.2%;
+  height: auto;
+}
+
+.p-food__innerlinkbox a {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.p-food__menucontainer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 3.375rem;
+}
+
+.p-food__menucontainer__header {
+  width: 100%;
+  height: auto;
+  margin: 0 auto 1.75rem;
+  border-left: .4375rem solid #fff;
+  padding-left: 1.25rem;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: "Yu Mincho Light", "YuMincho", "Yu Mincho", "游明朝体",
+  "ヒラギノ明朝 ProN", "Hiragino Mincho ProN", "ＭＳ 明朝", "MS Mincho",
+  sans-serif;
+  color: #fff;
+  line-height: 1.45833333;
+  letter-spacing: .05em;
+  white-space: nowrap;
+}
+
+.p-food__menucontainer__menuimage {
+  width: 100%;
+  height: auto;
+  margin: 0 auto 1.875rem;
+}
+
+.p-food__menucontainer__flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  /*width: 100%;*/
+  height: auto;
+  margin: 0 auto 2rem;
+  padding: 5px;
+  border: 1px dotted #FFFFFF;
+}
+
+.p-food__menucontainer__smallheader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%
+  height: 1.5625rem;
+  background-color: #7c5612;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: .075em;
+  white-space: nowrap;
+  margin-bottom: 1rem;
+  padding: 5px;
+}
+
+.p-food__menucontainer__shoplistbox {
+  width: 41.5%;
+  height: auto;
+  margin-top: .25rem;
+}
+
+.p-food__menucontainer__shoplist {
+  margin-bottom: 1.375rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1;
+}
+
+/*----- 店舗一覧/店舗一覧（都道府県市区町村別）ページ 共通部分カスタマイズ -----*/
+
+.p-shop__fv__messagebox {
+/*
+    width: 26.8%;
+    height: auto;
+    margin: 0 auto;
+*/
+    width: 26.8%;
+    height: 100px;
+    margin: 0 auto;
+    background: url(../images/shop/str-shop_fv_message.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.p-shop__fv__messagebox h2{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.p-blog__fv__messagebox {
+    width: 26.8%;
+    height: 100px;
+    margin: 0 auto;
+    background: url(../images/common/str-blog_fv_message.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.p-blog__fv__messagebox h2{
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.p-shop__top_bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+}
+
+/*----- 店舗一覧（都道府県市区町村別）ページ カスタマイズ -----*/
+
+.p-shop_list__container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.p-shop_list__title {
+  width: 100%;
+  margin-bottom: 1.875rem;
+  border-left: 6px solid #fff;
+  padding-left: 1.25rem;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: "Yu Mincho Light", "YuMincho", "Yu Mincho", "游明朝体",
+  "ヒラギノ明朝 ProN", "Hiragino Mincho ProN", "ＭＳ 明朝", "MS Mincho",
+  sans-serif;
+  color: #fff;
+  line-height: 2.125rem;
+}
+
+.p-shop_list__title a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.p-shop_list__flexbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 5rem;
+}
+
+.p-shop_list__infobox {
+  width: 31.3%;
+  height: auto;
+  margin-bottom: 2.5rem;
+}
+
+.p-shop_list__infobox:not(:nth-child(3n)) {
+  margin-right: 3.05%;
+}
+
+.p-shop_list__image {
+  width: 100%;
+  height: auto;
+  margin: 0 auto .875rem;
+}
+
+.p-shop_list__shopname {
+  margin: 0 auto .9375rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.55555556;
+	text-decoration: underline;
+}
+
+.p-shop_list__details {
+  width: 100%;
+  height: auto;
+  margin: 0 auto .9375rem;
+}
+
+.p-shop_list__detail {
+  width: 100%;
+  height: auto;
+  margin: 0 auto .4375rem;
+}
+
+.p-shop_list__detail dl {
+  width: 100%;
+  height: auto;
+  font-size: .875rem;
+  color: #fff;
+}
+
+.p-shop_list__detail dt {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: .375rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.p-shop_list__detail dd {
+  font-weight: 500;
+  line-height: 1.71428571;
+}
+
+.p-shop_list__detail dd table {
+  width: 100%;
+}
+
+.p-shop_list__detail dd tr {
+  width: 100%;
+}
+
+.p-shop_list__detail dd th {
+  width: 26%;
+}
+
+.p-shop_list__detail dd td {
+  width: 74%;
+}
+
+.p-shop_list__map {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.p-shop_list__map img {
+  display: block;
+  width: .5625rem;
+  height: auto;
+  margin-right: .5rem;
+}
+
+.p-shop_list__linkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.p-shop_list__phone,
+.p-shop_list__reserve,
+.p-shop_list__line
+{
+	width: 50%;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 47.923323%;
+  height: 2.6875rem;
+  background-color: #897142;
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+  margin-bottom: 10px;
+}
+
+.p-shop_list__phone span,
+.p-shop_list__reserve span {
+  position: relative;
+  z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.p-shop_list__phone img,
+.p-shop_list__reserve img {
+  width: .875rem;
+  height: auto;
+  margin-right: .375rem;
+}
+
+.p-shop_list__phone:before,
+.p-shop_list__reserve:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 50%;
+  background-color: #978052;
+  content: "";
+}
+
+.p-shop_list__reserve {
+  background-color: #7d2607;
+}
+
+.p-shop_list__reserve img {
+  width: .875rem;
+  height: auto;
+  margin-right: .4375rem;
+}
+
+.p-shop_list__reserve:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 50%;
+  background-color: #952b06;
+  content: "";
+}
+.p-shop_list__site{
+	display: block;
+	width: 100%;
+	padding: 5px;
+	border: 1px solid #FFFFFF;
+	margin-bottom: 10px;
+	text-align: center;
+	text-decoration: none;
+}
+.p-shop_list__site span{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.p-shop_list__backbtn {
+  margin: 0 auto;
+}
+
+.p-shop_list__backbtn p {
+  width: 8.875rem;
+  height: auto;
+}
+
+.p-shop_list__backbtn:after {
+  position: absolute;
+  top: 50%;
+  left: 1.375rem;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  display: block;
+  width: .625rem;
+  height: 1.25rem;
+  background: url(../images/common/icon-chevron_left.png) 50% 50% no-repeat;
+  background-size: contain;
+  content: "";
+}
+.p-shop_list__line{
+    background: unset;
+}
+
+.shop_news_wrap{
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 30px;
+}
+.shop_news_01{
+	background: #FFF;
+	color: #000;
+	width: 20%;
+	text-align: center;
+	padding: 5px;
+}
+.shop_news_02{
+	width: 80%;
+	border: 1px solid #FFF;
+	padding: 5px;
+	color: #FFF;
+}
+.newstitle{
+	color: #FFF;
+	text-decoration: none;
+}
+
+@media screen and (min-width: 769px) and (min-width: 1400px) {
+  .c-container {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .c-container {
+    width: 89.466667%;
+  }
+
+  .c-pc_only {
+    display: none !important;
+  }
+
+  .c-pc_only--flex {
+    display: none !important;
+  }
+
+  .c-sp_only {
+    display: block !important;
+  }
+
+  .c-header .c-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 93.73333%;
+  }
+
+  .c-header {
+    padding: .625rem 0 0;
+  }
+
+  .c-header__logo {
+    width: 3.125rem;
+    margin: 0;
+  }
+
+  .c-header__nav_container {
+    display: none;
+  }
+
+  .c-linkto_shoplist {
+    padding: 3.6875rem 0 3.8125rem;
+    background: url(../images/top/bg-top_shop_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  .c-linkto_shoplist .c-container {
+    width: 100%;
+  }
+
+  .c-linkto_shoplist__contentbox.delivery {
+    padding: 1.875rem 0;
+  }
+
+  .c-linkto_shoplist__contentbox {
+    width: 100%;
+    padding: 1.875rem 0;
+  }
+
+  .c-linkto_shoplist__header.delivery {
+    margin: 0 auto .9375rem;
+  }
+
+  .c-linkto_shoplist__header {
+    width: 62.4%;
+    max-width: 250px;
+    margin: 0 auto .9375rem;
+  }
+
+  .c-linkto_shoplist__sentence.delivery {
+    margin: 0 auto .6875rem;
+  }
+
+  .c-linkto_shoplist__sentence {
+    width: 100%;
+    margin: 0 auto .9375rem;
+    font-size: .8125rem;
+    line-height: 1.76923;
+  }
+
+  .c-linkto_shoplist__delivery {
+    width: 89.333333%;
+    max-width: 350px;
+    margin: 0 auto .9375rem;
+  }
+
+  .c-linkto_shoplist__linkbtn img {
+    width: 7.0625rem;
+  }
+
+  .c-footer {
+    padding: 1.875rem 0;
+  }
+
+  .c-footer .c-container {
+    max-width: 440px;
+  }
+
+  .c-footer__logo {
+    width: 3.75rem;
+    margin: 0 auto 1.4375rem;
+  }
+
+  .c-footer__nav_lists {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: 0 auto 1.8125rem;
+  }
+
+  .c-footer__nav_list {
+    margin-bottom: .1875rem;
+  }
+
+  .c-footer__nav_list a {
+    -webkit-transform: scale(.9);
+    transform: scale(.9);
+    font-size: .625rem;
+  }
+
+  .c-footer__nav_list:not(:last-child) {
+    margin-right: 8.5%;
+  }
+
+  .c-footer__nav_list:not(:last-child):nth-child(4n) {
+    margin-right: 0;
+  }
+
+  .c-footer__partition {
+    margin: 0 auto 1.625rem;
+  }
+
+  .c-footer__copyright {
+    -webkit-transform: scale(.9);
+    transform: scale(.9);
+    font-size: .625rem;
+  }
+
+  .c-breadcrumb__lists {
+    height: 1.5625rem;
+  }
+
+  .c-breadcrumb__list {
+    -webkit-transform: scale(.9);
+    transform: scale(.9);
+    font-size: .625rem;
+  }
+
+  .c-breadcrumb__list:not(:last-child) {
+    margin-right: .75rem;
+  }
+
+  .c-breadcrumb__list:not(:last-child):after {
+    right: -.3125rem;
+    padding-bottom: .125rem;
+    font-size: .625rem;
+  }
+
+  .c-linkbtn {
+    width: 16.25rem;
+    height: 3.125rem;
+    background: url(../images/common/btn-link_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  .c-linkbtn:after {
+    right: .625rem;
+    width: .5rem;
+    height: .75rem;
+  }
+
+  .c-btn--to_top {
+    right: 3%;
+    bottom: 12.8125rem;
+    width: 2.0625rem;
+  }
+
+  #l-top__introduction {
+    display: block;
+  }
+
+  #l-top__enkai {
+    padding: 16.375rem 0 2.5rem;
+    background: url(../images/top/bg-top_enkai_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-top__menu {
+    padding: 15.5rem 0 2.5rem;
+    background: url(../images/top/bg-top_menu_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-top__gyoza {
+    padding: 29.5rem 0 1.5625rem;
+    /* 2024.04.02 */
+    background: url(../images/top/bg-top_gyoza_sp.jpg) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-top__drink {
+    padding: 0;
+    /* 2024.04.02 */
+    background: url(../images/top/bg-top_drink_sp.jpg) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-top__drink .c-container {
+    padding: 13.5rem 0 2.5rem;
+  }
+
+  #l-about__fv {
+    padding: 4rem 0 3.4375rem;
+    background: url(../images/about/bg-about_fv_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-about__wrapper {
+    padding: .1875rem 0 0;
+  }
+
+  #l-enkai__fv {
+    padding: 3.375rem 0 1.3125rem;
+  }
+
+  #l-enkai__fv.l-enkai__fv__course3 {
+    background: url(../images/enkai//bg-enkai_3hour_fv_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-enkai__fv.l-enkai__fv__course2 {
+    background: url(../images/enkai//bg-enkai_2hour_fv_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-enkai__fv.l-enkai__fv__buffet {
+    background: url(../images/enkai/bg-enkai_buffet_fv_sp.jpg) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-enkai__courses {
+    padding: 1.875rem 0 1.25rem;
+  }
+
+  #l-food__fv {
+    padding: 3.5rem 0 1.5625rem;
+    background: url(../images/food/bg-food_fv_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-drink__fv {
+    padding: 3.5rem 0 1.5625rem;
+    background: url(../images/drink/bg-drink_fv_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-menu__wrapper {
+    padding: 1.875rem 0;
+  }
+
+  #l-food__wrapper {
+    padding: 2.5rem 0 1.4375rem;
+  }
+
+  #l-shop__fv {
+    padding: 6.875rem 0 5.75rem;
+    background: url(../images/shop/bg-shop_fv_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  #l-shop__wrapper {
+    padding: 1.875rem 0 4.5rem;
+  }
+
+  .p-top__fv__linkbtn {
+    bottom: .9375rem;
+    width: 2.03125rem;
+  }
+
+  .p-top__introduction__yakitori,
+  .p-top__introduction__mizutaki {
+    width: 100%;
+  }
+
+  .p-top__introduction__yakitori__label {
+    -webkit-transform: translateY(50%);
+    transform: translateY(50%);
+    width: 5.875rem;
+  }
+
+  .p-top__introduction__mizutaki__label {
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 6.375rem;
+  }
+
+  .p-top__introduction__main {
+    width: 100%;
+  }
+
+  .p-top__introduction__main__header {
+    top: 0;
+    left: 1.06%;
+    -webkit-transform: initial;
+    transform: initial;
+    width: 82.666667%;
+    max-width: 430px;
+  }
+
+  .p-top__introduction__main__contentbox {
+    top: 30.53%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 89.333333%;
+    max-width: 450px;
+  }
+
+  .p-top__introduction__main__shopname {
+    width: 38.62%;
+    margin: 0 auto .9375rem;
+  }
+
+  .p-top__introduction__main__sentence {
+    width: 100%;
+    margin: 0 auto 1.25rem;
+    font-size: .8125rem;
+    line-height: 1.76923;
+  }
+
+  .p-top__introduction__main__linkbtn img {
+    width: 6.75rem;
+  }
+
+  .p-top__introduction__ornament {
+    right: -4%;
+    -webkit-transform: translateY(41%);
+    transform: translateY(41%);
+    width: 45%;
+  }
+
+  .p-top__enkai__header {
+    width: 61.847%;
+    margin: 0 -.75rem .625rem auto;
+  }
+
+  .p-top__enkai__flexbox {
+    display: block;
+  }
+
+  .p-top__enkai__sentence {
+    width: 100%;
+    margin: 0 auto .9375rem;
+    font-size: .8125rem;
+    line-height: 1.76923;
+    letter-spacing: 0;
+  }
+
+  .p-top__enkai__linkbtn {
+    margin: 0 auto;
+  }
+
+  .p-top__enkai__linkbtn img {
+    width: 7.8125rem;
+  }
+
+  .p-top__menu__header {
+    width: 59.612%;
+    margin: 0 auto .5625rem -.75rem;
+  }
+
+  .p-top__menu__flexbox {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .p-top__menu__sentence {
+    width: 100%;
+    margin: 0 auto .9375rem;
+    font-size: .8125rem;
+    line-height: 1.76923;
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+
+  .p-top__menu__linkbtn {
+    margin: 0 auto;
+    -webkit-box-ordinal-group: 3;
+    -ms-flex-order: 2;
+    order: 2;
+  }
+
+  .p-top__menu__linkbtn img {
+    width: 6.0625rem;
+  }
+
+  .p-top__gyoza__header {
+    width: 100%;
+    margin: 0 auto .4375rem;
+  }
+
+  .p-top__gyoza__header:before {
+    top: .625rem;
+    left: -.8125rem;
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+    width: 6rem;
+    height: 7.5rem;
+  }
+
+  .p-top__gyoza__sentence {
+    width: 100%;
+    margin: 0 auto;
+    font-size: .8125rem;
+    line-height: 1.76923;
+  }
+
+  .p-top__drink__contentbox {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .p-top__drink__header {
+    width: 22.7%;
+    margin: 0 0 1.25rem auto;
+  }
+
+  .p-top__drink__header:before {
+    top: initial;
+    bottom: -16%;
+    left: 16%;
+    -webkit-transform: translate(-100%, -40%);
+    transform: translate(-100%, -40%);
+    width: 6rem;
+    height: 7.875rem;
+  }
+
+  .p-top__drink__sentence {
+    width: 100%;
+    margin: 0 auto .75rem;
+    font-size: .8125rem;
+    line-height: 1.76923;
+  }
+
+  .p-top__drink__linkbtn {
+    margin: 0 auto;
+  }
+
+  .p-top__drink__linkbtn img {
+    width: 10.3125rem;
+  }
+
+  .p-top__drink__ornament {
+    top: 3%;
+    left: 7%;
+    bottom: initial;
+    -webkit-transform: initial;
+    transform: initial;
+    width: 107%;
+    -webkit-transform: translateX(-10%);
+    transform: translateX(-10%);
+  }
+
+  .p-about__fv__messagebox {
+    /*width: 73%;*/
+    height: 125px;
+    background: url('../images/about/str-about_fv_message_sp.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;    
+  }
+
+  .p-about__recommend_menu1 {
+    padding-bottom: 1.25rem;
+  }
+
+  .p-about__recommend_menu1__image {
+    width: 100%;
+    margin: 0 auto 1.1875rem;
+  }
+
+  .p-about__recommend_menu1__text {
+    position: absolute;
+    top: initial;
+    right: initial;
+    left: 5%;
+    width: 89.466667%;
+    margin: 0 auto;
+    font-size: .8125rem;
+    line-height: 1.76923077;
+    letter-spacing: -.01em;
+  }
+
+  .p-about__recommend_menu2 {
+    padding-bottom: 3.3125rem;
+  }
+
+  .p-about__recommend_menu2__image {
+    width: 100%;
+    margin: 0 auto 1.125rem;
+    padding-bottom: 0;
+  }
+
+  .p-about__recommend_menu2__text {
+    position: relative;
+    top: initial;
+    left: initial;
+    width: 89.466667%;
+    margin: 0 auto;
+    font-size: .8125rem;
+    line-height: 1.76923077;
+    letter-spacing: 0;
+  }
+
+  .p-about__recommend_menu2__rakuten {
+    top: 66%;
+    right: 8%;
+    width: 23%;
+  }
+
+  .p-about__enkai {
+    padding: 12.75rem 0 1.375rem;
+    background: url(../images/about/bg-about_enkai_sp.png) 50% 50% no-repeat;
+    background-size: cover;
+  }
+
+  .p-about__enkai__textbox {
+    width: 89.466667%;
+    margin: 0 auto;
+  }
+
+  .p-about__enkai__header {
+    width: 90%;
+    height: auto;
+    margin: 0 auto .375rem -.3125rem;
+  }
+
+  .p-about__enkai__text {
+    position: relative;
+    top: initial;
+    left: initial;
+    font-size: .8125rem;
+    line-height: 1.76923077;
+  }
+
+  .p-about__enkai__ornament {
+    left: 0;
+    -webkit-transform: translate(-9%, -20%);
+    transform: translate(-9%, -20%);
+    width: 66%;
+  }
+
+  .p-about__kodawari {
+    padding: 3.75rem 0 3rem;
+  }
+
+  .p-about__kodawari__text {
+    margin: 0 auto .9375rem;
+    font-size: .8125rem;
+    line-height: 1.76923077;
+    letter-spacing: -.01em;
+  }
+
+  .p-about__kodawari__flexbox {
+    display: block;
+  }
+
+  .p-about__kodawari__image {
+    width: 100%;
+    margin-bottom: .625rem;
+  }
+    .p-enkai__fv__messagebox_2{
+        height: 126px;
+        background: url('../images/enkai/str-enkai_2hour_fv_message_sp.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;    
+    }
+    .p-enkai__fv__messagebox_3{
+        height: 126px;
+        background: url('../images/enkai/str-enkai_3hour_fv_message_sp.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;    
+    }
+    .p-enkai__fv__messagebox_buffet{
+        height: 126px;
+        background: url('../images/enkai/str-enkai_buffet_fv_message_sp.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;    
+    }
+
+  .p-enkai__courses__top_flexbox {
+    display: block;
+    margin: 0 auto 1.875rem;
+  }
+
+  .p-enkai__courses__top_label {
+    width: 9.375rem;
+    margin-bottom: .875rem;
+    margin-left: -1.1875rem;
+  }
+
+  .p-enkai__courses__top_message {
+    width: 100%;
+    font-size: .8125rem;
+    line-height: 1.8;
+  }
+
+  .p-enkai__courses__course_container {
+    margin: 0 auto 2.5rem;
+  }
+
+  .p-enkai__courses__course_contentbox {
+    width: 100%;
+    margin: 0 auto;
+    padding: .9375rem 5.2% 1.5625rem;
+  }
+
+  .p-enkai__courses__course_name {
+    margin: 0 auto .625rem;
+    font-size: 1rem;
+  }
+
+  .p-enkai__courses__course_description {
+    width: 100%;
+    margin: 0 auto .875rem;
+    font-size: .8125rem;
+    line-height: 1.76923;
+  }
+
+  .p-enkai__courses__course_info_flexbox {
+    display: block;
+    margin: 0 auto 1.125rem;
+  }
+
+  .p-enkai__courses__course_info_box1 {
+    width: 100%;
+  }
+
+  .p-enkai__courses__course_info_box2 {
+    width: 100%;
+  }
+
+  .p-enkai__courses__course_infolist {
+    margin-bottom: .34375rem;
+  }
+
+  .p-enkai__courses__course_infolist dl dt {
+    width: 2.25rem;
+    height: 1.09375rem;
+    margin-right: .53125rem;
+    font-size: .625rem;
+  }
+
+  .p-enkai__courses__course_infolist dl dd {
+    font-size: 1rem;
+  }
+
+  .p-enkai__courses__course_smallheader {
+    margin-bottom: .65625rem;
+    padding-bottom: .5625rem;
+    font-size: .8125rem;
+  }
+
+  .p-enkai__courses__course_menu_flexbox {
+    display: block;
+    margin: 0 auto 1.09375rem;
+  }
+
+  .p-enkai__courses__course_menu_box1 {
+    width: 100%;
+  }
+
+  .p-enkai__courses__course_menu_box2 {
+    width: 100%;
+  }
+
+  .p-enkai__courses__course_menulist {
+    margin-bottom: .65625rem;
+  }
+
+  .p-enkai__courses__course_menulist dl dt {
+    font-size: .8125rem;
+  }
+
+  .p-enkai__courses__course_menulist dl dd {
+    font-size: .8125rem;
+  }
+
+  .p-enkai__courses__course_supplement {
+    font-size: .6875rem;
+    text-align: justify;
+    line-height: 1.54545455;
+    letter-spacing: -.03em;
+  }
+
+  .p-enkai__courses__course_ornament {
+    right: 1.49%;
+    bottom: .3125rem;
+    width: 29.36%;
+  }
+
+  .p-menu__container {
+    margin: 0 auto 1.875rem;
+  }
+
+  .p-menu__title {
+    margin-bottom: 1.1875rem;
+    border-left: 4px solid #fff;
+    padding-left: .65625rem;
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+  }
+
+  .p-menu__flexbox {
+    margin: 0 auto .96875rem;
+  }
+
+  .p-menu__halfbox {
+    width: 100%;
+    margin: 0 auto .96875rem;
+  }
+
+  .p-menu__halfbox:nth-child(2) {
+    margin-bottom: 0;
+  }
+
+  .p-menu__halfbox.u-mb_adjust {
+    margin-bottom: 1.65625rem;
+  }
+
+  .p-menu__triplebox:nth-child(n + 4) {
+    margin-bottom: 1.0625rem;
+  }
+
+  .p-menu__triplebox {
+    width: 46.944858%;
+    margin-bottom: 1.0625rem;
+  }
+
+  .p-menu__triplebox:nth-last-child(-n + 2) {
+    margin-bottom: 0;
+  }
+
+  .p-menu__image {
+    margin: 0 auto .875rem;
+  }
+
+  .p-menu__name,
+  .p-menu__name_no_description {
+    margin-bottom: .625rem;
+    font-size: 1rem;
+  }
+
+  .p-menu__name_no_description {
+    margin-bottom: 0 !important;
+    padding-bottom: .25rem;
+  }
+
+  .p-menu__price {
+    font-size: 1rem;
+  }
+
+  .p-menu__description {
+    font-size: .75rem;
+    line-height: 1.5;
+  }
+
+  .p-menu__list {
+    padding-bottom: .65625rem;
+  }
+
+  .p-menu__list:not(:last-child) {
+    margin-bottom: .875rem;
+  }
+
+  .u-menu__sp_size_adjust .p-menu__image {
+    margin: 0 auto .5625rem;
+  }
+
+  .u-menu__sp_size_adjust .p-menu__name,
+  .u-menu__sp_size_adjust .p-menu__name_no_description {
+    margin-bottom: .4375rem;
+    font-size: .75rem;
+    white-space: nowrap;
+  }
+
+  .u-menu__sp_size_adjust .p-menu__price {
+    font-size: .75rem;
+    white-space: nowrap;
+  }
+
+  .u-menu__sp_size_adjust .p-menu__price .small {
+    -webkit-transform: scale(.9);
+    transform: scale(.9);
+    font-size: .625rem;
+    font-weight: 500;
+  }
+
+  .u-menu__sp_size_adjust .p-menu__description {
+    font-size: .625rem;
+  }
+
+  .p-food__fv__messagebox {
+    width: 100%;
+    height: 120px;
+    background: url('../images/food/str-food_fv_message_sp.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;     
+  }
+  .p-drink__fv__messagebox {
+    width: 100%;
+    height: 145px;
+    background: url('../images/drink/str-drink_fv_message_sp.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;     
+  }
+  .p-food__innerlinkboxes {
+    display: block;
+    max-width: 500px;
+    margin: 0 auto 2.375rem;
+  }
+
+  .p-food__innerlinkbox {
+    width: 100%;
+    margin-bottom: .9375rem;
+  }
+
+  .p-food__menucontainer {
+    max-width: 500px;
+    margin: 0 auto 2.3125rem;
+  }
+
+  .p-food__menucontainer__header {
+    margin: 0 auto .9375rem;
+    border-left: .1875rem solid #fff;
+    padding-left: .6875rem;
+    font-size: 1.125rem;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+  }
+
+  .p-food__menucontainer__menuimage {
+    margin: 0 auto 1.25rem;
+  }
+
+  .p-food__menucontainer__flexbox {
+    display: block;
+  }
+
+  .p-food__menucontainer__smallheader {
+    height: auto;
+    margin-right: 0;
+    margin-bottom: .625rem;
+    font-size: 0.7rem;
+    padding: 3px;
+    white-space: unset;
+  }
+
+  .p-food__menucontainer__shoplistbox {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .p-food__menucontainer__shoplist {
+    margin-bottom: .75rem;
+    font-size: .8125rem;
+  }
+/*
+  .p-shop__fv__messagebox {
+    width: 43%;
+    height: auto;
+  }
+*/
+  .p-shop_list__title {
+    margin-bottom: 1.1875rem;
+    border-left: 4px solid #fff;
+    padding-left: .65625rem;
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+  }
+
+  .p-shop_list__flexbox {
+    margin: 0 auto 2.5rem;
+  }
+
+  .p-shop_list__infobox {
+    width: 100%;
+  }
+
+  .p-shop_list__infobox:not(:nth-child(3n)) {
+    margin-right: 0;
+  }
+
+  .p-shop_list__image {
+    margin: 0 auto .75rem;
+  }
+
+  .p-shop_list__shopname {
+    margin: 0 auto .6875rem;
+    font-size: 1rem;
+    line-height: 1.325;
+  }
+
+  .p-shop_list__details {
+    margin: 0 auto .6875rem;
+  }
+
+  .p-shop_list__detail {
+    margin: 0 auto .3125rem;
+  }
+
+  .p-shop_list__detail dl {
+    font-size: .8125rem;
+  }
+
+  .p-shop_list__detail dt {
+    margin-bottom: .28125rem;
+  }
+
+  .p-shop_list__detail dd {
+    line-height: 1.53846154;
+  }
+
+  .p-shop_list__detail dd th {
+    width: 21%;
+  }
+
+  .p-shop_list__detail dd td {
+    width: 79%;
+  }
+
+  .p-shop_list__map {
+    font-size: .8125rem;
+  }
+
+  .p-shop_list__map img {
+    width: .46875rem;
+    margin-right: .46875rem;
+  }
+
+  .p-shop_list__phone,
+  .p-shop_list__reserve {
+    height: 2.125rem;
+    font-size: .8125rem;
+  }
+
+  .p-shop_list__phone img,
+  .p-shop_list__reserve img {
+    width: .65625rem;
+    margin-right: .46875rem;
+  }
+
+  .p-shop_list__reserve img {
+    width: .71875rem;
+    margin-right: .5625rem;
+  }
+
+  .p-shop_list__backbtn p {
+    width: 7.1875rem;
+  }
+
+  .p-shop_list__backbtn:after {
+    left: .6875rem;
+    width: .5rem;
+    height: .75rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .p-enkai__courses__course_menulist dl dd {
+    font-size: .75rem;
+  }
+
+  .p-food__menucontainer__header {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1300px) {
+  .c-container {
+    width: 95%;
+  }
+
+  html {
+    font-size: 90%;
+  }
+
+  .p-top__drink__ornament {
+    width: 50%;
+    bottom: 17%;
+    left: 11%;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+  .c-container {
+    width: 95%;
+  }
+
+  html {
+    font-size: 85%;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1100px) {
+  .c-container {
+    width: 95%;
+  }
+
+  html {
+    font-size: 80%;
+  }
+
+  .p-top__drink__ornament {
+    left: 13%;
+    width: 45%;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .c-container {
+    width: 95%;
+  }
+
+  html {
+    font-size: 75%;
+  }
+
+  .p-top__drink__ornament {
+    width: 46%;
+    left: 15%;
+  }
+
+  .p-about__recommend_menu1__text {
+    font-size: .875rem;
+  }
+
+  .p-about__recommend_menu2__text {
+    font-size: .875rem;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 900px) {
+  .c-container {
+    width: 95%;
+  }
+
+  html {
+    font-size: 70%;
+  }
+
+  #l-top__enkai {
+    padding: 28.125rem 0 3.75rem;
+  }
+
+  #l-top__menu {
+    padding: 21.25rem 0 3.75rem;
+  }
+
+  #l-top__gyoza {
+    padding: 31.25rem 0 2.5rem;
+  }
+
+  .p-top__drink__ornament {
+    min-width: 250px;
+  }
+
+  .p-about__recommend_menu2__text {
+    top: 66%;
+  }
+
+  .p-about__enkai {
+    padding: 28.125rem 0 .75rem;
+  }
+
+  .p-about__enkai__text {
+    font-size: .875rem;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 800px) {
+  .c-container {
+    width: 95%;
+  }
+
+  .p-top__introduction__main__sentence {
+    margin-bottom: 1.75rem;
+    line-height: 1.8;
+  }
+
+  .p-about__recommend_menu1__text {
+    line-height: 2;
+  }
+
+  .p-about__recommend_menu2__text {
+    top: 65%;
+    line-height: 2;
+  }
+}
+
+@media screen and (min-width: 421px) and (max-width: 768px) {
+  .c-container {
+    width: 89.466667%;
+  }
+
+  html {
+    font-size: 110%;
+  }
+
+  .p-top__drink__ornament {
+    max-width: 600px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .c-container {
+    width: 89.466667%;
+  }
+
+  html {
+    font-size: 115%;
+  }
+
+  .p-top__introduction__main__header {
+    left: 50%;
+    -webkit-transform: translateX(-55%);
+    transform: translateX(-55%);
+  }
+
+  .p-top__introduction__main__contentbox {
+    top: 35%;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 768px) {
+  .c-container {
+    width: 89.466667%;
+  }
+
+  html {
+    font-size: 125%;
+  }
+
+  .p-about__enkai__ornament {
+    width: 57%;
+  }
+}
+
+//2020.11.13追加
+.jms {
+	width: 100%;
+}
+.jms img {
+	margin:0 auto;
+	width: 50%;
+}
+@media all and (max-width: 768px) {
+	.jms img {
+		width: 90%;
+  	}
+}
