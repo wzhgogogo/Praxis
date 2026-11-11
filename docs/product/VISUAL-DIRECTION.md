@@ -1,7 +1,7 @@
 # Praxis 视觉方向
 
 - Status: Draft
-- Document revision: 0.14
+- Document revision: 0.15
 - Last updated: 2026-11-11 CET
 - Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)

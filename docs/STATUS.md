@@ -1,3 +1,5 @@
+2026-11-11 CET — 按用户新决定完成胶囊原地30字符编辑，替代底部预填；Save/Enter确认、Cancel/Escape取消，SSE及底部草稿保留，详情明确走原messages路径。源码e0575552净树五门禁1591/305+G6 154全绿，真实调用0，本地commit、未推送/合main；原3c Replay与设备门槛保持。[报告](reviews/WEB-INLINE-CONDITIONS-20261111.md)。
+
 2026-11-11 CET — 3c同步分支本地实现与设备反馈已更新，未合main/推送。main249826cc进slice2，State25/TaskDefinition24；源码45eb89b4净树五门禁1591/303+G6 154及strict G2全绿。Logo/对齐/胶囊/来源入口和多时段B1已接；写死扫描0，保护源码不变。D01/D02原样Replay因输入匹配/页面覆盖未闭环均不完整；R2由复核者私有环境跑，手机两端未分别签收，已再次同步A/main1bc8ec31，不以Fixture替代。[报告](reviews/WEB-WORKSPACE-SLICE2-SYNC-20261111.md)。
 
 2026-11-11 CET — 用户复核接受种子前A1–A4工作分支84d70fb2（源码f385191e）：允许从main249826cc快进合入；产品源码不改，原同SHA完整门禁1586/Chromium279+G6 154/strictG2全12复用。下一步仅eval选择03/07各2次开发检查，旧R2结果/账本保持；新账本继承30/154/2092，剩余6Live/66GET/708模型，其中2Live留D02。前端slice2需同步main并重跑冒烟。真实调用尚未新增。
@@ -466,7 +468,7 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.475
+- Document revision: 4.476
 - Last updated: 2026-11-11 CET
 - Source of truth for: 当前实现、证据与下一道门槛
 

@@ -440,7 +440,7 @@ User approved diagnosis8145e062. Source-specific anonymous sessions now belong t
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.368
+- Document revision: 4.369
 
 
 - Last updated: 2026-11-11 CET
@@ -6189,3 +6189,10 @@ First723191af default failure preserved; fictional chain responses now explicitl
 ## 2026-11-11 CET 3c同步与设备反馈
 
 main249826cc进入slice2分支，13冲突保留主线行为/正文与slice2历史。多时段B1、逐条件来源和用户六项设备反馈接通；未改保护源码、链接生成、身份或Guard。 本地commit、未推送/合main；两端设备待完成，A/main1bc已同步。[报告](../reviews/WEB-WORKSPACE-SLICE2-SYNC-20261111.md)。
+
+
+<a id="dev-2026-11-11-inline-conditions"></a>
+
+## 2026-11-11 CET 胶囊原地编辑
+
+用户决定用原位30字符编辑替代底部预填；复用消息提交，不新增事件/存储，底部草稿与SSE焦点保持。 未推送或合main。[报告](../reviews/WEB-INLINE-CONDITIONS-20261111.md)。
