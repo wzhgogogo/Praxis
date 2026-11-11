@@ -100,7 +100,7 @@ for(const size of sizes){
       assert.equal(destinationRequests,0);await noSelection(host,plan.case.caseId);
       assert.match(await page.locator("#handoff").innerText(),/Omakase Nigiri ¥9,800[\s\S]*Same-day cancellation costs 100%[\s\S]*Card required/);
       assert.equal(await page.locator("#selection-hint").innerText(),"Pick Omakase Nigiri ¥9,800");
-      assert.equal(await page.locator("#verification-hint").innerText(),"Check date and guests");
+      assert.equal(await page.locator("#verification-hint").innerText(),"Check date and guests on the website");
       assert.match(await page.locator("#request-conditions").innerText(),/Mon, Nov 2/);
       assert.equal(await page.locator("#handoff-provider-name").evaluate(n=>getComputedStyle(n).color),"rgb(21, 23, 43)");
       assert.equal(await page.locator("#handoff-recommended").evaluate(n=>getComputedStyle(n).color),"rgb(61, 90, 254)");
