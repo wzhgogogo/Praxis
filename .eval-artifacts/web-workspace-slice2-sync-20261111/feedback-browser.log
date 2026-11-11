@@ -1,0 +1,110 @@
+✔ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2562.143792ms)
+✔ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (4343.554458ms)
+✔ Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2143.011084ms)
+✔ Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh (4282.221333ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons structured (1148.866709ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons missing (1100.464541ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons structured (1143.321791ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons missing (1099.971541ms)
+✔ Workspace slice2 mobile: empty result copy is honest empty (767.393208ms)
+✔ Workspace slice2 mobile: empty result copy is honest all-sources-failed (818.892167ms)
+✔ Workspace slice2 mobile: semantic model failure retains the submitted text and current card, then accepts rephrasing (901.769875ms)
+✔ Workspace slice2 mobile: partial source failure keeps qualified results and places the notice at the batch end (782.605875ms)
+✔ Workspace slice2 desktop: empty result copy is honest empty (768.883083ms)
+✔ Workspace slice2 desktop: empty result copy is honest all-sources-failed (834.000041ms)
+✔ Workspace slice2 desktop: semantic model failure retains the submitted text and current card, then accepts rephrasing (964.405375ms)
+✔ Workspace slice2 desktop: partial source failure keeps qualified results and places the notice at the batch end (837.886833ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (842.676791ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (817.374083ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (941.5755ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (913.857125ms)
+✔ Workspace slice2 mobile: Stop during empty continuation discards the late source card (960.492583ms)
+✔ Workspace slice2 desktop: Stop during empty continuation discards the late source card (1018.925416ms)
+✔ Workspace 3c mobile: each observed booking slot retains its own departure link (964.309541ms)
+✔ Workspace 3c desktop: each observed booking slot retains its own departure link (933.3625ms)
+✖ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (2348.097ms)
+✔ Workspace mobile: stop and request revision discard late source responses (1199.228875ms)
+✖ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (1875.003042ms)
+✔ Workspace desktop: stop and request revision discard late source responses (1212.784709ms)
+✖ Workspace B1 mobile: long conflict terms keep both source actions above the composer (1215.084917ms)
+✖ Workspace B1 desktop: long conflict terms keep both source actions above the composer (1168.368084ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 26
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32374.488292
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace.test.ts:1:2930
+✖ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (2348.097ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Check date and guests on the website'
+  - 'Check date and guests'
+                          ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace.test.ts:103:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Check date and guests on the website',
+    expected: 'Check date and guests',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:2930
+✖ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (1875.003042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Check date and guests on the website'
+  - 'Check date and guests'
+                          ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace.test.ts:103:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Check date and guests on the website',
+    expected: 'Check date and guests',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:13922
+✖ Workspace B1 mobile: long conflict terms keep both source actions above the composer (1215.084917ms)
+  AssertionError [ERR_ASSERTION]: both explicit actions must reach only the local source receiver
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace.test.ts:229:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:13922
+✖ Workspace B1 desktop: long conflict terms keep both source actions above the composer (1168.368084ms)
+  AssertionError [ERR_ASSERTION]: both explicit actions must reach only the local source receiver
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace.test.ts:229:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }

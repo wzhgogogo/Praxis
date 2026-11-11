@@ -438,10 +438,10 @@ Frozen347ca984 main red:3 sessions versus target2; search navigations6. Local co
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.373
+- Document revision: 4.374
 
 
-- Last updated: 2026-11-02
+- Last updated: 2026-11-11 CET
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -6892,3 +6892,10 @@ de9e73bc合并已核对的main7c83e02e/G3，四份冲突文档正文保留；读
 最终新组合：55d70963/763 SHA不变，五门禁全绿，默认1246/1246约31.070s、Chromium208/208约148.923s（含G2 5/5），无skip/todo，各项前后净树、HEAD一致。两尺寸28条完整production composition及3条旧UI展示回归全部通过，覆盖原十项/追加五项/第1段十一项及本轮0/0隐藏；同一流程0/3仍显示，2/1与备选原因保留。共享读证据因果/旧对象排除及两个父提交正文保留有独立字节核对，不修改主线G3/评测输入或断言。
 
 63张新PNG全校验尺寸/SHA，59与原交付逐字节一致，仅2批末图更新、2零变化图新增，四图重新目视；旧失败/旧图片保留。门禁后仅补报告/附件，所有代码与输入仍同冻结；真实模型/Google/来源GET/Live/外写/Holdout0，无.env或数据库迁移/重置。结构化方案仍draft，本轮只推工作分支交合入复核，不改main，后续ff-only。[原件与截图](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+
+
+<a id="test-2026-11-11-web-slice2-sync"></a>
+
+## 2026-11-11 CET 3c同步与设备反馈
+
+最终45eb89b4净树五门禁1591/303+G6 154、strict G2通过，67张Fixture图；原Node原生崩溃/环境EPERM/旧文案断言失配保留。D01/D02原样Replay缺材料不完整；R2交复核者，不报Live或S0=0。 本地commit、未推送/合main；两端设备待完成，A/main1bc已同步。[报告](../reviews/WEB-WORKSPACE-SLICE2-SYNC-20261111.md)。

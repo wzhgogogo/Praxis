@@ -1,0 +1,41 @@
+✔ B1 ordinary composition withholds a bound source handoff after HARD remains unknown and the read ends without results (922.3065ms)
+✖ B1 ordinary HTTP rejects departure for the unshown HARD-unknown outlet despite its reusable source cache (562.206542ms)
+✖ B1 ordinary composition retains SEARCHING-ready, presented and user-selected handoffs and terms from the same cache (520.172584ms)
+✔ B1 projection boundary uses the phase-specific set and a selected ID cannot bypass it or start terms (498.463667ms)
+✔ B1 specific outlet projection refuses a different named target despite a valid shown source cache (508.315625ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3484.839625
+
+✖ failing tests:
+
+test at src/application/restaurant-booking-handoff-visibility.test.ts:1:3124
+✖ B1 ordinary HTTP rejects departure for the unshown HARD-unknown outlet despite its reusable source cache (562.206542ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/restaurant-booking-handoff-visibility.test.ts:1:3996
+✖ B1 ordinary composition retains SEARCHING-ready, presented and user-selected handoffs and terms from the same cache (520.172584ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

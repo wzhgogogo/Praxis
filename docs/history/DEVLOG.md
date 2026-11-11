@@ -440,10 +440,10 @@ User approved diagnosis8145e062. Source-specific anonymous sessions now belong t
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.367
+- Document revision: 4.368
 
 
-- Last updated: 2026-11-02
+- Last updated: 2026-11-11 CET
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
@@ -6182,3 +6182,10 @@ First723191af default failure preserved; fictional chain responses now explicitl
 唯一产品改动为新增/移除均0隐藏整行。复用两尺寸完整HTTP问答→需求修改场景，服务端先确认0/0，隐藏行断言原2红；修复后连同非0差异、原因、备选相关6/6绿。待冻结新组合跑五门禁与两尺寸全部验收，不能用旧门禁代替。结构化条件修改方案仍draft / not integrated，不新增事件/状态，TaskDefinition23/State24及Prompt不因本修复变化。真实模型/Google/来源GET/Live/Holdout0，只推工作分支交合入复核，后续main ff-only，本轮不更新main。[报告](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
 
 最终复验：55d7096353b270f4ac3765ede224f3e17c512991冻结763项SHA，五门禁1246/1246默认、208/208 Chromium全绿，各项前后净树/HEAD一致；390×844与1280×900本段十项、追加五项、第1段十一项和零变化行通过。0/0隐藏，0/3及2/1保留；共享read-assessment精确等于7c83e02e加既有续查排除，G3/集成/评测/phase3b内容相对main不变。63张PNG核对尺寸/SHA，59张与原交付相同、2批末更新、2零变化新增，四图目视通过。门禁后仅报告/附件，结构化方案仍draft无实施，真实模型/Google/来源GET/Live/外写/Holdout0。本轮只推工作分支交合入复核，main未更新，后续ff-only。[最终报告与截图](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+
+
+<a id="dev-2026-11-11-web-slice2-sync"></a>
+
+## 2026-11-11 CET 3c同步与设备反馈
+
+main249826cc进入slice2分支，13冲突保留主线行为/正文与slice2历史。多时段B1、逐条件来源和用户六项设备反馈接通；未改保护源码、链接生成、身份或Guard。 本地commit、未推送/合main；两端设备待完成，A/main1bc已同步。[报告](../reviews/WEB-WORKSPACE-SLICE2-SYNC-20261111.md)。

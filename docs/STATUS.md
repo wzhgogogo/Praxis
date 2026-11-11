@@ -1,3 +1,5 @@
+2026-11-11 CET — 3c同步分支本地实现与设备反馈已更新，未合main/推送。main249826cc进slice2，State25/TaskDefinition24；源码45eb89b4净树五门禁1591/303+G6 154及strict G2全绿。Logo/对齐/胶囊/来源入口和多时段B1已接；写死扫描0，保护源码不变。D01/D02原样Replay因输入匹配/页面覆盖未闭环均不完整；R2由复核者私有环境跑，手机两端未分别签收，已再次同步A/main1bc8ec31，不以Fixture替代。[报告](reviews/WEB-WORKSPACE-SLICE2-SYNC-20261111.md)。
+
 2026-11-11 CET — 用户复核接受种子前A1–A4工作分支84d70fb2（源码f385191e）：允许从main249826cc快进合入；产品源码不改，原同SHA完整门禁1586/Chromium279+G6 154/strictG2全12复用。下一步仅eval选择03/07各2次开发检查，旧R2结果/账本保持；新账本继承30/154/2092，剩余6Live/66GET/708模型，其中2Live留D02。前端slice2需同步main并重跑冒烟。真实调用尚未新增。
 
 2026-11-11 CET — 用户03:28 CET签收3b：R2标准1查位、2 B1、4安全通过，标准3 G1未达，列为种子用户前阻塞；R2结果完整保留在证据分支codex/heldout-r2-evidence-09@ac980ef2，18次最终均已评价、s0=0（9合格交付/3交付不合格/3诚实无结果/3能力未命中，严格按冻结标准）。七用例已暴露，可用录制开发，私有题面仍不人工读。当前工作分支候选A1–A4：核对入口重置、同run HIGH唯一已读来源页进入G1、响应确认日期/人数后避免重复选择、自然结果摘要/官网HTTPS优先/来源分类并列。仅组件/本地Chromium验证，不代表修后Live成本或真实10人已通过；源码f385191e同SHA净树全门禁通过（默认1586/Chromium279+G6 154/strictG2全12），扫描9条均通用或夹具，待复核，不合main、不调用真实来源。余额6Live/66GET/708模型不动。[本轮报告](../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
@@ -224,6 +226,7 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-11-02 CET：C开始用户已批准的B1投影修复：PRESENT_RESULTS只认已展示集合，其他阶段只认就绪集合；selected不绕过集合，准备缓存保留。普通组装+HTTP先红后绿，正控制覆盖SEARCHING就绪、展示及用户选店条款；A/B受保护文件与版本不动，真实调用0。门禁全绿后按授权同步main、合入推送并通知A。 [计划](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
 
 # Praxis 当前状态
+
 
 2026-11-02 CET：C 用户预订选择 ec93c249 已获独立复核及合入批准。原 main549061e8 的1351/187/严格G2全绿证据原样保留；A随后发布fixture生命周期修复，439fceeb同步main31d482aa并保留双方五处文档记录，恰两份fixture文件与主线原字节一致。最终冻结881项，九步前后净树：默认1351/1351、Chromium188/188、严格G2 5/5及12页PASS，独立九份组装产物PASS，无超时/重试。选店产品/State/TaskDefinition/Prompt/Schema/条款逻辑与复核源不变，95份旧产物保留，账本570条保留原569条及累计数，本次真实调用0、不读.env。按用户批准正常合入并推送main，以Git合并和ls-remote为最终SHA凭据，随后通知A、C待命。全名相等之外的部分名/跨语言名称仍交Agent，保持已批准的保守限制。 [Report](../.eval-artifacts/phase3b/user-booking-selection-main-20261102/report.md)
 
@@ -463,8 +466,8 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.474
-- Last updated: 2026-11-02
+- Document revision: 4.475
+- Last updated: 2026-11-11 CET
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-28 CET：3b C批次3完成，停止待复核。** main基线90b464d8；29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。G2仅两原页地址获批更新；17保存检索及4个UNKNOWN控制、12片段定位通过，7/8为历史混合探针，新Prompt2真实质量未评。只推C分支，申请复核通过后合main，B随后开始G3。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。
