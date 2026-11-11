@@ -604,6 +604,15 @@ export class BrowserTaskExecutor {
     return this.pageUnsettled ? { ...snapshot, settlement: "PENDING" } : snapshot;
   }
 
+  /** Reuse an already captured current page; settle before inspecting controls.
+   * A failed bounded wait leaves the snapshot PENDING and all completion gates intact. */
+  async settledSnapshot(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & {session:BrowserSession}, previous?:BrowserSnapshot):Promise<BrowserSnapshot> {
+    const current=previous ?? await this.snapshot(input);
+    if (!this.pageUnsettled && current.settlement !== "PENDING") return current;
+    await this.waitForSettled(input,current);
+    return this.snapshot(input);
+  }
+
   /** Reads the current source controls through the same operation/deadline budget as a skill observation. */
   async observeControls(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }): Promise<BrowserPageControl[]> {
     if (!input.session.observeControls) return [];
@@ -650,7 +659,7 @@ export class BrowserTaskExecutor {
       return second;
     };
     const initial = !this.pageUnsettled && input.initialObservation?.snapshot.settlement !== "PENDING" ? input.initialObservation : undefined;
-    let snapshot = initial?.snapshot ?? await this.snapshot(input);
+    let snapshot = initial?.snapshot ?? await this.settledSnapshot(input);
     // A request-shaped HTML link can be stale while the live control carrying
     // the same URL is disabled. Read both representations before accepting a
     // completion, including on the initial snapshot and after a source-owned
@@ -659,15 +668,6 @@ export class BrowserTaskExecutor {
     if (this.disabledRequestedParty(input, verifiedObservation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: verifiedObservation.controls};
     let completion = await assess(snapshot, verifiedObservation.controls);
     if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
-    if (snapshot.settlement === "PENDING") {
-      // A short navigation sample is not a reason to ask for help before the
-      // current data has had its existing bounded readiness window.
-      await this.waitForSettled(input, snapshot);
-      snapshot = await this.snapshot(input);
-      verifiedObservation = await this.observe(input, snapshot);
-      completion = await assess(snapshot, verifiedObservation.controls);
-      if (completion.complete) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
-    }
     let progress = input.methodReason ?? completion.reason;
     const history: BrowserReadHistoryStep[] = [];
     const remember = (step: BrowserReadHistoryStep) => {

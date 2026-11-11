@@ -318,7 +318,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
   async resolveNamedNearbyLocation(
     request: RestaurantSearchRequest,
     signal: AbortSignal,
-  ): Promise<{ location?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "NAMED_PLACE_RADIUS"; addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }> }; evidence?: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence; publicLocationObservation?: PublicNamedLocationObservation }> {
+  ): Promise<{ location?: { latitude: number; longitude: number; radiusMeters: number; label: string; queryLabel: string; areaMatchBasis: "NAMED_PLACE_RADIUS"; addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }> }; evidence?: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence; publicLocationObservation?: PublicNamedLocationObservation }> {
     if(!request.intent.area)return {};
     const query = namedNearbyQuery(request.intent.area.query);
     if (!query) return {};
@@ -369,7 +369,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const radiusMeters = request.intent.area.radiusMeters ?? NAMED_PLACE_NEARBY_RADIUS_METERS;
     const requestFingerprint = createHash("sha256").update(JSON.stringify({ namedLocation: query, placeId, radiusMeters })).digest("hex");
     return {
-      location: { latitude: resolved.latitude!, longitude: resolved.longitude!, radiusMeters, label, areaMatchBasis: "NAMED_PLACE_RADIUS", ...(addressComponents(place) ? { addressComponents: addressComponents(place)! } : {}) },
+      location: { latitude: resolved.latitude!, longitude: resolved.longitude!, radiusMeters, label, queryLabel:query, areaMatchBasis: "NAMED_PLACE_RADIUS", ...(addressComponents(place) ? { addressComponents: addressComponents(place)! } : {}) },
       ...(publicNamedLocationObservations([place])[0] ? { publicLocationObservation: publicNamedLocationObservations([place])[0]! } : {}),
       evidence: {
         evidenceId: createHash("sha256").update(JSON.stringify({ namedLocation: placeId, observedAt, requestFingerprint })).digest("hex"),

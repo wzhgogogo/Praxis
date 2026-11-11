@@ -1,3 +1,5 @@
+2026-11-11 CET — draft / not integrated，种子发现与settle复用修复：PENDING先结算后唯一控件扫描；来源绑定queryLabel保留原始地名；来源包文本查询需体现权威检索词，目录浏览不受影响。真实Nakano列表Sumika第12，故以来源分类字面相关度排序详情读取，原5/10上限及HARD门槛不变。07-r2 Google实际HTTP200空对象，非跳过；其列表DOM被旧Recorder拒录，组件构造与真实D02 DOM分开。07-r1独立来源分类/完整地址及502m半径依据已冻结，待按既有reviewHoldoutAttempt补评。0模型/0Live/0网站GET；门禁与推送后停，不合main。[计划](../.eval-artifacts/phase3b/seed-discovery-settle-20261111/plan.md)。
+
 2026-11-11 CET — seed post-fix preparation / verified：用户接受前三项修复并要求回退地区发现Prompt；两文件恢复ead28945、浏览器Prompt24，Agent32保持。仅eval把Live40及新07-only前序校验接好；旧种子账本281条和所有计数不变，派生新账本继承并清除旧输出绑定。源码ae851693净树门禁type/arch/build、默认1590、Chromium281+G6 159全绿，产品扫描新增0；下一步独立净树合入origin/main、冻结，再跑07两次与D02-V最多两次；S0/环境/未知异常立即停。见 [计划](../.eval-artifacts/phase3b/seed-post-fix-preparation-20261111/plan.md)。
 
 <a id="seed-root-causes-20261111"></a>

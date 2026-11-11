@@ -1,0 +1,27 @@
+✔ D02V-r1 actual Nakano list binds original place query and retains observed Sumika entrance (219.483541ms)
+✔ D02V-r2 actual Nakano list binds original place query and retains observed Sumika entrance (189.93925ms)
+✔ 07-r2 missing-DOM component: location-only keyword list cannot complete unapplied retrieval; directory remains separate (1.804542ms)
+✖ actual Nakano list prioritizes observed category within unchanged detail cap, retains native URI and opens it directly (42.591417ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 573.892291
+
+✖ failing tests:
+
+test at src/harness/seed-discovery-recorded.test.ts:1:2766
+✖ actual Nakano list prioritizes observed category within unchanged detail cap, retains native URI and opens it directly (42.591417ms)
+  AssertionError [ERR_ASSERTION]: {"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":5,"nativeDiscoveryFunnel":{"source":"TABELOG","rawSourceLinks":0,"parsedOutlets":0,"inspectedOutlets":0,"batchCap":5,"sourceDetailCap":10,"sourceDetailAttempts":0,"sourcePageCap":7,"sourceElapsedCapMs":90000,"sourceElapsedMs":1,"sourceTimeLimitReached":false,"deferredByBatchCap":[],"rejected":[],"accepted":0,"pagesRead":0,"batchLimitReached":false,"sourceExhausted":"UNKNOWN","batchEnded":true,"sourceEnded":true,"progressionReason":"SOURCE_FAILURE","listingObservations":[],"retrieval":{"selection":{"accepted":true,"keyword":"robatayaki","criterionRef":"criterion:0","reason":"User-authoritative literal in recorded development request"},"rewrites":0,"regionPages":0,"retrievalPages":0,"history":[]}},"failureCode":"UNEXPECTED_PAGE","googleRequests":{"limit":5,"total":1,"namedPlaceResolution":1,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}}
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/harness/seed-discovery-recorded.test.ts:36:178)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }

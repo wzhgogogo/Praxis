@@ -657,6 +657,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (!hasReservationControls(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "SOURCE_UNSUPPORTED", failureCode: "ONLINE_AVAILABILITY_UNSUPPORTED", excerpt: pageExcerpt(page) });
       {
         page = await this.retryBusyPage(candidate.restaurant.id, session, signal, page, "AVAILABILITY");
+        page = await this.executor.settledSnapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }, page);
         const visibleQueryControls = await session.observeControls?.(tabelogQueryControlHints(page)) ?? [];
         if (tabelogQueryControlsRestricted(page, visibleQueryControls, request.partySize)) {
           return finish({

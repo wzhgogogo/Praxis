@@ -88,12 +88,12 @@ function retainedPendingEntries(
   });
 }
 
-export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], _expression: string,
-  location: { label: string; addressComponents?: Array<{ longText: string; shortText?: string }> } | undefined) {
+export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], expression: string,
+  location: { label: string; queryLabel?: string; addressComponents?: Array<{ longText: string; shortText?: string }> } | undefined) {
   const listing = pack.parseListing(current), empty = pack.browser!.isExplicitEmptyListing(current);
   const words = (text: string) => [...new Intl.Segmenter(undefined, { granularity: "word" }).segment(normalizedTextKey(text.normalize("NFKD").replace(/\p{M}/gu, "")))].filter(segment => segment.isWordLike).map(segment => segment.segment);
   const base = location ? words(location.label).join("") : "";
-  const names = new Set(base ? [base] : []);
+  const names = new Set([base, location?.queryLabel ? words(location.queryLabel).join("") : ""].filter(Boolean));
   // A component belongs to this place's name only when one of its own names
   // corresponds to the resolved display name. Do not accept its parent city or
   // country merely because it occurs in the same address response.
@@ -102,15 +102,21 @@ export function sourceListingCompletion(pack: DiscoverySourcePack, current: Brow
     if (aliases.includes(base)) for (const alias of aliases) if (alias) names.add(alias);
   }
   const observed = words(current.text);
-  const locationBound = !location || [...names].some(name => observed.some((_, start) => {
-    let joined = "";
-    for (let end = start; end < observed.length && joined.length < name.length; end++) {
-      joined += observed[end]; if (joined === name) return true;
+  const contains = (tokens:string[], name:string) => tokens.some((_,start)=>{
+    let joined="";
+    for(let end=start;end<tokens.length && joined.length<name.length;end++){
+      joined+=tokens[end];if(joined===name)return true;
     }
     return false;
-  }));
-  return { complete: locationBound && (listing.outlets.length > 0 || empty), resultBusy: pack.browser!.resultBusy(current),
-    reason: locationBound ? "Read stable source-owned public results for the requested location." : "Requested location is not confirmed in visible result text; an input value does not establish location.",
+  });
+  const locationBound = !location || [...names].some(name=>contains(observed,name));
+  // A source-owned text-query listing differs from directory navigation. Its
+  // current query or visible scope must carry the requested retrieval term;
+  // submitting only the place cannot establish that criterion was applied.
+  const query=pack.browser!.retrievalExpression(current.url),criterion=words(expression).join("");
+  const retrievalBound=!criterion || query===undefined || contains(words(query),criterion) || contains(observed,criterion);
+  return { complete: locationBound && retrievalBound && (listing.outlets.length > 0 || empty), resultBusy: pack.browser!.resultBusy(current),
+    reason: !locationBound ? "Requested location is not confirmed in visible result text; an input value does not establish location." : !retrievalBound ? "The current text query and visible list scope do not confirm the requested retrieval expression." : "Read stable source-owned public results for the requested location.",
     resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
 }
 
@@ -312,7 +318,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       },
     });
     executor.beginCandidate(`native-discovery:${source}`); executor.beginProvider(`native-discovery:${source}`,source,"DISCOVERY");
-    const remainingEntries = () => [...known.values()].filter(entry=>!inspected.has(entry.sourceEntityId));
+    const related = (entry:PendingSourceEntry) => Boolean(query.keyword && entry.sourceCategories?.some(category=>normalizedTextKey(category).includes(normalizedTextKey(query.keyword!))));
+    // Source category text is an advisory order within the existing detail cap,
+    // never HARD verification. Preserve source order among equally related cards.
+    const remainingEntries = () => [...known.values()].filter(entry=>!inspected.has(entry.sourceEntityId)).sort((a,b)=>Number(related(b))-Number(related(a)));
     let session: BrowserSession | undefined;
     try {
       if(elapsedBefore>=NATIVE_SOURCE_ELAPSED_CAP_MS || (previous?.detailAttempts??0)>=NATIVE_DETAIL_SOURCE_CAP || (previous?.pagesRead??0)>=NATIVE_LISTING_PAGE_CAP[source]) throw Object.assign(Error("Source read ceiling already reached"),{code:"READ_BUDGET_EXCEEDED"});
@@ -328,7 +337,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           if(expression&&!request.intent.criteria.some(c=>c.polarity==="POSITIVE"&&c.strength==="HARD"&&c.text.includes(expression)))throw Object.assign(Error("Retrieval lacks a literal authoritative criterion"),{code:"DISCOVERY_SOURCE_INCOMPLETE"});
           const result=await executor.runSkill({taskId:request.readRunId??`native-discovery:${source}`,source,stage:"DISCOVERY",signal,session,allowedOrigins:pack.documentOrigins,
             ...(pack.skillPath?{sourceSkillPath:pack.skillPath}:{}),requireModelConfirmation:true,
-            goal:{outlet:{name:request.intent.target?.query??""},location:{...location,name:location.label},...(expression?{retrievalExpression:expression,retrievalSource:"CUISINE" as const}:{}),hardCriteria:request.intent.criteria.filter(c=>c.polarity==="POSITIVE"&&c.strength==="HARD").map(c=>c.text)},
+            goal:{outlet:{name:request.intent.target?.query??""},location:{...location,name:location.queryLabel??location.label},...(expression?{retrievalExpression:expression,retrievalSource:"CUISINE" as const}:{}),hardCriteria:request.intent.criteria.filter(c=>c.polarity==="POSITIVE"&&c.strength==="HARD").map(c=>c.text)},
             objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list visibly confirms that location and is relevant. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
             onQuerySubmitted: owner => { submittedOwners.add(owner); },
             completion:(page,controls)=>{

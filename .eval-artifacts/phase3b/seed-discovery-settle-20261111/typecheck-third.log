@@ -1,0 +1,5 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/seed-discovery-recorded.test.ts(31,8): error TS2741: Property 'screenshot' is missing in type '{ metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM"; engine: "CHROMIUM"; sessionId: string; startedAt: string; readNetworkBoundary: "INSTALLED"; }; navigate(url: string): Promise<void>; ... 7 more ...; close(): Promise<...>; }' but required in type 'BrowserSession'.

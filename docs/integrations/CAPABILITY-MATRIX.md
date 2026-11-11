@@ -1,3 +1,5 @@
+2026-11-11 CET — draft / not integrated：Tabelog原生目录完整录制上，queryLabel补齐地名锚定，分类字面相关度排序后Sumika在原上限内保留已观察直达URI；PENDING身份页至查位仅一次控件扫描。仅离线组件，当前日期/8人/20:30修后Live仍未验证。07纯地点关键字结果的范围拒绝只有元数据构造组件（原DOM拒录）；不冒充真实DOM回放。
+
 > 2026-11-11 CET draft / not integrated：Tabelog观察复用候选仅经真实DOM/HAR组件回放；45s不变，Manten12-10/8人/20:30组件完成；Sumika真实部分录制仍不满足8人，保持UNKNOWN。未新增Live能力结论。
 
 2026-11-11 CET — 用户复核接受种子前A1–A4工作分支84d70fb2（源码f385191e）：允许从main249826cc快进合入；产品源码不改，原同SHA完整门禁1586/Chromium279+G6 154/strictG2全12复用。下一步仅eval选择03/07各2次开发检查，旧R2结果/账本保持；新账本继承30/154/2092，剩余6Live/66GET/708模型，其中2Live留D02。前端slice2需同步main并重跑冒烟。真实调用尚未新增。

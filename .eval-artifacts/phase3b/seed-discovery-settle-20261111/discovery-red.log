@@ -1,0 +1,61 @@
+✖ D02V-r1 actual Nakano list binds original place query and retains observed Sumika entrance (106.992709ms)
+✖ D02V-r2 actual Nakano list binds original place query and retains observed Sumika entrance (79.380208ms)
+✖ 07-r2 missing-DOM component: location-only keyword list cannot complete unapplied retrieval; directory remains separate (1.58025ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 323.204833
+
+✖ failing tests:
+
+test at src/harness/seed-discovery-recorded.test.ts:1:601
+✖ D02V-r1 actual Nakano list binds original place query and retains observed Sumika entrance (106.992709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/harness/seed-discovery-recorded.test.ts:9:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/seed-discovery-recorded.test.ts:1:601
+✖ D02V-r2 actual Nakano list binds original place query and retains observed Sumika entrance (79.380208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/harness/seed-discovery-recorded.test.ts:9:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/seed-discovery-recorded.test.ts:1:1453
+✖ 07-r2 missing-DOM component: location-only keyword list cannot complete unapplied retrieval; directory remains separate (1.58025ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/harness/seed-discovery-recorded.test.ts:18:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

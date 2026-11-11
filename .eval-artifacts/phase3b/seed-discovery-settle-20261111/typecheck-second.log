@@ -1,0 +1,10 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/seed-discovery-recorded.test.ts(31,87): error TS2322: Type '{ runtimeProvider: 'LOCAL_PLAYWRIGHT_CHROMIUM'; engine: string; sessionId: string; startedAt: string; readNetworkBoundary: 'INSTALLED'; }' is not assignable to type 'BrowserSessionMetadata'.
+  Types of property 'engine' are incompatible.
+    Type 'string' is not assignable to type 'BrowserEngine'.
+src/harness/seed-discovery-recorded.test.ts(36,35): error TS2345: Argument of type '{ readRunId: string; intent: { timezone: 'Asia/Tokyo'; target: { goal: 'AVAILABILITY'; }; area: { query: string; radiusMeters: number; }; date: string; partySize: number; criteria: { text: string; strength: 'HARD'; polarity: 'POSITIVE'; }[]; }; }' is not assignable to parameter of type 'RestaurantSearchRequest'.
+  The types of 'intent.target' are incompatible between these types.
+    Property 'query' is missing in type '{ goal: 'AVAILABILITY'; }' but required in type 'RestaurantTarget'.

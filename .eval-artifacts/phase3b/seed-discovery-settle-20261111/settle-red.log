@@ -1,0 +1,56 @@
+✖ pending initial page settles before its only control scan (navigation=true) (6.091916ms)
+✖ pending initial page settles before its only control scan (navigation=false) (0.276417ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 109.536791
+
+✖ failing tests:
+
+test at src/infrastructure/browser/browser-task-executor.test.ts:1:91042
+✖ pending initial page settles before its only control scan (navigation=true) (6.091916ms)
+  AssertionError [ERR_ASSERTION]: never scan a pending pre-settlement page
+  
+  false !== true
+  
+      at FixtureSession.session.observeControls (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.test.ts:1277:95)
+      at <anonymous> (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:1107:77)
+      at BrowserTaskExecutor.bounded (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:1544:21)
+      at BrowserTaskExecutor.operation (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:1494:32)
+      at BrowserTaskExecutor.observe (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:1107:20)
+      at BrowserTaskExecutor.runSkill (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:658:67)
+      at async TestContext.<anonymous> (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.test.ts:1279:281)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/infrastructure/browser/browser-task-executor.test.ts:1:91042
+✖ pending initial page settles before its only control scan (navigation=false) (0.276417ms)
+  AssertionError [ERR_ASSERTION]: never scan a pending pre-settlement page
+  
+  false !== true
+  
+      at FixtureSession.session.observeControls (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.test.ts:1277:95)
+      at <anonymous> (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:1107:77)
+      at BrowserTaskExecutor.bounded (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:1544:21)
+      at BrowserTaskExecutor.operation (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:1494:32)
+      at BrowserTaskExecutor.observe (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:1107:20)
+      at BrowserTaskExecutor.runSkill (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.ts:658:67)
+      at async TestContext.<anonymous> (/private/tmp/praxis-seed-discovery-and-settle-reuse/src/infrastructure/browser/browser-task-executor.test.ts:1279:281)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
