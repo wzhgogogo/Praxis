@@ -1,0 +1,180 @@
+[
+  {
+    "path": ".eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-07-r2/p3b-holdout-07-r2",
+    "candidates": 5,
+    "actualCalls": 35,
+    "elapsedMs": 145106,
+    "meanCalls": 7.0,
+    "meanMs": 29021.2,
+    "missingSearchHelp": 0,
+    "scopes": [
+      {
+        "candidateId": "praxis:restaurant:9ea4701cee4b404402862249",
+        "source": "TABELOG",
+        "elapsedMs": 11736,
+        "actualCalls": 2,
+        "decisionSequences": [
+          8,
+          9
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          78,
+          131
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "source": "TABELOG",
+        "elapsedMs": 27088,
+        "actualCalls": 6,
+        "decisionSequences": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          134,
+          265
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+        "source": "TABELOG",
+        "elapsedMs": 26833,
+        "actualCalls": 6,
+        "decisionSequences": [
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          268,
+          399
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+        "source": "TABELOG",
+        "elapsedMs": 35600,
+        "actualCalls": 9,
+        "decisionSequences": [
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          402,
+          580
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:9658b9dacb8b2b31419c447f",
+        "source": "TABELOG",
+        "elapsedMs": 43849,
+        "actualCalls": 12,
+        "decisionSequences": [
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          583,
+          810
+        ]
+      }
+    ],
+    "deadline": {
+      "elapsedMs": 196367.50962499995,
+      "turns": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1794376731438,
+          "deadlineAtMs": 1794377231438,
+          "elapsedMs": 195785.85491599998,
+          "modelCalls": 47,
+          "googleRequests": 4,
+          "exceeded500Seconds": false
+        }
+      ],
+      "readStartsInReserve": 0,
+      "termsStartsInReserve": 0
+    },
+    "verdict": {
+      "status": "EVALUATED",
+      "qualified": false,
+      "outcome": "CAPABILITY_MISS",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "witnessCandidates": [
+      {
+        "id": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+        "name": "三宝苑 koenji",
+        "sourceIds": {
+          "phone": "03-5913-9198",
+          "googlePlaces": "ChIJEVAxZwDzGGARYdWxpKrAUfE",
+          "googleMapsUri": "https://maps.google.com/?cid=17388891475394286945&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://sanpouen-koenji.com/",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "witnessBinding": [
+      {
+        "candidateId": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+        "kind": "ENTITY_MATCH",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13306197",
+        "confidence": "HIGH",
+        "status": null,
+        "code": null
+      },
+      {
+        "candidateId": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+        "kind": "RESTAURANT_FACT",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13306197",
+        "confidence": "HIGH",
+        "status": null,
+        "code": null
+      },
+      {
+        "candidateId": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+        "kind": "AVAILABILITY",
+        "sourceEntityId": "en/tokyo/A1319/A131904/13306197",
+        "confidence": "HIGH",
+        "status": null,
+        "code": null
+      }
+    ],
+    "availabilityCount": 19,
+    "availabilityParties": [
+      10
+    ]
+  }
+]

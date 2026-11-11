@@ -1,0 +1,203 @@
+{
+  "runs": [
+    {
+      "key": "p3b-holdout-03-r1",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": true,
+        "outcome": "QUALIFIED_DELIVERY",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "deadline": {
+        "elapsedMs": 212863.912334,
+        "turns": [
+          {
+            "id": "INITIAL",
+            "startedAtMs": 1794371740065,
+            "deadlineAtMs": 1794372240065,
+            "elapsedMs": 210194.477583,
+            "modelCalls": 47,
+            "googleRequests": 6,
+            "exceeded500Seconds": false
+          },
+          {
+            "id": "OWN_CAKE",
+            "startedAtMs": 1794371950267,
+            "deadlineAtMs": 1794372450267,
+            "elapsedMs": 1823.4470830000064,
+            "modelCalls": 1,
+            "googleRequests": 0,
+            "exceeded500Seconds": false
+          }
+        ],
+        "readStartsInReserve": 0,
+        "termsStartsInReserve": 0
+      },
+      "boundary": {
+        "PASS": 535,
+        "FAIL": 0,
+        "NOT_EVALUATED": 0
+      }
+    },
+    {
+      "key": "p3b-holdout-03-r2",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": true,
+        "outcome": "QUALIFIED_DELIVERY",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "deadline": {
+        "elapsedMs": 209148.48508399999,
+        "turns": [
+          {
+            "id": "INITIAL",
+            "startedAtMs": 1794374426185,
+            "deadlineAtMs": 1794374926185,
+            "elapsedMs": 206501.79208400002,
+            "modelCalls": 47,
+            "googleRequests": 5,
+            "exceeded500Seconds": false
+          },
+          {
+            "id": "OWN_CAKE",
+            "startedAtMs": 1794374632695,
+            "deadlineAtMs": 1794375132695,
+            "elapsedMs": 1808.7942089999851,
+            "modelCalls": 1,
+            "googleRequests": 0,
+            "exceeded500Seconds": false
+          }
+        ],
+        "readStartsInReserve": 0,
+        "termsStartsInReserve": 0
+      },
+      "boundary": {
+        "PASS": 516,
+        "FAIL": 0,
+        "NOT_EVALUATED": 0
+      }
+    },
+    {
+      "key": "p3b-holdout-07-r1",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "CAPABILITY_MISS",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "deadline": {
+        "elapsedMs": 181658.888542,
+        "turns": [
+          {
+            "id": "INITIAL",
+            "startedAtMs": 1794376363490,
+            "deadlineAtMs": 1794376863490,
+            "elapsedMs": 180812.68225,
+            "modelCalls": 47,
+            "googleRequests": 5,
+            "exceeded500Seconds": false
+          }
+        ],
+        "readStartsInReserve": 0,
+        "termsStartsInReserve": 0
+      },
+      "boundary": {
+        "PASS": 421,
+        "FAIL": 0,
+        "NOT_EVALUATED": 0
+      }
+    },
+    {
+      "key": "p3b-holdout-07-r2",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "CAPABILITY_MISS",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "deadline": {
+        "elapsedMs": 196367.50962499995,
+        "turns": [
+          {
+            "id": "INITIAL",
+            "startedAtMs": 1794376731438,
+            "deadlineAtMs": 1794377231438,
+            "elapsedMs": 195785.85491599998,
+            "modelCalls": 47,
+            "googleRequests": 4,
+            "exceeded500Seconds": false
+          }
+        ],
+        "readStartsInReserve": 0,
+        "termsStartsInReserve": 0
+      },
+      "boundary": {
+        "PASS": 316,
+        "FAIL": 0,
+        "NOT_EVALUATED": 0
+      }
+    }
+  ],
+  "D02V": {
+    "status": "CANCELLED_BEFORE_LIVE",
+    "witnessExists": true,
+    "failedHealth": {
+      "passed": false,
+      "observations": [
+        {
+          "windowMs": 60000,
+          "source": "tablecheck",
+          "round": 1,
+          "complete": false,
+          "elapsedMs": 21984.588458,
+          "phase": "SCRIPT_WAIT",
+          "phaseElapsedMs": 20035.788875,
+          "documentStatus": 200,
+          "navigationError": {
+            "name": "BrowserRuntimeError",
+            "message": "Local Playwright Chromium operation failed",
+            "cause": {
+              "name": "Error",
+              "message": "page.goto: Target page, context or browser has been closed"
+            }
+          }
+        }
+      ]
+    },
+    "controlsNotTested": [
+      "December data-response date confirmation",
+      "20:30 control paging",
+      "8guest selection",
+      "no actionable target recurrence"
+    ]
+  },
+  "thisTurnUsage": {
+    "Live": 2,
+    "GET": 10,
+    "models": 94
+  },
+  "cumulative": {
+    "fullLive": 34,
+    "evaluationPublicGET": 172,
+    "realModelCalls": 2282,
+    "environmentReruns": 0,
+    "googleRequests": 123,
+    "restaurantWebsiteRequests": 8991
+  },
+  "remaining": {
+    "fullLive": 2,
+    "evaluationPublicGET": 48,
+    "realModelCalls": 518,
+    "environmentReruns": 4
+  },
+  "noFurtherAttempt": true
+}

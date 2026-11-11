@@ -1,0 +1,128 @@
+{
+  "schema": "phase3b-holdout-batch@2",
+  "serial": true,
+  "stopReason": null,
+  "executionPlan": {
+    "caseIds": [
+      "p3b-holdout-03",
+      "p3b-holdout-07"
+    ],
+    "repetitions": 2
+  },
+  "witnessPolicies": [
+    {
+      "id": "p3b-holdout-03",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-07",
+      "policy": "POSITIVE_REQUIRED"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1",
+      "path": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-03-r1",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "finishedAtMs": 1794371955216,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "f811bd7f35deca4b090f152794332cea71a99af640da974b1aba1d79813160a4",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-seed-dev-03-r1.json",
+        "sha256": "529e41bd2fc830e88e46fd617cf83fd7f4baf7034509fdb1c4561dd837ca96c3",
+        "evidenceSHA256": "ded31358db0c6c2a5b07b928654534b59264434b2e1d40dc206e53bc73cc5c6b",
+        "evaluationSHA256": "748150c1d4b582454a193894a2bc25c8352c8b1d48c3a13f3f8a1ecac20e48fd"
+      }
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 2,
+      "key": "p3b-holdout-03-r2",
+      "path": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-03-r2",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 182623,
+        "waitedMs": 0,
+        "previousFinishedAtMs": 1794371955216
+      },
+      "finishedAtMs": 1794374637326,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "0a200554b8aa6b0c3b25cde30cb8d2b6d7d0418310ef50af0239ad0324564280",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-seed-dev-03-r2.json",
+        "sha256": "1fcdcf444d7980f8e16bc761cb50c6d231e3c11504f581d2b5df11803bb5128b",
+        "evidenceSHA256": "2527ef2476e12c1a4d5f8e11a0d89e11a49058d826f10d8ddfa49baecdbac401",
+        "evaluationSHA256": "b350cc2eba13b6a67156c40003d27a13563a61ea117420a89b11a1e1f35e6b72"
+      }
+    },
+    {
+      "id": "p3b-holdout-07",
+      "repetition": 1,
+      "key": "p3b-holdout-07-r1",
+      "path": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-07-r1",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 204298,
+        "waitedMs": 0,
+        "previousFinishedAtMs": 1794374637326
+      },
+      "finishedAtMs": 1794376547047,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "c926e148f74b145adfd9fe14801ed21553789ac87e2eb91cf157f87f4dd14134"
+    },
+    {
+      "id": "p3b-holdout-07",
+      "repetition": 2,
+      "key": "p3b-holdout-07-r2",
+      "path": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-07-r2",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 182857,
+        "waitedMs": 182848,
+        "previousFinishedAtMs": 1794376547047
+      },
+      "finishedAtMs": 1794376930195,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "94cad016b09e9aeddf012292b6c16338121f18dc1a66ac932033e7e856e2b9ea"
+    }
+  ],
+  "healthyCases": [
+    "p3b-holdout-03",
+    "p3b-holdout-07"
+  ],
+  "sourceSHAHistory": [
+    {
+      "sourceSHA": "ead289450092ccc30798b754d1e0771462bf08bd",
+      "attemptKeys": [
+        "p3b-holdout-03-r1",
+        "p3b-holdout-03-r2",
+        "p3b-holdout-07-r1",
+        "p3b-holdout-07-r2"
+      ]
+    }
+  ],
+  "pendingReviewCount": 0,
+  "passRateReportable": true,
+  "budgetCheckpoint": {
+    "entries": 214,
+    "sha256": "ec47fab2436b9c4e5585960955c827b188dc469604c66027a227c68854e95472",
+    "cumulative": {
+      "fullLive": 34,
+      "evaluationPublicGET": 170,
+      "realModelCalls": 2282,
+      "environmentReruns": 0,
+      "googleRequests": 123,
+      "restaurantWebsiteRequests": 8989
+    }
+  }
+}

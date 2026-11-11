@@ -1,0 +1,151 @@
+[
+  {
+    "path": ".eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-07-r1/p3b-holdout-07-r1",
+    "candidates": 5,
+    "actualCalls": 31,
+    "elapsedMs": 133975,
+    "meanCalls": 6.2,
+    "meanMs": 26795.0,
+    "missingSearchHelp": 0,
+    "scopes": [
+      {
+        "candidateId": "praxis:restaurant:c50ba5b6d5929b6bfa10e234",
+        "source": "TABELOG",
+        "elapsedMs": 42210,
+        "actualCalls": 10,
+        "decisionSequences": [
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          170,
+          340
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:9ea4701cee4b404402862249",
+        "source": "TABELOG",
+        "elapsedMs": 7809,
+        "actualCalls": 1,
+        "decisionSequences": [
+          25
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          343,
+          377
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+        "source": "TABELOG",
+        "elapsedMs": 26081,
+        "actualCalls": 6,
+        "decisionSequences": [
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          380,
+          511
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:ae4ca4e70761cb9085769a9e",
+        "source": "TABELOG",
+        "elapsedMs": 42175,
+        "actualCalls": 10,
+        "decisionSequences": [
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          514,
+          687
+        ]
+      },
+      {
+        "candidateId": "praxis:restaurant:bbcb46d46f4519eb4bcd3e74",
+        "source": "TABELOG",
+        "elapsedMs": 15700,
+        "actualCalls": 4,
+        "decisionSequences": [
+          43,
+          44,
+          45,
+          46
+        ],
+        "missingSearchHelp": [],
+        "eventSequences": [
+          690,
+          764
+        ]
+      }
+    ],
+    "deadline": {
+      "elapsedMs": 181658.888542,
+      "turns": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1794376363490,
+          "deadlineAtMs": 1794376863490,
+          "elapsedMs": 180812.68225,
+          "modelCalls": 47,
+          "googleRequests": 5,
+          "exceeded500Seconds": false
+        }
+      ],
+      "readStartsInReserve": 0,
+      "termsStartsInReserve": 0
+    },
+    "verdict": {
+      "status": "EVALUATED",
+      "qualified": false,
+      "outcome": "CAPABILITY_MISS",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "witnessCandidates": [
+      {
+        "id": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+        "name": "三宝苑 koenji",
+        "sourceIds": {
+          "phone": "03-5913-9198",
+          "googlePlaces": "ChIJEVAxZwDzGGARYdWxpKrAUfE",
+          "googleMapsUri": "https://maps.google.com/?cid=17388891475394286945&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://sanpouen-koenji.com/",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "witnessBinding": [],
+    "availabilityCount": 9,
+    "availabilityParties": [
+      10
+    ]
+  }
+]

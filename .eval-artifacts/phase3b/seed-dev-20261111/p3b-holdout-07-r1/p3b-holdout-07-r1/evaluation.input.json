@@ -1,0 +1,5510 @@
+{
+  "runId": "g6-p3b-holdout-07-r1-1794376362293-0",
+  "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+  "mode": "LIVE_READ",
+  "artifactRefs": [
+    "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-07-r1/p3b-holdout-07-r1/execution.result.json"
+  ],
+  "request": {
+    "dates": [
+      "2026-11-18"
+    ],
+    "partySize": 10,
+    "meal": "DINNER",
+    "requiresIndependentQualification": true
+  },
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "[PRIVATE_TURN_SHA256:a3cbf0ce7ab7ce4265aeefb236aff1f5dad3a7fb7d6c28409bcf3f3bfd734d07]",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:ae4ca4e70761cb9085769a9e",
+                "outletName": "Yakiniku Nikuichi Koenji",
+                "sourceIds": {
+                  "phone": "03-5373-6288",
+                  "googlePlaces": "ChIJScRpD37yGGAR1alieG2JhXA",
+                  "googleMapsUri": "https://maps.google.com/?cid=8108037807414618581&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.hotpepper.jp/strJ000727122/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-34-14 Kōenjikita, Suginami City, Tokyo 166-0002, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:c50ba5b6d5929b6bfa10e234",
+                "outletName": "Yakiniku Cocochi Main Store",
+                "sourceIds": {
+                  "phone": "03-5356-9444",
+                  "googlePlaces": "ChIJM15Cb7bzGGARBPFhu8PSPMU",
+                  "googleMapsUri": "https://maps.google.com/?cid=14212466262178656516&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.tablecheck.com/ja/yakiniku-cocochi/reserve/message",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 2-chōme−18−９ ベルテンポ 1階"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:bbcb46d46f4519eb4bcd3e74",
+                "outletName": "Yakiniku Cocochi Ichiba Store",
+                "sourceIds": {
+                  "phone": "03-5327-8629",
+                  "googlePlaces": "ChIJd1on4pTzGGARIJl83_kjQQ0",
+                  "googleMapsUri": "https://maps.google.com/?cid=955084152082569504&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.instagram.com/yakiniku_cocochi/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-22-8 Kōenjikita, Suginami City, Tokyo 166-0002, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+                "outletName": "三宝苑 koenji",
+                "sourceIds": {
+                  "phone": "03-5913-9198",
+                  "googlePlaces": "ChIJEVAxZwDzGGARYdWxpKrAUfE",
+                  "googleMapsUri": "https://maps.google.com/?cid=17388891475394286945&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://sanpouen-koenji.com/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−45−１１ １Ｆ"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:9658b9dacb8b2b31419c447f",
+                "outletName": "焼肉 幸あれ 高円寺店",
+                "sourceIds": {
+                  "phone": "03-6383-0771",
+                  "googlePlaces": "ChIJBYy-lIfyGGARkGDB0vWwnNo",
+                  "googleMapsUri": "https://maps.google.com/?cid=15752660166484517008&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.instagram.com/yakiniku.sachiare.kouenji/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "4-chōme-49-1 Kōenjiminami, Suginami City, Tokyo 166-0003, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:31c80a4e5fdae4e8323e8c23",
+                "outletName": "Tamaniwayakiniku Koenji",
+                "sourceIds": {
+                  "phone": "03-5356-8585",
+                  "googlePlaces": "ChIJR8af7H3yGGARaNM5PKmFKmw",
+                  "googleMapsUri": "https://maps.google.com/?cid=7794189067024454504&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tamanihayakiniku-koenji.owst.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 3-chōme−20−２１ Nk Building, １F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:900aedf4b30ce41f2af16a4c",
+                "outletName": "焼肉一式 道盛",
+                "sourceIds": {
+                  "phone": "03-6383-0129",
+                  "googlePlaces": "ChIJ4wQ2ATfzGGARSxineqI0zu4",
+                  "googleMapsUri": "https://maps.google.com/?cid=17207749098676361291&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://yakinikuisshiki.owst.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "2-chōme-7-13 Kōenjikita, Suginami City, Tokyo 166-0002, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:9ea4701cee4b404402862249",
+                "outletName": "大衆焼肉コグマヤ高円寺店",
+                "sourceIds": {
+                  "phone": "03-5356-8690",
+                  "googlePlaces": "ChIJqXdVRILzGGAR67OQ6_8DdTk",
+                  "googleMapsUri": "https://maps.google.com/?cid=4140219830140711915&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131904/13257930/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-22-2 Kōenjikita, Suginami City, Tokyo 166-0002, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:1921b3f756a9e7c7a652c4fb",
+                "outletName": "炭火村 高円寺店",
+                "sourceIds": {
+                  "phone": "050-5594-1125",
+                  "googlePlaces": "ChIJBTGwOADzGGARJR92D7oxoRY",
+                  "googleMapsUri": "https://maps.google.com/?cid=1630639215277907749&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://sumibimura.owst.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 2-chōme−4−７ 杉原ビル 2F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:1f76faed70e1b06e61e508c9",
+                "outletName": "焼肉ホルモン ミリネヤンコプチャン 高円寺店",
+                "sourceIds": {
+                  "phone": "03-6454-6409",
+                  "googlePlaces": "ChIJgWOmmtPzGGARV5WD3L5QXeU",
+                  "googleMapsUri": "https://maps.google.com/?cid=16527454988193207639&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://akr4117078256.owst.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−７ ビル 壱番館 2F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:98b23785000f45fa57a77481",
+                "outletName": "Yakiniku LIKE - Koenji Branch",
+                "sourceIds": {
+                  "phone": "03-5356-7329",
+                  "googlePlaces": "ChIJ78Z1973zGGAR4WRRvAjk_fo",
+                  "googleMapsUri": "https://maps.google.com/?cid=18085862404760102113&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.yakiniku-like.com/?utm_source=google&utm_medium=maps",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 3-chōme−23−１３ 小町ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:613c32686b7250c4177ab1b4",
+                "outletName": "Yakinikushokudokaburi Koenji Apatchiten",
+                "sourceIds": {
+                  "phone": "03-5356-8929",
+                  "googlePlaces": "ChIJye907n3yGGARjgr3CTyt9P0",
+                  "googleMapsUri": "https://maps.google.com/?cid=18299441659289995918&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://koenji.kaburi.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 3-chōme−24−６ フォーラム高円寺"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f4793cc21a51c19ace005796",
+                "outletName": "もつ焼き 陸",
+                "sourceIds": {
+                  "phone": "03-5327-8584",
+                  "googlePlaces": "ChIJOfFX_pfzGGAR8F514AgSBnw",
+                  "googleMapsUri": "https://maps.google.com/?cid=8936850339898154736&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://s.tabelog.com/tokyo/A1319/A131904/13291619/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 3-chōme−1−１５ 高円寺ビル １階"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:1fdfaef20edf84936dd3ba49",
+                "outletName": "オホーツク北見焼肉のっけ 高円寺本店",
+                "sourceIds": {
+                  "phone": "03-6338-2844",
+                  "googlePlaces": "ChIJURAApn3yGGAR6F3x_z7jEsg",
+                  "googleMapsUri": "https://maps.google.com/?cid=14416835216887864808&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "http://www.ok-nokke.com/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 3-chōme−2−１９ NS高円寺Ⅲ"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:6ea2687526819a2f902edc0c",
+                "outletName": "ホルモン焼肉 天竜 高円寺",
+                "sourceIds": {
+                  "phone": "03-6383-0128",
+                  "googlePlaces": "ChIJ8QyRSvXzGGARToIsTEiu6jI",
+                  "googleMapsUri": "https://maps.google.com/?cid=3668936471985553998&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.instagram.com/horumon10ryu_koenji/p/C0shlhvvCeM/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−49−１ JR高架下"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:128029c6bd82f64dae917d4e",
+                "outletName": "Gyu-shige",
+                "sourceIds": {
+                  "phone": "03-5364-9829",
+                  "googlePlaces": "ChIJq6qV8H3yGGARDusGJlF-eFI",
+                  "googleMapsUri": "https://maps.google.com/?cid=5942638595310807822&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "http://gyushige.com/index.html",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 2-chōme−22−６ 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:6aaa21debd7c2770996c27c0",
+                "outletName": "ジンギスカン羊はち 高円寺店",
+                "sourceIds": {
+                  "phone": "080-4169-6748",
+                  "googlePlaces": "ChIJu7MBSwDzGGARmxT7Sdk3ESg",
+                  "googleMapsUri": "https://maps.google.com/?cid=2887150242509821083&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131904/13311195/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-24-10 Kōenjikita, Suginami City, Tokyo 166-0002, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+                "outletName": "Yakiniku Hormone Arai-ya Koenji",
+                "sourceIds": {
+                  "phone": "03-3315-3508",
+                  "googlePlaces": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+                  "googleMapsUri": "https://maps.google.com/?cid=8554690246044155211&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131904/13156488/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−57−６ 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:e885b9d551198fe6df3dec63",
+                "outletName": "和牛焼肉 あおき屋",
+                "sourceIds": {
+                  "phone": "03-5913-8823",
+                  "googlePlaces": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+                  "googleMapsUri": "https://maps.google.com/?cid=7455991343005447122&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131904/13231218/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 4-chōme−45−２ 2F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:947c8c7672ed90a1cfb60902",
+                "outletName": "塩ホルモン 獅子丸",
+                "sourceIds": {
+                  "phone": "03-6454-6429",
+                  "googlePlaces": "ChIJq4VPDCPzGGAR2Li1-MgOYt8",
+                  "googleMapsUri": "https://maps.google.com/?cid=16096444274504480984&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131904/13191957/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "4-chōme-24-4 Kōenjiminami, Suginami City, Tokyo 166-0003, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:4b364b3d594fd1941f3c20b0",
+                "outletName": "焼肉すだち亭",
+                "sourceIds": {
+                  "phone": "03-3315-2129",
+                  "googlePlaces": "ChIJ83nB94fyGGARqqG36RPTFJ0",
+                  "googleMapsUri": "https://maps.google.com/?cid=11318903845967864234&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "4-chōme-28-5 Kōenjiminami, Suginami City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:e8244fa0783820ab0861dec4",
+                "outletName": "Shimonya",
+                "sourceIds": {
+                  "phone": "03-3310-0555",
+                  "googlePlaces": "ChIJeWQ0tCXzGGARJzXGlngip7k",
+                  "googleMapsUri": "https://maps.google.com/?cid=13377699119448339751&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://shimonya.com/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-3-69 Kōenjiminami, Suginami City, Tokyo 166-0003, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:dee2a370898f7ca62be62284",
+                "outletName": "ゆきんこ",
+                "sourceIds": {
+                  "googlePlaces": "ChIJZUJis4bzGGARshyS7eLg5HE",
+                  "googleMapsUri": "https://maps.google.com/?cid=8206931686228892850&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−49−１ 小林ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f0515b57755463ab9f6e18e9",
+                "outletName": "ジンギスカン酒場 焼肉 山田屋 高円寺",
+                "sourceIds": {
+                  "phone": "03-5364-9523",
+                  "googlePlaces": "ChIJI901iG3zGGARSyXQymVIP5Q",
+                  "googleMapsUri": "https://maps.google.com/?cid=10682336443177641291&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://jingisukan-yamadaya.com/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 3-chōme−21−１９ ライオンズプラザ高円寺"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:e90113266a642b06111a1744",
+                "outletName": "Hasegawa",
+                "sourceIds": {
+                  "phone": "03-3316-4129",
+                  "googlePlaces": "ChIJ__9--nbyGGAR21pt5lZaDe8",
+                  "googleMapsUri": "https://maps.google.com/?cid=17225523479041628891&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://s.tabelog.com/tokyo/A1319/A131905/13118661/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "2-chōme-17-6 Asagayaminami, Suginami City, Tokyo 166-0004, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:7cb75be329041f6d1e9d102c",
+                "outletName": "炭火 焼きとん 焼鳥 出陣 高円寺店",
+                "sourceIds": {
+                  "phone": "050-5485-6178",
+                  "googlePlaces": "ChIJqeATtoDyGGARtFYZajExvpM",
+                  "googleMapsUri": "https://maps.google.com/?cid=10646000657453635252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://shutsujin-kouenji.gorp.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "1-chōme-66-6 Yamatochō, Nakano City, Tokyo 165-0034, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:bee32a35b44f1e18bc05732b",
+                "outletName": "SATOブリアンにごう / Sato-Briand 2nd",
+                "sourceIds": {
+                  "phone": "03-6915-1739",
+                  "googlePlaces": "ChIJGcaCJXTyGGARmTJHHNNP_Sw",
+                  "googleMapsUri": "https://maps.google.com/?cid=3241835074907746969&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://satobriand.yoyaku.at/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "2-chōme-17-2 Asagayaminami, Suginami City, Tokyo 166-0004, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:334455feb86511187dcb6243",
+                "outletName": "タンタンパート３",
+                "sourceIds": {
+                  "phone": "03-3310-8929",
+                  "googlePlaces": "ChIJo50RN4fyGGARU17__pnkSP8",
+                  "googleMapsUri": "https://maps.google.com/?cid=18395204028054068819&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "2-chōme-34-8 Kōenjikita, Suginami City, Tokyo 166-0002, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:66b25a34acd041f4f6324b7f",
+                "outletName": "阿佐ヶ谷 ホルモン小屋",
+                "sourceIds": {
+                  "phone": "03-5327-8578",
+                  "googlePlaces": "ChIJUftNXwDzGGARiMxJCt85eak",
+                  "googleMapsUri": "https://maps.google.com/?cid=12211855494704909448&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0001 Tokyo, Suginami City, Asagayakita, 5-chōme−18−７ 五叉路さくら館"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:e0bd483a23c59cce42041ff3",
+                "outletName": "Red Grill",
+                "sourceIds": {
+                  "phone": "03-6383-0229",
+                  "googlePlaces": "ChIJ5WwyRRTzGGARYcs7nKloQwQ",
+                  "googleMapsUri": "https://maps.google.com/?cid=307204277271251809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://s.tabelog.com/tokyo/A1319/A131905/13290059/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0001 Tokyo, Suginami City, Asagayakita, 1-chōme−3−３ 川染ビル 2F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:1fee9a09441485084368dc11",
+                "outletName": "やきとん長良 NAGARA",
+                "sourceIds": {
+                  "phone": "03-6760-0208",
+                  "googlePlaces": "ChIJiTarvErzGGARyKhoqlOU26M",
+                  "googleMapsUri": "https://maps.google.com/?cid=11807193935144069320&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131904/13291085/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0003 Tokyo, Suginami City, Kōenjiminami, 3-chōme−58−１８ 山本ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:2b97eafaaa6e577f79ddaa94",
+                "outletName": "Sato-Briand Sango",
+                "sourceIds": {
+                  "phone": "050-5595-7889",
+                  "googlePlaces": "ChIJm6RCY5XtGGARROb2L7jPa6w",
+                  "googleMapsUri": "https://maps.google.com/?cid=12424252387017287236&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://satobriand.yoyaku.at/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "1-chōme-37-6 Asagayakita, Suginami City, Tokyo 166-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:6b2b5f593bd6596c2b44bcef",
+                "outletName": "焼肉 からし亭",
+                "sourceIds": {
+                  "googlePlaces": "ChIJ5dSOUQDzGGARwDBTV2bnwjI",
+                  "googleMapsUri": "https://maps.google.com/?cid=3657740274116014272&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "1-chōme-3-8 Asagayakita, Suginami City, Tokyo 166-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f3c93b350d35da2071502623",
+                "outletName": "Jump",
+                "sourceIds": {
+                  "phone": "03-3337-9550",
+                  "googlePlaces": "ChIJ978G8H3yGGARFnA_mcspMmQ",
+                  "googleMapsUri": "https://maps.google.com/?cid=7219879107054497814&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://jump-kouenji.workspace-402266.chatgpt.site/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "2-chōme-22-7 Kōenjikita, Suginami City, Tokyo 166-0002, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:60049eb5845639925b477ebb",
+                "outletName": "焼肉大門",
+                "sourceIds": {
+                  "googlePlaces": "ChIJg533dQDzGGARLT9a02MH9FQ",
+                  "googleMapsUri": "https://maps.google.com/?cid=6121525918832410413&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Takahashi Bld., 1-chōme-48-10 Asagayaminami, Suginami City, Tokyo 166-0004, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:7c81aab1c43b183ef9ed4cb0",
+                "outletName": "Tsukishima Monja Tamatoya Koenji",
+                "sourceIds": {
+                  "phone": "03-5356-8227",
+                  "googlePlaces": "ChIJs4EXbNPzGGARQFD6hOc9Fhk",
+                  "googleMapsUri": "https://maps.google.com/?cid=1807700365013569600&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.instagram.com/tamatoya_monja/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒166-0002 Tokyo, Suginami City, Kōenjikita, 3-chōme−22−１８ たちばなビル"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:dd3e3b1a8e813fc5bbbc38de",
+                "outletName": "焼鳥うなぎ大八",
+                "sourceIds": {
+                  "phone": "03-3315-2248",
+                  "googlePlaces": "ChIJXWj1IQ7zGGAR7uz6V_jjTwA",
+                  "googleMapsUri": "https://maps.google.com/?cid=22487178927598830&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "2-chōme-20-15 Kōenjiminami, Suginami City, Tokyo 166-0003, Japan"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:ae4ca4e70761cb9085769a9e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJScRpD37yGGAR1alieG2JhXA",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c50ba5b6d5929b6bfa10e234",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJM15Cb7bzGGARBPFhu8PSPMU",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:bbcb46d46f4519eb4bcd3e74",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJd1on4pTzGGARIJl83_kjQQ0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:ee89773c093549a6c7bb6b3f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJEVAxZwDzGGARYdWxpKrAUfE",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:9658b9dacb8b2b31419c447f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJBYy-lIfyGGARkGDB0vWwnNo",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:31c80a4e5fdae4e8323e8c23",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJR8af7H3yGGARaNM5PKmFKmw",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:900aedf4b30ce41f2af16a4c",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ4wQ2ATfzGGARSxineqI0zu4",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:9ea4701cee4b404402862249",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJqXdVRILzGGAR67OQ6_8DdTk",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:1921b3f756a9e7c7a652c4fb",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJBTGwOADzGGARJR92D7oxoRY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:1f76faed70e1b06e61e508c9",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJgWOmmtPzGGARV5WD3L5QXeU",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:98b23785000f45fa57a77481",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ78Z1973zGGAR4WRRvAjk_fo",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:613c32686b7250c4177ab1b4",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJye907n3yGGARjgr3CTyt9P0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f4793cc21a51c19ace005796",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJOfFX_pfzGGAR8F514AgSBnw",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:1fdfaef20edf84936dd3ba49",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJURAApn3yGGAR6F3x_z7jEsg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:6ea2687526819a2f902edc0c",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ8QyRSvXzGGARToIsTEiu6jI",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:128029c6bd82f64dae917d4e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJq6qV8H3yGGARDusGJlF-eFI",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:6aaa21debd7c2770996c27c0",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJu7MBSwDzGGARmxT7Sdk3ESg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ1WDPIn3yGGARS_31PnRduHY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:e885b9d551198fe6df3dec63",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ047DEX3zGGAR0jM6eJ8AeWc",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:947c8c7672ed90a1cfb60902",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJq4VPDCPzGGAR2Li1-MgOYt8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:4b364b3d594fd1941f3c20b0",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ83nB94fyGGARqqG36RPTFJ0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:e8244fa0783820ab0861dec4",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJeWQ0tCXzGGARJzXGlngip7k",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:dee2a370898f7ca62be62284",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJZUJis4bzGGARshyS7eLg5HE",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f0515b57755463ab9f6e18e9",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJI901iG3zGGARSyXQymVIP5Q",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:e90113266a642b06111a1744",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ__9--nbyGGAR21pt5lZaDe8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:7cb75be329041f6d1e9d102c",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJqeATtoDyGGARtFYZajExvpM",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:bee32a35b44f1e18bc05732b",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJGcaCJXTyGGARmTJHHNNP_Sw",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:334455feb86511187dcb6243",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJo50RN4fyGGARU17__pnkSP8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:66b25a34acd041f4f6324b7f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJUftNXwDzGGARiMxJCt85eak",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:e0bd483a23c59cce42041ff3",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ5WwyRRTzGGARYcs7nKloQwQ",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:1fee9a09441485084368dc11",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJiTarvErzGGARyKhoqlOU26M",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:2b97eafaaa6e577f79ddaa94",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJm6RCY5XtGGARROb2L7jPa6w",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:6b2b5f593bd6596c2b44bcef",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ5dSOUQDzGGARwDBTV2bnwjI",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f3c93b350d35da2071502623",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ978G8H3yGGARFnA_mcspMmQ",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:60049eb5845639925b477ebb",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJg533dQDzGGARLT9a02MH9FQ",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:7c81aab1c43b183ef9ed4cb0",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJs4EXbNPzGGARQFD6hOc9Fhk",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:dd3e3b1a8e813fc5bbbc38de",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJXWj1IQ7zGGAR7uz6V_jjTwA",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c50ba5b6d5929b6bfa10e234",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJM15Cb7bzGGARBPFhu8PSPMU",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:9ea4701cee4b404402862249",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13257930",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:4ee0fa1e7015bba172121d0a",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131904/13156488",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:ae4ca4e70761cb9085769a9e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJScRpD37yGGAR1alieG2JhXA",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:1873b74b-d2ca-4928-ad1f-ed112492e637",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:ae4e530a-e405-4c3a-b052-0e72dce7fdad",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:eef80763-1b79-4e40-9872-3dca97e2df36",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:7d35b968-74a8-4f69-8e72-444626028c08",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_END_WINDOW_OPENED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:96ca9480-5326-445a-9868-0a46ba3493fb",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_ENDED_NO_VERIFIED_RESULT"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "delivered": [],
+  "handoffs": [],
+  "answers": [],
+  "pages": [],
+  "qualificationClaims": [],
+  "vacancy": [
+    {
+      "ref": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-07-r1/p3b-holdout-07-r1/witness/001-vacancy.body",
+      "phase": "BEFORE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13306197&svd=20261118&svps=10&svt=1900",
+      "candidateId": "witness-07",
+      "body": {
+        "selection": {
+          "0": {
+            "time": "17:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=1700"
+          },
+          "1": {
+            "time": "19:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=1900"
+          },
+          "2": {
+            "time": "21:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2100"
+          },
+          "3": {
+            "time": "21:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2130"
+          },
+          "4": {
+            "time": "22:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2200"
+          },
+          "5": {
+            "time": "22:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2230"
+          },
+          "6": {
+            "time": "23:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2300"
+          },
+          "7": {
+            "time": "23:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2330"
+          },
+          "8": {
+            "time": "24:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2400"
+          },
+          "9": {
+            "time": "24:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2430"
+          },
+          "10": {
+            "time": "25:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2500"
+          },
+          "11": {
+            "time": "25:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2530"
+          },
+          "12": {
+            "time": "26:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2600"
+          },
+          "13": {
+            "time": "26:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2630"
+          },
+          "14": {
+            "time": "27:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2700"
+          }
+        },
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 18,
+          "dow": "Wed"
+        },
+        "members": 10,
+        "time": "19:00"
+      }
+    },
+    {
+      "ref": "/private/tmp/praxis-seed-readiness-fixes/.eval-artifacts/phase3b/seed-dev-20261111/p3b-holdout-07-r1/p3b-holdout-07-r1/witness/002-vacancy.body",
+      "phase": "NO_DELIVERY_AFTER",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13306197&svd=20261118&svps=10&svt=1900",
+      "candidateId": "witness-07",
+      "body": {
+        "selection": {
+          "0": {
+            "time": "17:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=1700"
+          },
+          "1": {
+            "time": "19:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=1900"
+          },
+          "2": {
+            "time": "21:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2100"
+          },
+          "3": {
+            "time": "21:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2130"
+          },
+          "4": {
+            "time": "22:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2200"
+          },
+          "5": {
+            "time": "22:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2230"
+          },
+          "6": {
+            "time": "23:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2300"
+          },
+          "7": {
+            "time": "23:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2330"
+          },
+          "8": {
+            "time": "24:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2400"
+          },
+          "9": {
+            "time": "24:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2430"
+          },
+          "10": {
+            "time": "25:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2500"
+          },
+          "11": {
+            "time": "25:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2530"
+          },
+          "12": {
+            "time": "26:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2600"
+          },
+          "13": {
+            "time": "26:30",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2630"
+          },
+          "14": {
+            "time": "27:00",
+            "url": "/en/booking/form_course/new?member=10&rcd=13306197&visit_date=20261118&visit_time=2700"
+          }
+        },
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 18,
+          "dow": "Wed"
+        },
+        "members": 10,
+        "time": "19:00"
+      }
+    }
+  ],
+  "requests": [
+    {
+      "ref": "g6-node:2",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:3",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:5",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:6",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:4",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:8",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:7",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:12",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:9",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:13",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:10",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:31",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:11",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:43",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:46",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:47",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:48",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:50",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:51",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:52",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:49",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:53",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:57",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:54",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:56",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:55",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:62",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:77",
+      "url": "https://tabelog.com/en/rstLst/RC/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "sw"
+      ]
+    },
+    {
+      "ref": "g6-native:78",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:79",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:80",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:83",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:84",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:81",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:82",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:87",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:88",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:85",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:93",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:86",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:110",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "sw"
+      ]
+    },
+    {
+      "ref": "g6-native:111",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:112",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:113",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:115",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:117",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:114",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:116",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:120",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:121",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:126",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:118",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:119",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:140",
+      "url": "https://tabelog.com/en/rstLst/RC/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "sw"
+      ]
+    },
+    {
+      "ref": "g6-native:141",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:142",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:144",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:143",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:145",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:148",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:150",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:156",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:147",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:146",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:149",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:151",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-node:169",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:170",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:171",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:172",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:174",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:173",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:179",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:177",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:176",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:175",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:180",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:198",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:178",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:210",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:213",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:215",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:216",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:217",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:214",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:218",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:220",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:219",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:223",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:221",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:224",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:228",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:222",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:235",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:238",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:237",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:236",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:239",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:240",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:241",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:243",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:245",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:242",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:244",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:264",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:246",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-node:276",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:279",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:282",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:281",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:285",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:287",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:283",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:289",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:295",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:284",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:286",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:290",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:280",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:288",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:325",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:328",
+      "url": "https://tabelog.com/en/osaka/A2705/A270501/27114226/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:330",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:331",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:329",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:332",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:334",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:333",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:340",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:337",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:335",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:341",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:342",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:338",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:343",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-a53976a2a208c593aef3577e25bbe2004c712a55f40d613c5785b297e3a584d7"
+      ]
+    },
+    {
+      "ref": "g6-native:339",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:375",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:336",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:383",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:385",
+      "url": "https://tabelog.com/en/kanagawa/A1401/A140102/14101661/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:386",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:387",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:389",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:388",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:390",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:393",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:391",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:397",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:395",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:396",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:392",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:394",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:398",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:399",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:400",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-a53976a2a208c593aef3577e25bbe2004c712a55f40d613c5785b297e3a584d7"
+      ]
+    },
+    {
+      "ref": "g6-native:431",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:438",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:440",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:441",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:444",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:446",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:442",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:447",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:445",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:450",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:448",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:451",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:469",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:449",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:443",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-node:481",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:484",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:485",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:486",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:487",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:488",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:490",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:489",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:491",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:492",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:494",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:495",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:493",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:500",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:516",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131904/13257930/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:518",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:517",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:521",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:519",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:520",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:529",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:530",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:528",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:525",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:523",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:522",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:524",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:526",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:531",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-a53976a2a208c593aef3577e25bbe2004c712a55f40d613c5785b297e3a584d7"
+      ]
+    },
+    {
+      "ref": "g6-native:527",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:585",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:595",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:597",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131904/13257930/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:598",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:599",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:601",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:600",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:602",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:603",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:604",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:606",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:605",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:608",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:607",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:610",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:612",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-a53976a2a208c593aef3577e25bbe2004c712a55f40d613c5785b297e3a584d7"
+      ]
+    },
+    {
+      "ref": "g6-native:609",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:611",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:666",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:676",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:678",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131904/13156488/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:681",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:679",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:680",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:682",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:683",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:690",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:691",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:684",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:687",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:693",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-a53976a2a208c593aef3577e25bbe2004c712a55f40d613c5785b297e3a584d7"
+      ]
+    },
+    {
+      "ref": "g6-native:688",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:685",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:686",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:692",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:689",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:750",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:759",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:762",
+      "url": "https://tabelog.com/en/booking/calendar/initial_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:764",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131904/13156488/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:766",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:765",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:768",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:767",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:769",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:770",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:771",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:774",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:773",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:775",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:772",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:777",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:776",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:778",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:779",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-a53976a2a208c593aef3577e25bbe2004c712a55f40d613c5785b297e3a584d7"
+      ]
+    },
+    {
+      "ref": "g6-native:836",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:846",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:847",
+      "url": "https://tabelog.com/en/booking/calendar/initial_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:849",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd"
+      ]
+    },
+    {
+      "ref": "g6-node:850",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:857",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:859",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:860",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:861",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:864",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:862",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:863",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:865",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:867",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:866",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:869",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:870",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:888",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:868",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:900",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:903",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:904",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:906",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:905",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:910",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:907",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:908",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:909",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:913",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:914",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:911",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:918",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:912",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:925",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:926",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:928",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:930",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:929",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:932",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:935",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:931",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:936",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:933",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:927",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:934",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:954",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:966",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:969",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:970",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:971",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:972",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:976",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:975",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:973",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:974",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:977",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:979",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:985",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:980",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:978",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:1018",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:1020",
+      "url": "https://tabelog.com/en/fukuoka/A4001/A400104/40039111/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:1022",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:1021",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:1023",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:1025",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:1024",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:1032",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:1026",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:1034",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:1027",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:1030",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:1029",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:1035",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-a53976a2a208c593aef3577e25bbe2004c712a55f40d613c5785b297e3a584d7"
+      ]
+    },
+    {
+      "ref": "g6-native:1031",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:1067",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:1028",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:1033",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-node:1073",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:1076",
+      "url": "https://tabelog.com/en/tokyo/A1326/A132601/13183097/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:1078",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:1077",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:1079",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:1080",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:1081",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:1082",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:1083",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:1090",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:1085",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:1087",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:1086",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:1084",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:1089",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:1088",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:1091",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-a53976a2a208c593aef3577e25bbe2004c712a55f40d613c5785b297e3a584d7"
+      ]
+    },
+    {
+      "ref": "g6-native:1150",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:1160",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:1161",
+      "url": "https://tabelog.com/en/booking/calendar/initial_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:1164",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:1165",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:1167",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:1166",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:1168",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:1169",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:1171",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:1172",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:1170",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:1173",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:1174",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:1175",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:1193",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:1205",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:1208",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:1210",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:1213",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:1209",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:1211",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:1215",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:1214",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:1212",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:1219",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:1216",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:1224",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:1218",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:1217",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-node:1233",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:1236",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:1237",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:1238",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:1239",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:1240",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:1243",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:1241",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:1242",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:1244",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:1245",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:1246",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:1247",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:1265",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:1277",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:1280",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:1281",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:1282",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:1283",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:1284",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:1287",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:1286",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:1290",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:1288",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:1289",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:1285",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:1291",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:1295",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:1302",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:1303",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:1307",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:1304",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:1309",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:1308",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:1306",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:1305",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:1310",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-be53baf8ffb0c7caaf78148c8199aba9d06f389a4126e49e881bad63f0f9132e"
+      ]
+    },
+    {
+      "ref": "g6-native:1311",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-aca324ec83647187a7fb9d9e8d911f2dbe2a9f8f13dfc4812d7e11ca1c67d154"
+      ]
+    },
+    {
+      "ref": "g6-native:1312",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:1313",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:1331",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611111359-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    }
+  ],
+  "postDeliveryChecks": [],
+  "reviewedReadRules": [
+    {
+      "ref": "independent-approved-literal-0",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/catalog.json",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-1",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "queryProfile",
+        "hits",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "offset",
+        "id",
+        "open_day",
+        "service_mode"
+      ],
+      "requiredQueryKeys": [
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-2",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-3",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-4",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-5",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-6",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "POST"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/v2/hub/availability_calendar_v2",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      },
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "content-type"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-7",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "sw",
+        "vac_net",
+        "svd",
+        "svt",
+        "svps"
+      ],
+      "requiredQueryKeys": [],
+      "pathnamePattern": "^/en/tokyo/.*$"
+    },
+    {
+      "ref": "independent-approved-literal-8",
+      "origin": "https://www.tablecheck.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "search_text",
+        "date",
+        "time",
+        "num_people",
+        "availability_mode"
+      ],
+      "requiredQueryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate"
+      ],
+      "pathname": "/en/japan/search"
+    },
+    {
+      "ref": "independent-approved-literal-9",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/v2/geolocation",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-10",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ],
+      "requiredQueryKeys": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ],
+      "pathname": "/v2/autocomplete",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-11",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "limit",
+        "sort_by",
+        "shop_ids[]"
+      ],
+      "requiredQueryKeys": [
+        "limit",
+        "sort_by"
+      ],
+      "pathname": "/v2/hub/public_shop_lists",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-12",
+      "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "shop_universe_id",
+        "include_ids",
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "requiredQueryKeys": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "pathname": "/ai_search",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-13",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "shop_universe_id",
+        "include_ids",
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "requiredQueryKeys": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "pathname": "/v2/shop_search",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-14",
+      "origin": "https://cdn0.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathnamePattern": "^/common/.*$",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-15",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "locale"
+      ],
+      "requiredQueryKeys": [
+        "locale"
+      ],
+      "pathnamePattern": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    {
+      "ref": "independent-approved-literal-16",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ],
+      "requiredQueryKeys": [
+        "rst_id"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/initial_vacancy/?$"
+    },
+    {
+      "ref": "independent-approved-literal-17",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "plan_id",
+        "seat_only"
+      ],
+      "requiredQueryKeys": [
+        "rst_id"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy_date_with_status/?$"
+    },
+    {
+      "ref": "independent-approved-literal-18",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "plan_id",
+        "seat_only"
+      ],
+      "requiredQueryKeys": [
+        "rst_id",
+        "svd"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy_member_by_date/?$"
+    },
+    {
+      "ref": "independent-approved-literal-19",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ],
+      "requiredQueryKeys": [
+        "rst_id",
+        "svd",
+        "svps"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy/?$"
+    },
+    {
+      "ref": "independent-approved-literal-20",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "requiredQueryKeys": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "pathname": "/contents/reserve_date_status_list"
+    }
+  ],
+  "witnesses": [
+    {
+      "candidateId": "witness-07",
+      "name": "Snpoen Koenji",
+      "provider": "TABELOG",
+      "sourceEntityId": "13306197",
+      "date": "2026-11-18",
+      "time": "19:00",
+      "partySize": 10,
+      "detailUrl": "https://tabelog.com/en/tokyo/A1319/A131904/13306197/",
+      "identityText": [
+        "Snpoen Koenji"
+      ],
+      "phone": "050-5596-1309"
+    }
+  ],
+  "boundedNoResult": true,
+  "deadline": {
+    "elapsedMs": 181658.888542,
+    "turns": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794376363490,
+        "deadlineAtMs": 1794376863490,
+        "elapsedMs": 180812.68225,
+        "modelCalls": 47,
+        "googleRequests": 5,
+        "exceeded500Seconds": false
+      }
+    ],
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "priceClaims": [],
+  "softClaims": []
+}
