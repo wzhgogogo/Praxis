@@ -1095,3 +1095,25 @@ test("unused Japanese capacity returns the original fifth detail and a prior HIG
     if(mode==="wrong-id")assert.equal(diagnostic?.nameRetrieval?.japanese?.reasonCode,"GOOGLE_MALFORMED_RESPONSE");
   }
 });
+
+
+test("fallback name search reuses its completed snapshot without a redundant discovery snapshot", async () => {
+ const page:BrowserSnapshot={url:"https://tabelog.com/en/rstLst/?sw=Restaurant%201",title:"Search",text:"No matching outlets",html:"<main>No matching outlets</main>",settlement:"SETTLED"};
+ const session=new FixtureBrowserSession([page]);
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:4,maxModelCallsTotal:4,maxOperationsPerCandidate:40,modelDecision:{async decide(){return{type:"COMPLETE",reason:"Supplied adapter search result"};}}});
+ const operations:string[]=[];let returned=false;
+ const snapshot=executor.snapshot.bind(executor);
+ executor.snapshot=async input=>{if(returned)operations.push("SNAPSHOT:"+input.stage);return snapshot(input);};
+ // Adapter source-I/O substitute only. Generic query binding is covered by
+ // executor and recorded Chromium fixtures; real adapter still inspects result.
+ executor.search=async input=>{await executor.start({...input,stage:"DISCOVERY"});returned=true;operations.push("SEARCH");return{status:"COMPLETED",snapshot:page,controls:[]};};
+ const diagnostics:import('./tabelog-contracts.js').TabelogIdentityDiagnostic[]=[];
+ const adapter=new ProductionTabelogBrowserAvailability(executor,()=>"2026-08-05T09:00:00.000Z",5,{networkPolicy:{startupDocuments:["https://tabelog.com/en/"],documentOrigins:["https://tabelog.com"],staticResources:[],dynamicReads:[]},onIdentityDiagnostic:row=>diagnostics.push(row)});
+ try{
+  const result=await adapter.check({candidateIds:[candidate.restaurant.id],candidates:[candidate],date:fixtureIntent.date,partySize:2,timeWindow:fixtureIntent.timeWindow,hardCriteria:[]},new AbortController().signal);
+  assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,"UNKNOWN");
+  assert.equal(operations.includes("SEARCH"),true);
+  assert.deepEqual(operations.filter(op=>op==="SNAPSHOT:DISCOVERY"),[],"SEARCH already supplies its newest completed result snapshot");
+  assert.ok(diagnostics.length>0,"normal adapter identity diagnostics remain present");
+ }finally{await executor.closeAll();}
+});

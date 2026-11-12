@@ -1,3 +1,7 @@
+<a id="seed-d02v-location-snapshot-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：D02-V局部修复，LOCATION填写恢复权威label，queryLabel保留目录绑定；浏览器Prompt25澄清上级行政区一致及可见回退导航；名称搜索复用完成快照。66项定向测试修前3红/修后全绿，typecheck通过，待冻结完整门禁。真实调用0；Sumika原录制仅2人，不冒充8人验收；满天8人计时为组件投影。ec839926远端不可解析，双基线扫描待补。见[一页简报](../../.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
+
 2026-11-11 CET — seed r3 integration preparation：用户批准只将bd01a402的src/docs合入main（不含新.eval-artifacts），PENDING结算复用/queryLabel/文本查询范围/分类相关度导航修复进入主线；修后新Live尚未验证。旧07-r1已独立补评QUALIFIED_DELIVERY/s0=0，原证据在bd01a402分支。仅eval同步新账本校验43Live/235GET/2800模型/4环境。净树门禁后冻SHA，按D02-V两次→07-r3一次串行验证；07-r3为新单次批次逻辑名，内部槽位仍07-r1，旧目录不动。所有新计划/门禁/产物留独立证据分支，不合入main；旧账本及主工作区草稿不变。
 
 2026-11-11 CET — draft / not integrated，种子发现与settle复用修复：PENDING先结算后唯一控件扫描；来源绑定queryLabel保留原始地名；来源包文本查询需体现权威检索词，目录浏览不受影响。真实Nakano列表Sumika第12，故以来源分类字面相关度排序详情读取，原5/10上限及HARD门槛不变。07-r2 Google实际HTTP200空对象，非跳过；其列表DOM被旧Recorder拒录，组件构造与真实D02 DOM分开。07-r1独立来源分类/完整地址及502m半径补评已按reviewHoldoutAttempt收口QUALIFIED_DELIVERY/qualified=true/s0=0，原评价保留。0模型/0Live/0网站GET；85a72f2d净树门禁type/arch/build、默认1596、Chromium281+G6 159全绿，D4/D8及录制回归保持；新增产品扫描0。推送后停，不合main。[计划](https://github.com/wzhgogogo/Praxis/blob/bd01a4024b7475b2464785eea42cb490771933d2/.eval-artifacts/phase3b/seed-discovery-settle-20261111/plan.md)。
