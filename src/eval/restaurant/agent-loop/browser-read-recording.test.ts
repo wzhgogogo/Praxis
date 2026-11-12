@@ -434,3 +434,12 @@ test('recorded SPA detail URL accepts only declared short-token route fields and
   }
  }finally{await rm(root,{recursive:true,force:true});}
 });
+
+test('frozen advance replay independently rebinds the observed value group',async()=>{
+ const {createFrozenReplayBrowserDecision}=await import('./source-stage-probe.js');
+ const {browserReadActionTargetReplayFingerprint,browserReadGroupReplayFingerprint}=await import('../../../infrastructure/browser/browser-action-decision.js');
+ const advance={ref:'new-control',kind:'BUTTON' as const,role:'button',label:'Move',type:'button',controlGroupRef:'controller'},choice={ref:'new-choice',kind:'BUTTON' as const,role:'button',label:'Observed choice',value:'9',controlGroupRef:'new-values'};
+ const port=createFrozenReplayBrowserDecision([{action:'ADVANCE_TO_AUTHORITATIVE',targetRef:'old-control',valueGroupRef:'old-values',authoritativeField:'PARTY_SIZE',requestedState:'NONE',reason:'REDACTED',extras:[],targetFingerprint:browserReadActionTargetReplayFingerprint(advance),valueGroupFingerprint:browserReadGroupReplayFingerprint([choice])}]);
+ const action=await port.decide({history:[],taskId:'replay',source:'fixture',stage:'AVAILABILITY',goal:{outlet:{name:'Fixture'},partySize:9,hardCriteria:[]},objective:'rebind',progress:'',skills:{generic:'',source:''},observation:{revision:3,url:'https://fixture.test/',title:'Widget',visibleText:'',targets:[advance,choice],controlGroups:[{ref:'new-values',label:'Values',selectedValues:[]}]}});
+ assert.equal(action.type,'ADVANCE_TO_AUTHORITATIVE');if(action.type==='ADVANCE_TO_AUTHORITATIVE')assert.equal(action.valueGroupRef,'new-values');
+});
