@@ -1,0 +1,43 @@
+{
+  "frozenSourceSHA": "a5b8ac83357caef4d4c5d8d0b3f859c49e38cb26",
+  "configurationCommit": "2a0612a2a24496afeff8ac1bd40338a047e41af3",
+  "configurationUnchanged": true,
+  "sourceCleanAndUnchanged": true,
+  "protectedFilesUnchanged": true,
+  "originalVerdict": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "elapsedMs": 54982.935374999994,
+  "evaluationGETs": 6,
+  "modelCalls": 17,
+  "modelOutcomes": {
+    "SUCCEEDED": 11,
+    "FAILED": 6
+  },
+  "browserRejectedSequences": [
+    4,
+    6,
+    7,
+    8,
+    10,
+    16
+  ],
+  "boundaryChecks": {
+    "PASS": 54
+  },
+  "remaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 1,
+    "realModelCalls": 33,
+    "environmentReruns": 0
+  },
+  "primaryFailure": "browser_read_decide rejected at sequence 4 before any model-selected page action",
+  "observedSchemaDefect": "valueGroupRef is declared in properties but missing from required in strict browser schema15",
+  "causalStatus": "HIGH_CONFIDENCE_HYPOTHESIS; original HTTP status/body was not retained by this runner",
+  "noProductRepairDuringOrAfterRun": true
+}
