@@ -1,0 +1,60 @@
+{
+  "method": "INDEPENDENT_REVIEWER_SUPPLEMENT; not automatic evaluator output",
+  "originalEvaluationSHA256": "0cd0b769293d00564d38add2ae6c789cbfb621197fa40902b7e4e659cf843af4",
+  "originalInputUnchanged": true,
+  "evaluatorUnchanged": true,
+  "qualificationChecks": [
+    {
+      "rule": "COMPLETE_REQUEST_QUALIFICATION",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "tabelog:en/tokyo/A1319/A131902/13309182",
+      "reason": "Independently reviewed complete-request HARD and area qualification",
+      "evidenceRefs": [
+        "source-snapshot:6:html-sha256:a35f34a59e413c68dcd72237d2e38a1bd459c4fc3629c895139d66ba1ee3c0c0",
+        "source-snapshot:6:html-sha256:5e459549defe44be8ce904ad3da5f0ca58ee41e1aae643db7b03cffcecd524e9:text-sha256:5fe8e304064e58f9c8e273646132c1b73e37361ac65d9bf82df8a1e799f505fe",
+        "source-snapshot:6:html-sha256:5e459549defe44be8ce904ad3da5f0ca58ee41e1aae643db7b03cffcecd524e9:text-sha256:5fe8e304064e58f9c8e273646132c1b73e37361ac65d9bf82df8a1e799f505fe:identity:google-response:2:883ea0016acf2e8f8e6a342ea6fbece3a288c62a8d41c403dc7224162c84bd37",
+        "recorded-har:69:sha256:883ea0016acf2e8f8e6a342ea6fbece3a288c62a8d41c403dc7224162c84bd37",
+        "independent-google-circle:68:distance-m:259.641",
+        "captured-snapshot:16:response:2"
+      ]
+    },
+    {
+      "rule": "COMPLETE_REQUEST_QUALIFICATION",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "reason": "Independently reviewed complete-request HARD and area qualification",
+      "evidenceRefs": [
+        "source-snapshot:6:html-sha256:a35f34a59e413c68dcd72237d2e38a1bd459c4fc3629c895139d66ba1ee3c0c0",
+        "source-snapshot:6:html-sha256:5e459549defe44be8ce904ad3da5f0ca58ee41e1aae643db7b03cffcecd524e9:text-sha256:5fe8e304064e58f9c8e273646132c1b73e37361ac65d9bf82df8a1e799f505fe",
+        "source-snapshot:6:html-sha256:5e459549defe44be8ce904ad3da5f0ca58ee41e1aae643db7b03cffcecd524e9:text-sha256:5fe8e304064e58f9c8e273646132c1b73e37361ac65d9bf82df8a1e799f505fe:identity:google-response:2:883ea0016acf2e8f8e6a342ea6fbece3a288c62a8d41c403dc7224162c84bd37",
+        "recorded-har:69:sha256:883ea0016acf2e8f8e6a342ea6fbece3a288c62a8d41c403dc7224162c84bd37",
+        "independent-google-circle:68:distance-m:259.641",
+        "captured-snapshot:16:response:2"
+      ]
+    }
+  ],
+  "independentlyReviewedB1Source": {
+    "subject": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+    "status": "PASS",
+    "evidenceRefs": [
+      "source-snapshot:6:html-sha256:a35f34a59e413c68dcd72237d2e38a1bd459c4fc3629c895139d66ba1ee3c0c0",
+      "source-snapshot:6:html-sha256:5e459549defe44be8ce904ad3da5f0ca58ee41e1aae643db7b03cffcecd524e9:text-sha256:5fe8e304064e58f9c8e273646132c1b73e37361ac65d9bf82df8a1e799f505fe",
+      "source-snapshot:6:html-sha256:5e459549defe44be8ce904ad3da5f0ca58ee41e1aae643db7b03cffcecd524e9:text-sha256:5fe8e304064e58f9c8e273646132c1b73e37361ac65d9bf82df8a1e799f505fe:identity:google-response:2:883ea0016acf2e8f8e6a342ea6fbece3a288c62a8d41c403dc7224162c84bd37",
+      "recorded-har:69:sha256:883ea0016acf2e8f8e6a342ea6fbece3a288c62a8d41c403dc7224162c84bd37",
+      "independent-google-circle:68:distance-m:259.641",
+      "captured-snapshot:16:response:2"
+    ]
+  },
+  "verdict": {
+    "status": "EVALUATED_BY_INDEPENDENT_REVIEW",
+    "qualified": true,
+    "outcome": "QUALIFIED_DELIVERY",
+    "s0": 0,
+    "s0Status": "EVALUATED",
+    "stopBatch": false
+  },
+  "duplicatePresentationDefect": true,
+  "proofFile": "independent-proof.json"
+}

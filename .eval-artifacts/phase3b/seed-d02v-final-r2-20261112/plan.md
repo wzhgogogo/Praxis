@@ -1,0 +1,9 @@
+# Final D02-V r2 controlled Live
+
+User2026-11-12. Source main candidate32b97ed812be10e80a683ad1f2be8caba5608bf0 contains only approved src/docs from4eb7900d, including recorded src fixtures. Run only after full clean gates, both scans0, main push and ls-remote confirmation. No new .eval-artifacts in main.
+
+Exactly one standalone dev-d02v-paging-r2. Same d02vSpec/request/date12-10/8people/20:30, existing runG6Batch/createLiveReadAssembly, original60s health,500s/50models,45s provider, all recordings and same --env-file/network configuration. R1 reviewed separately; not a resume of its source SHA or failed batch. Same active r4 ledger, cumulative1Live/11GET/47models; remaining1/9/73, environmentReruns0. No old three-ledger changes; all hashes recorded before/after.
+
+Corrected output lives inside the frozen source worktree .eval-artifacts; an actual offline decision-capture path probe must pass first. Config/script/budget snapshot/probe committed before requests. Unique invocation IDs; randomized120-240s spacing from actual ledger/request timestamps, witness1GET then4health GETs spaced>=5s, up to2postGETs. No outer retry. On S0,missing safety evidence,environment or unknown exception stop and preserve evidence. If only qualifications are pending, independently review saved source records after run; original evaluation immutable. Runtime source/prompt/skill/input/evaluator/orchestration must not change.
+
+Review all required LOCATION/parent-area/Prompt25 recovery, direct URI/blind search, same-store merge/inventory/card/B1 counts, date8people20:30 source and postcheck, exact provider timeout attribution. Do not use Mock/Replay as Live. Reuse the prior r1 independent-review conclusion with duplicate defect noted; do not rewrite its original run. Push evidence04 with one-page report and stop; no extra Live,fixes,held-out.
