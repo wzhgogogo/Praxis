@@ -1,3 +1,7 @@
+<a id="seed-cuisine-direct-choice-stop-20261112"></a>
+
+2026-11-12 CET — draft / not integrated，菜系范围与人数直选在第0步停止：r1/r2目录有分类导航但无已录下的请求菜系筛选完整路径/生效范围证据；人数DOM初始仅1–6，Next后才渲染7/8，并非仅overflow裁剪。按用户停止条件两项均不实施，产品/Prompt/评价器/Fixture零改动；只做原始DOM事实核验，不声称修后回放或Live通过。主工作区及三旧+r4账本不变，0Live/0网站GET/0模型；不合main。[根因与位置](../../.eval-artifacts/phase3b/seed-cuisine-direct-choice-20261112/root-cause.md)，[简报](../../.eval-artifacts/phase3b/seed-cuisine-direct-choice-20261112/report.md)。
+
 2026-11-12 CET — draft / not integrated：同店候选合并源码cff31e94净树完整门禁type/arch/build、默认1610、Chromium281、G6 159及D4/D8/D02-V通过；双基线ead28945/105a8b0a新增产品写死0。既有合并改用本次详情经原身份核对器得到的HIGH同provider/sourceEntityId，无证/LOW/冲突不合并；保留原生导航与Google佐证，不新增I/O。r1组件由两候选两查询变为一候选一次查询一B1；03r1/r2及07r1/r3候选池与交付不变。独立补评三项B1/身份/原响应核对成立，资格两项旧评测器重评PASS，补评QUALIFIED_DELIVERY/qualified=true/s0=0并保留重复展示产品缺陷；原自动评价/评价器不改，自动别名B1缺证结果另存不伪装为自动PASS。0Live/0GET/0模型，主草稿及三旧+r4账本哈希一致，r4余1/9/73。仅工作分支、不合main、不跑r2。[简报](https://github.com/wzhgogogo/Praxis/blob/4eb7900d7345e3cbb6d990477fecaaedc624b033/.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。
 
 2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
