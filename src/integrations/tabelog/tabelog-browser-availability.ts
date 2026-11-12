@@ -442,7 +442,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           let searched = await this.executor.search({
             source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName, completion: tabelogNameSearchCompletion,
           });
-          search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
+          search = await this.retryBusyPage(candidate.restaurant.id, session, signal, searched.snapshot, "DISCOVERY");
           const challenged = hasBotChallenge(search);
           search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
           if (challenged && !hasBotChallenge(search)) {
