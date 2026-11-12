@@ -63,14 +63,14 @@ test('R1 component: merged candidate dispatches one inventory read, one presente
  const {restaurantBookingTaskDefinition}=await import('../domains/restaurant/task-definition.js');
  const proof=verifiedDiscoveryIdentities(tabelogDiscoveryPack,[native,google],recorded.details,recorded.searchEvidence);
  const merged=mergeDiscoveryCandidates([native],[google],proof);
- let state=structuredClone(recorded.state);state.phase='SEARCHING';state.candidates=merged.candidates;delete state.selectionSession;delete state.presentedResults;delete state.defaultBatchDeliveryWindow;delete state.pendingResultBatchTarget;
+ let state=structuredClone(recorded.state);state.phase='SEARCHING';state.candidates=merged.candidates;state.availability={};state.availabilityChecks={};state.readEvidence=state.readEvidence.filter((e:RestaurantReadEvidence)=>e.kind!=='AVAILABILITY');delete state.selectionSession;delete state.presentedResults;delete state.defaultBatchDeliveryWindow;delete state.pendingResultBatchTarget;
  // This component keeps the recorded completed fact checks. Source I/O is
  // replaced by the exact native availability observation, not new stock.
  const original=recorded.availability;let inventory=0;
  const router=new RestaurantExecutionRouter({executionRoute:'GENERIC_BROWSER',async search(){throw Error('No discovery detour');}},
   {executionRoute:'GENERIC_BROWSER',async check(request){inventory++;assert.deepEqual(request.candidateIds,[native.restaurant.id],'Google alias cannot reach name search/inventory');return{offers:original.offers.filter((o:any)=>o.restaurantId===native.restaurant.id),availabilityChecks:{[native.restaurant.id]:original.availabilityChecks[native.restaurant.id]},evidence:original.evidence.filter((e:RestaurantReadEvidence)=>e.candidateId===native.restaurant.id),metadata:original.metadata};}},
   {structuredReadTimeoutMs:45000,browserReadTimeoutMs:45000});
- const at=original.availabilityChecks[native.restaurant.id].checkedAt;
+ const at=recorded.state.presentedResults.presentedAt; // recorded facts are already available; inventory remains fresh
  const context={taskId:'same-outlet-recorded-component',runId:'same-outlet-recorded-component',now:at,createId:(p:string)=>p};
  const checked=await router.execute({type:'CHECK_AVAILABILITY',candidateIds:merged.candidates.map(c=>c.restaurant.id)},state,at);
  assert.equal(checked.event?.type,'AVAILABILITY_CHECKED');state=restaurantBookingTaskDefinition.transition(state,checked.event!,context).state;
