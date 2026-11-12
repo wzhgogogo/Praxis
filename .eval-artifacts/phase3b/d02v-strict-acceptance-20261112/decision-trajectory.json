@@ -1,0 +1,335 @@
+[
+  {
+    "sequence": 4,
+    "action": "FILL_AUTHORITATIVE",
+    "authoritativeField": "LOCATION",
+    "targetLabel": "Location, cuisine, restaurant name, etc.",
+    "url": "https://tabelog.com/en/",
+    "reason": "Set authoritative location Nakano in the search input first.",
+    "latencyMs": 1665
+  },
+  {
+    "sequence": 5,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "Search",
+    "url": "https://tabelog.com/en/",
+    "reason": "Submit the location search for Nakano City to reach the restaurant list.",
+    "latencyMs": 2032
+  },
+  {
+    "sequence": 6,
+    "action": "OPEN_LINK",
+    "authoritativeField": "NONE",
+    "targetLabel": "City",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+City&search_mode=",
+    "reason": "Open the Nakano City directory listing to establish the authoritative area instead of the failed keyword search.",
+    "latencyMs": 1458
+  },
+  {
+    "sequence": 7,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "All",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+    "reason": "Open Search by category panel to find a robatayaki category link for the Nakano list.",
+    "latencyMs": 1608
+  },
+  {
+    "sequence": 8,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "More filters",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+    "reason": "Open More filters to find a keyword/cuisine query control for robatayaki.",
+    "latencyMs": 1990
+  },
+  {
+    "sequence": 9,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "All",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+    "reason": "Open the Search by category panel to find a robatayaki category link.",
+    "latencyMs": 1943
+  },
+  {
+    "sequence": 10,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "All",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+    "reason": "Open the Search by category panel to apply the robatayaki cuisine scope.",
+    "latencyMs": 1480
+  },
+  {
+    "sequence": 12,
+    "action": "FILL_AUTHORITATIVE",
+    "authoritativeField": "RETRIEVAL",
+    "targetLabel": "Location, cuisine, restaurant name, etc.",
+    "url": "https://tabelog.com/en/",
+    "reason": "Fill the public search input with the authoritative retrieval expression.",
+    "latencyMs": 1197
+  },
+  {
+    "sequence": 13,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "Search",
+    "url": "https://tabelog.com/en/",
+    "reason": "Submit the filled authoritative query via the observed Search button.",
+    "latencyMs": 1684
+  },
+  {
+    "sequence": 14,
+    "action": "COMPLETE",
+    "authoritativeField": "NONE",
+    "targetLabel": "Nakano Robata Sumika",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+Robata+Sumika&search_mode=",
+    "reason": "Search results list for \"Nakano Robata Sumika\" is displayed with the query scope shown.",
+    "latencyMs": 1405
+  },
+  {
+    "sequence": 15,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Guests 6",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "reason": "Select guests 6 to advance toward 8",
+    "latencyMs": 1904
+  },
+  {
+    "sequence": 16,
+    "action": "ADVANCE_TO_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Next",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "reason": "Advance guest carousel to expose Guests 8 option",
+    "latencyMs": 1521
+  },
+  {
+    "sequence": 17,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Guests 8",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "reason": "Select Guests 8, the exact requested party size.",
+    "latencyMs": 970
+  },
+  {
+    "sequence": 18,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Guests 8",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "reason": "Select Guests 8 as the authoritative party size.",
+    "latencyMs": 1468
+  },
+  {
+    "sequence": 19,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Next",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "reason": "Guests 8 is not currently exposed; advance the Guests control to reveal it.",
+    "latencyMs": 1232
+  },
+  {
+    "sequence": 20,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "Next",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "reason": "Advance guest list to expose the requested 8 guests option",
+    "latencyMs": 1438
+  },
+  {
+    "sequence": 21,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Guests 8",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "reason": "Select Guests 8 in the Guests group",
+    "latencyMs": 1410
+  },
+  {
+    "sequence": 22,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Guests 8",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "reason": "Select Guests 8 in the Guests group",
+    "latencyMs": 1430
+  },
+  {
+    "sequence": 23,
+    "action": "FILL_AUTHORITATIVE",
+    "authoritativeField": "RETRIEVAL",
+    "targetLabel": "Location, cuisine, restaurant name, etc.",
+    "url": "https://tabelog.com/en/",
+    "reason": "Fill the public search input with the authoritative retrieval term Okajoki.",
+    "latencyMs": 1650
+  },
+  {
+    "sequence": 24,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "Search",
+    "url": "https://tabelog.com/en/",
+    "reason": "Submit the filled retrieval query \"Okajoki\" via the observed Search button.",
+    "latencyMs": 1005
+  },
+  {
+    "sequence": 25,
+    "action": "COMPLETE",
+    "authoritativeField": "NONE",
+    "targetLabel": "Okajoki",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Okajoki&search_mode=",
+    "reason": "Query \"Okajoki\" submitted; result list shows scope \"Restaurants in Japan Okajoki\" with 47 results.",
+    "latencyMs": 2548
+  },
+  {
+    "sequence": 27,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "View more",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+    "reason": "Expand page to expose the availability calendar with date and guest controls.",
+    "latencyMs": 1291
+  },
+  {
+    "sequence": 28,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "DATE",
+    "targetLabel": "Restaurant information(detail)",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+    "reason": "Open the restaurant information section to expose the date control for 2026-12-10.",
+    "latencyMs": 1290
+  },
+  {
+    "sequence": 29,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "Restaurant information(detail)",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+    "reason": "Open the restaurant information section to expose the availability calendar controls.",
+    "latencyMs": 1415
+  },
+  {
+    "sequence": 30,
+    "action": "REQUEST_HUMAN_HELP",
+    "authoritativeField": "NONE",
+    "targetLabel": null,
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+    "reason": "Page states \"Reservations unavailable\"; no date/party calendar controls are exposed, so the requested date and guest count cannot be applied.",
+    "latencyMs": 1303
+  },
+  {
+    "sequence": 31,
+    "action": "FILL_AUTHORITATIVE",
+    "authoritativeField": "RETRIEVAL",
+    "targetLabel": "Location, cuisine, restaurant name, etc.",
+    "url": "https://tabelog.com/en/",
+    "reason": "Fill the public search input with the authoritative retrieval expression.",
+    "latencyMs": 1132
+  },
+  {
+    "sequence": 32,
+    "action": "CLICK",
+    "authoritativeField": "NONE",
+    "targetLabel": "Search",
+    "url": "https://tabelog.com/en/",
+    "reason": "Submit the filled authoritative query via the observed Search button.",
+    "latencyMs": 1870
+  },
+  {
+    "sequence": 33,
+    "action": "COMPLETE",
+    "authoritativeField": "NONE",
+    "targetLabel": "中野製作所 まんてん別館",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=%E4%B8%AD%E9%87%8E%E8%A3%BD%E4%BD%9C%E6%89%80+%E3%81%BE%E3%82%93%E3%81%A6%E3%82%93%E5%88%A5%E9%A4%A8&search_mode=",
+    "reason": "Result list shows query scope 中野製作所 まんてん別館 with 1 matching restaurant.",
+    "latencyMs": 1376
+  },
+  {
+    "sequence": 34,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Guests 6",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+    "reason": "Select guests 8",
+    "latencyMs": 1043
+  },
+  {
+    "sequence": 35,
+    "action": "ADVANCE_TO_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Next",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+    "reason": "Advance guest carousel to expose Guests 8",
+    "latencyMs": 1161
+  },
+  {
+    "sequence": 36,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Guests 8",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+    "reason": "Select Guests 8 authoritative party size",
+    "latencyMs": 1547
+  },
+  {
+    "sequence": 37,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Guests 8",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+    "reason": "Select Guests 8 authoritative party size control",
+    "latencyMs": 1486
+  },
+  {
+    "sequence": 38,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Next",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+    "reason": "Guests 8 button not exposed; advance guest carousel toward 8",
+    "latencyMs": 1087
+  },
+  {
+    "sequence": 39,
+    "action": "CLICK_AUTHORITATIVE",
+    "authoritativeField": "PARTY_SIZE",
+    "targetLabel": "Next",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+    "reason": "Guests 8 is not visible in the current list; advance the Guests control to expose it.",
+    "latencyMs": 1104
+  },
+  {
+    "sequence": 41,
+    "action": "WAIT",
+    "authoritativeField": "NONE",
+    "targetLabel": null,
+    "url": "https://babytattoo.jp/robata",
+    "reason": "Page text is empty; wait for content to render.",
+    "latencyMs": 646
+  },
+  {
+    "sequence": 42,
+    "action": "COMPLETE",
+    "authoritativeField": "NONE",
+    "targetLabel": null,
+    "url": "https://babytattoo.jp/robata",
+    "reason": "Page has no visible text or actionable targets; hand off current source state for interpretation.",
+    "latencyMs": 804
+  },
+  {
+    "sequence": 43,
+    "action": "WAIT",
+    "authoritativeField": "NONE",
+    "targetLabel": null,
+    "url": "https://babytattoo.jp/robata",
+    "reason": "Page text is empty; wait for visible content to settle.",
+    "latencyMs": 1159
+  }
+]

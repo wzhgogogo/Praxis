@@ -1,0 +1,145 @@
+{
+  "sourceSHA": "1ee8c3303457fe83498c3a54515518f5cc27f9c9",
+  "configurationCommit": "4b17d641a070364d864e2dda8ea65b777190df9e",
+  "sourceConfigAndEnvUnchanged": true,
+  "protectedFilesUnchanged": true,
+  "originalVerdict": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "elapsedMs": 193930.428292,
+  "cumulative": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 47,
+    "environmentReruns": 0,
+    "googleRequests": 5,
+    "restaurantWebsiteRequests": 232
+  },
+  "remaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 1,
+    "realModelCalls": 3,
+    "environmentReruns": 0
+  },
+  "modelOutcomes": {
+    "SUCCEEDED": 47
+  },
+  "purposes": {
+    "restaurant_semantic_interpret": 1,
+    "restaurant_agent_decide": 4,
+    "restaurant_discovery_retrieval": 1,
+    "browser_read_decide": 37,
+    "restaurant_source_facts": 1,
+    "restaurant_fact_judgment": 3
+  },
+  "tokens": {
+    "inputTokens": 751235,
+    "outputTokens": 7495,
+    "totalTokens": 758730
+  },
+  "providerRejections": 0,
+  "boundaryChecks": {
+    "PASS": 226
+  },
+  "advanceSequences": [
+    16,
+    35
+  ],
+  "noActionableTargetSequences": [],
+  "observedFindVacancyRequests": [
+    {
+      "status": 200,
+      "path": "/en/booking/calendar/find_vacancy",
+      "query": {
+        "rst_id": [
+          "13309182"
+        ],
+        "svd": [
+          "20261113"
+        ],
+        "svps": [
+          "8"
+        ],
+        "svt": [
+          "1900"
+        ],
+        "exclude_unavailable_time": [
+          "1"
+        ]
+      }
+    },
+    {
+      "status": 200,
+      "path": "/en/booking/calendar/find_vacancy",
+      "query": {
+        "rst_id": [
+          "13287727"
+        ],
+        "svd": [
+          "20261113"
+        ],
+        "svps": [
+          "8"
+        ],
+        "svt": [
+          "1900"
+        ],
+        "exclude_unavailable_time": [
+          "1"
+        ]
+      }
+    }
+  ],
+  "providers": [
+    {
+      "candidateId": "native-discovery:DIRECTORY",
+      "source": "DIRECTORY",
+      "elapsedMs": 46552,
+      "modelCalls": 7
+    },
+    {
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "source": "TABELOG",
+      "elapsedMs": 45110,
+      "modelCalls": 11
+    },
+    {
+      "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+      "source": "TABELOG",
+      "elapsedMs": 38402,
+      "modelCalls": 8
+    },
+    {
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "source": "TABELOG",
+      "elapsedMs": 34841,
+      "modelCalls": 9
+    },
+    {
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "source": "WEBSITE",
+      "elapsedMs": 5833,
+      "modelCalls": 3
+    },
+    {
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "source": "WEBSITE",
+      "elapsedMs": 4277,
+      "modelCalls": 2
+    }
+  ],
+  "recording": {
+    "qualifiedPages": 35,
+    "totalPages": 41,
+    "unqualifiedReasons": {
+      "UNSAFE_DOCUMENT": 4,
+      "UNCAPTURED_DYNAMIC_RESPONSE": 2
+    }
+  },
+  "stoppedAfterSingleRun": true
+}

@@ -1,3 +1,7 @@
+<a id="d02v-strict-live-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：严格schema修复1ee8c330已在单次D02-V Live中验证，47/47模型成功、PROVIDER_REJECTED=0。整体仍CAPABILITY_MISS，0交付，193.930s，独立边界226/226、s0=0。#7–10分类面板循环且ACTION_OBSTRUCTED，原生0候选；#16/35使用通用人数ADVANCE，但两店HAR只有11-13/19:00的8人请求，未完成12-10/20:30请求绑定，Sumika45.110s provider超时。真实请求格式已修，页面发现/选择能力尚未验收；不宣称成本改善。新单次额度用1Live/6GET/47模型，余0/1/3；五旧账本/主草稿/冻结配置不变，未追加或合main。[报告](../../.eval-artifacts/phase3b/d02v-strict-acceptance-20261112/report.md)。
+
 <a id="r2-scope-20261112"></a>
 
 2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](../../.eval-artifacts/phase3b/r2-scope-20261112/report.md)。

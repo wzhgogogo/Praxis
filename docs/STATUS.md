@@ -1,3 +1,7 @@
+<a id="d02v-strict-live-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：严格schema修复1ee8c330已在单次D02-V Live中验证，47/47模型成功、PROVIDER_REJECTED=0。整体仍CAPABILITY_MISS，0交付，193.930s，独立边界226/226、s0=0。#7–10分类面板循环且ACTION_OBSTRUCTED，原生0候选；#16/35使用通用人数ADVANCE，但两店HAR只有11-13/19:00的8人请求，未完成12-10/20:30请求绑定，Sumika45.110s provider超时。真实请求格式已修，页面发现/选择能力尚未验收；不宣称成本改善。新单次额度用1Live/6GET/47模型，余0/1/3；五旧账本/主草稿/冻结配置不变，未追加或合main。[报告](../.eval-artifacts/phase3b/d02v-strict-acceptance-20261112/report.md)。
+
 <a id="browser-strict-20261112"></a>
 
 2026-11-12 CET — draft / not integrated：浏览器严格schema16修复fd5597fe，valueGroupRef列入required并约定非推进空字符串；gateway实际序列化合同先红后绿。净树全门禁PASS（默认1628、Chromium284、G6 159），双完整SHA新增产品扫描0，动作/Guard/身份/G1/时限/预算不变。旧失败/账本/主草稿保留，用户批准新独立单次Live，结果另录；未合main。[报告](../.eval-artifacts/phase3b/browser-strict-20261112/report.md)。
