@@ -130,3 +130,8 @@ Google-only nearby反例从生产createLiveReadAssembly入口驱动，旧版地�
 
 
 2026-10-19 检查点 B 修正（离线）：Tabelog 已确认同地区首页可用此前观察到的列表根应用权威筛选，缺观察／跨地区仍拒绝；真实本地 Chromium 的 302 首页落点验证实际生产 factory、Guard、筛选与详情链。稀疏且有类别且改写未耗尽时，Schema@2、Domain 和执行器拒绝 KEEP；Prompt@5 配套，无类别／额度耗尽仍允许。原三次 TableCheck 录制实际显示搜索错误，筛选预检含未审核 open_from/open_until；停用该筛选并记 SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED，使用普通列表，不扩大网络权限或生成空位证据。旧双来源筛选 Fixture 中 TableCheck 的应用／回退覆盖已退役为明确跳过；既有交付、半径和 HARD 断言保留，精确导航次数移回普通搜索。离线诊断与新十次仅发现探测分列于[修正报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。不证明查位或完整 Live。
+
+
+## 2026-11-12 B目录探查证据（非Gold或验收口径变更）
+
+已暴露开发场景：从历史观察到的地点目录，原生GET表单选定权威日期、人数、时间，确认地点和源筛选摘要；沿实际分类链接到精确请求菜系，核对参数、标题及面包屑可叠加。执行模式为脚本化Live Read-only探查，不是完整Agent/Offer/B1验收，不把禁用时段显示当可预约；A动作未实现。8文档GET/0真实模型，录制/拒录边界与首次本地脚本错误均保留，生产Fixture/Gold/评价器不变。见[探查证据索引](../../.eval-artifacts/phase3b/seed-directory-probe-20261112/evidence-index.md)。

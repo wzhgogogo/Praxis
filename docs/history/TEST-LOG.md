@@ -1,3 +1,7 @@
+<a id="seed-directory-probe-20261112"></a>
+
+2026-11-12 CET — B独立Live Read-only探查完成（A仍停止，产品零改动）：原生GET表单保持中野范围，现有CHOOSE_OPTION对人数/时段原生select各一次完成；来源已有链接可走Washoku→Other→Robatayaki，最终标题/面包屑与筛选摘要同时确认中野/Robatayaki/12-10/8人/20:30，列表1家sumika。只证明目录UI/路径，不是D02-V交付、B1或逐店库存验收。0Full-Live/8文档GET/0真实模型，GET用完即停，主草稿/四旧账本哈希不变。首次摘要脚本错误及原生提交URL形状拒录均原样保留；源策略/Recorder/评价器不改。[简报](../../.eval-artifacts/phase3b/seed-directory-probe-20261112/report.md)、[证据](../../.eval-artifacts/phase3b/seed-directory-probe-20261112/evidence-index.md)。 冻结49587800→b0dccffc→ab45e4e，各阶段结束后提交下一冻结；只在本地修正摘要回调，真实模型始终0。8文档HTTP200，GET间隔最小5.002秒；原表单URL额外utf8/lid/commit致2份DOM拒录，最终精确分类页完整可回放。本地Chromium回调检查及运行后parse5独立DOM/HAR审计PASS；产品门禁未重跑，不宣称A通过。
+
 <a id="seed-advance-authoritative-stop-20261112"></a>
 
 2026-11-12 CET — draft / not integrated：通用推进动作在两个真实使用者条件处停止。r1人数同组成立，但日历推进LINK与请求日期BUTTON在同一观察内分别为group13/group1；不能按共同Calendar标签合并。已撤回未提交原型，src/Prompt/评价器/Fixture零改动；A未完成、整体红绿未通过、全套门禁未运行。按停止条件B未启动，实际0Live/0网站GET/0模型，主草稿和四账本不变。[根因](../../.eval-artifacts/phase3b/seed-advance-authoritative-20261112/root-cause.md)、[简报](../../.eval-artifacts/phase3b/seed-advance-authoritative-20261112/report.md)。
