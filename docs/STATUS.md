@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：浏览器严格wire schema16补齐valueGroupRef required，非推进动作用空字符串；未改动作选择/Guard/身份/G1/时限/预算。通过实际gateway序列化的独立strict合同先红后绿，定向23项通过；待同SHA全门禁后按用户新增额度一次D02-V Live。旧失败和四账本/主草稿保留，尚无新增真实调用。
+
 <a id="r2-scope-20261112"></a>
 
 2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](../.eval-artifacts/phase3b/r2-scope-20261112/report.md)。

@@ -9,6 +9,7 @@ import {
   RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
 } from "../../domains/restaurant/semantic-proposal.js";
 import { DeepSeekModelGateway } from "./deepseek-model-gateway.js";
+import { BROWSER_ACTION_DECISION_SCHEMA, BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA } from "../browser/browser-action-decision.js";
 
 function assertEveryStrictObjectRequiresEveryProperty(value: unknown, path = "$"): void {
   if (Array.isArray(value)) {
@@ -194,6 +195,30 @@ test("DeepSeek gateway sends the actual restaurant strict schema with every obje
   const tools = capturedBody?.tools as Array<{ function?: { parameters?: unknown } }> | undefined;
   assert.equal(tools?.length, 1);
   assertEveryStrictObjectRequiresEveryProperty(tools?.[0]?.function?.parameters);
+});
+
+test("DeepSeek gateway transmits a provider-valid strict browser action schema", async () => {
+  let capturedBody: { tools: Array<{ function: { strict: boolean; parameters: unknown } }> } | undefined;
+  const gateway = new DeepSeekModelGateway({
+    apiKey: "test-key", model: "deepseek-v4-flash",
+    fetchImplementation: async (_input, init) => {
+      capturedBody = JSON.parse(String(init?.body));
+      return new Response(JSON.stringify({ model: "deepseek-v4-flash", choices: [{
+        finish_reason: "tool_calls", message: { tool_calls: [{ type: "function", function: {
+          name: BROWSER_ACTION_DECISION_SCHEMA.name,
+          arguments: JSON.stringify({ action: "COMPLETE", targetRef: "", valueGroupRef: "", authoritativeField: "NONE", requestedState: "NONE", reason: "Read complete." }),
+        } }] },
+      }] }), { status: 200, headers: { "Content-Type": "application/json" } });
+    },
+  });
+  const result = await gateway.complete({ ...request, purpose: "browser_read_decide",
+    outputSchema: { ...BROWSER_ACTION_DECISION_SCHEMA, jsonSchema: BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA },
+  });
+  const fn = capturedBody!.tools[0].function;
+  assert.equal(fn.strict, true);
+  // Apply the independent provider contract to the actual serialized request.
+  assertEveryStrictObjectRequiresEveryProperty(fn.parameters);
+  assert.equal(JSON.parse(result.outputText).valueGroupRef, "", "non-advance actions carry an inert empty value scope");
 });
 
 test("DeepSeek gateway fails closed when server configuration is incomplete", () => {

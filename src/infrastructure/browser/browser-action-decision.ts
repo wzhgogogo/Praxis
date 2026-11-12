@@ -10,13 +10,20 @@ export const BROWSER_READ_DECISION_PROMPT_VERSION = "27";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "15",
+  version: "16",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
   type: "object",
   additionalProperties: false,
-  required: ["action", "targetRef", "authoritativeField", "requestedState", "reason"],
+  required: [
+    "action",
+    "targetRef",
+    "valueGroupRef",
+    "authoritativeField",
+    "requestedState",
+    "reason",
+  ],
   properties: {
     action: {
       type: "string",
@@ -37,7 +44,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
       ],
     },
     targetRef: { type: "string" },
-    valueGroupRef: { type: "string", description: "For ADVANCE_TO_AUTHORITATIVE only: current group containing the requested field choices, which may differ from the advance control group." },
+    valueGroupRef: { type: "string", description: "For ADVANCE_TO_AUTHORITATIVE only: current group containing the requested field choices, which may differ from the advance control group. Empty string for all other actions." },
     authoritativeField: { type: "string", enum: [
         "NONE",
         "DATE",
