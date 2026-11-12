@@ -1,0 +1,93 @@
+{
+  "sourceSHA": "105a8b0a825f4dd729674ffb26847d4b13f60771",
+  "orchestrationSHA": "52860e6080cd502aa151f69b6d24766900282e9d",
+  "runs": [
+    {
+      "run": "D02V-r1",
+      "status": "NOT_EVALUATED",
+      "verdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "NOT_EVALUATED",
+        "stopBatch": true
+      },
+      "productDelivered": [
+        {
+          "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+          "offerId": "offer:tabelog:tabelog:en/tokyo/A1319/A131902/13309182:2026-12-10:20:30:8",
+          "name": "sumika",
+          "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+          "phone": "03-4400-3404",
+          "sourceIds": {
+            "TABELOG": "13309182"
+          },
+          "provider": "TABELOG",
+          "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+          "date": "2026-12-10",
+          "time": "20:30",
+          "partySize": 8
+        },
+        {
+          "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+          "offerId": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-12-10:20:30:8",
+          "name": "Nakano Robata Sumika",
+          "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+          "phone": "03-4400-3404",
+          "googlePlaceId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+          "sourceIds": {
+            "TABELOG": "13309182"
+          },
+          "provider": "TABELOG",
+          "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+          "date": "2026-12-10",
+          "time": "20:30",
+          "partySize": 8
+        }
+      ],
+      "handoffURLs": [
+        "https://tabelog.com/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2030",
+        "https://tabelog.com/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2030"
+      ],
+      "elapsedMs": 299857.18875,
+      "modelCalls": 47,
+      "evaluationGET": 6,
+      "requestBoundary": {
+        "PASS": 419
+      },
+      "recordedPages": 55,
+      "totalRecordedPages": 59
+    },
+    {
+      "run": "D02V-r2",
+      "status": "NOT_SENT",
+      "reason": "B1_SOURCE_URL NOT_EVALUATED is missing safety evidence, not qualification-only; frozen stop rule"
+    }
+  ],
+  "thisContinuation": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 47,
+    "environmentReruns": 0
+  },
+  "r4Cumulative": {
+    "fullLive": 1,
+    "evaluationPublicGET": 11,
+    "realModelCalls": 47,
+    "environmentReruns": 0,
+    "googleRequests": 2,
+    "restaurantWebsiteRequests": 430
+  },
+  "remaining": {
+    "fullLive": 1,
+    "evaluationPublicGET": 9,
+    "realModelCalls": 73,
+    "environmentReruns": 0
+  },
+  "slices": {
+    "03": "2/2 user-reviewed slice",
+    "07": "2/2 user-reviewed slice",
+    "D02V": "One Live delivered; independent evaluation incomplete, second Live not started"
+  }
+}
