@@ -1,3 +1,7 @@
+<a id="browser-strict-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：浏览器严格schema16修复fd5597fe，valueGroupRef列入required并约定非推进空字符串；gateway实际序列化合同先红后绿。净树全门禁PASS（默认1628、Chromium284、G6 159），双完整SHA新增产品扫描0，动作/Guard/身份/G1/时限/预算不变。旧失败/账本/主草稿保留，用户批准新独立单次Live，结果另录；未合main。[报告](../../.eval-artifacts/phase3b/browser-strict-20261112/report.md)。
+
 2026-11-12 CET — draft / not integrated：浏览器严格wire schema16补齐valueGroupRef required，非推进动作用空字符串；未改动作选择/Guard/身份/G1/时限/预算。通过实际gateway序列化的独立strict合同先红后绿，定向23项通过；待同SHA全门禁后按用户新增额度一次D02-V Live。旧失败和四账本/主草稿保留，尚无新增真实调用。
 
 <a id="r2-scope-20261112"></a>

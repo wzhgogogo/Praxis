@@ -1,0 +1,36 @@
+✖ DeepSeek gateway transmits a provider-valid strict browser action schema (3.5125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 148.696208
+
+✖ failing tests:
+
+test at src/infrastructure/deepseek/deepseek-model-gateway.test.ts:1:5464
+✖ DeepSeek gateway transmits a provider-valid strict browser action schema (3.5125ms)
+  AssertionError [ERR_ASSERTION]: $.required must list every property
+  + actual - expected
+  
+    [
+      'action',
+      'authoritativeField',
+      'reason',
+      'requestedState',
+      'targetRef',
+  +   'valueGroupRef'
+    ]
+  
+      at assertEveryStrictObjectRequiresEveryProperty (/private/tmp/praxis-browser-strict-fix/src/infrastructure/deepseek/deepseek-model-gateway.test.ts:23:12)
+      at TestContext.<anonymous> (/private/tmp/praxis-browser-strict-fix/src/infrastructure/deepseek/deepseek-model-gateway.test.ts:220:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'action', 'authoritativeField', 'reason', 'requestedState', 'targetRef', 'valueGroupRef' ],
+    expected: [ 'action', 'authoritativeField', 'reason', 'requestedState', 'targetRef' ],
+    operator: 'deepStrictEqual'
+  }

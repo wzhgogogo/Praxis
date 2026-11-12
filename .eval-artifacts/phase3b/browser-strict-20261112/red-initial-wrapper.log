@@ -1,0 +1,26 @@
+✖ DeepSeek gateway transmits a provider-valid strict browser action schema (2.673875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 189.973792
+
+✖ failing tests:
+
+test at src/infrastructure/deepseek/deepseek-model-gateway.test.ts:1:5464
+✖ DeepSeek gateway transmits a provider-valid strict browser action schema (2.673875ms)
+  Error [ModelGatewayError]: DeepSeek completion request failed at the network layer
+      at DeepSeekModelGateway.normalizeError (/private/tmp/praxis-browser-strict-fix/src/infrastructure/deepseek/deepseek-model-gateway.ts:442:12)
+      at DeepSeekModelGateway.complete (/private/tmp/praxis-browser-strict-fix/src/infrastructure/deepseek/deepseek-model-gateway.ts:422:26)
+      at async TestContext.<anonymous> (/private/tmp/praxis-browser-strict-fix/src/infrastructure/deepseek/deepseek-model-gateway.test.ts:218:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'NETWORK',
+    retryable: true,
+    providerStatus: undefined,
+    providerRequestId: undefined,
+    providerError: { type: 'TRANSPORT', errorName: 'AssertionError', code: 'ERR_ASSERTION' }
+  }
