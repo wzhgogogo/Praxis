@@ -1,0 +1,12 @@
+# B 独立只读探查冻结计划
+
+2026-11-12 CET，用户最新指令明确A停止不阻断B。B不作为D02-V验收，不产生Offer、B1或预订结论。基线产品仍为32b97ed8，A无实现。
+
+- 新账本仅本目录 `active-budget-seed-probe-20261112.json`：0Full-Live / 8 publicGET / 20真实模型 / 0环境重跑。脚本不创建模型网关，计划真实模型0。公开GET按文档读取尝试计数，资源子请求另记录；计数在现有Guard处理前发生，拒绝的文档尝试亦保守计费。两次文档GET相隔至少5秒，预算用尽即停。不新增重试，不绕过任何Guard拒绝。
+- 使用现有LocalPlaywrightChromium、REVIEWED_STATIC_BROWSER、当前测试分流及tabelog来源包的discoveryPackNetworkPolicy；新增包装只做额度/只读限制，不授予准入。所有非GET一律在Guard之前拒绝，公开源政策本身不改。无凭据网页读取，env-file仅继承现有网络设置；Secret不写日志。
+- 新脚本、config、初始账本先提交；记录冻结SHA与SHA-256，再执行，运行中不改三者的不可变部分。账本只追加实际消耗。脚本启动要求净树、src与32b97ed8相同、显式开关和env-file；输出目录已存在时拒绝。
+- 唯一起点为用户批准且历史已观察到的中野目录URL。calendar属性、表单字段名、分类面板ID及两个父类目标签只存于本次探查config，逐项来自既有DOM，不是生产逻辑/Prompt/Skill/路由规则。脚本只读DOM来定位句柄，用浏览器原生click；不注入事件或改隐藏值，不构造目的地URL。
+- 日期通过可见日历点击，原生人数/时段select通过原BrowserTaskExecutor的CHOOSE_OPTION执行（脚本化决策替身，0真实模型）。若现有动作不支持，仅记录；不实现新动作。表单仅在三请求值确实进入原生表单且有唯一GET提交控件时提交，走session.click和原表单收据。
+- 分类逐层看页面中实际存在的链接。父分类仅用于浏览分类层级，不能当作robatayaki已满足；最终必须找到精确目标项才点它。不存在就报告最后到达层，不拼URL、不替换成宽泛分类。
+- BrowserReadRecording沿原有隐私/大小/URL清洗，保留DOM、网络HAR、浏览器操作轨迹和layout-only截图。拒录项如实报告，不能为了回放修改Recorder。脚本化决策文件与人工读取DOM投影另存，非真实模型输出。
+- 完成或错误后保存partial结果、账本、保护哈希，原始录制不覆写。B三个问题与A分开报告，只推工作分支，不合main，不跑完整Live。
