@@ -1203,6 +1203,7 @@ export class BrowserTaskExecutor {
         return { availableActions, rejectionReason: "ALREADY_SELECTED" };
       }
       if (this.safeGenericClick(target) || this.guardedReadControl(input, target)) availableActions.push("CLICK");
+      else rejectionReason = "WRITE_PROHIBITED";
       if ((this.safeGenericClick(target) || this.guardedReadControl(input, target)) && target.role !== "combobox" && target.selected !== true) {
         for (const field of [
         "DATE",
@@ -1235,10 +1236,9 @@ export class BrowserTaskExecutor {
         "PARTY_SIZE",
         "TIME",
       ] as const) {
-          if (this.authoritativeValues(input)[field] !== undefined && ![...observation.targets.values()].some(candidate=>matchesAuthoritativeControl(candidate,field,input.goal)&&this.actionHints(input,observation,candidate,false,false).availableActions?.some(a=>a===`CLICK_AUTHORITATIVE:${field}`||a===`CHOOSE_OPTION:${field}`))) availableActions.push(`ADVANCE_TO_AUTHORITATIVE:${field}`);
+          if (this.authoritativeValues(input)[field] !== undefined && ![...observation.targets.values()].some(candidate=>matchesAuthoritativeControl(candidate,field,input.goal)&&(candidate.selected||this.actionHints(input,observation,candidate,false,false).availableActions?.some(a=>a===`CLICK_AUTHORITATIVE:${field}`||a===`CHOOSE_OPTION:${field}`)))) availableActions.push(`ADVANCE_TO_AUTHORITATIVE:${field}`);
         }
       }
-      else rejectionReason = "WRITE_PROHIBITED";
     return { availableActions, ...(rejectionReason ? { rejectionReason } : {}) };
   }
 
@@ -1319,6 +1319,7 @@ export class BrowserTaskExecutor {
     const groupKeys=new Set([...initial.targets.values()].filter(t=>t.controlGroupRef===valueGroupRef).map(t=>t.controlGroupKey).filter((key):key is string=>!!key));
     if(groupKeys.size!==1||!this.safeAdvanceControl(input,initial,selected)||this.authoritativeValues(input)[field]===undefined)throw new Error("Advance requires a current value group, guarded non-submit control and authoritative field");
     const groupKey=[...groupKeys][0]!,stableKey=selected.stableKey;
+    if([...initial.targets.values()].some(t=>t.controlGroupKey===groupKey&&t.selected&&matchesAuthoritativeControl(t,field,input.goal)))throw new Error("Authoritative value is already selected");
     const maximum=this.options.maxAdvanceStepsPerAction??this.options.maxOperationsPerCandidate;
     if(!Number.isInteger(maximum)||maximum<1)throw new Error("Invalid advance step budget");
     const state=(o:Observation)=>JSON.stringify([...o.targets.values()].filter(t=>t.controlGroupKey===groupKey).map(({kind,role,label,value,selected,disabled,options})=>JSON.stringify({kind,role,label,value,selected,disabled,options})).sort());
