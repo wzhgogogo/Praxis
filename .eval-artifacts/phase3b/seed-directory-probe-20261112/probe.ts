@@ -116,6 +116,8 @@ try{
  session=await runtime.openSession({signal:new AbortController().signal,networkPolicy:policy,recordResponse:r=>recorder.recordResponse(r)});
  await session.prepareNavigation!(config.entry,{timeoutMs:20000});await session.navigate(config.entry,{waitUntil:'domcontentloaded',timeoutMs:20000});
  await capture('entry');
+ let ready=false;
+ if(config.phase!=='CUISINE_CONTINUATION'){
  let dateSelected=false;
  for(let step=0;step<config.maximumCalendarUIActions;step++){
   available();const date=await visibleHandle('form-date');if(date){record('DATE_NATIVE_CLICK',{date:config.goal.date});await date.click({timeout:20000});await date.dispose();dateSelected=true;break;}
@@ -125,13 +127,14 @@ try{
  const partySelected=await nativeChoice('PARTY_SIZE',config.observedFormFields.partySize,String(config.goal.partySize));await capture('after-party-select');
  const timeSelected=await nativeChoice('TIME',config.observedFormFields.time,config.goal.timeWindow.earliest.replace(':',''));const selected=await capture('after-time-select');
  const values=Object.fromEntries((selected.form?.fields??[]).filter((f:any)=>f.name).map((f:any)=>[f.name,f.value]));
- const ready=dateSelected&&partySelected&&timeSelected&&values[config.observedFormFields.date]===config.goal.date.replaceAll('-','')&&values[config.observedFormFields.partySize]===String(config.goal.partySize)&&values[config.observedFormFields.time]===config.goal.timeWindow.earliest.replace(':','');
+ ready=dateSelected&&partySelected&&timeSelected&&values[config.observedFormFields.date]===config.goal.date.replaceAll('-','')&&values[config.observedFormFields.partySize]===String(config.goal.partySize)&&values[config.observedFormFields.time]===config.goal.timeWindow.earliest.replace(':','');
  result.questions.nativeForm={status:ready?'VALUES_SET':'NOT_ALL_REQUEST_VALUES_SET',dateSelected,partySelected,timeSelected,values,stage:selected.label};
  if(ready){
   available();const submits=(await session.observeControls!()).filter(c=>c.kind==='BUTTON'&&c.type==='submit'&&c.formMethod==='GET'&&c.formObservation&&c.visible&&!c.disabled);
   if(submits.length===1){record('OBSERVED_GET_FORM_SUBMIT',{method:selected.form.method,action:selected.form.action,target:submits[0]!.id});await session.click(submits[0]!.id,{timeoutMs:20000});await capture('native-form-submitted');result.questions.nativeForm.status='SUBMITTED';}
   else result.questions.nativeForm.status='NO_UNIQUE_OBSERVED_SUBMIT_CONTROL';
  }
+ }else {result.questions.nativeForm={status:'PRIOR_RUN_SUBMITTED',evidence:'runtime-02/result.json'};ready=true;}
  let links=await openCategory('category-root'),found=false;const trail:string[]=[];
  for(let depth=0;depth<=config.categoryParentsToInspect.length;depth++){
   const exact=links.find((x:any)=>x.visible&&x.label?.toLowerCase()===config.criterion.toLowerCase());
