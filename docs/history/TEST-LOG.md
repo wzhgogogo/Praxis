@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated，D02-V权威地点与名称搜索快照修复：源码冻结5a2ec0742e78e4c7e3c0ae6b24e692999d1779cf。label填写/queryLabel目录绑定、Prompt25父行政区一致与可见回退、searched.snapshot复用。66项定向修前3红/修后全绿；净树type/arch/build、默认1598、Chromium281+G6 159，D4/D8及D02-V组件全绿。用户改定双基线ead289450092ccc30798b754d1e0771462bf08bd和ca4deca1d67bd6ce795f31d55757583f7bb09258，新增产品写死均0。满天8人计时44.508s为组件投影；Sumika录制仅2人，8人不确认。0模型/0网站GET/0Live，主草稿与旧账本哈希不变；仅推工作分支，不合main。[一页简报](../../.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
+
 <a id="seed-d02v-location-snapshot-20261112"></a>
 
 2026-11-12 CET — draft / not integrated：D02-V局部修复，LOCATION填写恢复权威label，queryLabel保留目录绑定；浏览器Prompt25澄清上级行政区一致及可见回退导航；名称搜索复用完成快照。66项定向测试修前3红/修后全绿，typecheck通过，待冻结完整门禁。真实调用0；Sumika原录制仅2人，不冒充8人验收；满天8人计时为组件投影。ec839926远端不可解析，双基线扫描待补。见[一页简报](../../.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。

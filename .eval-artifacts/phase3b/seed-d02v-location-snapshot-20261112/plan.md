@@ -10,3 +10,7 @@ Date: 2026-11-12 CET. Base: ca4deca1d67bd6ce795f31d55757583f7bb09258.
 门禁按package.json和Test矩阵：typecheck、arch:check、npm test、build、test:browser:fixture（包含test:g6:assembly）。用户指定verify/test:chromium在该基线不存在，不增加重复入口。scanner复用归档d8-query-receipts脚本；ca4deca1扫描可执行，ec839926经fetch所有远端分支、直接fetch及GitHub提交API均无法解析，保留阻断并请求核对。
 
 停止：门禁完成、分支提交推送并核对；不合main。0真实模型/0网站GET/0Live，不加载.env、不改旧账本及主工作区。
+
+## 用户基线更正与完成
+
+原ec839926检索失败证据保留。用户随后明确将双基线改为完整SHA `ead289450092ccc30798b754d1e0771462bf08bd`、`ca4deca1d67bd6ce795f31d55757583f7bb09258`，两者至源码冻结 `5a2ec0742e78e4c7e3c0ae6b24e692999d1779cf` 的扫描均0。全量门禁完成，见summary.json。只追加文档/证据收口，不改产品源码；不合main。

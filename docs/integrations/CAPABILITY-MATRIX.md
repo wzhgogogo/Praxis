@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：名称搜索复用COMPLETED快照，非busy结果不重复采样；LOCATION填写权威label、queryLabel保留目录锚定，Prompt25补通用父区一致与可见回退。仅离线组件及全门禁验证；Sumika8人仍未验证，满天8人计时为组件投影；无新增Live能力结论。见[简报](../../.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
+
 2026-11-11 CET — 用户批准seed discovery/settle代码整合主线；离线组件证据见bd01a402分支。新的D02-V 8人翻页/直达及07重验尚待本轮Live，不把组件通过当作当前来源已验收。
 
 2026-11-11 CET — draft / not integrated：Tabelog原生目录完整录制上，queryLabel补齐地名锚定，分类字面相关度排序后Sumika在原上限内保留已观察直达URI；PENDING身份页至查位仅一次控件扫描。仅离线组件，当前日期/8人/20:30修后Live仍未验证。07纯地点关键字结果的范围拒绝只有元数据构造组件（原DOM拒录）；不冒充真实DOM回放。
