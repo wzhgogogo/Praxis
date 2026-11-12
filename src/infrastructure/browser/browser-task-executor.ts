@@ -782,7 +782,10 @@ export class BrowserTaskExecutor {
             visibleText: safeText(observation.snapshot.text),
             ...(month ? { displayedCalendarMonth: month } : {}),
             controlGroups: observedControlGroups(observation),
-            pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
+            pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? [
+        "WAIT",
+        "PRESS_ESCAPE",
+      ] : ["WAIT"],
             targets: actionTargets.map(({ exactSuggestion:_exactSuggestion, controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...(confirmedDate(observation.targets.get(target.ref)!)?{availableActions:[],rejectionReason:"SOURCE_DATE_CONFIRMED"}:this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined)),
             })),
@@ -1122,7 +1125,11 @@ export class BrowserTaskExecutor {
       : []);
     const exact=input.stage==="DISCOVERY"&&input.goal.retrievalExpression&&input.session.metadata.readNetworkBoundary==="INSTALLED"
       ?controls.filter(control=>control.visible&&!control.disabled&&!control.blockedByActiveLayer&&control.kind==="BUTTON"&&control.role==="option"
-        &&["DIV","LI","SPAN"].includes(control.structure?.tag??"")&&normalizedTextKey(control.label)===normalizedTextKey(input.goal.retrievalExpression!)):[];
+        &&[
+        "DIV",
+        "LI",
+        "SPAN",
+      ].includes(control.structure?.tag??"")&&normalizedTextKey(control.label)===normalizedTextKey(input.goal.retrievalExpression!)):[];
     const observation = { revision: this.observationRevision, snapshot, controls, targets: toObservedTargets(controls, this.observationRevision,exact.length===1?exact[0]!.id:undefined) };
     input.onObservation?.({revision: observation.revision, url: snapshot.url, targets: [...observation.targets.values()].map(target => ({...target, ...this.actionHints(input, observation, target, false)}))});
     return observation;
@@ -1166,7 +1173,11 @@ export class BrowserTaskExecutor {
       else if (pendingSelection) rejectionReason = "PREVIOUS_OPTION_UNCONFIRMED";
       else if (!target.optionNative && !this.safeGenericClick(target)) rejectionReason = "WRITE_PROHIBITED";
       else {
-        for (const field of ["DATE", "PARTY_SIZE", "TIME"] as const) {
+        for (const field of [
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+      ] as const) {
           if (matchesAuthoritativeControl({ ...target, value: target.label }, field, input.goal)) availableActions.push(`CHOOSE_OPTION:${field}`);
         }
         if (this.matchesRetrievalOption(input, target, owner)) availableActions.push("CHOOSE_OPTION:RETRIEVAL");
@@ -1185,12 +1196,18 @@ export class BrowserTaskExecutor {
       const dateConfirmed = matchesAuthoritativeControl(target, "DATE", input.goal)
         && observation.controls.some(control => control.visible && !control.blockedByActiveLayer && control.selected && matchesAuthoritativeControl(control, "DATE", input.goal));
       const partyConfirmed = matchesAuthoritativeControl(target, "PARTY_SIZE", input.goal) && partyGroupConfirmed(observation, input.goal, target.controlGroupKey);
-      if (dateConfirmed || partyConfirmed || target.selected && (["DATE", "PARTY_SIZE"] as const).some(field => matchesAuthoritativeControl(target, field, input.goal))) {
+      if (dateConfirmed || partyConfirmed || target.selected && ([
+        "DATE",
+        "PARTY_SIZE",
+      ] as const).some(field => matchesAuthoritativeControl(target, field, input.goal))) {
         return { availableActions, rejectionReason: "ALREADY_SELECTED" };
       }
       if (this.safeGenericClick(target) || this.guardedReadControl(input, target)) availableActions.push("CLICK");
       if ((this.safeGenericClick(target) || this.guardedReadControl(input, target)) && target.role !== "combobox" && target.selected !== true) {
-        for (const field of ["DATE", "PARTY_SIZE"] as const) {
+        for (const field of [
+        "DATE",
+        "PARTY_SIZE",
+      ] as const) {
           if (matchesAuthoritativeControl(target, field, input.goal)
             && !(field === "PARTY_SIZE" && partyGroupConfirmed(observation, input.goal, target.controlGroupKey))) availableActions.push(`CLICK_AUTHORITATIVE:${field}`);
         }
@@ -1213,7 +1230,11 @@ export class BrowserTaskExecutor {
       else rejectionReason = "NOT_SCROLLABLE";
     }
       if (allowAdvance && this.safeAdvanceControl(input, observation, target) && !pendingSelection) {
-        for (const field of ["DATE", "PARTY_SIZE", "TIME"] as const) {
+        for (const field of [
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+      ] as const) {
           if (this.authoritativeValues(input)[field] !== undefined && ![...observation.targets.values()].some(candidate=>matchesAuthoritativeControl(candidate,field,input.goal)&&this.actionHints(input,observation,candidate,false,false).availableActions?.some(a=>a===`CLICK_AUTHORITATIVE:${field}`||a===`CHOOSE_OPTION:${field}`))) availableActions.push(`ADVANCE_TO_AUTHORITATIVE:${field}`);
         }
       }
@@ -1227,7 +1248,10 @@ export class BrowserTaskExecutor {
   }
 
   private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"): boolean {
-    if (target.kind !== "INPUT" || target.readOnly || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
+    if (target.kind !== "INPUT" || target.readOnly || ![
+        "INPUT",
+        "TEXTAREA",
+      ].includes(target.nativeTag ?? "")) return false;
     // Native types limit what can be entered. Meaning comes from the model's
     // current observation, rather than a search/date/guest label dictionary.
     const type = target.type?.toLowerCase();
@@ -1309,7 +1333,10 @@ export class BrowserTaskExecutor {
       await this.operation(input,"ADVANCE_CLICK",()=>input.session.click(controls[0]!.controlId,this.actionOptions()));
       await this.waitForSettled(input,previous.snapshot);
       const page=await this.snapshot(input);current=await this.observe(input,page);
-      if(page.url!==previous.snapshot.url||page.pageId!==previous.snapshot.pageId||(page.networkRequests?.slice(count)??[]).some(r=>r.resourceType==="document"||r.formSubmission||!["GET","HEAD"].includes(r.method)))return stop("ADVANCE_NAVIGATION_OR_SUBMISSION");
+      if(page.url!==previous.snapshot.url||page.pageId!==previous.snapshot.pageId||(page.networkRequests?.slice(count)??[]).some(r=>r.resourceType==="document"||r.formSubmission||![
+        "GET",
+        "HEAD",
+      ].includes(r.method)))return stop("ADVANCE_NAVIGATION_OR_SUBMISSION");
       if(![...current.targets.values()].some(t=>t.controlGroupKey===groupKey))return stop("ADVANCE_GROUP_DISAPPEARED");
       if(state(current)===prior)return stop("ADVANCE_NO_PROGRESS");
     }
@@ -1505,8 +1532,16 @@ export class BrowserTaskExecutor {
     // Registry marks only read-only INPUT comboboxes as BUTTON targets. Clicking
     // that input or a DIV/LI/SPAN option cannot natively submit its parent form.
     // Native buttons (including role=option) retain the default-submit guard.
-    const nonSubmittingChoice = (target.role === "combobox" && ["INPUT", "DIV", "SPAN"].includes(target.nativeTag ?? ""))
-      || (target.role === "option" && ["DIV", "LI", "SPAN"].includes(target.nativeTag ?? ""));
+    const nonSubmittingChoice = (target.role === "combobox" && [
+        "INPUT",
+        "DIV",
+        "SPAN",
+      ].includes(target.nativeTag ?? ""))
+      || (target.role === "option" && [
+        "DIV",
+        "LI",
+        "SPAN",
+      ].includes(target.nativeTag ?? ""));
     if (target.type?.toLowerCase() === "submit" || (!target.type && target.formMethod === "POST" && !nonSubmittingChoice)) return false;
     if (/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label)) return false;
     return true;
@@ -1515,7 +1550,15 @@ export class BrowserTaskExecutor {
   /** Network admission, not page markup, is the one wider UI permission. */
   private guardedReadControl(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
     if (input.session.metadata.readNetworkBoundary !== "INSTALLED") return false;
-    if (!["BUTTON", "CHECKBOX", "RADIO", "RANGE", "REGION", "OPTION", "INPUT"].includes(target.kind)) return false;
+    if (![
+        "BUTTON",
+        "CHECKBOX",
+        "RADIO",
+        "RANGE",
+        "REGION",
+        "OPTION",
+        "INPUT",
+      ].includes(target.kind)) return false;
     if (target.kind === "INPUT" && !target.readOnly && !this.boundInputField(target, "RETRIEVAL") && !this.boundInputField(target, "LOCATION")) return false;
     return !/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label);
   }

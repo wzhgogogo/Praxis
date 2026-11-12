@@ -20,12 +20,41 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
   properties: {
     action: {
       type: "string",
-      enum: ["OPEN_LINK", "CLICK", "ADVANCE_TO_AUTHORITATIVE", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
+      enum: [
+        "OPEN_LINK",
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE",
+        "CLICK_AUTHORITATIVE",
+        "FILL_AUTHORITATIVE",
+        "CHOOSE_OPTION",
+        "SET_CHECKED",
+        "ADJUST_RANGE",
+        "SCROLL_REGION",
+        "PRESS_ESCAPE",
+        "WAIT",
+        "COMPLETE",
+        "REQUEST_HUMAN_HELP",
+      ],
     },
     targetRef: { type: "string" },
     valueGroupRef: { type: "string", description: "For ADVANCE_TO_AUTHORITATIVE only: current group containing the requested field choices, which may differ from the advance control group." },
-    authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"] },
-    requestedState: { type: "string", enum: ["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"] },
+    authoritativeField: { type: "string", enum: [
+        "NONE",
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+        "RETRIEVAL",
+        "LOCATION",
+      ] },
+    requestedState: { type: "string", enum: [
+        "NONE",
+        "CHECKED",
+        "UNCHECKED",
+        "INCREASE",
+        "DECREASE",
+        "UP",
+        "DOWN",
+      ] },
     reason: { type: "string" },
   },
 };
@@ -197,9 +226,38 @@ function nonBlank(value: unknown): value is string {
 }
 
 const WIRE_FIELDS = ["action", "targetRef", "authoritativeField", "requestedState", "reason", "valueGroupRef"] as const;
-const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "ADVANCE_TO_AUTHORITATIVE", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
-const KNOWN_FIELDS = new Set(["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"]);
-const KNOWN_STATES = new Set(["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"]);
+const KNOWN_ACTIONS = new Set([
+        "OPEN_LINK",
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE",
+        "CLICK_AUTHORITATIVE",
+        "FILL_AUTHORITATIVE",
+        "CHOOSE_OPTION",
+        "SET_CHECKED",
+        "ADJUST_RANGE",
+        "SCROLL_REGION",
+        "PRESS_ESCAPE",
+        "WAIT",
+        "COMPLETE",
+        "REQUEST_HUMAN_HELP",
+      ]);
+const KNOWN_FIELDS = new Set([
+        "NONE",
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+        "RETRIEVAL",
+        "LOCATION",
+      ]);
+const KNOWN_STATES = new Set([
+        "NONE",
+        "CHECKED",
+        "UNCHECKED",
+        "INCREASE",
+        "DECREASE",
+        "UP",
+        "DOWN",
+      ]);
 
 function diagnosticPath(key: string): string {
   // Field names are normally harmless schema positions, but an arbitrary key
@@ -294,22 +352,39 @@ export function decodeBrowserReadActionWire(value: unknown, observedTargetRefs: 
       return { type: value.action, reason };
     case "ADVANCE_TO_AUTHORITATIVE":
       if (!nonBlank(value.valueGroupRef) || !observedTargetRefs.has(value.valueGroupRef)) return rejectWire(value,observedTargetRefs,"$.valueGroupRef",value.valueGroupRef,"INVALID_STATE");
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME"].includes(value.authoritativeField)) {
+      if (!nonBlank(value.targetRef) || ![
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+      ].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, "$.authoritativeField", value.authoritativeField, "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME", valueGroupRef:value.valueGroupRef as string, reason };
     case "CLICK_AUTHORITATIVE":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE"].includes(value.authoritativeField)) {
+      if (!nonBlank(value.targetRef) || ![
+        "DATE",
+        "PARTY_SIZE",
+      ].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE", reason };
     case "CHOOSE_OPTION":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"].includes(value.authoritativeField)) {
+      if (!nonBlank(value.targetRef) || ![
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+        "RETRIEVAL",
+      ].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL", reason };
     case "FILL_AUTHORITATIVE":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "RETRIEVAL", "LOCATION"].includes(value.authoritativeField)) {
+      if (!nonBlank(value.targetRef) || ![
+        "DATE",
+        "PARTY_SIZE",
+        "RETRIEVAL",
+        "LOCATION",
+      ].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION", reason };
