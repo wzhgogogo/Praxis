@@ -1,0 +1,72 @@
+{
+  "status": "STOPPED_BEFORE_IMPLEMENTATION_ACCEPTANCE",
+  "cause": "CALENDAR_ADVANCE_AND_AUTHORITATIVE_DATE_HAVE_DIFFERENT_OBSERVED_GROUPS",
+  "provenance": {
+    "status": "actual r1 decision observations, component projection; not complete HAR replay",
+    "commit": "53d651854158d5b7666f0f9dec15d02840d41a24",
+    "root": "/private/tmp/praxis-seed-post-fix-evidence-03/.eval-artifacts/phase3b/seed-d02v-r4-pathfix-20261112/D02V-r1/runtime/dev-d02v-paging-r1",
+    "decisionSHA256": "b7ac749154ebde939903b88c0c16d94640b2bce315ed28e2cd85c221f06ad53f"
+  },
+  "before": {
+    "sequence": 10,
+    "advance": {
+      "ref": "observation:1:target:114",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Next month",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:1:group:13",
+      "labelSource": "DOM descendant text",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/#",
+      "availableActions": [
+        "CLICK"
+      ]
+    }
+  },
+  "after": {
+    "sequence": 11,
+    "advance": {
+      "ref": "observation:2:target:125",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Next month",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:2:group:13",
+      "labelSource": "DOM descendant text",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/#",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "authoritativeChoice": {
+      "ref": "observation:2:target:10",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Date 2026-12-10",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:2:group:1",
+      "value": "2026-12-10",
+      "type": "button",
+      "calendarDate": "2026-12-10",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:DATE"
+      ]
+    }
+  },
+  "people": {
+    "status": "SUPPORTED_COMPONENT_OBSERVATIONS",
+    "sequences": [
+      12,
+      13,
+      14
+    ],
+    "note": "One supported widget is insufficient under the explicit two-real-user requirement"
+  },
+  "B": "NOT_STARTED: explicit A evidence stop; no probe ledger activated",
+  "actualConsumption": {
+    "fullLive": 0,
+    "publicGET": 0,
+    "realModelCalls": 0
+  }
+}

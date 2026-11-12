@@ -1,0 +1,6 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/infrastructure/browser/browser-task-executor.ts(1441,39): error TS2345: Argument of type '"DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL" | "TIME"' is not assignable to parameter of type '"DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"'.
+  Type '"TIME"' is not assignable to type '"DATE" | "LOCATION" | "PARTY_SIZE" | "RETRIEVAL"'.

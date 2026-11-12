@@ -1,0 +1,26 @@
+/private/tmp/praxis-seed-advance-authoritative/src/infrastructure/browser/advance-authoritative.test.ts:5
+import {parseBrowserReadAction} from './browser-action-decision.js';
+        ^
+
+SyntaxError: The requested module './browser-action-decision.js' does not provide an export named 'parseBrowserReadAction'
+    at #_instantiate (node:internal/modules/esm/module_job:254:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:362:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:99:5)
+
+Node.js v24.4.1
+✖ src/infrastructure/browser/advance-authoritative.test.ts (151.1755ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 154.633625
+
+✖ failing tests:
+
+test at src/infrastructure/browser/advance-authoritative.test.ts:1:1
+✖ src/infrastructure/browser/advance-authoritative.test.ts (151.1755ms)
+  'test failed'

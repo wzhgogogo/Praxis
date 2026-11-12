@@ -1,0 +1,160 @@
+diff --git a/src/infrastructure/browser/browser-action-decision.ts b/src/infrastructure/browser/browser-action-decision.ts
+index d35d2358..d4174e79 100644
+--- a/src/infrastructure/browser/browser-action-decision.ts
++++ b/src/infrastructure/browser/browser-action-decision.ts
+@@ -6,11 +6,11 @@ import type { BrowserCalendarMonth } from "./browser-runtime.js";
+ 
+ /** Current observable controls and native public form ownership; no scripted site flow. */
+ export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "5" } as const;
+-export const BROWSER_READ_DECISION_PROMPT_VERSION = "25";
++export const BROWSER_READ_DECISION_PROMPT_VERSION = "26";
+ 
+ export const BROWSER_ACTION_DECISION_SCHEMA = {
+   name: "browser_read_action",
+-  version: "14",
++  version: "15",
+ } as const;
+ 
+ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
+@@ -20,7 +20,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
+   properties: {
+     action: {
+       type: "string",
+-      enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
++      enum: ["OPEN_LINK", "CLICK", "ADVANCE_TO_AUTHORITATIVE", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
+     },
+     targetRef: { type: "string" },
+     authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"] },
+@@ -32,6 +32,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
+ export type BrowserReadAction =
+   | { type: "OPEN_LINK"; targetRef: string; reason: string }
+   | { type: "CLICK"; targetRef: string; reason: string }
++  | { type: "ADVANCE_TO_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "TIME"; reason: string }
+   | { type: "CLICK_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE"; reason: string }
+   | { type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"; reason: string }
+   | { type: "CHOOSE_OPTION"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL"; reason: string }
+@@ -188,7 +189,7 @@ function nonBlank(value: unknown): value is string {
+ }
+ 
+ const WIRE_FIELDS = ["action", "targetRef", "authoritativeField", "requestedState", "reason"] as const;
+-const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
++const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "ADVANCE_TO_AUTHORITATIVE", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
+ const KNOWN_FIELDS = new Set(["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"]);
+ const KNOWN_STATES = new Set(["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"]);
+ 
+@@ -283,6 +284,11 @@ export function decodeBrowserReadActionWire(value: unknown, observedTargetRefs:
+       // stale/placeholder target or inert field/state metadata in its strict
+       // envelope; canonicalize it rather than spend a decision on rejection.
+       return { type: value.action, reason };
++    case "ADVANCE_TO_AUTHORITATIVE":
++      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME"].includes(value.authoritativeField)) {
++        return rejectWire(value, observedTargetRefs, "$.authoritativeField", value.authoritativeField, "INVALID_STATE");
++      }
++      return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME", reason };
+     case "CLICK_AUTHORITATIVE":
+       if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE"].includes(value.authoritativeField)) {
+         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
+@@ -333,7 +339,7 @@ Choose each next action from the current visible text, accessible structure and
+ 
+ A LINK can represent a same-page UI control when its observed href differs from the current document only by a fragment (including #). If its availableActions includes CLICK, use CLICK to expand or change that UI and re-observe. Ordinary public links continue to use OPEN_LINK. Use the visible control label and its page context to match the objective; an unrelated unlabeled button is not a substitute for a named category or filter control.
+ 
+-OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. An OPTION marked outsideViewport is in the current open list but clipped by its scroll viewport. Choose it directly when its availableActions match the goal; the executor scrolls that list and verifies the option before clicking, without another model call.
++OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. Use a currently available direct authoritative choice or native value control whenever it already offers the requested value. Only when advancing the same observed control group is necessary to expose that value, choose ADVANCE_TO_AUTHORITATIVE on an observed non-submit control and specify the authoritative field. The executor repeats that selected control within its step and operation budgets, observing after every click without intermediate model decisions, then returns the new observation when a matching choice appears. It never selects the revealed choice or establishes availability; choose the existing authoritative action afterwards. Do not request separate decisions for each intermediate advance. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. An OPTION marked outsideViewport is in the current open list but clipped by its scroll viewport. Choose it directly when its availableActions match the goal; the executor scrolls that list and verifies the option before clicking, without another model call.
+ 
+ CHOOSE_OPTION is the action for an observed native-select or parent-bound custom-list option; use TIME only inside the authoritative window. A unique exact retrieval suggestion may instead be exposed as a BUTTON offering CLICK under the installed read boundary: use that offered CLICK, then re-observe the destination and choose COMPLETE only for the settled source handoff. That exception does not permit other ownerless options. A label consisting only of digits is never sufficient for a date. SET_CHECKED selects one current permitted checkbox or radio with CHECKED; a radio must not be unset or selected by guessing a group. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. PRESS_ESCAPE closes one page layer then requires a fresh observation. WAIT waits for one bounded visible result change at page level. If no safe action is available, request human help. For area discovery COMPLETE, use targetRef to cite a currently visible control that states the current result-list scope. Cite what the page actually displays; a broad scope is not proof of the requested cuisine. If there is no such visible reference use an empty targetRef; the batch will be scope-unverified. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
+ 
+diff --git a/src/infrastructure/browser/browser-task-executor.ts b/src/infrastructure/browser/browser-task-executor.ts
+index e69d8898..ade284fe 100644
+--- a/src/infrastructure/browser/browser-task-executor.ts
++++ b/src/infrastructure/browser/browser-task-executor.ts
+@@ -67,6 +67,8 @@ export interface BrowserReadLimits {
+   maxModelCallsTotal: number;
+   maxOperationsPerCandidate: number;
+   maxAutomaticElapsedMs: number;
++  /** Per model-selected advance action; also bounded by the shared operation budget. */
++  maxAdvanceStepsPerAction?: number;
+   maxElapsedMsPerCandidate?: number;
+   maxElapsedMsPerProvider?: number;
+ }
+@@ -892,6 +894,17 @@ export class BrowserTaskExecutor {
+         if (pendingOption && action.type === "CHOOSE_OPTION") {
+           throw new Error("A previous option is still unconfirmed; WAIT for its selected value before choosing another option");
+         }
++        if (action.type === "ADVANCE_TO_AUTHORITATIVE") {
++          if (pendingOption || pendingRadio || pendingParty) throw new Error("A previous selection is unconfirmed");
++          const advanced = await this.advanceToAuthoritative(input, observation, target!, action.field);
++          snapshot = advanced.observation.snapshot;
++          verifiedObservation = advanced.observation;
++          progress = advanced.reason;
++          remember({action:action.type,field:action.field,outcome:advanced.reason === "ADVANCE_TARGET_FOUND" ? "PAGE_CHANGED" : "NO_CHANGE",reason:advanced.reason,urlChanged:snapshot.url!==observation.snapshot.url});
++          if (advanced.reason !== "ADVANCE_TARGET_FOUND") return {status:"NO_SAFE_ACTION",reasonCode:advanced.reason,snapshot,controls:advanced.observation.controls};
++          postAction = true;
++          continue;
++        }
+         await this.applyGenericAction(input, observation, target, action);
+         visibleProgress.executed(visibleBefore, stateActionKey);
+       } catch (error) {
+@@ -1175,6 +1188,11 @@ export class BrowserTaskExecutor {
+         return { availableActions, rejectionReason: "ALREADY_SELECTED" };
+       }
+       if (this.safeGenericClick(target) || this.guardedReadControl(input, target)) availableActions.push("CLICK");
++      if (this.safeAdvanceControl(input, target) && !pendingSelection) {
++        for (const field of ["DATE", "PARTY_SIZE", "TIME"] as const) {
++          if (this.authoritativeValues(input)[field] !== undefined && !this.groupAuthoritativeChoice(input, observation, target.controlGroupKey!, field)) availableActions.push(`ADVANCE_TO_AUTHORITATIVE:${field}`);
++        }
++      }
+       else rejectionReason = "WRITE_PROHIBITED";
+       if ((this.safeGenericClick(target) || this.guardedReadControl(input, target)) && target.role !== "combobox" && target.selected !== true) {
+         for (const field of ["DATE", "PARTY_SIZE"] as const) {
+@@ -1260,6 +1278,51 @@ export class BrowserTaskExecutor {
+     }
+   }
+ 
++  private safeAdvanceControl(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
++    return input.session.metadata.readNetworkBoundary === "INSTALLED" && !!target.controlGroupKey
++      && target.kind === "BUTTON" && target.nativeTag === "BUTTON" && target.type === "button"
++      && !target.href && !target.disabled && this.safeGenericClick(target);
++  }
++
++  private groupAuthoritativeChoice(input: BrowserSkillReadInput, observation: Observation, groupKey: string, field: "DATE" | "PARTY_SIZE" | "TIME"): boolean {
++    return [...observation.targets.values()].some(target => target.controlGroupKey === groupKey && !target.disabled
++      && matchesAuthoritativeControl(target, field, input.goal)
++      && (target.kind === "BUTTON" && target.role !== "option" && target.role !== "combobox" && this.safeGenericClick(target)
++        || target.kind === "OPTION" && !!target.ownerRef));
++  }
++
++  /** Repeats only the model's uniquely observed control, never a code-chosen sequence. */
++  private async advanceToAuthoritative(input: BrowserSkillReadInput, initial: Observation, selected: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "TIME"): Promise<{observation:Observation;reason:string}> {
++    if (!this.safeAdvanceControl(input, selected) || this.authoritativeValues(input)[field] === undefined) throw new Error("Advance requires a guarded non-submit grouped control and an authoritative value");
++    const maximum = this.options.maxAdvanceStepsPerAction ?? this.options.maxOperationsPerCandidate;
++    if (!Number.isInteger(maximum) || maximum < 1) throw new Error("Invalid advance step budget");
++    const groupKey = selected.controlGroupKey!, fingerprint = browserReadActionTargetReplayFingerprint(selected);
++    const groupState = (observed: Observation) => JSON.stringify([...observed.targets.values()].filter(target => target.controlGroupKey === groupKey)
++      .map(({kind,role,label,value,selected,disabled})=>JSON.stringify({kind,role,label,value,selected,disabled})).sort());
++    let current = initial;
++    const stop = (reason: string) => {
++      this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:current.snapshot.url,detail:reason,observation:this.diagnosticObservation(current)});
++      return {observation:current,reason};
++    };
++    for (let step = 0; step < maximum; step++) {
++      if (this.groupAuthoritativeChoice(input, current, groupKey, field)) return stop("ADVANCE_TARGET_FOUND");
++      const controls = [...current.targets.values()].filter(target => target.controlGroupKey === groupKey
++        && browserReadActionTargetReplayFingerprint(target) === fingerprint && this.safeAdvanceControl(input,target));
++      if (controls.length !== 1) return stop("ADVANCE_CONTROL_UNAVAILABLE");
++      if (this.operationCount + 4 > this.options.maxOperationsPerCandidate) return stop("ADVANCE_OPERATION_BUDGET");
++      const previous=current, state=groupState(current), requestCount=current.snapshot.networkRequests?.length ?? 0;
++      await this.operation(input,"ADVANCE_CLICK",()=>input.session.click(controls[0]!.controlId,this.actionOptions()));
++      await this.waitForSettled(input,previous.snapshot);
++      const page=await this.snapshot(input);
++      current=await this.observe(input,page);
++      const requests=page.networkRequests?.slice(requestCount) ?? [];
++      if (page.url!==previous.snapshot.url || page.pageId!==previous.snapshot.pageId || requests.some(request=>request.resourceType==="document" || request.formSubmission || !["GET","HEAD"].includes(request.method))) return stop("ADVANCE_NAVIGATION_OR_SUBMISSION");
++      if (![...current.targets.values()].some(target=>target.controlGroupKey===groupKey)) return stop("ADVANCE_GROUP_DISAPPEARED");
++      if (groupState(current)===state) return stop("ADVANCE_NO_PROGRESS");
++    }
++    return stop(this.groupAuthoritativeChoice(input,current,groupKey,field) ? "ADVANCE_TARGET_FOUND" : "ADVANCE_STEP_LIMIT");
++  }
++
+   private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" }>): Promise<void> {
+     if (action.type === "WAIT") {
+       await this.waitForSettled(input, observation.snapshot);

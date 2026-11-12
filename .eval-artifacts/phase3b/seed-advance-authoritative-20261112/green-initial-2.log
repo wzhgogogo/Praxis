@@ -1,0 +1,32 @@
+✔ D02-V r1 people: one decision advances until authoritative value appears (18.314042ms)
+ℹ {"mode":"RECORDED_COMPONENT_ONLY","originalAdvanceCalls":2,"newAdvanceCalls":1,"avoidedModelCalls":1,"projectedSavedMs":4698,"note":"Reuses first recorded model latency; no new-model latency or Live success asserted"}
+✖ D02-V r1 calendar: one decision advances until authoritative value appears (6.999791ms)
+✔ new advance action is accepted on the strict wire (0.133625ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 134.192167
+
+✖ failing tests:
+
+test at src/infrastructure/browser/advance-authoritative.test.ts:1:973
+✖ D02-V r1 calendar: one decision advances until authoritative value appears (6.999791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-advance-authoritative/src/infrastructure/browser/advance-authoritative.test.ts:17:376)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }
