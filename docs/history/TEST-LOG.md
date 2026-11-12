@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：r2请求范围修复候选，承接通用推进a9b1fad8。发现完成只接受当前来源query、document.title或可见h1的整列表菜系证据，无query不再自动通过，单卡/菜单文字不作列表范围；无菜系目录行为不变。r2/B真实DOM定向31项通过，精确目录产出来源直达URI且查位不重做名称搜索。Prompt27，无站点规则/URL构造/强制动作序列；45/90s、权限与预算不变，0外部调用，待完整门禁。[计划](../../.eval-artifacts/phase3b/r2-scope-20261112/plan.md)。
+
 <a id="advance-control-20261112"></a>
 
 2026-11-12 CET — draft / not integrated：通用权威控件推进源码b18a6343净树全门禁PASS（默认1621、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA扫描0。模型一次选择控件/字段/值域，执行器只推进同一稳定控件并逐步Guard/settle/观察，无中间模型，不自动选中或声明有位。真实录制人数/跨组日历通过；D02V组件5→4次、44.508→41.870秒，人数r1避免1次原17,215token/4.698s调用，日历单步无节省；均为投影非Live。0Live/0GET/0真实模型，主草稿/四账本不变，评价器/历史评价不改。新Prompt真实模型采用率待验，仅工作分支、不合main。[简报](../../.eval-artifacts/phase3b/advance-control-20261112/report.md)。

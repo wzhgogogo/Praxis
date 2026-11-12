@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：请求菜系发现必须有整个结果范围的query/title/visible h1证据；仅地点、单卡分类或展开菜单不再完成。B真实精确目录→NativeSearch→原身份核对→直达URI/零名称检索组件通过，跨录制/构造导航边界明确，不作Live验收。推进能力沿用前一候选，原生目录空位表单接线未扩展；待全门禁复核。
+
 2026-11-12 CET — draft / not integrated：通用推进动作允许模型指定独立值域组，复用既有权威动作匹配，中间无模型、无自动选择/完成。真实D02V人数与日历组件验证；事件监听器缺失处仅加载原动作对应的下一原始DOM，不造响应，未证明当前网站稳定性。Guard/身份/库存/G1不变，0Live/0GET/0真实模型。源码b18a6343净树type/arch/build及默认1621、Chromium284/G6 159全绿，双基线扫描0。D02V原DOM/HAR计时5→4模型、44.508→41.870秒仅组件投影，真实模型/新Live待验证。记录索引：[manifest](../../src/harness/browser/fixtures/advance-control/manifest.json)，[简报](../../.eval-artifacts/phase3b/advance-control-20261112/report.md)。
 
 2026-11-12 CET — draft / not integrated：原生/Google候选在既有发现入口复用已读详情的原身份核对器，仅HIGH同来源店铺标识且无冲突才合并；保留来源佐证，不新增请求。r1真实组件证明一次库存/一候选/一B1，03/07候选池回归不变；完整门禁通过但修后无新Live。r1独立补评通过、重复展示缺陷保留，原自动评价未覆盖。[简报](https://github.com/wzhgogogo/Praxis/blob/4eb7900d7345e3cbb6d990477fecaaedc624b033/.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。

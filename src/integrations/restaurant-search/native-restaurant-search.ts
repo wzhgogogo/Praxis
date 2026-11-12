@@ -1,3 +1,4 @@
+import {parse, type DefaultTreeAdapterMap} from "parse5";
 import {normalizedTextKey} from "../../core/text-key.js";
 import {restaurantReserveCancelled} from "../../domains/restaurant/read-time-reserve.js";
 import type {DiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
@@ -110,13 +111,20 @@ export function sourceListingCompletion(pack: DiscoverySourcePack, current: Brow
     return false;
   });
   const locationBound = !location || [...names].some(name=>contains(observed,name));
-  // A source-owned text-query listing differs from directory navigation. Its
-  // current query or visible scope must carry the requested retrieval term;
-  // submitting only the place cannot establish that criterion was applied.
+  // The document title and visible primary headings describe the whole result
+  // scope. Card text, input values and menu options cannot establish that scope.
+  const headings: string[] = [];
+  const text = (node: DefaultTreeAdapterMap["node"]): string => "value" in node ? node.value : "childNodes" in node ? node.childNodes.map(text).join(" ") : "";
+  const visit = (node: DefaultTreeAdapterMap["node"]): void => {
+    if ("tagName" in node && node.tagName === "h1") headings.push(text(node));
+    else if ("childNodes" in node) for (const child of node.childNodes) visit(child);
+  };
+  if (current.visibleHtml) visit(parse(current.visibleHtml));
+  const scope = words([current.title,...headings].join(" "));
   const query=pack.browser!.retrievalExpression(current.url),criterion=words(expression).join("");
-  const retrievalBound=!criterion || query===undefined || contains(words(query),criterion) || contains(observed,criterion);
+  const retrievalBound=!criterion || (query!==undefined && contains(words(query),criterion)) || contains(scope,criterion);
   return { complete: locationBound && retrievalBound && (listing.outlets.length > 0 || empty), resultBusy: pack.browser!.resultBusy(current),
-    reason: !locationBound ? "Requested location is not confirmed in visible result text; an input value does not establish location." : !retrievalBound ? "The current text query and visible list scope do not confirm the requested retrieval expression." : "Read stable source-owned public results for the requested location.",
+    reason: !locationBound ? "Requested location is not confirmed in visible result text; an input value does not establish location." : !retrievalBound ? "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence." : "Read stable source-owned public results for the requested location.",
     resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
 }
 
@@ -365,7 +373,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           const result=await executor.runSkill({taskId:request.readRunId??`native-discovery:${source}`,source,stage:"DISCOVERY",signal,session,allowedOrigins:pack.documentOrigins,
             ...(pack.skillPath?{sourceSkillPath:pack.skillPath}:{}),requireModelConfirmation:true,
             goal:{outlet:{name:request.intent.target?.query??""},location:{...location,name:location.label},...(expression?{retrievalExpression:expression,retrievalSource:"CUISINE" as const}:{}),hardCriteria:request.intent.criteria.filter(c=>c.polarity==="POSITIVE"&&c.strength==="HARD").map(c=>c.text)},
-            objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list visibly confirms that location and is relevant. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
+            objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list confirms the location and the retrieval expression has been applied to the whole result scope. A broad parent category or a matching merchant card does not establish that scope; continue using currently observed query controls or category links until the source query, document title or visible primary heading confirms it. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
             onQuerySubmitted: owner => { submittedOwners.add(owner); },
             completion:(page,controls)=>{
               const document = new URL(page.url); document.hash = "";
