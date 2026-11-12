@@ -566,13 +566,13 @@ test("H001 enters the observed named Shibuya directory with the authoritative ke
   assert.equal(result.navigations.some((url) => url.endsWith("/100/")), true);
 });
 
-test("native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts", async () => {
+test("native discovery rejects a broader related category without current retrieval scope", async () => {
   const result = await runScenario("TABELOG_RETRIEVAL_CATEGORY_DELIVERS");
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/101"]);
+  assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/"), true);
-  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  assert.equal(result.navigations.some(url => /A130401\/10[0-2]\/$/.test(url)), false,
+    "removing the keyword leaves only the broader category; no card can certify the whole retrieval scope");
   assert.deepEqual(result.state.intent?.criteria, [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }]);
-  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
 });
 
 test("native discovery rejects a category result that leaves the observed regional listing root", async () => {

@@ -207,7 +207,7 @@ export function sourcePages(
       if (path === parent) return page(url, link(child,"F5 child"), "Observed local child menu");
       if (path === child || path === alternate) {
         const ids = path === child ? [990,991,992] : (scenario === "F5_PENDING_CORRECTION" || scenario === "F5_SECOND_OUTSIDE" || scenario === "F5_EDGE_WITH_PRIOR") ? [993,994,995] : [100,101,102];
-        return page(url, ids.map(id => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join(""), "Local constructed list in Shibuya");
+        return page(url, ids.map(id => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join(""), "Local constructed list in Shibuya", "Omakase restaurants in Shibuya");
       }
       if (/\/99[0-5]\/$/.test(parsed.pathname)) return page(url, `<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:`Native Tabelog ${parsed.pathname.split("/").at(-2)}`,address:"Tokyo",geo:{latitude:35.63,longitude:139.68}})}</script>`, "Outside detail");
     }
@@ -233,7 +233,7 @@ export function sourcePages(
         }
         return page(url,
           '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/">Native Tabelog 100</a><a href="/en/tokyo/A1303/A130301/rstLst/sushi/?sw=omakase">Sushi</a>',
-          "Restaurants in Shibuya\n1～1／1", "Tabelog search");
+          "Restaurants in Shibuya\n1～1／1", "Omakase restaurants in Shibuya");
       }
       if (scenario === "TABELOG_NEUTRAL_REGION_RECOVERS") {
         if (listingRoot === "/en/tokyo/rstLst/") {
@@ -243,13 +243,13 @@ export function sourcePages(
         }
         return page(url,
           '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/" data-address="Shibuya 100, Tokyo">Native Tabelog 100</a>',
-          "Restaurants in Higashi-Ginza\n1～1／1", "Tabelog search");
+          "Restaurants in Higashi-Ginza\n1～1／1", "Omakase restaurants in Higashi-Ginza");
       }
       if (scenario === "TABELOG_REGION_HOMEPAGE_RECOVERS") {
         if (listingRoot === "/en/tokyo/A1303/A130301/rstLst/" && tabelogListingVisits === 1) {
           return page("https://tabelog.com/en/tokyo/A1303/A130301/", '<a href="/en/tokyo/A1303/A130301/rstLst/sushi/">Subarea sushi</a><a href="/en/tokyo/A1303/A130301/rstLst/">Restaurants in Shibuya</a>', "Shibuya regional directory", "Tabelog search");
         }
-        return page(url, '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/" data-address="Shibuya 100, Tokyo">Native Tabelog 100</a>', "Restaurants in Shibuya\n1～1／1", "Tabelog search");
+        return page(url, '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/" data-address="Shibuya 100, Tokyo">Native Tabelog 100</a>', "Restaurants in Shibuya\n1～1／1", "Omakase restaurants in Shibuya");
       }
       if (scenario === "TABELOG_REGION_HOMEPAGE_DRIFTS_NATIONAL" && listingRoot === "/en/tokyo/A1303/A130301/rstLst/") {
         // Both pages lack a listing root only if the production check compares
@@ -270,7 +270,7 @@ export function sourcePages(
           : second ? `<a rel="next" href="${categoryUrl("sushi/3/")}">Next 20</a>`
           : `<a rel="next" href="${categoryUrl("sushi/2/")}">Next 20</a>`;
         return page(url, ids.map((id) => `<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/">Native Tabelog ${id}</a>`).join("") + route,
-          `Sushi in Shibuya\n${third ? "7～7" : second ? "6～6" : "1～5"}／7`, "Tabelog search");
+          `Sushi in Shibuya\n${third ? "7～7" : second ? "6～6" : "1～5"}／7`, "Omakase sushi in Shibuya");
       }
       if (scenario === "TABELOG_STALE_REJECTS") return page(url,
         '<input type="search" name="search_text" aria-label="Search restaurants" value="omakase" data-live-value="old-query"><div class="result-list" aria-busy="true">Loading current search</div><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/100/">Old Tabelog result</a>',
@@ -292,7 +292,7 @@ export function sourcePages(
         const id = 100 + index;
         return `<article><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/${id}/" data-address="Shibuya ${id}, Tokyo">Native Tabelog ${id}</a><span class="category">Sushi</span></article>`;
       }).join("");
-      return page(url, "<h1>Restaurants in Shibuya</h1>"+links, count ? "Restaurants in Shibuya" : "No restaurants found in Shibuya", "Tabelog search");
+      return page(url, "<h1>Restaurants in Shibuya</h1>"+links, count ? "Restaurants in Shibuya" : "No restaurants found in Shibuya", "Omakase restaurants in Shibuya");
     }
     const tabelogId = parsed.pathname.match(/^\/tokyo\/A1304\/A130401\/(\d+)\/$/)?.[1];
     if (tabelogId) {
@@ -342,19 +342,20 @@ export function sourcePages(
         const liveValue = tableCheckDiscoveryInputValue;
         if (tableCheckDiscoveryRevealed) return page(url,
           `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><article><a href="/en/native-omakase-1">Native TableCheck 1</a><span class="cuisine">Japanese</span></article>`,
-          "Shibuya: 1 venue found", "TableCheck search");
+          "Shibuya: 1 venue found", "Omakase venues in Shibuya");
         return page(url,
           `<input type="search" name="search_text" aria-label="Search venues" value="${currentValue}" data-live-value="${liveValue}"><a href="/en/stale-result">Stale venue</a>${liveValue === currentValue ? '<div class="result-list" aria-busy="true">Loading current search</div>' : ''}${options.guardedQuerySubmit ? '<form><button type="submit">Show public venues</button></form>' : '<button type="button">Show public venues</button>'}`,
           liveValue === currentValue ? "Loading current search" : "Search filters ready", "TableCheck search");
       }
       if (scenario === "TABLECHECK_QUERY_READY") return page(url,
         '<input type="search" name="search_text" aria-label="Search venues" value="omakase"><script>const loading = false;</script><div class="is-hidden" aria-busy="true">Loading old results</div><a href="/en/native-omakase-1">Native TableCheck 1</a>',
-        "Shibuya: 1 venue found", "TableCheck search");
+        "Shibuya: 1 venue found", "Omakase venues in Shibuya");
       if (scenario === "TABLECHECK_STALE_REJECTS") return page(url,
         '<input type="search" name="search_text" aria-label="Search venues" value="omakase" data-live-value="old-query"><div class="result-list" aria-busy="true">Loading current search</div><a href="/en/native-omakase-1">Old venue</a><p>No venues found</p>',
         "Loading current search\nNo venues found", "TableCheck search");
+      // LOCAL_CONSTRUCTION: result titles declare the controlled query scope; a filled input alone is insufficient.
       const links = Array.from({ length: tablecheckCount }, (_, index) => `<article><a href="/en/native-omakase-${index + 1}">Native TableCheck ${index + 1}</a><span class="cuisine">Japanese</span></article>`).join("");
-      return page(url, "<h1>Venues in Shibuya</h1>"+links, tablecheckCount ? `Shibuya: ${tablecheckCount} venues found` : "No venues found in Shibuya", "TableCheck search");
+      return page(url, "<h1>Venues in Shibuya</h1>"+links, tablecheckCount ? `Shibuya: ${tablecheckCount} venues found` : "No venues found in Shibuya", "Omakase venues in Shibuya");
     }
     if (scenario === "TABLECHECK_SCOPED_MENU_DELIVERS" && parsed.pathname === "/en/native-omakase-1") {
       const name = "Native TableCheck 1";
