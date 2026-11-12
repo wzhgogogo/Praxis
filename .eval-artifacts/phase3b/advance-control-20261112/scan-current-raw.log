@@ -1,0 +1,6 @@
+src/infrastructure/browser/browser-action-decision.ts:23 [ WORDLIST ]       enum: ["OPEN_LINK", "CLICK", "ADVANCE_TO_AUTHORITATIVE", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_
+src/infrastructure/browser/browser-action-decision.ts:199 [ WORDLIST ] const WIRE_FIELDS = ["action", "targetRef", "authoritativeField", "requestedState", "reason", "valueGroupRef"] as const;
+src/infrastructure/browser/browser-action-decision.ts:200 [ WORDLIST ] const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "ADVANCE_TO_AUTHORITATIVE", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROL
+src/infrastructure/browser/browser-action-decision.ts:297 [ WORDLIST ]       if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME"].includes(value.authoritativeField)) {
+src/infrastructure/browser/browser-task-executor.ts:1216 [ WORDLIST ]         for (const field of ["DATE", "PARTY_SIZE", "TIME"] as const) {
+src/infrastructure/browser/browser-task-executor.ts:1312 [ WORDLIST ]       if(page.url!==previous.snapshot.url||page.pageId!==previous.snapshot.pageId||(page.networkRequests?.slice(count)??[]).some(r=>r.resourceType==="document"||r.formSubmission||!

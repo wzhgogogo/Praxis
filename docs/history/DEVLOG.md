@@ -1,3 +1,7 @@
+<a id="advance-control-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：通用权威控件推进源码b18a6343净树全门禁PASS（默认1621、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA扫描0。模型一次选择控件/字段/值域，执行器只推进同一稳定控件并逐步Guard/settle/观察，无中间模型，不自动选中或声明有位。真实录制人数/跨组日历通过；D02V组件5→4次、44.508→41.870秒，人数r1避免1次原17,215token/4.698s调用，日历单步无节省；均为投影非Live。0Live/0GET/0真实模型，主草稿/四账本不变，评价器/历史评价不改。新Prompt真实模型采用率待验，仅工作分支、不合main。[简报](../../.eval-artifacts/phase3b/advance-control-20261112/report.md)。
+
 2026-11-12 CET — draft / not integrated：通用权威控件推进。模型选择推进控件、权威字段和值域组，执行器在原操作/45秒窗口内重绑同一稳定控件并click→settle→观察，中间无模型；跨组日历不再按Calendar标签并组，目标出现交还模型。D02V真实DOM人数/日历初步回归绿，人数少1次调用/原延迟投影4.698s，日历单步无节省；待同SHA全门禁，不作为Live。[计划](../../.eval-artifacts/phase3b/advance-control-20261112/plan.md)。
 
 2026-11-12 CET — draft / not integrated：同店候选合并源码cff31e94净树完整门禁type/arch/build、默认1610、Chromium281、G6 159及D4/D8/D02-V通过；双基线ead28945/105a8b0a新增产品写死0。既有合并改用本次详情经原身份核对器得到的HIGH同provider/sourceEntityId，无证/LOW/冲突不合并；保留原生导航与Google佐证，不新增I/O。r1组件由两候选两查询变为一候选一次查询一B1；03r1/r2及07r1/r3候选池与交付不变。独立补评三项B1/身份/原响应核对成立，资格两项旧评测器重评PASS，补评QUALIFIED_DELIVERY/qualified=true/s0=0并保留重复展示产品缺陷；原自动评价/评价器不改，自动别名B1缺证结果另存不伪装为自动PASS。0Live/0GET/0模型，主草稿及三旧+r4账本哈希一致，r4余1/9/73。仅工作分支、不合main、不跑r2。[简报](https://github.com/wzhgogogo/Praxis/blob/4eb7900d7345e3cbb6d990477fecaaedc624b033/.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。

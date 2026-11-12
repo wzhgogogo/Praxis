@@ -1,0 +1,40 @@
+{
+  "sourceSHA": "b18a634391ba6212a7d74849a2a5e0a65e2dcf87",
+  "sourceTree": "dc4101940afe5c10c6eff919aef0871e4cecda34",
+  "cleanBeforeAndAfterGates": true,
+  "gates": {
+    "typecheck": "PASS",
+    "architecture": "PASS",
+    "build": "PASS",
+    "defaultTests": 1621,
+    "chromiumTests": 284,
+    "g6Tests": 159,
+    "D4_D8_D02V_sameOutlet": "PASS"
+  },
+  "hardcodedScan": {
+    "ead289450092ccc30798b754d1e0771462bf08bd": 0,
+    "32b97ed812be10e80a683ad1f2be8caba5608bf0": 0
+  },
+  "scannerSHA256": "ea195a6881dd0163d5e47dcf162cc3e685ff1d8e26eba6c8138ce8f1a7727447",
+  "protectedHashesUnchanged": true,
+  "consumption": {
+    "fullLive": 0,
+    "evaluationPublicGET": 0,
+    "realModelCalls": 0
+  },
+  "timingProjection": {
+    "r1_peopleAvoidedCalls": 1,
+    "r1_avoidedLatencyMs": 4698,
+    "r1_avoidedOriginalTokens": 17215,
+    "calendarAvoidedCalls": 0,
+    "MantenElapsedBeforeMs": 44508,
+    "MantenElapsedAfterMs": 41870,
+    "MantenCallsBefore": 5,
+    "MantenCallsAfter": 4
+  },
+  "notProved": [
+    "new-prompt real-model reliability",
+    "new Live delivery",
+    "new-model net token or cost reduction"
+  ]
+}

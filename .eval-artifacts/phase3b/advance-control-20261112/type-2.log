@@ -1,0 +1,5 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/infrastructure/browser/advance-control.test.ts(4,8): error TS2741: Property 'disabled' is missing in type '{ id: string; stableKey: string; kind: "BUTTON"; role: string; label: string; type: string; visible: true; controlGroupKey: string; controlGroupLabel: string; }' but required in type 'BrowserPageControl'.
