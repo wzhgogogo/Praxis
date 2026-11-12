@@ -1,0 +1,13 @@
+{
+  "classification": "ORCHESTRATION_INTERRUPTED",
+  "failedAt": "runG6Batch -> createHybridDecisionCapture before try/beforeLive/chargeG6",
+  "source": "src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts:111-112",
+  "condition": "relative(resolve(\".eval-artifacts\"), resolve(path)).startsWith(\"..\")",
+  "cwd": "/private/tmp/praxis-seed-d02v-r4-main",
+  "relativeOutputPath": "../../praxis-seed-post-fix-evidence-03/.eval-artifacts/phase3b/seed-d02v-r4-20261112/D02V-r1/runtime/dev-d02v-paging-r1/execution.decisions.jsonl",
+  "expectedThrownMessage": "Decision capture must stay below .eval-artifacts",
+  "evidence": "case-input.json exists; no decisions/result/evaluation; no fullLive/model charge",
+  "errorMessageNotCapturedByFrozenOuter": true,
+  "diagnosticMode": "Static code and filesystem/budget evidence; no rerun",
+  "retry": false
+}

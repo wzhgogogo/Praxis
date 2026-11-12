@@ -1,0 +1,98 @@
+{
+  "sourceSHA": "105a8b0a825f4dd729674ffb26847d4b13f60771",
+  "rows": [
+    {
+      "run": "dev-d02v-paging-r1",
+      "status": "ORCHESTRATION_INTERRUPTED_BEFORE_LIVE",
+      "delivered": null,
+      "liveElapsedMs": null,
+      "modelCalls": 0,
+      "evaluationGET": 5,
+      "s0": null,
+      "boundary": "NOT_EVALUATED_NO_LIVE",
+      "decisionSequence": null
+    },
+    {
+      "run": "dev-d02v-paging-r2",
+      "status": "NOT_SENT_PREVIOUS_STOP",
+      "delivered": null,
+      "liveElapsedMs": null,
+      "modelCalls": 0,
+      "evaluationGET": 0,
+      "s0": null,
+      "boundary": "NOT_EVALUATED_NO_LIVE",
+      "decisionSequence": null
+    }
+  ],
+  "health": {
+    "passed": true,
+    "observations": [
+      {
+        "windowMs": 60000,
+        "source": "tablecheck",
+        "round": 1,
+        "complete": true,
+        "elapsedMs": 3883.9027499999993,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 2752.186457999999,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tabelog",
+        "round": 1,
+        "complete": true,
+        "elapsedMs": 3957.7844999999998,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 2146.8060000000005,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "28e0abb2451f80059c0ad7fac6b44b4efc9192a2d003c385d32774bbaa01a281"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tablecheck",
+        "round": 2,
+        "complete": true,
+        "elapsedMs": 2325.657583000002,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 1205.382625000002,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tabelog",
+        "round": 2,
+        "complete": true,
+        "elapsedMs": 5268.933291999998,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 2810.6947499999987,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "28e0abb2451f80059c0ad7fac6b44b4efc9192a2d003c385d32774bbaa01a281"
+      }
+    ]
+  },
+  "budget": {
+    "fullLive": 0,
+    "evaluationPublicGET": 5,
+    "realModelCalls": 0,
+    "environmentReruns": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 5
+  },
+  "slices": {
+    "03": "2/2 per user-reviewed slice",
+    "07": "2/2 per user-reviewed slice",
+    "D02V": "No Live started; not accepted"
+  },
+  "stopReason": "UNCLASSIFIED_OUTER_EXCEPTION; static cause: decision-capture path outside cwd artifact root"
+}
