@@ -1,0 +1,29 @@
+✔ D02V-r1 verified same-source identity collapses the Google alias before inventory (0.513291ms)
+✔ identity merge fails closed: UNVERIFIED (0.133541ms)
+✔ identity merge fails closed: LOW (0.077042ms)
+✔ identity merge fails closed: DIFFERENT (0.088417ms)
+✔ identity merge fails closed: CONFLICT (0.084667ms)
+✔ 03-r1 recorded candidate pool keeps the original delivered outlets (3.733917ms)
+ℹ {"case":"03-r1","before":40,"after":40,"aliases":[],"delivered":["praxis:restaurant:e9841bdc0fc64494a0335102"],"mode":"RECORDED_CANDIDATE_COMPONENT","realCalls":0}
+✔ 03-r2 recorded candidate pool keeps the original delivered outlets (2.41325ms)
+ℹ {"case":"03-r2","before":40,"after":40,"aliases":[],"delivered":["praxis:restaurant:e9841bdc0fc64494a0335102"],"mode":"RECORDED_CANDIDATE_COMPONENT","realCalls":0}
+✔ 07-r1 recorded candidate pool keeps the original delivered outlets (1.919625ms)
+ℹ {"case":"07-r1","before":37,"after":37,"aliases":[],"delivered":["praxis:restaurant:e885b9d551198fe6df3dec63"],"mode":"RECORDED_CANDIDATE_COMPONENT","realCalls":0}
+✔ 07-r3 recorded candidate pool keeps the original delivered outlets (2.755833ms)
+ℹ {"case":"07-r3","before":42,"after":42,"aliases":[],"delivered":["praxis:restaurant:e885b9d551198fe6df3dec63","praxis:restaurant:4ee0fa1e7015bba172121d0a"],"mode":"RECORDED_CANDIDATE_COMPONENT","realCalls":0}
+✔ same-read parsed R1 details verify the Google alias through the unchanged source identity gate (5.414167ms)
+✔ R1 component: merged candidate dispatches one inventory read, one presented outlet and one B1 (14.027625ms)
+✔ native search production wiring verifies the supplementary Google identity before returning candidates (537.5525ms)
+✔ D01 #8 recorded broad scope, local session component: CITED (3.786625ms)
+✔ D01 #8 recorded broad scope, local session component: NO_REFERENCE (0.776208ms)
+✔ D01 #8 recorded broad scope, local session component: STALE (1.205208ms)
+✔ D01 #8 recorded broad scope, local session component: HIDDEN (0.674458ms)
+✔ D01 recorded native and Google batches coexist; conservative dedup and cited-category ranking (3.337125ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 737.161958

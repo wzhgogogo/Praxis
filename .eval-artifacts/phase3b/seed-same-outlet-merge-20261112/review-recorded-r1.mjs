@@ -1,0 +1,53 @@
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {isDeepStrictEqual} from 'node:util';
+import {parse} from 'parse5';
+import {fileURLToPath} from 'node:url';
+import {evaluateG6} from '../../../src/eval/restaurant/agent-loop/g6/evaluator.ts';
+import {independentVisibleText} from '../../../src/eval/restaurant/agent-loop/g6/source-document.ts';
+const source=fileURLToPath(new URL('./review/original',import.meta.url));
+const dest=fileURLToPath(new URL('./review',import.meta.url));await mkdir(dest,{recursive:true});
+const read=async p=>JSON.parse(await readFile(p,'utf8')),sha=b=>createHash('sha256').update(b).digest('hex');
+const inputBytes=await readFile(source+'/evaluation.input.json'),oldBytes=await readFile(source+'/evaluation.json'),input=JSON.parse(inputBytes),original=JSON.parse(oldBytes);
+const [native,alias]=input.delivered,[nativeB1,aliasB1]=input.handoffs;
+const [np,ap]=input.qualificationClaims.map(c=>input.pages.find(p=>p.candidateId===c.candidateId&&p.ref.includes('source-snapshot:6:')));
+const identity=np.sourceIdentity;
+const recording=source+'/recordings/g6-dev-d02v-paging-r1-1794455620241-0';
+const harBytes=await readFile(recording+'/replay.har'),har=JSON.parse(harBytes);
+const bodies=har.log.entries.flatMap((e,index)=>{try{return[{index,url:e.request.url,status:e.response.status,body:JSON.parse(e.response.content.text),text:e.response.content.text}];}catch{return[];}});
+const googleBody=bodies.find(e=>new URL(e.url).hostname==='places.googleapis.com'&&e.body.places?.some(p=>p.id===alias.googlePlaceId));
+const google=googleBody?.body.places.find(p=>p.id===alias.googlePlaceId);
+const sameLinks=nativeB1.url===aliasB1.url;
+const sameIdentity=isDeepStrictEqual(np.sourceIdentity,ap.sourceIdentity)&&np.sourceIdentity.sourceEntityId===native.sourceIds.TABELOG&&ap.sourceIdentity.sourceEntityId===alias.sourceIds.TABELOG
+ &&np.ref===ap.ref.split(':identity:')[0]&&ap.ref.includes(':identity:google-response:2:')
+ &&google?.displayName?.text===ap.name&&google.formattedAddress===ap.address&&google.nationalPhoneNumber===ap.phone&&ap.phone===alias.phone
+ &&np.phone===np.sourceIdentity.phone&&np.sourceIdentity.phone===ap.sourceIdentity.phone;
+const capture=input.vacancy.find(v=>v.ref==='captured-snapshot:16:response:2');
+const stock=bodies.find(e=>e.url===capture.url&&isDeepStrictEqual(e.body,capture.body));
+const q=new URL(capture.url).searchParams,body=stock?.body;
+const responseDate=body?String(body.base_date.year)+'-'+String(body.base_date.month).padStart(2,'0')+'-'+String(body.base_date.day).padStart(2,'0'):null;
+const selections=body?Object.values(body.selection):[];
+const slot=selections.find(v=>v.time===native.time),sourceLink=slot?new URL(slot.url,new URL(capture.url).origin).href:null;
+const sourceCoverage=stock?.status===200&&q.get('rst_id')===identity.sourceEntityId&&q.get('svd')===native.date.replaceAll('-','')&&q.get('svps')===String(native.partySize)&&body.members===native.partySize&&responseDate===native.date&&sourceLink===nativeB1.url;
+const html=await readFile(recording+'/diagnostic/snapshot-0006.html','utf8'),tree=parse(html);
+const content=n=>('value' in n?n.value:(n.childNodes??[]).map(content).join(' ')).replace(/\s+/g,' ').trim();
+const categories=[];function walk(n){if(n.tagName==='tr'){const th=(n.childNodes??[]).find(c=>c.tagName==='th'),td=(n.childNodes??[]).find(c=>c.tagName==='td');if(th&&td&&content(th)==='Categories')categories.push(content(td));}for(const c of n.childNodes??[])walk(c);}walk(tree);
+const quote=input.qualificationClaims[0].quotes[0].text;
+const hardMet=categories.some(s=>s.includes(quote)&&s.toLowerCase().includes('robatayaki'))&&independentVisibleText(html).includes(quote);
+const centerBody=bodies.find(e=>new URL(e.url).hostname==='places.googleapis.com'&&e.body.places?.some(p=>p.displayName?.text==='Nakano City'));
+const center=centerBody?.body.places.find(p=>p.displayName?.text==='Nakano City')?.location;
+const point=google?.location;
+function distance(a,b){const rad=x=>x*Math.PI/180,dlat=rad(b.latitude-a.latitude),dlng=rad(b.longitude-a.longitude),h=Math.sin(dlat/2)**2+Math.cos(rad(a.latitude))*Math.cos(rad(b.latitude))*Math.sin(dlng/2)**2;return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));}
+const meters=center&&point?distance(center,point):null,within=meters!==null&&meters<=1000;
+const refs=['source-snapshot:6:html-sha256:'+sha(html),np.ref,ap.ref,'recorded-har:'+googleBody?.index+':sha256:'+sha(googleBody?.text??''),'independent-google-circle:'+centerBody?.index+':distance-m:'+meters?.toFixed(3),'captured-snapshot:16:response:2'];
+const qualificationOracles=input.delivered.map(d=>({name:d.name,address:d.address,phone:d.phone,hardCriteriaMet:hardMet,withinArea:within,evidenceRefs:refs}));
+const qualifiedInput={...structuredClone(input),qualificationOracles};const automatic=evaluateG6(qualifiedInput);
+const qChecks=automatic.checks.filter(c=>c.rule==='COMPLETE_REQUEST_QUALIFICATION');
+const unresolved=automatic.checks.filter(c=>c.status!=='PASS'),expectedOnly=unresolved.length===1&&unresolved[0].rule==='B1_SOURCE_URL'&&unresolved[0].status==='NOT_EVALUATED'&&unresolved[0].subject===alias.candidateId;
+const valid=sameLinks&&sameIdentity&&sourceCoverage&&hardMet&&within&&qChecks.length===2&&qChecks.every(c=>c.status==='PASS')&&expectedOnly&&automatic.verdict.s0===0;
+const proof={mode:'INDEPENDENT_REVIEW_OF_IMMUTABLE_RECORDED_EVIDENCE',originalEvaluationSHA256:sha(oldBytes),originalInputSHA256:sha(inputBytes),originalHAR_SHA256:sha(harBytes),sameB1URL:sameLinks,sameRecordedIndependentIdentity:sameIdentity,sourceResponseCoversOutletDatePartyAndTime:sourceCoverage,sourceResponse:{harIndex:stock?.index,HTTPStatus:stock?.status,url:capture.url,date:responseDate,members:body?.members,time:slot?.time,literalRelativeLink:slot?.url,resolvedLink:sourceLink},identity:{native:np.sourceIdentity,alias:ap.sourceIdentity,Google:{id:google?.id,name:google?.displayName?.text,address:google?.formattedAddress,phone:google?.nationalPhoneNumber},references:[np.ref,ap.ref],redactionLimit:'Saved DOM telephone is redacted; telephone bridge uses the immutable independently extracted sourceIdentity saved during the run, not production entityMatch/HIGH. No redacted value was restored.'},qualification:{sourceCategoryRows:categories,quote,hardMet,center,point,independentDistanceMeters:meters,radiusMeters:1000,withinArea:within},unchangedEvaluator:{fileSHA256:sha(await readFile(new URL('../../../src/eval/restaurant/agent-loop/g6/evaluator.ts',import.meta.url))),automaticVerdictAfterQualifications:automatic.verdict,unresolvedChecks:unresolved},conclusion:valid?'QUALIFIED_DELIVERY_WITH_DUPLICATE_PRESENTATION_DEFECT':'NOT_EVALUATED',reviewQualified:valid,note:'Same physical outlet was displayed twice. This is an actual product defect fixed in the candidate-merge branch, not retroactively removed from the original run.'};
+await writeFile(dest+'/independent-proof.json',JSON.stringify(proof,null,2)+'\n');
+await writeFile(dest+'/qualification.annotations.json',JSON.stringify({schema:'phase3b-holdout-review@1',attemptKey:'dev-d02v-paging-r1',annotations:{qualificationOracles}},null,2)+'\n');
+await writeFile(dest+'/evaluation.qualification-supplement.json',JSON.stringify(automatic,null,2)+'\n');
+await writeFile(dest+'/evaluation.supplement.json',JSON.stringify({method:'INDEPENDENT_REVIEWER_SUPPLEMENT; not automatic evaluator output',originalEvaluationSHA256:sha(oldBytes),originalInputUnchanged:true,evaluatorUnchanged:true,qualificationChecks:qChecks,independentlyReviewedB1Source:{subject:alias.candidateId,status:sourceCoverage&&sameLinks&&sameIdentity?'PASS':'NOT_EVALUATED',evidenceRefs:refs},verdict:{status:valid?'EVALUATED_BY_INDEPENDENT_REVIEW':'NOT_EVALUATED',qualified:valid?true:null,outcome:valid?'QUALIFIED_DELIVERY':null,s0:0,s0Status:valid?'EVALUATED':'NOT_EVALUATED',stopBatch:!valid},duplicatePresentationDefect:true,proofFile:'independent-proof.json'},null,2)+'\n');
+console.log(JSON.stringify({sameLinks,sameIdentity,sourceCoverage,hardMet,meters,within,qualification:qChecks.map(c=>c.status),remaining:unresolved.map(c=>({rule:c.rule,status:c.status})),valid}));

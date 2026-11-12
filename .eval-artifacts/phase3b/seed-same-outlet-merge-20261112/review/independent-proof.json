@@ -1,0 +1,98 @@
+{
+  "mode": "INDEPENDENT_REVIEW_OF_IMMUTABLE_RECORDED_EVIDENCE",
+  "originalEvaluationSHA256": "0cd0b769293d00564d38add2ae6c789cbfb621197fa40902b7e4e659cf843af4",
+  "originalInputSHA256": "d3e5104d45dc31e3958c486460fcb2ac448d4850d5891d3ecc5eb1f5a3d21555",
+  "originalHAR_SHA256": "dcef6c50dfa425fadfc2215dee5039b7f947c76599b5eb74f1c340301dcc652f",
+  "sameB1URL": true,
+  "sameRecordedIndependentIdentity": true,
+  "sourceResponseCoversOutletDatePartyAndTime": true,
+  "sourceResponse": {
+    "harIndex": 43,
+    "HTTPStatus": 200,
+    "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13309182&svd=20261210&svps=8&svt=1900&exclude_unavailable_time=1",
+    "date": "2026-12-10",
+    "members": 8,
+    "time": "20:30",
+    "literalRelativeLink": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2030",
+    "resolvedLink": "https://tabelog.com/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2030"
+  },
+  "identity": {
+    "native": {
+      "name": "sumika",
+      "address": "東京都中野区中野5-55-6 ワールドホテル 1F-A",
+      "canonicalUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "sourceEntityId": "13309182",
+      "provider": "TABELOG",
+      "phone": "+81-3-4400-3404",
+      "street": "",
+      "locality": "Nakano Nakano Tokyo",
+      "region": "Tokyo",
+      "postalCode": "1640001"
+    },
+    "alias": {
+      "name": "sumika",
+      "address": "東京都中野区中野5-55-6 ワールドホテル 1F-A",
+      "canonicalUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "sourceEntityId": "13309182",
+      "provider": "TABELOG",
+      "phone": "+81-3-4400-3404",
+      "street": "",
+      "locality": "Nakano Nakano Tokyo",
+      "region": "Tokyo",
+      "postalCode": "1640001"
+    },
+    "Google": {
+      "id": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+      "name": "Nakano Robata Sumika",
+      "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+      "phone": "03-4400-3404"
+    },
+    "references": [
+      "source-snapshot:6:html-sha256:5e459549defe44be8ce904ad3da5f0ca58ee41e1aae643db7b03cffcecd524e9:text-sha256:5fe8e304064e58f9c8e273646132c1b73e37361ac65d9bf82df8a1e799f505fe",
+      "source-snapshot:6:html-sha256:5e459549defe44be8ce904ad3da5f0ca58ee41e1aae643db7b03cffcecd524e9:text-sha256:5fe8e304064e58f9c8e273646132c1b73e37361ac65d9bf82df8a1e799f505fe:identity:google-response:2:883ea0016acf2e8f8e6a342ea6fbece3a288c62a8d41c403dc7224162c84bd37"
+    ],
+    "redactionLimit": "Saved DOM telephone is redacted; telephone bridge uses the immutable independently extracted sourceIdentity saved during the run, not production entityMatch/HIGH. No redacted value was restored."
+  },
+  "qualification": {
+    "sourceCategoryRows": [
+      "Izakaya (Japanese style tavern), Robatayaki, Seafood"
+    ],
+    "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+    "hardMet": true,
+    "center": {
+      "latitude": 35.7075331,
+      "longitude": 139.6637591
+    },
+    "point": {
+      "latitude": 35.708869,
+      "longitude": 139.6661176
+    },
+    "independentDistanceMeters": 259.640616079194,
+    "radiusMeters": 1000,
+    "withinArea": true
+  },
+  "unchangedEvaluator": {
+    "fileSHA256": "e53e84a547e8952712172aee3e8989091916f733b1730e56fcca2dd8d47c0647",
+    "automaticVerdictAfterQualifications": {
+      "status": "NOT_EVALUATED",
+      "qualified": null,
+      "outcome": null,
+      "s0": 0,
+      "s0Status": "NOT_EVALUATED",
+      "stopBatch": true
+    },
+    "unresolvedChecks": [
+      {
+        "rule": "B1_SOURCE_URL",
+        "status": "NOT_EVALUATED",
+        "severity": "S0",
+        "subject": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+        "reason": "Need the original admitted source response URL with all four request fields bound; unknown response structure remains unassessed",
+        "evidenceRefs": []
+      }
+    ]
+  },
+  "conclusion": "QUALIFIED_DELIVERY_WITH_DUPLICATE_PRESENTATION_DEFECT",
+  "reviewQualified": true,
+  "note": "Same physical outlet was displayed twice. This is an actual product defect fixed in the candidate-merge branch, not retroactively removed from the original run."
+}

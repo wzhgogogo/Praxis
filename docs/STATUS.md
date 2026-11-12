@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：同店候选合并源码cff31e94净树完整门禁type/arch/build、默认1610、Chromium281、G6 159及D4/D8/D02-V通过；双基线ead28945/105a8b0a新增产品写死0。既有合并改用本次详情经原身份核对器得到的HIGH同provider/sourceEntityId，无证/LOW/冲突不合并；保留原生导航与Google佐证，不新增I/O。r1组件由两候选两查询变为一候选一次查询一B1；03r1/r2及07r1/r3候选池与交付不变。独立补评三项B1/身份/原响应核对成立，资格两项旧评测器重评PASS，补评QUALIFIED_DELIVERY/qualified=true/s0=0并保留重复展示产品缺陷；原自动评价/评价器不改，自动别名B1缺证结果另存不伪装为自动PASS。0Live/0GET/0模型，主草稿及三旧+r4账本哈希一致，r4余1/9/73。仅工作分支、不合main、不跑r2。[简报](../.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。
+
 2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
 
 2026-11-12 CET — D02-V r4 main整合准备：用户已复核批准0f8fcfa7，仅src/docs按内容整合；本次main新增.eval-artifacts为0。完整净树门禁后发布冻结SHA，再在独立证据分支提交2Live/20GET/120模型/0环境重跑的新账本和编排，D02-V两次不追加重试。03按用户指定验收口径2/2，07为2/2；D02-V本轮尚未运行，旧录制不改。
