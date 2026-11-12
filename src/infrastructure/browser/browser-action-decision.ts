@@ -6,11 +6,11 @@ import type { BrowserCalendarMonth } from "./browser-runtime.js";
 
 /** Current observable controls and native public form ownership; no scripted site flow. */
 export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "5" } as const;
-export const BROWSER_READ_DECISION_PROMPT_VERSION = "25";
+export const BROWSER_READ_DECISION_PROMPT_VERSION = "26";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "14",
+  version: "15",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
@@ -20,9 +20,10 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
   properties: {
     action: {
       type: "string",
-      enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
+      enum: ["OPEN_LINK", "CLICK", "ADVANCE_TO_AUTHORITATIVE", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
     },
     targetRef: { type: "string" },
+    valueGroupRef: { type: "string", description: "For ADVANCE_TO_AUTHORITATIVE only: current group containing the requested field choices, which may differ from the advance control group." },
     authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"] },
     requestedState: { type: "string", enum: ["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"] },
     reason: { type: "string" },
@@ -32,6 +33,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
 export type BrowserReadAction =
   | { type: "OPEN_LINK"; targetRef: string; reason: string }
   | { type: "CLICK"; targetRef: string; reason: string }
+  | { type: "ADVANCE_TO_AUTHORITATIVE"; targetRef: string; valueGroupRef: string; field: "DATE" | "PARTY_SIZE" | "TIME"; reason: string }
   | { type: "CLICK_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE"; reason: string }
   | { type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"; reason: string }
   | { type: "CHOOSE_OPTION"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL"; reason: string }
@@ -57,6 +59,11 @@ export function browserReadActionTargetReplayFingerprint(target: Pick<BrowserRea
     type: target.type ?? null,
     formMethod: target.formMethod ?? null,
   })).digest("hex");
+}
+
+/** Hash only the semantic members of one observed group; never its revision-local ref. */
+export function browserReadGroupReplayFingerprint(targets: readonly BrowserReadActionTarget[]): string {
+  return createHash("sha256").update(JSON.stringify(targets.map(browserReadActionTargetReplayFingerprint).sort())).digest("hex");
 }
 
 export interface BrowserReadActionTarget {
@@ -160,6 +167,8 @@ export interface BrowserActionWireRecord {
   targetRef: string;
   authoritativeField: string;
   requestedState: string;
+  valueGroupRef?: string;
+  valueGroupFingerprint?: string;
   reason: "REDACTED";
   extras: Array<{ fieldPath: string; valueType: string }>;
 }
@@ -187,8 +196,8 @@ function nonBlank(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-const WIRE_FIELDS = ["action", "targetRef", "authoritativeField", "requestedState", "reason"] as const;
-const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
+const WIRE_FIELDS = ["action", "targetRef", "authoritativeField", "requestedState", "reason", "valueGroupRef"] as const;
+const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "ADVANCE_TO_AUTHORITATIVE", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
 const KNOWN_FIELDS = new Set(["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"]);
 const KNOWN_STATES = new Set(["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"]);
 
@@ -233,7 +242,7 @@ export function safeActionWireRecord(value: unknown, observedTargetRefs: Readonl
     ? Object.entries(value).filter(([key]) => !WIRE_FIELDS.includes(key as typeof WIRE_FIELDS[number]))
       .map(([key, entry]) => ({ fieldPath: diagnosticPath(key), valueType: entry === null ? "null" : Array.isArray(entry) ? "array" : typeof entry }))
     : [];
-  return { action, targetRef, authoritativeField, requestedState, reason: "REDACTED", extras };
+  return { action, targetRef, authoritativeField, requestedState, ...(typeof record.valueGroupRef === "string" && observedTargetRefs.has(record.valueGroupRef) ? {valueGroupRef:record.valueGroupRef} : {}), reason: "REDACTED", extras };
 }
 
 class BrowserActionWireError extends Error {
@@ -283,6 +292,12 @@ export function decodeBrowserReadActionWire(value: unknown, observedTargetRefs: 
       // stale/placeholder target or inert field/state metadata in its strict
       // envelope; canonicalize it rather than spend a decision on rejection.
       return { type: value.action, reason };
+    case "ADVANCE_TO_AUTHORITATIVE":
+      if (!nonBlank(value.valueGroupRef) || !observedTargetRefs.has(value.valueGroupRef)) return rejectWire(value,observedTargetRefs,"$.valueGroupRef",value.valueGroupRef,"INVALID_STATE");
+      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME"].includes(value.authoritativeField)) {
+        return rejectWire(value, observedTargetRefs, "$.authoritativeField", value.authoritativeField, "INVALID_STATE");
+      }
+      return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME", valueGroupRef:value.valueGroupRef as string, reason };
     case "CLICK_AUTHORITATIVE":
       if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE"].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
@@ -333,7 +348,7 @@ Choose each next action from the current visible text, accessible structure and 
 
 A LINK can represent a same-page UI control when its observed href differs from the current document only by a fragment (including #). If its availableActions includes CLICK, use CLICK to expand or change that UI and re-observe. Ordinary public links continue to use OPEN_LINK. Use the visible control label and its page context to match the objective; an unrelated unlabeled button is not a substitute for a named category or filter control.
 
-OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. An OPTION marked outsideViewport is in the current open list but clipped by its scroll viewport. Choose it directly when its availableActions match the goal; the executor scrolls that list and verifies the option before clicking, without another model call.
+OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. Use a currently available direct authoritative choice or native value control whenever it already offers the requested value. Only when advancing the same observed control group is necessary to expose that value, choose ADVANCE_TO_AUTHORITATIVE on an observed non-submit control and specify the authoritative field and valueGroupRef for the observed group containing the field choices. Its group may differ from the advance control group. Never infer shared ownership from equal group labels. The executor repeats that selected control within its step and operation budgets, observing after every click without intermediate model decisions, then returns the new observation when a matching choice appears. It never selects the revealed choice or establishes availability; choose the existing authoritative action afterwards. Do not request separate decisions for each intermediate advance. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. An OPTION marked outsideViewport is in the current open list but clipped by its scroll viewport. Choose it directly when its availableActions match the goal; the executor scrolls that list and verifies the option before clicking, without another model call.
 
 CHOOSE_OPTION is the action for an observed native-select or parent-bound custom-list option; use TIME only inside the authoritative window. A unique exact retrieval suggestion may instead be exposed as a BUTTON offering CLICK under the installed read boundary: use that offered CLICK, then re-observe the destination and choose COMPLETE only for the settled source handoff. That exception does not permit other ownerless options. A label consisting only of digits is never sufficient for a date. SET_CHECKED selects one current permitted checkbox or radio with CHECKED; a radio must not be unset or selected by guessing a group. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. PRESS_ESCAPE closes one page layer then requires a fresh observation. WAIT waits for one bounded visible result change at page level. If no safe action is available, request human help. For area discovery COMPLETE, use targetRef to cite a currently visible control that states the current result-list scope. Cite what the page actually displays; a broad scope is not proof of the requested cuisine. If there is no such visible reference use an empty targetRef; the batch will be scope-unverified. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
 
@@ -397,7 +412,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       throw new BrowserReadDecisionError("MODEL_FAILURE", modelError.code);
     }
     if (response.finishReason !== "TOOL_CALLS") throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", `finish reason ${response.finishReason}`);
-    const observedTargetRefs = new Set(input.observation.targets.map(target => target.ref));
+    const observedTargetRefs = new Set([...input.observation.targets.map(target => target.ref),...(input.observation.controlGroups??[]).map(group=>group.ref)]);
     try {
       const wire = JSON.parse(response.outputText);
       this.lastWireRecord = safeActionWireRecord(wire, observedTargetRefs);

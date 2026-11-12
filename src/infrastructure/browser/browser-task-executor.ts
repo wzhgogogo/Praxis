@@ -13,6 +13,7 @@ import {
   type BrowserReadHistoryStep,
   type BrowserReadDecisionInput,
   browserReadActionTargetReplayFingerprint,
+  browserReadGroupReplayFingerprint,
   type BrowserActionWireRejection,
   BrowserReadDecisionError,
 } from "./browser-action-decision.js";
@@ -67,6 +68,8 @@ export interface BrowserReadLimits {
   maxModelCallsTotal: number;
   maxOperationsPerCandidate: number;
   maxAutomaticElapsedMs: number;
+  /** Per model-selected advance action; also bounded by the shared operation budget. */
+  maxAdvanceStepsPerAction?: number;
   maxElapsedMsPerCandidate?: number;
   maxElapsedMsPerProvider?: number;
 }
@@ -892,6 +895,17 @@ export class BrowserTaskExecutor {
         if (pendingOption && action.type === "CHOOSE_OPTION") {
           throw new Error("A previous option is still unconfirmed; WAIT for its selected value before choosing another option");
         }
+        if (action.type === "ADVANCE_TO_AUTHORITATIVE") {
+          if (pendingOption || pendingRadio || pendingParty) throw new Error("A previous selection is unconfirmed");
+          const advanced = await this.advanceToAuthoritative(input, observation, target!, action.field, action.valueGroupRef);
+          snapshot = advanced.observation.snapshot;
+          verifiedObservation = advanced.observation;
+          progress = advanced.reason;
+          remember({action:action.type,field:action.field,outcome:advanced.reason === "ADVANCE_TARGET_FOUND" ? "PAGE_CHANGED" : "NO_CHANGE",reason:advanced.reason,urlChanged:snapshot.url!==observation.snapshot.url});
+          if (advanced.reason !== "ADVANCE_TARGET_FOUND") return {status:"NO_SAFE_ACTION",reasonCode:advanced.reason,snapshot,controls:advanced.observation.controls};
+          postAction = true;
+          continue;
+        }
         await this.applyGenericAction(input, observation, target, action);
         visibleProgress.executed(visibleBefore, stateActionKey);
       } catch (error) {
@@ -1135,7 +1149,7 @@ export class BrowserTaskExecutor {
     return selected.length === 1 && selected[0]!.stableKey === target.stableKey;
   }
 
-  private actionHints(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, pendingSelection: boolean): Pick<BrowserReadActionTarget, "availableActions" | "rejectionReason"> {
+  private actionHints(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget, pendingSelection: boolean, allowAdvance = true): Pick<BrowserReadActionTarget, "availableActions" | "rejectionReason"> {
     const availableActions: string[] = [];
     let rejectionReason: string | undefined;
     if (target.href && isBrowserReadPathProhibited(this.networkPolicy, target.href)) return {availableActions, rejectionReason: "NAVIGATION_PROHIBITED"};
@@ -1175,7 +1189,6 @@ export class BrowserTaskExecutor {
         return { availableActions, rejectionReason: "ALREADY_SELECTED" };
       }
       if (this.safeGenericClick(target) || this.guardedReadControl(input, target)) availableActions.push("CLICK");
-      else rejectionReason = "WRITE_PROHIBITED";
       if ((this.safeGenericClick(target) || this.guardedReadControl(input, target)) && target.role !== "combobox" && target.selected !== true) {
         for (const field of ["DATE", "PARTY_SIZE"] as const) {
           if (matchesAuthoritativeControl(target, field, input.goal)
@@ -1199,6 +1212,12 @@ export class BrowserTaskExecutor {
       if (target.scrollable && this.guardedReadControl(input, target)) availableActions.push("SCROLL_REGION");
       else rejectionReason = "NOT_SCROLLABLE";
     }
+      if (allowAdvance && this.safeAdvanceControl(input, observation, target) && !pendingSelection) {
+        for (const field of ["DATE", "PARTY_SIZE", "TIME"] as const) {
+          if (this.authoritativeValues(input)[field] !== undefined && ![...observation.targets.values()].some(candidate=>matchesAuthoritativeControl(candidate,field,input.goal)&&this.actionHints(input,observation,candidate,false,false).availableActions?.some(a=>a===`CLICK_AUTHORITATIVE:${field}`||a===`CHOOSE_OPTION:${field}`))) availableActions.push(`ADVANCE_TO_AUTHORITATIVE:${field}`);
+        }
+      }
+      else rejectionReason = "WRITE_PROHIBITED";
     return { availableActions, ...(rejectionReason ? { rejectionReason } : {}) };
   }
 
@@ -1246,7 +1265,7 @@ export class BrowserTaskExecutor {
    */
   private replayWireDetail(wire: import("./browser-action-decision.js").BrowserActionWireRecord, targets: readonly BrowserReadActionTarget[]): string {
     const target = targets.find(candidate => candidate.ref === wire.targetRef);
-    return `MODEL_WIRE:${JSON.stringify({ ...wire, ...(target ? { targetFingerprint: browserReadActionTargetReplayFingerprint(target) } : {}) })}`;
+    return `MODEL_WIRE:${JSON.stringify({ ...wire, ...(wire.valueGroupRef ? {valueGroupFingerprint:browserReadGroupReplayFingerprint(targets.filter(t=>t.controlGroupRef===wire.valueGroupRef))} : {}), ...(target ? { targetFingerprint: browserReadActionTargetReplayFingerprint(target) } : {}) })}`;
   }
 
   private diagnosticUrl(value: string): string {
@@ -1260,7 +1279,44 @@ export class BrowserTaskExecutor {
     }
   }
 
-  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" }>): Promise<void> {
+  private safeAdvanceControl(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget): boolean {
+    return input.session.metadata.readNetworkBoundary === "INSTALLED" && !target.disabled
+      && (this.safeGenericClick(target) && target.type === "button" && !target.href
+        || this.sameDocumentFragment(target,observation.snapshot.url) && this.safeFragmentClick(input,observation.snapshot,target));
+  }
+
+  private groupAuthoritativeChoice(input: BrowserSkillReadInput, observation: Observation, groupKey: string, field: "DATE" | "PARTY_SIZE" | "TIME"): boolean {
+    return [...observation.targets.values()].some(target=>target.controlGroupKey===groupKey
+      && this.actionHints(input,observation,target,false,false).availableActions?.some(action=>action===`CLICK_AUTHORITATIVE:${field}`||action===`CHOOSE_OPTION:${field}`));
+  }
+
+  /** Model selects both the advancing control and the independently observed value scope. */
+  private async advanceToAuthoritative(input: BrowserSkillReadInput, initial: Observation, selected: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "TIME", valueGroupRef: string): Promise<{observation:Observation;reason:string}> {
+    const groupKeys=new Set([...initial.targets.values()].filter(t=>t.controlGroupRef===valueGroupRef).map(t=>t.controlGroupKey).filter((key):key is string=>!!key));
+    if(groupKeys.size!==1||!this.safeAdvanceControl(input,initial,selected)||this.authoritativeValues(input)[field]===undefined)throw new Error("Advance requires a current value group, guarded non-submit control and authoritative field");
+    const groupKey=[...groupKeys][0]!,stableKey=selected.stableKey;
+    const maximum=this.options.maxAdvanceStepsPerAction??this.options.maxOperationsPerCandidate;
+    if(!Number.isInteger(maximum)||maximum<1)throw new Error("Invalid advance step budget");
+    const state=(o:Observation)=>JSON.stringify([...o.targets.values()].filter(t=>t.controlGroupKey===groupKey).map(({kind,role,label,value,selected,disabled,options})=>JSON.stringify({kind,role,label,value,selected,disabled,options})).sort());
+    let current=initial;
+    const stop=(reason:string)=>{this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:current.snapshot.url,detail:reason,observation:this.diagnosticObservation(current)});return {observation:current,reason};};
+    for(let step=0;step<maximum;step++){
+      if(this.groupAuthoritativeChoice(input,current,groupKey,field))return stop("ADVANCE_TARGET_FOUND");
+      const controls=[...current.targets.values()].filter(t=>t.stableKey===stableKey&&this.safeAdvanceControl(input,current,t));
+      if(controls.length!==1)return stop("ADVANCE_CONTROL_UNAVAILABLE");
+      if(this.operationCount+4>this.options.maxOperationsPerCandidate)return stop("ADVANCE_OPERATION_BUDGET");
+      const previous=current,prior=state(current),count=current.snapshot.networkRequests?.length??0;
+      await this.operation(input,"ADVANCE_CLICK",()=>input.session.click(controls[0]!.controlId,this.actionOptions()));
+      await this.waitForSettled(input,previous.snapshot);
+      const page=await this.snapshot(input);current=await this.observe(input,page);
+      if(page.url!==previous.snapshot.url||page.pageId!==previous.snapshot.pageId||(page.networkRequests?.slice(count)??[]).some(r=>r.resourceType==="document"||r.formSubmission||!["GET","HEAD"].includes(r.method)))return stop("ADVANCE_NAVIGATION_OR_SUBMISSION");
+      if(![...current.targets.values()].some(t=>t.controlGroupKey===groupKey))return stop("ADVANCE_GROUP_DISAPPEARED");
+      if(state(current)===prior)return stop("ADVANCE_NO_PROGRESS");
+    }
+    return stop(this.groupAuthoritativeChoice(input,current,groupKey,field)?"ADVANCE_TARGET_FOUND":"ADVANCE_STEP_LIMIT");
+  }
+
+  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" | "ADVANCE_TO_AUTHORITATIVE" }>): Promise<void> {
     if (action.type === "WAIT") {
       await this.waitForSettled(input, observation.snapshot);
       return;
@@ -1387,7 +1443,7 @@ export class BrowserTaskExecutor {
   }
 
   private authoritativeValues(input: BrowserSkillReadInput): Record<string, string | number | undefined> {
-    return {DATE:input.goal.date,PARTY_SIZE:input.goal.partySize,LOCATION:input.stage === "DISCOVERY" ? input.goal.location?.name : undefined,RETRIEVAL:input.goal.retrievalExpression};
+    return {DATE:input.goal.date,PARTY_SIZE:input.goal.partySize,TIME:input.goal.timeWindow?.earliest,LOCATION:input.stage === "DISCOVERY" ? input.goal.location?.name : undefined,RETRIEVAL:input.goal.retrievalExpression};
   }
 
   private async waitForSettled(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }, previous: BrowserSnapshot, countOperation = true): Promise<boolean> {
@@ -1715,7 +1771,7 @@ export class BrowserTaskExecutor {
         : "FINISHED";
       this.options.onDiagnostic?.({
         ...input,
-        effectiveLimits: { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs, maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate, maxModelCallsTotal: Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity), maxOperationsPerCandidate: this.options.maxOperationsPerCandidate },
+        effectiveLimits: { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs, maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate, maxModelCallsTotal: Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity), maxOperationsPerCandidate: this.options.maxOperationsPerCandidate, maxAdvanceStepsPerAction:this.options.maxAdvanceStepsPerAction??this.options.maxOperationsPerCandidate },
         ...(this.candidateId ? { candidateId: this.candidateId } : {}),
         elapsedMs: now - this.startedAt,
         lifecycle: {

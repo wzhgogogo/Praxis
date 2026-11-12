@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：通用推进动作允许模型指定独立值域组，复用既有权威动作匹配，中间无模型、无自动选择/完成。真实D02V人数与日历组件验证；事件监听器缺失处仅加载原动作对应的下一原始DOM，不造响应，未证明当前网站稳定性。Guard/身份/库存/G1不变，0Live/0GET/0真实模型。完整门禁待完成。
+
 # Golden Scenarios
 
 - Status: Accepted

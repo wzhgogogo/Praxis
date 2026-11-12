@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：通用推进动作允许模型指定独立值域组，复用既有权威动作匹配，中间无模型、无自动选择/完成。真实D02V人数与日历组件验证；事件监听器缺失处仅加载原动作对应的下一原始DOM，不造响应，未证明当前网站稳定性。Guard/身份/库存/G1不变，0Live/0GET/0真实模型。完整门禁待完成。
+
 2026-11-12 CET — draft / not integrated：原生/Google候选在既有发现入口复用已读详情的原身份核对器，仅HIGH同来源店铺标识且无冲突才合并；保留来源佐证，不新增请求。r1真实组件证明一次库存/一候选/一B1，03/07候选池回归不变；完整门禁通过但修后无新Live。r1独立补评通过、重复展示缺陷保留，原自动评价未覆盖。[简报](https://github.com/wzhgogogo/Praxis/blob/4eb7900d7345e3cbb6d990477fecaaedc624b033/.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。
 
 2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
