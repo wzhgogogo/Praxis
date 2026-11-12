@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
+
 2026-11-12 CET — D02-V r4 main整合准备：用户已复核批准0f8fcfa7，仅src/docs按内容整合；本次main新增.eval-artifacts为0。完整净树门禁后发布冻结SHA，再在独立证据分支提交2Live/20GET/120模型/0环境重跑的新账本和编排，D02-V两次不追加重试。03按用户指定验收口径2/2，07为2/2；D02-V本轮尚未运行，旧录制不改。
 
 2026-11-12 CET — draft / not integrated，D02-V权威地点与名称搜索快照修复：源码冻结5a2ec0742e78e4c7e3c0ae6b24e692999d1779cf。label填写/queryLabel目录绑定、Prompt25父行政区一致与可见回退、searched.snapshot复用。66项定向修前3红/修后全绿；净树type/arch/build、默认1598、Chromium281+G6 159，D4/D8及D02-V组件全绿。用户改定双基线ead289450092ccc30798b754d1e0771462bf08bd和ca4deca1d67bd6ce795f31d55757583f7bb09258，新增产品写死均0。满天8人计时44.508s为组件投影；Sumika录制仅2人，8人不确认。0模型/0网站GET/0Live，主草稿与旧账本哈希不变；仅推工作分支，不合main。[一页简报](https://github.com/wzhgogogo/Praxis/blob/0f8fcfa7b3973450b0992ba46ed66285128ef6bb/.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。

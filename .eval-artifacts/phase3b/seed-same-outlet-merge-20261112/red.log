@@ -1,0 +1,117 @@
+✖ D02V-r1 verified same-source identity collapses the Google alias before inventory (1.186167ms)
+✖ identity merge fails closed: UNVERIFIED (0.205167ms)
+✖ identity merge fails closed: LOW (0.11525ms)
+✖ identity merge fails closed: DIFFERENT (0.0995ms)
+✖ identity merge fails closed: CONFLICT (0.088042ms)
+✔ 03-r1 recorded candidate pool keeps the original delivered outlets (2.669375ms)
+✔ 03-r2 recorded candidate pool keeps the original delivered outlets (1.175167ms)
+✔ 07-r1 recorded candidate pool keeps the original delivered outlets (0.877833ms)
+✔ 07-r3 recorded candidate pool keeps the original delivered outlets (0.851667ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 4
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 171.449625
+
+✖ failing tests:
+
+test at src/harness/same-outlet-candidate-merge-recorded.test.ts:1:953
+✖ D02V-r1 verified same-source identity collapses the Google alias before inventory (1.186167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-same-outlet-merge/src/harness/same-outlet-candidate-merge-recorded.test.ts:17:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/same-outlet-candidate-merge-recorded.test.ts:1:1550
+✖ identity merge fails closed: UNVERIFIED (0.205167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-same-outlet-merge/src/harness/same-outlet-candidate-merge-recorded.test.ts:29:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/same-outlet-candidate-merge-recorded.test.ts:1:1550
+✖ identity merge fails closed: LOW (0.11525ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-same-outlet-merge/src/harness/same-outlet-candidate-merge-recorded.test.ts:29:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/same-outlet-candidate-merge-recorded.test.ts:1:1550
+✖ identity merge fails closed: DIFFERENT (0.0995ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-same-outlet-merge/src/harness/same-outlet-candidate-merge-recorded.test.ts:29:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/same-outlet-candidate-merge-recorded.test.ts:1:1550
+✖ identity merge fails closed: CONFLICT (0.088042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-same-outlet-merge/src/harness/same-outlet-candidate-merge-recorded.test.ts:29:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }

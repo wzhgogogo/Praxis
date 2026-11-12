@@ -1,3 +1,5 @@
+2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
+
 2026-11-12 CET — draft / not integrated：名称搜索复用COMPLETED快照，非busy结果不重复采样；LOCATION填写权威label、queryLabel保留目录锚定，Prompt25补通用父区一致与可见回退。仅离线组件及全门禁验证；Sumika8人仍未验证，满天8人计时为组件投影；无新增Live能力结论。见[简报](https://github.com/wzhgogogo/Praxis/blob/0f8fcfa7b3973450b0992ba46ed66285128ef6bb/.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
 
 2026-11-11 CET — 用户批准seed discovery/settle代码整合主线；离线组件证据见bd01a402分支。新的D02-V 8人翻页/直达及07重验尚待本轮Live，不把组件通过当作当前来源已验收。

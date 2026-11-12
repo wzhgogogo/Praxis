@@ -15,7 +15,7 @@ import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-e
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import { BrowserReadDecisionError, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
-import { restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
+import { restaurantDiscoveryPacks, type DiscoverySourcePack, type SourcePackListingOutlet } from "./source-packs.js";
 
 type Location = NonNullable<NonNullable<RestaurantSearchRequest["continuation"]>["locationContext"]>;
 type SourceFlow = "DIRECTORY" | "VENUE_SEARCH";
@@ -194,15 +194,41 @@ function groundedNativeCandidate(input: {
   };
 }
 
-/** Conservative dedup: an observed shared provider ID or full phone+address.
- * A website pointer/name resemblance alone never merges two outlets. */
-export function mergeDiscoveryCandidates(primary:RestaurantCandidate[],supplement:RestaurantCandidate[]){
+/** Same-read source identity checks against details already parsed by the pack.
+ * A website pointer or a name is never itself a binding. */
+export function verifiedDiscoveryIdentities(pack:DiscoverySourcePack,candidates:readonly RestaurantCandidate[],details:readonly SourcePackListingOutlet[],evidence:readonly RestaurantReadEvidence[]):RestaurantReadEvidence[]{
+  if(!pack.browser)return [];
+  const supported=details.filter(outlet=>evidence.some(e=>e.kind==="DISCOVERY"&&e.provider===pack.browser!.provider&&e.sourceEntityId===outlet.sourceEntityId&&e.sourceUrl===outlet.sourceUrl));
+  return candidates.flatMap(candidate=>{
+    const match=pack.browser!.resolveDetailIdentity(candidate,supported),outlet=match.outlet;
+    if(match.confidence!=="HIGH"||!outlet)return [];
+    const source=evidence.find(e=>e.kind==="DISCOVERY"&&e.provider===pack.browser!.provider&&e.sourceEntityId===outlet.sourceEntityId&&e.sourceUrl===outlet.sourceUrl)!;
+    return [{...structuredClone(source),evidenceId:`evidence:restaurant:discovery-identity:${createHash("sha256").update(JSON.stringify({candidateId:candidate.restaurant.id,source:source.evidenceId})).digest("hex").slice(0,24)}`,
+      candidateId:candidate.restaurant.id,kind:"ENTITY_MATCH" as const,entityMatch:{confidence:"HIGH" as const,matchedBy:[...match.matchedBy]},
+      claims:{...source.claims,corroboratingCandidateId:source.candidateId??candidate.restaurant.id}}];
+  });
+}
+
+/** Merge only equal verified provider identities; unknown/conflicting identities
+ * stay separate. Keep primary navigation and every corroborating source ID. */
+export function mergeDiscoveryCandidates(primary:RestaurantCandidate[],supplement:RestaurantCandidate[],evidence:readonly RestaurantReadEvidence[]){
   const candidates=structuredClone(primary),aliases=new Map<string,string>();
-  const text=(v:string|undefined)=>v?.normalize("NFKC").replace(/\s+/gu," ").trim().toLowerCase();
-  const phone=(c:RestaurantCandidate)=>c.restaurant.sourceIds.phone?.replace(/\D/gu,"");
+  const bindings=(id:string)=>evidence.filter(e=>(aliases.get(e.candidateId??"")??e.candidateId)===id&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH"&&e.sourceEntityId&&e.sourceUrl);
+  const equal=(left:RestaurantReadEvidence,right:RestaurantReadEvidence)=>left.provider===right.provider&&left.sourceEntityId===right.sourceEntityId;
+  const same=(left:string,right:string)=>{
+    const a=bindings(left),b=bindings(right),all=[...a,...b];
+    if(all.some(x=>all.some(y=>x.provider===y.provider&&!equal(x,y))))return false;
+    return a.some(x=>b.some(y=>equal(x,y)));
+  };
   for(const candidate of supplement){
-    const duplicate=candidates.find(c=>c.restaurant.id===candidate.restaurant.id||Boolean(c.restaurant.sourceIds.googlePlaces&&c.restaurant.sourceIds.googlePlaces===candidate.restaurant.sourceIds.googlePlaces)||Boolean(phone(c)&&phone(c)===phone(candidate)&&text(c.restaurant.address)&&text(c.restaurant.address)===text(candidate.restaurant.address)&&text(c.restaurant.outletName)===text(candidate.restaurant.outletName)));
-    if(duplicate){aliases.set(candidate.restaurant.id,duplicate.restaurant.id);continue;}
+    const duplicate=candidates.find(c=>c.restaurant.id===candidate.restaurant.id||same(c.restaurant.id,candidate.restaurant.id));
+    if(duplicate){
+      aliases.set(candidate.restaurant.id,duplicate.restaurant.id);
+      duplicate.restaurant.sourceIds={...candidate.restaurant.sourceIds,...duplicate.restaurant.sourceIds};
+      duplicate.matchReasons=[...new Set([...duplicate.matchReasons,...candidate.matchReasons])];
+      duplicate.warnings=[...new Set([...duplicate.warnings,...candidate.warnings])];
+      continue;
+    }
     candidates.push(structuredClone(candidate));
   }return {candidates,aliases};
 }
@@ -258,7 +284,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     location: Location, query: DiscoveryQuery, signal: AbortSignal,
     priorProgress?: NativeSourceProgress,
   ): Promise<{
-    candidates: RestaurantCandidate[]; evidence: RestaurantReadEvidence[];
+    candidates: RestaurantCandidate[]; evidence: RestaurantReadEvidence[]; identities:SourcePackListingOutlet[];
     candidateFailures: Array<{ sourceUrl: string; reasonCode: string }>;
     progress: NativeSourceProgress & { pendingSourceEntries: PendingSourceEntry[]; visitedListingUrls: string[]; elapsedMs: number };
     funnel: NonNullable<RestaurantSearchRead["metadata"]["nativeDiscoveryFunnel"]>;
@@ -269,6 +295,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const known = new Map((previous?.pendingSourceEntries ?? []).map(entry => [entry.sourceUrl, entry]));
     const inspected = new Set(previous?.inspectedSourceIds ?? []);
     const attempted = new Set<string>();
+    const identities:SourcePackListingOutlet[]=[];
     const rejected: Array<{ sourceUrl: string; reasonCode: string }> = [];
     const candidateFailures: Array<{ sourceUrl: string; reasonCode: string }> = [];
     const listings: NonNullable<NonNullable<RestaurantSearchRead["metadata"]["nativeDiscoveryFunnel"]>["listingObservations"]> = [];
@@ -378,7 +405,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             const coordinates=identity&&pageCoordinates(page,identity.outletName);
             if(!identity||!coordinates){rejected.push({sourceUrl:page.url,reasonCode:identity?"PAGE_COORDINATES_MISSING":"PAGE_IDENTITY_MISSING"});continue;}
             const grounded=groundedNativeCandidate({source:pack,sourceId:identity.sourceEntityId,sourceUrl:identity.sourceUrl,name:identity.outletName,address:identity.address!,coordinates,location,request,observedAt:this.now(),...(entry.sourceCategories?{sourceCategories:entry.sourceCategories}:{}),...(entry.listingScope?{listingScope:entry.listingScope}:{}),...(identity.phone?{phone:identity.phone}:{})});
-            if(grounded)admitted.set(grounded.candidate.restaurant.id,grounded);
+            if(grounded){admitted.set(grounded.candidate.restaurant.id,grounded);identities.push(identity);}
             else rejected.push({sourceUrl:page.url,reasonCode:"OUTSIDE_EXACT_RADIUS"});
           }catch(error){
             if(taskLevelFailure(error,signal)||!inspected.has(entry.sourceEntityId))throw error;
@@ -389,9 +416,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       }
       const resultProgress={...progress(),...(nextListing?{nextListing}:{})};
       const resultFunnel=funnel();resultFunnel.sourceEnded=sourceEnded()||stopped&&!nextListing&&!remainingEntries().length;
-      return{candidates:[...admitted.values()].map(item=>item.candidate),evidence:[...admitted.values()].map(item=>item.evidence),candidateFailures,progress:resultProgress,funnel:resultFunnel};
+      return{identities,candidates:[...admitted.values()].map(item=>item.candidate),evidence:[...admitted.values()].map(item=>item.evidence),candidateFailures,progress:resultProgress,funnel:resultFunnel};
     }catch(error){
-      if(error&&typeof error==="object")Object.assign(error,{nativeAccepted:[...admitted.values()],nativeProgress:{...progress(),...(nextListing?{nextListing}:{})},nativeFunnel:{...funnel(),progressionReason:"SOURCE_FAILURE"}});
+      if(error&&typeof error==="object")Object.assign(error,{nativeIdentities:identities,nativeAccepted:[...admitted.values()],nativeProgress:{...progress(),...(nextListing?{nextListing}:{})},nativeFunnel:{...funnel(),progressionReason:"SOURCE_FAILURE"}});
       throw error;
     }finally{await executor.close();}
   }
@@ -451,7 +478,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       read.continuation!.deferredSources = deferredSources;
       return read;
     }
-    let batch: Awaited<ReturnType<NativeRestaurantSearch["batch"]>> = { candidates: [], evidence: [], candidateFailures: [],
+    let batch: Awaited<ReturnType<NativeRestaurantSearch["batch"]>> = { candidates: [], evidence: [], identities:[], candidateFailures: [],
       progress: {
         retrieval:request.continuation?.sourceProgress?.retrieval??{rewrites:0,regionPages:0,retrievalPages:0,history:[]},
         sourceId: entry.sourceId,
@@ -494,7 +521,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       }
       if (error && typeof error === "object" && "nativeAccepted" in error) {
         const accepted = error.nativeAccepted as Array<{candidate: RestaurantCandidate; evidence: RestaurantReadEvidence}>;
-        batch = {...batch, candidates: accepted.map(item => item.candidate), evidence: accepted.map(item => item.evidence)};
+        batch = {...batch, candidates: accepted.map(item => item.candidate), evidence: accepted.map(item => item.evidence),identities:"nativeIdentities" in error?error.nativeIdentities as SourcePackListingOutlet[]:[]};
       }
       failureCode = error && typeof error === "object" && "code" in error && typeof error.code === "string"
         ? restaurantFailureCode(error.code, "SEARCH_FAILED") : restaurantFailureCode(`${source}_NATIVE_DISCOVERY_FAILED`, "SEARCH_FAILED");
@@ -540,8 +567,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     if(request.intent.target?.selectionScope!=="SPECIFIC_OUTLET"&&next&&structured&&!structured.browser&&!signal.aborted){
       try{
         const extra=await this.search({...request,continuation:result.continuation!},signal);
-        const merged=mergeDiscoveryCandidates(result.candidates,extra.candidates);
-        return {...result,candidates:merged.candidates,evidence:[...result.evidence,...extra.evidence.map(e=>({...e,...(e.candidateId&&merged.aliases.has(e.candidateId)?{candidateId:merged.aliases.get(e.candidateId)!}:{})}))],
+        const identityEvidence=verifiedDiscoveryIdentities(pack!,[...result.candidates,...extra.candidates],batch.identities,result.evidence);
+        const combinedEvidence=[...result.evidence,...extra.evidence,...identityEvidence];
+        const merged=mergeDiscoveryCandidates(result.candidates,extra.candidates,combinedEvidence);
+        return {...result,candidates:merged.candidates,evidence:combinedEvidence.map(e=>({...e,...(e.candidateId&&merged.aliases.has(e.candidateId)?{candidateId:merged.aliases.get(e.candidateId)!,claims:{...e.claims,mergedCandidateId:e.candidateId}}:{})})),
           ...(extra.continuation?{continuation:{...extra.continuation,...(extra.continuation.currentDiscoveryBatch?{currentDiscoveryBatch:{...extra.continuation.currentDiscoveryBatch,candidateIds:extra.continuation.currentDiscoveryBatch.candidateIds.filter(id=>!merged.aliases.has(id))}}:{})}}:{}),metadata:{...result.metadata,latencyMs:Date.now()-startedAt,googleRequests:this.locality.googleRequestUsage(request.readRunId),supplementaryDiscovery:{sourceId:next.sourceId,status:"COMPLETED",candidateCount:extra.candidates.length}}};
       }catch(error){
         if(taskLevelFailure(error,signal))throw error;
