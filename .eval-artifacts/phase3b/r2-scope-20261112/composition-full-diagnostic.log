@@ -1,0 +1,53 @@
+✔ H001 native first batch presents three source-bound Tabelog results without TableCheck (96.619958ms)
+✔ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (26.302042ms)
+✖ H001 TableCheck reserve-menu facts cannot bypass the permanent form prohibition (25.903166ms)
+✖ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (22.707041ms)
+✖ src/eval/restaurant/agent-loop/native-discovery-composition.test.ts (263744.881ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 263748.207166
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:25157
+✖ H001 TableCheck reserve-menu facts cannot bypass the permanent form prohibition (25.903166ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'UNKNOWN'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-r2-scope-fix/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:374:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'UNKNOWN',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:26149
+✖ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (22.707041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 3
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-r2-scope-fix/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:386:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 3,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:1
+✖ src/eval/restaurant/agent-loop/native-discovery-composition.test.ts (263744.881ms)
+  'Promise resolution is still pending but the event loop has already resolved'

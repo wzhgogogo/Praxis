@@ -1,3 +1,7 @@
+<a id="r2-scope-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](../../.eval-artifacts/phase3b/r2-scope-20261112/report.md)。
+
 2026-11-12 CET — draft / not integrated：r2请求范围修复候选，承接通用推进a9b1fad8。发现完成只接受当前来源query、document.title或可见h1的整列表菜系证据，无query不再自动通过，单卡/菜单文字不作列表范围；无菜系目录行为不变。r2/B真实DOM定向31项通过，精确目录产出来源直达URI且查位不重做名称搜索。Prompt27，无站点规则/URL构造/强制动作序列；45/90s、权限与预算不变，0外部调用，待完整门禁。[计划](../../.eval-artifacts/phase3b/r2-scope-20261112/plan.md)。
 
 <a id="advance-control-20261112"></a>
