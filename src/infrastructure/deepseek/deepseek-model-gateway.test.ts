@@ -214,7 +214,8 @@ test("DeepSeek gateway transmits a provider-valid strict browser action schema",
   const result = await gateway.complete({ ...request, purpose: "browser_read_decide",
     outputSchema: { ...BROWSER_ACTION_DECISION_SCHEMA, jsonSchema: BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA },
   });
-  const fn = capturedBody!.tools[0].function;
+  const fn = capturedBody?.tools[0]?.function;
+  assert.ok(fn, "the serialized structured request contains its function contract");
   assert.equal(fn.strict, true);
   // Apply the independent provider contract to the actual serialized request.
   assertEveryStrictObjectRequiresEveryProperty(fn.parameters);
