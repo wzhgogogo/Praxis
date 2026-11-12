@@ -1,7 +1,25 @@
 {
-  "status":"APPROVED_FOR_EXECUTION",
-  "authorization":"用户2026-11-12：B独立只读探查，A阻断不影响B；8 GET / 20真实模型调用，0Full-Live/0环境重跑；优先无模型，禁止改产品和既有账本",
-  "limits":{"fullLive":0,"publicGET":8,"realModelCalls":20,"environmentReruns":0},
-  "cumulative":{"fullLive":0,"publicGET":0,"realModelCalls":0,"environmentReruns":0},
-  "entries":[]
+  "status": "APPROVED_FOR_EXECUTION",
+  "authorization": "用户2026-11-12：B独立只读探查，A阻断不影响B；8 GET / 20真实模型调用，0Full-Live/0环境重跑；优先无模型，禁止改产品和既有账本",
+  "limits": {
+    "fullLive": 0,
+    "publicGET": 8,
+    "realModelCalls": 20,
+    "environmentReruns": 0
+  },
+  "cumulative": {
+    "fullLive": 0,
+    "publicGET": 1,
+    "realModelCalls": 0,
+    "environmentReruns": 0
+  },
+  "entries": [
+    {
+      "id": "B:document:1",
+      "publicGET": 1,
+      "atUTC": "2026-11-12T08:25:42.542Z",
+      "urlSHA256": "a03248d3bd09dd8cce2624082cd3edc6f7e10287400f49fa47227720fcab38b8",
+      "note": "Charged document attempt before Guard admission; conservative includes blocked attempts"
+    }
+  ]
 }

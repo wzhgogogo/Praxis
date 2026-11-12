@@ -17,21 +17,35 @@ import {BrowserReadRecording} from '../../../src/eval/restaurant/agent-loop/runn
 import type {BrowserSession} from '../../../src/infrastructure/browser/browser-runtime.js';
 const root=dirname(fileURLToPath(import.meta.url)),config=JSON.parse(readFileSync(join(root,'config.json'),'utf8'));
 const budgetPath=join(root,'active-budget-seed-probe-20261112.json'),budget=JSON.parse(readFileSync(budgetPath,'utf8'));
+let page:Page;
 const hash=(b:string|Buffer)=>createHash('sha256').update(b).digest('hex');
 const git=(...args:string[])=>execFileSync('git',args,{encoding:'utf8'}).trim();
 const freeze=process.argv[process.argv.indexOf('--freeze-sha')+1];
+async function readDOMState(page:Page,fields:Record<string,string>){
+ return page.evaluate((fields)=>{
+  const form=[...document.forms].find(f=>Object.values(fields).every(name=>f.elements.namedItem(name)));
+  const text={clean(s:string|null){return s?.replace(/\s+/g,' ').trim()??'';}};
+  return {title:document.title,url:location.href,
+   headings:[...document.getElementsByTagName('h1')].map(e=>text.clean(e.textContent)),
+   breadcrumbs:[...document.getElementsByTagName('ol')].filter(e=>/breadcrumb/i.test(e.className)).map(e=>text.clean(e.textContent)),
+   form:form?{method:form.method,action:form.action,fields:[...form.elements].map(e=>({tag:e.tagName,name:e.getAttribute('name'),type:e.getAttribute('type'),value:(e as HTMLInputElement).value,visible:(e as HTMLElement).getClientRects().length>0,options:e instanceof HTMLSelectElement?[...e.options].map(o=>({label:o.label,value:o.value,selected:o.selected,disabled:o.disabled})):undefined}))}:null};
+ },fields);
+}
 if(process.argv.includes('--validate-only')){
  if(budget.limits.publicGET!==8||budget.limits.realModelCalls!==20||budget.limits.fullLive!==0||budget.limits.environmentReruns!==0)throw Error('BUDGET_CONTRACT');
  console.log(JSON.stringify({configSHA256:hash(readFileSync(join(root,'config.json'))),scriptSHA256:hash(readFileSync(fileURLToPath(import.meta.url))),budgetSHA256:hash(readFileSync(budgetPath)),modelCalls:0}));process.exit(0);
 }
+if(process.argv.includes('--offline-browser-check')){
+ const b=await chromium.launch({headless:true});try{page=await b.newPage();await page.route('**/*',route=>route.abort());await page.setContent('<form method="get"><input name="svd" type="hidden" value="20261210"><select name="svps"><option value="8">8 people</option></select><select name="svt"><option value="2030">8:30 PM</option></select><span data-date="20261210">10</span></form>');const details=await readDOMState(page,config.observedFormFields);if(!details.form)throw Error('LOCAL_FORM_MISSING');const date=await visibleHandle('form-date');if(!date)throw Error('LOCAL_DATE_MISSING');await date.dispose();console.log('PASS: actual transpiled DOM callbacks in local Chromium;0 website GET,0 model');}finally{await b.close();}process.exit(0);
+}
 if(!freeze||git('rev-parse','HEAD')!==freeze||git('status','--porcelain')||git('diff',config.sourceSHA,'HEAD','--','src'))throw Error('FROZEN_CLEAN_SOURCE_REQUIRED');
 if(!process.execArgv.some(x=>x.startsWith('--env-file'))||process.env.PRAXIS_RUN_DIRECTORY_PROBE!=='1')throw Error('EXPLICIT_PROBE_AND_ENV_FILE_REQUIRED');
-if(budget.status!=='APPROVED_FOR_EXECUTION'||budget.cumulative.publicGET!==0||budget.entries.length)throw Error('FRESH_APPROVED_LEDGER_REQUIRED');
-const output=join(root,'runtime');if(existsSync(output))throw Error('NO_OVERWRITE_OR_IMPLICIT_RETRY');await mkdir(output);
+if(budget.status!=='APPROVED_FOR_EXECUTION'||budget.cumulative.publicGET>=budget.limits.publicGET||hash(readFileSync(budgetPath))!==process.argv[process.argv.indexOf('--budget-sha')+1])throw Error('APPROVED_CURRENT_LEDGER_REQUIRED');
+const outputName=process.argv[process.argv.indexOf('--output-directory')+1];if(!/^[a-z0-9-]+$/.test(outputName??''))throw Error('EXPLICIT_NEW_OUTPUT_REQUIRED');const output=join(root,outputName);if(existsSync(output))throw Error('NO_OVERWRITE_OR_IMPLICIT_RETRY');await mkdir(output);
 const policy=discoveryPackNetworkPolicy([tabelogDiscoveryPack]);
 const recorder=new BrowserReadRecording({directory:output,runId:'directory-probe',reviewedStaticResources:policy.staticResources,reviewedReads:policy.dynamicReads,ownCredentials:Object.entries(process.env).filter(([key,value])=>/API_KEY|SECRET|PASSWORD|TOKEN/.test(key)&&value&&value.length>=8).map(([,v])=>v!)});
 const records:any[]=[],stages:any[]=[],rawRequests:any[]=[],scriptedDecisions:any[]=[];
-let page:Page,session:BrowserSession|undefined,lastGET=0,sequence=0,stopping=false,queue=Promise.resolve();
+let session:BrowserSession|undefined,lastGET=0,sequence=0,stopping=false,queue=Promise.resolve();
 const record=(kind:string,detail:unknown)=>{records.push({sequence:++sequence,kind,detail});recorder.record(kind,detail);};
 const charge=async(url:string)=>{
  const waited=Math.max(0,config.minimumGETIntervalMs-(Date.now()-lastGET));if(waited)await new Promise(r=>setTimeout(r,waited));
@@ -62,14 +76,7 @@ async function capture(label:string){
  const snapshot=await session.snapshot();recorder.recordSnapshot(snapshot);recorder.recordNetwork(snapshot.networkRequests??[]);
  if(session.screenshotLayoutOnly)await recorder.captureScreenshot(await session.screenshotLayoutOnly(),'LAYOUT_ONLY_CONTENT_MASKED');
  const controls=await session.observeControls!();record('CONTROLS',{label,controls});
- const details=await page.evaluate((fields)=>{
-  const form=[...document.forms].find(f=>Object.values(fields).every(name=>f.elements.namedItem(name)));
-  const clean=(s:string|null)=>s?.replace(/\s+/g,' ').trim()??'';
-  return {title:document.title,url:location.href,
-   headings:[...document.getElementsByTagName('h1')].map(e=>clean(e.textContent)),
-   breadcrumbs:[...document.getElementsByTagName('ol')].filter(e=>/breadcrumb/i.test(e.className)).map(e=>clean(e.textContent)),
-   form:form?{method:form.method,action:form.action,fields:[...form.elements].map(e=>({tag:e.tagName,name:e.getAttribute('name'),type:e.getAttribute('type'),value:(e as HTMLInputElement).value,visible:(e as HTMLElement).getClientRects().length>0,options:e instanceof HTMLSelectElement?[...e.options].map(o=>({label:o.label,value:o.value,selected:o.selected,disabled:o.disabled})):undefined}))}:null};
- },config.observedFormFields);
+ const details=await readDOMState(page,config.observedFormFields);
  const row={label,checkedAtUTC:new Date().toISOString(),snapshotIndex:stages.length+1,...details};stages.push(row);record('STAGE',row);return row;
 }
 async function nativeChoice(field:'PARTY_SIZE'|'TIME',name:string,expected:string){
@@ -85,11 +92,11 @@ async function nativeChoice(field:'PARTY_SIZE'|'TIME',name:string,expected:strin
 async function visibleHandle(kind:'form-date'|'calendar-forward'|'category-trigger'|'category-link',text?:string){
  const handle=await page.evaluateHandle(({kind,text,c})=>{
   const form=[...document.forms].find(f=>Object.values(c.observedFormFields).every(name=>f.elements.namedItem(name as string)));
-  const visible=(e:Element)=>!!(e as HTMLElement).getClientRects().length&&getComputedStyle(e).display!=='none'&&getComputedStyle(e).visibility!=='hidden';
-  if(kind==='form-date')return form?[...form.getElementsByTagName('span')].find(e=>e.getAttribute(c.recordedDateAttribute)===c.goal.date.replaceAll('-','')&&visible(e)):null;
-  if(kind==='calendar-forward')return form?[...form.getElementsByTagName('button')].find(e=>e.classList.contains(c.recordedForwardClass)&&visible(e)&&!e.disabled):null;
-  if(kind==='category-trigger'){const node=document.getElementById(c.recordedCategoryTriggerId);return node&&visible(node)?node:null;}
-  const panel=document.getElementById(c.recordedCategoryPanelId);return panel?[...panel.getElementsByTagName('a')].find(e=>e.textContent?.replace(/\s+/g,' ').trim().toLowerCase()===text?.toLowerCase()&&visible(e)):null;
+  const view={visible(e:Element){return !!(e as HTMLElement).getClientRects().length&&getComputedStyle(e).display!=='none'&&getComputedStyle(e).visibility!=='hidden';}};
+  if(kind==='form-date')return form?[...form.getElementsByTagName('span')].find(e=>e.getAttribute(c.recordedDateAttribute)===c.goal.date.replaceAll('-','')&&view.visible(e)):null;
+  if(kind==='calendar-forward')return form?[...form.getElementsByTagName('button')].find(e=>e.classList.contains(c.recordedForwardClass)&&view.visible(e)&&!e.disabled):null;
+  if(kind==='category-trigger'){const node=document.getElementById(c.recordedCategoryTriggerId);return node&&view.visible(node)?node:null;}
+  const panel=document.getElementById(c.recordedCategoryPanelId);return panel?[...panel.getElementsByTagName('a')].find(e=>e.textContent?.replace(/\s+/g,' ').trim().toLowerCase()===text?.toLowerCase()&&view.visible(e)):null;
  },{kind,text,c:config});return handle.asElement();
 }
 async function openCategory(label:string){
