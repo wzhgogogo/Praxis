@@ -1,0 +1,99 @@
+{
+  "sourceSHA": "32b97ed812be10e80a683ad1f2be8caba5608bf0",
+  "orchestrationFreezeCommit": "f90c8e1b9e4c95191e442b84b8d7461f5aba9676",
+  "run": "dev-d02v-paging-r2",
+  "verdict": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "elapsedMs": 282087.256042,
+  "modelCalls": 47,
+  "evaluationGET": 6,
+  "requestBoundary": {
+    "PASS": 371
+  },
+  "delivered": [],
+  "handoffs": [],
+  "witnesses": [
+    {
+      "kind": "BEFORE",
+      "exists": true,
+      "checkedAt": "2026-11-12T05:58:22.082Z"
+    },
+    {
+      "kind": "NO_DELIVERY_AFTER",
+      "exists": true,
+      "checkedAt": "2026-11-12T06:03:27.944Z"
+    }
+  ],
+  "mergeAliases": [],
+  "mergeLiveVerification": "NO_PROVEN_DUPLICATE_PAIR_IN_THIS_NATIVE_BATCH; no positive merge acceptance claim",
+  "providerAttempts": [
+    {
+      "outcome": "PROVIDER_FAILURE",
+      "provider": "TABELOG",
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "failureCode": "BROWSER_TIMEOUT"
+    },
+    {
+      "outcome": "PROVIDER_FAILURE",
+      "provider": "TABELOG",
+      "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+      "failureCode": "REQUEST_SELECTION_UNCONFIRMED"
+    },
+    {
+      "outcome": "UNAVAILABLE",
+      "provider": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13264580"
+    },
+    {
+      "outcome": "AVAILABLE",
+      "provider": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13310306"
+    },
+    {
+      "outcome": "PROVIDER_FAILURE",
+      "provider": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13302692",
+      "failureCode": "REQUEST_SELECTION_UNCONFIRMED"
+    },
+    {
+      "outcome": "PROVIDER_FAILURE",
+      "provider": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+      "failureCode": "BROWSER_TIMEOUT"
+    }
+  ],
+  "recording": {
+    "qualifiedPages": 55,
+    "totalPages": 58,
+    "decisions": {
+      "path": "/private/tmp/praxis-seed-final-r2-main/.eval-artifacts/phase3b/seed-d02v-final-r2-20261112/D02V-r2/runtime/dev-d02v-paging-r2/execution.decisions.jsonl",
+      "sha256": "9bed62779754731fe7152d0176f4004801a4af0c34785adbbf17a739affe2a6f",
+      "callsStarted": 47,
+      "rowsWritten": 47,
+      "errors": []
+    }
+  },
+  "used": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 47,
+    "environmentReruns": 0
+  },
+  "r4Remaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 3,
+    "realModelCalls": 26,
+    "environmentReruns": 0
+  },
+  "slices": {
+    "03": "2/2 previously reviewed slice",
+    "07": "2/2 previously reviewed slice",
+    "D02V": "r1 independently qualified with duplicate defect fixed; r2 CAPABILITY_MISS; different source SHAs, not same-SHA stability measurement"
+  }
+}
