@@ -1,0 +1,258 @@
+{
+  "configurationCommit": "29872ba4f42b6bc8c0d2917473bdf4c005e65974",
+  "sourceSHA": "5f8e01f18da6e48a2bf26c1fba78e260c2547bf0",
+  "sourceCodeSHA": "67a949d702f17a4f6ed10e9b869882d707711cc7",
+  "verdict": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "planned": 1,
+  "started": 1,
+  "completed": 1,
+  "elapsedMs": 257164.110708,
+  "turnMs": 256439.404875,
+  "totalDiagnosticWallMs": 283293,
+  "startCET": "2026-11-13T11:35:47.254000+01:00",
+  "endCET": "2026-11-13T11:40:30.547000+01:00",
+  "modelByPurpose": {
+    "browser_read_decide": {
+      "calls": 31,
+      "latencyMs": 102042
+    },
+    "restaurant_agent_decide": {
+      "calls": 5,
+      "latencyMs": 12252
+    },
+    "restaurant_discovery_retrieval": {
+      "calls": 1,
+      "latencyMs": 1372
+    },
+    "restaurant_fact_judgment": {
+      "calls": 4,
+      "latencyMs": 5881
+    },
+    "restaurant_semantic_interpret": {
+      "calls": 1,
+      "latencyMs": 3676
+    },
+    "restaurant_source_facts": {
+      "calls": 2,
+      "latencyMs": 6775
+    }
+  },
+  "modelSucceeded": 44,
+  "providerRejected": 0,
+  "wrongClickAuthoritativeProposals": [],
+  "terminalSnapshotComplete": "NOT_REACHED: no captured8-person response; Manten last exact8 proposal returned after provider retirement",
+  "terminalCompletionDiagnosticCount": 0,
+  "independentBoundary": {
+    "pass": 252,
+    "total": 252,
+    "basis": "actual outer Node forwarding / CDP receiver observations, frozen independent reviewed rules; not Guard verdict"
+  },
+  "recording": {
+    "qualifiedPages": 28,
+    "totalPages": 39,
+    "replayStatus": "PARTIALLY_REPLAYABLE",
+    "omissions": {
+      "UNSAFE_DOCUMENT": 4,
+      "UNCAPTURED_DYNAMIC_RESPONSE": 7
+    }
+  },
+  "budgetCumulative": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 44,
+    "environmentReruns": 0,
+    "googleRequests": 5,
+    "restaurantWebsiteRequests": 258
+  },
+  "budgetRemaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 2,
+    "realModelCalls": 11,
+    "environmentReruns": 0
+  },
+  "postWitnessExists": true,
+  "configurationUnchanged": true,
+  "protectedEqual": true,
+  "evaluationSHA256": "b8a7d9b141a44cd671a05e74235839e4a1619d879cbb7e84bfef0fde1a66f390",
+  "evaluationInputSHA256": "b278461a21da51e372b5dfcf74497fb496556cf49893972f6b93f3035337c2f6",
+  "harSHA256": "f8bcbcbf2e08862a140ce18cb027c3506e27ff538ce7e01ee33df38064546418",
+  "providerEnds": [
+    {
+      "diagnosticSequence": 102,
+      "source": "DIRECTORY",
+      "candidateId": "native-discovery:DIRECTORY",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 55716,
+        "providerElapsedMs": 55716,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 24,
+        "providerRuntimeOperations": 24,
+        "runModelCalls": 7,
+        "reason": "EXECUTOR_CLOSED"
+      }
+    },
+    {
+      "diagnosticSequence": 200,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 45021,
+        "providerElapsedMs": 45021,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 23,
+        "providerRuntimeOperations": 23,
+        "runModelCalls": 13,
+        "reason": "DEADLINE_EXCEEDED"
+      }
+    },
+    {
+      "diagnosticSequence": 294,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 44072,
+        "providerElapsedMs": 44072,
+        "candidateModelCalls": 6,
+        "providerModelCalls": 6,
+        "candidateRuntimeOperations": 22,
+        "providerRuntimeOperations": 22,
+        "runModelCalls": 19,
+        "reason": "ADAPTER_RETURNED"
+      }
+    },
+    {
+      "diagnosticSequence": 421,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "lifecycle": {
+        "outcome": "ABANDONED",
+        "candidateElapsedMs": 45015,
+        "providerElapsedMs": 45015,
+        "candidateModelCalls": 7,
+        "providerModelCalls": 7,
+        "candidateRuntimeOperations": 33,
+        "providerRuntimeOperations": 33,
+        "runModelCalls": 26,
+        "reason": "DEADLINE_EXCEEDED"
+      }
+    },
+    {
+      "diagnosticSequence": 475,
+      "source": "WEBSITE",
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 9790,
+        "providerElapsedMs": 9790,
+        "candidateModelCalls": 3,
+        "providerModelCalls": 3,
+        "candidateRuntimeOperations": 10,
+        "providerRuntimeOperations": 10,
+        "runModelCalls": 29,
+        "reason": "ADAPTER_RETURNED"
+      }
+    },
+    {
+      "diagnosticSequence": 490,
+      "source": "WEBSITE",
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 8462,
+        "providerElapsedMs": 8462,
+        "candidateModelCalls": 1,
+        "providerModelCalls": 1,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 30,
+        "reason": "ADAPTER_RETURNED"
+      }
+    },
+    {
+      "diagnosticSequence": 563,
+      "source": "VENUE_SEARCH",
+      "candidateId": "native-discovery:VENUE_SEARCH",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 21000,
+        "providerElapsedMs": 21000,
+        "candidateModelCalls": 4,
+        "providerModelCalls": 4,
+        "candidateRuntimeOperations": 16,
+        "providerRuntimeOperations": 16,
+        "runModelCalls": 34,
+        "reason": "EXECUTOR_CLOSED"
+      }
+    }
+  ],
+  "productDiffEmpty": true,
+  "resourceTiming": {
+    "pairedOperationCounts": {
+      "NAVIGATE": 12,
+      "SNAPSHOT": 39,
+      "OBSERVE_CONTROLS": 33,
+      "FILL_AUTHORITATIVE": 5,
+      "WAIT_FOR_SETTLED": 25,
+      "SUBMIT_PUBLIC_QUERY": 4,
+      "OPEN_LINK": 1,
+      "CLICK": 2,
+      "DISMISS_TRANSIENT_OBSTRUCTION": 1,
+      "ADVANCE_CLICK": 5,
+      "CLICK_AUTHORITATIVE": 2
+    },
+    "pairedOperationMs": {
+      "NAVIGATE": 36705,
+      "SNAPSHOT": 5040,
+      "OBSERVE_CONTROLS": 13279,
+      "FILL_AUTHORITATIVE": 138,
+      "WAIT_FOR_SETTLED": 32504,
+      "SUBMIT_PUBLIC_QUERY": 7232,
+      "OPEN_LINK": 3300,
+      "CLICK": 124,
+      "DISMISS_TRANSIENT_OBSTRUCTION": 20,
+      "ADVANCE_CLICK": 210,
+      "CLICK_AUTHORITATIVE": 118
+    },
+    "unpairedOperations": 1,
+    "note": "Diagnostic pairs may overlap and do not add to wall time."
+  },
+  "browserWireRejected": 0,
+  "recordingEntryKinds": {
+    "OPERATION_STARTED": 199,
+    "REQUEST_TIMELINE_READY": 6,
+    "OPERATION_FINISHED": 199,
+    "SESSION_OPENED": 6,
+    "SESSION_CALL": 60,
+    "NAVIGATION_START": 17,
+    "NETWORK_REQUEST_START": 757,
+    "GUARD_TRANSPORT_START": 54,
+    "GUARD_TRANSPORT_END": 54,
+    "RESPONSE_CAPTURED": 242,
+    "NETWORK_RESPONSE_HEADERS": 255,
+    "GUARD_NATIVE_CONTINUE": 193,
+    "NETWORK_REQUEST_END": 757,
+    "NAVIGATION_END": 17,
+    "SESSION_RETURN": 71,
+    "ENTRY_NAVIGATION": 26,
+    "SNAPSHOT": 15,
+    "NETWORK": 15,
+    "NETWORK_RESOURCE_TYPES": 39,
+    "DOCUMENT_SANITIZATION": 39,
+    "CONTROLS": 36,
+    "GOOGLE_CAPTURE_REJECTED": 65,
+    "RESPONSE_OMITTED": 10,
+    "SESSION_ERROR": 2
+  }
+}

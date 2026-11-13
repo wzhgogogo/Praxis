@@ -1,3 +1,7 @@
+<a id="terminal-observe-live-20261113"></a>
+
+2026-11-13 CET — evidence-only，终端观察修复67a949d7经用户批准单次Live（HEAD5f8e01f1，编排29872ba4）：CAPABILITY_MISS，257.164秒，44模型/6GET/1Live；独立252/252边界PASS、S0=0、providerRejected0。两家DATE/人数轮播首次ADVANCE正确，但未获8人整组响应；Manten #29选8提议晚于45秒关闭，终端快路径NOT_REACHED。Discovery #7–9先点额外筛选并遮挡，未进入兜底分类下钻。保护哈希一致，原评价保留，不修改产品或追加运行。[一页诊断](../../.eval-artifacts/phase3b/terminal-observe-live-20261113/report.md)。
+
 <a id="terminal-observe-20261113"></a>
 
 2026-11-13 CET — draft / not integrated：终端snapshot-only完成与Skill引导四文件修复，源码67a949d7净树全门禁PASS：type/arch/build、默认1644、Chromium287、G6 159，0跳过；含web-skills的双完整SHA与增量新增产品扫描0。9856真实DOM/HAR红→绿，终端扫描1→0且20:30原响应提取成立；PENDING稳定/未确认控件/默认控件检查保持，最终来源谓词与整列表范围逐字不变。分类/动作文案只验证接线，不声称真实模型导航已修。首次稀疏检出缺材料失败原样保留，恢复同提交材料后全绿。主草稿/四账本/9856证据哈希一致；0Live/0GET/0真实模型，仅分支待复核，不合main。[简报](../../.eval-artifacts/phase3b/terminal-observe-20261113/report.md)。
