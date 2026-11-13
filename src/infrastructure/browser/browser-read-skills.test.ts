@@ -13,7 +13,7 @@ test("Browser Skills load source guidance only when the injected pack supplies i
   assert.match(tabelog.source, /Tabelog/);
   assert.match(tabelog.source, /exact requested value.*availableActions/s);
   assert.match(tabelog.source, /ADVANCE_TO_AUTHORITATIVE/);
-  assert.match(tabelog.source, /unexplored broader or catch-all category links/);
+  assert.match(tabelog.source, /unexplored relevant parent or catch-all category/);
   assert.doesNotMatch(tabelog.source, /keyword-removal link/);
   assert.notEqual(tableCheck.source, tabelog.source);
   assert.match(website.source, /candidate website/i);

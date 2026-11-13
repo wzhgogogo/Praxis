@@ -3,7 +3,7 @@
 Status: current executable diagnostic, exposed development recordings. No Live acceptance claim.
 
 - Baseline HEAD 5f8e01f18da6e48a2bf26c1fba78e260c2547bf0 / source 67a949d702f17a4f6ed10e9b869882d707711cc7.
-- Product delta: only web-skills/tabelog/SKILL.md. Native objective, strict wire, executor, completionUsesControls:false, Guard, G1, evaluator and all time budgets unchanged.
+- Product delta: only web-skills/tabelog/SKILL.md; related browser-read-skills.test.ts updates one existing wording assertion (no assertion deleted). Native objective, strict wire, executor, completionUsesControls:false, Guard, G1, evaluator and all time budgets unchanged.
 - Inputs: nine exact recorded user contexts, originals hashed in cases.json. Use current source Skill via production loadBrowserReadSkills and current literal Discovery objective from unchanged native-restaurant-search.ts. The older9856 Discovery objective differs from67a; its original is retained in inputs. Generic Skill/goal/observation/history stay recorded. No invented controls or page state. taskId is diagnostic identity only.
 - Oracle frozen before calls: collapsed category entry; reopen parent menu; expanded parent choose recorded catch-all child; two pages with no calendar/guest group request help; calendar and party advancement reference actual value groups; exact date and party still selected directly. Labels/refs in oracle are eval data only.
 - Maximum total 16 real DeepSeek calls in this independent ledger, including failures; zero website GET, zero Live, zero environment reruns. Initial batch nine frames, no automatic retries. Any later correction uses a separate committed input/Skill SHA and retained failed output within this same ceiling.
