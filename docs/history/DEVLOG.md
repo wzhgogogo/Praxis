@@ -1,3 +1,5 @@
+2026-11-13 CET — draft / not integrated：人数来源响应独立进度与发现objective最小修复，用户批准四个产品文件。公开选态原解析逐字抽出供复用，不新增正则词表；库存complete、CapturedSlots、observedDate、availability后续ground路径与sourceListingCompletion字节审计不变。真实两店DOM/HAR及空结果/冲突/损坏反例定向26通过；真实组件人数清pending后转日历，未构造未来日期/库存。待净树同SHA全门禁，0Live/0GET/0真实模型，不合main。
+
 <a id="browser-strict-20261112"></a>
 
 2026-11-12 CET — draft / not integrated：浏览器严格schema16修复fd5597fe，valueGroupRef列入required并约定非推进空字符串；gateway实际序列化合同先红后绿。净树全门禁PASS（默认1628、Chromium284、G6 159），双完整SHA新增产品扫描0，动作/Guard/身份/G1/时限/预算不变。旧失败/账本/主草稿保留，用户批准新独立单次Live，结果另录；未合main。[报告](../../.eval-artifacts/phase3b/browser-strict-20261112/report.md)。

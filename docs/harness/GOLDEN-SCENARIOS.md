@@ -1,3 +1,5 @@
+2026-11-13 CET — draft / not integrated：人数来源响应独立进度与发现objective最小修复，用户批准四个产品文件。公开选态原解析逐字抽出供复用，不新增正则词表；库存complete、CapturedSlots、observedDate、availability后续ground路径与sourceListingCompletion字节审计不变。真实两店DOM/HAR及空结果/冲突/损坏反例定向26通过；真实组件人数清pending后转日历，未构造未来日期/库存。待净树同SHA全门禁，0Live/0GET/0真实模型，不合main。
+
 <a id="r2-scope-20261112"></a>
 
 2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](../../.eval-artifacts/phase3b/r2-scope-20261112/report.md)。
