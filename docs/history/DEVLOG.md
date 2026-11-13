@@ -6194,4 +6194,4 @@ First723191af default failure preserved; fictional chain responses now explicitl
 
 保留67a949d7终端跳过控件扫描；产品只改web-skills/tabelog/SKILL.md，恢复可见分类入口/父类重开、禁止额外筛选替代分类树，并明确推进动作必须引用实际日期/人数组。Okajoki没有这些组时请求帮助，不补造valueGroupRef。原生objective、执行器、Guard、G1、评价器、45/90秒均未改。
 
-真实DeepSeek对9个冻结公开录制帧逐帧9/9命中（见 [.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md](../../.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md)）；9模型、0网站GET、0Live，独立16调用上限余额7不使用。旧失败与旧账本保留。该结果不证明端到端网站导航/45秒交付；录制精确分类目录确有Sumika直达链接，仍须真实身份/查位才能交付。全量离线门禁待同SHA净树运行，结果另附验证日志。
+真实DeepSeek对9个冻结公开录制帧逐帧9/9命中（见 [.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md](../../.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md)）；9模型、0网站GET、0Live，独立16调用上限余额7不使用。旧失败与旧账本保留。该结果不证明端到端网站导航/45秒交付；录制精确分类目录确有Sumika直达链接，仍须真实身份/查位才能交付。验证SHA `463f9aeb0016e46f699ce6f63d8131c41275cd6e`：typecheck、arch:check、build PASS；默认1644/1644、本地Chromium287/287、G6 159/159，0 skip，全部同SHA净树。两历史基线和5f8增量扫描0。 原门禁措辞断言失败已保留，仅同步相关测试的一条文案断言，未删除断言。
