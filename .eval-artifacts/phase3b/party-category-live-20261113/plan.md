@@ -1,0 +1,3 @@
+# Single frozen D02-V diagnostic
+
+Decision: confirm two offline fixes on the current real source, one run only. Identical exposed request/date/party/time and frozen source; no edits to product/evaluator/history/main/heldout. Independent budget1/8/55/0; frozen runner retains stronger50/500s/45s ceilings. One pre-witness, four60s browser health reads (>=5s spacing), no retry; at most2post reads. All artifacts in evidenceRoot. Stop on failed witness/health/environment/S0/missing independent evidence/budget. Freeze config/script before any external request. Report four layers; original evaluation immutable, independent qualification review only from this run's source observations if needed. Do not claim stability or manufacture uncaptured evidence.
