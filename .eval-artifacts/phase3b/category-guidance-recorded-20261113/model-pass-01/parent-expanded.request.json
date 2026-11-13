@@ -1,0 +1,83 @@
+{
+  "taskId": "recorded-guidance:parent-expanded",
+  "purpose": "browser_read_decide",
+  "promptVersion": "27",
+  "messages": {
+    "sha256": "e111fcce13cefacba84f3f5eb11fc2b7a81b9ed0c3190d6181925488e1f56880"
+  },
+  "responseFormat": "JSON_SCHEMA",
+  "outputSchema": {
+    "name": "browser_read_action",
+    "version": "16",
+    "jsonSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "targetRef",
+        "valueGroupRef",
+        "authoritativeField",
+        "requestedState",
+        "reason"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "OPEN_LINK",
+            "CLICK",
+            "ADVANCE_TO_AUTHORITATIVE",
+            "CLICK_AUTHORITATIVE",
+            "FILL_AUTHORITATIVE",
+            "CHOOSE_OPTION",
+            "SET_CHECKED",
+            "ADJUST_RANGE",
+            "SCROLL_REGION",
+            "PRESS_ESCAPE",
+            "WAIT",
+            "COMPLETE",
+            "REQUEST_HUMAN_HELP"
+          ]
+        },
+        "targetRef": {
+          "type": "string"
+        },
+        "valueGroupRef": {
+          "type": "string",
+          "description": "For ADVANCE_TO_AUTHORITATIVE only: current group containing the requested field choices, which may differ from the advance control group. Empty string for all other actions."
+        },
+        "authoritativeField": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "DATE",
+            "PARTY_SIZE",
+            "TIME",
+            "RETRIEVAL",
+            "LOCATION"
+          ]
+        },
+        "requestedState": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "CHECKED",
+            "UNCHECKED",
+            "INCREASE",
+            "DECREASE",
+            "UP",
+            "DOWN"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "timeoutMs": 30000,
+  "fallback": "FAIL_CLOSED",
+  "maxOutputTokens": 320,
+  "temperature": 0,
+  "thinking": "disabled"
+}

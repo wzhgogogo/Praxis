@@ -1208,3 +1208,10 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-11-10 CET — Source12deae74 discovery repair full clean gates PASS:1559/274+103/strictG2 all12, scan1 technical wire-key exclusion. Generic NO_PROGRESS2 closes source without BUSINESS failure/requeue; same request retains candidates across JSON key-order changes, changed party resets. D4/D8 regressions green; original425/871files/ledger unchanged. Publish candidate plus frozen D01/D02 packs, then one each and3 health rounds15min; no actual calls yet.
 
 2026-11-10 CET — main9572d99b（产品12deae74）D01/D02各一次结束：均EVALUATED/CAPABILITY_MISS/qualified=false/s0=0，无交付；46调用189.8s、47调用156.8s，93次API均返回。原生发现5调用30.4s/5候选、7调用29.9s/0候选；TC地区均未执行。查位5/6家，各2家AVAILABLE但HARD未闭合；skips各2；通用NO_PROGRESS 0/2；两类入口重试均0。发现成本降，交付未改善；不追加Live。三轮health-only实际15分钟间隔，12/12均200且<10s。新增2Live/24GET/93模型，累计10/26、73/126、1332/2500。原425/871files/账本保持，held-out仍暂停。来源/限制和网络表：[一页报告](../.eval-artifacts/phase3b/discovery-progress-20261110/report.md)。
+
+<a id="category-guidance-recorded-20261113"></a>
+## 2026-11-13 CET — 分类入口与权威值组引导（工作分支，未合 main）
+
+保留67a949d7终端跳过控件扫描；产品只改web-skills/tabelog/SKILL.md，恢复可见分类入口/父类重开、禁止额外筛选替代分类树，并明确推进动作必须引用实际日期/人数组。Okajoki没有这些组时请求帮助，不补造valueGroupRef。原生objective、执行器、Guard、G1、评价器、45/90秒均未改。
+
+真实DeepSeek对9个冻结公开录制帧逐帧9/9命中（见 [.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md](../.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md)）；9模型、0网站GET、0Live，独立16调用上限余额7不使用。旧失败与旧账本保留。该结果不证明端到端网站导航/45秒交付；录制精确分类目录确有Sumika直达链接，仍须真实身份/查位才能交付。全量离线门禁待同SHA净树运行，结果另附验证日志。

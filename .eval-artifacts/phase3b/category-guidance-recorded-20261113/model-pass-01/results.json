@@ -1,0 +1,318 @@
+{
+  "sourceSHA": "9d5c8eca327e18ae1bf062cebfac3709d6b48a34",
+  "Live": 0,
+  "websiteGET": 0,
+  "results": [
+    {
+      "id": "collapsed-category",
+      "answer": {
+        "type": "CLICK",
+        "targetRef": "observation:4:target:17",
+        "reason": "Expand the \"Search by category\" All menu to inspect category choices for robatayaki."
+      },
+      "passed": true,
+      "selectedTarget": {
+        "ref": "observation:4:target:17",
+        "kind": "LINK",
+        "role": "link",
+        "label": "All",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/#",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "latencyMs": 4270,
+      "usage": {
+        "inputTokens": 25783,
+        "outputTokens": 145,
+        "totalTokens": 25928
+      },
+      "wire": {
+        "action": "CLICK",
+        "targetRef": "observation:4:target:17",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    },
+    {
+      "id": "parent-collapsed",
+      "answer": {
+        "type": "CLICK",
+        "targetRef": "observation:6:target:18",
+        "reason": "Reopen the category menu to inspect finer categories for robatayaki."
+      },
+      "passed": true,
+      "selectedTarget": {
+        "ref": "observation:6:target:18",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Washoku (Japanese cuisine)",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/washoku/#",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "latencyMs": 3153,
+      "usage": {
+        "inputTokens": 25833,
+        "outputTokens": 141,
+        "totalTokens": 25974
+      },
+      "wire": {
+        "action": "CLICK",
+        "targetRef": "observation:6:target:18",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    },
+    {
+      "id": "parent-expanded",
+      "answer": {
+        "type": "OPEN_LINK",
+        "targetRef": "observation:7:target:36",
+        "reason": "Robatayaki is not listed; inspect the catch-all \"Other\" category for finer choices."
+      },
+      "passed": true,
+      "selectedTarget": {
+        "ref": "observation:7:target:36",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Other",
+        "controlGroupLabel": "Search by category",
+        "controlGroupRef": "observation:7:group:2",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC0199/",
+        "availableActions": [
+          "OPEN_LINK"
+        ]
+      },
+      "latencyMs": 3739,
+      "usage": {
+        "inputTokens": 27410,
+        "outputTokens": 147,
+        "totalTokens": 27557
+      },
+      "wire": {
+        "action": "OPEN_LINK",
+        "targetRef": "observation:7:target:36",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    },
+    {
+      "id": "no-calendar-first",
+      "answer": {
+        "type": "REQUEST_HUMAN_HELP",
+        "reason": "Page states reservations unavailable; no date or guest controls observed."
+      },
+      "passed": true,
+      "selectedTarget": null,
+      "latencyMs": 5266,
+      "usage": {
+        "inputTokens": 11950,
+        "outputTokens": 134,
+        "totalTokens": 12084
+      },
+      "wire": {
+        "action": "REQUEST_HUMAN_HELP",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    },
+    {
+      "id": "no-calendar-feedback",
+      "answer": {
+        "type": "REQUEST_HUMAN_HELP",
+        "reason": "No date or party-size value group is observed on this page; page states reservations unavailable, so no authoritative date/guest control exists to advance."
+      },
+      "passed": true,
+      "selectedTarget": null,
+      "latencyMs": 2259,
+      "usage": {
+        "inputTokens": 12131,
+        "outputTokens": 151,
+        "totalTokens": 12282
+      },
+      "wire": {
+        "action": "REQUEST_HUMAN_HELP",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    },
+    {
+      "id": "advance-calendar",
+      "answer": {
+        "type": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:16:target:107",
+        "field": "DATE",
+        "valueGroupRef": "observation:16:group:1",
+        "reason": "Advance calendar from Nov 2026 toward requested 2026-12-10"
+      },
+      "passed": true,
+      "selectedTarget": {
+        "ref": "observation:16:target:107",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Next month",
+        "controlGroupLabel": "Calendar",
+        "controlGroupRef": "observation:16:group:13",
+        "labelSource": "DOM descendant text",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/#",
+        "availableActions": [
+          "CLICK",
+          "ADVANCE_TO_AUTHORITATIVE:DATE",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "latencyMs": 4989,
+      "usage": {
+        "inputTokens": 18210,
+        "outputTokens": 157,
+        "totalTokens": 18367
+      },
+      "wire": {
+        "action": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:16:target:107",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "valueGroupRef": "observation:16:group:1",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    },
+    {
+      "id": "advance-party",
+      "answer": {
+        "type": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:18:target:127",
+        "field": "PARTY_SIZE",
+        "valueGroupRef": "observation:18:group:2",
+        "reason": "Advance guest carousel to expose 8 guests"
+      },
+      "passed": true,
+      "selectedTarget": {
+        "ref": "observation:18:target:127",
+        "kind": "BUTTON",
+        "role": "button",
+        "label": "Next",
+        "controlGroupLabel": "Guests",
+        "controlGroupRef": "observation:18:group:2",
+        "type": "button",
+        "availableActions": [
+          "CLICK",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "latencyMs": 4291,
+      "usage": {
+        "inputTokens": 18121,
+        "outputTokens": 152,
+        "totalTokens": 18273
+      },
+      "wire": {
+        "action": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:18:target:127",
+        "authoritativeField": "PARTY_SIZE",
+        "requestedState": "NONE",
+        "valueGroupRef": "observation:18:group:2",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    },
+    {
+      "id": "exact-date",
+      "answer": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:17:target:10",
+        "field": "DATE",
+        "reason": "Select exact requested date 2026-12-10"
+      },
+      "passed": true,
+      "selectedTarget": {
+        "ref": "observation:17:target:10",
+        "kind": "BUTTON",
+        "role": "button",
+        "label": "Date 2026-12-10",
+        "controlGroupLabel": "Calendar",
+        "controlGroupRef": "observation:17:group:1",
+        "value": "2026-12-10",
+        "type": "button",
+        "calendarDate": "2026-12-10",
+        "availableActions": [
+          "CLICK",
+          "CLICK_AUTHORITATIVE:DATE",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "latencyMs": 5423,
+      "usage": {
+        "inputTokens": 18050,
+        "outputTokens": 141,
+        "totalTokens": 18191
+      },
+      "wire": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:17:target:10",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    },
+    {
+      "id": "exact-party",
+      "answer": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:21:target:19",
+        "field": "PARTY_SIZE",
+        "reason": "Select Guests 8 as the requested party size"
+      },
+      "passed": true,
+      "selectedTarget": {
+        "ref": "observation:21:target:19",
+        "kind": "BUTTON",
+        "role": "button",
+        "label": "Guests 8",
+        "controlGroupLabel": "Guests",
+        "controlGroupRef": "observation:21:group:2",
+        "value": "8",
+        "type": "button",
+        "availableActions": [
+          "CLICK",
+          "CLICK_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "latencyMs": 3625,
+      "usage": {
+        "inputTokens": 17796,
+        "outputTokens": 141,
+        "totalTokens": 17937
+      },
+      "wire": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:21:target:19",
+        "authoritativeField": "PARTY_SIZE",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      }
+    }
+  ]
+}
