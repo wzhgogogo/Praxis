@@ -1,3 +1,7 @@
+<a id="party-category-live-retry-20261113"></a>
+
+2026-11-13 CET — evidence-only，用户明确追加一次D02-V Live重试；被测8b7afec8/源码ea93f6c4不变，编排abdf988a。CAPABILITY_MISS，257.864秒、47模型/6GET/1Live，独立265/265、S0=0、providerRejected0。Sumika人数8响应与PARTY_SIZE_CONFIRMED本次真实生效；另一店12-10/8人源响应含20:30原链接，但最后OBSERVE_CONTROLS从41.961秒到45秒截止，未产品交付。精确发现仍未完成。保护当前存在的主草稿/旧账本与缺失路径状态，0产品改动，不合main不追加。[四层简报](../.eval-artifacts/phase3b/party-category-live-retry-20261113/report.md)。
+
 <a id="party-category-live-20261113"></a>
 
 2026-11-13 CET — evidence-only，单次D02-V诊断；被测8b7afec8/源码ea93f6c4，编排743960576。CAPABILITY_MISS，265.938秒，45模型/6GET/1Live；独立263/263边界PASS、S0=0、providerRejected0。父类下钻与新页重开已执行，精确菜系未到，#11重复菜单动作后NO_PROGRESS；Sumika12-10源响应确认但仅2人，#20选8提议返回晚于45秒关闭未执行，独立人数进度未触发、无B1。保护哈希全一致，旧录制/账本/源码树不变。此证据分支不合main、不追加运行。[四层简报](../.eval-artifacts/phase3b/party-category-live-20261113/report.md)。
