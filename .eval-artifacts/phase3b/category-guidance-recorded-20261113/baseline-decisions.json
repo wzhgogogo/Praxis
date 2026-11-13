@@ -1,0 +1,159 @@
+[
+  {
+    "id": "collapsed-category",
+    "originalOutput": {
+      "action": "CLICK",
+      "targetRef": "observation:4:target:19",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open filters to find a cuisine/category control for robatayaki within Nakano."
+    },
+    "expected": [
+      {
+        "type": "CLICK",
+        "targetRef": "observation:4:target:17"
+      }
+    ]
+  },
+  {
+    "id": "parent-collapsed",
+    "originalOutput": {
+      "action": "CLICK",
+      "targetRef": "observation:6:target:18",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open the category panel to find a finer category matching robatayaki."
+    },
+    "expected": [
+      {
+        "type": "CLICK",
+        "targetRef": "observation:6:target:18"
+      }
+    ]
+  },
+  {
+    "id": "parent-expanded",
+    "originalOutput": {
+      "action": "CLICK",
+      "targetRef": "observation:7:target:39",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open More filters to look for a keyword/cuisine filter matching robatayaki."
+    },
+    "expected": [
+      {
+        "type": "OPEN_LINK",
+        "targetRef": "observation:7:target:36"
+      }
+    ]
+  },
+  {
+    "id": "no-calendar-first",
+    "originalOutput": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:10:target:26",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Expose the date/party availability controls to select 2026-12-10 and 8 guests."
+    },
+    "expected": [
+      {
+        "type": "REQUEST_HUMAN_HELP"
+      }
+    ]
+  },
+  {
+    "id": "no-calendar-feedback",
+    "originalOutput": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:11:target:26",
+      "valueGroupRef": "observation:11:group:2",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance to expose the date field choices for the requested date."
+    },
+    "expected": [
+      {
+        "type": "REQUEST_HUMAN_HELP"
+      }
+    ]
+  },
+  {
+    "id": "advance-calendar",
+    "originalOutput": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:16:target:107",
+      "valueGroupRef": "observation:16:group:1",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance calendar to December 2026 to expose the requested date."
+    },
+    "expected": [
+      {
+        "type": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:16:target:107",
+        "valueGroupRef": "observation:16:group:1",
+        "field": "DATE"
+      }
+    ]
+  },
+  {
+    "id": "advance-party",
+    "originalOutput": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:18:target:127",
+      "valueGroupRef": "observation:18:group:2",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Advance guest carousel to expose 8 guests"
+    },
+    "expected": [
+      {
+        "type": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:18:target:127",
+        "valueGroupRef": "observation:18:group:2",
+        "field": "PARTY_SIZE"
+      }
+    ]
+  },
+  {
+    "id": "exact-date",
+    "originalOutput": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:17:target:10",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Select exact requested date 2026-12-10"
+    },
+    "expected": [
+      {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:17:target:10",
+        "field": "DATE"
+      }
+    ]
+  },
+  {
+    "id": "exact-party",
+    "originalOutput": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:21:target:19",
+      "valueGroupRef": "",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Select Guests 8 for the requested party size"
+    },
+    "expected": [
+      {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:21:target:19",
+        "field": "PARTY_SIZE"
+      }
+    ]
+  }
+]

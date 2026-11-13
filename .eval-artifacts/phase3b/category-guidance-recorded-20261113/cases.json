@@ -1,0 +1,204 @@
+[
+  {
+    "id": "collapsed-category",
+    "file": "inputs/collapsed-category.json",
+    "sha256": "850e8ba6a3159425fbbd9d01ab99a40cc72ac2b35228377de9c9a50aecb0ff10",
+    "sourceCommit": "9cb426f75534bce6ab8424ce9be4dc2ff73f39b5",
+    "originalSequence": 7,
+    "originalFileSHA256": "a19c156f5ef91863312e92f4e08e3f86077bff80e899f644fca74e7f21d19a31",
+    "originalOutput": {
+      "action": "CLICK",
+      "targetRef": "observation:4:target:19",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open filters to find a cuisine/category control for robatayaki within Nakano."
+    },
+    "acceptableActions": [
+      {
+        "type": "CLICK",
+        "targetRef": "observation:4:target:17"
+      }
+    ]
+  },
+  {
+    "id": "parent-collapsed",
+    "file": "inputs/parent-collapsed.json",
+    "sha256": "70944d1d6bf3c7d28b817000504421fa3f46ba57c93ae59d5a097c2c8b6a140c",
+    "sourceCommit": "9856dc67b13813489e24fae853118d2559cdef16",
+    "originalSequence": 9,
+    "originalFileSHA256": "0e8a5aa714dfe75f4d01b2947216f27b341c9a7d3754e460760b2564cdd6561e",
+    "originalOutput": {
+      "action": "CLICK",
+      "targetRef": "observation:6:target:18",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open the category panel to find a finer category matching robatayaki."
+    },
+    "acceptableActions": [
+      {
+        "type": "CLICK",
+        "targetRef": "observation:6:target:18"
+      }
+    ]
+  },
+  {
+    "id": "parent-expanded",
+    "file": "inputs/parent-expanded.json",
+    "sha256": "ef5a41f1d480f948b6008b5a267b16f154f014e7d3636ef8f813f5e34be64032",
+    "sourceCommit": "9856dc67b13813489e24fae853118d2559cdef16",
+    "originalSequence": 10,
+    "originalFileSHA256": "0e8a5aa714dfe75f4d01b2947216f27b341c9a7d3754e460760b2564cdd6561e",
+    "originalOutput": {
+      "action": "CLICK",
+      "targetRef": "observation:7:target:39",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open More filters to look for a keyword/cuisine filter matching robatayaki."
+    },
+    "acceptableActions": [
+      {
+        "type": "OPEN_LINK",
+        "targetRef": "observation:7:target:36"
+      }
+    ]
+  },
+  {
+    "id": "no-calendar-first",
+    "file": "inputs/no-calendar-first.json",
+    "sha256": "e059a6c5ff950d60a75ff2c2a8fe64cebee57312ed5ef2068ddd2dba8a560153",
+    "sourceCommit": "9cb426f75534bce6ab8424ce9be4dc2ff73f39b5",
+    "originalSequence": 21,
+    "originalFileSHA256": "a19c156f5ef91863312e92f4e08e3f86077bff80e899f644fca74e7f21d19a31",
+    "originalOutput": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:10:target:26",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Expose the date/party availability controls to select 2026-12-10 and 8 guests."
+    },
+    "acceptableActions": [
+      {
+        "type": "REQUEST_HUMAN_HELP"
+      }
+    ]
+  },
+  {
+    "id": "no-calendar-feedback",
+    "file": "inputs/no-calendar-feedback.json",
+    "sha256": "14597c68416b40047c17061631eed33c252a50ac86f6883e2b5598eb256160c2",
+    "sourceCommit": "9cb426f75534bce6ab8424ce9be4dc2ff73f39b5",
+    "originalSequence": 22,
+    "originalFileSHA256": "a19c156f5ef91863312e92f4e08e3f86077bff80e899f644fca74e7f21d19a31",
+    "originalOutput": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:11:target:26",
+      "valueGroupRef": "observation:11:group:2",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance to expose the date field choices for the requested date."
+    },
+    "acceptableActions": [
+      {
+        "type": "REQUEST_HUMAN_HELP"
+      }
+    ]
+  },
+  {
+    "id": "advance-calendar",
+    "file": "inputs/advance-calendar.json",
+    "sha256": "43085f700fe2184c27767d7032071de125690e7bcef21caea1d8f28e91f355b5",
+    "sourceCommit": "9cb426f75534bce6ab8424ce9be4dc2ff73f39b5",
+    "originalSequence": 26,
+    "originalFileSHA256": "a19c156f5ef91863312e92f4e08e3f86077bff80e899f644fca74e7f21d19a31",
+    "originalOutput": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:16:target:107",
+      "valueGroupRef": "observation:16:group:1",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance calendar to December 2026 to expose the requested date."
+    },
+    "acceptableActions": [
+      {
+        "type": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:16:target:107",
+        "valueGroupRef": "observation:16:group:1",
+        "field": "DATE"
+      }
+    ]
+  },
+  {
+    "id": "advance-party",
+    "file": "inputs/advance-party.json",
+    "sha256": "ca19240eb70ff6a6b9cc0798f8681e23f75302cf17159c2fd2aa2d0836027e6e",
+    "sourceCommit": "9cb426f75534bce6ab8424ce9be4dc2ff73f39b5",
+    "originalSequence": 28,
+    "originalFileSHA256": "a19c156f5ef91863312e92f4e08e3f86077bff80e899f644fca74e7f21d19a31",
+    "originalOutput": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:18:target:127",
+      "valueGroupRef": "observation:18:group:2",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Advance guest carousel to expose 8 guests"
+    },
+    "acceptableActions": [
+      {
+        "type": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:18:target:127",
+        "valueGroupRef": "observation:18:group:2",
+        "field": "PARTY_SIZE"
+      }
+    ]
+  },
+  {
+    "id": "exact-date",
+    "file": "inputs/exact-date.json",
+    "sha256": "52612828718d204e01cbddaf92df1ffbc2a744872688c5b73f5f2a52a0e34d27",
+    "sourceCommit": "9cb426f75534bce6ab8424ce9be4dc2ff73f39b5",
+    "originalSequence": 27,
+    "originalFileSHA256": "a19c156f5ef91863312e92f4e08e3f86077bff80e899f644fca74e7f21d19a31",
+    "originalOutput": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:17:target:10",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Select exact requested date 2026-12-10"
+    },
+    "acceptableActions": [
+      {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:17:target:10",
+        "field": "DATE"
+      }
+    ]
+  },
+  {
+    "id": "exact-party",
+    "file": "inputs/exact-party.json",
+    "sha256": "f2de9ebec45ffdb5a709583cc3f1ebcf1d10850e8b7bba385b4e1090b46ddcae",
+    "sourceCommit": "9856dc67b13813489e24fae853118d2559cdef16",
+    "originalSequence": 33,
+    "originalFileSHA256": "0e8a5aa714dfe75f4d01b2947216f27b341c9a7d3754e460760b2564cdd6561e",
+    "originalOutput": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:21:target:19",
+      "valueGroupRef": "",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Select Guests 8 for the requested party size"
+    },
+    "acceptableActions": [
+      {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:21:target:19",
+        "field": "PARTY_SIZE"
+      }
+    ]
+  }
+]

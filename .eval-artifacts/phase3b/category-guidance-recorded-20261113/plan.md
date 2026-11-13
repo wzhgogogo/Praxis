@@ -1,0 +1,12 @@
+# Category and authoritative-group guidance — frozen model-only diagnostic
+
+Status: current executable diagnostic, exposed development recordings. No Live acceptance claim.
+
+- Baseline HEAD 5f8e01f18da6e48a2bf26c1fba78e260c2547bf0 / source 67a949d702f17a4f6ed10e9b869882d707711cc7.
+- Product delta: only web-skills/tabelog/SKILL.md. Native objective, strict wire, executor, completionUsesControls:false, Guard, G1, evaluator and all time budgets unchanged.
+- Inputs: nine exact recorded user contexts, originals hashed in cases.json. Replace only source Skill via production loadBrowserReadSkills; generic Skill/objective/goal/observation/history stay recorded. No invented controls or page state. taskId is diagnostic identity only.
+- Oracle frozen before calls: collapsed category entry; reopen parent menu; expanded parent choose recorded catch-all child; two pages with no calendar/guest group request help; calendar and party advancement reference actual value groups; exact date and party still selected directly. Labels/refs in oracle are eval data only.
+- Maximum total 16 real DeepSeek calls in this independent ledger, including failures; zero website GET, zero Live, zero environment reruns. Initial batch nine frames, no automatic retries. Any later correction uses a separate committed input/Skill SHA and retained failed output within this same ceiling.
+- Real transport uses existing DeepSeek gateway and production ModelBrowserReadActionDecision/strict schema, temperature0/thinking disabled. Host/method restriction in diagnostic prevents any website transport. Credentials only --env-file; requests store message hash and no headers. Full recorded public contexts held as input files, no private held-out file read.
+- Completion: frame oracles all satisfied plus typecheck/architecture/build/default/local Chromium/G6 and hardcoded scans pass on clean committed tree; push work branch, stop. This does not prove the model can navigate the entire website or complete D02-V within45s.
+- Remaining architectural gap (out of scope): generic availableActions still advertises advancement on irrelevant safe fragments. This slice tests Skill correction, does not rewrite action permissions.
