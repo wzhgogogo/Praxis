@@ -1,3 +1,7 @@
+<a id="terminal-observe-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：按9856dc67实录复核终端控件扫描开销，四文件最小修复。只读完成谓词显式声明不依赖控件时，可在动作后先核来源快照；未确认选项/单选/旧式日历导航仍走完整观察，默认调用方不变，PENDING仍须原500ms绑定结果稳定核对。Tabelog唯一适配器调用显式接入；事实/身份/最终库存/Guard/G1/45s不变。原DOM32/33与HAR44/45红绿成立、终端扫描0；动作/分类skill引导对齐只证明入参，模型导航稳定性未验。定向84通过；待净树同SHA全门禁与含web-skills扫描。0Live/0GET/0真实模型，不合main。[计划](../../.eval-artifacts/phase3b/terminal-observe-20261113/plan.md)。
+
 <a id="party-category-20261113"></a>
 
 2026-11-13 CET — draft / not integrated：人数来源响应独立进度与分类objective四文件最小修复。原可见选态解析逐字导出复用；最终库存complete、CapturedSlots、observedDate、ground及整列表范围校验不变。源码ea93f6c4净树全门禁PASS：type/arch/build、默认1632、Chromium286、G6 159；定向26与真实两店组件2通过，双完整SHA及增量新增产品扫描0。真实DOM/HAR先红后绿，人数确认后转日历，未构造未来日期/库存；objective仅请求输入验证，真实模型遵循待验。主草稿及6账本哈希不变，0Live/0GET/0真实模型；不合main、不跑held-out。[简报](../../.eval-artifacts/phase3b/party-category-20261113/report.md)。

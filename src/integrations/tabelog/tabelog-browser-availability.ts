@@ -672,7 +672,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
           initialObservation: { snapshot: page, controls: visibleQueryControls },
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
-          objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+          objective: "Apply the exact requested date and guest count through the current observed controls. Use CLICK_AUTHORITATIVE only for an exact requested value whose availableActions offers it. When the target value is not yet available and an observed control offers ADVANCE_TO_AUTHORITATIVE, use that action to expose the requested value. Do not enter a booking form. Selected time options alone are not verified availability.",
+          completionUsesControls: false,
           completion: current => tabelogAvailabilityCompletion(current, request),
         });
         const querySnapshot = await this.retryBusyPage(candidate.restaurant.id, session, signal, query.snapshot, "AVAILABILITY");

@@ -122,6 +122,8 @@ export interface BrowserSkillReadInput {
   onBeforeClick?(snapshot:BrowserSnapshot,controls:BrowserPageControl[],controlId:string):void|(()=>void);
   /** Current same-session observation already captured by the source caller; no intervening action. */
   initialObservation?: { snapshot: BrowserSnapshot; controls: BrowserPageControl[] };
+  /** Explicitly false only when completion validates the captured source without live controls. */
+  completionUsesControls?: boolean;
   completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): BrowserCompletionAssessment;
 }
 
@@ -132,7 +134,7 @@ export interface BrowserGenericReadResult {
   sourceHandoff?: {url:string;pageId:string};
   status: "COMPLETED" | "MODEL_HANDOFF" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE";
   snapshot: BrowserSnapshot;
-  /** Live DOM controls from the same observation as the terminal browser decision. */
+  /** Terminal live controls, or empty after an explicitly snapshot-only completion. */
   controls: BrowserPageControl[];
 }
 
@@ -633,8 +635,8 @@ export class BrowserTaskExecutor {
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
     input.session.beginReadScope?.();
     let modelConfirmed = false;
-    const assess = async (current: BrowserSnapshot, controls: BrowserPageControl[]) => {
-      if (this.disabledRequestedParty(input, {snapshot: current, controls, targets: toObservedTargets(controls, 0), revision: 0})) return {complete: false as const, reason: "PARTY_SIZE_NOT_SELECTABLE"};
+    const assess = async (current: BrowserSnapshot, controls: BrowserPageControl[], options: { skipControlObserve?: boolean } = {}): Promise<BrowserCompletionAssessment> => {
+      if (!options.skipControlObserve && this.disabledRequestedParty(input, {snapshot: current, controls, targets: toObservedTargets(controls, 0), revision: 0})) return {complete: false as const, reason: "PARTY_SIZE_NOT_SELECTABLE"};
       const pending: BrowserCompletionAssessment = { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." };
       // Only the adapter's existing predicate can establish a bound result.
       // Readiness itself never establishes identity, request binding or inventory.
@@ -648,7 +650,7 @@ export class BrowserTaskExecutor {
       if (!first.complete || !first.resultKey) return pending;
       await this.operation(input, "VERIFY_RESULT_STABILITY", () => new Promise<void>(resolve => setTimeout(resolve, 500)));
       const next = await this.snapshot(input);
-      const observed = await this.observeControls(input);
+      const observed = options.skipControlObserve ? [] : await this.observeControls(input);
       const second = input.completion({ ...next, settlement: "SETTLED" }, observed);
       // Retain the newest observation even when verification fails. Reusing the
       // first snapshot could falsely match a later rotation back to old results.
@@ -967,14 +969,31 @@ export class BrowserTaskExecutor {
       const publicQuerySubmit = action.type === "CLICK" && !!target && this.guardedPublicQuerySubmit(input, target);
       if (action.type !== "WAIT") await this.waitForSettled(input, priorSnapshot);
       snapshot = await this.snapshot(input);
+      const priorConfirmedFields = completion.confirmedFields ?? [];
+      // An opt-in predicate owns every terminal source check. Unresolved
+      // option/radio/calendar state still needs the ordinary live observation.
+      let snapshotAssessment: BrowserCompletionAssessment | undefined;
+      if (input.completionUsesControls === false && !pendingOption && !pendingRadio && !calendarNavigation) {
+        snapshotAssessment = await assess(snapshot, [], { skipControlObserve: true });
+        if (snapshotAssessment.complete && (!pendingParty || snapshotAssessment.confirmedFields?.includes("PARTY_SIZE"))) {
+          remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
+            ...("field" in action ? { field: action.field } : {}), outcome: "PAGE_CHANGED",
+            urlChanged: priorSnapshot.url !== snapshot.url, stateChanged: !sameObservation(priorSnapshot, snapshot) });
+          this.record({ source: input.source, stage: input.stage, event: "POST_ACTION_VERIFIED", url: snapshot.url,
+            detail: partyClick ? "PARTY_SIZE_CONFIRMED" : "BOUND_RESULT_COMPLETE" });
+          return { status: "COMPLETED", snapshot, controls: [] };
+        }
+      }
       const postActionObservation = await this.observe(input, snapshot);
       const visibleStateChanged = visibleBefore !== visibleProgressKey(snapshot.url, postActionObservation.controls);
       const observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
       const observedPageChange = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
       if (pendingOption && this.optionSelectionObserved(pendingOption, postActionObservation.controls)) pendingOption = undefined;
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, postActionObservation.controls)) pendingRadio = undefined;
-      const priorConfirmedFields = completion.confirmedFields ?? [];
-      completion = await assess(snapshot, postActionObservation.controls);
+      if (snapshotAssessment) {
+        completion = this.disabledRequestedParty(input, postActionObservation)
+          ? { complete: false, reason: "PARTY_SIZE_NOT_SELECTABLE" } : snapshotAssessment;
+      } else completion = await assess(snapshot, postActionObservation.controls);
       const confirmedFieldsChanged = completion.confirmedFields?.some(field=>!priorConfirmedFields.includes(field)) === true;
       const changed = observedPageChange || confirmedFieldsChanged;
       const publicQueryWaitChanged = changed && snapshot.settlement !== "PENDING";
