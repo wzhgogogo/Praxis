@@ -1,0 +1,724 @@
+{
+  "decisions": [
+    {
+      "sequence": 4,
+      "startedAt": "2026-11-13T07:52:52.904Z",
+      "latencyMs": 3306,
+      "action": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:1:target:178",
+        "valueGroupRef": "",
+        "authoritativeField": "LOCATION",
+        "requestedState": "NONE",
+        "reason": "Set authoritative location Nakano in the search input first."
+      },
+      "url": "https://tabelog.com/en/",
+      "title": "Tabelog - Japan Food & Restaurant Guide for Travelers",
+      "progress": "No current guarded form submission or model-driven document departure; homepage cards and suggestions are not search results.",
+      "target": {
+        "ref": "observation:1:target:178",
+        "formObservation": {
+          "owner": "0",
+          "visibleLines": []
+        },
+        "kind": "INPUT",
+        "role": "textbox",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "controlGroupLabel": "Unlabelled group",
+        "formMethod": "GET",
+        "type": "text",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL",
+          "FILL_AUTHORITATIVE:LOCATION"
+        ]
+      },
+      "note": "Authoritative location filled."
+    },
+    {
+      "sequence": 6,
+      "startedAt": "2026-11-13T07:53:03.979Z",
+      "latencyMs": 1645,
+      "action": {
+        "action": "OPEN_LINK",
+        "targetRef": "observation:3:target:19",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Keyword search for \"Nakano City\" returned no matches; open the observed Nakano City directory listing to establish the location scope."
+      },
+      "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+City&search_mode=",
+      "title": "Best Restaurants in Nakano | Tabelog",
+      "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence.",
+      "target": {
+        "ref": "observation:3:target:19",
+        "kind": "LINK",
+        "role": "link",
+        "label": "City",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/",
+        "availableActions": [
+          "OPEN_LINK"
+        ]
+      },
+      "note": "Observed target-area directory opened."
+    },
+    {
+      "sequence": 7,
+      "startedAt": "2026-11-13T07:53:10.153Z",
+      "latencyMs": 4906,
+      "action": {
+        "action": "CLICK",
+        "targetRef": "observation:4:target:17",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open the Search by category panel to find a robatayaki category."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+      "title": "Best Restaurants in Nakano | Tabelog",
+      "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence.",
+      "target": {
+        "ref": "observation:4:target:17",
+        "kind": "LINK",
+        "role": "link",
+        "label": "All",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/#",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "note": "Category menu opened."
+    },
+    {
+      "sequence": 8,
+      "startedAt": "2026-11-13T07:53:16.717Z",
+      "latencyMs": 4897,
+      "action": {
+        "action": "OPEN_LINK",
+        "targetRef": "observation:5:target:32",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Robatayaki is a Japanese cuisine subcategory; open Japanese Cuisine to drill into finer categories."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+      "title": "Best Restaurants in Nakano | Tabelog",
+      "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence.",
+      "target": {
+        "ref": "observation:5:target:32",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Japanese Cuisine",
+        "controlGroupLabel": "Search by category",
+        "controlGroupRef": "observation:5:group:2",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/",
+        "availableActions": [
+          "OPEN_LINK"
+        ]
+      },
+      "note": "Observed parent category followed."
+    },
+    {
+      "sequence": 9,
+      "startedAt": "2026-11-13T07:53:26.891Z",
+      "latencyMs": 4657,
+      "action": {
+        "action": "CLICK",
+        "targetRef": "observation:6:target:18",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open the category panel to find a finer category matching robatayaki."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/",
+      "title": "Best Japanese cuisine, Kaiseki, Kappo in Nakano | Tabelog",
+      "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence.",
+      "target": {
+        "ref": "observation:6:target:18",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Japanese Cuisine",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/#",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "note": "Collapsed category menu reopened."
+    },
+    {
+      "sequence": 10,
+      "startedAt": "2026-11-13T07:53:32.916Z",
+      "latencyMs": 5623,
+      "action": {
+        "action": "CLICK",
+        "targetRef": "observation:7:target:40",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open More filters to look for a keyword/retrieval input or finer category control."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/",
+      "title": "Best Japanese cuisine, Kaiseki, Kappo in Nakano | Tabelog",
+      "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence.",
+      "target": {
+        "ref": "observation:7:target:40",
+        "kind": "LINK",
+        "role": "link",
+        "label": "More filters",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/#",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "note": "Alternative filter control selected; exact request scope not obtained."
+    },
+    {
+      "sequence": 11,
+      "startedAt": "2026-11-13T07:53:40.221Z",
+      "latencyMs": 5201,
+      "action": {
+        "action": "CLICK",
+        "targetRef": "observation:8:target:18",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open the category panel to find a finer category matching robatayaki."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/",
+      "title": "Best Japanese cuisine, Kaiseki, Kappo in Nakano | Tabelog",
+      "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence.",
+      "target": {
+        "ref": "observation:8:target:18",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Japanese Cuisine",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/#",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "note": "Repeated category action rejected from equivalent state."
+    },
+    {
+      "sequence": 12,
+      "startedAt": "2026-11-13T07:53:46.165Z",
+      "latencyMs": 4134,
+      "action": {
+        "action": "CLICK",
+        "targetRef": "observation:9:target:21",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open More filters to find a keyword/cuisine control for robatayaki"
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/",
+      "title": "Best Japanese cuisine, Kaiseki, Kappo in Nakano | Tabelog",
+      "progress": "REPEATED_FROM_SAME_STATE: this action and value already ran on equivalent visible controls. Choose a different observed action that advances the goal.",
+      "target": {
+        "ref": "observation:9:target:21",
+        "kind": "LINK",
+        "role": "link",
+        "label": "More filters",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/japanese/#",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "note": "Filter action repeated; source ends NO_PROGRESS."
+    },
+    {
+      "sequence": 14,
+      "startedAt": "2026-11-13T07:54:01.007Z",
+      "latencyMs": 3141,
+      "action": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:1:target:178",
+        "valueGroupRef": "",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the public search input with the authoritative retrieval expression."
+      },
+      "url": "https://tabelog.com/en/",
+      "title": "Tabelog - Japan Food & Restaurant Guide for Travelers",
+      "progress": "No positive source result binding to the current authoritative query has been observed",
+      "target": {
+        "ref": "observation:1:target:178",
+        "formObservation": {
+          "owner": "0",
+          "visibleLines": []
+        },
+        "kind": "INPUT",
+        "role": "textbox",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "controlGroupLabel": "Unlabelled group",
+        "formMethod": "GET",
+        "type": "text",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL"
+        ]
+      },
+      "note": "Name-search fallback for Sumika begins."
+    },
+    {
+      "sequence": 16,
+      "startedAt": "2026-11-13T07:54:14.557Z",
+      "latencyMs": 3268,
+      "action": {
+        "action": "COMPLETE",
+        "targetRef": "observation:3:target:14",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Search results list shows query scope \"Nakano Robata Sumika\" with 1 result."
+      },
+      "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+Robata+Sumika&search_mode=",
+      "title": "Best Restaurants | Tabelog",
+      "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective.",
+      "target": {
+        "ref": "observation:3:target:14",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Nakano Robata Sumika",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/rstLst/",
+        "availableActions": [
+          "OPEN_LINK"
+        ]
+      },
+      "note": "Name-search list completes, not native cuisine list."
+    },
+    {
+      "sequence": 17,
+      "startedAt": "2026-11-13T07:54:23.143Z",
+      "latencyMs": 3432,
+      "action": {
+        "action": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:4:target:112",
+        "valueGroupRef": "observation:4:group:1",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "Advance calendar to December 2026 to expose the requested date."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "title": "sumika Reservation - Nakano/Izakaya (Japanese style tavern) | Tabelog",
+      "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.",
+      "target": {
+        "ref": "observation:4:target:112",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Next month",
+        "controlGroupLabel": "Calendar",
+        "controlGroupRef": "observation:4:group:12",
+        "labelSource": "DOM descendant text",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/#",
+        "availableActions": [
+          "CLICK",
+          "ADVANCE_TO_AUTHORITATIVE:DATE",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "note": "Calendar advance executed."
+    },
+    {
+      "sequence": 18,
+      "startedAt": "2026-11-13T07:54:28.089Z",
+      "latencyMs": 2284,
+      "action": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:5:target:10",
+        "valueGroupRef": "",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "Select requested date 2026-12-10"
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "title": "sumika Reservation - Nakano/Izakaya (Japanese style tavern) | Tabelog",
+      "progress": "ADVANCE_TARGET_FOUND",
+      "target": {
+        "ref": "observation:5:target:10",
+        "kind": "BUTTON",
+        "role": "button",
+        "label": "Date 2026-12-10",
+        "controlGroupLabel": "Calendar",
+        "controlGroupRef": "observation:5:group:1",
+        "value": "2026-12-10",
+        "type": "button",
+        "calendarDate": "2026-12-10",
+        "availableActions": [
+          "CLICK",
+          "CLICK_AUTHORITATIVE:DATE",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "note": "Target date selection executed; source HAR confirms date for two people."
+    },
+    {
+      "sequence": 19,
+      "startedAt": "2026-11-13T07:54:33.319Z",
+      "latencyMs": 2244,
+      "action": {
+        "action": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:6:target:148",
+        "valueGroupRef": "observation:6:group:2",
+        "authoritativeField": "PARTY_SIZE",
+        "requestedState": "NONE",
+        "reason": "Advance guest carousel to reveal 8 guests"
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "title": "sumika Reservation - Nakano/Izakaya (Japanese style tavern) | Tabelog",
+      "progress": "The reviewed source response confirms date 2026-12-10; 8 guests are not yet confirmed. Keep the confirmed date while using current observed guest controls. A carousel arrow may reveal only one additional value; observe its result before choosing the requested count.",
+      "target": {
+        "ref": "observation:6:target:148",
+        "kind": "BUTTON",
+        "role": "button",
+        "label": "Next",
+        "controlGroupLabel": "Guests",
+        "controlGroupRef": "observation:6:group:2",
+        "type": "button",
+        "availableActions": [
+          "CLICK",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "note": "Guest carousel advances; target8 becomes observable."
+    },
+    {
+      "sequence": 20,
+      "startedAt": "2026-11-13T07:54:37.973Z",
+      "latencyMs": 5044,
+      "action": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:8:target:36",
+        "valueGroupRef": "",
+        "authoritativeField": "PARTY_SIZE",
+        "requestedState": "NONE",
+        "reason": "Select guests 8 on the public calendar"
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "title": "sumika Reservation - Nakano/Izakaya (Japanese style tavern) | Tabelog",
+      "progress": "ADVANCE_TARGET_FOUND",
+      "target": {
+        "ref": "observation:8:target:36",
+        "kind": "BUTTON",
+        "role": "button",
+        "label": "Guests 8",
+        "controlGroupLabel": "Guests",
+        "controlGroupRef": "observation:8:group:2",
+        "value": "8",
+        "type": "button",
+        "availableActions": [
+          "CLICK",
+          "CLICK_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "note": "Late model proposal only: provider already closed, no click executed."
+    },
+    {
+      "sequence": 21,
+      "startedAt": "2026-11-13T07:54:45.214Z",
+      "latencyMs": 4047,
+      "action": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:9:target:178",
+        "valueGroupRef": "",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the public search input with the authoritative query Okajoki."
+      },
+      "url": "https://tabelog.com/en/",
+      "title": "Tabelog - Japan Food & Restaurant Guide for Travelers",
+      "progress": "No positive source result binding to the current authoritative query has been observed",
+      "target": {
+        "ref": "observation:9:target:178",
+        "formObservation": {
+          "owner": "0",
+          "visibleLines": []
+        },
+        "kind": "INPUT",
+        "role": "textbox",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "controlGroupLabel": "Unlabelled group",
+        "formMethod": "GET",
+        "type": "text",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL"
+        ]
+      },
+      "note": "Next candidate name-search begins."
+    },
+    {
+      "sequence": 25,
+      "startedAt": "2026-11-13T07:55:16.907Z",
+      "latencyMs": 2741,
+      "action": {
+        "action": "CLICK",
+        "targetRef": "observation:12:target:86",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Expand page to expose the public availability calendar with date and guest controls."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+      "title": "Oka Joki - Nakano/Izakaya (Japanese style tavern) | Tabelog",
+      "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.",
+      "target": {
+        "ref": "observation:12:target:86",
+        "kind": "BUTTON",
+        "role": "button",
+        "label": "View more",
+        "controlGroupLabel": "Unlabelled group",
+        "type": "button",
+        "availableActions": [
+          "CLICK",
+          "ADVANCE_TO_AUTHORITATIVE:DATE",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "note": "Second candidate calendar expansion."
+    },
+    {
+      "sequence": 26,
+      "startedAt": "2026-11-13T07:55:20.714Z",
+      "latencyMs": 3334,
+      "action": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:13:target:26",
+        "valueGroupRef": "",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "Open the calendar to select the requested date 2026-12-10."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+      "title": "Oka Joki - Nakano/Izakaya (Japanese style tavern) | Tabelog",
+      "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.",
+      "target": {
+        "ref": "observation:13:target:26",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Restaurant information(detail)",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/#title-rstdata",
+        "availableActions": [
+          "CLICK",
+          "ADVANCE_TO_AUTHORITATIVE:DATE",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "note": "Second candidate date selector before provider deadline."
+    },
+    {
+      "sequence": 27,
+      "startedAt": "2026-11-13T07:55:33.092Z",
+      "latencyMs": 2781,
+      "action": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:15:target:178",
+        "valueGroupRef": "",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the public search input with the authoritative retrieval expression."
+      },
+      "url": "https://tabelog.com/en/",
+      "title": "Tabelog - Japan Food & Restaurant Guide for Travelers",
+      "progress": "No positive source result binding to the current authoritative query has been observed",
+      "target": {
+        "ref": "observation:15:target:178",
+        "formObservation": {
+          "owner": "0",
+          "visibleLines": []
+        },
+        "kind": "INPUT",
+        "role": "textbox",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "controlGroupLabel": "Unlabelled group",
+        "formMethod": "GET",
+        "type": "text",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL"
+        ]
+      },
+      "note": "Third candidate name-search begins."
+    },
+    {
+      "sequence": 30,
+      "startedAt": "2026-11-13T07:56:03.710Z",
+      "latencyMs": 2619,
+      "action": {
+        "action": "ADVANCE_TO_AUTHORITATIVE",
+        "targetRef": "observation:18:target:107",
+        "valueGroupRef": "observation:18:group:1",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "Advance calendar to December 2026 to expose requested date 2026-12-10."
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+      "title": "Robata Izakaya Nakano Seisakusho Manten bekkan Reservation - Nakano/Izakaya (Japanese style tavern) | Tabelog",
+      "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.",
+      "target": {
+        "ref": "observation:18:target:107",
+        "kind": "LINK",
+        "role": "link",
+        "label": "Next month",
+        "controlGroupLabel": "Calendar",
+        "controlGroupRef": "observation:18:group:13",
+        "labelSource": "DOM descendant text",
+        "href": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/#",
+        "availableActions": [
+          "CLICK",
+          "ADVANCE_TO_AUTHORITATIVE:DATE",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "note": "Third candidate calendar advance."
+    },
+    {
+      "sequence": 32,
+      "startedAt": "2026-11-13T07:56:10.661Z",
+      "latencyMs": 3378,
+      "action": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:19:target:10",
+        "valueGroupRef": "",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "Select requested date 2026-12-10 in calendar"
+      },
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+      "title": "Robata Izakaya Nakano Seisakusho Manten bekkan Reservation - Nakano/Izakaya (Japanese style tavern) | Tabelog",
+      "progress": "ADVANCE_TARGET_FOUND",
+      "target": {
+        "ref": "observation:19:target:10",
+        "kind": "BUTTON",
+        "role": "button",
+        "label": "Date 2026-12-10",
+        "controlGroupLabel": "Calendar",
+        "controlGroupRef": "observation:19:group:1",
+        "value": "2026-12-10",
+        "type": "button",
+        "calendarDate": "2026-12-10",
+        "availableActions": [
+          "CLICK",
+          "CLICK_AUTHORITATIVE:DATE",
+          "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+          "ADVANCE_TO_AUTHORITATIVE:TIME"
+        ]
+      },
+      "note": "Late date proposal after third provider deadline."
+    }
+  ],
+  "vacancyResponses": [
+    {
+      "harEntryIndex": 34,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date?rst_id=13309182&svd=20261210",
+      "status": 200,
+      "members": null,
+      "base_date": null,
+      "slotTimes": []
+    },
+    {
+      "harEntryIndex": 35,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13309182&svd=20261210&svps=2&svt=2030&exclude_unavailable_time=1",
+      "status": 200,
+      "members": 2,
+      "base_date": {
+        "year": 2026,
+        "month": 12,
+        "day": 10,
+        "dow": "Thu"
+      },
+      "slotTimes": [
+        "11:00",
+        "11:30",
+        "12:00",
+        "12:30",
+        "13:00",
+        "17:00",
+        "17:30",
+        "18:00",
+        "18:30",
+        "19:00",
+        "19:30",
+        "20:00",
+        "20:30",
+        "21:00"
+      ]
+    }
+  ],
+  "providerEnds": [
+    {
+      "candidateId": "native-discovery:DIRECTORY",
+      "source": "DIRECTORY",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 151,
+      "providerElapsedMs": 63711,
+      "modelCalls": 9,
+      "reason": "EXECUTOR_CLOSED"
+    },
+    {
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "source": "TABELOG",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 275,
+      "providerElapsedMs": 45018,
+      "modelCalls": 7,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+      "source": "TABELOG",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 370,
+      "providerElapsedMs": 45051,
+      "modelCalls": 6,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "source": "TABELOG",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 462,
+      "providerElapsedMs": 45022,
+      "modelCalls": 5,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "source": "WEBSITE",
+      "stageAtClose": "FACTS",
+      "diagnosticSequence": 516,
+      "providerElapsedMs": 8591,
+      "modelCalls": 3,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "source": "WEBSITE",
+      "stageAtClose": "FACTS",
+      "diagnosticSequence": 531,
+      "providerElapsedMs": 9579,
+      "modelCalls": 1,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "candidateId": "native-discovery:VENUE_SEARCH",
+      "source": "VENUE_SEARCH",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 604,
+      "providerElapsedMs": 21027,
+      "modelCalls": 4,
+      "reason": "EXECUTOR_CLOSED"
+    }
+  ]
+}

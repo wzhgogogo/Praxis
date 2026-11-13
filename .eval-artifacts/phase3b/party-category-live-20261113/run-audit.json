@@ -1,0 +1,192 @@
+{
+  "frozenConfigurationCommit": "74396057679ecf40afc93e0af4a3abb7cd8c93b9",
+  "sourceHEAD": "8b7afec86d0830376a01945c5b6561a46d38447e",
+  "sourceCodeSHA": "ea93f6c4b0d140769ea381a413b9c23708db6b47",
+  "planned": 1,
+  "started": 1,
+  "completed": 1,
+  "verdict": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "deliveredOutlets": 0,
+  "elapsedMs": 265937.50658399996,
+  "initialTurnMs": 265076.154667,
+  "modelCalls": 45,
+  "modelByPurpose": {
+    "browser_read_decide": {
+      "calls": 33,
+      "latencyMs": 105814
+    },
+    "restaurant_agent_decide": {
+      "calls": 5,
+      "latencyMs": 13099
+    },
+    "restaurant_discovery_retrieval": {
+      "calls": 1,
+      "latencyMs": 1304
+    },
+    "restaurant_fact_judgment": {
+      "calls": 3,
+      "latencyMs": 5458
+    },
+    "restaurant_semantic_interpret": {
+      "calls": 1,
+      "latencyMs": 3851
+    },
+    "restaurant_source_facts": {
+      "calls": 2,
+      "latencyMs": 5661
+    }
+  },
+  "providerRejected": 0,
+  "modelSuccess": 45,
+  "googleRequests": 5,
+  "budgetCumulative": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 45,
+    "environmentReruns": 0,
+    "googleRequests": 5,
+    "restaurantWebsiteRequests": 269
+  },
+  "budgetRemaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 2,
+    "realModelCalls": 10,
+    "environmentReruns": 0
+  },
+  "independentBoundary": {
+    "checks": 263,
+    "pass": 263,
+    "observerRequests": 263,
+    "basis": "outer Node forwarding + browser CDP receiver observations checked with frozen independent reviewed rules; not Guard verdict"
+  },
+  "postWitnessExists": true,
+  "noRequestedPartyVacancyResponse": true,
+  "partyIndependentConfirmation": "NOT_EXERCISED: late decision20 was never executed; no8-person response",
+  "partialReplayOmissions": {
+    "UNSAFE_DOCUMENT": 5,
+    "UNCAPTURED_DYNAMIC_RESPONSE": 5
+  },
+  "traceMetrics": {
+    "pairedOperationCounts": {
+      "NAVIGATE": 12,
+      "SNAPSHOT": 41,
+      "OBSERVE_CONTROLS": 35,
+      "FILL_AUTHORITATIVE": 5,
+      "WAIT_FOR_SETTLED": 28,
+      "SUBMIT_PUBLIC_QUERY": 4,
+      "OPEN_LINK": 2,
+      "CLICK": 6,
+      "ADVANCE_CLICK": 4,
+      "CLICK_AUTHORITATIVE": 1,
+      "VERIFY_RESULT_STABILITY": 1
+    },
+    "pairedOperationMs": {
+      "NAVIGATE": 33953,
+      "SNAPSHOT": 3620,
+      "OBSERVE_CONTROLS": 23580,
+      "FILL_AUTHORITATIVE": 110,
+      "WAIT_FOR_SETTLED": 38333,
+      "SUBMIT_PUBLIC_QUERY": 6892,
+      "OPEN_LINK": 4883,
+      "CLICK": 235,
+      "ADVANCE_CLICK": 166,
+      "CLICK_AUTHORITATIVE": 42,
+      "VERIFY_RESULT_STABILITY": 501
+    },
+    "unpairedOperations": 1,
+    "note": "diagnostic operation pairs; may overlap, not an additive wall-time decomposition"
+  },
+  "providerEnds": [
+    {
+      "candidateId": "native-discovery:DIRECTORY",
+      "source": "DIRECTORY",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 151,
+      "providerElapsedMs": 63711,
+      "modelCalls": 9,
+      "reason": "EXECUTOR_CLOSED"
+    },
+    {
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "source": "TABELOG",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 275,
+      "providerElapsedMs": 45018,
+      "modelCalls": 7,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+      "source": "TABELOG",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 370,
+      "providerElapsedMs": 45051,
+      "modelCalls": 6,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "source": "TABELOG",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 462,
+      "providerElapsedMs": 45022,
+      "modelCalls": 5,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+      "source": "WEBSITE",
+      "stageAtClose": "FACTS",
+      "diagnosticSequence": 516,
+      "providerElapsedMs": 8591,
+      "modelCalls": 3,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "source": "WEBSITE",
+      "stageAtClose": "FACTS",
+      "diagnosticSequence": 531,
+      "providerElapsedMs": 9579,
+      "modelCalls": 1,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "candidateId": "native-discovery:VENUE_SEARCH",
+      "source": "VENUE_SEARCH",
+      "stageAtClose": "DISCOVERY",
+      "diagnosticSequence": 604,
+      "providerElapsedMs": 21027,
+      "modelCalls": 4,
+      "reason": "EXECUTOR_CLOSED"
+    }
+  ],
+  "evaluationSHA256": "966f59b76be918e406a8f0b04f3890c7658ee130d0971da2fba714a3711234b2",
+  "evaluationInputSHA256": "cbeec56f5adc927f1a3ee966b68d129f5110bbe651e0a2c513d91e120d71fb86",
+  "recordingManifestSHA256": "d4752cdc18de5068e47dcc7c4e1c8f9e53699a49cc49b18fa31b2740c657076d",
+  "harSHA256": "708632e542275a34e8e35ae03cf535a5badeb8a4d037e8d9c5009cb66330e916",
+  "credentials": {
+    "ownCredentialHits": 0,
+    "requestHeaderOrCookieCount": 0,
+    "responseHeaderNames": [
+      "content-type",
+      "location"
+    ],
+    "initialOverbroadScanNote": "credential-scan.json flags65 response.headers fields; none are request headers/cookies. Replay response metadata retains content-type/location. No headers were added or removed after run."
+  },
+  "protectionEqual": true,
+  "recordingPages": {
+    "qualified": 31,
+    "total": 41,
+    "replayStatus": "PARTIALLY_REPLAYABLE"
+  },
+  "totalDiagnosticWallMs": 292339,
+  "configurationUnchanged": true
+}

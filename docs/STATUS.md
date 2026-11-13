@@ -1,3 +1,7 @@
+<a id="party-category-live-20261113"></a>
+
+2026-11-13 CET — evidence-only，单次D02-V诊断；被测8b7afec8/源码ea93f6c4，编排743960576。CAPABILITY_MISS，265.938秒，45模型/6GET/1Live；独立263/263边界PASS、S0=0、providerRejected0。父类下钻与新页重开已执行，精确菜系未到，#11重复菜单动作后NO_PROGRESS；Sumika12-10源响应确认但仅2人，#20选8提议返回晚于45秒关闭未执行，独立人数进度未触发、无B1。保护哈希全一致，旧录制/账本/源码树不变。此证据分支不合main、不追加运行。[四层简报](../.eval-artifacts/phase3b/party-category-live-20261113/report.md)。
+
 <a id="party-category-20261113"></a>
 
 2026-11-13 CET — draft / not integrated：人数来源响应独立进度与分类objective四文件最小修复。原可见选态解析逐字导出复用；最终库存complete、CapturedSlots、observedDate、ground及整列表范围校验不变。源码ea93f6c4净树全门禁PASS：type/arch/build、默认1632、Chromium286、G6 159；定向26与真实两店组件2通过，双完整SHA及增量新增产品扫描0。真实DOM/HAR先红后绿，人数确认后转日历，未构造未来日期/库存；objective仅请求输入验证，真实模型遵循待验。主草稿及6账本哈希不变，0Live/0GET/0真实模型；不合main、不跑held-out。[简报](../.eval-artifacts/phase3b/party-category-20261113/report.md)。
