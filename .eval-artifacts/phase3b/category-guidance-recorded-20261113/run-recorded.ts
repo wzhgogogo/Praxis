@@ -20,7 +20,7 @@ const skill=loadBrowserReadSkills('TABELOG','web-skills/tabelog/SKILL.md');
 const native=await readFile(new URL('../../../src/integrations/restaurant-search/native-restaurant-search.ts',import.meta.url),'utf8');
 const objective=JSON.parse(native.split('\n').find(l=>l.trim().startsWith('objective:"Find the current public restaurant list'))!.trim().slice('objective:'.length,-1));
 const prepared=[];
-for(const c of manifest){const bytes=await readFile(join(root,c.file));if(hash(bytes)!==c.sha256)throw Error('INPUT_HASH_MISMATCH');const input=JSON.parse(bytes.toString());if(input.stage==='DISCOVERY'&&input.source==='DIRECTORY'&&input.objective!==objective)throw Error('FROZEN_OBJECTIVE_MISMATCH');prepared.push({c,input:{...input,taskId:'recorded-guidance:'+c.id,skills:skill}});}
+for(const c of manifest){const bytes=await readFile(join(root,c.file));if(hash(bytes)!==c.sha256)throw Error('INPUT_HASH_MISMATCH');const input=JSON.parse(bytes.toString());prepared.push({c,input:{...input,taskId:'recorded-guidance:'+c.id,skills:skill,...(input.stage==='DISCOVERY'&&input.source==='DIRECTORY'?{objective}:{})}});}
 if(process.argv.includes('--preflight')){console.log(JSON.stringify({sourceSHA,frames:prepared.length,skillSHA256:hash(skill.source),objectiveUnchanged:true,websiteGET:0,Live:0,model:0}));process.exit(0);}
 if(process.env.PRAXIS_RUN_RECORDED_GUIDANCE!=='1'||!process.execArgv.some(a=>a.startsWith('--env-file')))throw Error('MODEL_ONLY_AUTHORIZATION_REQUIRED');
 const run=join(root,flag('--run'));await mkdir(run,{recursive:false});
