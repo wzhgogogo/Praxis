@@ -1,4 +1,4 @@
-2026-11-13 Asia/Shanghai — draft / not integrated：仅将已验证稀疏建树入口、白名单、合同测试及指引适配到本地main4256303d；未同步origin/main32b97ed8的产品改动，不含轨迹压缩分支。默认基线改本地main以支持暂不推送的入口继承；同任务/新chat/eval/补证据优先复用，只有并行代码或另一版本隔离才新建。待净树入口合同、type/arch/default/build及主线直接调用验收；0Live/0模型/0来源GET。
+2026-11-13 Asia/Shanghai — local main integration verified / pending ref promotion：入口源码1b1f1f6d基于原本地main4256303d，仅13项入口/测试/文档变化，src及历史.eval diff0；type/arch/入口合同/default1546/build全部通过，默认本地main且同任务复用原树。待主线直接调用验收；D8将固定425原文件，轨迹分支34a6504及入口原分支15cee837保留，暂不推送，0Live/0模型/0来源GET。
 
 2026-11-09 CET — 显式已知无位见证源码a002b037全门禁PASS：默认1546、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0，源码仅src/eval。实际false+标记诊断、实际true标准；负见证不作正向可行证据，独立评分/身份/Guard/G1/时限均不改。内外batch标声明与实际模式，计划仍18次。按用户授权发布main后v3只认证03一次，true才同SHA完整运行，所有非体检停批等复核，体检恢复最多2次。实现真实调用0，原文/清单未查看。[报告](../.eval-artifacts/phase3b/heldout-known-unavailable-20261109/report.md)。
 

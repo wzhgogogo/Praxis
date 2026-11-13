@@ -6064,3 +6064,4 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 <a id="local-main-worktree-entry-20261113"></a>
 
 2026-11-13 Asia/Shanghai — draft / not integrated：基于实际本地main4256303d，仅移植15cee837入口切片并增加本地main默认；不合32b产品提交，不含34a6504轨迹分支。Codex同任务/新chat/eval/补证据复用原树，只有并行代码或另一版本验证新建。真实Git合同以落后的origin/main证明默认取本地main，旧默认红、新默认绿；白名单与原入口保持。隔离验证树首次489文件/372426952字节，无.env或外树node_modules复制。待净树必要门禁和本地主线实际调用；不推送。
+2026-11-13 Asia/Shanghai — local-main entry source1b1f1f6d verified：独立稀疏树净树type/arch/test:worktree/default1546/build全部通过，10新文档链接可解析；src/.eval相对425均0。默认main的回归证明远端落后时新树仍含本地入口标记，显式origin/main仍可选旧快照。仅文档补记，不重复产品测试；主线直接CLI验收待ref推进后执行，未推送。

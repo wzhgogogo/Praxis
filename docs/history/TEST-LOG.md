@@ -6768,3 +6768,4 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 <a id="local-main-worktree-entry-20261113"></a>
 
 2026-11-13 Asia/Shanghai — local-main worktree entry candidate；原main4256303d与源入口15cee837分开，src及历史.eval diff0。旧origin/main默认在新增真实Git行为断言失败，本地main默认与显式历史ref转绿；未改变断言/评分/运行器。离线npm ci锁定76包。当前准备冻结净树执行type/arch/test:worktree/default/build，再从实际main调用入口，0模型/0网站GET/0Live。
+2026-11-13 Asia/Shanghai — local-main entry source1b1f1f6d verified：独立稀疏树净树type/arch/test:worktree/default1546/build全部通过，10新文档链接可解析；src/.eval相对425均0。默认main的回归证明远端落后时新树仍含本地入口标记，显式origin/main仍可选旧快照。仅文档补记，不重复产品测试；主线直接CLI验收待ref推进后执行，未推送。

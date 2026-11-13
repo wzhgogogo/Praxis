@@ -5,7 +5,7 @@
 - Last updated: 2026-11-13
 - Source of truth for: 同任务工作树复用、新树首次检出、默认测试样本和历史批次按需取回
 - Related documents: [Conventions](REPOSITORY-CONVENTIONS.md)、[Test](skills/test/SKILL.md)
-- Evidence status: local main integration candidate；既有入口已验证，当前本地基线验收见下文；离线开发验证非Clean Baseline，旧整单回放缺口保持
+- Evidence status: local main integration source verified；主线直接调用验收待记录，当前本地基线验收见下文；离线开发验证非Clean Baseline，旧整单回放缺口保持
 
 本切片只建设新工作树入口：从用户指定a91fc60b的36,763文件/5,690,288,843字节档案创建新树时，首次检出只展开代码、文档、模块Fixture和默认离线回归真实需要的历史样本。以原版npm test通过、按需取回一个原批次并完成其可验证回放、已有配置/工作树不变为验收。轨迹存储分支独立保留，本切片不含它的源码/Schema变动；不改变Gold、评分、测试断言或Live能力声明。停止条件为实际入口验收与适用门禁通过；旧目录清理单独认领，当前不删除。
 
@@ -72,3 +72,5 @@ D01历史批次按需取回115文件/36,977,287字节，D8取回192文件/43,072
 本次只将入口、合同测试、489 项样本选择及指引接入原本地 main `4256303de2cf8cf1921420e3318db5ce443d3c6d`，不合并源分支基线 `32b97ed8` 的产品/评测改动，也不包含轨迹存储分支。默认引用由 origin/main 改为本地 main，并用远端引用落后于本地提交的真实 Git 合同验证本地入口可继承。
 
 验收要求：当前本地 main 的净树 typecheck、arch:check、test:worktree、npm test、build；再从 main 直接调用 create:worktree，核对新树 HEAD、首次样本和命令存在。源码与历史 .eval-artifacts 相对本地主线原提交应保持零改动；既有树文件、暂存和配置保留。D8 原 main 检出固定在原提交后，才推进本地 main，避免冻结代码和索引被新引用改变。远端不推送。
+
+冻结入口源码 `1b1f1f6daa7a5d594ea246763703a2b069a876b9` 已净树通过 typecheck、arch:check、test:worktree、默认1546/1546及build；旧origin/main默认红、新本地main默认绿。新增10个相对文档链接均在Git提交中可解析。尚待本地主线指针推进后的实际CLI创建验收。
