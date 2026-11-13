@@ -1,0 +1,24 @@
+✖ recorded terminal vacancy completes before a canceled full-page control scan (1850.283125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2156.567792
+
+✖ failing tests:
+
+test at src/harness/browser/tabelog-terminal-observe-recorded.test.ts:1:1076
+✖ recorded terminal vacancy completes before a canceled full-page control scan (1850.283125ms)
+  Error: LOCAL_CONSTRUCTION: recorded terminal control scan canceled at provider deadline
+      at Object.observeControls (/private/tmp/praxis-terminal-observe-fix/src/harness/browser/tabelog-terminal-observe-recorded.test.ts:30:46)
+      at <anonymous> (/private/tmp/praxis-terminal-observe-fix/src/infrastructure/browser/browser-task-executor.ts:1124:77)
+      at BrowserTaskExecutor.bounded (/private/tmp/praxis-terminal-observe-fix/src/infrastructure/browser/browser-task-executor.ts:1644:21)
+      at BrowserTaskExecutor.operation (/private/tmp/praxis-terminal-observe-fix/src/infrastructure/browser/browser-task-executor.ts:1594:32)
+      at BrowserTaskExecutor.observe (/private/tmp/praxis-terminal-observe-fix/src/infrastructure/browser/browser-task-executor.ts:1124:20)
+      at BrowserTaskExecutor.runSkill (/private/tmp/praxis-terminal-observe-fix/src/infrastructure/browser/browser-task-executor.ts:970:48)
+      at async TestContext.<anonymous> (/private/tmp/praxis-terminal-observe-fix/src/harness/browser/tabelog-terminal-observe-recorded.test.ts:35:17)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)

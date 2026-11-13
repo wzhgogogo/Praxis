@@ -1,0 +1,13 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/infrastructure/browser/browser-task-executor.test.ts(1302,8): error TS2375: Type '{ id: string; stableKey: string; kind: "SELECT"; role: string; label: string; options: { value: string; label: string; selected: false; disabled: false; }[]; disabled: false; visible: true; } | { id: string; ... 6 more ...; visible: true; } | { ...; } | { ...; }' is not assignable to type 'BrowserPageControl' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ id: string; stableKey: string; kind: "BUTTON"; role: string; type: string; label: string; controlGroupLabel: string; calendarMonth: { year: number; month: number; caption: string; }; disabled: false; visible: true; }' is not assignable to type 'BrowserPageControl'.
+    Types of property 'calendarMonth' are incompatible.
+      Property 'source' is missing in type '{ year: number; month: number; caption: string; }' but required in type 'BrowserCalendarMonth'.
+src/infrastructure/browser/browser-task-executor.test.ts(1306,219): error TS2339: Property 'setChecked' does not exist on type 'FixtureSession'.
+src/infrastructure/browser/browser-task-executor.test.ts(1314,200): error TS2339: Property 'operation' does not exist on type 'BrowserExecutionDiagnostic'.
+src/infrastructure/browser/browser-task-executor.test.ts(1314,224): error TS2339: Property 'operation' does not exist on type 'BrowserExecutionDiagnostic'.
+src/infrastructure/browser/browser-task-executor.ts(978,13): error TS18048: 'snapshotAssessment' is possibly 'undefined'.
+src/infrastructure/browser/browser-task-executor.ts(978,62): error TS18048: 'snapshotAssessment' is possibly 'undefined'.

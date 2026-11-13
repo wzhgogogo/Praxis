@@ -1,0 +1,38 @@
+{
+  "base": "8b7afec86d0830376a01945c5b6561a46d38447e",
+  "sourceFreeze": "67a949d702f17a4f6ed10e9b869882d707711cc7",
+  "onlyAllowedFourFiles": true,
+  "productAndSkillFiles": [
+    "src/infrastructure/browser/browser-task-executor.ts",
+    "src/integrations/restaurant-search/native-restaurant-search.ts",
+    "src/integrations/tabelog/tabelog-browser-availability.ts",
+    "web-skills/tabelog/SKILL.md"
+  ],
+  "checks": {
+    "tabelogAvailabilityCompletion": {
+      "byteIdentical": true,
+      "sha256": "5e32810cfbcfd327c9920dc3b955332826c6a350e027a3957ebb0088ca155208"
+    },
+    "sourceListingCompletion": {
+      "byteIdentical": true,
+      "sha256": "bfe18f0ea03f33df5e306159d432da01422e4546ef8e9eef90a47cf5b988017b"
+    },
+    "src/infrastructure/browser/browser-action-decision.ts": {
+      "byteIdentical": true
+    },
+    "src/infrastructure/browser/control-selected-state.ts": {
+      "byteIdentical": true
+    },
+    "src/infrastructure/browser/playwright-browser-controls.ts": {
+      "byteIdentical": true
+    },
+    "web-skills/tablecheck/SKILL.md": {
+      "byteIdentical": true
+    },
+    "readerUsesQueryControls": false,
+    "optInCallers": [
+      "src/integrations/tabelog/tabelog-browser-availability.ts"
+    ]
+  },
+  "note": "Default path retains control checks; initial observation unchanged; source availability and whole-list completion predicates byte-identical. No product/site mapping added."
+}
