@@ -1,4 +1,4 @@
-2026-11-13 Asia/Shanghai — local main integration verified / pending ref promotion：入口源码1b1f1f6d基于原本地main4256303d，仅13项入口/测试/文档变化，src及历史.eval diff0；type/arch/入口合同/default1546/build全部通过，默认本地main且同任务复用原树。待主线直接调用验收；D8将固定425原文件，轨迹分支34a6504及入口原分支15cee837保留，暂不推送，0Live/0模型/0来源GET。
+2026-11-13 Asia/Shanghai — local main integrated / not pushed：仅稀疏入口、合同测试、样本白名单和指引，自原main4256303d集成，src及历史.eval diff0，轨迹分支独立。冻结源码1b1f1f6d净树type/arch/入口合同/default1546/build全绿；从实际main802f5b8c直接create默认新本地main，首次0→489文件/372426952字节，省略34969文件/5016494496字节；新树继承入口与复用指引，无.env/node_modules复制。按需取回14文件/1341382字节，全部503展开文件逐Git blob一致；验收树正常移除。新chat/eval/补证据优先复用，只有并行代码或另一版本验证才新建。D8固定原425提交与文件/暂存/配置，主草稿、入口原分支15cee837及轨迹34a6504保留；不推送，0Live/0模型/0来源GET。
 
 2026-11-09 CET — 显式已知无位见证源码a002b037全门禁PASS：默认1546、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0，源码仅src/eval。实际false+标记诊断、实际true标准；负见证不作正向可行证据，独立评分/身份/Guard/G1/时限均不改。内外batch标声明与实际模式，计划仍18次。按用户授权发布main后v3只认证03一次，true才同SHA完整运行，所有非体检停批等复核，体检恢复最多2次。实现真实调用0，原文/清单未查看。[报告](../.eval-artifacts/phase3b/heldout-known-unavailable-20261109/report.md)。
 

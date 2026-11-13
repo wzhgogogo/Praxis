@@ -6065,3 +6065,4 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 
 2026-11-13 Asia/Shanghai — draft / not integrated：基于实际本地main4256303d，仅移植15cee837入口切片并增加本地main默认；不合32b产品提交，不含34a6504轨迹分支。Codex同任务/新chat/eval/补证据复用原树，只有并行代码或另一版本验证新建。真实Git合同以落后的origin/main证明默认取本地main，旧默认红、新默认绿；白名单与原入口保持。隔离验证树首次489文件/372426952字节，无.env或外树node_modules复制。待净树必要门禁和本地主线实际调用；不推送。
 2026-11-13 Asia/Shanghai — local-main entry source1b1f1f6d verified：独立稀疏树净树type/arch/test:worktree/default1546/build全部通过，10新文档链接可解析；src/.eval相对425均0。默认main的回归证明远端落后时新树仍含本地入口标记，显式origin/main仍可选旧快照。仅文档补记，不重复产品测试；主线直接CLI验收待ref推进后执行，未推送。
+2026-11-13 Asia/Shanghai — local main integrated / not pushed：实际main802f5b8c直接create（无ref）取新本地main，489文件/372426952字节、检出前0；命令/AGENTS继承、无env或node_modules复制。restore已知无位历史批次14文件/1341382字节，503展开文件全部Git blob一致；临时验收树正常移除。被测code/input与1b1f1f6d全门禁提交一致；D8仅detach保持425文件/索引/配置，原工作树与主草稿及两源分支保留。仅文档补记，不重跑产品门禁；0模型/0网站GET/0Live，无远端写入。

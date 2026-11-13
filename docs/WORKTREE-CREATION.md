@@ -5,7 +5,7 @@
 - Last updated: 2026-11-13
 - Source of truth for: 同任务工作树复用、新树首次检出、默认测试样本和历史批次按需取回
 - Related documents: [Conventions](REPOSITORY-CONVENTIONS.md)、[Test](skills/test/SKILL.md)
-- Evidence status: local main integration source verified；主线直接调用验收待记录，当前本地基线验收见下文；离线开发验证非Clean Baseline，旧整单回放缺口保持
+- Evidence status: local main integrated / not pushed；当前本地基线验收见下文；离线开发验证非Clean Baseline，旧整单回放缺口保持
 
 本切片只建设新工作树入口：从用户指定a91fc60b的36,763文件/5,690,288,843字节档案创建新树时，首次检出只展开代码、文档、模块Fixture和默认离线回归真实需要的历史样本。以原版npm test通过、按需取回一个原批次并完成其可验证回放、已有配置/工作树不变为验收。轨迹存储分支独立保留，本切片不含它的源码/Schema变动；不改变Gold、评分、测试断言或Live能力声明。停止条件为实际入口验收与适用门禁通过；旧目录清理单独认领，当前不删除。
 
@@ -73,4 +73,12 @@ D01历史批次按需取回115文件/36,977,287字节，D8取回192文件/43,072
 
 验收要求：当前本地 main 的净树 typecheck、arch:check、test:worktree、npm test、build；再从 main 直接调用 create:worktree，核对新树 HEAD、首次样本和命令存在。源码与历史 .eval-artifacts 相对本地主线原提交应保持零改动；既有树文件、暂存和配置保留。D8 原 main 检出固定在原提交后，才推进本地 main，避免冻结代码和索引被新引用改变。远端不推送。
 
-冻结入口源码 `1b1f1f6daa7a5d594ea246763703a2b069a876b9` 已净树通过 typecheck、arch:check、test:worktree、默认1546/1546及build；旧origin/main默认红、新本地main默认绿。新增10个相对文档链接均在Git提交中可解析。尚待本地主线指针推进后的实际CLI创建验收。
+冻结入口源码 `1b1f1f6daa7a5d594ea246763703a2b069a876b9` 已净树通过 typecheck、arch:check、test:worktree、默认1546/1546及build；旧origin/main默认红、新本地main默认绿。新增10个相对文档链接均在Git提交中可解析。该源码门禁后已执行下述本地主线 CLI 验收。
+
+### 本地主线实际调用验收
+
+在本地 main `802f5b8c8018b8d0fa6896d9350aeea7e9979f96` 的检出中直接执行 `npm run create:worktree -- <独立临时验收路径> --detach`，未传 ref；新树 HEAD 等于本地 main，未选择落后的 origin/main，并包含 create/restore/test 命令、AGENTS 复用规则。首次检出前评测文件0，之后489文件/372,426,952逻辑字节（355.17MiB），省略34,969文件/5,016,494,496字节。未复制.env或node_modules。
+
+再用主线的 restore:worktree 取回 `phase3b/heldout-known-unavailable-20261109`，14文件/1,341,382字节；全部503个展开评测文件逐Git blob一致，新树Git干净。该临时验收树以普通git worktree remove移除，既有树列表和共享配置未变。被测试源码、package/lock、src和历史.eval与冻结门禁提交1b1f1f6d完全一致，文档补记不重复产品回归。
+
+主线检出保留为本次独立创建的持久 local-main 工作树；原D8检出仅固定为4256303d detached，文件、索引、未提交状态及稀疏配置不变。原主工作区草稿、轨迹分支34a6504和入口原分支15cee837均保留。入口合入仅发生在本地，未推送，也未同步origin/main其余产品提交。本机完整日志、原树保护快照和CLI JSON存于 sparse-entry-main-integration 证据目录。
