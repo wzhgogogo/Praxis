@@ -6759,3 +6759,12 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 虚构清单true通过、无标记不变、非法值/detail拒绝；实际G6夹具覆盖未标记无位拒绝/标记无位诊断/标记有位标准，外层三次调度分别记录策略与模式。针对性29项通过，测试元组类型初错保留并修正，待全门禁。v3文件只sha256sum核对2a91aef4…；原文未查看。发布main后只认证03一GET；true即同一净树SHA/全v3/同账本正式6x3，运行期不改代码/不读私有文件/不干预。非体检停批原样报告等复核，体检恢复允许最多2次resume；来源时段JST原值，无通过率汇总。实现阶段真实调用0。
 
 源码a002b037同SHA净树全门禁PASS：type/arch/default1546/build/Chromium260+G6 83/strictG2全12，写死扫描新增0。实现源文件仅src/eval，业务、安全、评分不改，后续发布文档/证据不变已验证代码。用户授权同步main快进推送ls-remote，再v3仅认证03一次；true后同净树SHA正式运行、原停批边界。实现阶段真实GET/模型/Live0，实际执行另存报告，来源时间JST原值、操作时间CET、不汇总通过率。
+
+<a id="sparse-worktree-entry-20261113"></a>
+
+2026-11-13 Asia/Shanghai — sparse worktree entry，draft / not integrated，exposed development regression非Clean Baseline。实际入口从a91fc60b3e54a63e40314267f9c72ea17005dc30首次检出489评测文件/372,426,952逻辑字节/373,501,952分配字节；检出前0文件，省略36,274文件/5,317,861,891字节。新验收树独立npm ci --offline后不带任何采样/补文件hook的原版npm test1572/1572通过；输入代码/评分不改。真实临时Git合同测试验证其他树/共享config不变、创建目标冲突/ref缺失拒绝、修改代码拒绝restore、精确批次取回通过。诊断阶段hook重入/并发空文件和漏ESM闭包输出保留，仅修本轮探针；诊断hook不进入正式入口。D01按需取回115文件/36,977,287字节后OS deny network-outbound回放，原HAR缺Tabelog联想响应导致未完成，保留原结果；D8验证待补。0Live/0模型/0网站GET，未读私有Clean题面，旧42目录未删除；本分支适用源码门禁待冻结。
+2026-11-13 Asia/Shanghai — sparse entry最终验证：源码4a1a0b083bad98cbaf4295eeda42181ea7248ab6，实际入口新建/private/tmp/praxis-sparse-entry-validation，独立依赖、不带hook；依次npm run typecheck/arch:check/test:worktree/npm test1610/npm run build全PASS，源码及Git结束干净。a91原版默认1572/1572已独立通过，first-checkout JSON记录489文件372,426,952逻辑/373,501,952分配字节；不是先全量展开再删除。入口合同包含existing配置/文件保护、坏ref/已存在目标/dirty restore拒绝、准确批次还原。D01与D8恢复后所有115/192个Git blob哈希一致；整单重放分别缺HAR响应和原入口资格，D8定向模式仍未完成，日志原样保留。replay-historical-document.mjs配置SHA511c92254cc19b8f1e0baf07f0c598518584f76f43dabba880f4d525327a7103，只选D8原REPLAYABLE snapshot16，用既有Replay读取/浏览器、原HAR，无构造来源响应；OS deny network-outbound下COMPLETED/1页/无missing/stops，整单NOT_EVALUATED。0Live/0模型/0Google/0网站，生产src和历史档案diff0。57旧配置以及主/轨迹树HEAD/status/diff不变，42旧目录du仍244,272,570,368分配字节且全部保留。证据目录sparse-worktree-entry含entry-gates.json、a91-first-checkout.json、a91-acceptance-default.log、restored-batch-integrity.json、historical-document-replay/receipt.json、preservation-after.json、old-directory-groups.txt/json。四层范围：协议与源码冻结、取回/执行原件、独立哈希/测试评价、页面窗口接纳；不宣称整单或Clean能力通过率。
+
+<a id="local-main-worktree-entry-20261113"></a>
+
+2026-11-13 Asia/Shanghai — local-main worktree entry candidate；原main4256303d与源入口15cee837分开，src及历史.eval diff0。旧origin/main默认在新增真实Git行为断言失败，本地main默认与显式历史ref转绿；未改变断言/评分/运行器。离线npm ci锁定76包。当前准备冻结净树执行type/arch/test:worktree/default/build，再从实际main调用入口，0模型/0网站GET/0Live。

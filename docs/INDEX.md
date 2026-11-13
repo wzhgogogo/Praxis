@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.16
-- Last updated: 2026-10-30
+- Document revision: 1.17
+- Last updated: 2026-11-13
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -120,6 +120,8 @@ Accepted ADR
 - 独立复核文件随各批次原样提交在 `.eval-artifacts/<批次>/` 下，由对应报告和 STATUS 条目链接。
 
 ## 仓库治理
+
+- [工作树复用与创建入口](WORKTREE-CREATION.md)：同任务复用原树；仅并行代码或另一版本验证新建，首次检出只展开必需样本。
 
 - [浏览器只读可靠性独立复核（2026-10-07）](history/BROWSER-READ-RELIABILITY-REVIEW-2026-10-07.md)：通用执行、来源网络规则、受控交付及三次Live的证据；代码局部通过，完整交付仍FAIL。
 - [H001 可信结果交付 Playbook](H001-QUALIFIED-DELIVERY-PLAYBOOK.md)：已被第一阶段 Playbook 取代的历史计划；其中的命令和门槛不再使用。

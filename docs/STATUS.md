@@ -1,3 +1,5 @@
+2026-11-13 Asia/Shanghai — draft / not integrated：仅将已验证稀疏建树入口、白名单、合同测试及指引适配到本地main4256303d；未同步origin/main32b97ed8的产品改动，不含轨迹压缩分支。默认基线改本地main以支持暂不推送的入口继承；同任务/新chat/eval/补证据优先复用，只有并行代码或另一版本隔离才新建。待净树入口合同、type/arch/default/build及主线直接调用验收；0Live/0模型/0来源GET。
+
 2026-11-09 CET — 显式已知无位见证源码a002b037全门禁PASS：默认1546、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0，源码仅src/eval。实际false+标记诊断、实际true标准；负见证不作正向可行证据，独立评分/身份/Guard/G1/时限均不改。内外batch标声明与实际模式，计划仍18次。按用户授权发布main后v3只认证03一次，true才同SHA完整运行，所有非体检停批等复核，体检恢复最多2次。实现真实调用0，原文/清单未查看。[报告](../.eval-artifacts/phase3b/heldout-known-unavailable-20261109/report.md)。
 
 2026-11-09 CET — draft / not integrated：显式已知无位见证候选，仅src/eval变化；清单允许true标记，详情页认证仍拒绝，未标记false仍拒开跑。实际false+标记记NO_POSITIVE_WITNESS_DIAGNOSTIC，实际true记STANDARD_G6，负见证不作正向可行证据，原评分不变。内外batch/执行/失败区分声明策略与实际结果；针对性29通过，待全门禁后发布main。v3仅核SHA未查看，用户授权仅认证03一次，true才同SHA完整18次正式运行；其他停批等待，体检恢复最多2次。[计划](../.eval-artifacts/phase3b/heldout-known-unavailable-20261109/plan.md)。

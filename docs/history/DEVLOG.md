@@ -6055,3 +6055,12 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 虚构清单true通过、无标记不变、非法值/detail拒绝；实际G6夹具覆盖未标记无位拒绝/标记无位诊断/标记有位标准，外层三次调度分别记录策略与模式。针对性29项通过，测试元组类型初错保留并修正，待全门禁。v3文件只sha256sum核对2a91aef4…；原文未查看。发布main后只认证03一GET；true即同一净树SHA/全v3/同账本正式6x3，运行期不改代码/不读私有文件/不干预。非体检停批原样报告等复核，体检恢复允许最多2次resume；来源时段JST原值，无通过率汇总。实现阶段真实调用0。
 
 源码a002b037同SHA净树全门禁PASS：type/arch/default1546/build/Chromium260+G6 83/strictG2全12，写死扫描新增0。实现源文件仅src/eval，业务、安全、评分不改，后续发布文档/证据不变已验证代码。用户授权同步main快进推送ls-remote，再v3仅认证03一次；true后同净树SHA正式运行、原停批边界。实现阶段真实GET/模型/Live0，实际执行另存报告，来源时间JST原值、操作时间CET、不汇总通过率。
+
+<a id="sparse-worktree-entry-20261113"></a>
+
+2026-11-13 Asia/Shanghai — draft / not integrated：用户单独授权整改今后工作树创建入口，保留轨迹分支及既有chat树。新增create:worktree/restore:worktree：目标/ref/命名预检，no-checkout后仅新树config.worktree和稀疏清单，首次展开代码与默认回归读取白名单；不改共享配置、不复制.env/node_modules，缺样本不跳过测试/回退全量。输入来自Git目标快照，导入闭包与真实读取形成489项；a91首次只372,426,952字节，默认1572/1572。D01按需还原原115文件，原HAR缺响应如实保留为回放缺口，D8继续验证。旧42目录按创建chat及任务推断分A–G，刷新du仍227.50GiB；明确账本和工作树链接依赖分开列，未删除。入口源分支从origin/main32b97ed8独立创建，不含轨迹存储改动，0Live/0模型/0来源GET。
+2026-11-13 Asia/Shanghai — sparse entry working branch verified / not integrated：冻结4a1a0b083在另一棵首次稀疏检出的净树通过type/arch/入口合同/default1610/build；a91独立树默认1572通过，489文件/355.17MiB逻辑/356.20MiB分配，36,274文件省略。D01/D8取回115/192文件逐Git blob一致；整单重放各有原件缺口，D8定向模式也未完成，不修原件/执行器。选原件本已REPLAYABLE的D8第16页，以既有HAR/Chromium回放一个页面窗口，missingRequests/stops0、无构造响应、OS拒绝外网，非整单能力验收。57旧配置及主/轨迹树HEAD/status/diff一致，42目录全部保留；任务分组认领与已证实账本/链接依赖单列。本分支不含trace改动，不合main、不推送、真实调用0。
+
+<a id="local-main-worktree-entry-20261113"></a>
+
+2026-11-13 Asia/Shanghai — draft / not integrated：基于实际本地main4256303d，仅移植15cee837入口切片并增加本地main默认；不合32b产品提交，不含34a6504轨迹分支。Codex同任务/新chat/eval/补证据复用原树，只有并行代码或另一版本验证新建。真实Git合同以落后的origin/main证明默认取本地main，旧默认红、新默认绿；白名单与原入口保持。隔离验证树首次489文件/372426952字节，无.env或外树node_modules复制。待净树必要门禁和本地主线实际调用；不推送。

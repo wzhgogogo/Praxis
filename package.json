@@ -7,6 +7,9 @@
     "node": ">=24"
   },
   "scripts": {
+    "create:worktree": "node scripts/praxis-worktree.mjs create",
+    "restore:worktree": "node scripts/praxis-worktree.mjs restore",
+    "test:worktree": "node --import ./scripts/test-filesystem-guard.mjs --test scripts/praxis-worktree.test.mjs",
     "build": "tsc -p tsconfig.build.json",
     "arch:check": "node --import tsx scripts/arch-check.ts",
     "test": "node --import ./scripts/test-filesystem-guard.mjs --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/application/*.test.ts src/infrastructure/*/*.test.ts src/integrations/*/*.test.ts src/server/*.test.ts src/eval/restaurant/semantic/*.test.ts src/eval/restaurant/search-fixture/*.test.ts src/eval/restaurant/agent-loop/*.test.ts src/eval/shared/*.test.ts src/eval/restaurant/diagnosis/*.test.ts",

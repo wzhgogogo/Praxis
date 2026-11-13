@@ -8,6 +8,9 @@
 
 ## Git、版本与命名
 
+- 继续同一任务时优先复用原工作树；开新 chat、运行新一轮 eval 或补证据都不要求新建工作树，使用新的批次输出目录并记录代码/输入 SHA。只有需要并行修改代码，或隔离验证另一个代码版本时，才新建工作树。
+- 确需新建时统一使用 `npm run create:worktree -- <path> --branch codex/<purpose> [--ref <commit>]`，默认取本地 `main`；历史验证用 `--detach --ref <commit>`。入口及按需历史取回见 `docs/WORKTREE-CREATION.md`。不得用裸 `git worktree add`、复制项目或先全量检出再删除档案代替；入口不重配已有工作树或共享 Git 配置。
+
 - 完整规则以 `docs/REPOSITORY-CONVENTIONS.md` 为唯一Source of Truth；Arch Guard不重复Git或文件命名。
 - 分支表达工作内容，使用`codex/adr-<number>-<slug>`、`codex/feat-<slug>`、`codex/fix-<slug>`、`codex/docs-<slug>`或`codex/chore-<slug>`，不得再用`-vN`承担版本归档。
 - 产品Release、ADR、State/Schema、Prompt、Dataset、Evaluator和Document revision分别版本化；禁止使用没有所属对象的裸`vN`描述当前系统。

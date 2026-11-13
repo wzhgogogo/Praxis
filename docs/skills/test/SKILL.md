@@ -5,8 +5,8 @@ description: 为Praxis改动从合同和失效机制推导必要的功能与安�
 
 # Praxis Test
 
-- Document revision: 1.8
-- Last updated: 2026-10-29
+- Document revision: 1.9
+- Last updated: 2026-11-13
 
 Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭。质量维度、评分单位和验收门槛属于[Eval](../eval/SKILL.md)；当前产品合同、已运行证据和未覆盖项分别以链接的权威文档、[STATUS](../../STATUS.md)和[TEST-LOG](../../history/TEST-LOG.md)为准。
 
@@ -20,6 +20,7 @@ Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭�
 
 | 改动 | 必要验证 |
 |---|---|
+| 工作树创建/恢复入口 | `npm run test:worktree`；从冻结提交真实创建新树，核对首次样本、默认本地main选择及既有树/共享配置保护；typecheck、arch:check、npm test、build |
 | 纯文档/配置说明 | 链接、命令/变量引用、权威一致性、diff；不运行付费或Live测试 |
 | 局部实现/重构 | typecheck、arch:check、相关行为测试、build；共享路径受影响时运行npm test |
 | Runtime、Policy、授权、State/Schema、Verifier、P0路径 | typecheck、arch:check、npm test、build及对应状态/副作用不变量 |
