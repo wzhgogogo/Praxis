@@ -1,0 +1,33 @@
+--- a/src/integrations/tabelog/tabelog-query-controls.ts
++++ b/src/integrations/tabelog/tabelog-query-controls.ts
+@@ -103,6 +103,13 @@
+ /** Confirmation may come from visible public state or the latest exactly bound source response. */
+ export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string, partySize: number): boolean {
+   if (!/^https:\/\/tabelog\.com\/(?:en\/)?[^/?]+\/A\d+\/A\d+\/\d+\/(?:[?#]|$)/u.test(snapshot.url) || snapshot.settlement === "PENDING") return false;
++  const {dates,people} = publicSelectedQueryValues(snapshot);
++  if (dates.some(value => value !== date) || people.some(value => value !== partySize)) return false;
++  return dates.length > 0 && people.length > 0 || inspectTabelogVacancyResponse(snapshot,date,partySize).status === "OBSERVED";
++}
++
++/** The existing public/native/ARIA parser, shared without changing its semantics. */
++function publicSelectedQueryValues(snapshot: BrowserSnapshot) {
+   const elements = queryElements(snapshot.visibleHtml ?? snapshot.html).filter(row => !row.hidden);
+   const dates: Array<string | undefined> = [], people: Array<number | undefined> = [];
+   for (const element of elements) {
+@@ -129,9 +136,14 @@
+       }
+     }
+   }
+-  if (dates.some(value => value !== date) || people.some(value => value !== partySize)) return false;
+-  return dates.length > 0 && people.length > 0 || inspectTabelogVacancyResponse(snapshot,date,partySize).status === "OBSERVED";
++  return {dates,people};
+ }
++
++/** Missing state is not a conflict; any explicit contradictory count is. */
++export function hasTabelogPublicPartySizeConflict(snapshot: BrowserSnapshot, partySize: number): boolean {
++  return publicSelectedQueryValues(snapshot).people.some(value => value !== partySize);
++}
++
+ 
+ /** Latest source response still owns all inventory; selected controls alone never establish stock. */
+ export function tabelogCapturedSlots(snapshot: BrowserSnapshot, date: string, partySize: number): { availableSlots: string[]; hasExplicitSlotUi: boolean } | undefined {

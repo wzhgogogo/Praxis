@@ -1,0 +1,27 @@
+✖ actual precise category list retains native URI and availability opens it without name search (132.802917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 294.7555
+
+✖ failing tests:
+
+test at src/harness/seed-discovery-recorded.test.ts:1:2960
+✖ actual precise category list retains native URI and availability opens it without name search (132.802917ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /reopen.*categor/i. Input:
+  
+  'Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list confirms the location and the retrieval expression has been applied to the whole result scope. A broad parent category or a matching merchant card does not establish that scope; continue using currently observed query controls or category links until the source query, document title or visible primary heading confirms it. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-party-category-fix/src/harness/seed-discovery-recorded.test.ts:40:44)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list confirms the location and the retrieval expression has been applied to the whole result scope. A broad parent category or a matching merchant card does not establish that scope; continue using currently observed query controls or category links until the source query, document title or visible primary heading confirms it. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.',
+    expected: /reopen.*categor/i,
+    operator: 'match'
+  }

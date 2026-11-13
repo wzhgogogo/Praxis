@@ -1,0 +1,53 @@
+✖ recorded independent party receipt: outlet-a (1574.659542ms)
+✖ recorded independent party receipt: outlet-b (1167.31425ms)
+✔ party progress rejects contradictory, malformed, pending and stale observations (3342.222666ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6232.910166
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-party-response-recorded.test.ts:1:1245
+✖ recorded independent party receipt: outlet-a (1574.659542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'PARTY_SIZE'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-party-category-fix/src/integrations/tabelog/tabelog-party-response-recorded.test.ts:22:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'PARTY_SIZE' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/tabelog/tabelog-party-response-recorded.test.ts:1:1245
+✖ recorded independent party receipt: outlet-b (1167.31425ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'PARTY_SIZE'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-party-category-fix/src/integrations/tabelog/tabelog-party-response-recorded.test.ts:22:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'PARTY_SIZE' ],
+    operator: 'deepStrictEqual'
+  }

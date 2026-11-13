@@ -1,0 +1,27 @@
+✖ actual precise category list retains native URI and availability opens it without name search (118.838625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 271.709459
+
+✖ failing tests:
+
+test at src/harness/seed-discovery-recorded.test.ts:1:2960
+✖ actual precise category list retains native URI and availability opens it without name search (118.838625ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /close.*(?:dialog|panel)/i. Input:
+  
+  'Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list confirms the location and the retrieval expression has been applied to the whole result scope. A broad parent category or a matching merchant card does not establish that scope. When the current menu lacks the exact retrieval expression and no keyword input is available, follow a relevant observed parent category link to inspect its finer categories; after navigation, reopen the current category menu if it is collapsed and continue drilling down. If a filter dialog or panel offers no usable filtering control, close it using its own visible close button before interacting with the page behind it. Continue using currently observed query controls or category links until the source query, document title or visible primary heading confirms the requested scope. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-party-category-fix/src/harness/seed-discovery-recorded.test.ts:40:87)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list confirms the location and the retrieval expression has been applied to the whole result scope. A broad parent category or a matching merchant card does not establish that scope. When the current menu lacks the exact retrieval expression and no keyword input is available, follow a relevant observed parent category link to inspect its finer categories; after navigation, reopen the current category menu if it is collapsed and continue drilling down. If a filter dialog or panel offers no usable filtering control, close it using its own visible close button before interacting with the page behind it. Continue using currently observed query controls or category links until the source query, document title or visible primary heading confirms the requested scope. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.',
+    expected: /close.*(?:dialog|panel)/i,
+    operator: 'match'
+  }

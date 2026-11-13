@@ -1,0 +1,52 @@
+✖ recorded party progress releases the unchanged executor to the calendar: outlet-a (5565.85225ms)
+✖ recorded party progress releases the unchanged executor to the calendar: outlet-b (4879.624125ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10794.358875
+
+✖ failing tests:
+
+test at src/harness/browser/tabelog-party-progress-recorded.test.ts:1:828
+✖ recorded party progress releases the unchanged executor to the calendar: outlet-a (5565.85225ms)
+  AssertionError [ERR_ASSERTION]: [{"calls":1,"progress":"Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.","advance":[{"kind":"LINK","actions":["CLICK","ADVANCE_TO_AUTHORITATIVE:DATE","ADVANCE_TO_AUTHORITATIVE:TIME"],"href":"https://tabelog.com/en/tokyo/A1319/A131902/13309182/#"}]},{"calls":2,"progress":"The reviewed source response confirms 8 guests; the requested date 2026-12-10 is not yet confirmed. Keep the confirmed guest count and use currently observed calendar controls to select the requested date.","advance":[{"kind":"LINK","actions":["CLICK","ADVANCE_TO_AUTHORITATIVE:DATE","ADVANCE_TO_AUTHORITATIVE:TIME"],"href":"https://tabelog.com/en/tokyo/A1319/A131902/13309182/#"}]},{"calls":3,"progress":"CALENDAR_MONTH_UNCHANGED: the calendar month did not confirm a change (Nov 2026 -> Nov 2026). Unrelated page changes are not calendar progress. Inspect another current observed control or request human help.","advance":[]}]
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-party-category-fix/src/harness/browser/tabelog-party-progress-recorded.test.ts:33:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/tabelog-party-progress-recorded.test.ts:1:828
+✖ recorded party progress releases the unchanged executor to the calendar: outlet-b (4879.624125ms)
+  AssertionError [ERR_ASSERTION]: [{"calls":1,"progress":"Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.","advance":[{"kind":"LINK","actions":["CLICK","ADVANCE_TO_AUTHORITATIVE:DATE","ADVANCE_TO_AUTHORITATIVE:TIME"],"href":"https://tabelog.com/en/tokyo/A1319/A131902/13287727/#"}]},{"calls":2,"progress":"The reviewed source response confirms 8 guests; the requested date 2026-12-10 is not yet confirmed. Keep the confirmed guest count and use currently observed calendar controls to select the requested date.","advance":[{"kind":"LINK","actions":["CLICK","ADVANCE_TO_AUTHORITATIVE:DATE","ADVANCE_TO_AUTHORITATIVE:TIME"],"href":"https://tabelog.com/en/tokyo/A1319/A131902/13287727/#"}]},{"calls":3,"progress":"CALENDAR_MONTH_UNCHANGED: the calendar month did not confirm a change (Nov 2026 -> Nov 2026). Unrelated page changes are not calendar progress. Inspect another current observed control or request human help.","advance":[]}]
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-party-category-fix/src/harness/browser/tabelog-party-progress-recorded.test.ts:33:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }
