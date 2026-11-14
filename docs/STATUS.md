@@ -1215,3 +1215,8 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 保留67a949d7终端跳过控件扫描；产品只改web-skills/tabelog/SKILL.md，恢复可见分类入口/父类重开、禁止额外筛选替代分类树，并明确推进动作必须引用实际日期/人数组。Okajoki没有这些组时请求帮助，不补造valueGroupRef。原生objective、执行器、Guard、G1、评价器、45/90秒均未改。
 
 真实DeepSeek对9个冻结公开录制帧逐帧9/9命中（见 [.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md](../.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md)）；9模型、0网站GET、0Live，独立16调用上限余额7不使用。旧失败与旧账本保留。该结果不证明端到端网站导航/45秒交付；录制精确分类目录确有Sumika直达链接，仍须真实身份/查位才能交付。验证SHA `463f9aeb0016e46f699ce6f63d8131c41275cd6e`：typecheck、arch:check、build PASS；默认1644/1644、本地Chromium287/287、G6 159/159，0 skip，全部同SHA净树。两历史基线和5f8增量扫描0。 原门禁措辞断言失败已保留，仅同步相关测试的一条文案断言，未删除断言。
+
+<a id="category-guidance-live-20261114"></a>
+## 2026-11-14 CET — 分类Skill单次Live（证据分支，未合main）
+
+冻结27bdb97a/463f9aeb，外层93e46eb4。分类All→父类重开→Other→精确菜系实际走通；Sumika原生直达，12-10/8人/20:30 AVAILABLE+B1，终端快照后0次observeControls，provider30.986s。自动PENDING_REVIEW（仅缺独立资格语义注释），已评项s0=0但整体s0Status NOT_EVALUATED；独立请求边界372/372 PASS。产品307.157s、47模型；实际1Live/6GET/47模型，未重跑。70/72页可回放；配置、旧账本与受保护工作树哈希一致。完整报告见[一页诊断](../.eval-artifacts/phase3b/category-guidance-live-20261114/report.md)。源分支与产品代码0改动，停止待复核。

@@ -1,0 +1,913 @@
+{
+  "sourceSHA": "27bdb97a0c69d5c9c43a98ff4fe355deeee66067",
+  "sourceCodeSHA": "463f9aeb0016e46f699ce6f63d8131c41275cd6e",
+  "outerFreezeSHA": "93e46eb4bdeceb63317f6f6702770ab76aa7c137",
+  "verdict": {
+    "status": "PENDING_REVIEW",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "NOT_EVALUATED",
+    "stopBatch": false
+  },
+  "nonPassChecks": [
+    {
+      "rule": "COMPLETE_REQUEST_QUALIFICATION",
+      "status": "QUOTE_VERIFIED_MEANING_PENDING_REVIEW",
+      "severity": "CAPABILITY",
+      "subject": "tabelog:en/tokyo/A1319/A131902/13309182",
+      "reason": "Quotation and outlet binding verified; complete-request meaning and area await independent review, without stopping the batch",
+      "evidenceRefs": [
+        "source-snapshot:11:html-sha256:e70727118e954ff7ba03365f44a65342776b2c908a8880a61249ff50a539890c:text-sha256:903832f1260ae82b905d248acddf5d600c7f92a92662dfb583fd305a2cab0230"
+      ],
+      "reviewReason": "INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING"
+    }
+  ],
+  "delivered": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+      "offerId": "offer:tabelog:tabelog:en/tokyo/A1319/A131902/13309182:2026-12-10:20:30:8",
+      "name": "sumika",
+      "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+      "phone": "03-4400-3404",
+      "googlePlaceId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+      "sourceIds": {
+        "TABELOG": "13309182"
+      },
+      "provider": "TABELOG",
+      "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+      "date": "2026-12-10",
+      "time": "20:30",
+      "partySize": 8
+    }
+  ],
+  "handoffs": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+      "offerId": "offer:tabelog:tabelog:en/tokyo/A1319/A131902/13309182:2026-12-10:20:30:8",
+      "provider": "TABELOG",
+      "url": "https://tabelog.com/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2030",
+      "directLabel": "Book on Tabelog",
+      "continueLabel": "Continue on Tabelog — date, time, 8 guests filled in",
+      "checkedAt": "2026-11-14T01:59:12.187Z",
+      "displayExpiresAt": "2026-11-14T02:09:12.187Z",
+      "platformFee": {
+        "provider": "TABELOG",
+        "channel": "ENGLISH_BOOKING",
+        "amountPerPersonJPY": 440,
+        "userCancellationRefund": false,
+        "restaurantCancellationRefund": true,
+        "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+        "sourceUrl": "https://tabelog.com/en/help",
+        "checkedOn": "2026-10-29",
+        "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+        "quotes": [
+          "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+          "Please note that no refunds will be issued for cancellations made for customer reasons.",
+          "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+        ]
+      },
+      "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+      "linkCarries": [
+        "DATE",
+        "TIME",
+        "PARTY_SIZE"
+      ],
+      "sourceSelection": "UNKNOWN",
+      "terms": []
+    }
+  ],
+  "postDeliveryChecks": [
+    {
+      "target": {
+        "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+        "offerId": "offer:tabelog:tabelog:en/tokyo/A1319/A131902/13309182:2026-12-10:20:30:8",
+        "name": "sumika",
+        "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+        "phone": "03-4400-3404",
+        "googlePlaceId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+        "sourceIds": {
+          "TABELOG": "13309182"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+        "date": "2026-12-10",
+        "time": "20:30",
+        "partySize": 8
+      },
+      "status": "READ",
+      "receipt": {
+        "checkedAt": "2026-11-14T02:02:00.551Z",
+        "kind": "AFTER",
+        "target": {
+          "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+          "offerId": "offer:tabelog:tabelog:en/tokyo/A1319/A131902/13309182:2026-12-10:20:30:8",
+          "name": "sumika",
+          "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+          "phone": "03-4400-3404",
+          "googlePlaceId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+          "sourceIds": {
+            "TABELOG": "13309182"
+          },
+          "provider": "TABELOG",
+          "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+          "date": "2026-12-10",
+          "time": "20:30",
+          "partySize": 8,
+          "detailUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+          "identityText": [
+            "sumika",
+            "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A"
+          ]
+        },
+        "evidenceMode": "AVAILABILITY",
+        "exists": true,
+        "vacancy": {
+          "ref": "/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/category-guidance-live-20261114/live/runtime/dev-d02v-category-guidance-20261114/witness/001-vacancy.body",
+          "phase": "AFTER",
+          "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13309182&svd=20261210&svps=8&svt=2030",
+          "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+          "body": {
+            "selection": {
+              "0": {
+                "time": "11:00",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1100"
+              },
+              "1": {
+                "time": "11:30",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1130"
+              },
+              "2": {
+                "time": "12:00",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1200"
+              },
+              "3": {
+                "time": "12:30",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1230"
+              },
+              "4": {
+                "time": "13:00",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1300"
+              },
+              "5": {
+                "time": "17:00",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1700"
+              },
+              "6": {
+                "time": "17:30",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1730"
+              },
+              "7": {
+                "time": "18:00",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1800"
+              },
+              "8": {
+                "time": "18:30",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1830"
+              },
+              "9": {
+                "time": "19:00",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1900"
+              },
+              "10": {
+                "time": "19:30",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=1930"
+              },
+              "11": {
+                "time": "20:00",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2000"
+              },
+              "12": {
+                "time": "20:30",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2030"
+              },
+              "13": {
+                "time": "21:00",
+                "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2100"
+              }
+            },
+            "base_date": {
+              "year": 2026,
+              "month": 12,
+              "day": 10,
+              "dow": "Thu"
+            },
+            "members": 8,
+            "time": "20:30"
+          }
+        },
+        "responseSHA256": "dcf14347c7caf712ee243fa2d7e3284098fd290f92b771d72a60df306dfe5a46"
+      },
+      "slots": [
+        {
+          "time": "20:30",
+          "exists": true
+        }
+      ]
+    }
+  ],
+  "productElapsedMs": 307157.057667,
+  "turnBudgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794621412975,
+      "deadlineAtMs": 1794621912975,
+      "elapsedMs": 306340.03083400003,
+      "modelCalls": 47,
+      "googleRequests": 2,
+      "exceeded500Seconds": false
+    }
+  ],
+  "outerElapsedMs": 334060,
+  "checkCounts": [
+    {
+      "rule": "REQUEST_BOUNDARY",
+      "status": "PASS",
+      "count": 372
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "COMPLETE_REQUEST_QUALIFICATION",
+      "status": "QUOTE_VERIFIED_MEANING_PENDING_REVIEW",
+      "count": 1
+    },
+    {
+      "rule": "DATE",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "PARTY_TIME",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "POST_DELIVERY_SLOT",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "B1_COPY",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "B1_SOURCE_URL",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "B1_LINK",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "F6_RESERVE",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "DEADLINE",
+      "status": "PASS",
+      "count": 1
+    },
+    {
+      "rule": "TURN_BUDGET",
+      "status": "PASS",
+      "count": 1
+    }
+  ],
+  "providerScopes": [
+    {
+      "source": "DIRECTORY",
+      "candidateId": "native-discovery:DIRECTORY",
+      "startSequence": 2,
+      "startedAtUTC": "2026-11-14T01:57:02.168Z",
+      "endSequence": 191,
+      "finishedAtUTC": "2026-11-14T01:58:24.932Z",
+      "totalMs": 82763,
+      "modelCalls": 10,
+      "operations": 49,
+      "outcome": "FINISHED",
+      "reason": "EXECUTOR_CLOSED",
+      "phaseMs": {
+        "DISCOVERY": 68453,
+        "IDENTITY": 14310
+      },
+      "name": null
+    },
+    {
+      "source": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+      "startSequence": 194,
+      "startedAtUTC": "2026-11-14T01:58:29.808Z",
+      "endSequence": 208,
+      "finishedAtUTC": "2026-11-14T01:58:41.202Z",
+      "totalMs": 11394,
+      "modelCalls": 2,
+      "operations": 2,
+      "outcome": "FINISHED",
+      "reason": "ADAPTER_RETURNED",
+      "phaseMs": {
+        "DISCOVERY": 125,
+        "IDENTITY": 8454,
+        "AVAILABILITY": 2815
+      },
+      "name": "Oka Joki"
+    },
+    {
+      "source": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+      "startSequence": 211,
+      "startedAtUTC": "2026-11-14T01:58:41.207Z",
+      "endSequence": 296,
+      "finishedAtUTC": "2026-11-14T01:59:12.193Z",
+      "totalMs": 30986,
+      "modelCalls": 4,
+      "operations": 23,
+      "outcome": "FINISHED",
+      "reason": "ADAPTER_RETURNED",
+      "phaseMs": {
+        "DISCOVERY": 1,
+        "IDENTITY": 2824,
+        "AVAILABILITY": 28161
+      },
+      "name": "sumika"
+    },
+    {
+      "source": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+      "startSequence": 299,
+      "startedAtUTC": "2026-11-14T01:59:12.198Z",
+      "endSequence": 520,
+      "finishedAtUTC": "2026-11-14T01:59:46.204Z",
+      "totalMs": 34006,
+      "modelCalls": 3,
+      "operations": 80,
+      "outcome": "FINISHED",
+      "reason": "ADAPTER_RETURNED",
+      "phaseMs": {
+        "DISCOVERY": 0,
+        "IDENTITY": 2699,
+        "AVAILABILITY": 31307
+      },
+      "name": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~"
+    },
+    {
+      "source": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+      "startSequence": 523,
+      "startedAtUTC": "2026-11-14T01:59:52.709Z",
+      "endSequence": 534,
+      "finishedAtUTC": "2026-11-14T02:00:02.902Z",
+      "totalMs": 10193,
+      "modelCalls": 1,
+      "operations": 3,
+      "outcome": "FINISHED",
+      "reason": "ADAPTER_RETURNED",
+      "phaseMs": {
+        "FACTS": 10193
+      },
+      "name": "Oka Joki"
+    },
+    {
+      "source": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+      "startSequence": 538,
+      "startedAtUTC": "2026-11-14T02:00:02.949Z",
+      "endSequence": 585,
+      "finishedAtUTC": "2026-11-14T02:00:27.483Z",
+      "totalMs": 24534,
+      "modelCalls": 2,
+      "operations": 15,
+      "outcome": "FINISHED",
+      "reason": "ADAPTER_RETURNED",
+      "phaseMs": {
+        "FACTS": 24534
+      },
+      "name": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~"
+    },
+    {
+      "source": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+      "startSequence": 589,
+      "startedAtUTC": "2026-11-14T02:00:30.397Z",
+      "endSequence": 674,
+      "finishedAtUTC": "2026-11-14T02:00:52.472Z",
+      "totalMs": 22075,
+      "modelCalls": 4,
+      "operations": 23,
+      "outcome": "FINISHED",
+      "reason": "ADAPTER_RETURNED",
+      "phaseMs": {
+        "DISCOVERY": 0,
+        "IDENTITY": 3026,
+        "AVAILABILITY": 19049
+      },
+      "name": "Sanuki no Udon Hana wa Saku Shin nakano honten"
+    },
+    {
+      "source": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+      "startSequence": 677,
+      "startedAtUTC": "2026-11-14T02:00:52.477Z",
+      "endSequence": 762,
+      "finishedAtUTC": "2026-11-14T02:01:19.591Z",
+      "totalMs": 27114,
+      "modelCalls": 4,
+      "operations": 23,
+      "outcome": "FINISHED",
+      "reason": "ADAPTER_RETURNED",
+      "phaseMs": {
+        "DISCOVERY": 0,
+        "IDENTITY": 2763,
+        "AVAILABILITY": 24351
+      },
+      "name": "Gempin Nakano Fugu Unagi Ryouri"
+    },
+    {
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "startSequence": 765,
+      "startedAtUTC": "2026-11-14T02:01:19.599Z",
+      "endSequence": 864,
+      "finishedAtUTC": "2026-11-14T02:01:56.750Z",
+      "totalMs": 37151,
+      "modelCalls": 6,
+      "operations": 25,
+      "outcome": "FINISHED",
+      "reason": "ADAPTER_RETURNED",
+      "phaseMs": {
+        "DISCOVERY": 22636,
+        "IDENTITY": 2807,
+        "AVAILABILITY": 11708
+      },
+      "name": "中野製作所 まんてん別館"
+    }
+  ],
+  "purposeCosts": {
+    "restaurant_semantic_interpret": {
+      "calls": 1,
+      "latencyMs": 3349,
+      "inputTokens": 7055,
+      "outputTokens": 392
+    },
+    "restaurant_agent_decide": {
+      "calls": 5,
+      "latencyMs": 14572,
+      "inputTokens": 39243,
+      "outputTokens": 1207
+    },
+    "restaurant_discovery_retrieval": {
+      "calls": 1,
+      "latencyMs": 2165,
+      "inputTokens": 855,
+      "outputTokens": 149
+    },
+    "browser_read_decide": {
+      "calls": 32,
+      "latencyMs": 101791,
+      "inputTokens": 640374,
+      "outputTokens": 4682
+    },
+    "restaurant_source_facts": {
+      "calls": 3,
+      "latencyMs": 12351,
+      "inputTokens": 23408,
+      "outputTokens": 1612
+    },
+    "restaurant_fact_judgment": {
+      "calls": 5,
+      "latencyMs": 11108,
+      "inputTokens": 16927,
+      "outputTokens": 992
+    }
+  },
+  "terminalSkip": {
+    "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+    "availabilityStatus": "AVAILABLE",
+    "lastSnapshotSequence": 293,
+    "lastSnapshotProviderElapsedMs": 30536,
+    "providerFinishedSequence": 296,
+    "providerTotalMs": 30986,
+    "observeControlsAfterLastSnapshot": 0,
+    "tail": [
+      {
+        "sequence": 293,
+        "at": "2026-11-14T01:59:11.743Z",
+        "source": "TABELOG",
+        "stage": "AVAILABILITY",
+        "event": "OPERATION_FINISHED",
+        "elapsedMs": 135383,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 30536,
+          "providerElapsedMs": 30536,
+          "candidateModelCalls": 4,
+          "providerModelCalls": 4,
+          "candidateRuntimeOperations": 23,
+          "providerRuntimeOperations": 23,
+          "runModelCalls": 17
+        },
+        "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+        "operation": "SNAPSHOT"
+      },
+      {
+        "sequence": 294,
+        "at": "2026-11-14T01:59:11.743Z",
+        "source": "TABELOG",
+        "stage": "AVAILABILITY",
+        "event": "OBSERVED",
+        "elapsedMs": 135383,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 30536,
+          "providerElapsedMs": 30536,
+          "candidateModelCalls": 4,
+          "providerModelCalls": 4,
+          "candidateRuntimeOperations": 23,
+          "providerRuntimeOperations": 23,
+          "runModelCalls": 17
+        },
+        "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+        "page": {
+          "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+        }
+      },
+      {
+        "sequence": 295,
+        "at": "2026-11-14T01:59:12.012Z",
+        "source": "TABELOG",
+        "stage": "AVAILABILITY",
+        "event": "POST_ACTION_VERIFIED",
+        "elapsedMs": 135652,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 30805,
+          "providerElapsedMs": 30805,
+          "candidateModelCalls": 4,
+          "providerModelCalls": 4,
+          "candidateRuntimeOperations": 23,
+          "providerRuntimeOperations": 23,
+          "runModelCalls": 17
+        },
+        "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+        "page": {
+          "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+        },
+        "operation": "PARTY_SIZE_CONFIRMED"
+      },
+      {
+        "sequence": 296,
+        "at": "2026-11-14T01:59:12.193Z",
+        "source": "TABELOG",
+        "stage": "DISCOVERY",
+        "event": "PROVIDER_FINISHED",
+        "elapsedMs": 135833,
+        "lifecycle": {
+          "outcome": "FINISHED",
+          "candidateElapsedMs": 30986,
+          "providerElapsedMs": 30986,
+          "candidateModelCalls": 4,
+          "providerModelCalls": 4,
+          "candidateRuntimeOperations": 23,
+          "providerRuntimeOperations": 23,
+          "runModelCalls": 17,
+          "reason": "ADAPTER_RETURNED"
+        },
+        "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+        "operation": "PROVIDER_SCOPE"
+      }
+    ],
+    "recordedSnapshots": [
+      11,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ]
+  },
+  "rawVacancyEvidence": [
+    {
+      "harIndexZeroBased": 43,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13309182&svd=20261210&svps=2&svt=1900&exclude_unavailable_time=1",
+      "status": 200,
+      "base_date": {
+        "year": 2026,
+        "month": 12,
+        "day": 10,
+        "dow": "Thu"
+      },
+      "members": 2,
+      "time2030": [
+        {
+          "time": "20:30",
+          "url": "/en/booking/form_course/new?member=2&rcd=13309182&visit_date=20261210&visit_time=2030"
+        }
+      ],
+      "handoffLiteralSourceMatch": false,
+      "bodySHA256": "7872d91503eee613921752bab3e3a2311d1e62f906fed5d035f4ecbc6b801e32"
+    },
+    {
+      "harIndexZeroBased": 44,
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13309182&svd=20261210&svps=8&svt=1900&exclude_unavailable_time=1",
+      "status": 200,
+      "base_date": {
+        "year": 2026,
+        "month": 12,
+        "day": 10,
+        "dow": "Thu"
+      },
+      "members": 8,
+      "time2030": [
+        {
+          "time": "20:30",
+          "url": "/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2030"
+        }
+      ],
+      "handoffLiteralSourceMatch": true,
+      "bodySHA256": "740612ebccf32af9cd0c12bb7454582ab6b85e1438f3478e1141649747d687e2"
+    }
+  ],
+  "additionalBatchCost": {
+    "readyContextDecisionSequence": 33,
+    "explicitDecision": {
+      "type": "CHECK_AVAILABILITY",
+      "question": "",
+      "relatedFields": [],
+      "retrievalHint": "",
+      "candidateIds": [
+        "tabelog:en/tokyo/A1319/A131902/13156851",
+        "tabelog:en/tokyo/A1319/A131902/13028733",
+        "praxis:restaurant:8e3a09511d095d01aa3a3746"
+      ],
+      "candidateId": "",
+      "offerId": "",
+      "decisionSummary": "sumika already has a fresh 20:30 slot for 8 and is eligible; need two more eligible results for the 3-result batch, so check availability on the remaining checkable candidates."
+    },
+    "presentationAtUTC": "2026-11-14T02:01:59.336Z",
+    "factBatchAppliedAtUTC": "2026-11-14T02:00:27.508Z",
+    "additionalSecondsAfterFactBatch": 91.828,
+    "note": "Read-only observation: model sought remaining outlets for default3-result batch although Sumika was already eligible; no policy/flow change here."
+  },
+  "candidates": [
+    {
+      "id": "tabelog:en/tokyo/A1319/A131902/13309182",
+      "name": "sumika",
+      "nativeUri": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "availability": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-11-14T01:59:12.187Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:5a22df8b3ed9f829fb1774c6",
+          "evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a",
+          "evidence:restaurant:tabelog-availability:efd078d58f94f118bac51697"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "displayExpiresAt": "2026-11-14T02:09:12.187Z",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    },
+    {
+      "id": "tabelog:en/tokyo/A1319/A131902/13000216",
+      "name": "Oka Joki",
+      "nativeUri": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-14T01:58:41.201Z",
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:4506d0e2a21105621032d27b",
+          "evidence:restaurant:tabelog-entity-match:c4a129ceb8ea17ed1caa7a3b",
+          "evidence:restaurant:tabelog-hard-criteria:9ca623646fd8cca4c34e8c06"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      }
+    },
+    {
+      "id": "tabelog:en/tokyo/A1319/A131902/13297901",
+      "name": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+      "nativeUri": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-14T01:59:46.204Z",
+        "reasonCode": "ADVANCE_OPERATION_BUDGET",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:ccd9e7b503b3cbfdf6ae5aa5"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "AGENT_EXECUTION_FAILED"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      }
+    },
+    {
+      "id": "tabelog:en/tokyo/A1319/A131902/13156851",
+      "name": "Sanuki no Udon Hana wa Saku Shin nakano honten",
+      "nativeUri": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+      "availability": {
+        "status": "UNAVAILABLE",
+        "checkedAt": "2026-11-14T02:00:52.468Z",
+        "reasonCode": "NO_MATCHING_SLOT",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:adc201fe39999bf5fea07225",
+          "evidence:restaurant:tabelog-hard-criteria:c02aa4151053846ccb27a40c",
+          "evidence:restaurant:tabelog-availability:a6e6217544bf6f0016e24519"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "UNAVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "displayExpiresAt": "2026-11-14T02:10:52.468Z",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    },
+    {
+      "id": "tabelog:en/tokyo/A1319/A131902/13028733",
+      "name": "Gempin Nakano Fugu Unagi Ryouri",
+      "nativeUri": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+      "availability": {
+        "status": "UNAVAILABLE",
+        "checkedAt": "2026-11-14T02:01:19.587Z",
+        "reasonCode": "NO_MATCHING_SLOT",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:2c93dbe2df232809b6d53f2c",
+          "evidence:restaurant:tabelog-hard-criteria:89e20cc550df8330923e4546",
+          "evidence:restaurant:tabelog-availability:4a21520f157a0e166c1d5833"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "UNAVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "displayExpiresAt": "2026-11-14T02:11:19.587Z",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    },
+    {
+      "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+      "name": "中野製作所 まんてん別館",
+      "nativeUri": null,
+      "availability": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-14T02:00:30.396Z",
+        "reasonCode": "RESERVE_REACHED",
+        "evidenceIds": [],
+        "sourceAttempts": [],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+      }
+    }
+  ],
+  "recording": {
+    "qualifiedPages": 70,
+    "totalPages": 72,
+    "replayStatus": "PARTIALLY_REPLAYABLE"
+  },
+  "recordingExceptions": [
+    {
+      "snapshot": 3,
+      "qualified": false,
+      "reason": "UNSAFE_DOCUMENT",
+      "diagnostic": {
+        "status": "OMITTED",
+        "reason": "UNSAFE_DOCUMENT"
+      }
+    },
+    {
+      "snapshot": 68,
+      "qualified": false,
+      "reason": "UNSAFE_DOCUMENT",
+      "diagnostic": {
+        "status": "OMITTED",
+        "reason": "UNSAFE_DOCUMENT"
+      }
+    }
+  ],
+  "health": {
+    "passed": true,
+    "observations": [
+      {
+        "windowMs": 60000,
+        "source": "tablecheck",
+        "round": 1,
+        "complete": true,
+        "elapsedMs": 3001.501875000001,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 1819.7094169999991,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tabelog",
+        "round": 1,
+        "complete": true,
+        "elapsedMs": 4199.448125000001,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 2294.386625000001,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "3462ada37f26dc353410ca59a79fbce9fbb3694bb90e4af2ad8eccb670ebd26f"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tablecheck",
+        "round": 2,
+        "complete": true,
+        "elapsedMs": 2528.5062499999985,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 1771.9230829999979,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+      },
+      {
+        "windowMs": 60000,
+        "source": "tabelog",
+        "round": 2,
+        "complete": true,
+        "elapsedMs": 3925.4174590000002,
+        "phase": "SCRIPT_WAIT",
+        "phaseElapsedMs": 2083.4480839999997,
+        "documentStatus": 200,
+        "scriptStatus": 200,
+        "status": 200,
+        "responseSHA256": "3462ada37f26dc353410ca59a79fbce9fbb3694bb90e4af2ad8eccb670ebd26f"
+      }
+    ]
+  },
+  "ledgerCumulative": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 47,
+    "environmentReruns": 0,
+    "googleRequests": 2,
+    "restaurantWebsiteRequests": 378
+  },
+  "ledgerRemaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 2,
+    "realModelCalls": 8,
+    "environmentReruns": 0
+  },
+  "evidenceHashes": {
+    "evaluation.json": "8280a95904e70eae225a30819f7f97a8d127a66036d18405a1c39f66593d91bd",
+    "evaluation.input.json": "1f065060e23f75f0a09afecf7d681829a479d250b73993650c3d2795eb0f29fb",
+    "execution.result.json": "dc0a8d15949283b30cb489329ea61f277d35008b8a56740c7149762ff36d8887",
+    "execution.decisions.jsonl": "e7f3d21ffde201451332cc3ef3c2bf77f88ef23cea79e15eaad230103ec39bba",
+    "replay.har": "f00e1829ec9bdeb55189cbad9bd1c7320d916458bd6fe80c5c1ebc65892e748f"
+  },
+  "HARprivacy": {
+    "requestHeaderCount": 0,
+    "requestCookieCount": 0
+  },
+  "reviewStatus": "PENDING_REVIEW: independent qualification semantic annotation absent. No original evaluation rewritten, no automatic qualification granted.",
+  "modelTotals": {
+    "calls": 47,
+    "latencyMs": 145336,
+    "inputTokens": 727862,
+    "outputTokens": 9034
+  }
+}

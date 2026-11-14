@@ -1,0 +1,2999 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-dev-d02v-category-guidance-20261114-1794621412162-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Looking for a robatayaki place near Nakano for 8 people on Thursday, …",
+          "status": "NEEDS_YOU",
+          "phase": "PRESENT_RESULTS",
+          "taskVersion": 7,
+          "updatedAt": "2026-11-14T02:01:59.336Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.",
+              "createdAt": "2026-11-14T01:56:56.356Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Nakano City.\nFound 1 restaurant.\nsumika: 2026-12-10, 20:30 for 8 guests.",
+              "createdAt": "2026-11-14T02:01:59.396Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Nakano"
+            },
+            "date": "2026-12-10",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Robatayaki restaurant near Nakano",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "robatayaki",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 8,
+            "timeWindow": {
+              "latest": "20:30",
+              "earliest": "20:30"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Thursday, December 10",
+                "resolvedDate": "2026-12-10"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "8:30 PM",
+                "resolvedTimeWindow": {
+                  "latest": "20:30",
+                  "earliest": "20:30"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-14T01:56:52.979Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Nakano City",
+            "latitude": 35.7075331,
+            "longitude": 139.6637591,
+            "queryLabel": "Nakano",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Nakano City",
+                "shortText": "Nakano City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              },
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 1,
+          "readyCandidateIds": [
+            "tabelog:en/tokyo/A1319/A131902/13309182"
+          ],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 6,
+            "checkedCount": 6
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13309182",
+                "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+                "sourceIds": {
+                  "phone": "03-4400-3404",
+                  "tabelog": "en/tokyo/A1319/A131902/13309182",
+                  "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                  "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                },
+                "outletName": "sumika",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:58b3a507ac5ae7fbc403b3a3",
+                  "sourceIds": "evidence:restaurant:native-discovery:58b3a507ac5ae7fbc403b3a3",
+                  "outletName": "evidence:restaurant:native-discovery:58b3a507ac5ae7fbc403b3a3"
+                },
+                "coordinates": {
+                  "lat": 35.70887771866652,
+                  "lng": 139.666127134734
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nakano City",
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 260,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13000216",
+                "address": "1640001 東京都中野区中野5-59-3",
+                "sourceIds": {
+                  "phone": "+81-3-3228-1230",
+                  "tabelog": "en/tokyo/A1319/A131902/13000216",
+                  "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                  "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                },
+                "outletName": "Oka Joki",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:8b3fdd14eba7c1edcae2e8a2",
+                  "sourceIds": "evidence:restaurant:native-discovery:8b3fdd14eba7c1edcae2e8a2",
+                  "outletName": "evidence:restaurant:native-discovery:8b3fdd14eba7c1edcae2e8a2"
+                },
+                "coordinates": {
+                  "lat": 35.70760103866732,
+                  "lng": 139.6661085747211
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nakano City",
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 212,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13297901",
+                "address": "1640001 東京都中野区中野5-46-2 MSIビル 1F",
+                "sourceIds": {
+                  "phone": "03-5942-7767",
+                  "tabelog": "en/tokyo/A1319/A131902/13297901",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                "outletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:a3637da620bbfed68a861705",
+                  "sourceIds": "evidence:restaurant:native-discovery:a3637da620bbfed68a861705",
+                  "outletName": "evidence:restaurant:native-discovery:a3637da620bbfed68a861705"
+                },
+                "coordinates": {
+                  "lat": 35.708049038667326,
+                  "lng": 139.66700108472503
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nakano City"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 299,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13156851",
+                "address": "1640011 東京都中野区中央4-6-12 新中野マンション 1F",
+                "sourceIds": {
+                  "phone": "03-6454-1546",
+                  "tabelog": "en/tokyo/A1319/A131902/13156851",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/"
+                },
+                "outletName": "Sanuki no Udon Hana wa Saku Shin nakano honten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:b3553564d62b0f2e08fe0a86",
+                  "sourceIds": "evidence:restaurant:native-discovery:b3553564d62b0f2e08fe0a86",
+                  "outletName": "evidence:restaurant:native-discovery:b3553564d62b0f2e08fe0a86"
+                },
+                "coordinates": {
+                  "lat": 35.69919153786782,
+                  "lng": 139.66774898347325
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nakano City"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 996,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13028733",
+                "address": "1640001 東京都中野区中野5-59-12 ピカ一本館ビル 1F",
+                "sourceIds": {
+                  "phone": "03-3388-4329",
+                  "tabelog": "en/tokyo/A1319/A131902/13028733",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/"
+                },
+                "outletName": "Gempin Nakano Fugu Unagi Ryouri",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:d3960fe63bdb4109ed42404b",
+                  "sourceIds": "evidence:restaurant:native-discovery:d3960fe63bdb4109ed42404b",
+                  "outletName": "evidence:restaurant:native-discovery:d3960fe63bdb4109ed42404b"
+                },
+                "coordinates": {
+                  "lat": 35.70790173786182,
+                  "lng": 139.66628038356225
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nakano City"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 232,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F",
+                "sourceIds": {
+                  "phone": "03-5942-6711",
+                  "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                  "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "中野製作所 まんてん別館",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:4d91f52b9b413d17fd950a71",
+                  "sourceIds": "evidence:restaurant:google-discovery:4d91f52b9b413d17fd950a71",
+                  "outletName": "evidence:restaurant:google-discovery:4d91f52b9b413d17fd950a71"
+                },
+                "coordinates": {
+                  "lat": 35.7092966,
+                  "lng": 139.6668329
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 340,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            }
+          ],
+          "availability": {
+            "tabelog:en/tokyo/A1319/A131902/13000216": [],
+            "tabelog:en/tokyo/A1319/A131902/13028733": [],
+            "tabelog:en/tokyo/A1319/A131902/13156851": [],
+            "tabelog:en/tokyo/A1319/A131902/13297901": [],
+            "tabelog:en/tokyo/A1319/A131902/13309182": [
+              {
+                "id": "offer:tabelog:tabelog:en/tokyo/A1319/A131902/13309182:2026-12-10:20:30:8",
+                "source": "TABELOG",
+                "dateTime": "2026-12-10T20:30:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-14T01:59:12.187Z",
+                "expiresAt": "2026-11-14T01:59:12.187Z",
+                "partySize": 8,
+                "bookingMode": "REQUEST",
+                "restaurantId": "tabelog:en/tokyo/A1319/A131902/13309182",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-14T02:09:12.187Z",
+                "bookingRecheckRequired": true
+              }
+            ],
+            "praxis:restaurant:8e3a09511d095d01aa3a3746": []
+          },
+          "availabilityChecks": {
+            "tabelog:en/tokyo/A1319/A131902/13000216": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-14T01:58:41.201Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:4506d0e2a21105621032d27b",
+                "evidence:restaurant:tabelog-entity-match:c4a129ceb8ea17ed1caa7a3b",
+                "evidence:restaurant:tabelog-hard-criteria:9ca623646fd8cca4c34e8c06"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+            },
+            "tabelog:en/tokyo/A1319/A131902/13028733": {
+              "status": "UNAVAILABLE",
+              "checkedAt": "2026-11-14T02:01:19.587Z",
+              "reasonCode": "NO_MATCHING_SLOT",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:2c93dbe2df232809b6d53f2c",
+                "evidence:restaurant:tabelog-hard-criteria:89e20cc550df8330923e4546",
+                "evidence:restaurant:tabelog-availability:4a21520f157a0e166c1d5833"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "UNAVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-14T02:11:19.587Z",
+              "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "tabelog:en/tokyo/A1319/A131902/13156851": {
+              "status": "UNAVAILABLE",
+              "checkedAt": "2026-11-14T02:00:52.468Z",
+              "reasonCode": "NO_MATCHING_SLOT",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:adc201fe39999bf5fea07225",
+                "evidence:restaurant:tabelog-hard-criteria:c02aa4151053846ccb27a40c",
+                "evidence:restaurant:tabelog-availability:a6e6217544bf6f0016e24519"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "UNAVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-14T02:10:52.468Z",
+              "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "tabelog:en/tokyo/A1319/A131902/13297901": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-14T01:59:46.204Z",
+              "reasonCode": "ADVANCE_OPERATION_BUDGET",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:ccd9e7b503b3cbfdf6ae5aa5"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "AGENT_EXECUTION_FAILED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+            },
+            "tabelog:en/tokyo/A1319/A131902/13309182": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-14T01:59:12.187Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:5a22df8b3ed9f829fb1774c6",
+                "evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a",
+                "evidence:restaurant:tabelog-availability:efd078d58f94f118bac51697"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-14T02:09:12.187Z",
+              "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "praxis:restaurant:8e3a09511d095d01aa3a3746": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-14T02:00:30.396Z",
+              "reasonCode": "RESERVE_REACHED",
+              "evidenceIds": [],
+              "sourceAttempts": [],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-12-10\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":8}"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7075331,
+                "longitude": 139.6637591,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJo9BwwI_yGGARzEFspqeGj3Q",
+                "resolvedPlaceName": "Nakano City",
+                "resolvedPlaceTypes": [
+                  "locality",
+                  "political"
+                ],
+                "locationNameExactMatch": false,
+                "locationResolutionQuery": "Nakano",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "6f3cb6b48f505bb70f70e78de1b4368979b16b7781a7f43b48ff24fc06f76423",
+              "observedAt": "2026-11-14T01:56:59.994Z",
+              "sourceEntityId": "ChIJo9BwwI_yGGARzEFspqeGj3Q",
+              "requestFingerprint": "346f5fc898f6e94828ec61e201dae21cab25a4da8bf16cd7f701b94df350d37c"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "sumika",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 261,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Nakano Sta. 342m / Izakaya (Japanese style tavern), Robatayaki, Seafood"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:native-discovery:58b3a507ac5ae7fbc403b3a3",
+              "observedAt": "2026-11-14T01:58:13.518Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-59-3",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Oka Joki",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 213,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Nakano Sta. 201m / Izakaya (Japanese style tavern), Seafood, Robatayaki"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "evidence:restaurant:native-discovery:8b3fdd14eba7c1edcae2e8a2",
+              "observedAt": "2026-11-14T01:58:16.430Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-46-2 MSIビル 1F",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 299,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Nakano Sta. 271m / Sushi, Izakaya (Japanese style tavern), Japanese Cuisine"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+              "evidenceId": "evidence:restaurant:native-discovery:a3637da620bbfed68a861705",
+              "observedAt": "2026-11-14T01:58:19.245Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1640011 東京都中野区中央4-6-12 新中野マンション 1F",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Sanuki no Udon Hana wa Saku Shin nakano honten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 996,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Shin Nakano Sta. 226m / Udon (Wheat noodles), Izakaya (Japanese style tavern), Tempura"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+              "evidenceId": "evidence:restaurant:native-discovery:b3553564d62b0f2e08fe0a86",
+              "observedAt": "2026-11-14T01:58:22.044Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13156851",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-59-12 ピカ一本館ビル 1F",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Gempin Nakano Fugu Unagi Ryouri",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 232,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Nakano Sta. 236m / Fugu (Pufferfish), Unagi (Eel), Japanese Cuisine"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+              "evidenceId": "evidence:restaurant:native-discovery:d3960fe63bdb4109ed42404b",
+              "observedAt": "2026-11-14T01:58:24.931Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13028733",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+                "placeId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Nakano Robata Sumika",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 260,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "mergedCandidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "regularOpeningHours": [
+                  "Monday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Tuesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Wednesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Thursday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Friday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Saturday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Sunday: 11:00 AM – 2:30 PM, 5:00 – 10:00 PM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:1223a969bc9ec0e36f0a5463",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+                "placeId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "outletName": "Nakano Robata Sumika",
+                "mergedCandidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:1223a969bc9ec0e36f0a5463",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                "mergedCandidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Tuesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Wednesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Thursday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Friday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Saturday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Sunday: 11:00 AM – 2:30 PM, 5:00 – 10:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "20:30",
+                  "20:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:34ed84eb9df20e7334f882ae",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "seafood_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Okajoki",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 212,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "mergedCandidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                "regularOpeningHours": [
+                  "Monday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Tuesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Wednesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Thursday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Friday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Saturday: 4:00 – 9:00 PM",
+                  "Sunday: 4:00 – 9:00 PM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:0be2f7a01c1543d3315989b5",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "outletName": "Okajoki",
+                "mergedCandidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:0be2f7a01c1543d3315989b5",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "mergedCandidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Tuesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Wednesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Thursday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Friday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Saturday: 4:00 – 9:00 PM",
+                  "Sunday: 4:00 – 9:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "20:30",
+                  "20:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:3190c93c783f00bcf7e1701b",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F",
+                "placeId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "中野製作所 まんてん別館",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 340,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 4:00 PM – 12:00 AM",
+                  "Sunday: 4:00 – 11:00 PM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:4d91f52b9b413d17fd950a71",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F",
+                "placeId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                "outletName": "中野製作所 まんてん別館"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:4d91f52b9b413d17fd950a71",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 4:00 PM – 12:00 AM",
+                  "Sunday: 4:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "20:30",
+                  "20:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:2b26975f49d2385fa726f0e7",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "sumika",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 261,
+                "sourceCategories": [
+                  "Nakano Sta. 342m / Izakaya (Japanese style tavern), Robatayaki, Seafood"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City",
+                "corroboratingCandidateId": "tabelog:en/tokyo/A1319/A131902/13309182"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:discovery-identity:ed5384423309f5cca332d273",
+              "observedAt": "2026-11-14T01:58:13.518Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-59-3",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Oka Joki",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 213,
+                "sourceCategories": [
+                  "Nakano Sta. 201m / Izakaya (Japanese style tavern), Seafood, Robatayaki"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City",
+                "corroboratingCandidateId": "tabelog:en/tokyo/A1319/A131902/13000216"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "evidence:restaurant:discovery-identity:681376554830c7f9d4fe4c83",
+              "observedAt": "2026-11-14T01:58:16.430Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-46-2 MSIビル 1F",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 299,
+                "sourceCategories": [
+                  "Nakano Sta. 271m / Sushi, Izakaya (Japanese style tavern), Japanese Cuisine"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City",
+                "corroboratingCandidateId": "tabelog:en/tokyo/A1319/A131902/13297901"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+              "evidenceId": "evidence:restaurant:discovery-identity:457bc385f13b665d3f96f1fd",
+              "observedAt": "2026-11-14T01:58:19.245Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640011 東京都中野区中央4-6-12 新中野マンション 1F",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Sanuki no Udon Hana wa Saku Shin nakano honten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 996,
+                "sourceCategories": [
+                  "Shin Nakano Sta. 226m / Udon (Wheat noodles), Izakaya (Japanese style tavern), Tempura"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City",
+                "corroboratingCandidateId": "tabelog:en/tokyo/A1319/A131902/13156851"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+              "evidenceId": "evidence:restaurant:discovery-identity:e7404c1acd6bf542d09c0ed1",
+              "observedAt": "2026-11-14T01:58:22.044Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13156851",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-59-12 ピカ一本館ビル 1F",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Gempin Nakano Fugu Unagi Ryouri",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 232,
+                "sourceCategories": [
+                  "Nakano Sta. 236m / Fugu (Pufferfish), Unagi (Eel), Japanese Cuisine"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City",
+                "corroboratingCandidateId": "tabelog:en/tokyo/A1319/A131902/13028733"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+              "evidenceId": "evidence:restaurant:discovery-identity:32ed9d7d4fe7d27b5e3376a9",
+              "observedAt": "2026-11-14T01:58:24.931Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13028733",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "sumika",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 261,
+                "sourceCategories": [
+                  "Nakano Sta. 342m / Izakaya (Japanese style tavern), Robatayaki, Seafood"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "mergedCandidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City",
+                "corroboratingCandidateId": "tabelog:en/tokyo/A1319/A131902/13309182"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:discovery-identity:9cc19c3d4c630995a654348d",
+              "observedAt": "2026-11-14T01:58:13.518Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-59-3",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Oka Joki",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 213,
+                "sourceCategories": [
+                  "Nakano Sta. 201m / Izakaya (Japanese style tavern), Seafood, Robatayaki"
+                ],
+                "discoveryScopeRef": "observation:10:target:18",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+                "mergedCandidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                "discoveryScopeText": "Robatayaki",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nakano City",
+                "corroboratingCandidateId": "tabelog:en/tokyo/A1319/A131902/13000216"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "evidence:restaurant:discovery-identity:762f4a9be4ba141a2df8ec98",
+              "observedAt": "2026-11-14T01:58:16.430Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Robatayaki restaurant near Nakano\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-12-10\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"20:30\\\",\\\"earliest\\\":\\\"20:30\\\"},\\\"partySize\\\":8,\\\"area\\\":{\\\"query\\\":\\\"near Nakano\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"robatayaki\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7075331,\"longitude\":139.6637591,\"radiusMeters\":1000,\"label\":\"Nakano City\",\"queryLabel\":\"Nakano\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Nakano City\",\"shortText\":\"Nakano City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Oka Joki",
+                "observedOutletName": "Oka Joki"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:4506d0e2a21105621032d27b",
+              "observedAt": "2026-11-14T01:58:41.201Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Oka Joki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                }
+              ],
+              "requestFingerprint": "2567ad9a6c9009ea94d083e354176058c70b83a0fb1158d8390897818ce0373e"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Oka Joki",
+                "observedOutletName": "Oka Joki"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:c4a129ceb8ea17ed1caa7a3b",
+              "observedAt": "2026-11-14T01:58:34.316Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Oka Joki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                }
+              ],
+              "requestFingerprint": "2567ad9a6c9009ea94d083e354176058c70b83a0fb1158d8390897818ce0373e"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:9ca623646fd8cca4c34e8c06",
+              "observedAt": "2026-11-14T01:58:34.316Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nIzakaya (Japanese style tavern)\nSeafood\nRobatayaki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tIzakaya (Japanese style tavern), Seafood, Robatayaki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                }
+              ],
+              "requestFingerprint": "fc1be9617333bda72832cf6a996de4001dff74c2f6e01bcf82694e53c476f37c"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "sumika",
+                "observedOutletName": "sumika"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:5a22df8b3ed9f829fb1774c6",
+              "observedAt": "2026-11-14T01:59:12.187Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "sumika",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                }
+              ],
+              "requestFingerprint": "f4391411f03b2627612304fe2e08e527c93dbd3f36afd138c24b34c414550388"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a",
+              "observedAt": "2026-11-14T01:59:12.187Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                }
+              ],
+              "requestFingerprint": "1a30fd83091293a9585fd555b2f0e189313f7636fdc56627308a445c4e9481a2"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-12-10",
+                "partySize": 8,
+                "visibleSlots": [
+                  "20:30"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:efd078d58f94f118bac51697",
+              "observedAt": "2026-11-14T01:59:12.187Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:0517734d3ff3deb7afa0fedc7d9331b9e781c1151468350c44b0ea90698f14b6"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "displayExpiresAt": "2026-11-14T02:09:12.187Z",
+              "requestFingerprint": "d1253ce424e5cda6d72dacbf7805ca38123803ef262f43f742df938f7de700ab",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                "observedOutletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:ccd9e7b503b3cbfdf6ae5aa5",
+              "observedAt": "2026-11-14T01:59:46.204Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                }
+              ],
+              "requestFingerprint": "9c5915081ee2ea512a08d784d438bb4ae41b382addf9fcb83732abb301bf8787"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "robatayaki"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1319/A131902/13309182:2026-11-14T01:59:51.238Z:evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a",
+              "observedAt": "2026-11-14T01:59:51.238Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131902/13309182\",\"criteria\":[\"robatayaki\"],\"cited\":[\"evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-59-3",
+                "outletName": "Oka Joki",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Oka Joki"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:aa28fb304e28c4fff48a081d",
+              "observedAt": "2026-11-14T01:59:52.709Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Oka Joki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131902/13000216\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13000216/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131902/13000216:statement:17",
+                  "tabelog:en/tokyo/A1319/A131902/13000216:statement:20"
+                ],
+                "restaurantTypeFacts": [
+                  "Categories：",
+                  "Robatayaki"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530",
+              "observedAt": "2026-11-14T01:59:52.709Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Categories：",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Robatayaki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131902/13000216:statement:17\",\"tabelog:en/tokyo/A1319/A131902/13000216:statement:20\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "robatayaki"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1319/A131902/13000216:2026-11-14T02:00:02.902Z:tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530",
+              "observedAt": "2026-11-14T02:00:02.902Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131902/13000216\",\"criteria\":[\"robatayaki\"],\"cited\":[\"tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1640001 東京都中野区中野5-46-2 MSIビル 1F",
+                "outletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:a3d7d92e10e4a9e8ae2d7f48",
+              "observedAt": "2026-11-14T02:00:02.948Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131902/13297901\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "listedCourseDetails": [
+                  "Table Reservation Only with 7 Assorted Sashimi1item\nReserve\nSet menu details\nJPY 2,000JPY1,500（Price including tax）per person",
+                  "Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \"Smoked Sushi,\" along with four pieces of expertly crafted \"Edo-style Sushi,\" crispy \"Special Hand-Rolled Tempura,\" and delightful winter favorites like \"Fried Oysters\" and \"Three Types of Sashimi,\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\nReserve\nSet menu details\nJPY 8,000JPY3,980（Price including tax）per person\n2 - 5",
+                  "On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\nPerfect for a casual night out or for those experiencing \"Saigyo\" for the first time! This light plan features our signature \"aromatic smoked sushi\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\nReserve\nSet menu details\nJPY5,000（Price including tax）per person\n2 - 5"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+              "evidenceId": "quoted-source:9d4693347776d22d132d96bd",
+              "observedAt": "2026-11-14T02:00:12.557Z",
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "dinnerBudgetRangeYen": {
+                  "max": 5999,
+                  "min": 5000,
+                  "quote": "Average price\nJPY 5,000 - JPY 5,999",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                "listedCoursePricesYen": [
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "Table Reservation Only with 7 Assorted Sashimi1item\nReserve\nSet menu details\nJPY 2,000JPY1,500（Price including tax）per person",
+                    "amount": 1500,
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                  },
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \"Smoked Sushi,\" along with four pieces of expertly crafted \"Edo-style Sushi,\" crispy \"Special Hand-Rolled Tempura,\" and delightful winter favorites like \"Fried Oysters\" and \"Three Types of Sashimi,\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\nReserve\nSet menu details\nJPY 8,000JPY3,980（Price including tax）per person\n2 - 5",
+                    "amount": 3980,
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                  },
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\nPerfect for a casual night out or for those experiencing \"Saigyo\" for the first time! This light plan features our signature \"aromatic smoked sushi\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\nReserve\nSet menu details\nJPY5,000（Price including tax）per person\n2 - 5",
+                    "amount": 5000,
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                  }
+                ]
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nSushi\nIzakaya (Japanese style tavern)\nJapanese Cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Table Reservation Only with 7 Assorted Sashimi1item\nReserve\nSet menu details\nJPY 2,000JPY1,500（Price including tax）per person",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \"Smoked Sushi,\" along with four pieces of expertly crafted \"Edo-style Sushi,\" crispy \"Special Hand-Rolled Tempura,\" and delightful winter favorites like \"Fried Oysters\" and \"Three Types of Sashimi,\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\nReserve\nSet menu details\nJPY 8,000JPY3,980（Price including tax）per person\n2 - 5",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\nPerfect for a casual night out or for those experiencing \"Saigyo\" for the first time! This light plan features our signature \"aromatic smoked sushi\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\nReserve\nSet menu details\nJPY5,000（Price including tax）per person\n2 - 5",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tSushi, Izakaya (Japanese style tavern), Japanese Cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "DINNER",
+                  "field": "PRICE",
+                  "quote": "Average price\nJPY 5,000 - JPY 5,999",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                }
+              ],
+              "requestFingerprint": "{\"identity\":\"evidence:restaurant:native-fact-identity:a3d7d92e10e4a9e8ae2d7f48\",\"facts\":{\"readAt\":\"2026-11-14T02:00:12.557Z\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"listedCourseDetails\":[\"Table Reservation Only with 7 Assorted Sashimi1item\\nReserve\\nSet menu details\\nJPY 2,000JPY1,500（Price including tax）per person\",\"Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \\\"Smoked Sushi,\\\" along with four pieces of expertly crafted \\\"Edo-style Sushi,\\\" crispy \\\"Special Hand-Rolled Tempura,\\\" and delightful winter favorites like \\\"Fried Oysters\\\" and \\\"Three Types of Sashimi,\\\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\\nReserve\\nSet menu details\\nJPY 8,000JPY3,980（Price including tax）per person\\n2 - 5\",\"On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\\nPerfect for a casual night out or for those experiencing \\\"Saigyo\\\" for the first time! This light plan features our signature \\\"aromatic smoked sushi\\\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\\nReserve\\nSet menu details\\nJPY5,000（Price including tax）per person\\n2 - 5\"],\"sourceFieldQuotes\":[{\"field\":\"CATEGORY\",\"quote\":\"Categories：\\nSushi\\nIzakaya (Japanese style tavern)\\nJapanese Cuisine\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\"},{\"field\":\"COURSE_DESCRIPTION\",\"quote\":\"Table Reservation Only with 7 Assorted Sashimi1item\\nReserve\\nSet menu details\\nJPY 2,000JPY1,500（Price including tax）per person\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"meal\":\"UNSPECIFIED\"},{\"field\":\"COURSE_DESCRIPTION\",\"quote\":\"Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \\\"Smoked Sushi,\\\" along with four pieces of expertly crafted \\\"Edo-style Sushi,\\\" crispy \\\"Special Hand-Rolled Tempura,\\\" and delightful winter favorites like \\\"Fried Oysters\\\" and \\\"Three Types of Sashimi,\\\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\\nReserve\\nSet menu details\\nJPY 8,000JPY3,980（Price including tax）per person\\n2 - 5\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"meal\":\"UNSPECIFIED\"},{\"field\":\"COURSE_DESCRIPTION\",\"quote\":\"On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\\nPerfect for a casual night out or for those experiencing \\\"Saigyo\\\" for the first time! This light plan features our signature \\\"aromatic smoked sushi\\\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\\nReserve\\nSet menu details\\nJPY5,000（Price including tax）per person\\n2 - 5\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"meal\":\"UNSPECIFIED\"},{\"field\":\"CATEGORY\",\"quote\":\"Categories\\tSushi, Izakaya (Japanese style tavern), Japanese Cuisine\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\"},{\"field\":\"PRICE\",\"quote\":\"Average price\\nJPY 5,000 - JPY 5,999\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"meal\":\"DINNER\"}],\"priceFacts\":{\"schemaVersion\":\"restaurant-price-facts@1\",\"listedCoursePricesYen\":[{\"amount\":1500,\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"quote\":\"Table Reservation Only with 7 Assorted Sashimi1item\\nReserve\\nSet menu details\\nJPY 2,000JPY1,500（Price including tax）per person\",\"tax\":\"INCLUDED\",\"meal\":\"UNSPECIFIED\",\"kind\":\"MEAL\"},{\"amount\":3980,\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"quote\":\"Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \\\"Smoked Sushi,\\\" along with four pieces of expertly crafted \\\"Edo-style Sushi,\\\" crispy \\\"Special Hand-Rolled Tempura,\\\" and delightful winter favorites like \\\"Fried Oysters\\\" and \\\"Three Types of Sashimi,\\\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\\nReserve\\nSet menu details\\nJPY 8,000JPY3,980（Price including tax）per person\\n2 - 5\",\"tax\":\"INCLUDED\",\"meal\":\"UNSPECIFIED\",\"kind\":\"MEAL\"},{\"amount\":5000,\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"quote\":\"On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\\nPerfect for a casual night out or for those experiencing \\\"Saigyo\\\" for the first time! This light plan features our signature \\\"aromatic smoked sushi\\\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\\nReserve\\nSet menu details\\nJPY5,000（Price including tax）per person\\n2 - 5\",\"tax\":\"INCLUDED\",\"meal\":\"UNSPECIFIED\",\"kind\":\"MEAL\"}],\"dinnerBudgetRangeYen\":{\"min\":5000,\"max\":5999,\"quote\":\"Average price\\nJPY 5,000 - JPY 5,999\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\"}}}}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131902/13297901:statement:19",
+                  "tabelog:en/tokyo/A1319/A131902/13297901:statement:20",
+                  "tabelog:en/tokyo/A1319/A131902/13297901:statement:21"
+                ],
+                "restaurantTypeFacts": [
+                  "Sushi",
+                  "Izakaya (Japanese style tavern)",
+                  "Japanese Cuisine"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131902/13297901:document:f2f33770d81c97b4",
+              "observedAt": "2026-11-14T02:00:02.948Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131902/13297901:document:f2f33770d81c97b4"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Sushi",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Japanese Cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131902/13297901:document:f2f33770d81c97b4\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131902/13297901:statement:19\",\"tabelog:en/tokyo/A1319/A131902/13297901:statement:20\",\"tabelog:en/tokyo/A1319/A131902/13297901:statement:21\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Sanuki no Udon Hana wa Saku Shin nakano honten",
+                "observedOutletName": "Sanuki no Udon Hana wa Saku Shin nakano honten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:adc201fe39999bf5fea07225",
+              "observedAt": "2026-11-14T02:00:52.468Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13156851",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Sanuki no Udon Hana wa Saku Shin nakano honten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/"
+                }
+              ],
+              "requestFingerprint": "3fa4abb198af14aa9d1cd1e04b90970db14119c0d4c3bc5ccbf00b04904a5a05"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:c02aa4151053846ccb27a40c",
+              "observedAt": "2026-11-14T02:00:52.468Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13156851",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Udon (Wheat noodles), Izakaya (Japanese style tavern), Tempura",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/"
+                }
+              ],
+              "requestFingerprint": "d97f04279556444747ccfae12e16f859a16f61617e00525bb733176b022fd0b7"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-12-10",
+                "partySize": 8,
+                "visibleSlots": [],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "UNAVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:a6e6217544bf6f0016e24519",
+              "observedAt": "2026-11-14T02:00:52.468Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:b001241374ca3e17c73bf8f09cccce22e9bc7dc594f472016a38de9c43bf8fce"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13156851",
+              "displayExpiresAt": "2026-11-14T02:10:52.468Z",
+              "requestFingerprint": "d71ced7bf44c3b1c1fcbfec292517714733b8fe4f8226e055397b0939ae5702c",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Gempin Nakano Fugu Unagi Ryouri",
+                "observedOutletName": "Gempin Nakano Fugu Unagi Ryouri"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:2c93dbe2df232809b6d53f2c",
+              "observedAt": "2026-11-14T02:01:19.587Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13028733",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Gempin Nakano Fugu Unagi Ryouri",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/"
+                }
+              ],
+              "requestFingerprint": "0d0062e11ce2645a36f51eed1235b9919420a0bc9ca73c85550600961ca0f790"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:89e20cc550df8330923e4546",
+              "observedAt": "2026-11-14T02:01:19.587Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13028733",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Fugu (Pufferfish), Unagi (Eel), Japanese Cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/"
+                }
+              ],
+              "requestFingerprint": "1fb7a137a71f9c9013641407b5012f68ddecbb40adf751d3a66317e79e164adc"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-12-10",
+                "partySize": 8,
+                "visibleSlots": [],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "UNAVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:4a21520f157a0e166c1d5833",
+              "observedAt": "2026-11-14T02:01:19.587Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:f8a5af42754c8f29a7f8d688391aad9e4a994b49de4255d817cfd1cd003307a7"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13028733",
+              "displayExpiresAt": "2026-11-14T02:11:19.587Z",
+              "requestFingerprint": "6945eff5310323cd009752d4782961bd10e53a1fee96590e2206e3c69036f49d",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                "mergedCandidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Tuesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Wednesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Thursday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Friday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Saturday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Sunday: 11:00 AM – 2:30 PM, 5:00 – 10:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "20:30",
+                  "20:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:34ed84eb9df20e7334f882ae",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a",
+              "observedAt": "2026-11-14T01:59:12.187Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                }
+              ],
+              "requestFingerprint": "1a30fd83091293a9585fd555b2f0e189313f7636fdc56627308a445c4e9481a2"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "robatayaki"
+                ],
+                "supportingEvidenceIds": [
+                  "evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1319/A131902/13309182:2026-11-14T01:59:51.238Z:evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a",
+              "observedAt": "2026-11-14T01:59:51.238Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131902/13309182\",\"criteria\":[\"robatayaki\"],\"cited\":[\"evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "mergedCandidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Tuesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Wednesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Thursday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Friday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Saturday: 4:00 – 9:00 PM",
+                  "Sunday: 4:00 – 9:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "20:30",
+                  "20:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:3190c93c783f00bcf7e1701b",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131902/13000216:statement:17",
+                  "tabelog:en/tokyo/A1319/A131902/13000216:statement:20"
+                ],
+                "restaurantTypeFacts": [
+                  "Categories：",
+                  "Robatayaki"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530",
+              "observedAt": "2026-11-14T01:59:52.709Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Categories：",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Robatayaki",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131902/13000216:statement:17\",\"tabelog:en/tokyo/A1319/A131902/13000216:statement:20\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "robatayaki"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1319/A131902/13000216:2026-11-14T02:00:02.902Z:tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530",
+              "observedAt": "2026-11-14T02:00:02.902Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131902/13000216\",\"criteria\":[\"robatayaki\"],\"cited\":[\"tabelog:en/tokyo/A1319/A131902/13000216:document:f4e9ba3b2d049530\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "listedCourseDetails": [
+                  "Table Reservation Only with 7 Assorted Sashimi1item\nReserve\nSet menu details\nJPY 2,000JPY1,500（Price including tax）per person",
+                  "Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \"Smoked Sushi,\" along with four pieces of expertly crafted \"Edo-style Sushi,\" crispy \"Special Hand-Rolled Tempura,\" and delightful winter favorites like \"Fried Oysters\" and \"Three Types of Sashimi,\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\nReserve\nSet menu details\nJPY 8,000JPY3,980（Price including tax）per person\n2 - 5",
+                  "On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\nPerfect for a casual night out or for those experiencing \"Saigyo\" for the first time! This light plan features our signature \"aromatic smoked sushi\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\nReserve\nSet menu details\nJPY5,000（Price including tax）per person\n2 - 5"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+              "evidenceId": "quoted-source:9d4693347776d22d132d96bd",
+              "observedAt": "2026-11-14T02:00:12.557Z",
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "dinnerBudgetRangeYen": {
+                  "max": 5999,
+                  "min": 5000,
+                  "quote": "Average price\nJPY 5,000 - JPY 5,999",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                "listedCoursePricesYen": [
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "Table Reservation Only with 7 Assorted Sashimi1item\nReserve\nSet menu details\nJPY 2,000JPY1,500（Price including tax）per person",
+                    "amount": 1500,
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                  },
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \"Smoked Sushi,\" along with four pieces of expertly crafted \"Edo-style Sushi,\" crispy \"Special Hand-Rolled Tempura,\" and delightful winter favorites like \"Fried Oysters\" and \"Three Types of Sashimi,\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\nReserve\nSet menu details\nJPY 8,000JPY3,980（Price including tax）per person\n2 - 5",
+                    "amount": 3980,
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                  },
+                  {
+                    "tax": "INCLUDED",
+                    "kind": "MEAL",
+                    "meal": "UNSPECIFIED",
+                    "quote": "On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\nPerfect for a casual night out or for those experiencing \"Saigyo\" for the first time! This light plan features our signature \"aromatic smoked sushi\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\nReserve\nSet menu details\nJPY5,000（Price including tax）per person\n2 - 5",
+                    "amount": 5000,
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                  }
+                ]
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nSushi\nIzakaya (Japanese style tavern)\nJapanese Cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Table Reservation Only with 7 Assorted Sashimi1item\nReserve\nSet menu details\nJPY 2,000JPY1,500（Price including tax）per person",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \"Smoked Sushi,\" along with four pieces of expertly crafted \"Edo-style Sushi,\" crispy \"Special Hand-Rolled Tempura,\" and delightful winter favorites like \"Fried Oysters\" and \"Three Types of Sashimi,\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\nReserve\nSet menu details\nJPY 8,000JPY3,980（Price including tax）per person\n2 - 5",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\nPerfect for a casual night out or for those experiencing \"Saigyo\" for the first time! This light plan features our signature \"aromatic smoked sushi\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\nReserve\nSet menu details\nJPY5,000（Price including tax）per person\n2 - 5",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tSushi, Izakaya (Japanese style tavern), Japanese Cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "DINNER",
+                  "field": "PRICE",
+                  "quote": "Average price\nJPY 5,000 - JPY 5,999",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                }
+              ],
+              "requestFingerprint": "{\"identity\":\"evidence:restaurant:native-fact-identity:a3d7d92e10e4a9e8ae2d7f48\",\"facts\":{\"readAt\":\"2026-11-14T02:00:12.557Z\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"listedCourseDetails\":[\"Table Reservation Only with 7 Assorted Sashimi1item\\nReserve\\nSet menu details\\nJPY 2,000JPY1,500（Price including tax）per person\",\"Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \\\"Smoked Sushi,\\\" along with four pieces of expertly crafted \\\"Edo-style Sushi,\\\" crispy \\\"Special Hand-Rolled Tempura,\\\" and delightful winter favorites like \\\"Fried Oysters\\\" and \\\"Three Types of Sashimi,\\\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\\nReserve\\nSet menu details\\nJPY 8,000JPY3,980（Price including tax）per person\\n2 - 5\",\"On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\\nPerfect for a casual night out or for those experiencing \\\"Saigyo\\\" for the first time! This light plan features our signature \\\"aromatic smoked sushi\\\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\\nReserve\\nSet menu details\\nJPY5,000（Price including tax）per person\\n2 - 5\"],\"sourceFieldQuotes\":[{\"field\":\"CATEGORY\",\"quote\":\"Categories：\\nSushi\\nIzakaya (Japanese style tavern)\\nJapanese Cuisine\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\"},{\"field\":\"COURSE_DESCRIPTION\",\"quote\":\"Table Reservation Only with 7 Assorted Sashimi1item\\nReserve\\nSet menu details\\nJPY 2,000JPY1,500（Price including tax）per person\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"meal\":\"UNSPECIFIED\"},{\"field\":\"COURSE_DESCRIPTION\",\"quote\":\"Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \\\"Smoked Sushi,\\\" along with four pieces of expertly crafted \\\"Edo-style Sushi,\\\" crispy \\\"Special Hand-Rolled Tempura,\\\" and delightful winter favorites like \\\"Fried Oysters\\\" and \\\"Three Types of Sashimi,\\\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\\nReserve\\nSet menu details\\nJPY 8,000JPY3,980（Price including tax）per person\\n2 - 5\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"meal\":\"UNSPECIFIED\"},{\"field\":\"COURSE_DESCRIPTION\",\"quote\":\"On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\\nPerfect for a casual night out or for those experiencing \\\"Saigyo\\\" for the first time! This light plan features our signature \\\"aromatic smoked sushi\\\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\\nReserve\\nSet menu details\\nJPY5,000（Price including tax）per person\\n2 - 5\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"meal\":\"UNSPECIFIED\"},{\"field\":\"CATEGORY\",\"quote\":\"Categories\\tSushi, Izakaya (Japanese style tavern), Japanese Cuisine\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\"},{\"field\":\"PRICE\",\"quote\":\"Average price\\nJPY 5,000 - JPY 5,999\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"meal\":\"DINNER\"}],\"priceFacts\":{\"schemaVersion\":\"restaurant-price-facts@1\",\"listedCoursePricesYen\":[{\"amount\":1500,\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"quote\":\"Table Reservation Only with 7 Assorted Sashimi1item\\nReserve\\nSet menu details\\nJPY 2,000JPY1,500（Price including tax）per person\",\"tax\":\"INCLUDED\",\"meal\":\"UNSPECIFIED\",\"kind\":\"MEAL\"},{\"amount\":3980,\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"quote\":\"Early Bird ★ JPY 3980 All-You-Can-Drink with Draft Beer & Smoked Sushi, Hand-Rolled Tempura, 17 Dishes 'Early Bird Year-End Party Course'17 items\\nIntroducing an unbeatable early bird plan perfect for year-end parties starting early, zero parties, or quick gatherings! Enjoy our signature \\\"Smoked Sushi,\\\" along with four pieces of expertly crafted \\\"Edo-style Sushi,\\\" crispy \\\"Special Hand-Rolled Tempura,\\\" and delightful winter favorites like \\\"Fried Oysters\\\" and \\\"Three Types of Sashimi,\\\" totaling 17 popular dishes. Plus, this package includes a 90-minute all-you-can-drink option featuring draft beer! This special price is available for a limited time, so be sure to make your reservation soon. *This offer is exclusive to customers who enter between 17:00 and 17:45, with a seating time limit of 90 minutes.\\nReserve\\nSet menu details\\nJPY 8,000JPY3,980（Price including tax）per person\\n2 - 5\",\"tax\":\"INCLUDED\",\"meal\":\"UNSPECIFIED\",\"kind\":\"MEAL\"},{\"amount\":5000,\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\",\"quote\":\"On-the-Day Reservation Available: Specialty Smoked Sushi and Whole Anago Sushi 'Introductory Course' (Includes 1 Drink)14 items\\nPerfect for a casual night out or for those experiencing \\\"Saigyo\\\" for the first time! This light plan features our signature \\\"aromatic smoked sushi\\\" along with a selection of 14 dishes, including savory hand-rolled sushi and simmered cheek meat, all at a great price. Enjoy a complimentary drink of your choice, making it ideal for a post-work drink or an impromptu gathering on the same day. Come and casually experience our culinary delights!\\nReserve\\nSet menu details\\nJPY5,000（Price including tax）per person\\n2 - 5\",\"tax\":\"INCLUDED\",\"meal\":\"UNSPECIFIED\",\"kind\":\"MEAL\"}],\"dinnerBudgetRangeYen\":{\"min\":5000,\"max\":5999,\"quote\":\"Average price\\nJPY 5,000 - JPY 5,999\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131902/13297901/\"}}}}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131902/13297901:statement:19",
+                  "tabelog:en/tokyo/A1319/A131902/13297901:statement:20",
+                  "tabelog:en/tokyo/A1319/A131902/13297901:statement:21"
+                ],
+                "restaurantTypeFacts": [
+                  "Sushi",
+                  "Izakaya (Japanese style tavern)",
+                  "Japanese Cuisine"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131902/13297901:document:f2f33770d81c97b4",
+              "observedAt": "2026-11-14T02:00:02.948Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131902/13297901:document:f2f33770d81c97b4"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Sushi",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Japanese Cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131902/13297901:document:f2f33770d81c97b4\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131902/13297901:statement:19\",\"tabelog:en/tokyo/A1319/A131902/13297901:statement:20\",\"tabelog:en/tokyo/A1319/A131902/13297901:statement:21\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:c02aa4151053846ccb27a40c",
+              "observedAt": "2026-11-14T02:00:52.468Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13156851",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Udon (Wheat noodles), Izakaya (Japanese style tavern), Tempura",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/"
+                }
+              ],
+              "requestFingerprint": "d97f04279556444747ccfae12e16f859a16f61617e00525bb733176b022fd0b7"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:89e20cc550df8330923e4546",
+              "observedAt": "2026-11-14T02:01:19.587Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13028733",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Fugu (Pufferfish), Unagi (Eel), Japanese Cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/"
+                }
+              ],
+              "requestFingerprint": "1fb7a137a71f9c9013641407b5012f68ddecbb40adf751d3a66317e79e164adc"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 4:00 PM – 12:00 AM",
+                  "Sunday: 4:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "20:30",
+                  "20:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:2b26975f49d2385fa726f0e7",
+              "observedAt": "2026-11-14T01:58:26.168Z",
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            }
+          ],
+          "presentedCandidateIds": [
+            "tabelog:en/tokyo/A1319/A131902/13309182"
+          ],
+          "conditionStates": {
+            "tabelog:en/tokyo/A1319/A131902/13309182": [
+              {
+                "text": "robatayaki",
+                "status": "MET",
+                "sources": [
+                  {
+                    "meal": "UNSPECIFIED",
+                    "field": "CATEGORY",
+                    "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                  }
+                ],
+                "polarity": "POSITIVE",
+                "strength": "HARD",
+                "evidenceIds": [
+                  "fact-judgment:tabelog:en/tokyo/A1319/A131902/13309182:2026-11-14T01:59:51.238Z:evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a",
+                  "evidence:restaurant:tabelog-hard-criteria:3228f77f84753b49b6b3763a"
+                ],
+                "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+                "criterionRef": "criterion:0"
+              }
+            ]
+          },
+          "viewedCandidateIds": [],
+          "shortlistCandidateIds": [],
+          "resultBatchTarget": {
+            "met": false,
+            "candidateCount": 3
+          },
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-14T01:56:52.976Z"
+          },
+          "bookingHandoffs": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "offerId": "offer:tabelog:tabelog:en/tokyo/A1319/A131902/13309182:2026-12-10:20:30:8",
+              "provider": "TABELOG",
+              "url": "https://tabelog.com/en/booking/form_course/new?member=8&rcd=13309182&visit_date=20261210&visit_time=2030",
+              "directLabel": "Book on Tabelog",
+              "continueLabel": "Continue on Tabelog — date, time, 8 guests filled in",
+              "checkedAt": "2026-11-14T01:59:12.187Z",
+              "displayExpiresAt": "2026-11-14T02:09:12.187Z",
+              "platformFee": {
+                "provider": "TABELOG",
+                "channel": "ENGLISH_BOOKING",
+                "amountPerPersonJPY": 440,
+                "userCancellationRefund": false,
+                "restaurantCancellationRefund": true,
+                "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+                "sourceUrl": "https://tabelog.com/en/help",
+                "checkedOn": "2026-10-29",
+                "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+                "quotes": [
+                  "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+                  "Please note that no refunds will be issued for cancellations made for customer reasons.",
+                  "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+                ]
+              },
+              "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+              "linkCarries": [
+                "DATE",
+                "TIME",
+                "PARTY_SIZE"
+              ],
+              "sourceSelection": "UNKNOWN",
+              "terms": []
+            }
+          ]
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 7,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131902/13309182",
+                    "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A",
+                    "sourceIds": {
+                      "phone": "03-4400-3404",
+                      "tabelog": "en/tokyo/A1319/A131902/13309182",
+                      "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                      "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                    },
+                    "outletName": "sumika",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:58b3a507ac5ae7fbc403b3a3",
+                      "sourceIds": "evidence:restaurant:native-discovery:58b3a507ac5ae7fbc403b3a3",
+                      "outletName": "evidence:restaurant:native-discovery:58b3a507ac5ae7fbc403b3a3"
+                    },
+                    "coordinates": {
+                      "lat": 35.70887771866652,
+                      "lng": 139.666127134734
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nakano City",
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 260,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131902/13000216",
+                    "address": "1640001 東京都中野区中野5-59-3",
+                    "sourceIds": {
+                      "phone": "+81-3-3228-1230",
+                      "tabelog": "en/tokyo/A1319/A131902/13000216",
+                      "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                      "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                    },
+                    "outletName": "Oka Joki",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:8b3fdd14eba7c1edcae2e8a2",
+                      "sourceIds": "evidence:restaurant:native-discovery:8b3fdd14eba7c1edcae2e8a2",
+                      "outletName": "evidence:restaurant:native-discovery:8b3fdd14eba7c1edcae2e8a2"
+                    },
+                    "coordinates": {
+                      "lat": 35.70760103866732,
+                      "lng": 139.6661085747211
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nakano City",
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 212,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131902/13297901",
+                    "address": "1640001 東京都中野区中野5-46-2 MSIビル 1F",
+                    "sourceIds": {
+                      "phone": "03-5942-7767",
+                      "tabelog": "en/tokyo/A1319/A131902/13297901",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                    },
+                    "outletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:a3637da620bbfed68a861705",
+                      "sourceIds": "evidence:restaurant:native-discovery:a3637da620bbfed68a861705",
+                      "outletName": "evidence:restaurant:native-discovery:a3637da620bbfed68a861705"
+                    },
+                    "coordinates": {
+                      "lat": 35.708049038667326,
+                      "lng": 139.66700108472503
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nakano City"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 299,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131902/13156851",
+                    "address": "1640011 東京都中野区中央4-6-12 新中野マンション 1F",
+                    "sourceIds": {
+                      "phone": "03-6454-1546",
+                      "tabelog": "en/tokyo/A1319/A131902/13156851",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/"
+                    },
+                    "outletName": "Sanuki no Udon Hana wa Saku Shin nakano honten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:b3553564d62b0f2e08fe0a86",
+                      "sourceIds": "evidence:restaurant:native-discovery:b3553564d62b0f2e08fe0a86",
+                      "outletName": "evidence:restaurant:native-discovery:b3553564d62b0f2e08fe0a86"
+                    },
+                    "coordinates": {
+                      "lat": 35.69919153786782,
+                      "lng": 139.66774898347325
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nakano City"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 996,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131902/13028733",
+                    "address": "1640001 東京都中野区中野5-59-12 ピカ一本館ビル 1F",
+                    "sourceIds": {
+                      "phone": "03-3388-4329",
+                      "tabelog": "en/tokyo/A1319/A131902/13028733",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/"
+                    },
+                    "outletName": "Gempin Nakano Fugu Unagi Ryouri",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:d3960fe63bdb4109ed42404b",
+                      "sourceIds": "evidence:restaurant:native-discovery:d3960fe63bdb4109ed42404b",
+                      "outletName": "evidence:restaurant:native-discovery:d3960fe63bdb4109ed42404b"
+                    },
+                    "coordinates": {
+                      "lat": 35.70790173786182,
+                      "lng": 139.66628038356225
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nakano City"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 232,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                    "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F",
+                    "sourceIds": {
+                      "phone": "03-5942-6711",
+                      "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                      "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "中野製作所 まんてん別館",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:4d91f52b9b413d17fd950a71",
+                      "sourceIds": "evidence:restaurant:google-discovery:4d91f52b9b413d17fd950a71",
+                      "outletName": "evidence:restaurant:google-discovery:4d91f52b9b413d17fd950a71"
+                    },
+                    "coordinates": {
+                      "lat": 35.7092966,
+                      "lng": 139.6668329
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 340,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                }
+              ],
+              "availability": {
+                "tabelog:en/tokyo/A1319/A131902/13000216": [],
+                "tabelog:en/tokyo/A1319/A131902/13028733": [],
+                "tabelog:en/tokyo/A1319/A131902/13156851": [],
+                "tabelog:en/tokyo/A1319/A131902/13297901": [],
+                "tabelog:en/tokyo/A1319/A131902/13309182": [
+                  {
+                    "id": "offer:tabelog:tabelog:en/tokyo/A1319/A131902/13309182:2026-12-10:20:30:8",
+                    "source": "TABELOG",
+                    "dateTime": "2026-12-10T20:30:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-14T01:59:12.187Z",
+                    "expiresAt": "2026-11-14T01:59:12.187Z",
+                    "partySize": 8,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "tabelog:en/tokyo/A1319/A131902/13309182",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-14T02:09:12.187Z",
+                    "bookingRecheckRequired": true
+                  }
+                ],
+                "praxis:restaurant:8e3a09511d095d01aa3a3746": []
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-14T01:56:56.351Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:05dda3b6-1e4d-4acc-b77e-9a8c5e3db9da",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:05dda3b6-1e4d-4acc-b77e-9a8c5e3db9da"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "6 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-14T01:58:26.177Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:fc0e7ee4-6fe9-4e6a-ab5a-9bb125a1a496",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:fc0e7ee4-6fe9-4e6a-ab5a-9bb125a1a496"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "1 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-14T01:59:46.211Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:654393dc-5ae1-4928-8533-ad14bc93e665",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:654393dc-5ae1-4928-8533-ad14bc93e665"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-14T02:00:27.508Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:996a9c1b-ce5a-4c6c-9046-9931b8984a5a",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:996a9c1b-ce5a-4c6c-9046-9931b8984a5a"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "0 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-14T02:01:56.758Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:20ec5b44-2300-4adb-a554-23d2e41e85ac",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:20ec5b44-2300-4adb-a554-23d2e41e85ac"
+            },
+            "type": "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-14T02:01:56.771Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:9e7b96f4-cf84-4605-a68e-6d01096e1682",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:9e7b96f4-cf84-4605-a68e-6d01096e1682"
+            },
+            "type": "RESULTS_PRESENTED",
+            "display": {
+              "title": "Read-only results presented",
+              "detail": "1 evidence-grounded result(s) are ready."
+            },
+            "occurredAt": "2026-11-14T02:01:59.336Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794621412975,
+      "deadlineAtMs": 1794621912975,
+      "elapsedMs": 306340.03083400003,
+      "modelCalls": 47,
+      "googleRequests": 2,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13309182",
+                "outletName": "sumika",
+                "sourceIds": {
+                  "phone": "03-4400-3404",
+                  "tabelog": "en/tokyo/A1319/A131902/13309182",
+                  "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                  "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                },
+                "address": "1640001 東京都中野区中野5-55-6 ワールドホテル 1F-A"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13000216",
+                "outletName": "Oka Joki",
+                "sourceIds": {
+                  "phone": "+81-3-3228-1230",
+                  "tabelog": "en/tokyo/A1319/A131902/13000216",
+                  "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                  "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/"
+                },
+                "address": "1640001 東京都中野区中野5-59-3"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13297901",
+                "outletName": "Saigyo no Bansan ~ Sushi to Kaki to Nihonshu no Uragiri ~",
+                "sourceIds": {
+                  "phone": "03-5942-7767",
+                  "tabelog": "en/tokyo/A1319/A131902/13297901",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/"
+                },
+                "address": "1640001 東京都中野区中野5-46-2 MSIビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13156851",
+                "outletName": "Sanuki no Udon Hana wa Saku Shin nakano honten",
+                "sourceIds": {
+                  "phone": "03-6454-1546",
+                  "tabelog": "en/tokyo/A1319/A131902/13156851",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/"
+                },
+                "address": "1640011 東京都中野区中央4-6-12 新中野マンション 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131902/13028733",
+                "outletName": "Gempin Nakano Fugu Unagi Ryouri",
+                "sourceIds": {
+                  "phone": "03-3388-4329",
+                  "tabelog": "en/tokyo/A1319/A131902/13028733",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/"
+                },
+                "address": "1640001 東京都中野区中野5-59-12 ピカ一本館ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                "outletName": "中野製作所 まんてん別館",
+                "sourceIds": {
+                  "phone": "03-5942-6711",
+                  "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                  "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13156851",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13028733",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13309182",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13000216",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13297901",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13297901",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13156851",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13156851",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131902/13028733",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13028733",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:05dda3b6-1e4d-4acc-b77e-9a8c5e3db9da",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:fc0e7ee4-6fe9-4e6a-ab5a-9bb125a1a496",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:654393dc-5ae1-4928-8533-ad14bc93e665",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:996a9c1b-ce5a-4c6c-9046-9931b8984a5a",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:20ec5b44-2300-4adb-a554-23d2e41e85ac",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:9e7b96f4-cf84-4605-a68e-6d01096e1682",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "RESULTS_PRESENTED",
+              "candidateIds": [
+                "tabelog:en/tokyo/A1319/A131902/13309182"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

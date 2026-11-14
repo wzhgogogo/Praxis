@@ -1,0 +1,1017 @@
+[
+  {
+    "sequence": 4,
+    "startedAtUTC": "2026-11-14T01:57:06.898Z",
+    "latencyMs": 3461,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:1:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "LOCATION",
+      "requestedState": "NONE",
+      "reason": "Set authoritative location Nakano in the search input first."
+    },
+    "selectedTarget": {
+      "ref": "observation:1:target:178",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": []
+      },
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "text",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL",
+        "FILL_AUTHORITATIVE:LOCATION"
+      ]
+    },
+    "progress": "No current guarded form submission or model-driven document departure; homepage cards and suggestions are not search results."
+  },
+  {
+    "sequence": 5,
+    "startedAtUTC": "2026-11-14T01:57:13.165Z",
+    "latencyMs": 2071,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:2:target:137",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the location search for Nakano City to reach the restaurant list."
+    },
+    "selectedTarget": {
+      "ref": "observation:2:target:137",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "THE CITY BAKERY marunouchi oazo ten",
+          "[Tokyo] Tokyo Sta. / Bread",
+          "THE CITY BAKERY shinagawa",
+          "[Tokyo] Shinagawa Sta. / Bread",
+          "City.Coffee.Setagaya",
+          "[Tokyo] Setagaya Sta. / Cafe",
+          "CITY BAKERY sendai yomiuri aoba terasu",
+          "[Miyagi] Sendai Sta. / Bread",
+          "city cafe and space",
+          "[Ibaraki] Mito City / Cafe",
+          "THE CITY BAKERY Tenjin",
+          "[Fukuoka] Nishitetsu Fukuoka Sta. / Bread",
+          "THE CITY BAKERY hiroo ten",
+          "[Tokyo] Hiro o Sta. / Bread",
+          "CITY",
+          "[Tokyo] Koenji Sta. / Kissa (Japanese coffee shop)",
+          "CREPE CITY keikyu kamata ten",
+          "[Tokyo] Keikyu Kamata Sta. / Crepe, Galette",
+          "City Club",
+          "[Tokyo] Minami Shinjuku Sta. / Sports bar"
+        ]
+      },
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No current guarded form submission or model-driven document departure; homepage cards and suggestions are not search results."
+  },
+  {
+    "sequence": 6,
+    "startedAtUTC": "2026-11-14T01:57:17.756Z",
+    "latencyMs": 1957,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+City&search_mode=",
+    "action": {
+      "action": "OPEN_LINK",
+      "targetRef": "observation:3:target:19",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Free-text search for Nakano City returned no matches; open the observed Nakano City directory listing to establish the location."
+    },
+    "selectedTarget": {
+      "ref": "observation:3:target:19",
+      "kind": "LINK",
+      "role": "link",
+      "label": "City",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence."
+  },
+  {
+    "sequence": 7,
+    "startedAtUTC": "2026-11-14T01:57:24.146Z",
+    "latencyMs": 3288,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:4:target:17",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Expand the \"Search by category\" All menu to inspect finer categories for robatayaki."
+    },
+    "selectedTarget": {
+      "ref": "observation:4:target:17",
+      "kind": "LINK",
+      "role": "link",
+      "label": "All",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/#",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence."
+  },
+  {
+    "sequence": 8,
+    "startedAtUTC": "2026-11-14T01:57:28.970Z",
+    "latencyMs": 2555,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+    "action": {
+      "action": "OPEN_LINK",
+      "targetRef": "observation:5:target:18",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Robatayaki is a Japanese cuisine; open Washoku parent category to inspect finer categories."
+    },
+    "selectedTarget": {
+      "ref": "observation:5:target:18",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Washoku (Japanese cuisine)",
+      "controlGroupLabel": "Search by category",
+      "controlGroupRef": "observation:5:group:2",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/washoku/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence."
+  },
+  {
+    "sequence": 9,
+    "startedAtUTC": "2026-11-14T01:57:37.265Z",
+    "latencyMs": 4968,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/washoku/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:6:target:18",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Expand the category menu to inspect finer categories for robatayaki."
+    },
+    "selectedTarget": {
+      "ref": "observation:6:target:18",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Washoku (Japanese cuisine)",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/washoku/#",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence."
+  },
+  {
+    "sequence": 10,
+    "startedAtUTC": "2026-11-14T01:57:43.651Z",
+    "latencyMs": 4081,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/washoku/",
+    "action": {
+      "action": "OPEN_LINK",
+      "targetRef": "observation:7:target:36",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Robatayaki is not listed; inspect the catch-all \"Other\" category for finer choices."
+    },
+    "selectedTarget": {
+      "ref": "observation:7:target:36",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Other",
+      "controlGroupLabel": "Search by category",
+      "controlGroupRef": "observation:7:group:2",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC0199/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence."
+  },
+  {
+    "sequence": 11,
+    "startedAtUTC": "2026-11-14T01:57:52.728Z",
+    "latencyMs": 3326,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC0199/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:8:target:18",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Reopen the category menu to inspect finer categories for robatayaki."
+    },
+    "selectedTarget": {
+      "ref": "observation:8:target:18",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Other",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC0199/#",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence."
+  },
+  {
+    "sequence": 12,
+    "startedAtUTC": "2026-11-14T01:57:57.326Z",
+    "latencyMs": 2439,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC0199/",
+    "action": {
+      "action": "OPEN_LINK",
+      "targetRef": "observation:9:target:28",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Robatayaki category link in Nakano matches retrieval expression"
+    },
+    "selectedTarget": {
+      "ref": "observation:9:target:28",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Robatayaki",
+      "controlGroupLabel": "Search by category",
+      "controlGroupRef": "observation:9:group:2",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence."
+  },
+  {
+    "sequence": 13,
+    "startedAtUTC": "2026-11-14T01:58:05.658Z",
+    "latencyMs": 4852,
+    "source": "DIRECTORY",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+    "action": {
+      "action": "COMPLETE",
+      "targetRef": "observation:10:target:18",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Title and heading confirm \"Best Robatayaki in Nakano\" with category Robatayaki applied to the Nakano list (2 results)."
+    },
+    "selectedTarget": {
+      "ref": "observation:10:target:18",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Robatayaki",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/#",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective."
+  },
+  {
+    "sequence": 16,
+    "startedAtUTC": "2026-11-14T01:58:38.398Z",
+    "latencyMs": 2736,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+    "action": {
+      "action": "REQUEST_HUMAN_HELP",
+      "targetRef": "",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Page states reservations unavailable; no date or guest controls observed."
+    },
+    "selectedTarget": null,
+    "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+  },
+  {
+    "sequence": 17,
+    "startedAtUTC": "2026-11-14T01:58:46.336Z",
+    "latencyMs": 3788,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:2:target:111",
+      "valueGroupRef": "observation:2:group:1",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance calendar from Nov 2026 toward requested 2026-12-10"
+    },
+    "selectedTarget": {
+      "ref": "observation:2:target:111",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Next month",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:2:group:12",
+      "labelSource": "DOM descendant text",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/#",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+  },
+  {
+    "sequence": 18,
+    "startedAtUTC": "2026-11-14T01:58:51.593Z",
+    "latencyMs": 5407,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "action": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:3:target:10",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Select requested date 2026-12-10"
+    },
+    "selectedTarget": {
+      "ref": "observation:3:target:10",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Date 2026-12-10",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:3:group:1",
+      "value": "2026-12-10",
+      "type": "button",
+      "calendarDate": "2026-12-10",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "ADVANCE_TARGET_FOUND"
+  },
+  {
+    "sequence": 19,
+    "startedAtUTC": "2026-11-14T01:59:00.093Z",
+    "latencyMs": 4128,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:4:target:148",
+      "valueGroupRef": "observation:4:group:2",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Advance guest carousel to expose 8 guests"
+    },
+    "selectedTarget": {
+      "ref": "observation:4:target:148",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Next",
+      "controlGroupLabel": "Guests",
+      "controlGroupRef": "observation:4:group:2",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "The reviewed source response confirms date 2026-12-10; 8 guests are not yet confirmed. Keep the confirmed date while using current observed guest controls. A carousel arrow may reveal only one additional value; observe its result before choosing the requested count."
+  },
+  {
+    "sequence": 20,
+    "startedAtUTC": "2026-11-14T01:59:06.585Z",
+    "latencyMs": 3198,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+    "action": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:6:target:36",
+      "valueGroupRef": "",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Select exact requested party size 8"
+    },
+    "selectedTarget": {
+      "ref": "observation:6:target:36",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Guests 8",
+      "controlGroupLabel": "Guests",
+      "controlGroupRef": "observation:6:group:2",
+      "value": "8",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "ADVANCE_TARGET_FOUND"
+  },
+  {
+    "sequence": 21,
+    "startedAtUTC": "2026-11-14T01:59:17.065Z",
+    "latencyMs": 3428,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:7:target:106",
+      "valueGroupRef": "observation:7:group:1",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance calendar from Nov 2026 toward requested 2026-12-10."
+    },
+    "selectedTarget": {
+      "ref": "observation:7:target:106",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Next month",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:7:group:13",
+      "labelSource": "DOM descendant text",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/#",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+  },
+  {
+    "sequence": 22,
+    "startedAtUTC": "2026-11-14T01:59:21.751Z",
+    "latencyMs": 1687,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+    "action": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:8:target:10",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Select exact requested date 2026-12-10"
+    },
+    "selectedTarget": {
+      "ref": "observation:8:target:10",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Date 2026-12-10",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:8:group:1",
+      "value": "2026-12-10",
+      "type": "button",
+      "calendarDate": "2026-12-10",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "ADVANCE_TARGET_FOUND"
+  },
+  {
+    "sequence": 23,
+    "startedAtUTC": "2026-11-14T01:59:26.398Z",
+    "latencyMs": 2058,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:9:target:144",
+      "valueGroupRef": "observation:9:group:2",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Guests carousel shows 1-5; advance to expose 8"
+    },
+    "selectedTarget": {
+      "ref": "observation:9:target:144",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Next",
+      "controlGroupLabel": "Guests",
+      "controlGroupRef": "observation:9:group:2",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "The reviewed source response confirms date 2026-12-10; 8 guests are not yet confirmed. Keep the confirmed date while using current observed guest controls. A carousel arrow may reveal only one additional value; observe its result before choosing the requested count."
+  },
+  {
+    "sequence": 32,
+    "startedAtUTC": "2026-11-14T02:00:21.386Z",
+    "latencyMs": 3053,
+    "source": "TABELOG",
+    "stage": "FACTS",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/",
+    "action": {
+      "action": "OPEN_LINK",
+      "targetRef": "observation:2:target:27",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open the outlet's menu/course page to look for robatayaki evidence."
+    },
+    "selectedTarget": {
+      "ref": "observation:2:target:27",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Menu",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/13297901/party/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "A new, identity-confirmed page with source-authored text is required before another cited HARD-fact judgment."
+  },
+  {
+    "sequence": 34,
+    "startedAtUTC": "2026-11-14T02:00:35.309Z",
+    "latencyMs": 3530,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:27:target:92",
+      "valueGroupRef": "observation:27:group:1",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance calendar from Nov 2026 toward requested 2026-12-10."
+    },
+    "selectedTarget": {
+      "ref": "observation:27:target:92",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Next month",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:27:group:9",
+      "labelSource": "DOM descendant text",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/#",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+  },
+  {
+    "sequence": 35,
+    "startedAtUTC": "2026-11-14T02:00:40.041Z",
+    "latencyMs": 1922,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+    "action": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:28:target:9",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Select exact requested date 2026-12-10"
+    },
+    "selectedTarget": {
+      "ref": "observation:28:target:9",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Date 2026-12-10",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:28:group:1",
+      "value": "2026-12-10",
+      "type": "button",
+      "calendarDate": "2026-12-10",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "ADVANCE_TARGET_FOUND"
+  },
+  {
+    "sequence": 36,
+    "startedAtUTC": "2026-11-14T02:00:44.722Z",
+    "latencyMs": 1609,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:29:target:127",
+      "valueGroupRef": "observation:29:group:2",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Advance guest carousel to expose 8 guests"
+    },
+    "selectedTarget": {
+      "ref": "observation:29:target:127",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Next",
+      "controlGroupLabel": "Guests",
+      "controlGroupRef": "observation:29:group:2",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "The reviewed source response confirms date 2026-12-10; 8 guests are not yet confirmed. Keep the confirmed date while using current observed guest controls. A carousel arrow may reveal only one additional value; observe its result before choosing the requested count."
+  },
+  {
+    "sequence": 37,
+    "startedAtUTC": "2026-11-14T02:00:48.525Z",
+    "latencyMs": 1758,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13156851/",
+    "action": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:31:target:31",
+      "valueGroupRef": "",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Select exact party size 8"
+    },
+    "selectedTarget": {
+      "ref": "observation:31:target:31",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Guests 8",
+      "controlGroupLabel": "Guests",
+      "controlGroupRef": "observation:31:group:2",
+      "value": "8",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "ADVANCE_TARGET_FOUND"
+  },
+  {
+    "sequence": 38,
+    "startedAtUTC": "2026-11-14T02:00:57.438Z",
+    "latencyMs": 3899,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:32:target:112",
+      "valueGroupRef": "observation:32:group:1",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance calendar from Nov 2026 toward requested 2026-12-10"
+    },
+    "selectedTarget": {
+      "ref": "observation:32:target:112",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Next month",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:32:group:13",
+      "labelSource": "DOM descendant text",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/#",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+  },
+  {
+    "sequence": 39,
+    "startedAtUTC": "2026-11-14T02:01:02.630Z",
+    "latencyMs": 3633,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+    "action": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:33:target:10",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Select exact requested date 2026-12-10"
+    },
+    "selectedTarget": {
+      "ref": "observation:33:target:10",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Date 2026-12-10",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:33:group:1",
+      "value": "2026-12-10",
+      "type": "button",
+      "calendarDate": "2026-12-10",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "ADVANCE_TARGET_FOUND"
+  },
+  {
+    "sequence": 40,
+    "startedAtUTC": "2026-11-14T02:01:09.209Z",
+    "latencyMs": 2612,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:34:target:150",
+      "valueGroupRef": "observation:34:group:2",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Guests 8 not yet shown; advance guest carousel to expose it."
+    },
+    "selectedTarget": {
+      "ref": "observation:34:target:150",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Next",
+      "controlGroupLabel": "Guests",
+      "controlGroupRef": "observation:34:group:2",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "The reviewed source response confirms date 2026-12-10; 8 guests are not yet confirmed. Keep the confirmed date while using current observed guest controls. A carousel arrow may reveal only one additional value; observe its result before choosing the requested count."
+  },
+  {
+    "sequence": 41,
+    "startedAtUTC": "2026-11-14T02:01:14.220Z",
+    "latencyMs": 3013,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13028733/",
+    "action": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:36:target:37",
+      "valueGroupRef": "",
+      "authoritativeField": "PARTY_SIZE",
+      "requestedState": "NONE",
+      "reason": "Select exact requested party size of 8 guests"
+    },
+    "selectedTarget": {
+      "ref": "observation:36:target:37",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Guests 8",
+      "controlGroupLabel": "Guests",
+      "controlGroupRef": "observation:36:group:2",
+      "value": "8",
+      "type": "button",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "ADVANCE_TARGET_FOUND"
+  },
+  {
+    "sequence": 42,
+    "startedAtUTC": "2026-11-14T02:01:23.082Z",
+    "latencyMs": 3619,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:37:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the public search input with the authoritative retrieval expression."
+    },
+    "selectedTarget": {
+      "ref": "observation:37:target:178",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": []
+      },
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "text",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 43,
+    "startedAtUTC": "2026-11-14T02:01:29.399Z",
+    "latencyMs": 5159,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:38:target:129",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled authoritative query via the observed Search button."
+    },
+    "selectedTarget": {
+      "ref": "observation:38:target:129",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "Robata Izakaya Nakano Seisakusho manten bekkan",
+          "[Tokyo] Nakano Sta. / Izakaya (Japanese style tavern)",
+          "Nanten Bekkan",
+          "[Hyogo] Sannomiya Sta. / Yakitori (Grilled chicken skewers)"
+        ]
+      },
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 44,
+    "startedAtUTC": "2026-11-14T02:01:39.073Z",
+    "latencyMs": 3151,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=%E4%B8%AD%E9%87%8E%E8%A3%BD%E4%BD%9C%E6%89%80+%E3%81%BE%E3%82%93%E3%81%A6%E3%82%93%E5%88%A5%E9%A4%A8&search_mode=",
+    "action": {
+      "action": "COMPLETE",
+      "targetRef": "observation:39:target:14",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Result list shows query scope 中野製作所 まんてん別館 with 1 matching restaurant."
+    },
+    "selectedTarget": {
+      "ref": "observation:39:target:14",
+      "kind": "LINK",
+      "role": "link",
+      "label": "中野製作所 まんてん別館",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/rstLst/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective."
+  },
+  {
+    "sequence": 45,
+    "startedAtUTC": "2026-11-14T02:01:47.255Z",
+    "latencyMs": 3221,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+    "action": {
+      "action": "ADVANCE_TO_AUTHORITATIVE",
+      "targetRef": "observation:40:target:107",
+      "valueGroupRef": "observation:40:group:1",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Advance calendar from Nov 2026 toward requested 2026-12-10"
+    },
+    "selectedTarget": {
+      "ref": "observation:40:target:107",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Next month",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:40:group:13",
+      "labelSource": "DOM descendant text",
+      "href": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/#",
+      "availableActions": [
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them."
+  },
+  {
+    "sequence": 46,
+    "startedAtUTC": "2026-11-14T02:01:51.694Z",
+    "latencyMs": 2184,
+    "source": "TABELOG",
+    "stage": "AVAILABILITY",
+    "url": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+    "action": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:41:target:10",
+      "valueGroupRef": "",
+      "authoritativeField": "DATE",
+      "requestedState": "NONE",
+      "reason": "Select exact requested date 2026-12-10"
+    },
+    "selectedTarget": {
+      "ref": "observation:41:target:10",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Date 2026-12-10",
+      "controlGroupLabel": "Calendar",
+      "controlGroupRef": "observation:41:group:1",
+      "value": "2026-12-10",
+      "type": "button",
+      "calendarDate": "2026-12-10",
+      "availableActions": [
+        "CLICK",
+        "CLICK_AUTHORITATIVE:DATE",
+        "ADVANCE_TO_AUTHORITATIVE:PARTY_SIZE",
+        "ADVANCE_TO_AUTHORITATIVE:TIME"
+      ]
+    },
+    "progress": "ADVANCE_TARGET_FOUND"
+  }
+]
