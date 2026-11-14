@@ -1,0 +1,44 @@
+{
+  "sourceRoot": "/private/tmp/praxis-category-guidance-recorded",
+  "sourceSHA": "27bdb97a0c69d5c9c43a98ff4fe355deeee66067",
+  "mode": "D02V-category-guidance-r1",
+  "id": "dev-d02v-category-guidance-20261114",
+  "output": "/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/category-guidance-live-20261114/live",
+  "budget": "/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/category-guidance-live-20261114/active-budget.json",
+  "previousOutput": null,
+  "spacingMs": {
+    "minimum": 120000,
+    "maximum": 240000
+  },
+  "healthWindowMs": 60000,
+  "maximumWitnessGETs": 3,
+  "witnessDetailRead": false,
+  "turnModelCalls": 50,
+  "turnMs": 500000,
+  "providerMs": 45000,
+  "request": "Looking for a robatayaki place near Nakano for 8 people on Thursday, December 10 at 8:30 PM.",
+  "date": "2026-12-10",
+  "partySize": 8,
+  "time": "20:30",
+  "recording": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  },
+  "environmentFile": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.env",
+  "networkConfig": "Same env-file path and frozen createG6LiveBrowser; existing xray split, Google proxy, DeepSeek direct. No transport/config changes.",
+  "previousFinishedAtMs": 1794566430547,
+  "authorization": "用户2026-11-14 CET：仅一次冻结27bdb97a/463f9aeb D02-V Live Read-only，独立1Live/8评估GET/55模型/0环境重跑；不改产品，不合main，不碰Held-out；任何整次失败均停止不重跑。",
+  "maximumBudget": {
+    "fullLive": 1,
+    "evaluationPublicGET": 8,
+    "realModelCalls": 55,
+    "environmentReruns": 0
+  },
+  "providerFailureDiagnostics": "Typed code/status only; never raw provider error text or headers.",
+  "sourceCodeSHA": "463f9aeb0016e46f699ce6f63d8131c41275cd6e",
+  "evidenceRoot": "/private/tmp/praxis-category-guidance-live-evidence",
+  "authorizedModelCalls": 55,
+  "effectiveLimitNote": "Frozen runner hard ceiling is 50 model calls per turn; authorized independent ledger ceiling55 does not override it.",
+  "sourceBranch": "codex/fix-category-guidance-recorded-decisions"
+}
