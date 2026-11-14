@@ -1,0 +1,27 @@
+✖ recorded disabled-party executor result retains the specific adapter failure and direct scope (13.378041ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 161.808708
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:7:13112
+✖ recorded disabled-party executor result retains the specific adapter failure and direct scope (13.378041ms)
+  AssertionError [ERR_ASSERTION]: {"metadata":{"provider":"TABELOG","route":"GENERIC_BROWSER","latencyMs":8,"failureCode":"ONLINE_AVAILABILITY_UNSUPPORTED","browser":{"readNetworkBoundary":"INSTALLED","runtimeProvider":"CLOUDFLARE_BROWSER_RUN","engine":"KITESURF","startedAt":"2026-08-05T09:00:00.000Z"}},"checks":{"restaurant-1":{"status":"SOURCE_UNSUPPORTED","checkedAt":"2026-11-14T05:17:03.267Z","evidenceIds":["evidence:restaurant:tabelog-entity-match:66a5de8633f9cd235dd5de93"],"reasonCode":"ONLINE_AVAILABILITY_UNSUPPORTED"}}}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-category-guidance-recorded/src/integrations/tabelog/tabelog-browser-availability.test.ts:1147:275)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

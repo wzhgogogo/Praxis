@@ -432,6 +432,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           });
         }
       };
+      let performedNameSearch = false;
       let search!: BrowserSnapshot;
       let outlets!: ReturnType<typeof parseTabelogSearchOutlets>;
       for (;;) {
@@ -441,6 +442,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           search = directPage;
           outlets = [listedOutlet];
         } else {
+          performedNameSearch = true;
           let searched = await this.executor.search({
             source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName, completion: tabelogNameSearchCompletion,
           });
@@ -578,6 +580,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       // remains UNKNOWN until a fresh request-bound slot observation succeeds.
       retainedIdentity = { sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: resolved.outlet.sourceUrl, entityMatch: resolved };
       const verifiedAlternateUrls = [...(observedUrlsByResolvedUrl.get(resolved.outlet.sourceUrl) ?? new Set([resolved.outlet.sourceUrl]))];
+      if (performedNameSearch && !this.options.identityOnly) {
+        this.executor.endProvider();
+        this.executor.beginProvider(candidate.restaurant.id, "TABELOG", "AVAILABILITY");
+      }
       return await this.readMatchedOutlet(candidate, request, session, signal, observedAt, browser, resolved, lastOutletPage, verifiedAlternateUrls);
     } catch (error) {
       if (error instanceof TabelogSourceBusyError) {

@@ -146,3 +146,10 @@ Google-only nearby反例从生产createLiveReadAssembly入口驱动，旧版地�
 
 
 2026-10-19 检查点 B 修正（离线）：Tabelog 已确认同地区首页可用此前观察到的列表根应用权威筛选，缺观察／跨地区仍拒绝；真实本地 Chromium 的 302 首页落点验证实际生产 factory、Guard、筛选与详情链。稀疏且有类别且改写未耗尽时，Schema@2、Domain 和执行器拒绝 KEEP；Prompt@5 配套，无类别／额度耗尽仍允许。原三次 TableCheck 录制实际显示搜索错误，筛选预检含未审核 open_from/open_until；停用该筛选并记 SKIPPED/FILTER_TRANSPORT_NOT_REVIEWED，使用普通列表，不扩大网络权限或生成空位证据。旧双来源筛选 Fixture 中 TableCheck 的应用／回退覆盖已退役为明确跳过；既有交付、半径和 HARD 断言保留，精确导航次数移回普通搜索。离线诊断与新十次仅发现探测分列于[修正报告](../../.eval-artifacts/p2-1-discovery-20261016/checkpoint-b-corrected-20261019/report.md)。不证明查位或完整 Live。
+
+### Disabled authoritative party / name-search phase budget - frozen development component
+
+- Actual630a DOM26->28->29...44 / HAR45; exposed D02V, not Clean Holdout. Native local clicks swap to next captured DOM; recorded12-operation prefix charged through local snapshots, stripped source listeners not reconstructed.
+- Positive: disabled requested count after2 advances yields NO_SAFE_ACTION/PARTY_SIZE_NOT_SELECTABLE through Adapter. Domain excludes only same-request availability facts.
+- Negatives: recommendation/changed request retain facts; no invented no-stock claim. Search15s then availability44s passes45s phase;46s fails. Prior candidate40s+search15s+availability36s still hits90s. Candidate model/operation counts remain spent; direct/identityOnly unchanged.
+- Existing terminal-observe/D4/D8 components retained.0Live/0websiteGET/0realModel in this slice.

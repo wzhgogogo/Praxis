@@ -1,0 +1,10 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/harness/browser/disabled-party-recorded.test.ts(12,266): error TS2345: Argument of type '{ taskId: string; source: 'TABELOG'; stage: 'AVAILABILITY'; signal: AbortSignal; session: BrowserSession; allowedOrigins: string[]; goal: any; objective: string; controlHints: (snapshot: Readonly<BrowserSnapshot>) => readonly BrowserControlHint[]; completion: () => { ...; }; initialObservation: { ...; }; }' is not assignable to parameter of type 'BrowserSkillReadInput'.
+  The types returned by 'completion(...)' are incompatible between these types.
+    Type '{ complete: boolean; reason: string; }' is not assignable to type 'BrowserCompletionAssessment'.
+      Type '{ complete: boolean; reason: string; }' is not assignable to type '{ complete: false; reason: string; resultKey?: string; resultBusy?: boolean; resultUrls?: readonly string[]; confirmedFields?: readonly ("DATE" | "PARTY_SIZE")[]; }'.
+        Types of property 'complete' are incompatible.
+          Type 'boolean' is not assignable to type 'false'.

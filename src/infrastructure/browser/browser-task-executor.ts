@@ -1104,8 +1104,11 @@ export class BrowserTaskExecutor {
 
   private disabledRequestedParty(input: BrowserSkillReadInput, observation: Observation): boolean {
     if (input.stage !== "AVAILABILITY" || input.goal.partySize === undefined) return false;
+    if (![...observation.targets.values()].some(target => target.disabled && !target.selected && !target.outsideViewport
+      && matchesAuthoritativeControl(target, "PARTY_SIZE", input.goal))) return false;
     // Disabled counts can still belong to the old date while a future date is being selected.
-    if (input.goal.date && ![...observation.targets.values()].some(target =>
+    if (input.goal.date && !input.completion(observation.snapshot, observation.controls).confirmedFields?.includes("DATE")
+      && ![...observation.targets.values()].some(target =>
       target.selected && this.targetDate(target) === input.goal.date
       || target.kind === "INPUT" && target.value === input.goal.date && /date/i.test(`${target.type ?? ""} ${target.inputName ?? ""} ${target.label}`))) return false;
     return [...observation.targets.values()].some(target => target.disabled && !target.selected && !target.outsideViewport
@@ -1346,6 +1349,7 @@ export class BrowserTaskExecutor {
     const stop=(reason:string)=>{this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:current.snapshot.url,detail:reason,observation:this.diagnosticObservation(current)});return {observation:current,reason};};
     for(let step=0;step<maximum;step++){
       if(this.groupAuthoritativeChoice(input,current,groupKey,field))return stop("ADVANCE_TARGET_FOUND");
+      if(field==="PARTY_SIZE"&&this.disabledRequestedParty(input,current))return stop("PARTY_SIZE_NOT_SELECTABLE");
       const controls=[...current.targets.values()].filter(t=>t.stableKey===stableKey&&this.safeAdvanceControl(input,current,t));
       if(controls.length!==1)return stop("ADVANCE_CONTROL_UNAVAILABLE");
       if(this.operationCount+4>this.options.maxOperationsPerCandidate)return stop("ADVANCE_OPERATION_BUDGET");

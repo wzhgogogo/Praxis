@@ -1,0 +1,83 @@
+✖ party-not-selectable avoids futile fact reads only for the bound availability request: CURRENT (2.100584ms)
+✔ party-not-selectable avoids futile fact reads only for the bound availability request: CHANGED_REQUEST (0.108917ms)
+✔ party-not-selectable avoids futile fact reads only for the bound availability request: RECOMMENDATION (0.651ms)
+✖ named search phase keeps candidate budget: prior=0, availability=44000 (12.998708ms)
+✖ named search phase keeps candidate budget: prior=40000, availability=34000 (1.989875ms)
+✖ named search phase keeps candidate budget: prior=40000, availability=36000 (0.844792ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 2
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 199.076417
+
+✖ failing tests:
+
+test at src/domains/restaurant/read-assessment.test.ts:1:8598
+✖ party-not-selectable avoids futile fact reads only for the bound availability request: CURRENT (2.100584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-category-guidance-recorded/src/domains/restaurant/read-assessment.test.ts:106:55)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:7:9900
+✖ named search phase keeps candidate budget: prior=0, availability=44000 (12.998708ms)
+  AssertionError [ERR_ASSERTION]: [{"source":"TABELOG","stage":"IDENTITY","event":"OPERATION_FINISHED","detail":"NAVIGATE","effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":15000,"lifecycle":{"outcome":"FINISHED","candidateElapsedMs":15000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":3,"providerRuntimeOperations":3,"runModelCalls":1}},{"source":"TABELOG","stage":"IDENTITY","event":"ASYNC_WAIT","url":"","detail":"PAGE_SETTLED","waitMs":0,"effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":15000,"lifecycle":{"outcome":"FINISHED","candidateElapsedMs":15000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":3,"providerRuntimeOperations":3,"runModelCalls":1}},{"source":"TABELOG","stage":"IDENTITY","event":"OPERATION_STARTED","detail":"SNAPSHOT","effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":15000,"lifecycle":{"outcome":"STARTED","candidateElapsedMs":15000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":4,"providerRuntimeOperations":4,"runModelCalls":1}},{"source":"TABELOG","stage":"IDENTITY","event":"OPERATION_FINISHED","detail":"SNAPSHOT","effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":15000,"lifecycle":{"outcome":"FINISHED","candidateElapsedMs":15000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":4,"providerRuntimeOperations":4,"runModelCalls":1}},{"source":"TABELOG","stage":"IDENTITY","event":"OBSERVED","url":"https://tabelog.com/tokyo/A1304/A130401/123/","effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":15000,"lifecycle":{"outcome":"FINISHED","candidateElapsedMs":15000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":4,"providerRuntimeOperations":4,"runModelCalls":1}},{"source":"TABELOG","stage":"DISCOVERY","event":"PROVIDER_FINISHED","detail":"PROVIDER_SCOPE","lifecycle":{"outcome":"FINISHED","candidateElapsedMs":59000,"providerElapsedMs":59000,"candidateModelCalls":2,"providerModelCalls":2,"candidateRuntimeOperations":4,"providerRuntimeOperations":4,"runModelCalls":2,"reason":"ADAPTER_RETURNED"},"effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":59000}]
+  + actual - expected
+  
+  + 'BROWSER_TIMEOUT'
+  - 'NO_PROGRESS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-category-guidance-recorded/src/integrations/tabelog/tabelog-browser-availability.test.ts:1134:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'BROWSER_TIMEOUT',
+    expected: 'NO_PROGRESS',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:7:9900
+✖ named search phase keeps candidate budget: prior=40000, availability=34000 (1.989875ms)
+  AssertionError [ERR_ASSERTION]: [{"source":"TABELOG","stage":"IDENTITY","event":"OPERATION_FINISHED","detail":"NAVIGATE","effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":55000,"lifecycle":{"outcome":"FINISHED","candidateElapsedMs":55000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":3,"providerRuntimeOperations":3,"runModelCalls":1}},{"source":"TABELOG","stage":"IDENTITY","event":"ASYNC_WAIT","url":"","detail":"PAGE_SETTLED","waitMs":0,"effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":55000,"lifecycle":{"outcome":"FINISHED","candidateElapsedMs":55000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":3,"providerRuntimeOperations":3,"runModelCalls":1}},{"source":"TABELOG","stage":"IDENTITY","event":"OPERATION_STARTED","detail":"SNAPSHOT","effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":55000,"lifecycle":{"outcome":"STARTED","candidateElapsedMs":55000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":4,"providerRuntimeOperations":4,"runModelCalls":1}},{"source":"TABELOG","stage":"IDENTITY","event":"OPERATION_FINISHED","detail":"SNAPSHOT","effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":55000,"lifecycle":{"outcome":"FINISHED","candidateElapsedMs":55000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":4,"providerRuntimeOperations":4,"runModelCalls":1}},{"source":"TABELOG","stage":"IDENTITY","event":"OBSERVED","url":"https://tabelog.com/tokyo/A1304/A130401/123/","effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":55000,"lifecycle":{"outcome":"FINISHED","candidateElapsedMs":55000,"providerElapsedMs":15000,"candidateModelCalls":1,"providerModelCalls":1,"candidateRuntimeOperations":4,"providerRuntimeOperations":4,"runModelCalls":1}},{"source":"TABELOG","stage":"DISCOVERY","event":"PROVIDER_FINISHED","detail":"PROVIDER_SCOPE","lifecycle":{"outcome":"FINISHED","candidateElapsedMs":89000,"providerElapsedMs":49000,"candidateModelCalls":2,"providerModelCalls":2,"candidateRuntimeOperations":4,"providerRuntimeOperations":4,"runModelCalls":2,"reason":"ADAPTER_RETURNED"},"effectiveLimits":{"maxAutomaticElapsedMs":500000,"maxModelCallsPerCandidate":2,"maxModelCallsTotal":3,"maxOperationsPerCandidate":80,"maxAdvanceStepsPerAction":80},"candidateId":"restaurant-1","elapsedMs":89000}]
+  + actual - expected
+  
+  + 'BROWSER_TIMEOUT'
+  - 'NO_PROGRESS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-category-guidance-recorded/src/integrations/tabelog/tabelog-browser-availability.test.ts:1134:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'BROWSER_TIMEOUT',
+    expected: 'NO_PROGRESS',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:7:9900
+✖ named search phase keeps candidate budget: prior=40000, availability=36000 (0.844792ms)
+  AssertionError [ERR_ASSERTION]: a distinct availability phase starts
+      at TestContext.<anonymous> (/private/tmp/praxis-category-guidance-recorded/src/integrations/tabelog/tabelog-browser-availability.test.ts:1134:180)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }

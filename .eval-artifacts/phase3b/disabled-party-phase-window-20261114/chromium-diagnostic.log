@@ -1,0 +1,33 @@
+✖ recorded requested party becomes disabled after two advances and stops without a third (17231.893125ms)
+ℹ {"frame":29,"controls":[{"label":"Date 2026-12-10","value":"2026-12-10","disabled":false,"group":"Calendar"},{"label":"Guests 8","value":"8","disabled":true,"group":"Guests"}]}
+ℹ {"mode":"RECORDED_COMPONENT","origin":"630a250e608ec903863b70c16bd7f8d63becf639","clicks":17,"modelCalls":1,"reason":"ADVANCE_OPERATION_BUDGET","frame":44,"operations":80}
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17564.081
+
+✖ failing tests:
+
+test at src/harness/browser/disabled-party-recorded.test.ts:1:647
+✖ recorded requested party becomes disabled after two advances and stops without a third (17231.893125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ADVANCE_OPERATION_BUDGET'
+  - 'PARTY_SIZE_NOT_SELECTABLE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-category-guidance-recorded/src/harness/browser/disabled-party-recorded.test.ts:12:593)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ADVANCE_OPERATION_BUDGET',
+    expected: 'PARTY_SIZE_NOT_SELECTABLE',
+    operator: 'strictEqual'
+  }

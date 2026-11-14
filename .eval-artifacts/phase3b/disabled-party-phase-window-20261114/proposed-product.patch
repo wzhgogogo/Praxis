@@ -1,0 +1,62 @@
+--- a/src/infrastructure/browser/browser-task-executor.ts
++++ b/src/infrastructure/browser/browser-task-executor.ts
+@@ -1346,6 +1346,7 @@
+     const stop=(reason:string)=>{this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:current.snapshot.url,detail:reason,observation:this.diagnosticObservation(current)});return {observation:current,reason};};
+     for(let step=0;step<maximum;step++){
+       if(this.groupAuthoritativeChoice(input,current,groupKey,field))return stop("ADVANCE_TARGET_FOUND");
++      if(field==="PARTY_SIZE"&&this.disabledRequestedParty(input,current))return stop("PARTY_SIZE_NOT_SELECTABLE");
+       const controls=[...current.targets.values()].filter(t=>t.stableKey===stableKey&&this.safeAdvanceControl(input,current,t));
+       if(controls.length!==1)return stop("ADVANCE_CONTROL_UNAVAILABLE");
+       if(this.operationCount+4>this.options.maxOperationsPerCandidate)return stop("ADVANCE_OPERATION_BUDGET");
+--- a/src/integrations/tabelog/tabelog-browser-availability.ts
++++ b/src/integrations/tabelog/tabelog-browser-availability.ts
+@@ -432,6 +432,7 @@
+           });
+         }
+       };
++      let performedNameSearch = false;
+       let search!: BrowserSnapshot;
+       let outlets!: ReturnType<typeof parseTabelogSearchOutlets>;
+       for (;;) {
+@@ -441,6 +442,7 @@
+           search = directPage;
+           outlets = [listedOutlet];
+         } else {
++          performedNameSearch = true;
+           let searched = await this.executor.search({
+             source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName, completion: tabelogNameSearchCompletion,
+           });
+@@ -578,6 +580,10 @@
+       // remains UNKNOWN until a fresh request-bound slot observation succeeds.
+       retainedIdentity = { sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: resolved.outlet.sourceUrl, entityMatch: resolved };
+       const verifiedAlternateUrls = [...(observedUrlsByResolvedUrl.get(resolved.outlet.sourceUrl) ?? new Set([resolved.outlet.sourceUrl]))];
++      if (performedNameSearch && !this.options.identityOnly) {
++        this.executor.endProvider();
++        this.executor.beginProvider(candidate.restaurant.id, "TABELOG", "AVAILABILITY");
++      }
+       return await this.readMatchedOutlet(candidate, request, session, signal, observedAt, browser, resolved, lastOutletPage, verifiedAlternateUrls);
+     } catch (error) {
+       if (error instanceof TabelogSourceBusyError) {
+--- a/src/domains/restaurant/read-assessment.ts
++++ b/src/domains/restaurant/read-assessment.ts
+@@ -280,7 +280,12 @@
+     : state.selectionSession?.deliveredCandidateIds ?? []);
+   const hardConflictedCandidates = new Set(state.candidates.filter((candidate) =>
+     hasCurrentHardConflict(state, candidate.restaurant.id, intent)).map((candidate) => candidate.restaurant.id));
++  const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
+   const factInvestigableCandidateIds = presentation.filter((item) => {
++    const check = state.availabilityChecks[item.candidateId];
++    if (restaurantGoalRequiresAvailability(intent) && completeBookingIntent && check?.status === "UNKNOWN"
++      && check.reasonCode === "PARTY_SIZE_NOT_SELECTABLE"
++      && check.requestFingerprint === restaurantAvailabilityRequestFingerprint(completeBookingIntent)) return false;
+     if(!namedOutletCandidateResolved(state,item.candidateId))return false;
+     if (excludedFromPendingBatch.has(item.candidateId)) return false;
+     const refreshing = factRefreshTargets.includes(item.candidateId);
+@@ -293,7 +298,6 @@
+       || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri)
+       || Boolean(candidate?.restaurant.sourceIds.discoveryDetailUri);
+   }).map((item) => item.candidateId);
+-  const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
+   const eligibleCheckableIds = completeBookingIntent ? presentation.filter((item) =>
+     namedOutletCandidateResolved(state,item.candidateId)&&!excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
+       && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
