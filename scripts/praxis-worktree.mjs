@@ -12,7 +12,7 @@ function inventory(root, ref) {
   return git(root, ['ls-tree', '-rlz', ref, '--', '.eval-artifacts']).toString().split('\0').filter(Boolean).map(row => {
     const [metadata, path] = row.split('\t'), [mode, kind, oid, bytes] = metadata.trim().split(/\s+/);
     if (kind !== 'blob' || !['100644', '100755'].includes(mode)) fail('Eval fixture must be a regular Git blob: ' + path);
-    return { path, oid, bytes: Number(bytes) };
+    return { path, mode, oid, bytes: Number(bytes) };
   });
 }
 function safeEvalPath(path) {
