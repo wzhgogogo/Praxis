@@ -6770,3 +6770,12 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 2026-11-13 Asia/Shanghai — local-main worktree entry candidate；原main4256303d与源入口15cee837分开，src及历史.eval diff0。旧origin/main默认在新增真实Git行为断言失败，本地main默认与显式历史ref转绿；未改变断言/评分/运行器。离线npm ci锁定76包。当前准备冻结净树执行type/arch/test:worktree/default/build，再从实际main调用入口，0模型/0网站GET/0Live。
 2026-11-13 Asia/Shanghai — local-main entry source1b1f1f6d verified：独立稀疏树净树type/arch/test:worktree/default1546/build全部通过，10新文档链接可解析；src/.eval相对425均0。默认main的回归证明远端落后时新树仍含本地入口标记，显式origin/main仍可选旧快照。仅文档补记，不重复产品测试；主线直接CLI验收待ref推进后执行，未推送。
 2026-11-13 Asia/Shanghai — local main integrated / not pushed：实际main802f5b8c直接create（无ref）取新本地main，489文件/372426952字节、检出前0；命令/AGENTS继承、无env或node_modules复制。restore已知无位历史批次14文件/1341382字节，503展开文件全部Git blob一致；临时验收树正常移除。被测code/input与1b1f1f6d全门禁提交一致；D8仅detach保持425文件/索引/配置，原工作树与主草稿及两源分支保留。仅文档补记，不重跑产品门禁；0模型/0网站GET/0Live，无远端写入。
+
+
+<a id="worktree-sparse-guard-20261114"></a>
+### 2026-11-14 — 旧树按文件恢复与全历史检出拦截
+
+- 已观察的失败机制：terminal树旧自制选择遗漏历史输入后以sparse-checkout disable恢复全部历史；后续裸worktree add再继承完整档案。本次保留旧失败日志，不改业务断言。
+- 真实Git合同2/2：本地main默认/首次稀疏/历史恢复；旧树无入口state且代码暂存与工作版本不同仍可精确补文件，保留原代码排除规则与本地文件，拒绝目标暂存/本地冲突、目录/不存在路径，全选历史即使sparse=true也拒绝。真实npm pretest在测试正文前拒绝全量历史。
+- 原terminal树5f8e01f1：默认1644/1644，读路径审计325个已跟踪输入均在既有489白名单；最初沙箱127.0.0.1监听EPERM日志保留，允许本地回环监听后通过，无网络模型/网站/API。实际收起后无诊断钩子的原npm test再次1644/1644通过（0失败/跳过），HEAD/索引/工作区状态保持。
+- 主线变更按Test矩阵待冻结后执行typecheck/arch:check/test:worktree/npm test/build；不运行Live、模型或私有Holdout，不以入口合同声称产品Live能力提高。

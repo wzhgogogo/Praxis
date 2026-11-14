@@ -1,8 +1,8 @@
 # Praxis 工作树创建入口
 
 - Status: Accepted
-- Document revision: 1.2
-- Last updated: 2026-11-13
+- Document revision: 1.3
+- Last updated: 2026-11-14
 - Source of truth for: 同任务工作树复用、新树首次检出、默认测试样本和历史批次按需取回
 - Related documents: [Conventions](REPOSITORY-CONVENTIONS.md)、[Test](skills/test/SKILL.md)
 - Evidence status: local main integrated / not pushed；当前本地基线验收见下文；离线开发验证非Clean Baseline，旧整单回放缺口保持
@@ -35,6 +35,24 @@ npm run create:worktree -- /path/to/historical-check --detach --ref a91fc60b
 `scripts/worktree-fixtures.json` 记录默认npm test实际读取的历史样本，以及测试直接导入的历史评测模块及其导入闭包。选择来自目标提交的Git blob，不从其他chat树复制。不同提交中不存在的白名单路径不会展开；未来默认回归新增历史输入时，须在同一改动更新此清单并从新树验证。缺样本时测试明确失败，不跳过测试、不自动回落为完整档案。
 
 诊断读取采样仅用于本次确认依赖，最终入口、白名单和原版npm test验收不依赖自动补文件hook。部分默认回归确实读取完整历史结果与HAR，因此最小工作树仍含这些测试数据；本切片不以改写旧结果、改变断言或退役业务测试来缩小它。
+
+## 旧分支与测试缺样本
+
+本机 `~/.codex/AGENTS.md` 将相同规则限定到 Praxis 的 Git common-dir；它覆盖所有旧分支和从其他 cwd 操作 Praxis 的 chat，不改它们的代码或冻结提交。Codex 在启动 run 时读取指引；已执行中的 chat 不能仅凭磁盘修改就声称收到规则，应在用户授权下传达并核实接收。不得创建只读了新规则、却重新携带整份历史的工作树。
+
+旧分支没有 npm 命令或入口脚本时，用含入口的 local-main 绝对路径，目标仍是原树：
+
+```sh
+npm --prefix /Users/wangzhour/.codex/worktrees/local-main/Praxis-Zhixing run check:worktree
+node /Users/wangzhour/.codex/worktrees/local-main/Praxis-Zhixing/scripts/praxis-worktree.mjs check /path/to/original-tree
+npm --prefix /Users/wangzhour/.codex/worktrees/local-main/Praxis-Zhixing run restore:worktree:files -- /path/to/original-tree .eval-artifacts/batch/exact-file.json
+```
+
+`check` 拒绝未启用非 cone 稀疏检出的树，也拒绝全部已跟踪历史均被选中的全选规则（全部文件均为已验证样本的小仓库除外）。主线的 npm test、test:browser:fixture 和 test:g6:assembly 用 pretest 检查接入；旧分支不回写 package.json，遵守本机指引调用同一检查。检查不自动清理、改配置或停止进程。已全量展开的旧树要先按保全与运行依赖审计安全收起，不能为了通过检查自行删除。
+
+测试 ENOENT 时保留首个失败日志，定位准确的文件路径与真实导入依赖。`fixtures` / `restore:worktree:files` 只接受**本树当前 HEAD 的精确已跟踪文件**，不接受目录、通配一批历史或其他提交，不要求旧树由本入口创建，也不要求代码无本地改动。它保留该树既有代码/文档选择和评测样本，只追加明确文件；拒绝覆盖目标文件的暂存、未提交或同名本地独有内容，拒绝未合并索引。HEAD 已前移时无需另建树；只从当前 HEAD 补齐，不混合旧快照。
+
+新增默认测试依赖必须更新 `scripts/worktree-fixtures.json` 并验证对应代码版本的实际默认回归；不是仅凭路径扫描声称已验证。浏览器、Replay 或单独审查需要额外材料时按实际读取追加。原 `restore` 命令仍是本入口创建快照内的明确历史批次取回，不应拿整个历史根目录作测试缺样本的解决办法。禁止 `git sparse-checkout disable`、`core.sparseCheckout=false`、全选历史规则或复制整个 `.eval-artifacts`。命令和指引约束不能报告为操作系统已禁止任意原生 Git 命令。
 
 ## 按需取回历史批次
 
@@ -82,3 +100,16 @@ D01历史批次按需取回115文件/36,977,287字节，D8取回192文件/43,072
 再用主线的 restore:worktree 取回 `phase3b/heldout-known-unavailable-20261109`，14文件/1,341,382字节；全部503个展开评测文件逐Git blob一致，新树Git干净。该临时验收树以普通git worktree remove移除，既有树列表和共享配置未变。被测试源码、package/lock、src和历史.eval与冻结门禁提交1b1f1f6d完全一致，文档补记不重复产品回归。
 
 主线检出保留为本次独立创建的持久 local-main 工作树；原D8检出仅固定为4256303d detached，文件、索引、未提交状态及稀疏配置不变。原主工作区草稿、轨迹分支34a6504和入口原分支15cee837均保留。入口合入仅发生在本地，未推送，也未同步origin/main其余产品提交。本机完整日志、原树保护快照和CLI JSON存于 sparse-entry-main-integration 证据目录。
+
+
+### 2026-11-14 — 旧分支工作树规则与精确补样本
+
+本机 Praxis 指引限定到该仓库 common-dir，旧分支也通过 local-main 绝对路径调用同一入口；继续同任务、新 chat、新 eval、补证据复用原树。禁止关闭稀疏检出或全选历史来解决 ENOENT。新增 check 与 fixtures：测试入口先拒绝关闭稀疏/全历史选中，精确恢复仅取当前 HEAD 文件，保持旧树代码选择、暂存和工作区，目标冲突拒绝。此为规则和入口检查，不是操作系统对原生 Git 的封锁；已运行 chat 需核实接收。
+
+Phase 3b 已在本 chat 确认收到规则、继续原树且不再依赖 terminal-observe-fix 历史产物。该树以原 SHA 5f8e01f1 离线默认1644/1644通过后，记录实际读取的325个已跟踪输入，全部已在489项原白名单内，无需增加样本；测试临时产物不纳入输入白名单。原全量缺样本失败来自旧自制稀疏选择，不是已验证入口样本遗漏。
+
+terminal-observe-fix 逐文件 SHA256/Git blob 审计，25,013个待收起独立 Git blob 原文重新读取且SHA256一致。保留489默认样本和27本批次原件，36,618个干净历史文件以本树稀疏规则收起；评测分配5,805,408,256→375,255,040字节，窗口df增加5,446,877,184字节。HEAD/分支/索引/暂存/未暂存/代码元数据、其他树稀疏配置、账本与链接不变；本地独有评测0。仍活跃的 category-guidance-recorded 正在执行用户修复，保留其改动与完整现场，本轮不重配该树。主工作区和轨迹分支未改，不推送。
+
+本轮源码与收起后实际默认回归的最终验证见 TEST-LOG；恢复映射、逐文件前清单、配置备份、Git恢复核验和原日志存于本机 worktree-sparse-guard-20261114 证据目录。原路径与分支保留，可按精确文件命令恢复；恢复历史冻结版本优先Git show到独立输出，不另展开全档案。
+
+Codex 全局指引发现机制参考 [OpenAI 官方指引](https://developers.openai.com/codex/guides/agents-md)：全局文件在启动run时读取，不能用磁盘写入替代对已运行chat的接收核实。本轮已获用户授权传达并收到原chat正常进度确认。

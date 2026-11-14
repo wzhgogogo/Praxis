@@ -5,8 +5,8 @@ description: 为Praxis改动从合同和失效机制推导必要的功能与安�
 
 # Praxis Test
 
-- Document revision: 1.9
-- Last updated: 2026-11-13
+- Document revision: 1.10
+- Last updated: 2026-11-14
 
 Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭。质量维度、评分单位和验收门槛属于[Eval](../eval/SKILL.md)；当前产品合同、已运行证据和未覆盖项分别以链接的权威文档、[STATUS](../../STATUS.md)和[TEST-LOG](../../history/TEST-LOG.md)为准。
 
@@ -20,7 +20,7 @@ Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭�
 
 | 改动 | 必要验证 |
 |---|---|
-| 工作树创建/恢复入口 | `npm run test:worktree`；从冻结提交真实创建新树，核对首次样本、默认本地main选择及既有树/共享配置保护；typecheck、arch:check、npm test、build |
+| 工作树创建/恢复入口 | `npm run test:worktree`；从冻结提交真实创建新树，核对首次样本、默认本地main选择、旧树精确补样本及暂存/未暂存保护、全量展开拒绝、既有树/共享配置保护；typecheck、arch:check、npm test、build |
 | 纯文档/配置说明 | 链接、命令/变量引用、权威一致性、diff；不运行付费或Live测试 |
 | 局部实现/重构 | typecheck、arch:check、相关行为测试、build；共享路径受影响时运行npm test |
 | Runtime、Policy、授权、State/Schema、Verifier、P0路径 | typecheck、arch:check、npm test、build及对应状态/副作用不变量 |
@@ -127,6 +127,8 @@ Smoke只证明启动/连接；脚本化Agent只证明选定路径可执行；模
 不绑定无契约意义的私有调用次数、文案、CSS断点或源码形状。时间/重试预算、Secret隔离、授权和副作用次数属于真实契约。脆弱测试修复等待和观察条件，不以重试或放宽断言掩盖失败。测试中的每个等待都必须有界：前置条件未达成时以失败结束，不得无限挂起。默认套件只收当前产品所需的离线测试，浏览器、冻结探针和Live沿现有独立入口运行。
 
 ## 运行边界与报告
+
+历史样本缺失先保留 ENOENT，按当前 HEAD 精确补齐文件及导入依赖；不得关闭稀疏检出、全选历史、复制整档案或弱化断言。新增默认依赖与样本清单同步，命令见 [Worktree Creation](../../WORKTREE-CREATION.md)。
 
 普通测试不加载`.env`、不调用付费模型或生产服务、不创建真实预约。`test:browser:fixture`只使用本机浏览器与本地Fixture，不读取个人profile；真实PostgreSQL只使用授权专用测试库及`PRAXIS_ALLOW_TEST_DATABASE_WRITE=1`。Controlled Live-write不得在CI运行，并记录验证与清理结果。
 

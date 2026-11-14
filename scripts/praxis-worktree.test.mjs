@@ -70,3 +70,57 @@ test('real worktree entry excludes history before checkout, restores exact batch
     assert.equal(readFileSync(join(existing, 'uncommitted.txt'), 'utf8'), 'must remain\n');
   } finally { rmSync(temporary, { recursive: true, force: true }); }
 });
+
+
+test('old dirty sparse tree restores only exact missing files at its current HEAD without expanding code or other history', () => {
+  const temporary = mkdtempSync(join(tmpdir(), 'praxis-exact-fixtures-'));
+  const source = join(temporary, 'source'); mkdirSync(source);
+  const git = (...args) => execFileSync('git', ['-C', source, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+  const run = (...args) => spawnSync(process.execPath, [entry, ...args], { cwd: source, encoding: 'utf8' });
+  try {
+    git('init', '-qb', 'main'); git('config', 'user.email', 'fixture@example.invalid'); git('config', 'user.name', 'Fixture');
+    git('config', 'extensions.worktreeConfig', 'true');
+    mkdirSync(join(source, '.eval-artifacts/history with spaces'), { recursive: true });
+    writeFileSync(join(source, 'code.txt'), 'original code'); writeFileSync(join(source, 'other-code.txt'), 'excluded code');
+    for (const [name, content] of [['needed.json', 'required'], ['second[1].json', 'second'], ['unused.json', 'large history']]) writeFileSync(join(source, '.eval-artifacts/history with spaces', name), content);
+    git('add', '.'); git('commit', '-qm', 'old branch fixture');
+    assert.notEqual(run('check', source).status, 0, 'full checkout is rejected before tests');
+    git('sparse-checkout', 'set', '--no-cone', '/code.txt');
+    assert.equal(run('check', source).status, 0);
+    writeFileSync(join(source, 'code.txt'), 'staged code'); git('add', 'code.txt');
+    writeFileSync(join(source, 'code.txt'), 'different worktree code');
+    writeFileSync(join(source, 'local-only.txt'), 'unique local evidence');
+    const head = git('rev-parse', 'HEAD'), staged = git('diff', '--cached', '--binary'), work = git('diff', '--binary'), status = git('status', '--porcelain');
+    const config = readFileSync(join(source, '.git/config'));
+    const restored = run('fixtures', source, '.eval-artifacts/history with spaces/needed.json');
+    assert.equal(restored.status, 0, restored.stderr);
+    assert.equal(readFileSync(join(source, '.eval-artifacts/history with spaces/needed.json'), 'utf8'), 'required');
+    assert.equal(existsSync(join(source, '.eval-artifacts/history with spaces/unused.json')), false);
+    assert.equal(existsSync(join(source, 'other-code.txt')), false, 'old sparse code selection remains unchanged');
+    assert.equal(run('fixtures', source, 'history with spaces/second[1].json').status, 0);
+    assert.equal(readFileSync(join(source, '.eval-artifacts/history with spaces/second[1].json'), 'utf8'), 'second');
+    assert.equal(readFileSync(join(source, '.eval-artifacts/history with spaces/needed.json'), 'utf8'), 'required');
+    assert.equal(git('rev-parse', 'HEAD'), head); assert.equal(git('diff', '--cached', '--binary'), staged); assert.equal(git('diff', '--binary'), work); assert.equal(git('status', '--porcelain'), status);
+    assert.deepEqual(readFileSync(join(source, '.git/config')), config);
+    const patternPath = join(source, '.git/info/sparse-checkout'), beforeRejected = readFileSync(patternPath);
+    for (const invalid of ['history with spaces', 'history with spaces/*', '../escape', 'absent.json']) assert.notEqual(run('fixtures', source, invalid).status, 0, invalid);
+    writeFileSync(join(source, '.eval-artifacts/history with spaces/needed.json'), 'staged fixture'); git('add', '.eval-artifacts/history with spaces/needed.json');
+    assert.notEqual(run('fixtures', source, 'history with spaces/needed.json').status, 0);
+    git('restore', '--staged', '.eval-artifacts/history with spaces/needed.json');
+    rmSync(join(source, '.eval-artifacts/history with spaces/needed.json'));
+    assert.notEqual(run('fixtures', source, 'history with spaces/needed.json').status, 0, 'local deletion is preserved');
+    assert.equal(existsSync(join(source, '.eval-artifacts/history with spaces/needed.json')), false);
+    writeFileSync(join(source, '.eval-artifacts/history with spaces/needed.json'), 'local fixture');
+    assert.notEqual(run('fixtures', source, 'history with spaces/needed.json').status, 0);
+    assert.equal(readFileSync(join(source, '.eval-artifacts/history with spaces/needed.json'), 'utf8'), 'local fixture');
+    assert.deepEqual(readFileSync(patternPath), beforeRejected, 'rejections do not change sparse rules');
+    assert.equal(readFileSync(join(source, 'local-only.txt'), 'utf8'), 'unique local evidence');
+    git('sparse-checkout', 'set', '--no-cone', '/*');
+    assert.notEqual(run('check', source).status, 0, 'enabled sparse flag cannot disguise an all-history selection');
+    writeFileSync(join(source, 'package.json'), JSON.stringify({ scripts: { pretest: `node ${JSON.stringify(entry)} check .`, test: 'node -e "process.exit(77)"' } }));
+    const blocked = spawnSync('npm', ['test'], { cwd: source, encoding: 'utf8' });
+    assert.equal(blocked.status, 1, 'npm pretest rejects full history before invoking the test body');
+    assert.match(blocked.stderr, /All tracked eval history is selected/);
+
+  } finally { rmSync(temporary, { recursive: true, force: true }); }
+});

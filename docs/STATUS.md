@@ -1103,3 +1103,14 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
 
 2026-10-29 CET: Approved test maintenance candidate: D01/D02/D03/C01 redundancies removed only after five normal/mutant successor controls; T01 fake6.1s wait virtualized. P21 category/region bodies moved unchanged to existing4-way file scheduling; other long controls retained individually. Product/site/Pack/Prompt/Schema unchanged, calls0. Baseline1203/28.223s and175/106.809s; clean frozen gates pending. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
+
+
+### 2026-11-14 — 旧分支工作树规则与精确补样本
+
+本机 Praxis 指引限定到该仓库 common-dir，旧分支也通过 local-main 绝对路径调用同一入口；继续同任务、新 chat、新 eval、补证据复用原树。禁止关闭稀疏检出或全选历史来解决 ENOENT。新增 check 与 fixtures：测试入口先拒绝关闭稀疏/全历史选中，精确恢复仅取当前 HEAD 文件，保持旧树代码选择、暂存和工作区，目标冲突拒绝。此为规则和入口检查，不是操作系统对原生 Git 的封锁；已运行 chat 需核实接收。
+
+Phase 3b 已在本 chat 确认收到规则、继续原树且不再依赖 terminal-observe-fix 历史产物。该树以原 SHA 5f8e01f1 离线默认1644/1644通过后，记录实际读取的325个已跟踪输入，全部已在489项原白名单内，无需增加样本；测试临时产物不纳入输入白名单。原全量缺样本失败来自旧自制稀疏选择，不是已验证入口样本遗漏。
+
+terminal-observe-fix 逐文件 SHA256/Git blob 审计，25,013个待收起独立 Git blob 原文重新读取且SHA256一致。保留489默认样本和27本批次原件，36,618个干净历史文件以本树稀疏规则收起；评测分配5,805,408,256→375,255,040字节，窗口df增加5,446,877,184字节。HEAD/分支/索引/暂存/未暂存/代码元数据、其他树稀疏配置、账本与链接不变；本地独有评测0。仍活跃的 category-guidance-recorded 正在执行用户修复，保留其改动与完整现场，本轮不重配该树。主工作区和轨迹分支未改，不推送。
+
+本轮源码与收起后实际默认回归的最终验证见 TEST-LOG；恢复映射、逐文件前清单、配置备份、Git恢复核验和原日志存于本机 worktree-sparse-guard-20261114 证据目录。原路径与分支保留，可按精确文件命令恢复；恢复历史冻结版本优先Git show到独立输出，不另展开全档案。

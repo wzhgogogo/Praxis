@@ -9,6 +9,11 @@
   "scripts": {
     "create:worktree": "node scripts/praxis-worktree.mjs create",
     "restore:worktree": "node scripts/praxis-worktree.mjs restore",
+    "restore:worktree:files": "node scripts/praxis-worktree.mjs fixtures",
+    "check:worktree": "node scripts/praxis-worktree.mjs check .",
+    "pretest": "npm run check:worktree",
+    "pretest:browser:fixture": "npm run check:worktree",
+    "pretest:g6:assembly": "npm run check:worktree",
     "test:worktree": "node --import ./scripts/test-filesystem-guard.mjs --test scripts/praxis-worktree.test.mjs",
     "build": "tsc -p tsconfig.build.json",
     "arch:check": "node --import tsx scripts/arch-check.ts",

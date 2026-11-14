@@ -102,10 +102,59 @@ function restore(path, batch) {
   if (!state.batches.includes(prefix)) state.batches.push(prefix); saveState(root, state);
   return { command: 'restore', root, sha: state.baseSha, batch: prefix, batchFiles: rows.length, batchLogicalBytes: rows.reduce((sum, row) => sum + row.bytes, 0), evalAfterRestore: measure(root) };
 }
+// Existing/dirty worktrees may need a missing test input without changing code or HEAD.
+function check(path) {
+  const root = resolve(path);
+  if (text(root, ['config', '--bool', '--default', 'false', '--get', 'core.sparseCheckout']) !== 'true') fail('Sparse checkout is required. Do not disable it to fix missing fixtures; restore only explicit required files with the fixtures command. Existing full trees require a separate preservation audit before folding history.');
+  if (text(root, ['config', '--bool', '--default', 'false', '--get', 'core.sparseCheckoutCone']) === 'true') fail('Praxis eval fixtures require non-cone sparse checkout');
+  const entries = git(root, ['ls-files', '-t', '-z', '--', '.eval-artifacts']).toString().split('\0').filter(Boolean);
+  if (entries.length && !entries.some(line => line.startsWith('S '))) {
+    const verified = new Set(JSON.parse(readFileSync(new URL('./worktree-fixtures.json', import.meta.url), 'utf8')).files);
+    if (entries.some(line => !verified.has(line.slice(2)))) fail('All tracked eval history is selected. Preserve local work and audit this tree before folding history; do not use whole-history sparse patterns.');
+  }
+  return { command: 'check', root, sparse: true };
+}
+function fixtures(path, requested) {
+  const root = resolve(path); check(root);
+  if (text(root, ['ls-files', '--unmerged'])) fail('Resolve the unmerged index before restoring fixtures');
+  const names = [...new Set(requested.map(name => safeEvalPath(name.startsWith('.eval-artifacts/') ? name : '.eval-artifacts/' + name)))];
+  if (!names.length) fail('Specify exact required files, not a batch directory or wildcard');
+  const all = inventory(root, 'HEAD'), byPath = new Map(all.map(row => [row.path, row]));
+  const rows = names.map(name => byPath.get(name) ?? fail('Not an exact file in current HEAD: ' + name));
+  const indexed = new Map(git(root, ['ls-files', '--stage', '-z', '--', '.eval-artifacts']).toString().split('\0').filter(Boolean).map(line => {
+    const [metadata, name] = line.split('\t'), [mode, oid] = metadata.split(' '); return [name, { mode, oid }];
+  }));
+  const visibility = new Map(git(root, ['ls-files', '-t', '-z', '--', '.eval-artifacts']).toString().split('\0').filter(Boolean).map(line => [line.slice(2), line[0]]));
+  for (const row of rows) {
+    if (indexed.get(row.path)?.oid !== row.oid || indexed.get(row.path)?.mode !== row.mode) fail('Refusing staged fixture changes: ' + row.path);
+    const file = resolve(root, row.path);
+    try {
+      const stat = lstatSync(file);
+      if (!stat.isFile() || text(root, ['hash-object', '--', file]) !== row.oid) fail('Refusing local fixture changes: ' + row.path);
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+      if (visibility.get(row.path) !== 'S') fail('Refusing a local fixture deletion: ' + row.path);
+    }
+  }
+  const selected = new Set(git(root, ['ls-files', '-t', '-z', '--', '.eval-artifacts']).toString().split('\0').filter(Boolean).filter(line => !line.startsWith('S ')).map(line => line.slice(2)));
+  for (const name of names) selected.add(name);
+  const patternPath = resolve(control(root), 'info/sparse-checkout'), previous = readFileSync(patternPath, 'utf8');
+  const before = text(root, ['status', '--porcelain', '--untracked-files=no']);
+  // Override only eval selection; keep this tree's existing code/document selection intact.
+  const marker = '# Praxis exact eval fixtures\n';
+  const original = previous.split(marker)[0];
+  writeFileSync(patternPath, original + '\n' + marker + patterns([...selected].sort()).split('\n').slice(1).join('\n'));
+  git(root, ['sparse-checkout', 'reapply']);
+  if (text(root, ['status', '--porcelain', '--untracked-files=no']) !== before) fail('Tracked changes unexpectedly differ; inspect this tree before continuing');
+  for (const row of rows) if (text(root, ['hash-object', '--', resolve(root, row.path)]) !== row.oid) fail('Restored fixture does not match HEAD: ' + row.path);
+  return { command: 'fixtures', root, sha: text(root, ['rev-parse', 'HEAD']), files: names, logicalBytes: rows.reduce((sum, row) => sum + row.bytes, 0), evalAfterRestore: measure(root) };
+}
 function main(args) {
   const command = args.shift();
-  if (!command || command === '--help') { console.log('Praxis worktrees:\n  node scripts/praxis-worktree.mjs create <path> --branch codex/chore-<name> [--ref main] [--repo <checkout>]\n  node scripts/praxis-worktree.mjs create <path> --detach --ref <commit>\n  node scripts/praxis-worktree.mjs restore <path> <historical-batch>'); return; }
+  if (!command || command === '--help') { console.log('Praxis worktrees:\n  node scripts/praxis-worktree.mjs create <path> --branch codex/chore-<name> [--ref main] [--repo <checkout>]\n  node scripts/praxis-worktree.mjs create <path> --detach --ref <commit>\n  node scripts/praxis-worktree.mjs restore <path> <historical-batch>\n  node scripts/praxis-worktree.mjs fixtures <existing-tree> <exact-eval-file> [...]\n  node scripts/praxis-worktree.mjs check <existing-tree>'); return; }
   const path = args.shift(); if (!path) fail('Missing worktree path');
+  if (command === 'check') { if (args.length) fail('check takes only a worktree path'); return check(path); }
+  if (command === 'fixtures') return fixtures(path, args);
   if (command === 'restore') { const batch = args.shift(); if (!batch || args.length) fail('restore requires exactly one historical batch'); return restore(path, batch); }
   if (command !== 'create') fail('Unknown command: ' + command);
   const options = {};

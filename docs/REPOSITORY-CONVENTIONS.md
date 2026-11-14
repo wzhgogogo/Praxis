@@ -1,8 +1,8 @@
 # Repository Naming and Version Conventions
 
 - Status: Accepted
-- Document revision: 1.10
-- Last updated: 2026-11-13
+- Document revision: 1.11
+- Last updated: 2026-11-14
 - Source of truth for: Git branch/tag、版本标识、目录、文件、Eval数据和文档命名
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Agent Instructions](../AGENTS.md)
@@ -35,6 +35,8 @@
 继续同一任务优先复用原工作树。新 chat、新一轮 eval、补证据都可以继续使用原树：分别保存批次输出、冻结所需代码/输入 SHA，不因这些操作自动复制项目或创建工作树。只有并行修改代码或隔离验证另一个代码版本，才需要新树。
 
 新工作树唯一入口是 `npm run create:worktree -- <path> --branch codex/<purpose>`，默认基于本地 `main`，支持暂不推送的本地集成；需要远端或历史快照时显式传 `--ref origin/main` 或 `--detach --ref <commit>`。入口不自动 fetch、不复制 `.env`/`node_modules`，先 no-checkout、再只配置新树稀疏规则、最后首次检出代码与必需样本。不得以裸 `git worktree add`、复制项目或先全量检出再删除代替；不重配其他 chat 的树或共享配置。按需历史取回与限制见 [Worktree Creation](WORKTREE-CREATION.md)。
+
+测试缺少历史文件时只按当前 HEAD 的精确路径补齐文件与实际导入闭包，禁止关闭稀疏检出、全选历史或复制整份档案。旧分支调用本机 local-main 的绝对路径入口，不为获取新指引修改冻结代码；具体命令与保护边界见 [Worktree Creation](WORKTREE-CREATION.md)。
 
 开发分支表达“正在完成的工作”，不承担版本归档职责：
 
