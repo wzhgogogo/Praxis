@@ -81,6 +81,7 @@ test('old dirty sparse tree restores only exact missing files at its current HEA
     git('init', '-qb', 'main'); git('config', 'user.email', 'fixture@example.invalid'); git('config', 'user.name', 'Fixture');
     git('config', 'extensions.worktreeConfig', 'true');
     mkdirSync(join(source, '.eval-artifacts/history with spaces'), { recursive: true });
+    writeFileSync(join(source, '.gitignore'), '.eval-artifacts/local-only/\n');
     writeFileSync(join(source, 'code.txt'), 'original code'); writeFileSync(join(source, 'other-code.txt'), 'excluded code');
     for (const [name, content] of [['needed.json', 'required'], ['second[1].json', 'second'], ['unused.json', 'large history']]) writeFileSync(join(source, '.eval-artifacts/history with spaces', name), content);
     git('add', '.'); git('commit', '-qm', 'old branch fixture');
@@ -90,6 +91,8 @@ test('old dirty sparse tree restores only exact missing files at its current HEA
     writeFileSync(join(source, 'code.txt'), 'staged code'); git('add', 'code.txt');
     writeFileSync(join(source, 'code.txt'), 'different worktree code');
     writeFileSync(join(source, 'local-only.txt'), 'unique local evidence');
+    mkdirSync(join(source, '.eval-artifacts/local-only'), { recursive: true });
+    writeFileSync(join(source, '.eval-artifacts/local-only/keep.json'), 'unique ignored eval');
     const head = git('rev-parse', 'HEAD'), staged = git('diff', '--cached', '--binary'), work = git('diff', '--binary'), status = git('status', '--porcelain');
     const config = readFileSync(join(source, '.git/config'));
     const restored = run('fixtures', source, '.eval-artifacts/history with spaces/needed.json');
@@ -114,6 +117,7 @@ test('old dirty sparse tree restores only exact missing files at its current HEA
     assert.notEqual(run('fixtures', source, 'history with spaces/needed.json').status, 0);
     assert.equal(readFileSync(join(source, '.eval-artifacts/history with spaces/needed.json'), 'utf8'), 'local fixture');
     assert.deepEqual(readFileSync(patternPath), beforeRejected, 'rejections do not change sparse rules');
+    assert.equal(readFileSync(join(source, '.eval-artifacts/local-only/keep.json'), 'utf8'), 'unique ignored eval');
     assert.equal(readFileSync(join(source, 'local-only.txt'), 'utf8'), 'unique local evidence');
     git('sparse-checkout', 'set', '--no-cone', '/*');
     assert.notEqual(run('check', source).status, 0, 'enabled sparse flag cannot disguise an all-history selection');

@@ -113,3 +113,5 @@ terminal-observe-fix 逐文件 SHA256/Git blob 审计，25,013个待收起独立
 本轮源码与收起后实际默认回归的最终验证见 TEST-LOG；恢复映射、逐文件前清单、配置备份、Git恢复核验和原日志存于本机 worktree-sparse-guard-20261114 证据目录。原路径与分支保留，可按精确文件命令恢复；恢复历史冻结版本优先Git show到独立输出，不另展开全档案。
 
 Codex 全局指引发现机制参考 [OpenAI 官方指引](https://developers.openai.com/codex/guides/agents-md)：全局文件在启动run时读取，不能用磁盘写入替代对已运行chat的接收核实。本轮已获用户授权传达并收到原chat正常进度确认。
+
+本轮最终验收：入口源码48949bef净树typecheck/arch/test:worktree/default1546/build通过；main直接create首次489样本，精确恢复仅新增指定1文件。terminal收起后原默认1644/1644通过；旧树绝对路径精确文件入口保持516文件与Git干净。ignored本地材料保护合同通过。最终测试/文档补记不改入口和白名单；未推送，活跃category树继续保留。
