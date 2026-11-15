@@ -1,0 +1,547 @@
+{
+  "sourceSHA": "a66a2edcb2ffe8e3eaa42f4c0e79680382539c9d",
+  "runs": {
+    "d8": {
+      "originalVerdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "reviewedVerdict": null,
+      "nonPassOriginal": [
+        {
+          "rule": "BOUNDED_NO_RESULT",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+          "reason": "No-delivery wording must describe this bounded investigation",
+          "evidenceRefs": []
+        },
+        {
+          "rule": "NO_DELIVERY_WITNESS",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "witness-W2",
+          "reason": "Independently qualified witness still has the slot",
+          "evidenceRefs": [
+            "/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/seed-release-d8-retry-20261115/d8/live/runtime/dev-d8-release-retry-20261115/witness/001-vacancy.body"
+          ]
+        }
+      ],
+      "requestBoundary": {
+        "PASS": 388
+      },
+      "firstTurn": {
+        "id": "INITIAL",
+        "startedAtMs": 1794730487478,
+        "deadlineAtMs": 1794730987478,
+        "elapsedMs": 249937.226708,
+        "modelCalls": 43,
+        "googleRequests": 4,
+        "exceeded500Seconds": false
+      },
+      "productElapsedMs": 250810.62270799998,
+      "providerRejected": 0,
+      "deliveries": [],
+      "handoffs": [],
+      "postDelivery": [],
+      "finalPhase": "NEEDS_INPUT",
+      "turns": [
+        {
+          "id": "BOOK_THIS_OUTLET",
+          "status": "NOT_SENT",
+          "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+        },
+        {
+          "id": "PRIVATE_ROOM_PAGE",
+          "status": "NOT_SENT",
+          "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+        }
+      ],
+      "providerScopes": [
+        {
+          "sequence": 132,
+          "at": "2026-11-15T08:15:38.730Z",
+          "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+          "name": "Nodoguro, Ginza Nakamata Hanare",
+          "stage": "DISCOVERY",
+          "elapsedMs": 41942,
+          "modelCalls": 7
+        },
+        {
+          "sequence": 269,
+          "at": "2026-11-15T08:16:23.731Z",
+          "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+          "name": "Nodoguro, Ginza Nakamata Hanare",
+          "stage": "DISCOVERY",
+          "elapsedMs": 45001,
+          "modelCalls": 8
+        },
+        {
+          "sequence": 334,
+          "at": "2026-11-15T08:16:43.700Z",
+          "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+          "name": "Nakamata",
+          "stage": "DISCOVERY",
+          "elapsedMs": 19964,
+          "modelCalls": 3
+        },
+        {
+          "sequence": 436,
+          "at": "2026-11-15T08:17:28.703Z",
+          "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+          "name": "Nakamata",
+          "stage": "DISCOVERY",
+          "elapsedMs": 45003,
+          "modelCalls": 5
+        },
+        {
+          "sequence": 573,
+          "at": "2026-11-15T08:18:08.317Z",
+          "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+          "name": "Nodoguro Nakamata",
+          "stage": "DISCOVERY",
+          "elapsedMs": 39606,
+          "modelCalls": 7
+        },
+        {
+          "sequence": 684,
+          "at": "2026-11-15T08:18:53.519Z",
+          "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+          "name": "Nodoguro Nakamata",
+          "stage": "DISCOVERY",
+          "elapsedMs": 45202,
+          "modelCalls": 6
+        }
+      ],
+      "recording": {
+        "qualified": 21,
+        "total": 59,
+        "replay": "PARTIALLY_REPLAYABLE",
+        "exceptions": [
+          {
+            "snapshot": 1,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0001.html"
+            }
+          },
+          {
+            "snapshot": 2,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0002.html"
+            }
+          },
+          {
+            "snapshot": 3,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0003.html"
+            }
+          },
+          {
+            "snapshot": 4,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0004.html"
+            }
+          },
+          {
+            "snapshot": 5,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0005.html"
+            }
+          },
+          {
+            "snapshot": 6,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0006.html"
+            }
+          },
+          {
+            "snapshot": 7,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0007.html"
+            }
+          },
+          {
+            "snapshot": 8,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0008.html"
+            }
+          },
+          {
+            "snapshot": 9,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0009.html"
+            }
+          },
+          {
+            "snapshot": 10,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0010.html"
+            }
+          },
+          {
+            "snapshot": 11,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0011.html"
+            }
+          },
+          {
+            "snapshot": 12,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0012.html"
+            }
+          },
+          {
+            "snapshot": 15,
+            "qualified": false,
+            "reason": "UNSAFE_DOCUMENT",
+            "diagnostic": {
+              "status": "OMITTED",
+              "reason": "UNSAFE_DOCUMENT"
+            }
+          },
+          {
+            "snapshot": 16,
+            "qualified": false,
+            "reason": "UNSAFE_DOCUMENT",
+            "diagnostic": {
+              "status": "OMITTED",
+              "reason": "UNSAFE_DOCUMENT"
+            }
+          },
+          {
+            "snapshot": 19,
+            "qualified": false,
+            "reason": "UNSAFE_DOCUMENT",
+            "diagnostic": {
+              "status": "OMITTED",
+              "reason": "UNSAFE_DOCUMENT"
+            }
+          },
+          {
+            "snapshot": 24,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0024.html"
+            }
+          },
+          {
+            "snapshot": 25,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0025.html"
+            }
+          },
+          {
+            "snapshot": 26,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0026.html"
+            }
+          },
+          {
+            "snapshot": 27,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0027.html"
+            }
+          },
+          {
+            "snapshot": 28,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0028.html"
+            }
+          },
+          {
+            "snapshot": 29,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0029.html"
+            }
+          },
+          {
+            "snapshot": 32,
+            "qualified": false,
+            "reason": "UNSAFE_DOCUMENT",
+            "diagnostic": {
+              "status": "OMITTED",
+              "reason": "UNSAFE_DOCUMENT"
+            }
+          },
+          {
+            "snapshot": 38,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0038.html"
+            }
+          },
+          {
+            "snapshot": 39,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0039.html"
+            }
+          },
+          {
+            "snapshot": 40,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0040.html"
+            }
+          },
+          {
+            "snapshot": 41,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0041.html"
+            }
+          },
+          {
+            "snapshot": 42,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0042.html"
+            }
+          },
+          {
+            "snapshot": 43,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0043.html"
+            }
+          },
+          {
+            "snapshot": 44,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0044.html"
+            }
+          },
+          {
+            "snapshot": 45,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0045.html"
+            }
+          },
+          {
+            "snapshot": 46,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0046.html"
+            }
+          },
+          {
+            "snapshot": 47,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0047.html"
+            }
+          },
+          {
+            "snapshot": 48,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0048.html"
+            }
+          },
+          {
+            "snapshot": 49,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0049.html"
+            }
+          },
+          {
+            "snapshot": 50,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0050.html"
+            }
+          },
+          {
+            "snapshot": 53,
+            "qualified": false,
+            "reason": "UNSAFE_DOCUMENT",
+            "diagnostic": {
+              "status": "OMITTED",
+              "reason": "UNSAFE_DOCUMENT"
+            }
+          },
+          {
+            "snapshot": 54,
+            "qualified": false,
+            "reason": "UNSAFE_DOCUMENT",
+            "diagnostic": {
+              "status": "OMITTED",
+              "reason": "UNSAFE_DOCUMENT"
+            }
+          },
+          {
+            "snapshot": 57,
+            "qualified": false,
+            "reason": "UNSAFE_DOCUMENT",
+            "diagnostic": {
+              "status": "OMITTED",
+              "reason": "UNSAFE_DOCUMENT"
+            }
+          }
+        ]
+      },
+      "HARPrivacy": {
+        "requestHeaders": 0,
+        "requestCookies": 0
+      },
+      "searchAPIStatus": [
+        {
+          "path": "/catalog.json",
+          "status": 403,
+          "count": 20
+        },
+        {
+          "path": "/search/",
+          "status": 403,
+          "count": 20
+        }
+      ],
+      "ledger": {
+        "fullLive": 1,
+        "evaluationPublicGET": 6,
+        "realModelCalls": 43,
+        "environmentReruns": 0,
+        "googleRequests": 4,
+        "restaurantWebsiteRequests": 394
+      },
+      "remaining": {
+        "fullLive": 0,
+        "evaluationPublicGET": 2,
+        "realModelCalls": 12,
+        "environmentReruns": 0
+      },
+      "evidenceSHA256": {
+        "evaluation.json": "de96a9712d1e0d44a99ad72e96eab6b95e48304aa05f542ceea111a5763fdd1e",
+        "evaluation.input.json": "145ea2d5266a068f1efa9ea3ed3109183e0a872ddcbe0bb907a47879456c5487",
+        "execution.result.json": "de635c8cedaf0fbf654e1b0827f1611fcb09750dc4fdbd4c7ad4299439107460",
+        "execution.decisions.jsonl": "458a81baf27927b210ff1eeb1f0dbd5a33db48c8bdbf4a4f263d6d70353789b8",
+        "browser-trace.json": "bd6f10240d2b7176800860f52487a42893ac827c982a5e54fb509113dffb7a1c",
+        "outer-requests.json": "9f60cf0587e3904a6fa8b1dd26959fdec740f7a33300b0504d1c844692b83982"
+      }
+    }
+  },
+  "protectedUnchanged": true,
+  "totalUsed": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 43,
+    "environmentReruns": 0
+  }
+}
