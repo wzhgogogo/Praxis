@@ -216,11 +216,11 @@ test("retired SELECT_REGION_ENTRANCE is unavailable in the current strict browse
 });
 
 
-test("browser prompt 25 keeps parent-region consistency and observed recovery navigation generic", async () => {
+test("browser prompt 27 keeps parent-region consistency and observed recovery navigation generic", async () => {
  let captured: ModelRequest | undefined;
  const decision = new ModelBrowserReadActionDecision({async complete(request){captured=request;return gateway({action:"REQUEST_HUMAN_HELP",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"No observed safe route"}).complete(request);}});
  await decision.decide(input);
- assert.equal(captured?.promptVersion,"25");
+ assert.equal(captured?.promptVersion,"27");
  const prompt=JSON.stringify(captured?.messages);
  assert.match(prompt,/goal.location.addressComponents/);
  assert.match(prompt,/administrative_area_level_1/);

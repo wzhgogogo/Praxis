@@ -103,6 +103,13 @@ function publicDate(element: QueryElement): string | undefined {
 /** Confirmation may come from visible public state or the latest exactly bound source response. */
 export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string, partySize: number): boolean {
   if (!/^https:\/\/tabelog\.com\/(?:en\/)?[^/?]+\/A\d+\/A\d+\/\d+\/(?:[?#]|$)/u.test(snapshot.url) || snapshot.settlement === "PENDING") return false;
+  const {dates,people} = observedTabelogQuerySelections(snapshot);
+  if (dates.some(value => value !== date) || people.some(value => value !== partySize)) return false;
+  return dates.length > 0 && people.length > 0 || inspectTabelogVacancyResponse(snapshot,date,partySize).status === "OBSERVED";
+}
+
+/** Existing visible/native/ARIA selections, without interpreting missing state. */
+export function observedTabelogQuerySelections(snapshot: BrowserSnapshot) {
   const elements = queryElements(snapshot.visibleHtml ?? snapshot.html).filter(row => !row.hidden);
   const dates: Array<string | undefined> = [], people: Array<number | undefined> = [];
   for (const element of elements) {
@@ -129,8 +136,7 @@ export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string,
       }
     }
   }
-  if (dates.some(value => value !== date) || people.some(value => value !== partySize)) return false;
-  return dates.length > 0 && people.length > 0 || inspectTabelogVacancyResponse(snapshot,date,partySize).status === "OBSERVED";
+  return {dates,people};
 }
 
 /** Latest source response still owns all inventory; selected controls alone never establish stock. */

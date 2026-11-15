@@ -34,7 +34,7 @@ import type {
 } from "./tabelog-contracts.js";
 
 import { hasTabelogSelectedQuery, tabelogRequestedDateState, tabelogQueryControlHints, tabelogQueryControlsRestricted, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
-import { inspectTabelogVacancyResponse } from "./tabelog-vacancy-response.js";
+import { inspectTabelogVacancyResponse, observedTabelogResponsePartySize } from "./tabelog-vacancy-response.js";
 
 export function tabelogNameSearchCompletion(page: BrowserSnapshot): BrowserCompletionAssessment {
   const outlets = parseTabelogSearchOutlets(page);
@@ -47,15 +47,17 @@ export function tabelogNameSearchCompletion(page: BrowserSnapshot): BrowserCompl
 
 export function tabelogAvailabilityCompletion(page: BrowserSnapshot, request: Pick<RestaurantAvailabilityRequest, "date" | "partySize" | "timeWindow">): BrowserCompletionAssessment {
   const slots = parseTabelogAvailabilitySlots(page, request);
-  const selected=hasTabelogSelectedQuery(page,request.date,request.partySize),response=inspectTabelogVacancyResponse(page,request.date,request.partySize);
+  const selected=hasTabelogSelectedQuery(page,request.date,request.partySize);
   const confirmedFields:Array<"DATE"|"PARTY_SIZE">=[];
   if(tabelogRequestedDateState(page,request.date)==="SELECTABLE")confirmedFields.push("DATE");
-  if(selected&&response.status==="OBSERVED")confirmedFields.push("PARTY_SIZE");
+  if(observedTabelogResponsePartySize(page,request.partySize)==="SELECTABLE")confirmedFields.push("PARTY_SIZE");
   return { complete: selected && slots.hasExplicitSlotUi,confirmedFields,
     resultBusy: tabelogAvailabilityResultBusy(page),
     resultKey: JSON.stringify([page.url, request.date, request.partySize, request.timeWindow, slots]),
     reason: confirmedFields.includes("DATE")&&!confirmedFields.includes("PARTY_SIZE")
       ? `The reviewed source response confirms date ${request.date}; ${request.partySize} guests are not yet confirmed. Keep the confirmed date while using current observed guest controls. A carousel arrow may reveal only one additional value; observe its result before choosing the requested count.`
+      : confirmedFields.includes("PARTY_SIZE")&&!confirmedFields.includes("DATE")
+      ? `The reviewed source response confirms ${request.partySize} guests; the requested date ${request.date} is not yet confirmed. Keep the confirmed guest count and use currently observed calendar controls to select the requested date.`
       : "Both the requested calendar date and guest count must be selected; model completion alone does not confirm them." };
 }
 
@@ -430,6 +432,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           });
         }
       };
+      let performedNameSearch = false;
       let search!: BrowserSnapshot;
       let outlets!: ReturnType<typeof parseTabelogSearchOutlets>;
       for (;;) {
@@ -439,6 +442,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           search = directPage;
           outlets = [listedOutlet];
         } else {
+          performedNameSearch = true;
           let searched = await this.executor.search({
             source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName, completion: tabelogNameSearchCompletion,
           });
@@ -576,6 +580,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       // remains UNKNOWN until a fresh request-bound slot observation succeeds.
       retainedIdentity = { sourceEntityId: resolved.outlet.sourceEntityId, sourceUrl: resolved.outlet.sourceUrl, entityMatch: resolved };
       const verifiedAlternateUrls = [...(observedUrlsByResolvedUrl.get(resolved.outlet.sourceUrl) ?? new Set([resolved.outlet.sourceUrl]))];
+      if (performedNameSearch && !this.options.identityOnly) {
+        this.executor.endProvider();
+        this.executor.beginProvider(candidate.restaurant.id, "TABELOG", "AVAILABILITY");
+      }
       return await this.readMatchedOutlet(candidate, request, session, signal, observedAt, browser, resolved, lastOutletPage, verifiedAlternateUrls);
     } catch (error) {
       if (error instanceof TabelogSourceBusyError) {
@@ -670,7 +678,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
           initialObservation: { snapshot: page, controls: visibleQueryControls },
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
-          objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+          objective: "Apply the exact requested date and guest count through the current observed controls. Use CLICK_AUTHORITATIVE only for an exact requested value whose availableActions offers it. When the target value is not yet available and an observed control offers ADVANCE_TO_AUTHORITATIVE, use that action to expose the requested value. Do not enter a booking form. Selected time options alone are not verified availability.",
+          completionUsesControls: false,
           completion: current => tabelogAvailabilityCompletion(current, request),
         });
         const querySnapshot = await this.retryBusyPage(candidate.restaurant.id, session, signal, query.snapshot, "AVAILABILITY");

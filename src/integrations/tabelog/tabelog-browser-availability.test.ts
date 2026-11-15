@@ -1117,3 +1117,32 @@ test("fallback name search reuses its completed snapshot without a redundant dis
   assert.ok(diagnostics.length>0,"normal adapter identity diagnostics remain present");
  }finally{await executor.closeAll();}
 });
+
+// Adapter unit I/O substitute: the real parser resolves list/detail identity;
+// simulated time and a bounded no-progress result isolate stage-window wiring.
+for(const [priorMs,workMs,expected]of [[0,44000,'NO_PROGRESS'],[0,46000,'BROWSER_TIMEOUT'],[40000,34000,'NO_PROGRESS'],[40000,36000,'BROWSER_TIMEOUT']]as const)test(`named search phase keeps candidate budget: prior=${priorMs}, availability=${workMs}`,async t=>{
+ let clock=0;t.mock.method(Date,'now',()=>clock);const records:any[]=[];
+ const detailUrl='https://tabelog.com/tokyo/A1304/A130401/123/';
+ const search:BrowserSnapshot={url:'https://tabelog.com/en/rstLst/?sw=Restaurant%201',title:'Search',text:candidate.restaurant.outletName,html:`<article><a href="${detailUrl}">${candidate.restaurant.outletName}</a><address>${candidate.restaurant.address}</address></article>`};
+ const detail=boundQueryFixture({url:detailUrl,title:candidate.restaurant.outletName,text:'Restaurant public availability',html:`<script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:candidate.restaurant.outletName,address:candidate.restaurant.address})}</script><h1 class="restaurant-name">${candidate.restaurant.outletName}</h1><p class="restaurant-address">${candidate.restaurant.address}</p><select name="party"><option value="2">2</option></select>`});
+ const session=new FixtureBrowserSession([search,detail]);const outlet=structuredClone(candidate);outlet.restaurant.sourceIds={};const signal=new AbortController().signal;
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:500000,maxElapsedMsPerCandidate:90000,maxElapsedMsPerProvider:45000,maxOperationsPerCandidate:80,maxModelCallsPerCandidate:2,maxModelCallsTotal:3,onDiagnostic:e=>records.push(e)});
+ executor.beginCandidate(outlet.restaurant.id);clock=priorMs;
+ executor.search=async input=>{await executor.start({...input,stage:'DISCOVERY'});await executor.readModel(signal,async()=>undefined);clock+=15000;return{status:'COMPLETED',snapshot:await executor.snapshot({...input,stage:'DISCOVERY'}),controls:[]};};
+ executor.runSkill=async input=>{assert.equal(input.stage,'AVAILABILITY');await executor.readModel(signal,async()=>undefined);await assert.rejects(executor.readModel(signal,async()=>undefined),(e:unknown)=>e instanceof BrowserRuntimeError&&e.code==='BROWSER_CANDIDATE_MODEL_BUDGET_EXCEEDED','phase reset must not replenish candidate model budget');clock+=workMs;const snapshot=await executor.snapshot(input);return{status:'NO_SAFE_ACTION',reasonCode:'NO_PROGRESS',snapshot,controls:[]};};
+ try{const result=await new ProductionTabelogBrowserAvailability(executor,()=> '2026-08-05T09:00:00Z',5,{networkPolicy:{startupDocuments:['https://tabelog.com/en/'],documentOrigins:['https://tabelog.com'],staticResources:[],dynamicReads:[],genericPublicRead:true}}).check({candidateIds:[outlet.restaurant.id],candidates:[outlet],date:'2026-08-06',partySize:3,timeWindow:fixtureIntent.timeWindow,hardCriteria:[]},signal);
+ assert.equal(result.metadata.failureCode,expected==='NO_PROGRESS'?'AGENT_EXECUTION_FAILED':expected,JSON.stringify(records.slice(-6)));const started=records.find(e=>e.event==='PROVIDER_STARTED'&&e.stage==='AVAILABILITY');assert.ok(started,'a distinct availability phase starts');assert.equal(started.lifecycle.candidateElapsedMs,priorMs+15000);assert.equal(started.lifecycle.providerElapsedMs,0);assert.equal(started.lifecycle.candidateModelCalls,1);assert.ok(started.lifecycle.candidateRuntimeOperations>0,'candidate operation count remains consumed');
+ }finally{await executor.closeAll();}
+});
+
+// Adapter propagation component: original Saigyo DOM26 is the identity page;
+// the executor result boundary supplies its actual post-advance DOM29. The
+// separate Chromium test exercises the real native clicks, not this stub.
+test('recorded disabled-party executor result retains the specific adapter failure and direct scope',async()=>{
+ const folder=new URL('../../harness/browser/fixtures/disabled-party-recorded/',import.meta.url);const meta=JSON.parse(await readFile(new URL('manifest.json',folder),'utf8'));
+ const page=async(n:number):Promise<BrowserSnapshot>=>({url:meta.pageURL,title:meta.goal.outlet.name,text:meta.beforeVisibleText,html:await readFile(new URL(`snapshot-${String(n).padStart(4,'0')}.html`,folder),'utf8'),settlement:'SETTLED'});
+ const before=await page(26),after=await page(29),session=new FixtureBrowserSession([before]);session.allowQueryWidget=false;const outlet=structuredClone(candidate);outlet.restaurant.outletName=meta.goal.outlet.name;outlet.restaurant.address=meta.goal.outlet.address;outlet.restaurant.sourceIds={tabelog:new URL(meta.pageURL).pathname.slice(1).replace(/\/$/,''),tabelogNativeDetailUri:meta.pageURL};
+ const records:any[]=[];let queries=0;const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:500000,maxElapsedMsPerCandidate:90000,maxElapsedMsPerProvider:45000,maxModelCallsPerCandidate:12,maxModelCallsTotal:50,maxOperationsPerCandidate:80,onDiagnostic:e=>records.push(e)});
+ executor.runSkill=async()=>{queries++;return{status:'NO_SAFE_ACTION',reasonCode:'PARTY_SIZE_NOT_SELECTABLE',snapshot:after,controls:[]};};
+ try{const result=await new ProductionTabelogBrowserAvailability(executor).check({candidateIds:[outlet.restaurant.id],candidates:[outlet],date:meta.goal.date,partySize:meta.goal.partySize,timeWindow:meta.goal.timeWindow,hardCriteria:[]},new AbortController().signal);assert.equal(queries,1,JSON.stringify({metadata:result.metadata,checks:result.availabilityChecks}));assert.equal(result.metadata.failureCode,'PARTY_SIZE_NOT_SELECTABLE');assert.equal(result.availabilityChecks[outlet.restaurant.id]?.reasonCode,'PARTY_SIZE_NOT_SELECTABLE');assert.equal(result.availabilityChecks[outlet.restaurant.id]?.status,'UNKNOWN');assert.equal(records.filter(e=>e.event==='PROVIDER_STARTED').length,1,'direct path has no search-window reset');}finally{await executor.closeAll();}
+});

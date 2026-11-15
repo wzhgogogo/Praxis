@@ -280,7 +280,12 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     : state.selectionSession?.deliveredCandidateIds ?? []);
   const hardConflictedCandidates = new Set(state.candidates.filter((candidate) =>
     hasCurrentHardConflict(state, candidate.restaurant.id, intent)).map((candidate) => candidate.restaurant.id));
+  const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
   const factInvestigableCandidateIds = presentation.filter((item) => {
+    const check = state.availabilityChecks[item.candidateId];
+    if (restaurantGoalRequiresAvailability(intent) && completeBookingIntent && check?.status === "UNKNOWN"
+      && check.reasonCode === "PARTY_SIZE_NOT_SELECTABLE"
+      && check.requestFingerprint === restaurantAvailabilityRequestFingerprint(completeBookingIntent)) return false;
     if(!namedOutletCandidateResolved(state,item.candidateId))return false;
     if (excludedFromPendingBatch.has(item.candidateId)) return false;
     const refreshing = factRefreshTargets.includes(item.candidateId);
@@ -293,7 +298,6 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
       || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri)
       || Boolean(candidate?.restaurant.sourceIds.discoveryDetailUri);
   }).map((item) => item.candidateId);
-  const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
   const eligibleCheckableIds = completeBookingIntent ? presentation.filter((item) =>
     namedOutletCandidateResolved(state,item.candidateId)&&!excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
       && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),

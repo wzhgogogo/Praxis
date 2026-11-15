@@ -5,8 +5,8 @@ description: 为Praxis改动从合同和失效机制推导必要的功能与安�
 
 # Praxis Test
 
-- Document revision: 1.8
-- Last updated: 2026-10-29
+- Document revision: 1.9
+- Last updated: 2026-11-15
 
 Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭。质量维度、评分单位和验收门槛属于[Eval](../eval/SKILL.md)；当前产品合同、已运行证据和未覆盖项分别以链接的权威文档、[STATUS](../../STATUS.md)和[TEST-LOG](../../history/TEST-LOG.md)为准。
 
@@ -24,6 +24,8 @@ Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭�
 | 局部实现/重构 | typecheck、arch:check、相关行为测试、build；共享路径受影响时运行npm test |
 | Runtime、Policy、授权、State/Schema、Verifier、P0路径 | typecheck、arch:check、npm test、build及对应状态/副作用不变量 |
 | Browser执行器、Guard、Source Pack、浏览器Adapter或读取组装 | Contract及`npm run test:browser:fixture`（真实本地Chromium）；有合法样本时Replay；改变平台能力声明时单独Live Read-only |
+| 浏览器或 Agent 决策 Prompt（`browser-action-decision`、`agent-context`）、`web-skills/` 下的 Skill 或工具 Wire Schema | 在离线门禁之外，用真实 DeepSeek 抽检已录制帧，网站 GET 为 0。按行为覆盖 Tabelog 常规发现与完成、分类下钻、查位推进，以及 TableCheck 查位控件。分别记录 Schema 和动作结果，缺少录制的行为单列。单帧语义失败阻断发布，其他独立帧继续。 |
+| 仅修改确定性执行器、Adapter 或 Domain，Prompt、Skill 及 Wire Schema 均未变化 | 复用适用的真实模型录制证据，用本地 Chromium 回放验证执行结果，新增模型调用为 0。 |
 | Search/排序 | Unit与Search Harness；真实响应兼容性变化时Replay或明确缺口 |
 | Web交互 | 客户端检查、相关HTTP/API与关键浏览器交互；响应式标记不能替代视觉/设备验证 |
 | 语义Prompt/Contract/Scorer | 对应Unit、固定开发Regression及Eval协议要求；不自动运行或读取私有Holdout |
@@ -33,7 +35,7 @@ Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭�
 
 离线代码门禁是`npm run typecheck`、`npm run arch:check`、`npm test`、`npm run build`；上表浏览器相关路径还必须运行`npm run test:browser:fixture`，与前四条并列汇报且要求全绿。`npm test`不包含`src/harness/browser/`，不能替代该门禁；其他改动不默认触发。通过后只在新改动、失败或未解决风险需要时重复，不按测试数量扩张范围。
 
-`npm run test:browser:fixture`先独立运行全部G2文件（并发1），成功后再运行其余浏览器文件（并发4）；G2不与重型Chromium文件竞争。保留每组原始输出并汇总整套数量，任何子进程失败或缺少摘要均使入口失败。G2原180秒测试生命周期不变，不以放宽断言或增大其截止时间解决资源竞争。
+`npm run test:browser:fixture` 先运行 G2 文件（并发 1），接着运行其余 Chromium 文件（并发 4），随后执行 `npm run test:g6:assembly`。保留各组原始输出和计数，任何子进程失败或缺少摘要均使入口失败。G2 的测试生命周期为 180 秒。以录制帧构造一次观察或动作的测试标为 `LOCAL_CONSTRUCTION`，只证明该组件行为。跨阶段组合回归须经生产组装入口连接阶段，并核对最终产物。
 
 G2固定检查为`npm run test:dom-change`，列在五门禁之外。按已冻结保存页与变异规则比较当前结果；G3验收另以`PRAXIS_G2_REQUIRE_PASS=1 npm run test:dom-change`要求全部有效页PASS。诚实退化不冒充查位成功，原页已可知事实不能退化为两边都未知来过关。
 
