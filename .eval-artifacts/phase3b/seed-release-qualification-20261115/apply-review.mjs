@@ -1,0 +1,17 @@
+import {readFile,writeFile}from'node:fs/promises';
+import{dirname,join}from'node:path';import{fileURLToPath,pathToFileURL}from'node:url';
+import{createHash}from'node:crypto';
+const root=dirname(fileURLToPath(import.meta.url)),kind=process.argv[2],annotation=process.argv[3];
+if(!['d02v','d8'].includes(kind))throw Error('Unknown attempt');
+const c=JSON.parse(await readFile(join(root,kind,'config.json'),'utf8'));
+const {reviewHoldoutAttempt}=await import(pathToFileURL(join(c.sourceRoot,'src/eval/restaurant/agent-loop/g6/holdout-review.ts')));
+const originalPath=join(c.output,'runtime',c.id,'evaluation.json');
+const hash=data=>createHash('sha256').update(data).digest('hex');
+const before=hash(await readFile(originalPath));
+const attempt={id:c.id,repetition:1,key:c.id,path:join(c.output,'runtime'),status:'PENDING_REVIEW',environmentReplacement:false};
+const save=async()=>writeFile(join(root,kind,'review-receipt.json'),JSON.stringify({attempt,originalEvaluationSHA256:before,externalCalls:0},null,2)+'\n');
+const result=await reviewHoldoutAttempt(attempt,{key:c.id,file:annotation},v=>v,save);
+if(result.verdict.s0!==0||result.verdict.stopBatch)throw Error('Review failed or needs more evidence');
+if(before!==hash(await readFile(originalPath)))throw Error('Original evaluation changed');
+attempt.status='EVALUATED_BY_REVIEW';await save();
+console.log(JSON.stringify({kind,verdict:result.verdict,checks:result.checks.length,originalUnchanged:true}));
