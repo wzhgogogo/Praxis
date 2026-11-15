@@ -1,0 +1,1 @@
+先用冻结a66a2edc原createG6LiveBrowser、原Guard完整发现策略读取TableCheck入口一次，观察catalog的真实响应；不保存响应正文、凭据或请求头，不调用模型。只有catalog200才进入新冻结单次D8配置；否则停止。cdn0只是静态域名，当前search-v4主机未命中直连规则。
