@@ -1,0 +1,774 @@
+{
+  "outcomes": [
+    {
+      "site": "TABELOG",
+      "complete": true,
+      "elapsedMs": 6342,
+      "url": "https://tabelog.com/en/",
+      "title": "Tabelog - Japan Food & Restaurant Guide for Travelers",
+      "settlement": "SETTLED"
+    },
+    {
+      "site": "TABLECHECK",
+      "complete": true,
+      "elapsedMs": 8366,
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "title": "Specializing in Nodoguro Ginza Nakamata - Restaurant Guide - TableCheck",
+      "settlement": "SETTLED"
+    }
+  ],
+  "actions": [
+    {
+      "site": "TABELOG",
+      "step": "KEYWORD_INPUT",
+      "matches": [
+        {
+          "id": "dom:1:130",
+          "label": "Location, cuisine, restaurant name, etc.",
+          "kind": "INPUT"
+        }
+      ]
+    },
+    {
+      "site": "TABLECHECK",
+      "step": "DESTINATION_OPEN",
+      "matches": [
+        {
+          "id": "dom:1:4",
+          "label": "Destination Area, station, line or restaurant",
+          "kind": "BUTTON"
+        }
+      ]
+    },
+    {
+      "site": "TABLECHECK",
+      "step": "DESTINATION_INPUT",
+      "matches": [
+        {
+          "id": "dom:2:14",
+          "label": "Destination",
+          "kind": "INPUT"
+        }
+      ]
+    },
+    {
+      "site": "TABLECHECK",
+      "step": "EXACT_SUGGESTION",
+      "matches": [
+        {
+          "id": "dom:3:183",
+          "label": "Specializing in Nodoguro Ginza Nakamata",
+          "kind": "BUTTON"
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "site": "TABELOG",
+      "url": "https://tabelog.com/en/",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "document",
+      "bytes": 288433,
+      "sha256": "73a8a6da75b456b71b0b32aadac94d9f6ff4876dd798e432759ad5193a3606c8",
+      "at": "2026-11-15T15:53:54.589Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "queryKeys": [
+        "rst-v1-202611131433-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 1701761,
+      "sha256": "86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0",
+      "at": "2026-11-15T15:53:56.539Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "queryKeys": [
+        "rst-v1-202611131433-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 51020,
+      "sha256": "7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98",
+      "at": "2026-11-15T15:53:56.541Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "queryKeys": [
+        "rst-v1-202611131433-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 227166,
+      "sha256": "9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85",
+      "at": "2026-11-15T15:53:56.709Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "queryKeys": [
+        "rst-v1-202611131433-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 32161,
+      "sha256": "c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d",
+      "at": "2026-11-15T15:53:56.712Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "queryKeys": [
+        "rst-v1-202611131433-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 330,
+      "sha256": "f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7",
+      "at": "2026-11-15T15:53:56.712Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "queryKeys": [
+        "rst-v1-202611131433-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 4529,
+      "sha256": "f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee",
+      "at": "2026-11-15T15:53:56.712Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "queryKeys": [
+        "rst-v1-202611131433-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 53586,
+      "sha256": "e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce",
+      "at": "2026-11-15T15:53:56.718Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "queryKeys": [
+        "rst-v1-202611131433-3040d261bf33a7059123e7c99881a7c06710c51c1673679cd605deb6e1e5aa6c"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "script",
+      "bytes": 71854,
+      "sha256": "3040d261bf33a7059123e7c99881a7c06710c51c1673679cd605deb6e1e5aa6c",
+      "at": "2026-11-15T15:53:56.748Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "queryKeys": [
+        "rst-v1-202611131433-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 28784,
+      "sha256": "7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075",
+      "at": "2026-11-15T15:53:57.231Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "queryKeys": [
+        "rst-v1-202611131433-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "script",
+      "bytes": 20891,
+      "sha256": "116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f",
+      "at": "2026-11-15T15:53:57.231Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "queryKeys": [
+        "rst-v1-202611131433-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "script",
+      "bytes": 45840,
+      "sha256": "5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf",
+      "at": "2026-11-15T15:53:57.263Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "queryKeys": [
+        "rst-v1-202611131433-3462ada37f26dc353410ca59a79fbce9fbb3694bb90e4af2ad8eccb670ebd26f"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "script",
+      "bytes": 2002932,
+      "sha256": "3462ada37f26dc353410ca59a79fbce9fbb3694bb90e4af2ad8eccb670ebd26f",
+      "at": "2026-11-15T15:53:57.357Z"
+    },
+    {
+      "site": "TABELOG",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "queryKeys": [
+        "keyword"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "xhr",
+      "bytes": 2363,
+      "sha256": "1d75c85b4e9d01a2f06292b6b60deeec0d69571adc423160fd777166fc402bdd",
+      "at": "2026-11-15T15:53:59.274Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "document",
+      "bytes": 99362,
+      "sha256": "491ef1e6778c8368a8155d10a4239ae28176ddcb105e846ac5e9c528e37d2480",
+      "at": "2026-11-15T15:54:00.328Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://www.tablecheck.com/portal/assets/react-sySUN5R7.js",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "script",
+      "bytes": 8582,
+      "sha256": "ff16d18341d4cfbc79996e8089003758d754701f6db289a1e0510e66ad1c616a",
+      "at": "2026-11-15T15:54:00.886Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://www.tablecheck.com/portal/assets/dist-f_J5W_KP.js",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "script",
+      "bytes": 89917,
+      "sha256": "e4b6482a659176477420681661a0e71b29441f7d6190dc1cc09732babe336ff8",
+      "at": "2026-11-15T15:54:01.001Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://www.tablecheck.com/portal/assets/index-Cb92phg4.css",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 686464,
+      "sha256": "93fd219e2fbf22919263d162675fe28a7b9be54d1925d74c25c60bac733cc4d7",
+      "at": "2026-11-15T15:54:01.121Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://cdn0.tablecheck.com/common/css/tablekit-font-faces.v1.min.css",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "stylesheet",
+      "bytes": 27321,
+      "sha256": "3faa12e7130048310440f596033fd32fc6bfad248de822ae3c8c09e90bbfa846",
+      "at": "2026-11-15T15:54:01.612Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://www.tablecheck.com/portal/assets/index-CKtOCJ3M.js",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "script",
+      "bytes": 10971183,
+      "sha256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb",
+      "at": "2026-11-15T15:54:02.079Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://production.tablecheck.com/v2/geolocation",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 55,
+      "sha256": "a4f196e3d45469b9667b1a0d120e062ec0cc95d65e3be47b0662114a69fcc126",
+      "at": "2026-11-15T15:54:02.818Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:02.956Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:02.956Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 64793,
+      "sha256": "79e592f45d901c7e8eab34071fc0b2faef61f8c461e7da8a351434505c9a8e5e",
+      "at": "2026-11-15T15:54:02.961Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:02.983Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:02.984Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 1277,
+      "sha256": "e1339646994f16d811aa8d77f664e018ac61e868c1cdfefc1b032997fc913b67",
+      "at": "2026-11-15T15:54:03.063Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 8262,
+      "sha256": "a35b93f60dfcde4533d2723ccbb5990d1759deb1682ae6b0433f1f600fb7ca19",
+      "at": "2026-11-15T15:54:03.341Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 7794,
+      "sha256": "ab2264756403f900cfce309ce934243667820e2f277f08f10cac8598eda3bac9",
+      "at": "2026-11-15T15:54:03.341Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:03.369Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:03.369Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 5960,
+      "sha256": "39d5cc849ac3ab0a770a33d0893fe21703b1da7441b75d6ec7dcd8603295b8ba",
+      "at": "2026-11-15T15:54:03.520Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 325305,
+      "sha256": "fa59ad1a0b44cc15c52e4f6e64f37362fc4b76a71f7ef1afd9ff1dd42d56fac3",
+      "at": "2026-11-15T15:54:03.523Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:03.539Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 213736,
+      "sha256": "52ba1398458d4ebde267ebdc915ee36c184b38cfda43bd3308c844c1f671ed17",
+      "at": "2026-11-15T15:54:03.576Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 163,
+      "sha256": "84b8b1359e0afcfa59a3800524ecde8d1a24a0674b188338714f666b35816870",
+      "at": "2026-11-15T15:54:03.614Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 411439,
+      "sha256": "c05eb2cdb28bae1b3281bb60e44f414696cea768d0a89efb7e3546153495071a",
+      "at": "2026-11-15T15:54:03.891Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:03.906Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 281923,
+      "sha256": "329dd78c6b537c6b90c0635ae658ef04b1bfa7be4bde237b9e21578dd99c8046",
+      "at": "2026-11-15T15:54:03.935Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 29606,
+      "sha256": "ac3df0866cedec797c2aedebf0a86d4d088cf95c2c7437ae2e108f0b6fc6740a",
+      "at": "2026-11-15T15:54:04.147Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://production.tablecheck.com/v2/shops/nakamata-nodoguro-ginza",
+      "queryKeys": [
+        "locale"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 11139,
+      "sha256": "825a448aedabe27910c480466474faf7d7b41408a686214f3fc8e25d283dd4ed",
+      "at": "2026-11-15T15:54:06.090Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:06.161Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "queryKeys": [],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:06.161Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ],
+      "method": "OPTIONS",
+      "status": 204,
+      "type": "other",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "at": "2026-11-15T15:54:06.161Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "queryKeys": [],
+      "method": "POST",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 36578,
+      "sha256": "3ff01485cb93936b35fe6444acae6c6e88f5d831455b168d6327631edeacda9d",
+      "at": "2026-11-15T15:54:06.589Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 119116,
+      "sha256": "6b90bbf55e80039ba4c543697233d9d5efc959493394af007a22c6ff13abdd6e",
+      "at": "2026-11-15T15:54:06.646Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 1481354,
+      "sha256": "2b656b3a5db03f7e6e69e9bc0dc4dcc90c19a0f339759a5d3732199aacfbe2bf",
+      "at": "2026-11-15T15:54:06.939Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 1277,
+      "sha256": "e1339646994f16d811aa8d77f664e018ac61e868c1cdfefc1b032997fc913b67",
+      "at": "2026-11-15T15:54:07.079Z"
+    },
+    {
+      "site": "TABLECHECK",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "queryKeys": [],
+      "method": "GET",
+      "status": 200,
+      "type": "fetch",
+      "bytes": 5960,
+      "sha256": "39d5cc849ac3ab0a770a33d0893fe21703b1da7441b75d6ec7dcd8603295b8ba",
+      "at": "2026-11-15T15:54:07.109Z"
+    }
+  ],
+  "fullLive": 0,
+  "modelCalls": 0,
+  "scope": "Scripted read-only observed controls, no identity or inventory acceptance"
+}

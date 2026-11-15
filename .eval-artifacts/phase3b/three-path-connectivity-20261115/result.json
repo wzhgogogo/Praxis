@@ -1,0 +1,190 @@
+{
+  "sourceSHA": "a66a2edcb2ffe8e3eaa42f4c0e79680382539c9d",
+  "observations": [
+    {
+      "name": "TABELOG",
+      "reason": "PASS",
+      "passed": true,
+      "elapsedMs": 4029.365209,
+      "headers": [
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://tabelog.com/en/"
+        },
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://tabelog.com/en/"
+        },
+        {
+          "key": "commons.js",
+          "status": 200,
+          "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js"
+        }
+      ],
+      "responses": [
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://tabelog.com/en/",
+          "bytes": 288433,
+          "sha256": "73a8a6da75b456b71b0b32aadac94d9f6ff4876dd798e432759ad5193a3606c8",
+          "at": "2026-11-15T15:32:16.120Z"
+        },
+        {
+          "key": "commons.js",
+          "status": 200,
+          "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+          "bytes": 2002932,
+          "sha256": "3462ada37f26dc353410ca59a79fbce9fbb3694bb90e4af2ad8eccb670ebd26f",
+          "at": "2026-11-15T15:32:18.493Z"
+        }
+      ],
+      "errors": [],
+      "page": {
+        "url": "https://tabelog.com/en/",
+        "title": "Tabelog - Japan Food & Restaurant Guide for Travelers",
+        "settlement": "SETTLED"
+      }
+    },
+    {
+      "name": "TABLECHECK_SEARCH",
+      "reason": "PASS",
+      "passed": true,
+      "elapsedMs": 3624.2903750000005,
+      "headers": [
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://www.tablecheck.com/en/japan/search"
+        },
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://www.tablecheck.com/en/japan/search"
+        },
+        {
+          "key": "main.js",
+          "status": 200,
+          "url": "https://www.tablecheck.com/portal/assets/index-CKtOCJ3M.js"
+        },
+        {
+          "key": "geolocation",
+          "status": 200,
+          "url": "https://production.tablecheck.com/v2/geolocation"
+        },
+        {
+          "key": "catalog",
+          "status": 200,
+          "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json"
+        }
+      ],
+      "responses": [
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://www.tablecheck.com/en/japan/search",
+          "bytes": 99362,
+          "sha256": "491ef1e6778c8368a8155d10a4239ae28176ddcb105e846ac5e9c528e37d2480",
+          "at": "2026-11-15T15:32:19.543Z"
+        },
+        {
+          "key": "main.js",
+          "status": 200,
+          "url": "https://www.tablecheck.com/portal/assets/index-CKtOCJ3M.js",
+          "bytes": 10971183,
+          "sha256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb",
+          "at": "2026-11-15T15:32:21.330Z"
+        },
+        {
+          "key": "geolocation",
+          "status": 200,
+          "url": "https://production.tablecheck.com/v2/geolocation",
+          "bytes": 54,
+          "sha256": "b155475e329827d17571083c040a2c732bff4797cea87bafd505eeb43c15e691",
+          "at": "2026-11-15T15:32:21.882Z"
+        },
+        {
+          "key": "catalog",
+          "status": 200,
+          "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+          "bytes": 64793,
+          "sha256": "79e592f45d901c7e8eab34071fc0b2faef61f8c461e7da8a351434505c9a8e5e",
+          "at": "2026-11-15T15:32:22.200Z"
+        }
+      ],
+      "errors": [],
+      "page": {
+        "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+        "title": "Map Search - Japan",
+        "settlement": "SETTLED"
+      }
+    },
+    {
+      "name": "TABLECHECK_SHOP",
+      "reason": "WINDOW_20S_EXPIRED",
+      "passed": false,
+      "elapsedMs": 20002.097708,
+      "headers": [
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza"
+        },
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza"
+        },
+        {
+          "key": "main.js",
+          "status": 200,
+          "url": "https://www.tablecheck.com/portal/assets/index-CKtOCJ3M.js"
+        },
+        {
+          "key": "catalog",
+          "status": 200,
+          "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json"
+        }
+      ],
+      "responses": [
+        {
+          "key": "document",
+          "status": 200,
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "bytes": 181047,
+          "sha256": "426ff05f6ebc370c013cf7660ee97139e6e9f063a06f13b6d732d07eb3118be0",
+          "at": "2026-11-15T15:32:23.140Z"
+        },
+        {
+          "key": "main.js",
+          "status": 200,
+          "url": "https://www.tablecheck.com/portal/assets/index-CKtOCJ3M.js",
+          "bytes": 10971183,
+          "sha256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb",
+          "at": "2026-11-15T15:32:23.998Z"
+        },
+        {
+          "key": "catalog",
+          "status": 200,
+          "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+          "bytes": 64793,
+          "sha256": "79e592f45d901c7e8eab34071fc0b2faef61f8c461e7da8a351434505c9a8e5e",
+          "at": "2026-11-15T15:32:24.374Z"
+        }
+      ],
+      "errors": [],
+      "page": {
+        "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+        "title": "Specializing in Nodoguro Ginza Nakamata - Restaurant Guide - TableCheck",
+        "settlement": "SETTLED"
+      }
+    }
+  ],
+  "calls": {
+    "fullLive": 0,
+    "realModelCalls": 0
+  },
+  "note": "One observation per path, not full booking or stability acceptance"
+}
