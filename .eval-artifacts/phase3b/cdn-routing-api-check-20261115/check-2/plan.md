@@ -1,0 +1,1 @@
+用户再次授权重试一次同Guard路径catalog检查。当前运行规则已包含search-v4精确主机的direct。复用上一检查的独立账本，每次探查计1评估GET，仍0模型/0Live；catalog200才执行尚未使用的单次D8。
