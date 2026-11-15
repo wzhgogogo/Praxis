@@ -1,0 +1,102 @@
+{
+  "sourceSHA": "72fbb84d03c63c9af07d805101a53c25c92e4553",
+  "startedAt": "2026-11-15T04:18:39.191Z",
+  "promptVersion": "27",
+  "schemaVersion": "16",
+  "srcTree": "c2737887f050e94702da12d8c4951b3860d22a00",
+  "manifestSHA256": "8638d337190b65da6809c2e3dd83149f9bceef9a3adfef01482fe22e935da854",
+  "skillSHA256": "bb92aa1be3995353aa97a2660d1d5be097188a137c65ef5362b5f8305d1a9676",
+  "priorCalls": 2,
+  "maximumAdditionalCalls": 8,
+  "samples": [
+    {
+      "id": "D01-scoped-list",
+      "sequence": 8,
+      "scope": {
+        "complete": true,
+        "busy": false,
+        "sourceDisplayedCount": 0,
+        "parsedWholeDocumentLinks": 0,
+        "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=tokyo&LstPrf=A1305&LstAre=A130503&station_id=5779&area_datatype=RailroadStation&area_id=5779&genre_name=&sw=Spanish&search_mode=",
+        "title": "Best Restaurants near Takadanobaba Sta. | Tabelog"
+      },
+      "contextSHA256": "f6cadb05b8d6c57abf28195c0f41950414972896ab0689c70702a9a9ec4d7b9e",
+      "expected": {
+        "action": "COMPLETE"
+      }
+    },
+    {
+      "id": "collapsed-category",
+      "sequence": 7,
+      "contextSHA256": "ae8dd4fcee01f7f1fb9e7bb37fe81128dca9fcda5575785d94a82a5aa882f114",
+      "expected": {
+        "action": "CLICK",
+        "targetRef": "observation:4:target:17",
+        "label": "All"
+      }
+    },
+    {
+      "id": "parent-collapsed",
+      "sequence": 9,
+      "contextSHA256": "17f073b161787e771c0666db8546ef495932668cbfd4d53182147491fb272256",
+      "expected": {
+        "action": "CLICK",
+        "targetRef": "observation:6:target:18",
+        "label": "Washoku (Japanese cuisine)"
+      }
+    },
+    {
+      "id": "parent-expanded",
+      "sequence": 10,
+      "contextSHA256": "be6e3142c5d736b94554e0c80d63611041c5b2434ecd0d67a6abada4343399f0",
+      "expected": {
+        "action": "OPEN_LINK",
+        "targetRef": "observation:7:target:36",
+        "label": "Other"
+      }
+    },
+    {
+      "id": "07-home",
+      "sequence": 4,
+      "contextSHA256": "f0c3989a7c0ce0b75d6319a4444c559d0f7dc6dd169beba1b7c81b011de83806",
+      "expected": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:1:target:178",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "field": "LOCATION"
+      }
+    },
+    {
+      "id": "D02V-scoped-positive",
+      "sequence": 13,
+      "scope": {
+        "complete": true,
+        "busy": false,
+        "sourceDisplayedCount": 2,
+        "parsedWholeDocumentLinks": 12,
+        "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/RC019903/",
+        "title": "Best Robatayaki in Nakano | Tabelog"
+      },
+      "contextSHA256": "93d0de9de2c3d4c68f3388e42bf4c408202b7e2e96892b56a8beee20dadbd776",
+      "expected": {
+        "action": "COMPLETE"
+      }
+    },
+    {
+      "id": "D8-date-direct",
+      "sequence": 28,
+      "contextSHA256": "0ff509b0093f152334611a9a20b1f79df05fb721ed3f30f6312cd1e501ed5620",
+      "expected": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:29:target:69",
+        "label": "Wednesday 11",
+        "field": "DATE"
+      }
+    }
+  ],
+  "tablecheck": {
+    "DATE": "D8 #28",
+    "PARTY_SIZE": "UNCOVERED_BY_RETAINED_RECORDINGS",
+    "TIME": "UNCOVERED_BY_RETAINED_RECORDINGS"
+  }
+}

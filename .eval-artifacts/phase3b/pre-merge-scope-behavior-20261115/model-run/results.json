@@ -1,0 +1,158 @@
+{
+  "sourceSHA": "72fbb84d03c63c9af07d805101a53c25c92e4553",
+  "status": "PASS",
+  "websiteGET": 0,
+  "fullLive": 0,
+  "calls": 7,
+  "results": [
+    {
+      "id": "D01-scoped-list",
+      "status": "PASS",
+      "wireOK": true,
+      "semanticOK": true,
+      "action": {
+        "type": "COMPLETE",
+        "reason": "List scope shows Takadanobaba Sta. (Within 800m) with Spanish applied; source returns explicit 0 results.",
+        "scopeRef": "observation:5:target:18"
+      },
+      "target": {
+        "ref": "observation:5:target:18",
+        "label": "Spanish"
+      },
+      "usage": {
+        "inputTokens": 14449,
+        "outputTokens": 153,
+        "totalTokens": 14602
+      },
+      "latencyMs": 3353
+    },
+    {
+      "id": "collapsed-category",
+      "status": "PASS",
+      "wireOK": true,
+      "semanticOK": true,
+      "action": {
+        "type": "CLICK",
+        "targetRef": "observation:4:target:17",
+        "reason": "Open the \"All\" category menu to find the robatayaki cuisine category."
+      },
+      "target": {
+        "ref": "observation:4:target:17",
+        "label": "All"
+      },
+      "usage": {
+        "inputTokens": 25840,
+        "outputTokens": 143,
+        "totalTokens": 25983
+      },
+      "latencyMs": 2604
+    },
+    {
+      "id": "parent-collapsed",
+      "status": "PASS",
+      "wireOK": true,
+      "semanticOK": true,
+      "action": {
+        "type": "CLICK",
+        "targetRef": "observation:6:target:18",
+        "reason": "Open the category menu to inspect finer categories for robatayaki."
+      },
+      "target": {
+        "ref": "observation:6:target:18",
+        "label": "Washoku (Japanese cuisine)"
+      },
+      "usage": {
+        "inputTokens": 25890,
+        "outputTokens": 140,
+        "totalTokens": 26030
+      },
+      "latencyMs": 1736
+    },
+    {
+      "id": "parent-expanded",
+      "status": "PASS",
+      "wireOK": true,
+      "semanticOK": true,
+      "action": {
+        "type": "OPEN_LINK",
+        "targetRef": "observation:7:target:36",
+        "reason": "Robatayaki likely under catch-all \"Other\" category; inspect finer categories."
+      },
+      "target": {
+        "ref": "observation:7:target:36",
+        "label": "Other"
+      },
+      "usage": {
+        "inputTokens": 27467,
+        "outputTokens": 144,
+        "totalTokens": 27611
+      },
+      "latencyMs": 1874
+    },
+    {
+      "id": "07-home",
+      "status": "PASS",
+      "wireOK": true,
+      "semanticOK": true,
+      "action": {
+        "type": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:1:target:178",
+        "field": "LOCATION",
+        "reason": "Establish authoritative location Koenjikita in the search input first."
+      },
+      "target": {
+        "ref": "observation:1:target:178",
+        "label": "Location, cuisine, restaurant name, etc."
+      },
+      "usage": {
+        "inputTokens": 22693,
+        "outputTokens": 144,
+        "totalTokens": 22837
+      },
+      "latencyMs": 2265
+    },
+    {
+      "id": "D02V-scoped-positive",
+      "status": "PASS",
+      "wireOK": true,
+      "semanticOK": true,
+      "action": {
+        "type": "COMPLETE",
+        "reason": "Page title and heading confirm \"Best Robatayaki in Nakano\" with Robatayaki category applied to the Nakano list (2 results).",
+        "scopeRef": "observation:10:target:18"
+      },
+      "target": {
+        "ref": "observation:10:target:18",
+        "label": "Robatayaki"
+      },
+      "usage": {
+        "inputTokens": 21679,
+        "outputTokens": 159,
+        "totalTokens": 21838
+      },
+      "latencyMs": 1699
+    },
+    {
+      "id": "D8-date-direct",
+      "status": "PASS",
+      "wireOK": true,
+      "semanticOK": true,
+      "action": {
+        "type": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:29:target:69",
+        "field": "DATE",
+        "reason": "Select requested date 2026-11-11 in the calendar."
+      },
+      "target": {
+        "ref": "observation:29:target:69",
+        "label": "Wednesday 11"
+      },
+      "usage": {
+        "inputTokens": 23661,
+        "outputTokens": 143,
+        "totalTokens": 23804
+      },
+      "latencyMs": 1758
+    }
+  ]
+}
