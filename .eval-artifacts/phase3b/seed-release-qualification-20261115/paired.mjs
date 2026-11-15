@@ -41,9 +41,24 @@ for (const row of rows){
   let id=0;
   const runtime=new InMemoryTaskRuntime(restaurantBookingTaskDefinition,{now:()=>new Date(snap.createdAt)},()=> 'command:'+ ++id);
   runtime.createTask(snap.id,{}, {runId:snap.runId});
-  const frames=[];
+  const frames=[], reordered=[];
+  let stopped=null;
   for(const envelope of ex.events){
-    const {snapshot}=runtime.dispatch(envelope);
+    // Archives serialized through JSONB can reorder the object's keys. Preserve the original
+    // stringified request order only if its entire JSON value equals the archived object.
+    const event=envelope.event, fingerprint=event.continuation?.intentFingerprint;
+    if (event.type==='SEARCH_COMPLETED' && typeof fingerprint==='string' && event.request?.intent
+        && fingerprint!==JSON.stringify(event.request.intent)) {
+      let originalOrder;
+      try { originalOrder=JSON.parse(fingerprint); } catch {}
+      if (originalOrder && digest(originalOrder)===digest(event.request.intent)) {
+        event.request={...event.request,intent:originalOrder};
+        reordered.push(frames.length+1);
+      }
+    }
+    let snapshot;
+    try { ({snapshot}=runtime.dispatch(envelope)); }
+    catch(error) { stopped={index:frames.length+1,event:event.type,reason:String(error.message).slice(0,130)};break; }
     const state=snapshot.domainState;
     const presentation=assessRestaurantRead(state,envelope.occurredAt).presentation;
     frames.push({event:envelope.event.type,at:envelope.occurredAt,fields:summarize(state),presentation:digest(presentation),ready:presentation});
@@ -52,7 +67,7 @@ for (const row of rows){
   const mismatch=Object.keys(expected).filter(k=>actual[k]!==expected[k]);
   const projection=frames.map(({ready,...rest})=>rest);
   result.push({key:row.key,sourceResultSHA256:hash(eventsRaw),evaluationInputSHA256:hash(inputBytes),eventCount:frames.length,frames:projection,
-    capturedTerminalMismatch:mismatch,finalPresentation:frames.at(-1)?.ready,
+    capturedTerminalMismatch:mismatch,eventTotal:ex.events.length,orderOnlyFromRecordedFingerprint:reordered,eventStop:stopped,originalTerminalPresentation:assessRestaurantRead(snap.domainState,snap.updatedAt).presentation,
     delivered:cap.view.restaurant.presentedCandidateIds?.length??0,links:cap.view.restaurant.bookingHandoffs?.length??0,
     question:snap.domainState.pageQuestion?.result?.status??null,
     verdict:score.verdict,checkCount:score.checks.length,
