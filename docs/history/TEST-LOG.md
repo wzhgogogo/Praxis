@@ -6910,3 +6910,9 @@ User explicitly authorized three product files. Advance stops on an observed dis
 Actual630a DOM26->28->29...44 Chromium component: original17 advances/80 operations; fixed2 advances/20 operations, stops at DOM29. Original HAR45 carries date proof; native clicks then recorded DOM swap, no reconstruction of stripped site listeners or full-site replay claim. Eight targeted unit cases and both recorded components pass. 源码冻结4b4b56d2541a3039cecdce468d11e2072cf08429同SHA净树产品门禁全绿：typecheck、arch:check、默认1652/1652、build、Chromium289/289、G6 159/159，0跳过；后两者由test:browser:fixture串行执行。三基线ead28945/32b97ed8/27bdb97a新增产品扫描均0。原失败日志保留：默认首次1650/1652暴露重复完成谓词及旧阶段计数，已修复；沙箱本地监听EPERM独立记录，授权离线夹具运行后全绿。旧全量树管理check仍需维护保全审计，未重配，不能报告为已通过。 New external calls0/0/0. Separate evidence branch0065675a closed D02V independent qualification: QUALIFIED_DELIVERY,382/382 PASS, s0Status PASS; original383 conditional quote check disappears under the complete oracle. Original evaluation and241 runtime files unchanged.
 
 验证与报告：[disabled-party / phase-window 本轮简报](../../.eval-artifacts/phase3b/disabled-party-phase-window-20261114/report.md)。本次除原3份相关测试外，更新已有Live-composition测试的阶段诊断断言：搜索与查位分别结束；原provider尝试数量、结果和累计操作约束断言保留。最终归档提交只追加文档与本批次日志，不改冻结源码/Fixture。
+
+<a id="pre-merge-recorded-model-regression-20261115"></a>
+
+## 2026-11-15 CET — 合入前真实DeepSeek跨场景抽检：首失败停止（draft / not integrated）
+
+用户确认实际D01/07/D8，冻结04947d51；产品4b4b56d2、Prompt27/Schema16未改。7帧计划仅调用2次后停止：D01首页权威LOCATION输入PASS；原D01 #8的Takadanobaba+Spanish显式0结果页，当前来源完成谓词true，但模型点击All继续分类而非冻结预期COMPLETE，语义FAIL，wire两次均PASS。0Live/0网站GET/2模型，07/D8余5帧未跑、不重试；旧D02-V九帧不能抵消本次偏离，单帧不足以断言死循环或相对main的因果退化。未执行Test Skill1.9、main整合或发布门禁；主草稿/9历史账本不变。[本批简报](../../.eval-artifacts/phase3b/pre-merge-recorded-model-regression-20261115/report.md)。

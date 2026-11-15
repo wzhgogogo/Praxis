@@ -1,0 +1,90 @@
+{
+  "sourceSHA": "04947d51c347dbc9742899d023a7dd97105b9044",
+  "promptVersion": "27",
+  "schemaVersion": "16",
+  "calls": 2,
+  "websiteGET": 0,
+  "Live": 0,
+  "status": "STOPPED_FIRST_FAILURE",
+  "results": [
+    {
+      "id": "D01-home",
+      "passed": true,
+      "strictWirePassed": true,
+      "semanticActionPassed": true,
+      "action": {
+        "type": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:1:target:178",
+        "field": "LOCATION",
+        "reason": "Set authoritative location Takadanobaba in the search input first."
+      },
+      "selectedTarget": {
+        "ref": "observation:1:target:178",
+        "formObservation": {
+          "owner": "0",
+          "visibleLines": []
+        },
+        "kind": "INPUT",
+        "role": "textbox",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "controlGroupLabel": "Unlabelled group",
+        "formMethod": "GET",
+        "type": "text",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL",
+          "FILL_AUTHORITATIVE:LOCATION"
+        ]
+      },
+      "wire": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:1:target:178",
+        "authoritativeField": "LOCATION",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      },
+      "latencyMs": 3614,
+      "usage": {
+        "inputTokens": 22966,
+        "outputTokens": 143,
+        "totalTokens": 23109
+      }
+    },
+    {
+      "id": "D01-scoped-list",
+      "passed": false,
+      "strictWirePassed": true,
+      "semanticActionPassed": false,
+      "action": {
+        "type": "CLICK",
+        "targetRef": "observation:5:target:16",
+        "reason": "Open the category menu to find the Spanish cuisine category instead of the free-text query that returned 0 results."
+      },
+      "selectedTarget": {
+        "ref": "observation:5:target:16",
+        "kind": "LINK",
+        "role": "link",
+        "label": "All",
+        "controlGroupLabel": "Unlabelled group",
+        "href": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=tokyo&LstPrf=A1305&LstAre=A130503&station_id=5779&area_datatype=RailroadStation&area_id=5779&genre_name=&sw=Spanish&search_mode=#",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "wire": {
+        "action": "CLICK",
+        "targetRef": "observation:5:target:16",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "REDACTED",
+        "extras": []
+      },
+      "latencyMs": 1866,
+      "usage": {
+        "inputTokens": 14392,
+        "outputTokens": 148,
+        "totalTokens": 14540
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "status": "STOPPED_FIRST_FAILURE",
+  "sourceSHA": "04947d51c347dbc9742899d023a7dd97105b9044",
+  "productCodeSHA": "4b4b56d2541a3039cecdce468d11e2072cf08429",
+  "promptVersion": "27",
+  "schemaVersion": "16",
+  "plannedFrames": 7,
+  "calledFrames": 2,
+  "passed": 1,
+  "failed": 1,
+  "notRun": 5,
+  "strictWirePassed": 2,
+  "scopePredicatePassed": true,
+  "totalModelLatencyMs": 5480,
+  "usage": {
+    "inputTokens": 37358,
+    "outputTokens": 291,
+    "totalTokens": 37649
+  },
+  "actual": {
+    "realModelCalls": 2,
+    "fullLive": 0,
+    "evaluationPublicGET": 0,
+    "environmentReruns": 0
+  },
+  "remainingRealModelCalls": 8,
+  "reason": "D01 scoped explicit-zero result: current completion true, model chose All category menu instead of frozen COMPLETE expectation",
+  "causalRegressionVsMain": "NOT_EVALUATED: no paid baseline comparison; one candidate decision is not a loop or stability estimate",
+  "secondAndThirdSteps": "NOT_EXECUTED_PER_STOP_RULE"
+}
