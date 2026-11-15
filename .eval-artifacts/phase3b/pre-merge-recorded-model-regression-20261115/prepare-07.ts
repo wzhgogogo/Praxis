@@ -1,0 +1,14 @@
+import {readFile,writeFile}from'node:fs/promises';import{createHash}from'node:crypto';
+import{BrowserTaskExecutor}from'../../../src/infrastructure/browser/browser-task-executor.js';
+const root=new URL('.',import.meta.url);const hash=(v:string)=>createHash('sha256').update(v).digest('hex');const cases=JSON.parse(await readFile(new URL('cases-original.json',root),'utf8'));
+for(const n of [1,2]){
+ const meta=JSON.parse(await readFile(new URL(`recorded07/meta-${n}.json`,root),'utf8'));const html=await readFile(new URL(`recorded07/snapshot-${String(n).padStart(4,'0')}.html`,root),'utf8');if(hash(html)!==meta.sha256)throw Error('RECORDED_DOM_HASH');
+ const snapshot={url:meta.snapshot.url,title:meta.snapshot.title,text:meta.controls.filter((c:any)=>c.visible).map((c:any)=>c.label).filter(Boolean).join('\n'),html};let captured:any;
+ // LOCAL_CONSTRUCTION only at snapshot transport: original recorded visible controls
+ // and exact DOM; body prose is not reconstructed. No browser/site/model transport.
+ const session:any={metadata:{readNetworkBoundary:"INSTALLED"},snapshot:async()=>snapshot,observeControls:async()=>meta.controls,close:async()=>{}};
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:5000,maxOperationsPerCandidate:30,maxModelCallsPerCandidate:1,maxModelCallsTotal:1,modelDecision:{async decide(input){captured=input;return{type:'REQUEST_HUMAN_HELP',reason:'Offline input extraction only'};}}});
+ try{await executor.runSkill({taskId:'recorded-07-input-'+n,source:'DIRECTORY',stage:'DISCOVERY',session,signal:new AbortController().signal,allowedOrigins:['https://tabelog.com'],sourceSkillPath:'web-skills/tabelog/SKILL.md',goal:meta.goal,objective:'Find the source list for the authoritative location and criteria.',initialObservation:{snapshot,controls:meta.controls},requireModelConfirmation:true,completion:()=>({complete:false,reason:'No current guarded form submission or model-driven document departure; homepage cards and suggestions are not search results.'})});}finally{await executor.closeAll();}
+ if(!captured)throw Error('MODEL_CONTEXT_NOT_CAPTURED');const file=`inputs/07-home-${n}.json`,bytes=JSON.stringify(captured,null,2)+'\n';await writeFile(new URL(file,root),bytes);cases.push({id:'07-home-'+n,file,sha256:hash(bytes),source:{commit:meta.sourceCommit,file:meta.sourceFile,sha256:meta.sha256,mode:'RECORDED_DOM_AND_CONTROLS_COMPONENT_PROJECTION',bodyText:'Recorded visible control labels only',goal:'Recorded structured location/criterion; no private original request'},expected:{mode:'DISCOVERY_INPUT'}});
+}
+const order=['D01-home','D01-scoped-list','07-home-1','07-home-2','D8-date-direct','D8-date-positive','D8-date-retry'];cases.sort((a:any,b:any)=>order.indexOf(a.id)-order.indexOf(b.id));await writeFile(new URL('cases.json',root),JSON.stringify(cases,null,2)+'\n');console.log(JSON.stringify({frames:cases.length,Live:0,websiteGET:0,realModel:0}));

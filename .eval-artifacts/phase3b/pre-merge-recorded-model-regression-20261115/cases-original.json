@@ -1,0 +1,72 @@
+[
+  {
+    "id": "D01-home",
+    "file": "inputs/D01-home.json",
+    "sha256": "94236a11ff06a425a4662853685c6bf75a575ac6799990eb0c095c79fcfded7f",
+    "source": {
+      "file": ".eval-artifacts/phase3b/category-discovery-cost-20261110/runtime/D01/D01/execution.decisions.jsonl",
+      "fileSHA256": "b380fdfd610f111d976e35655f7a8ed552f184123f1adebe251929cdbbcc208e",
+      "sequence": 4,
+      "mode": "ORIGINAL_RECORDED_MODEL_CONTEXT"
+    },
+    "expected": {
+      "mode": "DISCOVERY_INPUT"
+    }
+  },
+  {
+    "id": "D01-scoped-list",
+    "file": "inputs/D01-scoped-list.json",
+    "sha256": "c2feb30db90ea4c1e0b2d6ed9ec2e8e5372b6983595cd5d2ce7bbfd0cb68ebd9",
+    "source": {
+      "file": ".eval-artifacts/phase3b/category-discovery-cost-20261110/runtime/D01/D01/execution.decisions.jsonl",
+      "fileSHA256": "b380fdfd610f111d976e35655f7a8ed552f184123f1adebe251929cdbbcc208e",
+      "sequence": 8,
+      "mode": "ORIGINAL_RECORDED_MODEL_CONTEXT"
+    },
+    "expected": {
+      "mode": "COMPLETE"
+    }
+  },
+  {
+    "id": "D8-date-direct",
+    "file": "inputs/D8-date-direct.json",
+    "sha256": "994e7d606f14d81a5133a86ef19022d1ffca2e551146838997b2dfaf644c98d7",
+    "source": {
+      "file": ".eval-artifacts/phase3b/d8-direct-outlet-live-20261109/live-runtime/runs/D8/D8/execution.decisions.jsonl",
+      "fileSHA256": "5bc2df5bc59f6d308962f2ac0d4713790bcec88bbef6d5f1ddf3262f246fde95",
+      "sequence": 28,
+      "mode": "ORIGINAL_RECORDED_MODEL_CONTEXT"
+    },
+    "expected": {
+      "mode": "DATE_SELECTION"
+    }
+  },
+  {
+    "id": "D8-date-positive",
+    "file": "inputs/D8-date-positive.json",
+    "sha256": "ef5556a66a66944be1cc0485c1d9d4cc21329dcc55d8b5e3790f8ee7244c17ab",
+    "source": {
+      "file": ".eval-artifacts/phase3b/d8-positive-slot-20261108/live-runtime/runs/D8/D8/execution.decisions.jsonl",
+      "fileSHA256": "1c76d4f96324ab4c35d360dc097b4f2efa2781a1f1f709d2f36fea02622f4dcc",
+      "sequence": 25,
+      "mode": "ORIGINAL_RECORDED_MODEL_CONTEXT"
+    },
+    "expected": {
+      "mode": "DATE_SELECTION"
+    }
+  },
+  {
+    "id": "D8-date-retry",
+    "file": "inputs/D8-date-retry.json",
+    "sha256": "fc1e4080712a419739286136f1bacec8107d06e4bbc20139a7f185f9d6cad892",
+    "source": {
+      "file": ".eval-artifacts/phase3b/d8-entry-idle-retry-live-20261109/live-runtime/runs/D8/D8/execution.decisions.jsonl",
+      "fileSHA256": "8a8f58cbd54b7c150377ec6b3b7369ce74fdc4d06a7d1c8f3c406758fb2332ed",
+      "sequence": 33,
+      "mode": "ORIGINAL_RECORDED_MODEL_CONTEXT"
+    },
+    "expected": {
+      "mode": "DATE_SELECTION"
+    }
+  }
+]
