@@ -1,0 +1,57 @@
+{
+  "status": "BLOCKED_INPUT_QUALIFICATION",
+  "modelStatus": "NOT_EVALUATED",
+  "sourceSHA": "e4ccf8d092077028d4c54edf1ccf46b52f4e431b",
+  "testedSourceCodeSHA": "4b4b56d2541a3039cecdce468d11e2072cf08429",
+  "maximumAuthorizedRealModelCalls": 10,
+  "actual": {
+    "Live": 0,
+    "websiteGET": 0,
+    "realModelCalls": 0
+  },
+  "credentialsLoaded": false,
+  "historicalLedgersUnchanged": 9,
+  "primaryUnchanged": true,
+  "productDiff": false,
+  "testSkillUpdated": false,
+  "mainIntegrated": false,
+  "mainPushed": false,
+  "problems": [
+    {
+      "code": "VERSION_DESCRIPTION_MISMATCH",
+      "actualBaseline": "Prompt25/Schema14",
+      "actualCandidate": "Prompt27/Schema16, valueGroupRef required",
+      "requestedDescription": "Prompt24->28/Schema15->16",
+      "action": "Preserve frozen source; never relabel or change it to satisfy description"
+    },
+    {
+      "code": "NAMED_COHORT_RECORDING_NOT_BOUND",
+      "requested": [
+        "D01 Shibuya/Spanish",
+        "07 Ginza/Izakaya"
+      ],
+      "actual": [
+        "Retained D01 DIRECTORY frames: Takadanobaba/Spanish",
+        "Retained 07 root-cause fixture: Koenji/yakiniku",
+        "Old real Ginza/Izakaya listing exists in checkpoint-c c18/c04 captures; not identified as requested07"
+      ],
+      "action": "Asked user for exact recording paths or confirmation of alternate actual cohorts"
+    },
+    {
+      "code": "TABLECHECK_FIELD_COVERAGE_MISSING",
+      "retainedAvailabilityDecisionFrames": 3,
+      "actualFields": [
+        "DATE",
+        "DATE",
+        "DATE"
+      ],
+      "missingIndependentDecisionContexts": [
+        "PARTY_SIZE selection",
+        "TIME selection"
+      ],
+      "action": "Do not present three DATE decisions as coverage of all three fields; request exact recorded expanded control contexts"
+    }
+  ],
+  "existingD02VModelEvidence": ".eval-artifacts/phase3b/category-guidance-recorded-20261113/model-pass-01/results.json",
+  "evidenceBoundary": "Metadata and input qualification only. No model failure or product regression verdict. No synthetic goals/controls, no website calls, no new model calls. Do not proceed to steps2/3 without qualifying coverage."
+}
