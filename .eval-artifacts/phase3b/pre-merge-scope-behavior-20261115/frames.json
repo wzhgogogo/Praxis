@@ -1,0 +1,118 @@
+[
+  {
+    "id": "D01-scoped-list",
+    "file": ".eval-artifacts/phase3b/pre-merge-recorded-model-regression-20261115/inputs/D01-scoped-list.json",
+    "sha256": "c2feb30db90ea4c1e0b2d6ed9ec2e8e5372b6983595cd5d2ce7bbfd0cb68ebd9",
+    "provenance": {
+      "file": ".eval-artifacts/phase3b/category-discovery-cost-20261110/runtime/D01/D01/execution.decisions.jsonl",
+      "fileSHA256": "b380fdfd610f111d976e35655f7a8ed552f184123f1adebe251929cdbbcc208e",
+      "sequence": 8,
+      "mode": "ORIGINAL_RECORDED_MODEL_CONTEXT"
+    },
+    "sequence": 8,
+    "gold": {
+      "action": "COMPLETE"
+    }
+  },
+  {
+    "id": "collapsed-category",
+    "file": ".eval-artifacts/phase3b/category-guidance-recorded-20261113/inputs/collapsed-category.json",
+    "sha256": "850e8ba6a3159425fbbd9d01ab99a40cc72ac2b35228377de9c9a50aecb0ff10",
+    "provenance": {
+      "commit": "9cb426f75534bce6ab8424ce9be4dc2ff73f39b5",
+      "originalFileSHA256": "a19c156f5ef91863312e92f4e08e3f86077bff80e899f644fca74e7f21d19a31"
+    },
+    "sequence": 7,
+    "gold": {
+      "action": "CLICK",
+      "targetRef": "observation:4:target:17",
+      "label": "All"
+    }
+  },
+  {
+    "id": "parent-collapsed",
+    "file": ".eval-artifacts/phase3b/category-guidance-recorded-20261113/inputs/parent-collapsed.json",
+    "sha256": "70944d1d6bf3c7d28b817000504421fa3f46ba57c93ae59d5a097c2c8b6a140c",
+    "provenance": {
+      "commit": "9856dc67b13813489e24fae853118d2559cdef16",
+      "originalFileSHA256": "0e8a5aa714dfe75f4d01b2947216f27b341c9a7d3754e460760b2564cdd6561e"
+    },
+    "sequence": 9,
+    "gold": {
+      "action": "CLICK",
+      "targetRef": "observation:6:target:18",
+      "label": "Washoku (Japanese cuisine)"
+    }
+  },
+  {
+    "id": "parent-expanded",
+    "file": ".eval-artifacts/phase3b/category-guidance-recorded-20261113/inputs/parent-expanded.json",
+    "sha256": "ef5a41f1d480f948b6008b5a267b16f154f014e7d3636ef8f813f5e34be64032",
+    "provenance": {
+      "commit": "9856dc67b13813489e24fae853118d2559cdef16",
+      "originalFileSHA256": "0e8a5aa714dfe75f4d01b2947216f27b341c9a7d3754e460760b2564cdd6561e"
+    },
+    "sequence": 10,
+    "gold": {
+      "action": "OPEN_LINK",
+      "targetRef": "observation:7:target:36",
+      "label": "Other"
+    }
+  },
+  {
+    "id": "07-home",
+    "file": ".eval-artifacts/phase3b/pre-merge-recorded-model-regression-20261115/inputs/07-home-1.json",
+    "sha256": "ecaab8521eb783489dc3fec79cc9b4e1280a773633d3348fe61c3f0d36b18a66",
+    "provenance": {
+      "commit": "33d838518125592b634ed7ce2203b5d117b5c2bf",
+      "file": ".eval-artifacts/phase3b/seed-dev-post-fix-20261111/p3b-holdout-07-r1/p3b-holdout-07-r1/recordings/g6-p3b-holdout-07-r1-1794396930979-0/snapshot-0001.html",
+      "sha256": "ef7ab5dfcb9b534df4c0fa1df6eed47e21e4b0bfb5a659a61d3ea82d1512ddfe",
+      "mode": "RECORDED_DOM_AND_CONTROLS_COMPONENT_PROJECTION",
+      "bodyText": "Recorded visible control labels only",
+      "goal": "Recorded structured location/criterion; no private original request"
+    },
+    "sequence": 4,
+    "gold": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:1:target:178",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "field": "LOCATION"
+    },
+    "originalDecisionFile": ".eval-artifacts/phase3b/seed-dev-post-fix-20261111/p3b-holdout-07-r1/p3b-holdout-07-r1/execution.decisions.jsonl",
+    "originalDecisionSHA256": "59e965cc276bd5c1c2e728366d7e22aef90d574d1add5a247275afc0b730fefe"
+  },
+  {
+    "id": "D02V-scoped-positive",
+    "sequence": 13,
+    "provenance": {
+      "commit": "0065675a5be24231251d013d3b382a3cfbb9cc67",
+      "file": ".eval-artifacts/phase3b/category-guidance-live-20261114/live/runtime/dev-d02v-category-guidance-20261114/execution.decisions.jsonl",
+      "fileSHA256": "e7f3d21ffde201451332cc3ef3c2bf77f88ef23cea79e15eaad230103ec39bba",
+      "mode": "ORIGINAL_RECORDED_MODEL_CONTEXT",
+      "document": ".eval-artifacts/phase3b/category-guidance-live-20261114/live/runtime/dev-d02v-category-guidance-20261114/recordings/g6-dev-d02v-category-guidance-20261114-1794621412162-0/snapshot-0010.html",
+      "documentSHA256": "4bcc2012add4a350f8c13a6e913c88d5d43a99943c7e77f708789c9763fa1343",
+      "snapshot": 10
+    },
+    "gold": {
+      "action": "COMPLETE"
+    }
+  },
+  {
+    "id": "D8-date-direct",
+    "file": ".eval-artifacts/phase3b/pre-merge-recorded-model-regression-20261115/inputs/D8-date-direct.json",
+    "sha256": "994e7d606f14d81a5133a86ef19022d1ffca2e551146838997b2dfaf644c98d7",
+    "provenance": {
+      "file": ".eval-artifacts/phase3b/d8-direct-outlet-live-20261109/live-runtime/runs/D8/D8/execution.decisions.jsonl",
+      "fileSHA256": "5bc2df5bc59f6d308962f2ac0d4713790bcec88bbef6d5f1ddf3262f246fde95",
+      "sequence": 28,
+      "mode": "ORIGINAL_RECORDED_MODEL_CONTEXT"
+    },
+    "sequence": 28,
+    "gold": {
+      "action": "CLICK_AUTHORITATIVE",
+      "targetRef": "observation:29:target:69",
+      "label": "Wednesday 11",
+      "field": "DATE"
+    }
+  }
+]
