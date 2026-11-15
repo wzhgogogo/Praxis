@@ -1,0 +1,52 @@
+{
+  "gate": "PASS_ON_COMPARABLE_EVIDENCE",
+  "attempts": 18,
+  "replayedEvents": 175,
+  "checks": 4363,
+  "preservedOutcomes": {
+    "DELIVERED_UNQUALIFIED": 3,
+    "QUALIFIED_DELIVERY": 9,
+    "HONEST_NO_RESULT": 3,
+    "CAPABILITY_MISS": 3
+  },
+  "capturedFingerprintOrderRestored": 23,
+  "componentsPerVersion": 30,
+  "archiveFullReplay": {
+    "d4": {
+      "independentFullReplay": "INCOMPLETE_BOTH",
+      "firstStop": {
+        "reason": "MISSING_RESPONSE",
+        "origin": "https://tabelog.com",
+        "pathname": "/en/suggest/keyword_suggest",
+        "method": "GET"
+      },
+      "allStopReasons": [
+        "MISSING_RESPONSE",
+        "MISSING_GOOGLE_RESPONSE",
+        "MISSING_MODEL_OUTPUT",
+        "PREVIOUS_TURN_DIVERGED"
+      ]
+    },
+    "d8": {
+      "independentFullReplay": "INCOMPLETE_BOTH",
+      "firstStop": {
+        "reason": "DOCUMENT_NOT_QUALIFIED",
+        "origin": "https://www.tablecheck.com",
+        "pathname": "/en/japan/search",
+        "method": "GET"
+      },
+      "allStopReasons": [
+        "DOCUMENT_NOT_QUALIFIED",
+        "DOCUMENT_NOT_QUALIFIED",
+        "DOCUMENT_NOT_QUALIFIED",
+        "MISSING_MODEL_OUTPUT",
+        "PREVIOUS_TURN_DIVERGED"
+      ]
+    }
+  },
+  "external": {
+    "Live": 0,
+    "websiteGET": 0,
+    "model": 0
+  }
+}
