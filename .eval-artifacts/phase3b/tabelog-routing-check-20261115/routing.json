@@ -1,0 +1,24 @@
+{
+  "sha256": "7e11a42862a903ee12d7465b7a2c4524e0378b6b3517a936e14252a29249ffe1",
+  "rules": [
+    {
+      "index": 0,
+      "type": "field",
+      "outboundTag": "proxy",
+      "domain": [
+        "full:cdn0.tablecheck.com"
+      ]
+    },
+    {
+      "index": 1,
+      "type": "field",
+      "outboundTag": "direct",
+      "domain": [
+        "domain:tablecheck.com",
+        "domain:tablecheck.net",
+        "domain:tabelog.com",
+        "domain:tblg.k-img.com"
+      ]
+    }
+  ]
+}
