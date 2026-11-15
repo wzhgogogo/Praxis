@@ -125,7 +125,7 @@ const sha = git('rev-parse','HEAD').toString().trim();
 assert.equal(process.argv[2], '--source-sha');
 assert.equal(process.argv[3], sha);
 assert.equal(git('status','--porcelain').toString(), '');
-assert.deepEqual(report, JSON.parse(await readFile(local('preflight.json'), 'utf8')));
+assert.equal(json(report), await readFile(local('preflight.json'), 'utf8'));
 assert.ok(process.execArgv.some(v => v.startsWith('--env-file=')) && process.env.PRAXIS_RECORDED_SCOPE_MODEL === '1');
 
 const run = local('model-run');
