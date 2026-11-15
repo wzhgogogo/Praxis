@@ -1,18 +1,18 @@
 <a id="terminal-observe-20261113"></a>
 
-2026-11-13 CET — draft / not integrated：终端snapshot-only完成与Skill引导四文件修复，源码67a949d7净树全门禁PASS：type/arch/build、默认1644、Chromium287、G6 159，0跳过；含web-skills的双完整SHA与增量新增产品扫描0。9856真实DOM/HAR红→绿，终端扫描1→0且20:30原响应提取成立；PENDING稳定/未确认控件/默认控件检查保持，最终来源谓词与整列表范围逐字不变。分类/动作文案只验证接线，不声称真实模型导航已修。首次稀疏检出缺材料失败原样保留，恢复同提交材料后全绿。主草稿/四账本/9856证据哈希一致；0Live/0GET/0真实模型，仅分支待复核，不合main。[简报](../../.eval-artifacts/phase3b/terminal-observe-20261113/report.md)。
+2026-11-13 CET — draft / not integrated：终端snapshot-only完成与Skill引导四文件修复，源码67a949d7净树全门禁PASS：type/arch/build、默认1644、Chromium287、G6 159，0跳过；含web-skills的双完整SHA与增量新增产品扫描0。9856真实DOM/HAR红→绿，终端扫描1→0且20:30原响应提取成立；PENDING稳定/未确认控件/默认控件检查保持，最终来源谓词与整列表范围逐字不变。分类/动作文案只验证接线，不声称真实模型导航已修。首次稀疏检出缺材料失败原样保留，恢复同提交材料后全绿。主草稿/四账本/9856证据哈希一致；0Live/0GET/0真实模型，仅分支待复核，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/terminal-observe-20261113/report.md)。
 
 <a id="party-category-20261113"></a>
 
-2026-11-13 CET — draft / not integrated：人数来源响应独立进度与分类objective四文件最小修复。原可见选态解析逐字导出复用；最终库存complete、CapturedSlots、observedDate、ground及整列表范围校验不变。源码ea93f6c4净树全门禁PASS：type/arch/build、默认1632、Chromium286、G6 159；定向26与真实两店组件2通过，双完整SHA及增量新增产品扫描0。真实DOM/HAR先红后绿，人数确认后转日历，未构造未来日期/库存；objective仅请求输入验证，真实模型遵循待验。主草稿及6账本哈希不变，0Live/0GET/0真实模型；不合main、不跑held-out。[简报](../../.eval-artifacts/phase3b/party-category-20261113/report.md)。
+2026-11-13 CET — draft / not integrated：人数来源响应独立进度与分类objective四文件最小修复。原可见选态解析逐字导出复用；最终库存complete、CapturedSlots、observedDate、ground及整列表范围校验不变。源码ea93f6c4净树全门禁PASS：type/arch/build、默认1632、Chromium286、G6 159；定向26与真实两店组件2通过，双完整SHA及增量新增产品扫描0。真实DOM/HAR先红后绿，人数确认后转日历，未构造未来日期/库存；objective仅请求输入验证，真实模型遵循待验。主草稿及6账本哈希不变，0Live/0GET/0真实模型；不合main、不跑held-out。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/party-category-20261113/report.md)。
 
 <a id="r2-scope-20261112"></a>
 
-2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](../../.eval-artifacts/phase3b/r2-scope-20261112/report.md)。
+2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/r2-scope-20261112/report.md)。
 
 2026-11-12 CET — draft / not integrated：请求菜系发现必须有整个结果范围的query/title/visible h1证据；仅地点、单卡分类或展开菜单不再完成。B真实精确目录→NativeSearch→原身份核对→直达URI/零名称检索组件通过，跨录制/构造导航边界明确，不作Live验收。推进能力沿用前一候选，原生目录空位表单接线未扩展；待全门禁复核。
 
-2026-11-12 CET — draft / not integrated：通用推进动作允许模型指定独立值域组，复用既有权威动作匹配，中间无模型、无自动选择/完成。真实D02V人数与日历组件验证；事件监听器缺失处仅加载原动作对应的下一原始DOM，不造响应，未证明当前网站稳定性。Guard/身份/库存/G1不变，0Live/0GET/0真实模型。源码b18a6343净树type/arch/build及默认1621、Chromium284/G6 159全绿，双基线扫描0。D02V原DOM/HAR计时5→4模型、44.508→41.870秒仅组件投影，真实模型/新Live待验证。记录索引：[manifest](../../src/harness/browser/fixtures/advance-control/manifest.json)，[简报](../../.eval-artifacts/phase3b/advance-control-20261112/report.md)。
+2026-11-12 CET — draft / not integrated：通用推进动作允许模型指定独立值域组，复用既有权威动作匹配，中间无模型、无自动选择/完成。真实D02V人数与日历组件验证；事件监听器缺失处仅加载原动作对应的下一原始DOM，不造响应，未证明当前网站稳定性。Guard/身份/库存/G1不变，0Live/0GET/0真实模型。源码b18a6343净树type/arch/build及默认1621、Chromium284/G6 159全绿，双基线扫描0。D02V原DOM/HAR计时5→4模型、44.508→41.870秒仅组件投影，真实模型/新Live待验证。记录索引：[manifest](../../src/harness/browser/fixtures/advance-control/manifest.json)，[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/advance-control-20261112/report.md)。
 
 # Golden Scenarios
 
