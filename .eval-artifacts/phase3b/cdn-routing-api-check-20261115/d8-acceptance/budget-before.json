@@ -1,0 +1,45 @@
+{
+  "status": "APPROVED_FOR_EXECUTION",
+  "conversation": "C",
+  "authorization": "用户2026-11-15：添加cdn0直连后先检查403，搜索接口恢复则再跑一次D8；独立1Live/8评估GET/55模型/0环境重跑，先探查只读入口1GET，保持产品a66a2edc。",
+  "limits": {
+    "fullLive": 1,
+    "evaluationPublicGET": 8,
+    "realModelCalls": 55,
+    "environmentReruns": 0
+  },
+  "cumulative": {
+    "fullLive": 0,
+    "evaluationPublicGET": 2,
+    "realModelCalls": 0,
+    "environmentReruns": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 2
+  },
+  "entries": [
+    {
+      "id": "catalog-probe:1794752134829",
+      "conversation": "C",
+      "recordedAtUTC": "2026-11-15T14:15:34.830Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "User2026-11-15: one guarded browser page read to observe current catalog status; no model/Live"
+    },
+    {
+      "id": "catalog-probe:1794753339228",
+      "conversation": "C",
+      "recordedAtUTC": "2026-11-15T14:35:39.228Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "User2026-11-15: one guarded browser page read to observe current catalog status; no model/Live"
+    }
+  ]
+}
