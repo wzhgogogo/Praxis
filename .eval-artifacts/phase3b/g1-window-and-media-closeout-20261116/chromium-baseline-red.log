@@ -1,0 +1,95 @@
+✖ G1 LOCAL recorded DOM/CSS card-img-aria, initial capture uses current body evidence (2137.605625ms)
+✖ G1 LOCAL recorded DOM/CSS card-img-progress, initial capture uses current body evidence (1866.184833ms)
+✖ G1 LOCAL recorded DOM/CSS card-img-skeleton, initial capture uses current body evidence (1872.274709ms)
+✔ G1 LOCAL recorded DOM/CSS card-background-aria, initial capture uses current body evidence (1841.661459ms)
+✔ G1 LOCAL recorded DOM/CSS card-background-progress, initial capture uses current body evidence (1858.24025ms)
+✔ G1 LOCAL recorded DOM/CSS card-background-skeleton, initial capture uses current body evidence (1852.508667ms)
+✖ G1 LOCAL recorded DOM/CSS prior-quiet, initial capture uses current body evidence (1859.708375ms)
+✔ G1 LOCAL recorded DOM/CSS prior-changing, initial capture uses current body evidence (1337.96225ms)
+✖ G1 CLOUDFLARE recorded DOM/CSS prior-quiet, initial capture uses current body evidence (1845.098833ms)
+✔ G1 CLOUDFLARE recorded DOM/CSS prior-changing, initial capture uses current body evidence (1323.793417ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 5
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18123.281042
+
+✖ failing tests:
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS card-img-aria, initial capture uses current body evidence (2137.605625ms)
+  AssertionError [ERR_ASSERTION]: A media card does not make loading terms decorative
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:30:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS card-img-progress, initial capture uses current body evidence (1866.184833ms)
+  AssertionError [ERR_ASSERTION]: A media card does not make loading terms decorative
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:30:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS card-img-skeleton, initial capture uses current body evidence (1872.274709ms)
+  AssertionError [ERR_ASSERTION]: A media card does not make loading terms decorative
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:30:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS prior-quiet, initial capture uses current body evidence (1859.708375ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INCOMPLETE_PAGE","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}]},"pages":[{"settlement":"PENDING","diagnostics":{"pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"visibleTextChanging":false,"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"contentBusySelectors":[]}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:34:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 CLOUDFLARE recorded DOM/CSS prior-quiet, initial capture uses current body evidence (1845.098833ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INCOMPLETE_PAGE","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}]},"pages":[{"settlement":"PENDING","diagnostics":{"pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"visibleTextChanging":false,"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"contentBusySelectors":[]}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:34:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }

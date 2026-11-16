@@ -1,0 +1,53 @@
+✔ G1 GOOGLE acquires a bound page without a HARD gap through the production composition (22.820791ms)
+✔ G1 TABELOG acquires a bound page without a HARD gap through the production composition (513.9945ms)
+✔ G1 TABLECHECK acquires a bound page without a HARD gap through the production composition (504.58425ms)
+✔ G1 page capture with no merchant statement yields NOT_STATED after reading, rather than NO_BOUND_PAGE (1.332959ms)
+▶ G1 same-name foreign outlet pages produce no answerable page
+  ✔ GOOGLE (1.554542ms)
+  ✔ TABELOG (503.227875ms)
+  ✔ TABLECHECK (502.937125ms)
+✔ G1 same-name foreign outlet pages produce no answerable page (1008.378583ms)
+✔ G1 a genuinely read previous-run page cannot replace a failed fresh-run acquisition (504.378542ms)
+▶ G1 independent deadline and cancellation still constrain fresh acquisition
+  ✔ deadline already exhausted (0.35525ms)
+  ✔ cancel during acquisition; next question has a fresh scope (3.633667ms)
+✔ G1 independent deadline and cancellation still constrain fresh acquisition (4.413041ms)
+✔ G1 missing website stays unknown without a HARD model; ordinary no-gap facts still skip the website (1.277334ms)
+▶ capture-only bypasses the composition's HARD judge in both website and no-entry branches
+  ✔ website entry (0.792958ms)
+  ✔ no website entry (0.144333ms)
+✔ capture-only bypasses the composition's HARD judge in both website and no-entry branches (3.750666ms)
+✔ G1 refreshes a pending fact-cache page before answering (506.744333ms)
+✔ G1 a still-busy refreshed page stays incomplete with no answer model call (505.570917ms)
+✔ G1 current body readiness rejects aged-data before the question model (504.269125ms)
+✔ G1 current body readiness rejects pending-without-diagnostics before the question model (503.834208ms)
+✔ G1 current body readiness rejects current-text-change before the question model (504.142625ms)
+✖ G1 refreshed capture discards pre-navigation URL when settling the source document (506.337875ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 21
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5751.108
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:10329
+✖ G1 refreshed capture discards pre-navigation URL when settling the source document (506.337875ms)
+  AssertionError [ERR_ASSERTION]: ["","about:blank"]
+  + actual - expected
+  
+  + 'about:blank'
+  - 'https://www.tablecheck.com/en/capture-venue'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/integrations/restaurant-facts/page-question-capture.test.ts:126:43)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'about:blank',
+    expected: 'https://www.tablecheck.com/en/capture-venue',
+    operator: 'strictEqual'
+  }

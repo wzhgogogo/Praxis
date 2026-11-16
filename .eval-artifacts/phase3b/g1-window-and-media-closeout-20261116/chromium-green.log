@@ -1,0 +1,140 @@
+✖ G1 LOCAL recorded DOM/CSS stable, initial capture uses current body evidence (1954.766791ms)
+✖ G1 LOCAL recorded DOM/CSS stable, reobservePageOnce uses current body evidence (5968.383666ms)
+✔ G1 LOCAL recorded DOM/CSS thirteenth-body, initial capture uses current body evidence (1885.829166ms)
+✔ G1 LOCAL recorded DOM/CSS thirteenth-body, reobservePageOnce uses current body evidence (6013.20425ms)
+✔ G1 LOCAL recorded DOM/CSS aged-fetch, initial capture uses current body evidence (5105.097209ms)
+✔ G1 LOCAL recorded DOM/CSS aged-fetch, reobservePageOnce uses current body evidence (9229.275167ms)
+✔ G1 LOCAL recorded DOM/CSS changing-body, initial capture uses current body evidence (1883.443917ms)
+✔ G1 LOCAL recorded DOM/CSS changing-body, reobservePageOnce uses current body evidence (5946.441792ms)
+✖ G1 CLOUDFLARE recorded DOM/CSS stable, initial capture uses current body evidence (1869.832792ms)
+✖ G1 CLOUDFLARE recorded DOM/CSS stable, reobservePageOnce uses current body evidence (5926.665292ms)
+✔ G1 CLOUDFLARE recorded DOM/CSS aged-fetch, initial capture uses current body evidence (5111.083041ms)
+✔ G1 CLOUDFLARE recorded DOM/CSS aged-fetch, reobservePageOnce uses current body evidence (9164.875292ms)
+✔ G1 LOCAL recorded DOM/CSS card-img-aria, initial capture uses current body evidence (1881.885625ms)
+✔ G1 LOCAL recorded DOM/CSS card-img-progress, initial capture uses current body evidence (1931.9535ms)
+✔ G1 LOCAL recorded DOM/CSS card-img-skeleton, initial capture uses current body evidence (1916.190125ms)
+✔ G1 LOCAL recorded DOM/CSS card-background-aria, initial capture uses current body evidence (1874.165208ms)
+✔ G1 LOCAL recorded DOM/CSS card-background-progress, initial capture uses current body evidence (1867.437292ms)
+✔ G1 LOCAL recorded DOM/CSS card-background-skeleton, initial capture uses current body evidence (1881.719958ms)
+✖ G1 LOCAL recorded DOM/CSS prior-quiet, initial capture uses current body evidence (1919.064958ms)
+✔ G1 LOCAL recorded DOM/CSS prior-changing, initial capture uses current body evidence (1372.808916ms)
+✖ G1 CLOUDFLARE recorded DOM/CSS prior-quiet, initial capture uses current body evidence (1854.794458ms)
+✔ G1 CLOUDFLARE recorded DOM/CSS prior-changing, initial capture uses current body evidence (1330.151167ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 16
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 78208.403667
+
+✖ failing tests:
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS stable, initial capture uses current body evidence (1954.766791ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INVALID_MODEL_OUTPUT","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}],"modelUsage":{"calls":1}},"pages":[{"settlement":"SETTLED","diagnostics":{"pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"visibleTextChanging":false,"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"contentBusySelectors":[]}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:34:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS stable, reobservePageOnce uses current body evidence (5968.383666ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INVALID_MODEL_OUTPUT","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}],"modelUsage":{"calls":1}},"pages":[{"settlement":"SETTLED","diagnostics":{"pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"visibleTextChanging":false,"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"contentBusySelectors":[]}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:34:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 CLOUDFLARE recorded DOM/CSS stable, initial capture uses current body evidence (1869.832792ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INVALID_MODEL_OUTPUT","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}],"modelUsage":{"calls":1}},"pages":[{"settlement":"SETTLED","diagnostics":{"pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"visibleTextChanging":false,"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"contentBusySelectors":[]}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:34:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 CLOUDFLARE recorded DOM/CSS stable, reobservePageOnce uses current body evidence (5926.665292ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INVALID_MODEL_OUTPUT","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}],"modelUsage":{"calls":1}},"pages":[{"settlement":"SETTLED","diagnostics":{"pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"visibleTextChanging":false,"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"contentBusySelectors":[]}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:34:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS prior-quiet, initial capture uses current body evidence (1919.064958ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INVALID_MODEL_OUTPUT","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}],"modelUsage":{"calls":1}},"pages":[{"settlement":"SETTLED","diagnostics":{"pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"visibleTextChanging":false,"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"contentBusySelectors":[]}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:34:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 CLOUDFLARE recorded DOM/CSS prior-quiet, initial capture uses current body evidence (1854.794458ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INVALID_MODEL_OUTPUT","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}],"modelUsage":{"calls":1}},"pages":[{"settlement":"SETTLED","diagnostics":{"pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"visibleTextChanging":false,"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"contentBusySelectors":[]}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:34:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }

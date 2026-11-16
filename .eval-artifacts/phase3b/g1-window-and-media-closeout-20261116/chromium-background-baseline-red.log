@@ -1,0 +1,52 @@
+✖ G1 LOCAL recorded DOM/CSS card-background-aria, initial capture uses current body evidence (1967.61575ms)
+✖ G1 LOCAL recorded DOM/CSS card-background-progress, initial capture uses current body evidence (1883.0905ms)
+✖ G1 LOCAL recorded DOM/CSS card-background-skeleton, initial capture uses current body evidence (1895.802917ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6103.924167
+
+✖ failing tests:
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS card-background-aria, initial capture uses current body evidence (1967.61575ms)
+  AssertionError [ERR_ASSERTION]: A media card does not make loading terms decorative
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:30:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS card-background-progress, initial capture uses current body evidence (1883.0905ms)
+  AssertionError [ERR_ASSERTION]: A media card does not make loading terms decorative
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:30:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1143
+✖ G1 LOCAL recorded DOM/CSS card-background-skeleton, initial capture uses current body evidence (1895.802917ms)
+  AssertionError [ERR_ASSERTION]: A media card does not make loading terms decorative
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:30:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
