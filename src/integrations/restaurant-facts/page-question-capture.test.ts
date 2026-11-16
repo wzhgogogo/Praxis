@@ -107,3 +107,12 @@ test("G1 a still-busy refreshed page stays incomplete with no answer model call"
  assert.equal(f.seen.requests.filter(r=>r.purpose==="restaurant_page_question").length,0);
  assert.equal(f.seen.navigations.length,1,"The still-pending current exact page is observed once without navigation or loops");
 });
+
+for(const mode of ['aged-data','pending-without-diagnostics'] as const)test(`G1 current body readiness rejects ${mode} before the question model`,async()=>{
+ const f=pageQuestionCaptureFixture('TABLECHECK');
+ if(mode==='aged-data')f.page.settlementDiagnostics={url:f.url,pendingByType:{fetch:1},oldestPendingMs:3500,blockingDataRequests:0,busySelectors:[],visibleTextChanging:false};
+ else f.page.settlement='PENDING';
+ const answer=await f.assembly.questions.answerQuestion(f.input,new AbortController().signal);
+ assert.ok(answer.status==='UNVERIFIED'&&answer.reason==='INCOMPLETE_PAGE',JSON.stringify(answer));
+ assert.equal(f.seen.requests.filter(r=>r.purpose==='restaurant_page_question').length,0);
+});

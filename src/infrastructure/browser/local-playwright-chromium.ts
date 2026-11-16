@@ -9,7 +9,7 @@ import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
 import { assertPublicReadInput, traceFormEvidence } from "./playwright-observed-get-forms.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
-import { PlaywrightControlRegistry, waitForPageSettled, pageBusySelectors, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
+import { PlaywrightControlRegistry, waitForPageSettled, pageBusyDiagnostics, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
 const INTERACTIVE_ACTION_TIMEOUT_MS = 5_000;
 
@@ -92,9 +92,10 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   async snapshot(): Promise<BrowserSnapshot> {
     return this.run(async () => {
       const state = await interactiveState(this.page).catch(() => undefined);
+      const busy = await pageBusyDiagnostics(this.page);
       const snapshot:BrowserSnapshot = {
         settlement: this.lastSettlement ? "SETTLED" : "PENDING",
-        ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
+        ...(this.lastSettlementDiagnostic || this.networkGuard ? { settlementDiagnostics: { pendingByType: {}, oldestPendingMs: 0, blockingDataRequests: 0, visibleTextChanging: false, ...this.lastSettlementDiagnostic, url: this.page.url(), ...busy } } : {}),
         url: this.page.url(),
         ...(this.networkGuard ? {urlQueryValues:await this.networkGuard.observeUrlQueryValues(this.page,this.page.url())} : {}),
         html: await this.page.content(),
@@ -134,6 +135,10 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: structuredClone(this.networkGuard.snapshotRequests()) } : {}),
         ...(this.networkGuard?.snapshotResourceTypes().length ? { networkResourceTypes: this.networkGuard.snapshotResourceTypes() } : {}),
       };
+      const activity = this.networkGuard?.settlementActivity();
+      if (activity && snapshot.settlementDiagnostics) Object.assign(snapshot.settlementDiagnostics, {
+        pendingByType: activity.pendingByType, oldestPendingMs: activity.oldestPendingMs, blockingDataRequests: activity.pending,
+      });
       this.networkGuard?.forms.observePageText(this.page,snapshot.text);
       return snapshot;
     });

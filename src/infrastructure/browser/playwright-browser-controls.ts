@@ -608,13 +608,59 @@ export async function waitForPageSettled(
 }
 
 /** Current visible busy markers; a prior wait's sample cannot certify a later result. */
-export async function pageBusySelectors(page: Page): Promise<string[]> {
-  return page.evaluate(() => [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].filter(element => {
-    if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
-    const style = getComputedStyle(element);
-    return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
-  }).slice(0, 12).map(element => element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')));
+export async function pageBusyDiagnostics(page: Page): Promise<{busySelectors: string[]; contentBusySelectors: string[]}> {
+  return page.evaluate(() => {
+    const busy = [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].filter(element => {
+      if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
+      const style = getComputedStyle(element);
+      return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+    });
+    const rules = {
+      describe(element: Element) { return element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.'); },
+      decoration(element: Element) {
+        for (let node: Element | null = element; node; node = node.parentElement) if (getComputedStyle(node).opacity === "0") return true;
+        if ((element as HTMLElement).innerText?.trim()) return false;
+        const box = element.getBoundingClientRect();
+        for (let frame = element.parentElement; frame && !frame.matches('html,body,main,form,section,article'); frame = frame.parentElement) {
+          // A real media surface, or a separate empty, dimensioned preview
+          // surface inside an observed navigation wrapper. Neither names nor
+          // private attributes/classes identify the preview.
+          const navigation = frame.tagName === "A" && frame.hasAttribute("target");
+          const surfaces = [...frame.querySelectorAll('img,picture,video,canvas,svg,iframe,[role="img"],div')].filter(node => {
+            if (node === element || element.contains(node) || node.contains(element) || busy.includes(node) || (node as HTMLElement).innerText?.trim()) return false;
+            const style = getComputedStyle(node), area = node.getBoundingClientRect();
+            return area.width > 0 && area.height > 0 && style.display !== "none" && style.visibility !== "hidden"
+              && (node.matches('img,picture,video,canvas,svg,iframe,[role="img"]') || style.backgroundImage !== "none" || navigation && node.children.length === 0)
+              && box.left >= area.left && box.right <= area.right && box.top >= area.top && box.bottom <= area.bottom;
+          });
+          if (!surfaces.length) continue;
+          const walker = document.createTreeWalker(frame, NodeFilter.SHOW_TEXT);
+          let coveredText = false;
+          while (walker.nextNode()) {
+            const node = walker.currentNode, parent = node.parentElement;
+            if (!node.textContent?.trim() || !parent || element.contains(parent)) continue;
+            const style = getComputedStyle(parent);
+            if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") continue;
+            const range = document.createRange(); range.selectNodeContents(node);
+            for (const rect of range.getClientRects()) {
+              if (rect.right <= box.left || rect.left >= box.right || rect.bottom <= box.top || rect.top >= box.bottom) continue;
+              const hit = document.elementFromPoint((rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2);
+              if (hit && element.contains(hit)) coveredText = true;
+            }
+          }
+          if (!coveredText) return true;
+        }
+        return false;
+      },
+    };
+    // Filter the complete DOM before either diagnostic is capped. The generic
+    // settlement marker list (including aria-hidden loaders) is unchanged.
+    return {busySelectors: busy.slice(0, 12).map(element => rules.describe(element)),
+      contentBusySelectors: busy.filter(element => !rules.decoration(element)).slice(0, 12).map(element => rules.describe(element))};
+  });
 }
+
+export async function pageBusySelectors(page: Page): Promise<string[]> { return (await pageBusyDiagnostics(page)).busySelectors; }
 
 /** A small browser-owned projection for waiting, never model-supplied state. */
 export async function interactiveState(page: Page): Promise<string> {

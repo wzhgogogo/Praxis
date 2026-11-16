@@ -110,6 +110,8 @@ export interface BrowserSettlementDiagnostics {
   oldestPendingMs: number;
   blockingDataRequests: number;
   busySelectors: string[];
+  /** Current full-DOM blockers of merchant prose; preview-only decoration is excluded before truncation. */
+  contentBusySelectors?: string[];
   visibleTextChanging: boolean;
 }
 

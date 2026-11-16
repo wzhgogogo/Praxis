@@ -654,10 +654,26 @@ export class BrowserTaskExecutor {
 
   /** One bounded readiness observation, using the unchanged browser settlement
    * predicate and provider deadline. A still-pending page remains pending. */
-  async reobservePageOnce(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & {session:BrowserSession}):Promise<BrowserSnapshot> {
-    const previous=await this.snapshot(input);
+  async reobservePageOnce(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & {session:BrowserSession}, previous?:BrowserSnapshot):Promise<BrowserSnapshot> {
+    previous ??= await this.snapshot(input);
     await this.waitForSettled(input,previous);
     return this.snapshot(input);
+  }
+
+  /** G1 alone proves current prose readiness; global settlement keeps its
+   * original loader and short-request semantics for interactive workflows. */
+  async verifyPageContent(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & {session: BrowserSession}, previous: BrowserSnapshot): Promise<BrowserSnapshot> {
+    await this.operation(input, "VERIFY_RESULT_STABILITY", () => new Promise<void>(resolve => setTimeout(resolve, 500)));
+    const current = await this.snapshot(input);
+    const ready = (page: BrowserSnapshot) => {
+      const d = page.settlementDiagnostics;
+      return Boolean(page.text.trim()) && !(page.settlement === "PENDING" && !d)
+        && !d?.blockingDataRequests && !d?.visibleTextChanging && !["document", "xhr", "fetch"].some(type => (d?.pendingByType[type] ?? 0) > 0)
+        && !(d?.contentBusySelectors ?? d?.busySelectors)?.length;
+    };
+    const stable = current.url === previous.url && current.pageId === previous.pageId && current.text === previous.text;
+    return {...current, settlement: stable && ready(previous) && ready(current) ? "SETTLED" : "PENDING",
+      ...(current.settlementDiagnostics ? {settlementDiagnostics: {...current.settlementDiagnostics, visibleTextChanging: !stable}} : {})};
   }
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
