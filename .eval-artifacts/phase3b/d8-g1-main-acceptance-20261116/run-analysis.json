@@ -1,0 +1,54 @@
+{
+  "sourceSHA": "dbc2d9c55bb9dd759a17551cbe9c11af6b1073b0",
+  "configurationCommit": "c0809d2d76b5ff53e6c8f82f50b5158aa6235b27",
+  "status": "CANCELLED_BEFORE_LIVE",
+  "stopReason": "NETWORK_HEALTH_FAILED",
+  "health": {
+    "passed": false,
+    "observations": [
+      {
+        "windowMs": 60000,
+        "source": "tablecheck",
+        "round": 1,
+        "complete": false,
+        "elapsedMs": 30138.656583,
+        "phase": "NAVIGATE",
+        "phaseElapsedMs": 30005.804958,
+        "navigationError": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "page.goto: Timeout 30000ms exceeded."
+          }
+        }
+      }
+    ]
+  },
+  "witness": {
+    "exists": true,
+    "date": "2026-11-18",
+    "time": "20:30",
+    "partySize": 2,
+    "responseSHA256": "fa8e2dfc0447650df5a2905ed80583ff8a18cb81c0438a7ce7bba1e566131cd8"
+  },
+  "productSessionStarted": false,
+  "productEvaluation": "NOT_RUN",
+  "liveBoundaryEvaluation": "NOT_EVALUATED_PRODUCT_NOT_STARTED",
+  "cumulative": {
+    "fullLive": 0,
+    "evaluationPublicGET": 2,
+    "realModelCalls": 0,
+    "environmentReruns": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 2
+  },
+  "remaining": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 50,
+    "environmentReruns": 0
+  },
+  "retry": false,
+  "protectedUnchanged": true
+}

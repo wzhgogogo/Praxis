@@ -1,0 +1,22 @@
+{
+  "passed": false,
+  "observations": [
+    {
+      "windowMs": 60000,
+      "source": "tablecheck",
+      "round": 1,
+      "complete": false,
+      "elapsedMs": 30138.656583,
+      "phase": "NAVIGATE",
+      "phaseElapsedMs": 30005.804958,
+      "navigationError": {
+        "name": "BrowserRuntimeError",
+        "message": "Local Playwright Chromium operation failed",
+        "cause": {
+          "name": "TimeoutError",
+          "message": "page.goto: Timeout 30000ms exceeded."
+        }
+      }
+    }
+  ]
+}
