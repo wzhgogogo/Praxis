@@ -1,3 +1,7 @@
+<a id="g1-window-media-closeout-20261116"></a>
+
+2026-11-16 — 待以本次复核提交整合 main；已完成离线与本地 Chromium 验证，D8 线上 Live 待冻结主线 SHA 后验证。本轮源码/测试冻结 `a5c4597b0031881e8e765888451a22785a32fb98`：实时快照刷新本次正文变化，G1 500ms 窗口不再继承旧 wait 标志；静态明确标记当前变化仍拒答。导航后不用旧 URL previous；显式 ARIA 忙态与混合图文条款卡片保留阻断。真实 Nakamata 包间原句引用验收，旧不透明地图与 8 个淡出图片骨架通用契约保持。0 Live / 0 网站 GET / 0 真实模型调用；旧批次原报告不改写。[本次简报](reviews/G1-WINDOW-MEDIA-CLOSEOUT-20261116.md)。
+
 <a id="g1-query-readback-20261116"></a>
 
 2026-11-16 — draft / not integrated：G1 当前正文/全部在途请求复检与同控件选项回读两项离线修复。保留原生 value、Guard 3 秒规则和 B1 身份/请求/库存双校验；真实 Nakamata DOM/CSS 结合明确构造交互，经生产组装验证。线上库存未验证；0 Live / 0 网站 GET / 0 真实模型。五项净树门禁及保护哈希以本批次原始日志为准；仅本地提交，不推送、不合 main。[简报](reviews/G1-BODY-QUERY-READBACK-20261116.md)。
