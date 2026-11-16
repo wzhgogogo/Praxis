@@ -1,4 +1,5 @@
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import { observedTabelogQuerySelections } from "./tabelog-query-controls.js";
 
 export const TABELOG_VACANCY_RESPONSES = [
   { origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy/" },
@@ -22,8 +23,13 @@ const object = (value: unknown): Record<string, unknown> | undefined =>
   value !== null && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
 const type = (value: unknown): string => value === null ? "null" : Array.isArray(value) ? "array" : typeof value;
 
-/** Passive source data only. Caller separately verifies the current query and same-outlet identity. */
-export function inspectTabelogVacancyResponse(snapshot: BrowserSnapshot, date: string, partySize: number): TabelogVacancyObservation {
+type BoundVacancyQuery = Exclude<TabelogVacancyObservation, {status:"OBSERVED"}> | {
+  status: "BOUND_QUERY";
+  value: Omit<Extract<TabelogVacancyObservation, {status:"OBSERVED"}>, "status" | "hasExplicitSlotUi">;
+};
+
+/** Shared validation of the existing response contract, including empty results. */
+function inspectBoundVacancyQuery(snapshot: BrowserSnapshot, date: string, partySize: number): BoundVacancyQuery {
   const unknown: TabelogVacancyObservation = { status: "UNKNOWN" };
   if (snapshot.settlement === "PENDING") return unknown;
   const page = URL.parse(snapshot.url);
@@ -42,7 +48,7 @@ export function inspectTabelogVacancyResponse(snapshot: BrowserSnapshot, date: s
     const normalized = parts ? `${parts[1]}-${parts[2]!.padStart(2, "0")}-${parts[3]!.padStart(2, "0")}` : /^\d{8}$/u.test(value) ? `${value.slice(0, 4)}-${value.slice(4, 6)}-${value.slice(6, 8)}` : undefined;
     if (requestUrl.searchParams.getAll("svd").length !== 1 || normalized !== date) return unknown;
   }
-  const changed = (field: TabelogVacancyStructureIssue["field"], expected: string, actual: unknown): TabelogVacancyObservation =>
+  const changed = (field: TabelogVacancyStructureIssue["field"], expected: string, actual: unknown): Extract<TabelogVacancyObservation, {status:"SOURCE_STRUCTURE_CHANGED"}> =>
     ({ status: "SOURCE_STRUCTURE_CHANGED", observedAt: response.observedAt, issue: { field, expected, actual: type(actual) } });
   const body = object(response.body);
   if (!body) return changed("body", "object", response.body);
@@ -72,10 +78,16 @@ export function inspectTabelogVacancyResponse(snapshot: BrowserSnapshot, date: s
     slots.add(value.time);
     formCourseLinks.push({ time: value.time, url: value.url });
   }
-  // Empty/unsupported collections are not independently bound no-stock proof.
-  return slots.size ? { status: "OBSERVED", availableSlots: [...slots].sort(), hasExplicitSlotUi: true,
+  return { status: "BOUND_QUERY", value: { availableSlots: [...slots].sort(),
     formCourseLinks: formCourseLinks.sort((a, b) => a.time.localeCompare(b.time)),
-    sourceResponse: { sequence: response.sequence, url: response.url, observedAt: response.observedAt } } : unknown;
+    sourceResponse: { sequence: response.sequence, url: response.url, observedAt: response.observedAt } } };
+}
+
+/** Passive source data only. Empty results still do not establish inventory. */
+export function inspectTabelogVacancyResponse(snapshot: BrowserSnapshot, date: string, partySize: number): TabelogVacancyObservation {
+  const query = inspectBoundVacancyQuery(snapshot, date, partySize);
+  if (query.status !== "BOUND_QUERY") return query;
+  return query.value.availableSlots.length ? {status:"OBSERVED", hasExplicitSlotUi:true, ...query.value} : {status:"UNKNOWN"};
 }
 
 function latestVacancyResponse(snapshot: BrowserSnapshot) {
@@ -90,4 +102,19 @@ export function observedTabelogResponseDate(snapshot: BrowserSnapshot, date: str
   const body = object(latestVacancyResponse(snapshot)?.body);
   if (!body || !Number.isSafeInteger(body.members) || Number(body.members) <= 0) return "UNOBSERVED";
   return inspectTabelogVacancyResponse(snapshot, date, Number(body.members)).status === "OBSERVED" ? "SELECTABLE" : "UNOBSERVED";
+}
+
+/** Query-setting progress only, never stock or confirmation of another field. */
+export function observedTabelogResponsePartySize(snapshot: BrowserSnapshot, partySize: number): "SELECTABLE" | "UNOBSERVED" {
+  const body = object(latestVacancyResponse(snapshot)?.body), day = object(body?.base_date);
+  if (!Number.isSafeInteger(partySize) || partySize <= 0 || body?.members !== partySize
+    || !day || ![day.year,day.month,day.day].every(Number.isSafeInteger) || Number(day.year) <= 0) return "UNOBSERVED";
+  const calendar = new Date(0);
+  calendar.setUTCFullYear(Number(day.year),Number(day.month)-1,Number(day.day));
+  if (calendar.getUTCFullYear() !== day.year || calendar.getUTCMonth()+1 !== day.month || calendar.getUTCDate() !== day.day) return "UNOBSERVED";
+  const date = `${day.year}-${String(day.month).padStart(2,"0")}-${String(day.day).padStart(2,"0")}`;
+  const query = inspectBoundVacancyQuery(snapshot,date,partySize);
+  if (query.status !== "BOUND_QUERY") return "UNOBSERVED";
+  const conflict = observedTabelogQuerySelections(snapshot).people.some(value => value !== partySize);
+  return conflict ? "UNOBSERVED" : "SELECTABLE";
 }

@@ -58,7 +58,7 @@ async function optionViewportState(locator: ElementHandle<SVGElement | HTMLEleme
  */
 export class PlaywrightControlRegistry {
   private revision = 0;
-  private targets = new Map<string, { element: ElementHandle<SVGElement | HTMLElement>; signature: string; ownerId?: string; nodeIdentity?: string }>();
+  private targets = new Map<string, { element: ElementHandle<SVGElement | HTMLElement>; signature: string; ownerId?: string; nodeIdentity?: string; listboxIds?: string[] }>();
   private nextNodeIdentity = 0;
 
   async dispose(): Promise<void> {
@@ -378,18 +378,22 @@ export class PlaywrightControlRegistry {
         const id = `dom:${this.revision}:${controls.length + 1}`;
         if (await this.actionSignature(locator).catch(() => undefined) !== initialSignature) { await release(); continue; }
         let nodeIdentity: string | undefined;
+        let priorListboxes: string[] = [];
         if (group.kind === "SELECT" || role === "combobox") {
           for (const previous of previousTargets.values()) {
             if (!previous.nodeIdentity) continue;
             if (await locator.evaluate((element, old) => element === old, previous.element).catch(() => false)) {
               nodeIdentity = previous.nodeIdentity;
+              priorListboxes = previous.listboxIds ?? [];
               break;
             }
           }
           nodeIdentity ??= `control:${++this.nextNodeIdentity}`;
         }
+        const listboxIds = [...new Set([...(controlledListboxId?.split(/\s+/).filter(Boolean) ?? []), ...priorListboxes])];
+        const selectionReadback = role === "combobox" ? await this.selectionReadback(locator,listboxIds) : undefined;
         this.targets.set(id, { element: locator, signature: initialSignature,
-          ...(nodeIdentity ? { nodeIdentity } : {}) });
+          ...(nodeIdentity ? { nodeIdentity, listboxIds } : {}) });
         controls.push({
           id,
           structure,
@@ -417,7 +421,8 @@ export class PlaywrightControlRegistry {
           visible: true,
           ...(optionState?.clipped ? { outsideViewport: true } : {}),
           ...(selected || group.kind === "RADIO" && checked === true ? { selected: true } : {}),
-          ...(expanded !== null ? { expanded: expanded === "true" } : {}),
+          ...(expanded === "true" || expanded === "false" ? { expanded: expanded === "true" } : {}),
+          ...(selectionReadback ? {selectionReadback} : {}),
           ...(checked !== undefined ? { checked } : {}),
           ...(min ? { min } : {}),
           ...(max ? { max } : {}),
@@ -540,6 +545,41 @@ export class PlaywrightControlRegistry {
     }
   }
 
+  /** Public compact display beside a read-only ARIA input, never a private
+   * value-container proxy or a value borrowed from announcements/other fields. */
+  private async selectionReadback(element: ElementHandle<SVGElement | HTMLElement>, knownListboxes: string[]): Promise<{menuClosed: boolean; displayRequired?: true; displayText?: string}> {
+    return element.evaluate((node, known) => {
+      const ids = [...new Set([...(node.getAttribute("aria-controls")?.split(/\s+/).filter(Boolean) ?? []), ...known])];
+      const visibleLists = ids.some(id => {
+        const list = document.getElementById(id);
+        if (!list) return false;
+        if (list.getAttribute("role") !== "listbox") return true;
+        const style = getComputedStyle(list);
+        return list.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+      });
+      const expanded = node.getAttribute("aria-expanded");
+      const menuClosed = expanded !== null ? expanded === "false" && !visibleLists : ids.length > 0 && !visibleLists;
+      const displayRequired = node instanceof HTMLInputElement && node.getAttribute("aria-readonly") === "true" && node.value === "";
+      const proof = {menuClosed,...(displayRequired ? {displayRequired:true as const} : {})};
+      if (!menuClosed || !displayRequired) return proof;
+      const interactive = 'input,select,textarea,button,a[href],[role="combobox"],[role="button"],[role="textbox"]';
+      for (let container = node.parentElement; container && !container.matches('html,body,main,form,section,article,[role="listbox"],[role="log"],[aria-live]'); container = container.parentElement) {
+        if ([...container.querySelectorAll(interactive)].some(control => control !== node)) break;
+        const texts = new Set<string>(), walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) {
+          const parent = walker.currentNode.parentElement;
+          if (!parent || parent.closest('script,style,[hidden],[aria-hidden="true"],[role="listbox"],[role="log"],[aria-live]') || parent.closest(interactive)) continue;
+          const style = getComputedStyle(parent);
+          if (!parent.getClientRects().length || style.display === "none" || style.visibility === "hidden" || style.opacity === "0") continue;
+          const text = walker.currentNode.textContent?.replace(/\s+/g," ").trim();
+          if (text) texts.add(text);
+        }
+        if (texts.size) { const text = [...texts][0]!; return texts.size === 1 && text.length <= 240 ? {...proof,displayText:text} : proof; }
+      }
+      return proof;
+    },knownListboxes);
+  }
+
   private async observeOptions(locator: ElementHandle<SVGElement | HTMLElement>): Promise<Array<{ value: string; label: string; selected: boolean; disabled: boolean }>> {
     return locator.evaluate(element => [...element.querySelectorAll("option")].slice(0, 24).map(option => ({
       value: option.value,
@@ -608,13 +648,68 @@ export async function waitForPageSettled(
 }
 
 /** Current visible busy markers; a prior wait's sample cannot certify a later result. */
-export async function pageBusySelectors(page: Page): Promise<string[]> {
-  return page.evaluate(() => [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].filter(element => {
-    if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
-    const style = getComputedStyle(element);
-    return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
-  }).slice(0, 12).map(element => element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')));
+export async function pageBusyDiagnostics(page: Page): Promise<{busySelectors: string[]; contentBusySelectors: string[]}> {
+  return page.evaluate(() => {
+    const busy = [...document.querySelectorAll('[aria-busy="true"],[role="progressbar"],[class]')].filter(element => {
+      if (!element.matches('[aria-busy="true"],[role="progressbar"]') && !/(?:^|[\s_-])(?:spinner|loader|skeleton)(?:$|[\s_-])/i.test(element.className.toString())) return false;
+      const style = getComputedStyle(element);
+      return element.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+    });
+    const rules = {
+      describe(element: Element) { return element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.'); },
+      decoration(element: Element) {
+        for (let node: Element | null = element; node; node = node.parentElement) if (getComputedStyle(node).opacity === "0") return true;
+        if (element.matches('[aria-busy="true"],[role="progressbar"]')) return false;
+        if ((element as HTMLElement).innerText?.trim()) return false;
+        const box = element.getBoundingClientRect();
+        for (let frame = element.parentElement; frame && !frame.matches('html,body,main,form,section,article'); frame = frame.parentElement) {
+          // A real media surface, or a separate empty, dimensioned preview
+          // surface inside an observed navigation wrapper. Neither names nor
+          // private attributes/classes identify the preview.
+          const navigation = frame.tagName === "A" && frame.hasAttribute("target");
+          const text = (frame as HTMLElement).innerText?.replace(/\s+/g," ").trim();
+          // Mixed prose cards are not media previews. A navigation preview
+          // may carry its own public accessible label, but no other prose.
+          if (text && (!navigation || text !== frame.getAttribute("aria-label")?.replace(/\s+/g," ").trim())) continue;
+          const frameBox = frame.getBoundingClientRect();
+          const geometry = {sameArea(left: DOMRect, right: DOMRect) {return [left.left-right.left,left.right-right.right,left.top-right.top,left.bottom-right.bottom].every(delta => Math.abs(delta) <= 1);}};
+          const surfaces = [...frame.querySelectorAll('img,picture,video,canvas,svg,iframe,[role="img"],div')].filter(node => {
+            if (node === element || element.contains(node) || node.contains(element) || busy.includes(node) || (node as HTMLElement).innerText?.trim()) return false;
+            const style = getComputedStyle(node), area = node.getBoundingClientRect();
+            return area.width > 0 && area.height > 0 && style.display !== "none" && style.visibility !== "hidden"
+              && (node.matches('img,picture,video,canvas,svg,iframe,[role="img"]') || style.backgroundImage !== "none" || navigation && node.children.length === 0)
+              // A preview mask fills its independent surface and frame;
+              // a small body placeholder inside a large image does not.
+              && geometry.sameArea(box,area) && geometry.sameArea(area,frameBox);
+          });
+          if (!surfaces.length) continue;
+          const walker = document.createTreeWalker(frame, NodeFilter.SHOW_TEXT);
+          let coveredText = false;
+          while (walker.nextNode()) {
+            const node = walker.currentNode, parent = node.parentElement;
+            if (!node.textContent?.trim() || !parent || element.contains(parent)) continue;
+            const style = getComputedStyle(parent);
+            if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") continue;
+            const range = document.createRange(); range.selectNodeContents(node);
+            for (const rect of range.getClientRects()) {
+              if (rect.right <= box.left || rect.left >= box.right || rect.bottom <= box.top || rect.top >= box.bottom) continue;
+              const hit = document.elementFromPoint((rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2);
+              if (hit && element.contains(hit)) coveredText = true;
+            }
+          }
+          if (!coveredText) return true;
+        }
+        return false;
+      },
+    };
+    // Filter the complete DOM before either diagnostic is capped. The generic
+    // settlement marker list (including aria-hidden loaders) is unchanged.
+    return {busySelectors: busy.slice(0, 12).map(element => rules.describe(element)),
+      contentBusySelectors: busy.filter(element => !rules.decoration(element)).slice(0, 12).map(element => rules.describe(element))};
+  });
 }
+
+export async function pageBusySelectors(page: Page): Promise<string[]> { return (await pageBusyDiagnostics(page)).busySelectors; }
 
 /** A small browser-owned projection for waiting, never model-supplied state. */
 export async function interactiveState(page: Page): Promise<string> {

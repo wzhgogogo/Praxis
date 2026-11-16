@@ -1,0 +1,44 @@
+{
+  "recordingCommit": "9856dc67b13813489e24fae853118d2559cdef16",
+  "recordingDirectory": "/private/tmp/praxis-party-category-retry-evidence/.eval-artifacts/phase3b/party-category-live-retry-20261113/live/runtime/dev-d02v-party-category-retry-20261113/recordings/g6-dev-d02v-party-category-retry-20261113-1794558673827-0",
+  "pageURL": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+  "request": {
+    "date": "2026-12-10",
+    "partySize": 8,
+    "timeWindow": {
+      "earliest": "20:30",
+      "latest": "20:30"
+    }
+  },
+  "decisionSequence": 33,
+  "timing": {
+    "postSnapshotMs": 41961,
+    "providerTimeoutMs": 45045,
+    "limitMs": 45000,
+    "note": "Component timing projection only; terminal observer failure is constructed to represent the canceled real final scan. No new live success claim."
+  },
+  "files": {
+    "snapshot-0032.html": "f0d7dcfbbbcc5b3f778f36a43c22a4547bf7e541500a80c013101f32ce818138",
+    "snapshot-0033.html": "34a9136238bfe8ccae81a68ec6c5175b13cfa0836ccdcba81bfafff892d2a646",
+    "response-44.json": "9e53cfc00f3af7e8360947188344fd783782db8989c60c12f623cb1a3a7b6002",
+    "response-45.json": "4a4a36eeeddd9fff26d92cb396805c79dde2494b01ac6f14ae2114e26ce649ed"
+  },
+  "responses": [
+    {
+      "harEntryIndex": 44,
+      "file": "response-44.json",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13287727&svd=20261210&svps=2&svt=1900&exclude_unavailable_time=1",
+      "status": 200,
+      "observedAt": "2026-11-13T08:34:35.470Z",
+      "metadataNote": "LOCAL_CONSTRUCTION observation envelope uses recorded post-click snapshot timestamp; HAR body/URL/status unchanged."
+    },
+    {
+      "harEntryIndex": 45,
+      "file": "response-45.json",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13287727&svd=20261210&svps=8&svt=1900&exclude_unavailable_time=1",
+      "status": 200,
+      "observedAt": "2026-11-13T08:34:35.470Z",
+      "metadataNote": "LOCAL_CONSTRUCTION observation envelope uses recorded post-click snapshot timestamp; HAR body/URL/status unchanged."
+    }
+  ]
+}

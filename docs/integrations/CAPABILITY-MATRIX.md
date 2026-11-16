@@ -1,3 +1,39 @@
+<a id="g1-window-media-closeout-20261116"></a>
+
+2026-11-16 — 待以本次复核提交整合 main；已完成离线与本地 Chromium 验证，D8 线上 Live 待冻结主线 SHA 后验证。本轮源码/测试冻结 `a5c4597b0031881e8e765888451a22785a32fb98`：实时快照刷新本次正文变化，G1 500ms 窗口不再继承旧 wait 标志；静态明确标记当前变化仍拒答。导航后不用旧 URL previous；显式 ARIA 忙态与混合图文条款卡片保留阻断。真实 Nakamata 包间原句引用验收，旧不透明地图与 8 个淡出图片骨架通用契约保持。0 Live / 0 网站 GET / 0 真实模型调用；旧批次原报告不改写。[本次简报](../reviews/G1-WINDOW-MEDIA-CLOSEOUT-20261116.md)。
+
+<a id="g1-query-readback-20261116"></a>
+
+2026-11-16 — draft / not integrated：G1 当前正文/全部在途请求复检与同控件选项回读两项离线修复。保留原生 value、Guard 3 秒规则和 B1 身份/请求/库存双校验；真实 Nakamata DOM/CSS 结合明确构造交互，经生产组装验证。线上库存未验证；0 Live / 0 网站 GET / 0 真实模型。五项净树门禁及保护哈希以本批次原始日志为准；仅本地提交，不推送、不合 main。[简报](../reviews/G1-BODY-QUERY-READBACK-20261116.md)。
+
+<a id="terminal-observe-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：终端snapshot-only完成与Skill引导四文件修复，源码67a949d7净树全门禁PASS：type/arch/build、默认1644、Chromium287、G6 159，0跳过；含web-skills的双完整SHA与增量新增产品扫描0。9856真实DOM/HAR红→绿，终端扫描1→0且20:30原响应提取成立；PENDING稳定/未确认控件/默认控件检查保持，最终来源谓词与整列表范围逐字不变。分类/动作文案只验证接线，不声称真实模型导航已修。首次稀疏检出缺材料失败原样保留，恢复同提交材料后全绿。主草稿/四账本/9856证据哈希一致；0Live/0GET/0真实模型，仅分支待复核，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/terminal-observe-20261113/report.md)。
+
+<a id="party-category-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：人数来源响应独立进度与分类objective四文件最小修复。原可见选态解析逐字导出复用；最终库存complete、CapturedSlots、observedDate、ground及整列表范围校验不变。源码ea93f6c4净树全门禁PASS：type/arch/build、默认1632、Chromium286、G6 159；定向26与真实两店组件2通过，双完整SHA及增量新增产品扫描0。真实DOM/HAR先红后绿，人数确认后转日历，未构造未来日期/库存；objective仅请求输入验证，真实模型遵循待验。主草稿及6账本哈希不变，0Live/0GET/0真实模型；不合main、不跑held-out。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/party-category-20261113/report.md)。
+
+<a id="r2-scope-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/r2-scope-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：请求菜系发现必须有整个结果范围的query/title/visible h1证据；仅地点、单卡分类或展开菜单不再完成。B真实精确目录→NativeSearch→原身份核对→直达URI/零名称检索组件通过，跨录制/构造导航边界明确，不作Live验收。推进能力沿用前一候选，原生目录空位表单接线未扩展；待全门禁复核。
+
+2026-11-12 CET — draft / not integrated：通用推进动作允许模型指定独立值域组，复用既有权威动作匹配，中间无模型、无自动选择/完成。真实D02V人数与日历组件验证；事件监听器缺失处仅加载原动作对应的下一原始DOM，不造响应，未证明当前网站稳定性。Guard/身份/库存/G1不变，0Live/0GET/0真实模型。源码b18a6343净树type/arch/build及默认1621、Chromium284/G6 159全绿，双基线扫描0。D02V原DOM/HAR计时5→4模型、44.508→41.870秒仅组件投影，真实模型/新Live待验证。记录索引：[manifest](../../src/harness/browser/fixtures/advance-control/manifest.json)，[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/advance-control-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：原生/Google候选在既有发现入口复用已读详情的原身份核对器，仅HIGH同来源店铺标识且无冲突才合并；保留来源佐证，不新增请求。r1真实组件证明一次库存/一候选/一B1，03/07候选池回归不变；完整门禁通过但修后无新Live。r1独立补评通过、重复展示缺陷保留，原自动评价未覆盖。[简报](https://github.com/wzhgogogo/Praxis/blob/4eb7900d7345e3cbb6d990477fecaaedc624b033/.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
+
+2026-11-12 CET — draft / not integrated：名称搜索复用COMPLETED快照，非busy结果不重复采样；LOCATION填写权威label、queryLabel保留目录锚定，Prompt25补通用父区一致与可见回退。仅离线组件及全门禁验证；Sumika8人仍未验证，满天8人计时为组件投影；无新增Live能力结论。见[简报](https://github.com/wzhgogogo/Praxis/blob/0f8fcfa7b3973450b0992ba46ed66285128ef6bb/.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
+
+2026-11-11 CET — 用户批准seed discovery/settle代码整合主线；离线组件证据见bd01a402分支。新的D02-V 8人翻页/直达及07重验尚待本轮Live，不把组件通过当作当前来源已验收。
+
+2026-11-11 CET — draft / not integrated：Tabelog原生目录完整录制上，queryLabel补齐地名锚定，分类字面相关度排序后Sumika在原上限内保留已观察直达URI；PENDING身份页至查位仅一次控件扫描。仅离线组件，当前日期/8人/20:30修后Live仍未验证。07纯地点关键字结果的范围拒绝只有元数据构造组件（原DOM拒录）；不冒充真实DOM回放。
+
+> 2026-11-11 CET draft / not integrated：Tabelog观察复用候选仅经真实DOM/HAR组件回放；45s不变，Manten12-10/8人/20:30组件完成；Sumika真实部分录制仍不满足8人，保持UNKNOWN。未新增Live能力结论。
+
 2026-11-11 CET — 用户复核接受种子前A1–A4工作分支84d70fb2（源码f385191e）：允许从main249826cc快进合入；产品源码不改，原同SHA完整门禁1586/Chromium279+G6 154/strictG2全12复用。下一步仅eval选择03/07各2次开发检查，旧R2结果/账本保持；新账本继承30/154/2092，剩余6Live/66GET/708模型，其中2Live留D02。前端slice2需同步main并重跑冒烟。真实调用尚未新增。
 
 2026-11-11 CET — 用户03:28 CET签收3b：R2标准1查位、2 B1、4安全通过，标准3 G1未达，列为种子用户前阻塞；R2结果完整保留在证据分支codex/heldout-r2-evidence-09@ac980ef2，18次最终均已评价、s0=0（9合格交付/3交付不合格/3诚实无结果/3能力未命中，严格按冻结标准）。七用例已暴露，可用录制开发，私有题面仍不人工读。当前工作分支候选A1–A4：核对入口重置、同run HIGH唯一已读来源页进入G1、响应确认日期/人数后避免重复选择、自然结果摘要/官网HTTPS优先/来源分类并列。仅组件/本地Chromium验证，不代表修后Live成本或真实10人已通过；源码f385191e同SHA净树全门禁通过（默认1586/Chromium279+G6 154/strictG2全12），扫描9条均通用或夹具，待复核，不合main、不调用真实来源。余额6Live/66GET/708模型不动。[本轮报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
@@ -357,6 +393,8 @@ DeepSeek标准JSON Output只保证生成合法JSON，不接收完整`json_schema
 
 ### TableCheck
 
+具名发现时，模型可点击由已安装的只读网络边界保护、可见且可用的无主建议项。标签保留商家、地区和菜系，模型只选择能唯一识别请求门店的一项。点击成功后，须同时满足同标签页路径变化、当前读取范围内动作边界之后完成的已审核动态 GET 回执（HTTP 200）、页面已 SETTLED，才允许交给详情解析。pageId 用于核对同一标签页，不能单独证明同文档 SPA 跳转。Adapter 核实页面身份达到 HIGH 后才进入该店查位。
+
 2026-09-24独立审查补充：已接纳的英文、日文及无语言前缀预约表单统一核对实时日期/人数；控件更新本身不证明库存更新。表单库存仅复用既有同店且绑定日期、人数、时段的来源链接/控件证据，不以合成结果容器属性声明真实站点能力。旧请求、加载中、仅范围外时段或无法证明完整时段的空结果保持UNKNOWN。Adapter回归和真实Chromium本地异步Fixture通过；真实库存及整单仍未证明。[审查](../history/LIVE-PLAYBOOK-INDEPENDENT-REVIEW-2026-09-24.md)。
 
 - [System Integration](https://www.tablecheck.com/en/join/features/integrate-your-systems/)
@@ -663,3 +701,9 @@ D01 same-run reviewer annotations bf1fc489… produce qualified=true/QUALIFIED_D
 2026-11-10 CET — source12deae74 offline checks passed, pending reviewer acceptance: no-progress2/source cursor, stable fields, area ordering and D4/D8 regressions PASS; actual new D01/D02 checks pending. Same-request structural comparison preserves prior checked candidates across deferred empty source batches; identity/availability/G1 thresholds unchanged.
 
 2026-11-10 CET — actual development source12deae74/run9572d99b: area reservation-only discovery deferred in both D01/D02; native directory5/7 model calls (5/0 candidates), generic NO_PROGRESS observed0/2, no entry retries; both failed complete-request delivery despite two AVAILABLE candidates each, s0=0. D01 broad Western list completed before Spanish selection; D02 robatayaki evidence unresolved. Source coverage/cost changed, qualified delivery not improved. Old D4/D8 capabilities remain their historical Live/fixture evidence, not revalidated Live here. Health-only3 real rounds15min apart12/12 complete200<10s. Further held-out remains paused for reviewer decision; no new Live.
+
+### 2026-11-14 CET - disabled-party/phase-window candidate (not integrated)
+
+Actual Saigyo DOM/HAR Chromium component stops at the observed disabled requested count after2 advances, preserves the source-control-limit reason and avoids same-request facts. Date proof uses existing code-confirmed fields, no private-class rule. Non-direct name search and availability each retain45s phases inside one90s candidate with shared model/operation budgets. Direct/identityOnly unchanged. Offline candidate only,0 new external calls; no post-fix Live acceptance claim. Harness: disabled-party-recorded.test.ts, adapter phase/propagation and Domain request-binding regressions.
+
+2026-11-16 CET — Observed ownerless suggestions: protected Discovery exposes visible, enabled, unobstructed non-submitting options. Equal normalized full labels in the same list group suppress all duplicates; hidden/disabled/obstructed copies do not suppress a unique usable option. Owned combobox rules remain unchanged. Same-tab path change + current post-action reviewed GET200 receipt + SETTLED permits handoff only; adapter identity still requires HIGH. Two downstream branch counterexamples pass; 17 Tabelog messages remain byte-identical. Original duplicate failure is preserved. Main/date message hashes remain identical; raw-control suffix construction renumbers opaque refs, so its old hash is not claimed unchanged. Corrected duplicate and suffix serialize identically: the fifth real DeepSeek call chose Search and passed Schema16 for that exact input. Total model calls5/5, website GET0, Live0. Full clean-tree gates and one authorized D8 Live (1Live/8GET/50model/0rerun) remain the release gate.

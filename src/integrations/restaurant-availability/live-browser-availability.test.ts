@@ -90,8 +90,8 @@ test("one-shot Live composition initializes each source context and closes both 
   assert.equal(session.closed, 1);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE",JSON.stringify({checks:result.availabilityChecks,events:diagnostics.filter(d=>["REJECTED","OPERATION_FAILED","METHOD_INCOMPLETE"].includes(d.event))}));
   assert.deepEqual(result.metadata.providerAttempts?.map((attempt) => attempt.provider), ["TABLECHECK", "TABELOG"]);
-  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_STARTED").map(item => item.source), ["TABLECHECK", "TABELOG"]);
-  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_FINISHED").map(item => item.lifecycle.outcome), ["FINISHED", "FINISHED"]);
+  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_STARTED").map(item => [item.source, item.stage]), [["TABLECHECK", "DISCOVERY"], ["TABELOG", "DISCOVERY"], ["TABELOG", "AVAILABILITY"]]);
+  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_FINISHED").map(item => item.lifecycle.outcome), ["FINISHED", "FINISHED", "FINISHED"]);
   assert.ok(diagnostics.filter(item => item.event === "OPERATION_STARTED").every(item => item.lifecycle.candidateRuntimeOperations >= item.lifecycle.providerRuntimeOperations));
 });
 

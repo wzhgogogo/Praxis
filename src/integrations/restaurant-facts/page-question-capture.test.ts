@@ -107,3 +107,21 @@ test("G1 a still-busy refreshed page stays incomplete with no answer model call"
  assert.equal(f.seen.requests.filter(r=>r.purpose==="restaurant_page_question").length,0);
  assert.equal(f.seen.navigations.length,1,"The still-pending current exact page is observed once without navigation or loops");
 });
+
+for(const mode of ['aged-data','pending-without-diagnostics','current-text-change'] as const)test(`G1 current body readiness rejects ${mode} before the question model`,async()=>{
+ const f=pageQuestionCaptureFixture('TABLECHECK');
+ if(mode==='aged-data')f.page.settlementDiagnostics={url:f.url,pendingByType:{fetch:1},oldestPendingMs:3500,blockingDataRequests:0,busySelectors:[],visibleTextChanging:false};
+ else if(mode==='current-text-change')f.page.settlementDiagnostics={url:f.url,pendingByType:{},oldestPendingMs:0,blockingDataRequests:0,busySelectors:[],visibleTextChanging:true};
+ else f.page.settlement='PENDING';
+ const answer=await f.assembly.questions.answerQuestion(f.input,new AbortController().signal);
+ assert.ok(answer.status==='UNVERIFIED'&&answer.reason==='INCOMPLETE_PAGE',JSON.stringify(answer));
+ assert.equal(f.seen.requests.filter(r=>r.purpose==='restaurant_page_question').length,0);
+});
+
+
+test('G1 refreshed capture discards pre-navigation URL when settling the source document',async()=>{
+ let current='about:blank';const previousUrls:string[]=[];
+ const f=pageQuestionCaptureFixture('TABLECHECK',{async openSession(){return {metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:captureReadAt},async navigate(url){current=url;},async snapshot(){return {...structuredClone(f.page),url:current};},async waitForSettled(previous){previousUrls.push(previous.url);return true;},async observeControls(){return [];},async click(){},async fill(){},async select(){return [];},async waitFor(){},async screenshot(){return new Uint8Array();},async close(){}};}});
+ await f.assembly.facts.inspectFacts({candidateIds:[f.input.candidate.restaurant.id],candidates:[f.input.candidate],intent:f.input.intent,readRunId:f.input.readContext.runId,capturePagesOnly:true,reobservePageOnce:true},new AbortController().signal);
+ assert.ok(previousUrls.length>=2);assert.equal(previousUrls.at(-1),f.url,JSON.stringify(previousUrls));
+});

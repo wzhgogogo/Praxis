@@ -1,0 +1,27 @@
+✖ D02-V original Manten DOM/HAR/actions finish exact 8-person slot inside unchanged45s provider window (6332.030292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6620.313458
+
+✖ failing tests:
+
+test at src/harness/browser/d02v-recorded-progress.test.ts:1:829
+✖ D02-V original Manten DOM/HAR/actions finish exact 8-person slot inside unchanged45s provider window (6332.030292ms)
+  Error [BrowserRuntimeError]: Browser provider investigation exceeded its automatic deadline
+      at BrowserTaskExecutor.assertActive (/private/tmp/praxis-seed-root-cause-fixes/src/infrastructure/browser/browser-task-executor.ts:1580:13)
+      at BrowserTaskExecutor.operation (/private/tmp/praxis-seed-root-cause-fixes/src/infrastructure/browser/browser-task-executor.ts:1488:12)
+      at async BrowserTaskExecutor.observe (/private/tmp/praxis-seed-root-cause-fixes/src/infrastructure/browser/browser-task-executor.ts:1100:9)
+      at async BrowserTaskExecutor.runSkill (/private/tmp/praxis-seed-root-cause-fixes/src/infrastructure/browser/browser-task-executor.ts:950:37)
+      at async TestContext.<anonymous> (/private/tmp/praxis-seed-root-cause-fixes/src/harness/browser/d02v-recorded-progress.test.ts:42:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_TIMEOUT',
+    cause: undefined,
+    scope: 'PROVIDER',
+    networkFailures: undefined
+  }

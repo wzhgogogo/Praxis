@@ -32,7 +32,7 @@ export async function checkHoldoutNetwork(input:{browser:BrowserRuntime;tabelogD
     }});
    if(controller.signal.aborted||done){await opened.close();return;}session=opened;transition('NAVIGATE');
    const url=source==='tablecheck'?tc:input.tabelogDetailUrl;
-   await opened.prepareNavigation!(url,{timeoutMs:20_000});if(done)return;
+   await opened.prepareNavigation!(url,{timeoutMs:HEALTH_WINDOW_MS});if(done)return;
    // No navigate timeout: this health-only path never activates entry retries.
    await opened.navigate(url,{waitUntil:'domcontentloaded'});if(!done)transition('SCRIPT_WAIT');
   })().catch(error=>{if(done)return;navigationError=browserTransportError(error);finish();});

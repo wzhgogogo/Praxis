@@ -183,7 +183,7 @@ for (const mutation of ["role-change", "replacement", "legal-replacement"] as co
   test(`changed observed option ${mutation} is rejected before execution`, async () => {
     const canRecover = mutation === "legal-replacement";
     const runtime = localFixture(`<button id="arrival" type="button" role="combobox" aria-controls="choices" aria-expanded="false" aria-label="Arrival time" onclick="this.setAttribute('aria-expanded','true');document.getElementById('choices').hidden=false">Arrival time</button>
-      <ul id="choices" role="listbox" hidden><li role="option" onclick="document.body.dataset.executed='yes';document.getElementById('arrival').setAttribute('aria-label','19:00')">19:00</li></ul>
+      <ul id="choices" role="listbox" hidden><li role="option" onclick="document.body.dataset.executed='yes';document.getElementById('arrival').setAttribute('aria-label','19:00');document.getElementById('arrival').setAttribute('aria-expanded','false');document.getElementById('choices').hidden=true">19:00</li></ul>
       <button id="mutate" type="button" onclick="mutateOption()">Change control</button>
       <script>function mutateOption(){const option=document.querySelector('[role=option]');${canRecover ? "option.replaceWith(option.cloneNode(true))" : mutation === "replacement" ? "const next=document.createElement('button');next.type='submit';next.textContent='19:00';next.onclick=()=>document.body.dataset.executed='yes';option.replaceWith(next)" : "option.setAttribute('role','button');option.setAttribute('type','submit')"}}</script>`, "LOCAL");
     let calls = 0;
@@ -333,3 +333,24 @@ test("an unconfirmed time choice cannot be replaced by a successful party choice
 });
 
 /** Real Chromium, wholly intercepted local HTML; all other network requests are aborted. */
+
+for (const expanded of ['true', 'missing'] as const) test(`an applied custom option with ${expanded} expanded state and an open own listbox remains unconfirmed`, async () => {
+  const runtime = localFixture(`<button type="button" role="combobox" aria-label="Arrival time" aria-controls="choices" aria-expanded="false" onclick="this.setAttribute('aria-expanded','true');document.getElementById('choices').hidden=false">Arrival time</button>
+    <ul id="choices" role="listbox" hidden><li role="option" onclick="const owner=document.querySelector('button');owner.setAttribute('aria-label','19:00');${expanded === 'missing' ? "owner.removeAttribute('aria-expanded');" : ''}document.querySelector('output').textContent='Applied'">19:00</li></ul><output>Waiting</output>`);
+  let calls = 0;
+  const executor = new BrowserTaskExecutor(runtime, {maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 4, maxModelCallsPerCandidate: 4, maxOperationsPerCandidate: 40, modelDecision: {async decide(input) {
+    calls++;
+    if (calls === 1) return {type:'CLICK', targetRef:input.observation.targets.find(t => t.role === 'combobox')!.ref, reason:'Open observed control'};
+    if (calls === 2) return {type:'CHOOSE_OPTION', field:'TIME', targetRef:input.observation.targets.find(t => t.kind === 'OPTION' && t.label === '19:00')!.ref, reason:'Apply observed option'};
+    return {type:'REQUEST_HUMAN_HELP', reason:'Own listbox still open'};
+  }}});
+  const signal = new AbortController().signal;
+  try {
+    const session = await executor.acquire(signal,'WEBSITE','FACTS');
+    await executor.navigate({observed:true,source:'WEBSITE',stage:'FACTS',session,signal,allowedOrigins:[new URL(url).origin],url});
+    const result = await executor.runSkill({taskId:'open-menu:'+expanded,source:'WEBSITE',stage:'FACTS',session,signal,allowedOrigins:[new URL(url).origin],goal:{outlet:{name:'Fixture'},timeWindow:{earliest:'19:00',latest:'19:00'},hardCriteria:[]},objective:'Choose the observed requested time',completion:page=>({complete:page.text.includes('Applied'),reason:'Await closed selected control',resultKey:page.text,resultBusy:false})});
+    assert.equal(result.status,'REQUESTED_HUMAN_HELP');
+    assert.equal(calls,3);
+    assert.ok(result.snapshot.text.includes('Applied'),'Actual selection effect cannot conceal an open menu');
+  } finally { await executor.closeAll(); }
+});

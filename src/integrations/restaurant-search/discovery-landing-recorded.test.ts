@@ -21,11 +21,11 @@ for(const mode of ['CITED','NO_REFERENCE','STALE','HIDDEN'] as const)test(`D01 #
 test('D01 recorded native and Google batches coexist; conservative dedup and cited-category ranking',async()=>{
  const recorded=JSON.parse(await readFile(new URL('./fixtures/d01-discovery-pools.json',import.meta.url),'utf8'));
  const nativeEvent=recorded.native,googleEvent=recorded.google;
- const merged=mergeDiscoveryCandidates(nativeEvent.candidates,googleEvent.candidates);assert.equal(merged.candidates.length,9);assert.equal(merged.aliases.size,0,'Unproved cross-source identities stay distinct');
+ const merged=mergeDiscoveryCandidates(nativeEvent.candidates,googleEvent.candidates,[...nativeEvent.evidence,...googleEvent.evidence]);assert.equal(merged.candidates.length,9);assert.equal(merged.aliases.size,0,'Unproved cross-source identities stay distinct');
  const state={schemaVersion:"25",phase:"SEARCHING",availability:{},availabilityChecks:{},factChecks:{},searchRevision:0,intentDraft:recorded.intentDraft,candidates:merged.candidates,readEvidence:[...nativeEvent.evidence,...googleEvent.evidence]} as RestaurantTaskState;
  const order=[...merged.candidates].sort((a,b)=>restaurantCandidateReadPriority(state,a.restaurant.id)-restaurantCandidateReadPriority(state,b.restaurant.id));
  assert.ok(order.some(c=>c.restaurant.sourceIds.googlePlaces));assert.ok(order.some(c=>c.restaurant.sourceIds.tabelog));
  const supported=order.find(c=>restaurantCandidateReadPriority(state,c.restaurant.id)<=1);assert.ok(supported,'Recorded Google cuisine type leads native Western-only lists');assert.ok(supported.restaurant.sourceIds.googlePlaces);
  const one=structuredClone(merged.candidates[0]!);one.restaurant.sourceIds.phone='0312345678';const same=structuredClone(one);same.restaurant.id='other-source';
- assert.equal(mergeDiscoveryCandidates([one],[same]).candidates.length,1);same.restaurant.address+=' different floor';assert.equal(mergeDiscoveryCandidates([one],[same]).candidates.length,2);
+ assert.equal(mergeDiscoveryCandidates([one],[same],[]).candidates.length,2,"Matching contact/name text alone is not verified source identity");same.restaurant.address+=' different floor';assert.equal(mergeDiscoveryCandidates([one],[same],[]).candidates.length,2);
 });

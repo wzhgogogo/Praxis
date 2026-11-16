@@ -108,17 +108,30 @@ async function reviewReevaluatedHoldout(attempt:HoldoutAttempt,option:HoldoutRev
  const output=JSON.stringify(transform(score),null,2)+'\n';attempt.review.evaluationSHA256=holdoutHash(output);await save();await writeFile(join(slot,'evaluation.supplement.json'),output,{flag:'wx',mode:0o600});return score;
 }
 
+/** Select only after the entire private manifest has passed commitment checks.
+ * Preserve manifest order and bind this execution plan into resume identity. */
+export function holdoutExecutionPlan(manifest:PrivateHoldoutManifest,options:{caseIds?:readonly string[];repetitions?:number}={}){
+ const repetitions=options.repetitions??3,ids=options.caseIds??manifest.cases.map(c=>c.id);
+ if(!Number.isSafeInteger(repetitions)||repetitions<1||repetitions>3||!ids.length||new Set(ids).size!==ids.length
+   ||ids.some(id=>!manifest.cases.some(c=>c.id===id)))throw Error('HOLDOUT_RUN_SELECTION_INVALID');
+ const items=manifest.cases.filter(c=>ids.includes(c.id));
+ if(items.length*repetitions>18||new Set(manifest.cases.map(c=>c.id)).size!==manifest.cases.length)throw Error('HOLDOUT_PLANNED_SLOT_LIMIT');
+ const executionPlan={caseIds:items.map(c=>c.id),repetitions};
+ return {items,repetitions,audit:options.caseIds!==undefined||options.repetitions!==undefined
+   ?{executionPlan,executionPlanSHA256:holdoutHash(JSON.stringify(executionPlan))}:{}};
+}
+
 /** Serial immutable attempts. Resume reuses completed scores, not their Live.
  * Only explicit environmental failures authorize replacement attempts. */
-export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:HoldoutRunAudit,directory:string,deps:HoldoutDependencies,options:{resume?:boolean;review?:HoldoutReviewOption;reviews?:HoldoutReviewOption[]}={}){
- if(manifest.cases.length*3>18||new Set(manifest.cases.map(c=>c.id)).size!==manifest.cases.length)throw Error('HOLDOUT_PLANNED_SLOT_LIMIT');
+export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:HoldoutRunAudit,directory:string,deps:HoldoutDependencies,options:{resume?:boolean;review?:HoldoutReviewOption;reviews?:HoldoutReviewOption[];caseIds?:readonly string[];repetitions?:number}={}){
+ const plan=holdoutExecutionPlan(manifest,options);audit={...audit,...plan.audit};
  if(manifest.cases.some(c=>Object.hasOwn(c.oracle,'reviewedReadRules')))throw Error('HOLDOUT_MANIFEST_READ_RULES_FORBIDDEN');
  const reviews=[...(options.review?[options.review]:[]),...(options.reviews??[])];
  if(new Set(reviews.map(r=>r.key)).size!==reviews.length)throw Error('HOLDOUT_REVIEW_ARGUMENTS_INVALID');
  if(reviews.length&&!options.resume)throw Error('HOLDOUT_REVIEW_REQUIRES_RESUME');
  const rules=await frozenHoldoutReadRules();await mkdir(resolve(directory),{recursive:true});const root=await realpath(resolve(directory)),unlock=await holdoutLock(root);
  const privacy=privateInputRedactor(manifest.cases.flatMap(c=>[c.request,...c.followups.map(f=>f.text)]));
- let state:HoldoutCheckpoint={schema:'phase3b-holdout-batch@2',serial:true,stopReason:null,witnessPolicies:manifest.cases.map(c=>({id:c.id,policy:c.witness.allowKnownUnavailableCertificate===true?'ALLOW_KNOWN_UNAVAILABLE':'POSITIVE_REQUIRED'})),receipts:[],healthyCases:[]};
+ let state:HoldoutCheckpoint={schema:'phase3b-holdout-batch@2',serial:true,stopReason:null,...(plan.audit.executionPlan?{executionPlan:plan.audit.executionPlan}:{}),witnessPolicies:plan.items.map(c=>({id:c.id,policy:c.witness.allowKnownUnavailableCertificate===true?'ALLOW_KNOWN_UNAVAILABLE':'POSITIVE_REQUIRED'})),receipts:[],healthyCases:[]};
  let bound=false,ledgerPath=deps.g6.budgetPath;
  try{
   if(!options.resume&&await readJSON(join(root,'input-hashes.json')))throw Error('HOLDOUT_RESUME_REQUIRED');
@@ -178,11 +191,11 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
   const timingLedger=(await readJSON<{entries:Array<{evaluationPublicGET?:number;recordedAtUTC?:string}>}>(budget.path))!;
   let lastGET=Math.max(-Infinity,...timingLedger.entries.filter(e=>e.evaluationPublicGET===1).map(e=>Date.parse(e.recordedAtUTC??'')).filter(Number.isFinite));
   const interval=async()=>{const remaining=5000-(now()-lastGET);if(remaining>0)await wait(remaining);};
-  outer:for(const item of manifest.cases){
+  outer:for(const item of plan.items){
    let healthy=state.healthyCases.includes(item.id);
    // Completed r1 proves that this case already passed health. A resumption
    // at a later slot performs health again after an interruption.
-   for(const repetition of [1,2,3]){
+   for(let repetition=1;repetition<=plan.repetitions;repetition++){
     const prior=state.receipts.filter(a=>a.id===item.id&&a.repetition===repetition);
     if(prior.some(a=>['EVALUATED','EVALUATED_BY_REVIEW','PENDING_REVIEW'].includes(a.status)))continue;
     const previous=prior.at(-1),replacement=prior.some(a=>a.status==='ENVIRONMENT_FAILURE');
@@ -206,7 +219,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
     }
     const spec:G6Case={id:key,request:item.request,oracle:{...structuredClone(item.oracle),reviewedReadRules:structuredClone(rules)},witness:item.witness,followups:item.followups.map(f=>({id:f.id,kind:f.kind,text:f.text,trigger:f.condition.type==='PRESENTED_ANY'?'DISPLAYED_RESULTS':f.condition.type==='PRESENTED_WITH_SLOT'?'DISPLAYED_AVAILABLE':f.condition.type,...(f.condition.type==='TARGET_PRESENTED_WITH_SLOT'?{target:f.condition.target,...(f.condition.time?{time:f.condition.time}:{})}:{}),...(f.allowOtherOutlets?{allowOtherOutlets:true}:{})}))};
     if(!healthy||previous){
-     const health=await deps.health(spec,async(source,round)=>{await interval();await chargeG6(budget.path,`${key}:HEALTH:${round}:${source}`,'evaluationPublicGET','Held-out health per case/recovery, two rounds, no Live/model');lastGET=now();});
+     const health=await deps.health(spec,async(source,round)=>{await interval();await chargeG6(budget.path,`${holdoutHash(root)}:${key}:HEALTH:${round}:${source}`,'evaluationPublicGET','Held-out health per case/recovery, two rounds, no Live/model');lastGET=now();});
      await writeFile(join(attempt.path,'network-health.json'),JSON.stringify(health,null,2)+'\n',{flag:'wx'});
      if(!health.passed){state.healthyCases=state.healthyCases.filter(id=>id!==item.id);attempt.status='CANCELLED_BEFORE_LIVE';state.stopReason='NETWORK_HEALTH_FAILED';await save();break outer;}
      healthy=true;if(!state.healthyCases.includes(item.id))state.healthyCases.push(item.id);await save();

@@ -11,7 +11,7 @@ for(const mode of ['SUCCESS','SCRIPT_15S','SCRIPT_45S','SCRIPT_61S','DOCUMENT_40
   const browser:BrowserRuntime={async openSession(input){
    if(mode==='SESSION_OPEN')return new Promise<BrowserSession>(()=>{});
    return {metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:'2030-01-01T00:00:00Z'},
-    async prepareNavigation(_url,options){assert.equal(options?.timeoutMs,20_000);},async navigate(url){
+    async prepareNavigation(_url,options){assert.equal(options?.timeoutMs,60_000,"health Guard resource deadline must match the external60s window");},async navigate(url){
      if(mode==='NAVIGATION_ERROR')throw Object.assign(new Error('Navigation failed at https://example.invalid/?token=secret'),{code:'ENOTFOUND'});
      input.onResponseHeaders?.({url,resourceType:'document',status:mode==='DOCUMENT_401'?401:200,mainDocument:true});
      if(mode==='SUCCESS'||mode==='SCRIPT_15S'||mode==='SCRIPT_45S'||mode==='SCRIPT_61S')setTimeout(()=>{void input.recordResponse?.({url:url.includes('tablecheck')?'https://www.tablecheck.com/portal/assets/index-fiction.js':'https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js',resourceType:'script',method:'GET',status:200,contentType:'text/javascript',body:Buffer.from('/* fictional */')});},mode==='SCRIPT_15S'?15000:mode==='SCRIPT_45S'?45000:mode==='SCRIPT_61S'?61000:5000);

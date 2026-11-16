@@ -1,3 +1,4 @@
+import {parse, type DefaultTreeAdapterMap} from "parse5";
 import {normalizedTextKey} from "../../core/text-key.js";
 import {restaurantReserveCancelled} from "../../domains/restaurant/read-time-reserve.js";
 import type {DiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
@@ -15,7 +16,7 @@ import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-e
 import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import { BrowserReadDecisionError, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
-import { restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
+import { restaurantDiscoveryPacks, type DiscoverySourcePack, type SourcePackListingOutlet } from "./source-packs.js";
 
 type Location = NonNullable<NonNullable<RestaurantSearchRequest["continuation"]>["locationContext"]>;
 type SourceFlow = "DIRECTORY" | "VENUE_SEARCH";
@@ -88,12 +89,12 @@ function retainedPendingEntries(
   });
 }
 
-export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], _expression: string,
-  location: { label: string; addressComponents?: Array<{ longText: string; shortText?: string }> } | undefined) {
+export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], expression: string,
+  location: { label: string; queryLabel?: string; addressComponents?: Array<{ longText: string; shortText?: string }> } | undefined) {
   const listing = pack.parseListing(current), empty = pack.browser!.isExplicitEmptyListing(current);
   const words = (text: string) => [...new Intl.Segmenter(undefined, { granularity: "word" }).segment(normalizedTextKey(text.normalize("NFKD").replace(/\p{M}/gu, "")))].filter(segment => segment.isWordLike).map(segment => segment.segment);
   const base = location ? words(location.label).join("") : "";
-  const names = new Set(base ? [base] : []);
+  const names = new Set([base, location?.queryLabel ? words(location.queryLabel).join("") : ""].filter(Boolean));
   // A component belongs to this place's name only when one of its own names
   // corresponds to the resolved display name. Do not accept its parent city or
   // country merely because it occurs in the same address response.
@@ -102,15 +103,28 @@ export function sourceListingCompletion(pack: DiscoverySourcePack, current: Brow
     if (aliases.includes(base)) for (const alias of aliases) if (alias) names.add(alias);
   }
   const observed = words(current.text);
-  const locationBound = !location || [...names].some(name => observed.some((_, start) => {
-    let joined = "";
-    for (let end = start; end < observed.length && joined.length < name.length; end++) {
-      joined += observed[end]; if (joined === name) return true;
+  const contains = (tokens:string[], name:string) => tokens.some((_,start)=>{
+    let joined="";
+    for(let end=start;end<tokens.length && joined.length<name.length;end++){
+      joined+=tokens[end];if(joined===name)return true;
     }
     return false;
-  }));
-  return { complete: locationBound && (listing.outlets.length > 0 || empty), resultBusy: pack.browser!.resultBusy(current),
-    reason: locationBound ? "Read stable source-owned public results for the requested location." : "Requested location is not confirmed in visible result text; an input value does not establish location.",
+  });
+  const locationBound = !location || [...names].some(name=>contains(observed,name));
+  // The document title and visible primary headings describe the whole result
+  // scope. Card text, input values and menu options cannot establish that scope.
+  const headings: string[] = [];
+  const text = (node: DefaultTreeAdapterMap["node"]): string => "value" in node ? node.value : "childNodes" in node ? node.childNodes.map(text).join(" ") : "";
+  const visit = (node: DefaultTreeAdapterMap["node"]): void => {
+    if ("tagName" in node && node.tagName === "h1") headings.push(text(node));
+    else if ("childNodes" in node) for (const child of node.childNodes) visit(child);
+  };
+  if (current.visibleHtml) visit(parse(current.visibleHtml));
+  const scope = words([current.title,...headings].join(" "));
+  const query=pack.browser!.retrievalExpression(current.url),criterion=words(expression).join("");
+  const retrievalBound=!criterion || (query!==undefined && contains(words(query),criterion)) || contains(scope,criterion);
+  return { complete: locationBound && retrievalBound && (listing.outlets.length > 0 || empty), resultBusy: pack.browser!.resultBusy(current),
+    reason: !locationBound ? "Requested location is not confirmed in visible result text; an input value does not establish location." : !retrievalBound ? "The source query, document title and visible primary heading do not confirm the retrieval expression for the whole list; card, menu and input text are not scope evidence." : "Read stable source-owned public results for the requested location.",
     resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
 }
 
@@ -188,15 +202,41 @@ function groundedNativeCandidate(input: {
   };
 }
 
-/** Conservative dedup: an observed shared provider ID or full phone+address.
- * A website pointer/name resemblance alone never merges two outlets. */
-export function mergeDiscoveryCandidates(primary:RestaurantCandidate[],supplement:RestaurantCandidate[]){
+/** Same-read source identity checks against details already parsed by the pack.
+ * A website pointer or a name is never itself a binding. */
+export function verifiedDiscoveryIdentities(pack:DiscoverySourcePack,candidates:readonly RestaurantCandidate[],details:readonly SourcePackListingOutlet[],evidence:readonly RestaurantReadEvidence[]):RestaurantReadEvidence[]{
+  if(!pack.browser)return [];
+  const supported=details.filter(outlet=>evidence.some(e=>e.kind==="DISCOVERY"&&e.provider===pack.browser!.provider&&e.sourceEntityId===outlet.sourceEntityId&&e.sourceUrl===outlet.sourceUrl));
+  return candidates.flatMap(candidate=>{
+    const match=pack.browser!.resolveDetailIdentity(candidate,supported),outlet=match.outlet;
+    if(match.confidence!=="HIGH"||!outlet)return [];
+    const source=evidence.find(e=>e.kind==="DISCOVERY"&&e.provider===pack.browser!.provider&&e.sourceEntityId===outlet.sourceEntityId&&e.sourceUrl===outlet.sourceUrl)!;
+    return [{...structuredClone(source),evidenceId:`evidence:restaurant:discovery-identity:${createHash("sha256").update(JSON.stringify({candidateId:candidate.restaurant.id,source:source.evidenceId})).digest("hex").slice(0,24)}`,
+      candidateId:candidate.restaurant.id,kind:"ENTITY_MATCH" as const,entityMatch:{confidence:"HIGH" as const,matchedBy:[...match.matchedBy]},
+      claims:{...source.claims,corroboratingCandidateId:source.candidateId??candidate.restaurant.id}}];
+  });
+}
+
+/** Merge only equal verified provider identities; unknown/conflicting identities
+ * stay separate. Keep primary navigation and every corroborating source ID. */
+export function mergeDiscoveryCandidates(primary:RestaurantCandidate[],supplement:RestaurantCandidate[],evidence:readonly RestaurantReadEvidence[]){
   const candidates=structuredClone(primary),aliases=new Map<string,string>();
-  const text=(v:string|undefined)=>v?.normalize("NFKC").replace(/\s+/gu," ").trim().toLowerCase();
-  const phone=(c:RestaurantCandidate)=>c.restaurant.sourceIds.phone?.replace(/\D/gu,"");
+  const bindings=(id:string)=>evidence.filter(e=>(aliases.get(e.candidateId??"")??e.candidateId)===id&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH"&&e.sourceEntityId&&e.sourceUrl);
+  const equal=(left:RestaurantReadEvidence,right:RestaurantReadEvidence)=>left.provider===right.provider&&left.sourceEntityId===right.sourceEntityId;
+  const same=(left:string,right:string)=>{
+    const a=bindings(left),b=bindings(right),all=[...a,...b];
+    if(all.some(x=>all.some(y=>x.provider===y.provider&&!equal(x,y))))return false;
+    return a.some(x=>b.some(y=>equal(x,y)));
+  };
   for(const candidate of supplement){
-    const duplicate=candidates.find(c=>c.restaurant.id===candidate.restaurant.id||Boolean(c.restaurant.sourceIds.googlePlaces&&c.restaurant.sourceIds.googlePlaces===candidate.restaurant.sourceIds.googlePlaces)||Boolean(phone(c)&&phone(c)===phone(candidate)&&text(c.restaurant.address)&&text(c.restaurant.address)===text(candidate.restaurant.address)&&text(c.restaurant.outletName)===text(candidate.restaurant.outletName)));
-    if(duplicate){aliases.set(candidate.restaurant.id,duplicate.restaurant.id);continue;}
+    const duplicate=candidates.find(c=>c.restaurant.id===candidate.restaurant.id||same(c.restaurant.id,candidate.restaurant.id));
+    if(duplicate){
+      aliases.set(candidate.restaurant.id,duplicate.restaurant.id);
+      duplicate.restaurant.sourceIds={...candidate.restaurant.sourceIds,...duplicate.restaurant.sourceIds};
+      duplicate.matchReasons=[...new Set([...duplicate.matchReasons,...candidate.matchReasons])];
+      duplicate.warnings=[...new Set([...duplicate.warnings,...candidate.warnings])];
+      continue;
+    }
     candidates.push(structuredClone(candidate));
   }return {candidates,aliases};
 }
@@ -252,7 +292,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     location: Location, query: DiscoveryQuery, signal: AbortSignal,
     priorProgress?: NativeSourceProgress,
   ): Promise<{
-    candidates: RestaurantCandidate[]; evidence: RestaurantReadEvidence[];
+    candidates: RestaurantCandidate[]; evidence: RestaurantReadEvidence[]; identities:SourcePackListingOutlet[];
     candidateFailures: Array<{ sourceUrl: string; reasonCode: string }>;
     progress: NativeSourceProgress & { pendingSourceEntries: PendingSourceEntry[]; visitedListingUrls: string[]; elapsedMs: number };
     funnel: NonNullable<RestaurantSearchRead["metadata"]["nativeDiscoveryFunnel"]>;
@@ -263,6 +303,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const known = new Map((previous?.pendingSourceEntries ?? []).map(entry => [entry.sourceUrl, entry]));
     const inspected = new Set(previous?.inspectedSourceIds ?? []);
     const attempted = new Set<string>();
+    const identities:SourcePackListingOutlet[]=[];
     const rejected: Array<{ sourceUrl: string; reasonCode: string }> = [];
     const candidateFailures: Array<{ sourceUrl: string; reasonCode: string }> = [];
     const listings: NonNullable<NonNullable<RestaurantSearchRead["metadata"]["nativeDiscoveryFunnel"]>["listingObservations"]> = [];
@@ -312,7 +353,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       },
     });
     executor.beginCandidate(`native-discovery:${source}`); executor.beginProvider(`native-discovery:${source}`,source,"DISCOVERY");
-    const remainingEntries = () => [...known.values()].filter(entry=>!inspected.has(entry.sourceEntityId));
+    const related = (entry:PendingSourceEntry) => Boolean(query.keyword && entry.sourceCategories?.some(category=>normalizedTextKey(category).includes(normalizedTextKey(query.keyword!))));
+    // Source category text is an advisory order within the existing detail cap,
+    // never HARD verification. Preserve source order among equally related cards.
+    const remainingEntries = () => [...known.values()].filter(entry=>!inspected.has(entry.sourceEntityId)).sort((a,b)=>Number(related(b))-Number(related(a)));
     let session: BrowserSession | undefined;
     try {
       if(elapsedBefore>=NATIVE_SOURCE_ELAPSED_CAP_MS || (previous?.detailAttempts??0)>=NATIVE_DETAIL_SOURCE_CAP || (previous?.pagesRead??0)>=NATIVE_LISTING_PAGE_CAP[source]) throw Object.assign(Error("Source read ceiling already reached"),{code:"READ_BUDGET_EXCEEDED"});
@@ -329,7 +373,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           const result=await executor.runSkill({taskId:request.readRunId??`native-discovery:${source}`,source,stage:"DISCOVERY",signal,session,allowedOrigins:pack.documentOrigins,
             ...(pack.skillPath?{sourceSkillPath:pack.skillPath}:{}),requireModelConfirmation:true,
             goal:{outlet:{name:request.intent.target?.query??""},location:{...location,name:location.label},...(expression?{retrievalExpression:expression,retrievalSource:"CUISINE" as const}:{}),hardCriteria:request.intent.criteria.filter(c=>c.polarity==="POSITIVE"&&c.strength==="HARD").map(c=>c.text)},
-            objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list visibly confirms that location and is relevant. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
+            objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list confirms the location and the retrieval expression has been applied to the whole result scope. A broad parent category or a matching merchant card does not establish that scope. When the current menu lacks the exact retrieval expression and no keyword input is available, follow a relevant observed parent category link to inspect its finer categories; after navigation, reopen the current category menu if it is collapsed and continue drilling down. When an expanded category menu still offers unexplored broader or catch-all category links, prefer following those observed category links to inspect finer choices rather than toggling an unrelated auxiliary filter that closes the menu. If a filter dialog or panel offers no usable filtering control, close it using its own visible close button before interacting with the page behind it. Continue using currently observed query controls or category links until the source query, document title or visible primary heading confirms the requested scope. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
             onQuerySubmitted: owner => { submittedOwners.add(owner); },
             completion:(page,controls)=>{
               const document = new URL(page.url); document.hash = "";
@@ -369,7 +413,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             const coordinates=identity&&pageCoordinates(page,identity.outletName);
             if(!identity||!coordinates){rejected.push({sourceUrl:page.url,reasonCode:identity?"PAGE_COORDINATES_MISSING":"PAGE_IDENTITY_MISSING"});continue;}
             const grounded=groundedNativeCandidate({source:pack,sourceId:identity.sourceEntityId,sourceUrl:identity.sourceUrl,name:identity.outletName,address:identity.address!,coordinates,location,request,observedAt:this.now(),...(entry.sourceCategories?{sourceCategories:entry.sourceCategories}:{}),...(entry.listingScope?{listingScope:entry.listingScope}:{}),...(identity.phone?{phone:identity.phone}:{})});
-            if(grounded)admitted.set(grounded.candidate.restaurant.id,grounded);
+            if(grounded){admitted.set(grounded.candidate.restaurant.id,grounded);identities.push(identity);}
             else rejected.push({sourceUrl:page.url,reasonCode:"OUTSIDE_EXACT_RADIUS"});
           }catch(error){
             if(taskLevelFailure(error,signal)||!inspected.has(entry.sourceEntityId))throw error;
@@ -380,9 +424,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       }
       const resultProgress={...progress(),...(nextListing?{nextListing}:{})};
       const resultFunnel=funnel();resultFunnel.sourceEnded=sourceEnded()||stopped&&!nextListing&&!remainingEntries().length;
-      return{candidates:[...admitted.values()].map(item=>item.candidate),evidence:[...admitted.values()].map(item=>item.evidence),candidateFailures,progress:resultProgress,funnel:resultFunnel};
+      return{identities,candidates:[...admitted.values()].map(item=>item.candidate),evidence:[...admitted.values()].map(item=>item.evidence),candidateFailures,progress:resultProgress,funnel:resultFunnel};
     }catch(error){
-      if(error&&typeof error==="object")Object.assign(error,{nativeAccepted:[...admitted.values()],nativeProgress:{...progress(),...(nextListing?{nextListing}:{})},nativeFunnel:{...funnel(),progressionReason:"SOURCE_FAILURE"}});
+      if(error&&typeof error==="object")Object.assign(error,{nativeIdentities:identities,nativeAccepted:[...admitted.values()],nativeProgress:{...progress(),...(nextListing?{nextListing}:{})},nativeFunnel:{...funnel(),progressionReason:"SOURCE_FAILURE"}});
       throw error;
     }finally{await executor.close();}
   }
@@ -442,7 +486,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       read.continuation!.deferredSources = deferredSources;
       return read;
     }
-    let batch: Awaited<ReturnType<NativeRestaurantSearch["batch"]>> = { candidates: [], evidence: [], candidateFailures: [],
+    let batch: Awaited<ReturnType<NativeRestaurantSearch["batch"]>> = { candidates: [], evidence: [], identities:[], candidateFailures: [],
       progress: {
         retrieval:request.continuation?.sourceProgress?.retrieval??{rewrites:0,regionPages:0,retrievalPages:0,history:[]},
         sourceId: entry.sourceId,
@@ -485,7 +529,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       }
       if (error && typeof error === "object" && "nativeAccepted" in error) {
         const accepted = error.nativeAccepted as Array<{candidate: RestaurantCandidate; evidence: RestaurantReadEvidence}>;
-        batch = {...batch, candidates: accepted.map(item => item.candidate), evidence: accepted.map(item => item.evidence)};
+        batch = {...batch, candidates: accepted.map(item => item.candidate), evidence: accepted.map(item => item.evidence),identities:"nativeIdentities" in error?error.nativeIdentities as SourcePackListingOutlet[]:[]};
       }
       failureCode = error && typeof error === "object" && "code" in error && typeof error.code === "string"
         ? restaurantFailureCode(error.code, "SEARCH_FAILED") : restaurantFailureCode(`${source}_NATIVE_DISCOVERY_FAILED`, "SEARCH_FAILED");
@@ -531,8 +575,10 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     if(request.intent.target?.selectionScope!=="SPECIFIC_OUTLET"&&next&&structured&&!structured.browser&&!signal.aborted){
       try{
         const extra=await this.search({...request,continuation:result.continuation!},signal);
-        const merged=mergeDiscoveryCandidates(result.candidates,extra.candidates);
-        return {...result,candidates:merged.candidates,evidence:[...result.evidence,...extra.evidence.map(e=>({...e,...(e.candidateId&&merged.aliases.has(e.candidateId)?{candidateId:merged.aliases.get(e.candidateId)!}:{})}))],
+        const identityEvidence=verifiedDiscoveryIdentities(pack!,[...result.candidates,...extra.candidates],batch.identities,result.evidence);
+        const combinedEvidence=[...result.evidence,...extra.evidence,...identityEvidence];
+        const merged=mergeDiscoveryCandidates(result.candidates,extra.candidates,combinedEvidence);
+        return {...result,candidates:merged.candidates,evidence:combinedEvidence.map(e=>({...e,...(e.candidateId&&merged.aliases.has(e.candidateId)?{candidateId:merged.aliases.get(e.candidateId)!,claims:{...e.claims,mergedCandidateId:e.candidateId}}:{})})),
           ...(extra.continuation?{continuation:{...extra.continuation,...(extra.continuation.currentDiscoveryBatch?{currentDiscoveryBatch:{...extra.continuation.currentDiscoveryBatch,candidateIds:extra.continuation.currentDiscoveryBatch.candidateIds.filter(id=>!merged.aliases.has(id))}}:{})}}:{}),metadata:{...result.metadata,latencyMs:Date.now()-startedAt,googleRequests:this.locality.googleRequestUsage(request.readRunId),supplementaryDiscovery:{sourceId:next.sourceId,status:"COMPLETED",candidateCount:extra.candidates.length}}};
       }catch(error){
         if(taskLevelFailure(error,signal))throw error;

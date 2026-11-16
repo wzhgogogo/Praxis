@@ -63,12 +63,12 @@ test("native listing completion rejects unbound location even with restaurant ca
  const page:BrowserSnapshot={url:"https://tabelog.com/en/rstLst/",title:"Results",text:"Restaurants",html:'<a href="/en/tokyo/A1323/A132305/13108466/">Dengana</a>',settlement:"SETTLED"};
  assert.equal(sourceListingCompletion(pack,page,[],"kushikatsu",{label:"Akabane"}).complete,false);
  assert.equal(sourceListingCompletion(pack,{...page,text:"Recommendations near Akabanebashi"},[],"kushikatsu",{label:"Akabane"}).complete,false);
- assert.equal(sourceListingCompletion(pack,{...page,text:"Restaurants in AKABANE"},[],"kushikatsu",{label:"Akabane"}).complete,true);
+ assert.equal(sourceListingCompletion(pack,{...page,text:"Restaurants in AKABANE"},[],"",{label:"Akabane"}).complete,true);
 });
 
 for(const [place,visible] of [['Shimo-Kitazawa','Shimokitazawa'],['Shimokitazawa','Shimo Kitazawa'],['Higashi-Ginza','Higashiginza'],['Kōenji','Koenji']])test(`native source location formatting: ${place} / ${visible}`,()=>{
  const page:BrowserSnapshot={url:'https://tabelog.com/en/rstLst/',title:'Results',text:`Restaurants in ${visible}`,html:'<a href="/en/tokyo/A1323/A132305/13108466/">Dengana</a>',settlement:'SETTLED'};
- assert.equal(sourceListingCompletion(tabelogDiscoveryPack,page,[],'kushikatsu',{label:place!}).complete,true);
+ assert.equal(sourceListingCompletion(tabelogDiscoveryPack,page,[],'',{label:place!}).complete,true);
 });
 
 test('source place aliases use the corresponding component, never its parent address name',()=>{

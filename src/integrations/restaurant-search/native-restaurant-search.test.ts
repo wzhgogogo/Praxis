@@ -85,7 +85,7 @@ test("saved h06 bare named location reaches native source discovery with the obs
   assert.deepEqual(queries, [intent.area.query, `${intent.addCriteria[0].text} ${observed.displayName.text}`]);
   assert.deepEqual(result.continuation?.locationContext, {
     latitude: observed.location.latitude, longitude: observed.location.longitude, radiusMeters: 1000,
-    label: observed.displayName.text, areaMatchBasis: "NAMED_PLACE_RADIUS",
+    label: observed.displayName.text, queryLabel: intent.area.query, areaMatchBasis: "NAMED_PLACE_RADIUS",
   });
   assert.equal(google.googleRequestUsage("saved-h06-named-place").namedPlaceResolution, 1);
   assert.equal(google.googleRequestUsage("saved-h06-named-place").discovery, 1);

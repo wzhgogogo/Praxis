@@ -1,0 +1,9 @@
+# Post-fix seed validation preparation — 2026-11-11 CET
+
+Accepted scope: preserve facts batch partial completion, AgentPrompt32, observation reuse/confirmedFields and bb55 health/identityOnly fixes. Both discovery prompt files byte-identical to ead28945, browserPrompt24. User explicitly authorizes main integration and four new Live attempts (07x2 then D02-Vx1–2), no main-workspace draft edits.
+
+Code gates on clean ae851693: typecheck/architecture/build PASS, default1590/1590, Chromium281/281, G6 159/159 including recorded07 batch and D02-V component regressions/D4/D8. Product hardcoded additions relativeead28945:0. First default run hit V8 ThreadIsolation/WASM fatal process failure; untouched log retained; subsequent full default pass, no test assertions removed or runtime workaround added.
+
+Derived external ledger initialSHA bc55ac6794e8430e0121c86c656da0d403b843f090a8571c891c2499fabe6afd; inherits all281 rows and cumulative36Live/185GET/2328models/env2, onlylimitsLive40 and newauthorization/ledger identity/outputbinding changed. OldledgerSHA remains e78bd8c7fbf2d40fe98d8bb871d1a09198d65c8636b4fa503773e97453b34fcd. Available4Live/35GET/472models/2env. Health charge IDs now include canonical output-root hash to avoid inherited07 charge IDs; actual-composition regression inherits an old health row and verifies no mutation or duplicate charges. PriorRoot accepts completed07-only two-slot batch; failedS0/duplicates/incomplete rejected. No evaluation rule or product time limit changes.
+
+0 real calls during preparation. Hash-only manifest validation confirms original/manifest commitments and07x2 plan; no manual private input reading. After independent clean-main integration, freeze exactsourceSHA for new output roots, use env-file only. Stop on S0/health/environment/unknown failures, preserve pending qualification/G1 reviews without inventing annotations. Reports/complete artifacts on separate evidence branch afterward.

@@ -20,6 +20,7 @@ import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/
 import type { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
 import {
   browserReadActionTargetReplayFingerprint,
+  browserReadGroupReplayFingerprint,
   decodeBrowserReadActionWire,
   safeActionWireRecord,
   type BrowserActionWireRecord,
@@ -407,7 +408,7 @@ export function createFrozenReplayBrowserDecision(
       if (!wire) throw Object.assign(new Error("Replay has no frozen browser wire for this action"), { code: "REPLAY_ACTION_NO_COVERAGE" });
       cursor += 1;
       if (wire.extras.length) throw Object.assign(new Error("Replay wire contained rejected extra fields"), { code: "REPLAY_ACTION_NO_COVERAGE" });
-      const currentTargetRefs = new Set(input.observation.targets.map((target) => target.ref));
+      const currentTargetRefs = new Set([...input.observation.targets.map((target) => target.ref),...(input.observation.controlGroups??[]).map(group=>group.ref)]);
       const rebound = REPLAY_PAGE_ACTIONS.has(wire.action) ? undefined
         : input.observation.targets.filter(candidate => wire.targetFingerprint
           && browserReadActionTargetReplayFingerprint(candidate) === wire.targetFingerprint);
@@ -419,8 +420,11 @@ export function createFrozenReplayBrowserDecision(
       }
       // The original rationale is intentionally unavailable. Its fixed value
       // meets the strict decoder but cannot introduce untrusted source text.
+      const valueGroups=wire.action==="ADVANCE_TO_AUTHORITATIVE"?(input.observation.controlGroups??[]).filter(g=>wire.valueGroupFingerprint&&browserReadGroupReplayFingerprint(input.observation.targets.filter(t=>t.controlGroupRef===g.ref))===wire.valueGroupFingerprint):[];
+      if(wire.action==="ADVANCE_TO_AUTHORITATIVE"&&valueGroups.length!==1)throw Error("REPLAY_VALUE_GROUP_NOT_REBOUND");
       const frozenWire = {
         action: wire.action,
+        ...(valueGroups.length?{valueGroupRef:valueGroups[0]!.ref}:{}),
         targetRef: rebound?.[0]?.ref ?? wire.targetRef,
         authoritativeField: wire.authoritativeField,
         requestedState: wire.requestedState,

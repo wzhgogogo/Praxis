@@ -1,0 +1,5 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/infrastructure/browser/browser-task-executor.test.ts(1269,266): error TS2741: Property 'outlet' is missing in type '{ date: string; partySize: number; timeWindow: { earliest: string; latest: string; }; hardCriteria: never[]; }' but required in type 'BrowserReadGoal'.

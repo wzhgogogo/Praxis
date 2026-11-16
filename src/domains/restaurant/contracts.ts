@@ -347,6 +347,8 @@ export interface RestaurantSearchContinuation {
     longitude: number;
     radiusMeters: number;
     label: string;
+    /** Literal place query bound to the source's named-location resolution. */
+    queryLabel?: string;
     areaMatchBasis: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
       addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>;
       addressObservation?: LocationAddressObservation;

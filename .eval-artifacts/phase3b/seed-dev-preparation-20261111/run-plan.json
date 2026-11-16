@@ -1,0 +1,26 @@
+{
+  "mode": "EXPOSED_DEVELOPMENT_LIVE_READ_NOT_HOLDOUT",
+  "caseIds": [
+    "p3b-holdout-03",
+    "p3b-holdout-07"
+  ],
+  "repetitions": 2,
+  "plannedLive": 4,
+  "reserveLiveForD02": 2,
+  "output": ".eval-artifacts/phase3b/seed-dev-20261111",
+  "originalSHA256": "8bf81a780de4a63570a4baac1ae19bc420cf8c16877475a44a177f8f3c5fa9b6",
+  "manifestSHA256": "e0aabdf178724d4193dab20a126df99e14173283df10f7c680fe6ec11e31bc68",
+  "commitment": ".eval-artifacts/phase3b-holdout/commitment-r2.json",
+  "healthWindowMs": 60000,
+  "pacingMs": [
+    120000,
+    240000
+  ],
+  "budgets": {
+    "perTurnModelCalls": 50,
+    "turnMs": 500000,
+    "providerMs": 45000,
+    "entryTotalMs": 20000
+  },
+  "stop": "Any runner stop: preserve original directory; push evidence branch; await review, no automatic resume"
+}

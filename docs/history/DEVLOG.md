@@ -1,3 +1,63 @@
+<a id="g1-window-media-closeout-20261116"></a>
+
+2026-11-16 — 待以本次复核提交整合 main；已完成离线与本地 Chromium 验证，D8 线上 Live 待冻结主线 SHA 后验证。本轮源码/测试冻结 `a5c4597b0031881e8e765888451a22785a32fb98`：实时快照刷新本次正文变化，G1 500ms 窗口不再继承旧 wait 标志；静态明确标记当前变化仍拒答。导航后不用旧 URL previous；显式 ARIA 忙态与混合图文条款卡片保留阻断。真实 Nakamata 包间原句引用验收，旧不透明地图与 8 个淡出图片骨架通用契约保持。0 Live / 0 网站 GET / 0 真实模型调用；旧批次原报告不改写。[本次简报](../reviews/G1-WINDOW-MEDIA-CLOSEOUT-20261116.md)。
+
+<a id="g1-query-readback-20261116"></a>
+
+2026-11-16 — draft / not integrated：G1 当前正文/全部在途请求复检与同控件选项回读两项离线修复。保留原生 value、Guard 3 秒规则和 B1 身份/请求/库存双校验；真实 Nakamata DOM/CSS 结合明确构造交互，经生产组装验证。线上库存未验证；0 Live / 0 网站 GET / 0 真实模型。五项净树门禁及保护哈希以本批次原始日志为准；仅本地提交，不推送、不合 main。[简报](../reviews/G1-BODY-QUERY-READBACK-20261116.md)。
+
+<a id="observed-suggestions-20261116"></a>
+
+2026-11-16 CET — Observed ownerless suggestions: protected Discovery exposes visible, enabled, unobstructed non-submitting options. Equal normalized full labels in the same list group suppress all duplicates; hidden/disabled/obstructed copies do not suppress a unique usable option. Owned combobox rules remain unchanged. Same-tab path change + current post-action reviewed GET200 receipt + SETTLED permits handoff only; adapter identity still requires HIGH. Two downstream branch counterexamples pass; 17 Tabelog messages remain byte-identical. Original duplicate failure is preserved. Main/date message hashes remain identical; raw-control suffix construction renumbers opaque refs, so its old hash is not claimed unchanged. Corrected duplicate and suffix serialize identically: the fifth real DeepSeek call chose Search and passed Schema16 for that exact input. Total model calls5/5, website GET0, Live0. Full clean-tree gates and one authorized D8 Live (1Live/8GET/50model/0rerun) remain the release gate.
+
+<a id="terminal-observe-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：终端snapshot-only完成与Skill引导四文件修复，源码67a949d7净树全门禁PASS：type/arch/build、默认1644、Chromium287、G6 159，0跳过；含web-skills的双完整SHA与增量新增产品扫描0。9856真实DOM/HAR红→绿，终端扫描1→0且20:30原响应提取成立；PENDING稳定/未确认控件/默认控件检查保持，最终来源谓词与整列表范围逐字不变。分类/动作文案只验证接线，不声称真实模型导航已修。首次稀疏检出缺材料失败原样保留，恢复同提交材料后全绿。主草稿/四账本/9856证据哈希一致；0Live/0GET/0真实模型，仅分支待复核，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/terminal-observe-20261113/report.md)。
+
+<a id="party-category-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：人数来源响应独立进度与分类objective四文件最小修复。原可见选态解析逐字导出复用；最终库存complete、CapturedSlots、observedDate、ground及整列表范围校验不变。源码ea93f6c4净树全门禁PASS：type/arch/build、默认1632、Chromium286、G6 159；定向26与真实两店组件2通过，双完整SHA及增量新增产品扫描0。真实DOM/HAR先红后绿，人数确认后转日历，未构造未来日期/库存；objective仅请求输入验证，真实模型遵循待验。主草稿及6账本哈希不变，0Live/0GET/0真实模型；不合main、不跑held-out。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/party-category-20261113/report.md)。
+
+<a id="browser-strict-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：浏览器严格schema16修复fd5597fe，valueGroupRef列入required并约定非推进空字符串；gateway实际序列化合同先红后绿。净树全门禁PASS（默认1628、Chromium284、G6 159），双完整SHA新增产品扫描0，动作/Guard/身份/G1/时限/预算不变。旧失败/账本/主草稿保留，用户批准新独立单次Live，结果另录；未合main。[报告](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/browser-strict-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：浏览器严格wire schema16补齐valueGroupRef required，非推进动作用空字符串；未改动作选择/Guard/身份/G1/时限/预算。通过实际gateway序列化的独立strict合同先红后绿，定向23项通过；待同SHA全门禁后按用户新增额度一次D02-V Live。旧失败和四账本/主草稿保留，尚无新增真实调用。
+
+<a id="r2-scope-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/r2-scope-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：r2请求范围修复候选，承接通用推进a9b1fad8。发现完成只接受当前来源query、document.title或可见h1的整列表菜系证据，无query不再自动通过，单卡/菜单文字不作列表范围；无菜系目录行为不变。r2/B真实DOM定向31项通过，精确目录产出来源直达URI且查位不重做名称搜索。Prompt27，无站点规则/URL构造/强制动作序列；45/90s、权限与预算不变，0外部调用，待完整门禁。[计划](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/r2-scope-20261112/plan.md)。
+
+<a id="advance-control-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：通用权威控件推进源码b18a6343净树全门禁PASS（默认1621、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA扫描0。模型一次选择控件/字段/值域，执行器只推进同一稳定控件并逐步Guard/settle/观察，无中间模型，不自动选中或声明有位。真实录制人数/跨组日历通过；D02V组件5→4次、44.508→41.870秒，人数r1避免1次原17,215token/4.698s调用，日历单步无节省；均为投影非Live。0Live/0GET/0真实模型，主草稿/四账本不变，评价器/历史评价不改。新Prompt真实模型采用率待验，仅工作分支、不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/advance-control-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：通用权威控件推进。模型选择推进控件、权威字段和值域组，执行器在原操作/45秒窗口内重绑同一稳定控件并click→settle→观察，中间无模型；跨组日历不再按Calendar标签并组，目标出现交还模型。D02V真实DOM人数/日历初步回归绿，人数少1次调用/原延迟投影4.698s，日历单步无节省；待同SHA全门禁，不作为Live。[计划](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/advance-control-20261112/plan.md)。
+
+2026-11-12 CET — draft / not integrated：同店候选合并源码cff31e94净树完整门禁type/arch/build、默认1610、Chromium281、G6 159及D4/D8/D02-V通过；双基线ead28945/105a8b0a新增产品写死0。既有合并改用本次详情经原身份核对器得到的HIGH同provider/sourceEntityId，无证/LOW/冲突不合并；保留原生导航与Google佐证，不新增I/O。r1组件由两候选两查询变为一候选一次查询一B1；03r1/r2及07r1/r3候选池与交付不变。独立补评三项B1/身份/原响应核对成立，资格两项旧评测器重评PASS，补评QUALIFIED_DELIVERY/qualified=true/s0=0并保留重复展示产品缺陷；原自动评价/评价器不改，自动别名B1缺证结果另存不伪装为自动PASS。0Live/0GET/0模型，主草稿及三旧+r4账本哈希一致，r4余1/9/73。仅工作分支、不合main、不跑r2。[简报](https://github.com/wzhgogogo/Praxis/blob/4eb7900d7345e3cbb6d990477fecaaedc624b033/.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
+
+2026-11-12 CET — draft / not integrated，D02-V权威地点与名称搜索快照修复：源码冻结5a2ec0742e78e4c7e3c0ae6b24e692999d1779cf。label填写/queryLabel目录绑定、Prompt25父行政区一致与可见回退、searched.snapshot复用。66项定向修前3红/修后全绿；净树type/arch/build、默认1598、Chromium281+G6 159，D4/D8及D02-V组件全绿。用户改定双基线ead289450092ccc30798b754d1e0771462bf08bd和ca4deca1d67bd6ce795f31d55757583f7bb09258，新增产品写死均0。满天8人计时44.508s为组件投影；Sumika录制仅2人，8人不确认。0模型/0网站GET/0Live，主草稿与旧账本哈希不变；仅推工作分支，不合main。[一页简报](https://github.com/wzhgogogo/Praxis/blob/0f8fcfa7b3973450b0992ba46ed66285128ef6bb/.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
+
+<a id="seed-d02v-location-snapshot-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：D02-V局部修复，LOCATION填写恢复权威label，queryLabel保留目录绑定；浏览器Prompt25澄清上级行政区一致及可见回退导航；名称搜索复用完成快照。66项定向测试修前3红/修后全绿，typecheck通过，待冻结完整门禁。真实调用0；Sumika原录制仅2人，不冒充8人验收；满天8人计时为组件投影。ec839926远端不可解析，双基线扫描待补。见[一页简报](https://github.com/wzhgogogo/Praxis/blob/0f8fcfa7b3973450b0992ba46ed66285128ef6bb/.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
+
+2026-11-11 CET — seed r3 integration preparation：用户批准只将bd01a402的src/docs合入main（不含新.eval-artifacts），PENDING结算复用/queryLabel/文本查询范围/分类相关度导航修复进入主线；修后新Live尚未验证。旧07-r1已独立补评QUALIFIED_DELIVERY/s0=0，原证据在bd01a402分支。仅eval同步新账本校验43Live/235GET/2800模型/4环境。净树门禁后冻SHA，按D02-V两次→07-r3一次串行验证；07-r3为新单次批次逻辑名，内部槽位仍07-r1，旧目录不动。所有新计划/门禁/产物留独立证据分支，不合入main；旧账本及主工作区草稿不变。
+
+2026-11-11 CET — draft / not integrated，种子发现与settle复用修复：PENDING先结算后唯一控件扫描；来源绑定queryLabel保留原始地名；来源包文本查询需体现权威检索词，目录浏览不受影响。真实Nakano列表Sumika第12，故以来源分类字面相关度排序详情读取，原5/10上限及HARD门槛不变。07-r2 Google实际HTTP200空对象，非跳过；其列表DOM被旧Recorder拒录，组件构造与真实D02 DOM分开。07-r1独立来源分类/完整地址及502m半径补评已按reviewHoldoutAttempt收口QUALIFIED_DELIVERY/qualified=true/s0=0，原评价保留。0模型/0Live/0网站GET；85a72f2d净树门禁type/arch/build、默认1596、Chromium281+G6 159全绿，D4/D8及录制回归保持；新增产品扫描0。推送后停，不合main。[计划](https://github.com/wzhgogogo/Praxis/blob/bd01a4024b7475b2464785eea42cb490771933d2/.eval-artifacts/phase3b/seed-discovery-settle-20261111/plan.md)。
+
+2026-11-11 CET — seed post-fix preparation / verified：用户接受前三项修复并要求回退地区发现Prompt；两文件恢复ead28945、浏览器Prompt24，Agent32保持。仅eval把Live40及新07-only前序校验接好；旧种子账本281条和所有计数不变，派生新账本继承并清除旧输出绑定。源码ae851693净树门禁type/arch/build、默认1590、Chromium281+G6 159全绿，产品扫描新增0；下一步独立净树合入origin/main、冻结，再跑07两次与D02-V最多两次；S0/环境/未知异常立即停。见 [计划](../../.eval-artifacts/phase3b/seed-post-fix-preparation-20261111/plan.md)。
+
+<a id="seed-root-causes-20261111"></a>
+
+2026-11-11 CET — draft / not integrated：07/D02-V通用根因修复候选，基线main ead28945并吸收bb55aa4d体检修补。普通单店事实失败保留批处理中已完成候选与证据；Agent优先补齐已有请求匹配AVAILABLE候选的必查事实，地区发现先应用仍可操作的retrievalExpression（仅Prompt）；新增来源确认字段视为进展，复用同会话观察及完成快照。07-r2真实组件红绿两家恢复可交付，D02-V真实DOM/HAR组件在原45s窗内44.508s完成12-10/8人/20:30；最后扫描耗时复用同店上一录制值，不能代表新Live。真实网站0Live/0GET；纯模型共3次：07首轮仍CHECK，Prompt32澄清后转为FACTS；D02转More filters而非COMPLETE，完整筛选仍未验证。首轮结果保留。源码6ca80a4c同版本完整门禁通过：type/arch/build、默认1590、Chromium281及G6 158，D4/D8回归保持；相对ead28945新增产品写死命中0。strict G2全12 PASS。仅工作分支候选，待复核，不合main。
+
+2026-11-11 CET — 种子前开发检查运行准备：仅src/eval增加正式--cases与--repetitions，整份承诺校验不变；计划哈希固定续跑，虚构2例×2次/排除其他槽位/计划漂移拒绝通过。源码b8af6960净树type/arch/default1588/build/G6 154全绿，扫描0；产品及前端代码相对已合入1bc8ec31无改动。原R2原文件/清单仅运行器--validate-only核对，8bf81a78…/e0aabdf1…一致，03/07各2次计划已冻结。独立开发账本初始SHA4f5e7af8，继承30Live/154GET/2092模型，旧R2账本不改；发布main后立即运行，不另取探查。本条时点新增真实调用0。
+
 2026-11-11 CET — 用户复核接受种子前A1–A4工作分支84d70fb2（源码f385191e）：允许从main249826cc快进合入；产品源码不改，原同SHA完整门禁1586/Chromium279+G6 154/strictG2全12复用。下一步仅eval选择03/07各2次开发检查，旧R2结果/账本保持；新账本继承30/154/2092，剩余6Live/66GET/708模型，其中2Live留D02。前端slice2需同步main并重跑冒烟。真实调用尚未新增。
 
 <a id="seed-readiness-20261111"></a>
@@ -6141,6 +6201,36 @@ First723191af default failure preserved; fictional chain responses now explicitl
 
 2026-11-10 CET — main9572d99b（产品12deae74）D01/D02各一次结束：均EVALUATED/CAPABILITY_MISS/qualified=false/s0=0，无交付；46调用189.8s、47调用156.8s，93次API均返回。原生发现5调用30.4s/5候选、7调用29.9s/0候选；TC地区均未执行。查位5/6家，各2家AVAILABLE但HARD未闭合；skips各2；通用NO_PROGRESS 0/2；两类入口重试均0。发现成本降，交付未改善；不追加Live。三轮health-only实际15分钟间隔，12/12均200且<10s。新增2Live/24GET/93模型，累计10/26、73/126、1332/2500。原425/871files/账本保持，held-out仍暂停。来源/限制和网络表：[一页报告](../../.eval-artifacts/phase3b/discovery-progress-20261110/report.md)。
 
+<a id="category-guidance-recorded-20261113"></a>
+## 2026-11-13 CET — 分类入口与权威值组引导（工作分支，未合 main）
+
+保留67a949d7终端跳过控件扫描；产品只改web-skills/tabelog/SKILL.md，恢复可见分类入口/父类重开、禁止额外筛选替代分类树，并明确推进动作必须引用实际日期/人数组。Okajoki没有这些组时请求帮助，不补造valueGroupRef。原生objective、执行器、Guard、G1、评价器、45/90秒均未改。
+
+真实DeepSeek对9个冻结公开录制帧逐帧9/9命中（见 [.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md)）；9模型、0网站GET、0Live，独立16调用上限余额7不使用。旧失败与旧账本保留。该结果不证明端到端网站导航/45秒交付；录制精确分类目录确有Sumika直达链接，仍须真实身份/查位才能交付。验证SHA `463f9aeb0016e46f699ce6f63d8131c41275cd6e`：typecheck、arch:check、build PASS；默认1644/1644、本地Chromium287/287、G6 159/159，0 skip，全部同SHA净树。两历史基线和5f8增量扫描0。 原门禁措辞断言失败已保留，仅同步相关测试的一条文案断言，未删除断言。
+
+<a id="disabled-party-phase-window-20261114"></a>
+## 2026-11-14 CET - disabled requested party and phase-window candidate (not integrated)
+
+User explicitly authorized three product files. Advance stops on an observed disabled requested count; date proof reuses the Adapter's existing confirmedFields.DATE or original public selected-date state. Ordinary controls do not add completion calls. Adapter retains PARTY_SIZE_NOT_SELECTABLE; Domain excludes futile FACTS only for the same request fingerprint and AVAILABILITY goal. Inventory remains UNKNOWN; recommendation/changed requests remain readable. After actual name search, finish its scope and start a fresh45s AVAILABILITY phase inside unchanged90s candidate/model/operation limits. Direct/identityOnly paths unchanged. Prompt/Skill/Guard/G1/evaluator unchanged.
+
+Actual630a DOM26->28->29...44 Chromium component: original17 advances/80 operations; fixed2 advances/20 operations, stops at DOM29. Original HAR45 carries date proof; native clicks then recorded DOM swap, no reconstruction of stripped site listeners or full-site replay claim. Eight targeted unit cases and both recorded components pass. 源码冻结4b4b56d2541a3039cecdce468d11e2072cf08429同SHA净树产品门禁全绿：typecheck、arch:check、默认1652/1652、build、Chromium289/289、G6 159/159，0跳过；后两者由test:browser:fixture串行执行。三基线ead28945/32b97ed8/27bdb97a新增产品扫描均0。原失败日志保留：默认首次1650/1652暴露重复完成谓词及旧阶段计数，已修复；沙箱本地监听EPERM独立记录，授权离线夹具运行后全绿。旧全量树管理check仍需维护保全审计，未重配，不能报告为已通过。 New external calls0/0/0. Separate evidence branch0065675a closed D02V independent qualification: QUALIFIED_DELIVERY,382/382 PASS, s0Status PASS; original383 conditional quote check disappears under the complete oracle. Original evaluation and241 runtime files unchanged.
+
+验证与报告：[disabled-party / phase-window 本轮简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/disabled-party-phase-window-20261114/report.md)。本次除原3份相关测试外，更新已有Live-composition测试的阶段诊断断言：搜索与查位分别结束；原provider尝试数量、结果和累计操作约束断言保留。最终归档提交只追加文档与本批次日志，不改冻结源码/Fixture。
+
+<a id="pre-merge-recorded-model-regression-20261115"></a>
+
+## 2026-11-15 CET — 合入前真实DeepSeek跨场景抽检：首失败停止（draft / not integrated）
+
+用户确认实际D01/07/D8，冻结04947d51；产品4b4b56d2、Prompt27/Schema16未改。7帧计划仅调用2次后停止：D01首页权威LOCATION输入PASS；原D01 #8的Takadanobaba+Spanish显式0结果页，当前来源完成谓词true，但模型点击All继续分类而非冻结预期COMPLETE，语义FAIL，wire两次均PASS。0Live/0网站GET/2模型，07/D8余5帧未跑、不重试；旧D02-V九帧不能抵消本次偏离，单帧不足以断言死循环或相对main的因果退化。未执行Test Skill1.9、main整合或发布门禁；主草稿/9历史账本不变。[本批简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/pre-merge-recorded-model-regression-20261115/report.md)。
+
+<a id="pre-merge-scope-behavior-20261115"></a>
+
+## 2026-11-15 CET — 收窄 Tabelog 分类入口的适用条件
+
+分类范围尚未确认或任务明确要求扩大搜索时才进入分类树。已限定范围的零结果 D01 #8 从点 All 转为 COMPLETE，已展开菜单仍打开 Other。执行器、原生发现的 objective 及来源谓词沿用原实现。Test Skill 1.9 增加录制帧真实模型验证与确定性改动的证据复用规则。D02-V 已独立补评为 QUALIFIED_DELIVERY，382/382 项通过，S0 为 0。[七帧对照](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/pre-merge-scope-behavior-20261115/report.md) · [既有补评](https://github.com/wzhgogogo/Praxis/blob/0065675a5be24231251d013d3b382a3cfbb9cc67/.eval-artifacts/phase3b/category-guidance-live-20261114/live/runtime/dev-d02v-category-guidance-20261114/evaluation.supplement.json)。
+
+
+<!-- slice2 historical additions retained during 3C sync; frozen regression, not current validation -->
 
 ## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
 
@@ -6196,3 +6286,10 @@ main249826cc进入slice2分支，13冲突保留主线行为/正文与slice2历�
 ## 2026-11-11 CET 胶囊原地编辑
 
 用户决定用原位30字符编辑替代底部预填；复用消息提交，不新增事件/存储，底部草稿与SSE焦点保持。 未推送或合main。[报告](../reviews/WEB-INLINE-CONDITIONS-20261111.md)。
+
+
+<a id="dev-3c-closeout-20261116"></a>
+
+## 2026-11-16 — 3C 第一步主线同步（待验）
+
+独立树 `/private/tmp/praxis-3c-closeout`、分支 `codex/feat-web-workspace-3c-closeout`，slice2 738c2c1ea 与 origin/main dbc2d9c55 合并；4 文档冲突保留主线正文并追加 slice2 原始历史，read-assessment 两项行为同时保留。五门禁、双尺寸实际 HTTP/SSE Fixture、D01/D02 Replay 待同提交验证；无真实外部调用，不加载 .env，不推送/合 main。证据与停止条件见 [.eval-artifacts/3c-closeout-20261116/plan.md](../../.eval-artifacts/3c-closeout-20261116/plan.md)。

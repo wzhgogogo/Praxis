@@ -471,7 +471,7 @@ function tableCheckAvailabilityWidgetLoading(html: string): boolean {
  * found in one unrelated control with a party size found elsewhere can bind stale
  * results to a new request, so page-wide value co-occurrence is deliberately invalid.
  */
-function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: string; party: string; time: string } | undefined {
+export function tableCheckGuideQuery(snapshot: BrowserSnapshot): { html: string; date: string; party: string; time: string } | undefined {
   const html = tableCheckAvailabilityWidget(snapshot);
   if (!html || tableCheckAvailabilityWidgetLoading(html)) return undefined;
   const attr = (tag: string, name: string) => tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, "i"))?.[1];

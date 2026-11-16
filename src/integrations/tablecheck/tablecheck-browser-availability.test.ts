@@ -928,6 +928,55 @@ function matchingOutletPage(url = "https://www.tablecheck.com/en/restaurant1"): 
   };
 }
 
+for (const suffix of ["Kiwami", "Hanare"]) {
+  test(`a reviewed suggestion handoff to ${suffix} cannot authorize the requested main outlet`, async () => {
+    // LOCAL_CONSTRUCTION at the executor/adapter boundary. The receipt has the
+    // actual reviewed shape, while the destination belongs to another branch.
+    const { discoveryPackNetworkPolicy } = await import("../restaurant-search/source-packs.js");
+    const policy = discoveryPackNetworkPolicy();
+    const branchUrl = `https://www.tablecheck.com/en/restaurant1-${suffix.toLowerCase()}`;
+    const now = "2026-08-05T09:00:00.000Z";
+    const branch: BrowserSnapshot = {
+      url: branchUrl, title: `Restaurant 1 ${suffix} - TableCheck`, pageId: "handoff-page", settlement: "SETTLED",
+      text: `Restaurant 1 ${suffix}\nAddress\n2-2 Ginza, Tokyo\nPhone\n03-9999-8888`,
+      html: `<link rel="canonical" href="${branchUrl}"><h1>Restaurant 1 ${suffix}</h1><p class="address">2-2 Ginza, Tokyo</p><a href="tel:03-9999-8888">03-9999-8888</a><a href="${branchUrl}/reserve/landing">Book a table</a>`,
+      networkRequests: [{ origin: "https://production.tablecheck.com", pathname: `/v2/shops/restaurant1-${suffix.toLowerCase()}`,
+        method: "GET", resourceType: "fetch", queryKeys: ["locale"], outcome: "ADMITTED",
+        dynamicRead: { readScopeId: "constructed-current-scope", pageId: "handoff-page", requestSequence: 2,
+          startedAt: Date.parse(now) - 2, completedAt: Date.parse(now) - 1, status: 200,
+          ruleIndex: policy.dynamicReads.findIndex(rule => rule.origin === "https://production.tablecheck.com" && Boolean(rule.pathnamePattern?.startsWith("^/v2/shops/"))),
+          fields: [] } }],
+    };
+    assert.ok(branch.networkRequests![0]!.dynamicRead!.ruleIndex >= 0);
+    const session = new FixtureBrowserSession([discoveryPage(), branch]);
+    const diagnostics: BrowserExecutionDiagnostic[] = [];
+    const executor = new BrowserTaskExecutor({ openSession: async () => session }, {
+      maxAutomaticElapsedMs: 30_000,
+      maxModelCallsPerCandidate: 4, maxModelCallsTotal: 4, maxOperationsPerCandidate: 40,
+      onDiagnostic: diagnostic => diagnostics.push(diagnostic),
+    });
+    executor.search = async input => {
+      await executor.start({ ...input, stage: "DISCOVERY" });
+      await session.navigate(branchUrl);
+      return { status: "COMPLETED", snapshot: await session.snapshot(), controls: [],
+        sourceHandoff: { url: branchUrl, pageId: "handoff-page" } };
+    };
+    try {
+      const reader = new ProductionTableCheckBrowserAvailability(executor, () => now, { networkPolicy: policy });
+      const result = await reader.check(request, new AbortController().signal);
+      assert.equal(result.offers.length, 0, "A branch handoff supplies no target offer or B1 prerequisite");
+      assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
+      assert.ok(result.evidence.every(evidence => evidence.entityMatch?.confidence !== "HIGH"));
+      assert.ok(!diagnostics.some(diagnostic => diagnostic.stage === "AVAILABILITY"));
+      assert.ok(session.navigations.every(url => !url.includes("/reserve/")));
+      assert.equal(session.clicks, 0);
+      assert.equal(session.capturedResponseRules.length, 0, "No target inventory reader was started");
+    } finally {
+      await executor.closeAll();
+    }
+  });
+}
+
 test("TableCheck native guide uses its own ID and linked booking entrance without a name search", async () => {
   const native = { ...candidate, restaurant: { ...candidate.restaurant, id: "tablecheck:restaurant1",
     sourceIds: { tablecheck: "restaurant1", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/restaurant1" } } };
