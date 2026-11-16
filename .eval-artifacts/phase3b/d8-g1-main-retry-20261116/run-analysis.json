@@ -1,0 +1,138 @@
+{
+  "sourceSHA": "dbc2d9c55bb9dd759a17551cbe9c11af6b1073b0",
+  "configurationCommit": "5af4e3f262e9b89f05d7caa3f7388464bedb050a",
+  "originalEvaluation": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "boundaryChecks": {
+    "PASS": 307
+  },
+  "nonPass": [
+    {
+      "rule": "BOUNDED_NO_RESULT",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "No-delivery wording must describe this bounded investigation",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "NO_DELIVERY_WITNESS",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "witness-W2",
+      "reason": "Independently qualified witness still has the slot",
+      "evidenceRefs": [
+        "/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/d8-g1-main-retry-20261116/d8/live/runtime/dev-d8-g1-main-retry-20261116/witness/001-vacancy.body"
+      ]
+    }
+  ],
+  "deadline": {
+    "elapsedMs": 273130.997958,
+    "turns": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794823591887,
+        "deadlineAtMs": 1794824091887,
+        "elapsedMs": 272407.737041,
+        "modelCalls": 39,
+        "googleRequests": 2,
+        "exceeded500Seconds": false
+      }
+    ],
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "followups": [
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "status": "NOT_SENT",
+      "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+    },
+    {
+      "id": "PRIVATE_ROOM_PAGE",
+      "status": "NOT_SENT",
+      "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+    }
+  ],
+  "modelOutcomes": {
+    "SUCCEEDED": 36,
+    "FAILED": 3
+  },
+  "failedModelCalls": [
+    {
+      "sequence": 37,
+      "purpose": "browser_read_decide",
+      "latencyMs": 10527,
+      "outcome": "FAILED",
+      "errorCode": "NETWORK",
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+      "recordingSnapshot": 55,
+      "action": null,
+      "target": null
+    },
+    {
+      "sequence": 38,
+      "purpose": "browser_read_decide",
+      "latencyMs": 10521,
+      "outcome": "FAILED",
+      "errorCode": "NETWORK",
+      "url": "https://tabelog.com/en/",
+      "recordingSnapshot": 57,
+      "action": null,
+      "target": null
+    },
+    {
+      "sequence": 39,
+      "purpose": "restaurant_agent_decide",
+      "latencyMs": 10525,
+      "outcome": "FAILED",
+      "errorCode": "NETWORK"
+    }
+  ],
+  "recording": {
+    "totalPages": 57,
+    "qualifiedPages": 12,
+    "replayStatus": "PARTIALLY_REPLAYABLE",
+    "diagnostic": {
+      "SAVED": 49,
+      "OMITTED": 8
+    }
+  },
+  "protectedEqual": true,
+  "historicalLedgers": 23,
+  "frozenConfigChanged": [],
+  "remaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 0,
+    "realModelCalls": 11,
+    "environmentReruns": 0
+  },
+  "retryLedgerConsumption": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 39,
+    "environmentReruns": 0,
+    "googleRequests": 2,
+    "restaurantWebsiteRequests": 313
+  },
+  "aggregateAuthorizedConsumption": {
+    "fullLive": 1,
+    "evaluationPublicGET": 8,
+    "realModelCalls": 39,
+    "environmentReruns": 0
+  },
+  "evidenceSHA256": {
+    "evaluation.json": "9e4f2a3ddd7bdb22f0825d658e613a0dcc749f1a5998209a071426e045ef520b",
+    "evaluation.input.json": "5945e1885eb4cb0e24b4a7208815e510fc20154e34dd5ae31ce34cd675bf73d9",
+    "execution.result.json": "d0e8da8f8416a0901c4d00aa2405c772142c01125f9b68c6f4797258084d0cc2",
+    "execution.decisions.jsonl": "4a92553a5b4ed3af02ed2fb3af445948ca9399f6f2a1caf55d6967e0eaae73c6",
+    "browser-trace.json": "42a2d82132861242f5d399bc9a875931cdfc995763e1e9ecd98790e31726a0de",
+    "recording-observation.json": "50a678a703d41892027562df5ebfa940338e46e916ff3a00beb18607a1aa3189"
+  }
+}
