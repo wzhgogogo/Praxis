@@ -120,6 +120,8 @@ export interface BrowserSkillReadInput {
   onQuerySubmitted?(owner: string): void;
   /** Code-owned cut immediately before a validated observed button click. */
   onBeforeClick?(snapshot: BrowserSnapshot, target: BrowserReadActionTarget): void | (() => void);
+  /** Fired only after the chosen option is read back on the same observed owner. */
+  onOptionConfirmed?(field: Extract<BrowserReadAction, {type:"CHOOSE_OPTION"}>["field"], label: string): void;
   /** Current same-session observation already captured by the source caller; no intervening action. */
   initialObservation?: { snapshot: BrowserSnapshot; controls: BrowserPageControl[] };
   /** Explicitly false only when completion validates the captured source without live controls. */
@@ -262,6 +264,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number, exp
     if (groupKey && !groupRefs.has(groupKey)) groupRefs.set(groupKey, `observation:${revision}:group:${groupRefs.size + 1}`);
     const group = groupKey ? { controlGroupKey: groupKey, controlGroupRef: groupRefs.get(groupKey)! } : {};
     const ref = `observation:${revision}:target:${targets.size + 1}`;
+    const valueText = control.valueText ?? control.selectionReadback?.displayText;
     controlRefs.set(control.id, ref);
     targets.set(ref, {
       ref, controlId: control.id, stableKey: control.stableKey, ...(control.formObservation ? { formObservation: control.formObservation } : {}), ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}),
@@ -273,7 +276,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number, exp
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
       ...(control.calendarDate ? { calendarDate: control.calendarDate } : {}),
       ...(control.readOnly ? { readOnly: true } : {}), ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
-      ...(control.outsideViewport ? { outsideViewport: true } : {}), ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(control.valueText ? { valueText: control.valueText } : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
+      ...(control.outsideViewport ? { outsideViewport: true } : {}), ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(valueText ? {valueText} : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
     });
     if (control.kind === "SELECT" && !control.disabled) {
       for (const option of control.options ?? []) {
@@ -724,7 +727,13 @@ export class BrowserTaskExecutor {
       if (history.length > 6) history.shift();
     };
     let postAction = false;
-    let pendingOption: ObservedTarget | undefined;
+    let pendingOption: (ObservedTarget & {selectionField: Extract<BrowserReadAction, {type:"CHOOSE_OPTION"}>["field"]}) | undefined;
+    const confirmOption = (controls: BrowserPageControl[]) => {
+      if (pendingOption && this.optionSelectionObserved(pendingOption,controls)) {
+        input.onOptionConfirmed?.(pendingOption.selectionField,pendingOption.label);
+        pendingOption = undefined;
+      }
+    };
     let pendingRadio: ObservedTarget | undefined;
     let pendingParty: { groupKey?: string } | undefined;
     let unchangedPageKey: string | undefined;
@@ -768,7 +777,7 @@ export class BrowserTaskExecutor {
       // making the target any fresher than the snapshot it belongs to.
       const observation: Observation = verifiedObservation ?? await this.observe(input, snapshot);
       verifiedObservation = undefined;
-      if (pendingOption && this.optionSelectionObserved(pendingOption, observation.controls)) pendingOption = undefined;
+      confirmOption(observation.controls);
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, observation.controls)) pendingRadio = undefined;
       if (pendingParty && partyGroupConfirmed(observation, input.goal, pendingParty.groupKey)) pendingParty = undefined;
       if (this.disabledRequestedParty(input, observation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: observation.controls};
@@ -997,8 +1006,8 @@ export class BrowserTaskExecutor {
       }
       lastRejectedProposal = undefined;
       repeatedRejectedProposals = 0;
-      if (action.type === "CHOOSE_OPTION" && target) pendingOption = action.field === "RETRIEVAL"
-        ? { ...target, retrievalValue: input.goal.retrievalExpression! } : target;
+      if (action.type === "CHOOSE_OPTION" && target) pendingOption = {...target, selectionField:action.field,
+        ...(action.field === "RETRIEVAL" ? {retrievalValue:input.goal.retrievalExpression!} : {})};
       if (action.type === "SET_CHECKED" && target?.kind === "RADIO") {
         pendingRadio = target;
       }
@@ -1032,7 +1041,7 @@ export class BrowserTaskExecutor {
       const visibleStateChanged = visibleBefore !== visibleProgressKey(snapshot.url, postActionObservation.controls);
       const observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
       const observedPageChange = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
-      if (pendingOption && this.optionSelectionObserved(pendingOption, postActionObservation.controls)) pendingOption = undefined;
+      confirmOption(postActionObservation.controls);
       if (pendingRadio && this.radioSelectionObserved(pendingRadio, postActionObservation.controls)) pendingRadio = undefined;
       if (snapshotAssessment) {
         completion = this.disabledRequestedParty(input, postActionObservation)
@@ -1164,23 +1173,21 @@ export class BrowserTaskExecutor {
 
   /** The model chooses each control; code verifies only a newly observed,
    * selected time within the original request. No combobox/action sequence. */
-  async advanceAvailabilityTime(input: BrowserSkillReadInput, checkedTimes: readonly string[]): Promise<string | undefined> {
-    let selected: string | undefined;
+  async advanceAvailabilityTime(input: BrowserSkillReadInput, checkedTimes: readonly string[], queryMatches: (page: BrowserSnapshot, controls: readonly BrowserPageControl[], time: string) => boolean): Promise<string | undefined> {
+    let selected: string | undefined, chosen: string | undefined;
     const result = await this.runSkill({ ...input, requireModelConfirmation: true,
+      onOptionConfirmed: (field,label) => {
+        input.onOptionConfirmed?.(field,label);
+        if (field === "TIME") chosen = observedClock(label);
+      },
       objective: `Continue this same outlet's public availability query within the authoritative time window. Already checked times: ${JSON.stringify(checkedTimes)}. Choose each next step from the current observation. Never click a booking slot or widen the requested window.`,
-      completion: (_page, controls = []) => {
-        const times = new Set(controls.flatMap(control => {
-          const value = control.value ?? control.label;
-          const time = observedClock(value);
-          return time && (control.selected || control.role === "combobox")
-            && input.goal.timeWindow && time >= input.goal.timeWindow.earliest && time <= input.goal.timeWindow.latest
-            && !checkedTimes.includes(time) ? [time] : [];
-        }));
-        selected = times.size === 1 ? [...times][0] : undefined;
+      completion: (page, controls = []) => {
+        selected = chosen && input.goal.timeWindow && chosen >= input.goal.timeWindow.earliest && chosen <= input.goal.timeWindow.latest
+          && !checkedTimes.includes(chosen) && queryMatches(page,controls,chosen) ? chosen : undefined;
         return selected !== undefined
-          ? { complete: true, resultKey: selected, resultBusy: false, reason: "Verify a new source-selected query time." }
-          : { complete: false, reason: "No newly selected authoritative query time." };
-      } });
+          ? {complete:true,resultKey:selected,resultBusy:false,reason:"Verify a new source-selected query time."}
+          : {complete:false,reason:"No newly selected authoritative query time."};
+      }});
     return result.status === "COMPLETED" ? selected : undefined;
   }
 
@@ -1206,7 +1213,11 @@ export class BrowserTaskExecutor {
         && control.value === target.value && control.options?.some(option => option.value === target.value && option.selected));
     }
     return controls.some(control => control.role === "combobox" && control.stableKey === target.ownerStableKey
-      && (control.value?.trim() === target.label.trim() || control.label.trim() === target.label.trim()));
+      && control.visible && !control.disabled && !control.blockedByActiveLayer
+      && (control.selectionReadback?.menuClosed ?? control.expanded === false)
+      && (control.selectionReadback?.displayRequired
+        ? control.selectionReadback.displayText?.trim() === target.label.trim()
+        : control.value?.trim() === target.label.trim() || control.label.trim() === target.label.trim()));
   }
 
   /** Radio selection is valid only when its observed owning group now has this one selected item. */

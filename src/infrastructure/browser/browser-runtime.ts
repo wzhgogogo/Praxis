@@ -214,6 +214,8 @@ export interface BrowserPageControl {
   /** A custom role=option is actionable only when bound to an observed combobox. */
   optionOwnerId?: string;
   controlledListboxId?: string;
+  /** Public state of this same DOM combobox; native value is never replaced. */
+  selectionReadback?: {menuClosed: boolean; displayRequired?: true; displayText?: string};
 }
 
 export interface BrowserCalendarMonth {

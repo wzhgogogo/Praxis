@@ -20,7 +20,8 @@ for(const {mode,refresh,kind} of [...cases,...cloudflareCases])test(`G1 ${kind} 
   // uses the actual retained native page, never hand-assembled HIGH evidence.
   await assembly.facts.inspectFacts({candidateIds:[candidate.restaurant.id],candidates:[input.candidate],intent:input.intent,readRunId:input.readContext.runId,capturePagesOnly:true,...(refresh?{reobservePageOnce:true as const}:{})},new AbortController().signal);
   const pages=assembly.questions.currentPages(input.readContext,candidate.restaurant.id);assert.ok(pages.length,'Identity-bound page must be retained even if incomplete');
-  if(mode==='aged-fetch'){assert.ok(fixture.snapshots.some(s=>s.settlementDiagnostics?.blockingDataRequests===0&&(s.settlementDiagnostics.pendingByType.fetch??0)>0&&s.settlementDiagnostics.oldestPendingMs>=3000));}
+  if(mode==='aged-fetch'){assert.ok(fixture.snapshots.some(s=>s.settlement==='SETTLED'&&s.settlementDiagnostics?.blockingDataRequests===0&&(s.settlementDiagnostics.pendingByType.fetch??0)>0&&s.settlementDiagnostics.oldestPendingMs>=3000));}
+  if(mode==='thirteenth-body')assert.ok(fixture.snapshots.some(s=>s.settlementDiagnostics?.busySelectors.length===12&&!s.settlementDiagnostics.busySelectors.includes('[aria-busy="true"]')&&s.settlementDiagnostics.contentBusySelectors?.includes('[aria-busy="true"]')),'Filter all DOM blockers before the diagnostic cap');
   if(mode==='stable'){
    assert.ok(fixture.snapshots.some(s=>s.settlementDiagnostics?.busySelectors.length===9),'Original opaque map marker plus eight faded images remain generic blockers');
    const answer=await assembly.questions.answerBookingQuestion(input,pages,new AbortController().signal);assert.equal(answer.status,'ANSWERED',JSON.stringify({answer,pages:pages.map(p=>({settlement:p.snapshot.settlement,diagnostics:p.snapshot.settlementDiagnostics}))}));assert.equal(modelCalls,1);assert.ok(answer.status==='ANSWERED'&&answer.citations.some(c=>c.text===recordedQuote));

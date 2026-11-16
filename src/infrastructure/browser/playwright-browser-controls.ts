@@ -58,7 +58,7 @@ async function optionViewportState(locator: ElementHandle<SVGElement | HTMLEleme
  */
 export class PlaywrightControlRegistry {
   private revision = 0;
-  private targets = new Map<string, { element: ElementHandle<SVGElement | HTMLElement>; signature: string; ownerId?: string; nodeIdentity?: string }>();
+  private targets = new Map<string, { element: ElementHandle<SVGElement | HTMLElement>; signature: string; ownerId?: string; nodeIdentity?: string; listboxIds?: string[] }>();
   private nextNodeIdentity = 0;
 
   async dispose(): Promise<void> {
@@ -378,18 +378,22 @@ export class PlaywrightControlRegistry {
         const id = `dom:${this.revision}:${controls.length + 1}`;
         if (await this.actionSignature(locator).catch(() => undefined) !== initialSignature) { await release(); continue; }
         let nodeIdentity: string | undefined;
+        let priorListboxes: string[] = [];
         if (group.kind === "SELECT" || role === "combobox") {
           for (const previous of previousTargets.values()) {
             if (!previous.nodeIdentity) continue;
             if (await locator.evaluate((element, old) => element === old, previous.element).catch(() => false)) {
               nodeIdentity = previous.nodeIdentity;
+              priorListboxes = previous.listboxIds ?? [];
               break;
             }
           }
           nodeIdentity ??= `control:${++this.nextNodeIdentity}`;
         }
+        const listboxIds = [...new Set([...(controlledListboxId?.split(/\s+/).filter(Boolean) ?? []), ...priorListboxes])];
+        const selectionReadback = role === "combobox" ? await this.selectionReadback(locator,listboxIds) : undefined;
         this.targets.set(id, { element: locator, signature: initialSignature,
-          ...(nodeIdentity ? { nodeIdentity } : {}) });
+          ...(nodeIdentity ? { nodeIdentity, listboxIds } : {}) });
         controls.push({
           id,
           structure,
@@ -417,7 +421,8 @@ export class PlaywrightControlRegistry {
           visible: true,
           ...(optionState?.clipped ? { outsideViewport: true } : {}),
           ...(selected || group.kind === "RADIO" && checked === true ? { selected: true } : {}),
-          ...(expanded !== null ? { expanded: expanded === "true" } : {}),
+          ...(expanded === "true" || expanded === "false" ? { expanded: expanded === "true" } : {}),
+          ...(selectionReadback ? {selectionReadback} : {}),
           ...(checked !== undefined ? { checked } : {}),
           ...(min ? { min } : {}),
           ...(max ? { max } : {}),
@@ -538,6 +543,41 @@ export class PlaywrightControlRegistry {
     } finally {
       await labelHandle.dispose().catch(() => undefined);
     }
+  }
+
+  /** Public compact display beside a read-only ARIA input, never a private
+   * value-container proxy or a value borrowed from announcements/other fields. */
+  private async selectionReadback(element: ElementHandle<SVGElement | HTMLElement>, knownListboxes: string[]): Promise<{menuClosed: boolean; displayRequired?: true; displayText?: string}> {
+    return element.evaluate((node, known) => {
+      const ids = [...new Set([...(node.getAttribute("aria-controls")?.split(/\s+/).filter(Boolean) ?? []), ...known])];
+      const visibleLists = ids.some(id => {
+        const list = document.getElementById(id);
+        if (!list) return false;
+        if (list.getAttribute("role") !== "listbox") return true;
+        const style = getComputedStyle(list);
+        return list.getClientRects().length > 0 && style.display !== "none" && style.visibility !== "hidden";
+      });
+      const expanded = node.getAttribute("aria-expanded");
+      const menuClosed = expanded !== null ? expanded === "false" && !visibleLists : ids.length > 0 && !visibleLists;
+      const displayRequired = node instanceof HTMLInputElement && node.getAttribute("aria-readonly") === "true" && node.value === "";
+      const proof = {menuClosed,...(displayRequired ? {displayRequired:true as const} : {})};
+      if (!menuClosed || !displayRequired) return proof;
+      const interactive = 'input,select,textarea,button,a[href],[role="combobox"],[role="button"],[role="textbox"]';
+      for (let container = node.parentElement; container && !container.matches('html,body,main,form,section,article,[role="listbox"],[role="log"],[aria-live]'); container = container.parentElement) {
+        if ([...container.querySelectorAll(interactive)].some(control => control !== node)) break;
+        const texts = new Set<string>(), walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) {
+          const parent = walker.currentNode.parentElement;
+          if (!parent || parent.closest('script,style,[hidden],[aria-hidden="true"],[role="listbox"],[role="log"],[aria-live]') || parent.closest(interactive)) continue;
+          const style = getComputedStyle(parent);
+          if (!parent.getClientRects().length || style.display === "none" || style.visibility === "hidden" || style.opacity === "0") continue;
+          const text = walker.currentNode.textContent?.replace(/\s+/g," ").trim();
+          if (text) texts.add(text);
+        }
+        if (texts.size) { const text = [...texts][0]!; return texts.size === 1 && text.length <= 240 ? {...proof,displayText:text} : proof; }
+      }
+      return proof;
+    },knownListboxes);
   }
 
   private async observeOptions(locator: ElementHandle<SVGElement | HTMLElement>): Promise<Array<{ value: string; label: string; selected: boolean; disabled: boolean }>> {

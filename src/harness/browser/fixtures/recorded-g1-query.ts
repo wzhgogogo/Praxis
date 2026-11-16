@@ -29,13 +29,13 @@ export async function recordedHtml(script='',prefix=''){
 }
 
 export async function recordedRuntime(html:string,options:{agedFetch?:boolean;kind?:'LOCAL'|'CLOUDFLARE'}={}){
- const sessions:BrowserSession[]=[],snapshots:Awaited<ReturnType<BrowserSession['snapshot']>>[]=[];let held:import('node:http').ServerResponse|undefined;
+ const sessions:BrowserSession[]=[],snapshots:Awaited<ReturnType<BrowserSession['snapshot']>>[]=[],controls:import('../../../infrastructure/browser/browser-runtime.js').BrowserPageControl[][]=[],scriptErrors:string[]=[];let held:import('node:http').ServerResponse|undefined;
  const receiver=createServer((request,response)=>{response.setHeader('Access-Control-Allow-Origin','https://www.tablecheck.com');
   if(request.url?.startsWith('/v2/shops/')){held=response;return;}
   response.setHeader('Content-Type','text/html');response.end(html);
  });receiver.listen(0,'127.0.0.1');await once(receiver,'listening');const origin='http://127.0.0.1:'+((receiver.address() as import('node:net').AddressInfo).port);
  const browserType={async launch(options:Parameters<typeof chromium.launch>[0]){const browser=await chromium.launch(options),create=browser.newContext.bind(browser);browser.newContext=async opts=>{
-  const context=await create(opts),route=context.route.bind(context);
+  const context=await create(opts),route=context.route.bind(context);context.on('page',page=>page.on('pageerror',error=>scriptErrors.push(error.message)));
   context.route=(pattern,handler,opts)=>route(pattern,async(actual,request)=>{
    const wrapped=new Proxy(actual,{get(target,key){
     if(key==='fetch')return (opts:Parameters<typeof actual.fetch>[0])=>{const u=new URL(request.url());return target.fetch({...opts,url:origin+u.pathname+u.search});};
@@ -49,8 +49,9 @@ export async function recordedRuntime(html:string,options:{agedFetch?:boolean;ki
  const raw:BrowserRuntime=options.kind==='CLOUDFLARE'?new CloudflareBrowserRun({accountId:'fixture',apiToken:'fixture',connectOverCdp:async()=>{const b=await browserType.launch({headless:true});await b.newContext();return b;}}):new LocalPlaywrightChromium({browserType,proxyServer:'http://127.0.0.1:9',directHosts:['127.0.0.1']});
  const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',async openSession(input){const session=await raw.openSession(input),navigate=session.navigate.bind(session),snapshot=session.snapshot.bind(session);
   session.navigate=async(url,opts)=>{await navigate(url,opts);if(options.agedFetch){const end=Date.now()+5000;while(!held&&Date.now()<end)await new Promise(r=>setTimeout(r,10));if(!held)throw Error('Constructed data request was not admitted');await new Promise(r=>setTimeout(r,3200));}};
-  session.snapshot=async()=>{const page=await snapshot();snapshots.push(page);return options.agedFetch?{...page,settlement:'SETTLED'}:page;};
+  session.snapshot=async()=>{const page=await snapshot();const reported:typeof page=options.agedFetch?{...page,settlement:'SETTLED'}:page;snapshots.push(reported);return reported;};
+  if(session.observeControls){const observe=session.observeControls.bind(session);session.observeControls=async hints=>{const value=await observe(hints);controls.push(value);return value;};}
   sessions.push(session);return session;
  }};
- return {runtime,snapshots,async close(){held?.destroy();await Promise.all(sessions.map(s=>s.close()));receiver.closeAllConnections();await new Promise<void>(r=>receiver.close(()=>r()));}};
+ return {runtime,snapshots,controls,scriptErrors,async close(){held?.destroy();await Promise.all(sessions.map(s=>s.close()));receiver.closeAllConnections();await new Promise<void>(r=>receiver.close(()=>r()));}};
 }
