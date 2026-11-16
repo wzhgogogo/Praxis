@@ -1,0 +1,540 @@
+[
+  {
+    "id": "dev-d8-acceptance-20261116",
+    "request": "Check whether Specializing in Nodoguro Ginza Nakamata has a table for two on November 18, 2026 at 8:30 PM.",
+    "followups": [
+      {
+        "id": "BOOK_THIS_OUTLET",
+        "trigger": "DISPLAYED_AVAILABLE",
+        "kind": "MESSAGE",
+        "text": "Please help me book this restaurant for that date and time."
+      },
+      {
+        "id": "PRIVATE_ROOM_PAGE",
+        "trigger": "DISPLAYED_AVAILABLE",
+        "kind": "PAGE_QUESTION",
+        "text": "Does the restaurant’s own page say whether it has private rooms? Please quote the page if it says."
+      }
+    ],
+    "oracle": {
+      "request": {
+        "dates": [
+          "2026-11-18"
+        ],
+        "partySize": 2,
+        "time": "20:30",
+        "requiresIndependentQualification": true,
+        "named": {
+          "name": "Specializing in Nodoguro Ginza Nakamata",
+          "phone": "03-6264-3229",
+          "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+          "sourceIds": {
+            "TABELOG": "13186922",
+            "TABLECHECK": "nakamata-nodoguro-ginza"
+          }
+        }
+      },
+      "pages": [],
+      "reviewedReadRules": [
+        {
+          "ref": "independent-approved-literal-0",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [],
+          "requiredQueryKeys": [],
+          "pathname": "/catalog.json",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-1",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "queryProfile",
+            "hits",
+            "scope",
+            "lat",
+            "lng",
+            "radius_km",
+            "party_size",
+            "cuisine",
+            "sort",
+            "offset",
+            "id",
+            "open_day",
+            "service_mode"
+          ],
+          "requiredQueryKeys": [
+            "queryProfile"
+          ],
+          "pathname": "/search/",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-2",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "country",
+            "hits",
+            "queryProfile"
+          ],
+          "requiredQueryKeys": [
+            "country",
+            "hits",
+            "queryProfile"
+          ],
+          "pathname": "/search/",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-3",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "country",
+            "hits",
+            "kind",
+            "queryProfile"
+          ],
+          "requiredQueryKeys": [
+            "country",
+            "hits",
+            "kind",
+            "queryProfile"
+          ],
+          "pathname": "/search/",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-4",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "country",
+            "hits",
+            "q",
+            "queryProfile"
+          ],
+          "requiredQueryKeys": [
+            "country",
+            "hits",
+            "q",
+            "queryProfile"
+          ],
+          "pathname": "/search/",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-5",
+          "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "destination",
+            "hits",
+            "name",
+            "queryProfile"
+          ],
+          "requiredQueryKeys": [
+            "destination",
+            "hits",
+            "name",
+            "queryProfile"
+          ],
+          "pathname": "/search/",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-6",
+          "origin": "https://production.tablecheck.com",
+          "methods": [
+            "POST"
+          ],
+          "queryKeys": [],
+          "requiredQueryKeys": [],
+          "pathname": "/v2/hub/availability_calendar_v2",
+          "bodyFields": {
+            "locale": "string",
+            "start_at": "string",
+            "shop_id": "string",
+            "num_people": "string"
+          },
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "content-type"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-7",
+          "origin": "https://tabelog.com",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "sw",
+            "vac_net",
+            "svd",
+            "svt",
+            "svps"
+          ],
+          "requiredQueryKeys": [],
+          "pathnamePattern": "^/en/tokyo/.*$"
+        },
+        {
+          "ref": "independent-approved-literal-8",
+          "origin": "https://www.tablecheck.com",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "service_mode",
+            "sort_by",
+            "venue_type",
+            "geo_latitude",
+            "geo_longitude",
+            "geo_distance",
+            "auto_geolocate",
+            "search_text",
+            "date",
+            "time",
+            "num_people",
+            "availability_mode"
+          ],
+          "requiredQueryKeys": [
+            "service_mode",
+            "sort_by",
+            "venue_type",
+            "geo_latitude",
+            "geo_longitude",
+            "geo_distance",
+            "auto_geolocate"
+          ],
+          "pathname": "/en/japan/search"
+        },
+        {
+          "ref": "independent-approved-literal-9",
+          "origin": "https://production.tablecheck.com",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "queryKeys": [],
+          "requiredQueryKeys": [],
+          "pathname": "/v2/geolocation",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-10",
+          "origin": "https://production.tablecheck.com",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "queryKeys": [
+            "locale",
+            "shop_universe_id",
+            "text"
+          ],
+          "requiredQueryKeys": [
+            "locale",
+            "shop_universe_id",
+            "text"
+          ],
+          "pathname": "/v2/autocomplete",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-11",
+          "origin": "https://production.tablecheck.com",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "queryKeys": [
+            "limit",
+            "sort_by",
+            "shop_ids[]"
+          ],
+          "requiredQueryKeys": [
+            "limit",
+            "sort_by"
+          ],
+          "pathname": "/v2/hub/public_shop_lists",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-12",
+          "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "queryKeys": [
+            "shop_universe_id",
+            "include_ids",
+            "service_mode",
+            "sort_by",
+            "venue_type",
+            "search_text",
+            "geo_latitude",
+            "geo_longitude",
+            "geo_distance",
+            "auto_geolocate",
+            "cuisines[]",
+            "budget_dinner_avg_min",
+            "budget_dinner_avg_max",
+            "search_after",
+            "per_page",
+            "randomize_geo"
+          ],
+          "requiredQueryKeys": [
+            "shop_universe_id",
+            "include_ids"
+          ],
+          "pathname": "/ai_search",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-13",
+          "origin": "https://production.tablecheck.com",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "queryKeys": [
+            "shop_universe_id",
+            "include_ids",
+            "service_mode",
+            "sort_by",
+            "venue_type",
+            "search_text",
+            "geo_latitude",
+            "geo_longitude",
+            "geo_distance",
+            "auto_geolocate",
+            "cuisines[]",
+            "budget_dinner_avg_min",
+            "budget_dinner_avg_max",
+            "search_after",
+            "per_page",
+            "randomize_geo"
+          ],
+          "requiredQueryKeys": [
+            "shop_universe_id",
+            "include_ids"
+          ],
+          "pathname": "/v2/shop_search",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-14",
+          "origin": "https://cdn0.tablecheck.com",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "queryKeys": [],
+          "requiredQueryKeys": [],
+          "pathnamePattern": "^/common/.*$",
+          "corsPreflight": {
+            "requestOrigin": "https://www.tablecheck.com",
+            "requestedHeaderNames": [
+              "x-api-key"
+            ]
+          }
+        },
+        {
+          "ref": "independent-approved-literal-15",
+          "origin": "https://production.tablecheck.com",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "locale"
+          ],
+          "requiredQueryKeys": [
+            "locale"
+          ],
+          "pathnamePattern": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        {
+          "ref": "independent-approved-literal-16",
+          "origin": "https://tabelog.com",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "rst_id",
+            "plan_id",
+            "seat_only",
+            "exclude_unavailable_time"
+          ],
+          "requiredQueryKeys": [
+            "rst_id"
+          ],
+          "pathnamePattern": "^/en/booking/calendar/initial_vacancy/?$"
+        },
+        {
+          "ref": "independent-approved-literal-17",
+          "origin": "https://tabelog.com",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "rst_id",
+            "plan_id",
+            "seat_only"
+          ],
+          "requiredQueryKeys": [
+            "rst_id"
+          ],
+          "pathnamePattern": "^/en/booking/calendar/find_vacancy_date_with_status/?$"
+        },
+        {
+          "ref": "independent-approved-literal-18",
+          "origin": "https://tabelog.com",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "rst_id",
+            "svd",
+            "plan_id",
+            "seat_only"
+          ],
+          "requiredQueryKeys": [
+            "rst_id",
+            "svd"
+          ],
+          "pathnamePattern": "^/en/booking/calendar/find_vacancy_member_by_date/?$"
+        },
+        {
+          "ref": "independent-approved-literal-19",
+          "origin": "https://tabelog.com",
+          "methods": [
+            "GET"
+          ],
+          "queryKeys": [
+            "rst_id",
+            "svd",
+            "svps",
+            "svt",
+            "plan_id",
+            "seat_only",
+            "exclude_unavailable_time"
+          ],
+          "requiredQueryKeys": [
+            "rst_id",
+            "svd",
+            "svps"
+          ],
+          "pathnamePattern": "^/en/booking/calendar/find_vacancy/?$"
+        },
+        {
+          "ref": "independent-approved-literal-20",
+          "origin": "https://tabelog.com",
+          "methods": [
+            "GET",
+            "HEAD"
+          ],
+          "queryKeys": [
+            "inbound_flag",
+            "rst_id_list[]"
+          ],
+          "requiredQueryKeys": [
+            "inbound_flag",
+            "rst_id_list[]"
+          ],
+          "pathname": "/contents/reserve_date_status_list"
+        }
+      ],
+      "qualificationOracles": []
+    },
+    "witness": {
+      "candidateId": "witness-W2",
+      "name": "Nodoguro Senmon Ginza Nakamata",
+      "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+      "phone": "03-6264-3229",
+      "provider": "TABELOG",
+      "sourceEntityId": "13186922",
+      "date": "2026-11-18",
+      "time": "20:30",
+      "partySize": 2,
+      "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+      "identityText": [
+        "Nodoguro Senmon Ginza Nakamata",
+        "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+        "03-6264-3229"
+      ]
+    }
+  }
+]
