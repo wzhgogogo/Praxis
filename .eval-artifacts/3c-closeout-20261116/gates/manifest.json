@@ -1,0 +1,61 @@
+[
+  {
+    "gate": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "exitCode": 0,
+    "seconds": 4.918430375,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  },
+  {
+    "gate": "arch-check",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "exitCode": 0,
+    "seconds": 0.8023981670000007,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  },
+  {
+    "gate": "test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "exitCode": 0,
+    "seconds": 59.834271959000006,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  },
+  {
+    "gate": "browser-fixture",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "exitCode": 1,
+    "seconds": 306.095588292,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  }
+]

@@ -6293,3 +6293,10 @@ main249826cc进入slice2分支，13冲突保留主线行为/正文与slice2历�
 ## 2026-11-16 — 3C 第一步主线同步（待验）
 
 独立树 `/private/tmp/praxis-3c-closeout`、分支 `codex/feat-web-workspace-3c-closeout`，slice2 738c2c1ea 与 origin/main dbc2d9c55 合并；4 文档冲突保留主线正文并追加 slice2 原始历史，read-assessment 两项行为同时保留。五门禁、双尺寸实际 HTTP/SSE Fixture、D01/D02 Replay 待同提交验证；无真实外部调用，不加载 .env，不推送/合 main。证据与停止条件见 [.eval-artifacts/3c-closeout-20261116/plan.md](../../.eval-artifacts/3c-closeout-20261116/plan.md)。
+
+
+<a id="dev-3c-closeout-stop-20261116"></a>
+
+## 2026-11-16 — 3C 第一步门禁失败停止（draft / not integrated）
+
+五门禁实际SHA 4ff189db2c3ebab938508d5b3e0c93b47d103f8e：typecheck/arch/default1663通过；browser退出1，G2 5/5、其余Chromium335/346（7缺材料、4嵌套sandbox错误），G6/build及独立双尺寸HTTP/SSE、PostgreSQL服务入口、D01/D02 Replay未运行。33个必要材料已从本树HEAD精确恢复且哈希一致，未重跑；271项原Replay输入哈希一致。真实外部调用0、不读.env，仅本地提交，不合main/推送。 [完整报告](../../.eval-artifacts/3c-closeout-20261116/report.md)。

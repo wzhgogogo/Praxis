@@ -1,0 +1,42 @@
+{
+  "scope": "inherited process environment only; .env not opened or loaded",
+  "variables": {
+    "DATABASE_URL": "missing",
+    "PRAXIS_RESTAURANT_PROVIDER_MODE": "missing",
+    "PRAXIS_ALLOW_LIVE_RESTAURANT_READ": "missing",
+    "PRAXIS_ALLOW_BROWSER_RUN": "missing",
+    "DEEPSEEK_API_KEY": "missing",
+    "DEEPSEEK_MODEL": "missing",
+    "GOOGLE_MAPS_API_KEY": "missing",
+    "PRAXIS_BROWSER_ENGINE": "missing",
+    "PRAXIS_CHROMIUM_EXECUTABLE_PATH": "missing",
+    "PRAXIS_PILOT_ACCESS_JSON": "missing",
+    "CLOUDFLARE_ACCOUNT_ID": "missing",
+    "CLOUDFLARE_API_TOKEN": "missing"
+  },
+  "psqlAvailable": true,
+  "pgIsreadyAvailable": true,
+  "requiredForPlannedLocalChromiumLiveEntry": [
+    "DATABASE_URL",
+    "PRAXIS_RESTAURANT_PROVIDER_MODE",
+    "PRAXIS_BROWSER_ENGINE",
+    "PRAXIS_ALLOW_LIVE_RESTAURANT_READ",
+    "PRAXIS_ALLOW_BROWSER_RUN",
+    "DEEPSEEK_API_KEY",
+    "DEEPSEEK_MODEL",
+    "GOOGLE_MAPS_API_KEY"
+  ],
+  "cloudflare": "CLOUDFLARE_ACCOUNT_ID/CLOUDFLARE_API_TOKEN required only if not LOCAL_CHROMIUM; not required for planned local engine",
+  "notRead": ".env configuration cannot be verified; no credential validity probes",
+  "note": "PRAXIS_CHROMIUM_EXECUTABLE_PATH is not consumed by actual entry; browser binary comes from Playwright installation",
+  "optional": {
+    "PRAXIS_PILOT_ACCESS_JSON": "missing",
+    "PORT": "missing",
+    "PRAXIS_LOCAL_CHROMIUM_INTERACTIVE": "missing",
+    "PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION": "missing",
+    "PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER": "missing",
+    "PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS": "missing",
+    "PRAXIS_DEEPSEEK_API_PROXY_SERVER": "missing",
+    "PRAXIS_GOOGLE_API_PROXY_SERVER": "missing"
+  }
+}

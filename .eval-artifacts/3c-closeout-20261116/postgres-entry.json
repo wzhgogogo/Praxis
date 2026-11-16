@@ -1,0 +1,21 @@
+{
+  "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+  "entry": "node --import tsx src/server/local-web-server.ts",
+  "providerMode": "FIXTURE",
+  "status": "NOT_RUN_AFTER_GATE_FAILURE",
+  "observationsBeforeStop": {
+    "pgIsready": "127.0.0.1:5432 - accepting connections",
+    "catalogConnection": "successful read-only psql connection to local postgres",
+    "praxisDatabases": [
+      "praxis_smoke",
+      "praxis_web"
+    ],
+    "DATABASE_URL": "missing in inherited process environment",
+    "exclusiveWritableTestDatabase": "not established"
+  },
+  "migrations": "NOT_RUN",
+  "listening": "NOT_RUN",
+  "login": "NOT_RUN",
+  "workspaceRequest": "NOT_RUN",
+  "g1Note": "CLI FIXTURE does not inject restaurantQuestions; cannot accept full G1"
+}
