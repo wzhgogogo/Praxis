@@ -1,0 +1,3 @@
+# D8 previous retry: preserved failure
+
+Frozen source dbc2d9c55. No delivery or G1 answer. Last three DeepSeek calls (#37-39) failed NETWORK; 36/39 calls succeeded. This report does not attribute DNS/TLS/proxy cause. Independent request boundary 307/307 PASS; original evaluation retained. Used 1 Live / 6 evaluation GET / 39 models; the preceding health-stop parent used 2 GET, aggregate 8 GET. Child budget and original parent were kept separate. Subsequent user-authorized retry is recorded in d8-g1-main-retry2-20261116; it does not replace this failure. No further diagnosis or network probes were performed. See original run-analysis.json, provider-failures.jsonl, protection and privacy records.
