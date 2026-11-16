@@ -165,8 +165,8 @@ async function evaluate(){
     assert.equal(hash(await readFile(join(here,p))),hash(git(process.cwd(),'show',evidenceSHA+':'+rel)),p);
   }
   const ledger=join(here,'model-budget.json');
-  await mkdir(join(here,'model'),{recursive:false});
-  await save('model/started.json',{sourceSHA:manifest.sourceSHA,evidenceSHA,limits:manifest.limits,at:new Date().toISOString()});
+  await mkdir(join(here,'model-checked'),{recursive:false});
+  await save('model-checked/started.json',{sourceSHA:manifest.sourceSHA,evidenceSHA,limits:manifest.limits,at:new Date().toISOString()});
   let id;const sent=[];const results=[];
   const gateway=DeepSeekModelGateway.fromEnvironment(process.env,{fetchImplementation:async(url,init)=>{
     const u=new URL(String(url));assert.equal(u.origin,'https://api.deepseek.com');assert.ok(['/chat/completions','/beta/chat/completions'].includes(u.pathname));assert.equal(init.method,'POST');
@@ -180,8 +180,8 @@ async function evaluate(){
       const model=new ModelBrowserReadActionDecision({async complete(r){
         assert.equal(r.outputSchema.version,'16');requestDigest=hash(JSON.stringify(r.messages));
         const user=JSON.parse(r.messages.find(m=>m.role==='user').content);assert.equal(user.objective,input.objective);
-        if(id!=='date-28')assert.ok(r.messages.some(m=>m.content.includes(input.skills.source)));
-        await save('model/'+id+'.messages.json',r.messages);
+        if(id!=='date-28')assert.deepEqual(user.skills,input.skills);
+        await save('model-checked/'+id+'.messages.json',r.messages);
         const response=await gateway.complete(r);wire=JSON.parse(response.outputText);usage=response.usage;return response;
       }});
       const answer=await model.decide(input);
@@ -192,10 +192,10 @@ async function evaluate(){
         :id==='date-28'?answer.type==='CLICK_AUTHORITATIVE'&&answer.field==='DATE'&&target?.ref===dated.refExpected&&target?.label===dated.dateLabel&&target?.value===input.goal.date
         :answer.type==='REQUEST_HUMAN_HELP'||(answer.type==='CLICK'&&target?.label==='Search');
       const item={id,passed,strictSchema:'16',wire,selectedLabel:target?.label??null,requestSHA256:requestDigest,inputSHA256:pre.hashes[id],usage};
-      results.push(item);await save('model/'+id+'.json',item);
+      results.push(item);await save('model-checked/'+id+'.json',item);
       console.log(JSON.stringify({id,passed,action:answer.type,label:item.selectedLabel}));
     }
-  }finally{await save('model/results.json',{sourceSHA:manifest.sourceSHA,evidenceSHA,sent,results,websiteGET:0,Live:0,at:new Date().toISOString()});}
+  }finally{await save('model-checked/results.json',{sourceSHA:manifest.sourceSHA,evidenceSHA,sent,results,websiteGET:0,Live:0,at:new Date().toISOString()});}
   assert.ok(results.every(x=>x.passed));
 }
 if(process.argv[2]==='prepare')await prepare();else if(process.argv[2]==='model')await evaluate();else throw Error('Choose prepare or model');
