@@ -1,3 +1,7 @@
+<a id="g1-query-readback-20261116"></a>
+
+2026-11-16 — draft / not integrated：G1 当前正文/全部在途请求复检与同控件选项回读两项离线修复。保留原生 value、Guard 3 秒规则和 B1 身份/请求/库存双校验；真实 Nakamata DOM/CSS 结合明确构造交互，经生产组装验证。线上库存未验证；0 Live / 0 网站 GET / 0 真实模型。五项净树门禁及保护哈希以本批次原始日志为准；仅本地提交，不推送、不合 main。[简报](../reviews/G1-BODY-QUERY-READBACK-20261116.md)。
+
 <a id="observed-suggestions-20261116"></a>
 
 2026-11-16 CET — Observed ownerless suggestions: protected Discovery exposes visible, enabled, unobstructed non-submitting options. Equal normalized full labels in the same list group suppress all duplicates; hidden/disabled/obstructed copies do not suppress a unique usable option. Owned combobox rules remain unchanged. Same-tab path change + current post-action reviewed GET200 receipt + SETTLED permits handoff only; adapter identity still requires HIGH. Two downstream branch counterexamples pass; 17 Tabelog messages remain byte-identical. Original duplicate failure is preserved. Main/date message hashes remain identical; raw-control suffix construction renumbers opaque refs, so its old hash is not claimed unchanged. Corrected duplicate and suffix serialize identically: the fifth real DeepSeek call chose Search and passed Schema16 for that exact input. Total model calls5/5, website GET0, Live0. Full clean-tree gates and one authorized D8 Live (1Live/8GET/50model/0rerun) remain the release gate.
