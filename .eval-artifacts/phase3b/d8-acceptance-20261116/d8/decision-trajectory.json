@@ -1,0 +1,1264 @@
+[
+  {
+    "sequence": 4,
+    "at": "2026-11-16T01:32:43.978Z",
+    "latencyMs": 3756,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:1:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open the destination/restaurant search control to enter the authoritative query."
+    },
+    "target": {
+      "ref": "observation:1:target:178",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Destination Area, station, line or restaurant",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 5,
+    "at": "2026-11-16T01:32:49.837Z",
+    "latencyMs": 4208,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:2:target:265",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the observed Destination search input with the exact retrieval expression."
+    },
+    "target": {
+      "ref": "observation:2:target:265",
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Destination",
+      "controlGroupLabel": "Destination",
+      "controlGroupRef": "observation:2:group:1",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 6,
+    "at": "2026-11-16T01:32:56.500Z",
+    "latencyMs": 3293,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:3:target:182",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the authoritative retrieval query via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:3:target:182",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 7,
+    "at": "2026-11-16T01:33:02.527Z",
+    "latencyMs": 4262,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:4:target:184",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Reopen destination search to re-enter the authoritative query after the search reset to a generic Japan list."
+    },
+    "target": {
+      "ref": "observation:4:target:184",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Destination Area, station, line or restaurant",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 8,
+    "at": "2026-11-16T01:33:08.295Z",
+    "latencyMs": 2777,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:5:target:272",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the destination search input with the exact outlet query to expose matching suggestions."
+    },
+    "target": {
+      "ref": "observation:5:target:272",
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Destination",
+      "controlGroupLabel": "Destination",
+      "controlGroupRef": "observation:5:group:1",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 9,
+    "at": "2026-11-16T01:33:12.852Z",
+    "latencyMs": 3053,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:6:target:188",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled retrieval query via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:6:target:188",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 10,
+    "at": "2026-11-16T01:33:17.384Z",
+    "latencyMs": 3645,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "REQUEST_HUMAN_HELP",
+      "targetRef": "",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Query already submitted twice with no matching option or result binding; no new route observed."
+    },
+    "target": null,
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 12,
+    "at": "2026-11-16T01:33:27.727Z",
+    "latencyMs": 2976,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:8:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the public search input with the authoritative retrieval expression."
+    },
+    "target": {
+      "ref": "observation:8:target:178",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": []
+      },
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "text",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 13,
+    "at": "2026-11-16T01:33:33.475Z",
+    "latencyMs": 3004,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:9:target:137",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled authoritative query via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:9:target:137",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "Chiba Hanare",
+          "[Kanagawa] Kanagawa Sta. / Yakitori (Grilled chicken skewers)",
+          "Tonchanya Fuji Hanare",
+          "[Aichi] Osu Kannon Sta. / Tripe",
+          "Ha-Na-Re",
+          "[Nagano] Karuisawa Town, Kitasaku District / Italian",
+          "Eishouen Hanare",
+          "[Saitama] Tokorozawa Sta. / Yakiniku (Japanese BBQ)",
+          "hanare",
+          "[Shizuoka] Yaizu City / Seafood",
+          "Shiten Keihan Hanare",
+          "[Tokyo] Shibuya Sta. / Singaporean",
+          "Ramen Musashiya HANARE",
+          "[Tokyo] Chikatetsu Narimasu Sta. / Ramen",
+          "Noge Horumon Center Hanare",
+          "[Kanagawa] Sakuragicho Sta. / Tripe",
+          "Atami Ginza Osakana Shokudo Hanare",
+          "[Shizuoka] Atami City / Cafeteria",
+          "Nihonbashi Dashiba Hanare",
+          "[Tokyo] Mitsukoshimae Sta. / Japanese Cuisine"
+        ]
+      },
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 14,
+    "at": "2026-11-16T01:33:39.440Z",
+    "latencyMs": 2322,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro%2C+Ginza+Nakamata+Hanare&search_mode=",
+    "action": {
+      "action": "COMPLETE",
+      "targetRef": "observation:10:target:14",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Query submitted; result list shows 0 results for the exact term, scope confirmed by the query breadcrumb."
+    },
+    "target": {
+      "ref": "observation:10:target:14",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Nodoguro, Ginza Nakamata Hanare",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/rstLst/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective."
+  },
+  {
+    "sequence": 15,
+    "at": "2026-11-16T01:33:44.744Z",
+    "latencyMs": 3602,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:11:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the public search input with the authoritative retrieval expression."
+    },
+    "target": {
+      "ref": "observation:11:target:178",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": []
+      },
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "text",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 16,
+    "at": "2026-11-16T01:33:51.110Z",
+    "latencyMs": 4741,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:12:target:137",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled authoritative query via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:12:target:137",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "Nodoguro Senmon Ginza Nakamata Hanare",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Chiba Hanare",
+          "[Kanagawa] Kanagawa Sta. / Yakitori (Grilled chicken skewers)",
+          "Tonchanya Fuji Hanare",
+          "[Aichi] Osu Kannon Sta. / Tripe",
+          "Ha-Na-Re",
+          "[Nagano] Karuisawa Town, Kitasaku District / Italian",
+          "Eishouen Hanare",
+          "[Saitama] Tokorozawa Sta. / Yakiniku (Japanese BBQ)",
+          "hanare",
+          "[Shizuoka] Yaizu City / Seafood",
+          "Shiten Keihan Hanare",
+          "[Tokyo] Shibuya Sta. / Singaporean",
+          "Ramen Musashiya HANARE",
+          "[Tokyo] Chikatetsu Narimasu Sta. / Ramen",
+          "Noge Horumon Center Hanare",
+          "[Kanagawa] Sakuragicho Sta. / Tripe",
+          "Atami Ginza Osakana Shokudo Hanare",
+          "[Shizuoka] Atami City / Cafeteria"
+        ]
+      },
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 17,
+    "at": "2026-11-16T01:33:59.114Z",
+    "latencyMs": 4212,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakamata+Hanare&search_mode=",
+    "action": {
+      "action": "COMPLETE",
+      "targetRef": "observation:13:target:14",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Search results list for \"Nakamata Hanare\" is displayed with breadcrumb scope label."
+    },
+    "target": {
+      "ref": "observation:13:target:14",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Nakamata Hanare",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/rstLst/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective."
+  },
+  {
+    "sequence": 18,
+    "at": "2026-11-16T01:34:13.742Z",
+    "latencyMs": 4360,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:14:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open the destination/restaurant search field to enter the authoritative query."
+    },
+    "target": {
+      "ref": "observation:14:target:178",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Destination Area, station, line or restaurant",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 19,
+    "at": "2026-11-16T01:34:20.303Z",
+    "latencyMs": 2237,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:15:target:265",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the observed Destination search input with the exact retrieval expression."
+    },
+    "target": {
+      "ref": "observation:15:target:265",
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Destination",
+      "controlGroupLabel": "Destination",
+      "controlGroupRef": "observation:15:group:1",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 20,
+    "at": "2026-11-16T01:34:24.960Z",
+    "latencyMs": 1782,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:16:target:182",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the authoritative query via the observed Search button"
+    },
+    "target": {
+      "ref": "observation:16:target:182",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 21,
+    "at": "2026-11-16T01:34:29.391Z",
+    "latencyMs": 2181,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:17:target:184",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Reopen destination search to re-enter the authoritative outlet query after the search reset to a generic Japan list."
+    },
+    "target": {
+      "ref": "observation:17:target:184",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Destination Area, station, line or restaurant",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 22,
+    "at": "2026-11-16T01:34:33.065Z",
+    "latencyMs": 2038,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:18:target:272",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the observed Destination search input with the exact retrieval expression to expose matching suggestions."
+    },
+    "target": {
+      "ref": "observation:18:target:272",
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Destination",
+      "controlGroupLabel": "Destination",
+      "controlGroupRef": "observation:18:group:1",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 23,
+    "at": "2026-11-16T01:34:36.828Z",
+    "latencyMs": 2673,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:19:target:188",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled retrieval query via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:19:target:188",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 24,
+    "at": "2026-11-16T01:34:40.975Z",
+    "latencyMs": 1891,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:20:target:184",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open destination search field to enter the outlet query"
+    },
+    "target": {
+      "ref": "observation:20:target:184",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Destination Area, station, line or restaurant",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 25,
+    "at": "2026-11-16T01:34:43.762Z",
+    "latencyMs": 2153,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:21:target:184",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open destination search to enter the outlet name query"
+    },
+    "target": {
+      "ref": "observation:21:target:184",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Destination Area, station, line or restaurant",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "REPEATED_FROM_SAME_STATE: this action and value already ran on equivalent visible controls. Choose a different observed action that advances the goal."
+  },
+  {
+    "sequence": 26,
+    "at": "2026-11-16T01:34:55.641Z",
+    "latencyMs": 3013,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:22:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the public search input with the authoritative retrieval term Nakamata."
+    },
+    "target": {
+      "ref": "observation:22:target:178",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": []
+      },
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "text",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 27,
+    "at": "2026-11-16T01:35:01.331Z",
+    "latencyMs": 2162,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:23:target:137",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled retrieval query \"Nakamata\" via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:23:target:137",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "Nodoguro Senmon Ginza Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Izakaya (Japanese style tavern)",
+          "Sumibi Genshiyaki to Kuramoto Shochu no Mise Nodoguro no Nakamata tsukiji",
+          "[Tokyo] Tsukiji Sta. / Izakaya (Japanese style tavern)",
+          "Naka Mata isetan shinjuku ten",
+          "[Tokyo] Shinjuku Sanchome Sta. / Japanese traditional sweets",
+          "Nodoguro no Nakamata shimbashi",
+          "[Tokyo] Shimbashi Sta. / Izakaya (Japanese style tavern)",
+          "Nagomu Kashi Nakamata maebashi honten",
+          "[Gunma] Maebashi City / Japanese traditional sweets",
+          "Nodoguro Senmon Ginza Nakamata Hanare",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Torafugu Senmon Fugu Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Nagomu Kashi Nakamata nagoya nougakudou 蓬左<hosa> ten",
+          "[Aichi] Sengen Cho Sta. / Japanese traditional sweets",
+          "Nagomu Kashi Nakamata pawamoru maebashi minami ten",
+          "[Gunma] Maebashi City / Japanese traditional sweets",
+          "Okonomiyaki to Teppanyaki no Mise Nakamata",
+          "[Hiroshima] Ebisu Cho Sta. / Okonomiyaki (Japanese savory pancake)"
+        ]
+      },
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 28,
+    "at": "2026-11-16T01:35:08.970Z",
+    "latencyMs": 3316,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakamata&search_mode=",
+    "action": {
+      "action": "COMPLETE",
+      "targetRef": "observation:24:target:14",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Result list for query \"Nakamata\" is displayed with scope label \"Nakamata\" and 523 results."
+    },
+    "target": {
+      "ref": "observation:24:target:14",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Nakamata",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/rstLst/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective."
+  },
+  {
+    "sequence": 30,
+    "at": "2026-11-16T01:35:24.211Z",
+    "latencyMs": 3310,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:25:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the public search input with the authoritative retrieval expression."
+    },
+    "target": {
+      "ref": "observation:25:target:178",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": []
+      },
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "text",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 31,
+    "at": "2026-11-16T01:35:30.281Z",
+    "latencyMs": 4514,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:26:target:137",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled authoritative query via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:26:target:137",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "Nodoguro Senmon Ginza Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Izakaya (Japanese style tavern)",
+          "Nodoguro Senmon Ginza Nakamata Hanare",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Nodoguro Senmon Ginza Nakamata Kiwami",
+          "[Tokyo] Ginza Sta. / Seafood",
+          "Sumibi Genshiyaki to Kuramoto Shochu no Mise Nodoguro no Nakamata tsukiji",
+          "[Tokyo] Tsukiji Sta. / Izakaya (Japanese style tavern)",
+          "Nodoguro no Nakamata shimbashi",
+          "[Tokyo] Shimbashi Sta. / Izakaya (Japanese style tavern)",
+          "Torafugu Senmon Fugu Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Sakana no Nakamata ginza",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Nakamata Shuzo Mosuke",
+          "[Tokyo] Hatchobori Sta. / Izakaya (Japanese style tavern)",
+          "Nakamata Shuzo tate",
+          "[Tokyo] Hatchobori Sta. / Izakaya (Japanese style tavern)",
+          "Naka Mata isetan shinjuku ten",
+          "[Tokyo] Shinjuku Sanchome Sta. / Japanese traditional sweets"
+        ]
+      },
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 32,
+    "at": "2026-11-16T01:35:40.974Z",
+    "latencyMs": 11647,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:27:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Open the destination/restaurant search control to enter the authoritative query."
+    },
+    "target": {
+      "ref": "observation:27:target:178",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Destination Area, station, line or restaurant",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 33,
+    "at": "2026-11-16T01:35:54.690Z",
+    "latencyMs": 5020,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:28:target:265",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the observed Destination search input with the exact retrieval expression."
+    },
+    "target": {
+      "ref": "observation:28:target:265",
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Destination",
+      "controlGroupLabel": "Destination",
+      "controlGroupRef": "observation:28:group:1",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 34,
+    "at": "2026-11-16T01:36:02.112Z",
+    "latencyMs": 3106,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:29:target:182",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the authoritative query via the observed Search button"
+    },
+    "target": {
+      "ref": "observation:29:target:182",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 35,
+    "at": "2026-11-16T01:36:08.318Z",
+    "latencyMs": 2206,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:30:target:184",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Reopen destination search to re-enter the authoritative outlet query after the search reset to a generic Japan list."
+    },
+    "target": {
+      "ref": "observation:30:target:184",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Destination Area, station, line or restaurant",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 36,
+    "at": "2026-11-16T01:36:12.028Z",
+    "latencyMs": 3042,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:31:target:272",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the destination search input with the authoritative outlet query to expose matching suggestions."
+    },
+    "target": {
+      "ref": "observation:31:target:272",
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Destination",
+      "controlGroupLabel": "Destination",
+      "controlGroupRef": "observation:31:group:1",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 37,
+    "at": "2026-11-16T01:36:16.827Z",
+    "latencyMs": 5416,
+    "source": "TABLECHECK",
+    "stage": "DISCOVERY",
+    "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&num_people=2&date=2026-11-16&date_from=2026-11-16&date_to=2026-11-16&availability_mode=same_meal_time&availability_format=datetime",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:32:target:188",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled authoritative query via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:32:target:188",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 38,
+    "at": "2026-11-16T01:36:21.014Z",
+    "latencyMs": 3804,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:33:target:188",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the public search input with the authoritative retrieval expression."
+    },
+    "target": {
+      "ref": "observation:33:target:188",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "Nodoguro Senmon Ginza Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Izakaya (Japanese style tavern)",
+          "Nodoguro Senmon Ginza Nakamata Hanare",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Nodoguro Senmon Ginza Nakamata Kiwami",
+          "[Tokyo] Ginza Sta. / Seafood",
+          "Sumibi Genshiyaki to Kuramoto Shochu no Mise Nodoguro no Nakamata tsukiji",
+          "[Tokyo] Tsukiji Sta. / Izakaya (Japanese style tavern)",
+          "Nodoguro no Nakamata shimbashi",
+          "[Tokyo] Shimbashi Sta. / Izakaya (Japanese style tavern)",
+          "Torafugu Senmon Fugu Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Sakana no Nakamata ginza",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Nakamata Shuzo Mosuke",
+          "[Tokyo] Hatchobori Sta. / Izakaya (Japanese style tavern)",
+          "Nakamata Shuzo tate",
+          "[Tokyo] Hatchobori Sta. / Izakaya (Japanese style tavern)",
+          "Naka Mata isetan shinjuku ten",
+          "[Tokyo] Shinjuku Sanchome Sta. / Japanese traditional sweets"
+        ]
+      },
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "controlGroupLabel": "Unlabelled group",
+      "value": "のどぐろ 専門 銀座 中俣",
+      "formMethod": "GET",
+      "type": "text",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 39,
+    "at": "2026-11-16T01:36:29.505Z",
+    "latencyMs": 4439,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:34:target:137",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the filled retrieval query via the observed Search button."
+    },
+    "target": {
+      "ref": "observation:34:target:137",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "Nodoguro Senmon Ginza Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Izakaya (Japanese style tavern)",
+          "Sumibi Genshiyaki to Kuramoto Shochu no Mise Nodoguro no Nakamata tsukiji",
+          "[Tokyo] Tsukiji Sta. / Izakaya (Japanese style tavern)",
+          "Naka Mata isetan shinjuku ten",
+          "[Tokyo] Shinjuku Sanchome Sta. / Japanese traditional sweets",
+          "Nodoguro no Nakamata shimbashi",
+          "[Tokyo] Shimbashi Sta. / Izakaya (Japanese style tavern)",
+          "Nagomu Kashi Nakamata maebashi honten",
+          "[Gunma] Maebashi City / Japanese traditional sweets",
+          "Nodoguro Senmon Ginza Nakamata Hanare",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Torafugu Senmon Fugu Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Seafood",
+          "Nagomu Kashi Nakamata nagoya nougakudou 蓬左<hosa> ten",
+          "[Aichi] Sengen Cho Sta. / Japanese traditional sweets",
+          "Nagomu Kashi Nakamata pawamoru maebashi minami ten",
+          "[Gunma] Maebashi City / Japanese traditional sweets",
+          "Okonomiyaki to Teppanyaki no Mise Nakamata",
+          "[Hiroshima] Ebisu Cho Sta. / Okonomiyaki (Japanese savory pancake)"
+        ]
+      },
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "Page is still loading after its bounded settlement wait; old results are not usable."
+  },
+  {
+    "sequence": 40,
+    "at": "2026-11-16T01:36:36.737Z",
+    "latencyMs": 2754,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro+Nakamata&search_mode=",
+    "action": {
+      "action": "COMPLETE",
+      "targetRef": "observation:35:target:14",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Query \"Nodoguro Nakamata\" submitted; result list shows 0 results with scope breadcrumb \"Nodoguro Nakamata\"."
+    },
+    "target": {
+      "ref": "observation:35:target:14",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Nodoguro Nakamata",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/rstLst/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective."
+  },
+  {
+    "sequence": 42,
+    "at": "2026-11-16T01:36:43.723Z",
+    "latencyMs": 2943,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "FILL_AUTHORITATIVE",
+      "targetRef": "observation:36:target:178",
+      "valueGroupRef": "",
+      "authoritativeField": "RETRIEVAL",
+      "requestedState": "NONE",
+      "reason": "Fill the public search input with the authoritative query Nodoguro."
+    },
+    "target": {
+      "ref": "observation:36:target:178",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": []
+      },
+      "kind": "INPUT",
+      "role": "textbox",
+      "label": "Location, cuisine, restaurant name, etc.",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "text",
+      "availableActions": [
+        "FILL_AUTHORITATIVE:RETRIEVAL"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 43,
+    "at": "2026-11-16T01:36:49.489Z",
+    "latencyMs": 4488,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/",
+    "action": {
+      "action": "CLICK",
+      "targetRef": "observation:37:target:137",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Submit the search with the authoritative query Nodoguro already filled."
+    },
+    "target": {
+      "ref": "observation:37:target:137",
+      "formObservation": {
+        "owner": "0",
+        "visibleLines": [
+          "Nodoguro Sohonten kurosuge-to kanazawa ten",
+          "[Ishikawa] Kanazawa City / Seafood",
+          "Nodoguro Senmon Ginza Nakamata",
+          "[Tokyo] Higashi Ginza Sta. / Izakaya (Japanese style tavern)",
+          "Sumibi Genshiyaki to Kuramoto Shochu no Mise Nodoguro no Nakamata tsukiji",
+          "[Tokyo] Tsukiji Sta. / Izakaya (Japanese style tavern)",
+          "Nodoguro Senmon Ginza Nakamata Kiwami",
+          "[Tokyo] Ginza Sta. / Seafood",
+          "Nodoguro Senmon Boan",
+          "[Tokyo] Naka Meguro Sta. / Seafood",
+          "Tsushima Nodoguro to Ika Ikizukuri Hakata Uokura miyako hoteru ten",
+          "[Fukuoka] Hakata Sta. / Seafood",
+          "Nodoguro Meshi Honpo Itaru",
+          "[Ishikawa] Kanazawa City / Kaisen-don (Seafood bowl)",
+          "Nodoguro Nihonkai izumoshi ekimae ten",
+          "[Shimane] Izumo City / Izakaya (Japanese style tavern)",
+          "Nodoguro no Akubi okachimachi ten",
+          "[Tokyo] Naka Okachimachi Sta. / Seafood",
+          "Tokunou no Doguro Tsukemen Smile",
+          "[Mie] Matsusaka City / Tsukemen (Dipping noodles)"
+        ]
+      },
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "formMethod": "GET",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    "progress": "No positive source result binding to the current authoritative query has been observed"
+  },
+  {
+    "sequence": 44,
+    "at": "2026-11-16T01:36:59.770Z",
+    "latencyMs": 3280,
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro&search_mode=",
+    "action": {
+      "action": "COMPLETE",
+      "targetRef": "observation:38:target:14",
+      "valueGroupRef": "",
+      "authoritativeField": "NONE",
+      "requestedState": "NONE",
+      "reason": "Result list for query \"Nodoguro\" is displayed (35 results, scope label \"Nodoguro\")."
+    },
+    "target": {
+      "ref": "observation:38:target:14",
+      "kind": "LINK",
+      "role": "link",
+      "label": "Nodoguro",
+      "controlGroupLabel": "Unlabelled group",
+      "href": "https://tabelog.com/en/rstLst/",
+      "availableActions": [
+        "OPEN_LINK"
+      ]
+    },
+    "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective."
+  }
+]

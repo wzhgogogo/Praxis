@@ -1,0 +1,49 @@
+{
+  "decisionSequence": 6,
+  "at": "2026-11-16T01:32:56.500Z",
+  "action": {
+    "action": "CLICK",
+    "targetRef": "observation:3:target:182",
+    "valueGroupRef": "",
+    "authoritativeField": "NONE",
+    "requestedState": "NONE",
+    "reason": "Submit the authoritative retrieval query via the observed Search button."
+  },
+  "query": {
+    "outlet": {
+      "name": "Specializing in Nodoguro Ginza Nakamata"
+    },
+    "retrievalExpression": "Specializing in Nodoguro Ginza Nakamata",
+    "retrievalSource": "SPECIFIC_OUTLET",
+    "hardCriteria": []
+  },
+  "observedMatches": [
+    {
+      "ref": "observation:3:target:182",
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "controlGroupLabel": "Unlabelled group",
+      "type": "button",
+      "availableActions": [
+        "CLICK"
+      ]
+    },
+    {
+      "ref": "observation:3:target:263",
+      "kind": "REGION",
+      "role": "listbox",
+      "label": "Are you looking for... Ginza · Izakaya (Japanese Tavern) Specializing in Nodoguro Ginza Nakamata Ginza · Sushi Specializing in Nodoguro Ginza Nakamata Kiwami Ginza · Japanese Specializing in Nodoguro Ginza Nakamata Hanare Ginza · Sake & Sho",
+      "controlGroupLabel": "Destination",
+      "controlGroupRef": "observation:3:group:1",
+      "scrollable": false,
+      "scrollTop": 0,
+      "availableActions": [],
+      "rejectionReason": "NOT_SCROLLABLE"
+    }
+  ],
+  "domFile": "/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/d8-acceptance-20261116/d8/live/runtime/dev-d8-acceptance-20261116/recordings/g6-dev-d8-acceptance-20261116-1794792741139-0/diagnostic/snapshot-0004.html",
+  "domSHA256": "3e9a339eee5de7aa44e7fdc85c7f5f7d5976794731a1e8b6639ba292951cb2e9",
+  "domMetadata": "Actual suggestions exist in a role=listbox. Their elements are div role=option, tabindex=0, aria-selected=false, with aria-label containing full shop name and location/category. Model target list contains aggregate text but no actionable exact-name shop target.",
+  "assessment": "First traceable deviation is at the controls-to-model boundary followed by Search submission; exact internal filtering cause requires offline follow-up. No new model output or source fix."
+}
