@@ -1,0 +1,5 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/tablecheck/tablecheck-browser-availability.test.ts(953,84): error TS2739: Type '{ maxAutomaticElapsedMs: number; onDiagnostic: (diagnostic: BrowserExecutionDiagnostic) => number; }' is missing the following properties from type 'BrowserTaskExecutorOptions': maxModelCallsPerCandidate, maxModelCallsTotal, maxOperationsPerCandidate

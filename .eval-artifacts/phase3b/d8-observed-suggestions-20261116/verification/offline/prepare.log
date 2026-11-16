@@ -1,0 +1,64 @@
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    {
+      action: 'CLICK',
++     field: 'NONE',
+      outcome: 'PAGE_CHANGED',
+      stateChanged: true,
+      targetKind: 'BUTTON',
+      targetLabel: 'Destination Area, station, line or restaurant',
+      urlChanged: false
+
+    at prepare (/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/d8-observed-suggestions-20261116/verification/model.mjs:116:10)
+    at async <anonymous> (/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/d8-observed-suggestions-20261116/verification/model.mjs:201:32) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      action: 'CLICK',
+      targetLabel: 'Destination Area, station, line or restaurant',
+      targetKind: 'BUTTON',
+      field: 'NONE',
+      outcome: 'PAGE_CHANGED',
+      urlChanged: false,
+      stateChanged: true
+    },
+    {
+      action: 'FILL_AUTHORITATIVE',
+      targetLabel: 'Destination',
+      targetKind: 'INPUT',
+      field: 'RETRIEVAL',
+      outcome: 'PAGE_CHANGED',
+      urlChanged: false,
+      stateChanged: true
+    }
+  ],
+  expected: [
+    {
+      action: 'CLICK',
+      targetLabel: 'Destination Area, station, line or restaurant',
+      targetKind: 'BUTTON',
+      outcome: 'PAGE_CHANGED',
+      urlChanged: false,
+      stateChanged: true
+    },
+    {
+      action: 'FILL_AUTHORITATIVE',
+      targetLabel: 'Destination',
+      targetKind: 'INPUT',
+      field: 'RETRIEVAL',
+      outcome: 'PAGE_CHANGED',
+      urlChanged: false,
+      stateChanged: true
+    }
+  ],
+  operator: 'deepStrictEqual'
+}
+
+Node.js v24.4.1

@@ -1,0 +1,28 @@
+✖ a reviewed suggestion handoff to Kiwami cannot authorize the requested main outlet (2.756833ms)
+✖ a reviewed suggestion handoff to Hanare cannot authorize the requested main outlet (19.978459ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 288.256459
+
+✖ failing tests:
+
+test at src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1:71214
+✖ a reviewed suggestion handoff to Kiwami cannot authorize the requested main outlet (2.756833ms)
+  TypeError [Error]: Explicit positive browser limit required: maxModelCallsPerCandidate
+      at new BrowserTaskExecutor (/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/browser-task-executor.ts:327:75)
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/integrations/tablecheck/tablecheck-browser-availability.test.ts:953:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1:71214
+✖ a reviewed suggestion handoff to Hanare cannot authorize the requested main outlet (19.978459ms)
+  TypeError [Error]: Explicit positive browser limit required: maxModelCallsPerCandidate
+      at new BrowserTaskExecutor (/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/browser-task-executor.ts:327:75)
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/integrations/tablecheck/tablecheck-browser-availability.test.ts:953:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
