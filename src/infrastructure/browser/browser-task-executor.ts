@@ -597,7 +597,7 @@ export class BrowserTaskExecutor {
           } catch { queryConflict = true; }
         }
         return queryConflict ? { ...assessment, complete: false, reason: "Observed result query contradicts the authoritative input in the observed source form" }
-          : handoff ? {complete:true,resultKey:JSON.stringify(handoff),resultBusy:false,reason:"Selected source suggestion and current completed reviewed GET hand off the settled same-page destination for adapter identity inspection"}
+          : handoff ? {complete:true,resultKey:JSON.stringify(handoff),resultBusy:false,reason:"Selected source suggestion, same-tab path change, SETTLED page and current completed reviewed GET (200) hand off to adapter identity inspection"}
           : !queryBound ? { ...assessment, complete: false, reason: "No positive source result binding to the current authoritative query has been observed" }
           : currentIsResult ? { ...assessment, complete: false, reason: "The current document is an individual result, not the submitted result list; code inspects identities after list completion" } : assessment;
       } });
