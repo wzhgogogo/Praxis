@@ -1,0 +1,99 @@
+{
+  "sourceSHA": "afaabecd2867e650c332b20cd5bf600a2a84ae88",
+  "evidenceSHA": "c3b106a42c78c581694a36c362c9a2fd4ab41e77",
+  "sent": [
+    "nov16-6",
+    "date-28",
+    "suffix-only",
+    "duplicate"
+  ],
+  "results": [
+    {
+      "id": "nov16-6",
+      "passed": true,
+      "strictSchema": "16",
+      "wire": {
+        "action": "CLICK",
+        "targetRef": "observation:3:target:184",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Unique suggestion exactly matches requested outlet name"
+      },
+      "selectedLabel": "Specializing in Nodoguro Ginza Nakamata, Ginza · Izakaya (Japanese Tavern)",
+      "requestSHA256": "71160a04eeef384e149286d76e2941316b088449e5ddf71323708c20a615ed5d",
+      "inputSHA256": "ca5b280db919cc2c081d85c5c97f1b46ff91b2486059ad8dcbcb5e46ea090873",
+      "usage": {
+        "inputTokens": 25112,
+        "outputTokens": 134,
+        "totalTokens": 25246
+      }
+    },
+    {
+      "id": "date-28",
+      "passed": true,
+      "strictSchema": "16",
+      "wire": {
+        "action": "CLICK_AUTHORITATIVE",
+        "targetRef": "observation:29:target:69",
+        "valueGroupRef": "",
+        "authoritativeField": "DATE",
+        "requestedState": "NONE",
+        "reason": "Select the requested date 2026-11-11 in the calendar."
+      },
+      "selectedLabel": "Wednesday 11",
+      "requestSHA256": "c6b0f979f46c74139bedd363d7963d99f8ebe3ef06b824c3e51090cbd17a3427",
+      "inputSHA256": "347f9a3ea193e08fc753bb9c0a5d49a43fad9b81380d8f6323fce3b95926c44c",
+      "usage": {
+        "inputTokens": 23662,
+        "outputTokens": 144,
+        "totalTokens": 23806
+      }
+    },
+    {
+      "id": "suffix-only",
+      "passed": true,
+      "strictSchema": "16",
+      "wire": {
+        "action": "CLICK",
+        "targetRef": "observation:3:target:182",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Submit the filled authoritative query via the observed Search button."
+      },
+      "selectedLabel": "Search",
+      "requestSHA256": "a60063e88ffd168d6b6cc03e871d3dd0869003035aa502f8a916cb084d93fb04",
+      "inputSHA256": "a566f5d92f988d58daa1a491b76b8e6750d37431608f3270a6cbc2b9ddde0d6b",
+      "usage": {
+        "inputTokens": 24969,
+        "outputTokens": 137,
+        "totalTokens": 25106
+      }
+    },
+    {
+      "id": "duplicate",
+      "passed": false,
+      "strictSchema": "16",
+      "wire": {
+        "action": "CLICK",
+        "targetRef": "observation:3:target:184",
+        "valueGroupRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Unique suggestion exactly matches requested outlet name"
+      },
+      "selectedLabel": "Specializing in Nodoguro Ginza Nakamata, Ginza · Izakaya (Japanese Tavern)",
+      "requestSHA256": "57452e4a27ab56a92436b4d13e8ea6c09811b4b4e4d3ea73bf5a206e4f4fb9b5",
+      "inputSHA256": "c8968f5fd1032dda47d529661f35ee98592043c5722f7ba7f6ecd7f5785d60a8",
+      "usage": {
+        "inputTokens": 25113,
+        "outputTokens": 134,
+        "totalTokens": 25247
+      }
+    }
+  ],
+  "websiteGET": 0,
+  "Live": 0,
+  "at": "2026-11-16T03:42:39.251Z"
+}
