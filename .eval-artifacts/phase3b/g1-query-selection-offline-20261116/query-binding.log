@@ -1,0 +1,59 @@
+✖ TableCheck recorded-control component party binds only its actual query and B1 (14562.665459ms)
+✖ TableCheck recorded-control component time binds only its actual query and B1 (24358.675833ms)
+✖ TableCheck recorded-control component wrong-time binds only its actual query and B1 (10225.934916ms)
+✔ TableCheck recorded-control component wrong-party binds only its actual query and B1 (10240.304291ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 1
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 59684.860375
+
+✖ failing tests:
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:804
+✖ TableCheck recorded-control component party binds only its actual query and B1 (14562.665459ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:47:50)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:804
+✖ TableCheck recorded-control component time binds only its actual query and B1 (24358.675833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:47:50)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:804
+✖ TableCheck recorded-control component wrong-time binds only its actual query and B1 (10225.934916ms)
+  AssertionError [ERR_ASSERTION]: The wide empty initial query must really enter advanceAvailabilityTime
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:44:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

@@ -1,0 +1,34 @@
+✔ D4 PRIVATE_ROOM recorded DOM: one current-page reobservation replaces incomplete capture and returns exact citations (574.112833ms)
+✔ D8 terms recorded DOM: one refresh captures a complete same-outlet page and missing policy stays NOT_STATED (518.769417ms)
+✔ real DOM with constructed still-PENDING refresh never reaches the answer model; changed current page opens only exact bound URL (1064.79275ms)
+✔ G1 GOOGLE acquires a bound page without a HARD gap through the production composition (19.270375ms)
+✔ G1 TABELOG acquires a bound page without a HARD gap through the production composition (512.873292ms)
+✔ G1 TABLECHECK acquires a bound page without a HARD gap through the production composition (504.42075ms)
+✔ G1 page capture with no merchant statement yields NOT_STATED after reading, rather than NO_BOUND_PAGE (0.966834ms)
+▶ G1 same-name foreign outlet pages produce no answerable page
+  ✔ GOOGLE (1.434042ms)
+  ✔ TABELOG (503.746834ms)
+  ✔ TABLECHECK (503.306833ms)
+✔ G1 same-name foreign outlet pages produce no answerable page (1009.29725ms)
+✔ G1 a genuinely read previous-run page cannot replace a failed fresh-run acquisition (505.428708ms)
+▶ G1 independent deadline and cancellation still constrain fresh acquisition
+  ✔ deadline already exhausted (0.382959ms)
+  ✔ cancel during acquisition; next question has a fresh scope (3.523583ms)
+✔ G1 independent deadline and cancellation still constrain fresh acquisition (4.348625ms)
+✔ G1 missing website stays unknown without a HARD model; ordinary no-gap facts still skip the website (1.357208ms)
+▶ capture-only bypasses the composition's HARD judge in both website and no-entry branches
+  ✔ website entry (0.374625ms)
+  ✔ no website entry (0.106209ms)
+✔ capture-only bypasses the composition's HARD judge in both website and no-entry branches (2.46475ms)
+✔ G1 refreshes a pending fact-cache page before answering (506.109667ms)
+✔ G1 a still-busy refreshed page stays incomplete with no answer model call (505.719875ms)
+✔ G1 current body readiness rejects aged-data before the question model (505.4915ms)
+✔ G1 current body readiness rejects pending-without-diagnostics before the question model (504.804209ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4736.042167

@@ -1,0 +1,24 @@
+✖ TableCheck recorded-control component wrong-party binds only its actual query and B1 (9616.214792ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9942.084458
+
+✖ failing tests:
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:881
+✖ TableCheck recorded-control component wrong-party binds only its actual query and B1 (9616.214792ms)
+  AssertionError [ERR_ASSERTION]: {"reason":"The unrelated control really closed and read back its new value while the store stayed unchanged","confirmations":[],"controls":[[{"name":"unrelated-query","label":"Any party size","proof":{"menuClosed":true,"displayRequired":true,"displayText":"2 guests"}},{"name":"","label":"Any party size","proof":{"menuClosed":true,"displayRequired":true,"displayText":"2 guests"}},{"name":"","label":"Time","proof":{"menuClosed":true,"displayRequired":true,"displayText":"19:00"}}],[{"name":"unrelated-query","label":"Any party size","proof":{"menuClosed":false,"displayRequired":true}},{"name":"","label":"Any party size","proof":{"menuClosed":true,"displayRequired":true,"displayText":"2 guests"}},{"name":"","label":"Time","proof":{"menuClosed":true,"displayRequired":true,"displayText":"19:00"}}]]}
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:58:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

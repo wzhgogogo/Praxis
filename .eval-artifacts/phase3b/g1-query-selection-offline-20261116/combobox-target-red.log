@@ -1,0 +1,44 @@
+✖ recorded readonly combobox closed checks the same public control (10103.924083ms)
+✖ recorded readonly combobox missing-expanded-closed checks the same public control (10080.886542ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20477.222166
+
+✖ failing tests:
+
+test at src/harness/browser/combobox-readback-recorded.test.ts:1:586
+✖ recorded readonly combobox closed checks the same public control (10103.924083ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"closed","status":"MODEL_FAILURE","calls":2,"controls":[{"id":"dom:3:71","structure":{"tag":"INPUT","name":"","classes":["css-1hac4vs-dummyInput"],"dialogLabel":"","formClass":"FormWrapper_f4bmxq8","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|combobox||||control:1","kind":"BUTTON","role":"combobox","label":"Any party size","controlGroupLabel":"Any party size","controlGroupKey":"dom-group:BODY:1/DIV:0/DIV:0/DIV:2/DIV:0/DIV:1/DIV:1/DIV:1/FORM:0/DIV:1/DIV:0/DIV:0/DIV:2/DIV:0/DIV:1/INPUT:1","value":"","formMethod":"POST","formObservation":{"owner":"0","visibleLines":["Nov 9th","November 2026","Sun","Mon","Tue","Wed","Thu","Fri","Sat","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","2 guests","19:00","Your selected time is unavailable. Here are some alternative time slots.","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","1%","21:00","1%","Find more availability"]},"disabled":false,"visible":true,"expanded":false},{"id":"dom:3:72","structure":{"tag":"INPUT","name":"","classes":["css-1hac4vs-dummyInput"],"dialogLabel":"","formClass":"FormWrapper_f4bmxq8","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|combobox||||control:2","kind":"BUTTON","role":"combobox","label":"Time","controlGroupLabel":"Time","controlGroupKey":"dom-group:BODY:1/DIV:0/DIV:0/DIV:2/DIV:0/DIV:1/DIV:1/DIV:1/FORM:0/DIV:1/DIV:1/DIV:0/DIV:2/DIV:0/DIV:1/INPUT:1","value":"","formMethod":"POST","formObservation":{"owner":"0","visibleLines":["Nov 9th","November 2026","Sun","Mon","Tue","Wed","Thu","Fri","Sat","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","2 guests","19:00","Your selected time is unavailable. Here are some alternative time slots.","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","1%","21:00","1%","Find more availability"]},"disabled":false,"visible":true,"expanded":false}]}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/combobox-readback-recorded.test.ts:29:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/combobox-readback-recorded.test.ts:1:586
+✖ recorded readonly combobox missing-expanded-closed checks the same public control (10080.886542ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"missing-expanded-closed","status":"MODEL_FAILURE","calls":2,"controls":[{"id":"dom:3:71","structure":{"tag":"INPUT","name":"","classes":["css-1hac4vs-dummyInput"],"dialogLabel":"","formClass":"FormWrapper_f4bmxq8","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|combobox||||control:1","kind":"BUTTON","role":"combobox","label":"Any party size","controlGroupLabel":"Any party size","controlGroupKey":"dom-group:BODY:1/DIV:0/DIV:0/DIV:2/DIV:0/DIV:1/DIV:1/DIV:1/FORM:0/DIV:1/DIV:0/DIV:0/DIV:2/DIV:0/DIV:1/INPUT:1","value":"","formMethod":"POST","formObservation":{"owner":"0","visibleLines":["Nov 9th","November 2026","Sun","Mon","Tue","Wed","Thu","Fri","Sat","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","2 guests","19:00","Your selected time is unavailable. Here are some alternative time slots.","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","1%","21:00","1%","Find more availability"]},"disabled":false,"visible":true,"expanded":false},{"id":"dom:3:72","structure":{"tag":"INPUT","name":"","classes":["css-1hac4vs-dummyInput"],"dialogLabel":"","formClass":"FormWrapper_f4bmxq8","sliderCount":0,"listboxId":""},"stableKey":"button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|combobox||||control:2","kind":"BUTTON","role":"combobox","label":"Time","controlGroupLabel":"Time","controlGroupKey":"dom-group:BODY:1/DIV:0/DIV:0/DIV:2/DIV:0/DIV:1/DIV:1/DIV:1/FORM:0/DIV:1/DIV:1/DIV:0/DIV:2/DIV:0/DIV:1/INPUT:1","value":"","formMethod":"POST","formObservation":{"owner":"0","visibleLines":["Nov 9th","November 2026","Sun","Mon","Tue","Wed","Thu","Fri","Sat","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","2 guests","19:00","Your selected time is unavailable. Here are some alternative time slots.","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","1%","21:00","1%","Find more availability"]},"disabled":false,"visible":true,"expanded":false}]}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/combobox-readback-recorded.test.ts:29:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

@@ -1,0 +1,29 @@
+✖ G1 recorded DOM/CSS stable, initial capture uses current body evidence (5802.103625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6105.7295
+
+✖ failing tests:
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:596
+✖ G1 recorded DOM/CSS stable, initial capture uses current body evidence (5802.103625ms)
+  AssertionError [ERR_ASSERTION]: {"answer":{"status":"UNVERIFIED","candidateId":"recorded-main","reason":"INCOMPLETE_PAGE","checkedPages":[{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","readAt":"2026-11-16T05:00:00.000Z"}]},"pages":[{"settlement":"PENDING","diagnostics":{"url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc","pendingByType":{},"oldestPendingMs":0,"blockingDataRequests":0,"busySelectors":[".skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton",".SkeletonCell_sqtme3q.skeleton"],"visibleTextChanging":false}}]}
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/g1-content-recorded.test.ts:24:113)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }

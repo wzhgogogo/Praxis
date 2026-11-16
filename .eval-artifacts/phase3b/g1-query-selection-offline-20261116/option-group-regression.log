@@ -1,0 +1,54 @@
+✔ button name metadata does not replace visible time or Reserve safety label (487.304833ms)
+✔ LOCAL chooses a visible time option with an opaque native value and reads it back (820.854209ms)
+✔ CLOUDFLARE_SESSION chooses a visible time option with an opaque native value and reads it back (809.16975ms)
+✔ LOCAL binds a button combobox to its own listbox option through the strict browser wire (1220.713917ms)
+✔ CLOUDFLARE_SESSION binds a button combobox to its own listbox option through the strict browser wire (1197.431333ms)
+✔ public combobox value is independent of an empty input and confirms a changed option (1229.554459ms)
+✔ public combobox value is independent of an empty input and avoids a duplicate choice (485.459ms)
+✔ LOCAL keeps the observed option node when unrelated buttons arrive during model decision (1294.664083ms)
+✔ CLOUDFLARE_SESSION keeps the observed option node when unrelated buttons arrive during model decision (1297.62275ms)
+✔ changed observed option role-change is rejected before execution (878.111ms)
+✔ changed observed option replacement is rejected before execution (878.811833ms)
+✖ changed observed option legal-replacement is rejected before execution (1241.616208ms)
+✔ a visible option from another listbox cannot be claimed by the expanded combobox (471.647542ms)
+✔ native option disabled cannot be signed off as a selected time (453.896958ms)
+✔ native option unchanged cannot be signed off as a selected time (813.473125ms)
+✔ native option complete cannot be signed off as a selected time (809.444834ms)
+✔ an asynchronously applied option can complete after a later selected-value observation (1188.065208ms)
+✔ an unconfirmed time choice cannot be replaced by a successful party choice (837.25575ms)
+✔ group-window Chromium: available keeps exact request and explicit coverage (949.462875ms)
+✔ group-window Chromium: all-empty keeps exact request and explicit coverage (1670.12775ms)
+✔ group-window Chromium: wrong-party keeps exact request and explicit coverage (1202.571666ms)
+✔ group-window Chromium: forbidden entry is not attempted by availability or repeated FACTS (1371.5435ms)
+✔ group-window Chromium: disabled exact party stops without clicking or changing the count (467.750709ms)
+✔ mixed clock alternatives pass through the Live assembly with installed Guard and exact query binding (786.851416ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 23
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23482.008417
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-option-controls.test.ts:13:2557
+✖ changed observed option legal-replacement is rejected before execution (1241.616208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'BUDGET_EXCEEDED'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/browser-read-option-controls.test.ts:210:14)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'BUDGET_EXCEEDED',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }

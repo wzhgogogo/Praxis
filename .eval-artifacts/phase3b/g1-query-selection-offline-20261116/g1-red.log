@@ -1,0 +1,59 @@
+✔ G1 GOOGLE acquires a bound page without a HARD gap through the production composition (15.826292ms)
+✔ G1 TABELOG acquires a bound page without a HARD gap through the production composition (3.308583ms)
+✔ G1 TABLECHECK acquires a bound page without a HARD gap through the production composition (1.498583ms)
+✔ G1 page capture with no merchant statement yields NOT_STATED after reading, rather than NO_BOUND_PAGE (0.59525ms)
+▶ G1 same-name foreign outlet pages produce no answerable page
+  ✔ GOOGLE (1.142959ms)
+  ✔ TABELOG (0.445125ms)
+  ✔ TABLECHECK (0.29275ms)
+✔ G1 same-name foreign outlet pages produce no answerable page (2.040458ms)
+✔ G1 a genuinely read previous-run page cannot replace a failed fresh-run acquisition (0.717625ms)
+▶ G1 independent deadline and cancellation still constrain fresh acquisition
+  ✔ deadline already exhausted (0.069417ms)
+  ✔ cancel during acquisition; next question has a fresh scope (0.947291ms)
+✔ G1 independent deadline and cancellation still constrain fresh acquisition (1.114458ms)
+✔ G1 missing website stays unknown without a HARD model; ordinary no-gap facts still skip the website (0.401458ms)
+▶ capture-only bypasses the composition's HARD judge in both website and no-entry branches
+  ✔ website entry (0.149709ms)
+  ✔ no website entry (0.051916ms)
+✔ capture-only bypasses the composition's HARD judge in both website and no-entry branches (2.415167ms)
+✔ G1 refreshes a pending fact-cache page before answering (1.516583ms)
+✔ G1 a still-busy refreshed page stays incomplete with no answer model call (0.928542ms)
+✖ G1 current body readiness rejects aged-data before the question model (1.369667ms)
+✖ G1 current body readiness rejects pending-without-diagnostics before the question model (504.0905ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 18
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 724.270375
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:9506
+✖ G1 current body readiness rejects aged-data before the question model (1.369667ms)
+  AssertionError [ERR_ASSERTION]: {"status":"ANSWERED","candidateId":"capture-merchant","answer":"The page states that Visa and MasterCard are accepted.","sensitiveCategory":"NONE","confirmationRequired":false,"citations":[{"text":"Credit cards accepted: Visa and MasterCard.","url":"https://www.tablecheck.com/en/capture-venue","readAt":"2026-11-01T10:00:00.000Z","identityEvidenceId":"evidence:restaurant:native-fact-identity:56e4702c84aa94ca81d20d5d"}],"checkedPages":[{"url":"https://www.tablecheck.com/en/capture-venue","readAt":"2026-11-01T10:00:00.000Z"}],"modelUsage":{"calls":1}}
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/integrations/restaurant-facts/page-question-capture.test.ts:116:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:9506
+✖ G1 current body readiness rejects pending-without-diagnostics before the question model (504.0905ms)
+  AssertionError [ERR_ASSERTION]: {"status":"ANSWERED","candidateId":"capture-merchant","answer":"The page states that Visa and MasterCard are accepted.","sensitiveCategory":"NONE","confirmationRequired":false,"citations":[{"text":"Credit cards accepted: Visa and MasterCard.","url":"https://www.tablecheck.com/en/capture-venue","readAt":"2026-11-01T10:00:00.000Z","identityEvidenceId":"evidence:restaurant:native-fact-identity:56e4702c84aa94ca81d20d5d"}],"checkedPages":[{"url":"https://www.tablecheck.com/en/capture-venue","readAt":"2026-11-01T10:00:00.000Z"}],"modelUsage":{"calls":1}}
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/integrations/restaurant-facts/page-question-capture.test.ts:116:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

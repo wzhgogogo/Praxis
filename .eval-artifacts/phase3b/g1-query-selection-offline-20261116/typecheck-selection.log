@@ -1,0 +1,9 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/infrastructure/browser/browser-task-executor.ts(268,22): error TS2379: Argument of type '{ controlGroupKey: string; controlGroupRef: string; ref: string; controlId: string; stableKey: string; formObservation?: { owner: string; visibleLines: string[]; }; nativeTag?: string; inputName?: string; ... 23 more ...; options?: { ...; }[]; } | { ...; }' is not assignable to parameter of type 'ObservedTarget' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Type '{ controlGroupKey: string; controlGroupRef: string; ref: string; controlId: string; stableKey: string; formObservation?: { owner: string; visibleLines: string[]; }; nativeTag?: string; inputName?: string; ... 23 more ...; options?: { ...; }[]; }' is not assignable to type 'ObservedTarget' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Types of property 'valueText' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.

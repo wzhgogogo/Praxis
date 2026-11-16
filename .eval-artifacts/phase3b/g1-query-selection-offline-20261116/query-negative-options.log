@@ -1,0 +1,24 @@
+✖ TableCheck recorded-control component wrong-party binds only its actual query and B1 (9629.9855ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9937.829125
+
+✖ failing tests:
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:881
+✖ TableCheck recorded-control component wrong-party binds only its actual query and B1 (9629.9855ms)
+  AssertionError [ERR_ASSERTION]: {"reason":"The unrelated control really closed and read back its new value while the store stayed unchanged","calls":2,"check":{"status":"UNKNOWN","checkedAt":"2026-11-16T05:00:00.000Z","evidenceIds":["evidence:restaurant:tablecheck-entity-match:ab5378daa832d2cf174b980c"],"reasonCode":"REQUEST_SELECTION_UNCONFIRMED","sourceAttempts":[{"source":"TABLECHECK","outcome":"FAILED","reasonCode":"REQUEST_SELECTION_UNCONFIRMED"}]},"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":9567,"failureCode":"AVAILABILITY_SOURCES_EXHAUSTED","providerAttempts":[{"candidateId":"recorded-main","provider":"TABLECHECK","outcome":"PROVIDER_FAILURE","failureCode":"REQUEST_SELECTION_UNCONFIRMED"}],"skippedSources":[],"browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:3d9039d1-84de-4c2c-aead-b15d511b95ed","startedAt":"2026-11-16T08:00:50.038Z","readNetworkBoundary":"INSTALLED"},"googleRequests":{"limit":100,"total":0,"namedPlaceResolution":0,"discovery":0,"placeDetails":0,"reverseAddressObservation":0}},"observed":[{"purpose":"For the already identity-grounded outlet, set and verify the requested date, party size, a","progress":"The verifier has not yet established a completed availability result for the full Router-bound request. Already selected (do not repeat): 18."},{"purpose":"For the already identity-grounded outlet, set and verify the requested date, party size, a","progress":"Page is still loading after its bounded settlement wait; old results are not usable. Already selected (do not repeat): 18."},{"targets":[{"ref":"observation:2:target:35","formObservation":{"owner":"0","visibleLines":["18","2 guests","19:00","19:00"]},"kind":"BUTTON","role":"combobox","label":"Any party size","controlGroupLabel":"Any party size","controlGroupRef":"observation:2:group:6","formMethod":"POST","valueText":"2 guests","availableActions":["CLICK"]},{"ref":"observation:2:target:36","formObservation":{"owner":"0","visibleLines":["18","2 guests","19:00","19:00"]},"kind":"BUTTON","role":"combobox","label":"Time","controlGroupLabel":"Time","controlGroupRef":"observation:2:group:7","formMethod":"POST","valueText":"19:00","availableActions":["CLICK"]}]}],"skills":[{"status":"MODEL_FAILURE"}],"confirmations":[],"controls":[[{"name":"unrelated-query","label":"Any party size","proof":{"menuClosed":true,"displayRequired":true,"displayText":"2 guests"}},{"name":"","label":"Any party size","proof":{"menuClosed":true,"displayRequired":true,"displayText":"2 guests"}},{"name":"","label":"Time","proof":{"menuClosed":true,"displayRequired":true,"displayText":"19:00"}}],[{"name":"unrelated-query","label":"Any party size","proof":{"menuClosed":false,"displayRequired":true}},{"name":"","label":"Any party size","proof":{"menuClosed":true,"displayRequired":true,"displayText":"2 guests"}},{"name":"","label":"Time","proof":{"menuClosed":true,"displayRequired":true,"displayText":"19:00"}}]]}
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:59:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

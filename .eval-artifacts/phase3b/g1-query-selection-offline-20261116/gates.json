@@ -1,0 +1,61 @@
+[
+  {
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "elapsedMs": 531,
+    "log": "gate-1.log",
+    "cleanAfter": true,
+    "sourceSHA": "6adbeeb287d7731183fd2c5ba48538a56d24e49d"
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "exitCode": 0,
+    "elapsedMs": 208,
+    "log": "gate-2.log",
+    "cleanAfter": true,
+    "sourceSHA": "6adbeeb287d7731183fd2c5ba48538a56d24e49d"
+  },
+  {
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exitCode": 0,
+    "elapsedMs": 61198,
+    "log": "gate-3.log",
+    "cleanAfter": true,
+    "sourceSHA": "6adbeeb287d7731183fd2c5ba48538a56d24e49d"
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "elapsedMs": 568,
+    "log": "gate-4.log",
+    "cleanAfter": true,
+    "sourceSHA": "6adbeeb287d7731183fd2c5ba48538a56d24e49d"
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "exitCode": 0,
+    "elapsedMs": 343850,
+    "log": "gate-5.log",
+    "cleanAfter": true,
+    "sourceSHA": "6adbeeb287d7731183fd2c5ba48538a56d24e49d"
+  }
+]

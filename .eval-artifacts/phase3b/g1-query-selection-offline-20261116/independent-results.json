@@ -1,0 +1,40 @@
+{
+  "mode": "OFFLINE_RECORDED_DOM_WITH_LOCAL_CONSTRUCTION",
+  "sourceSHA": "6adbeeb287d7731183fd2c5ba48538a56d24e49d",
+  "consumption": {
+    "fullLive": 0,
+    "evaluationPublicGET": 0,
+    "realModelCalls": 0
+  },
+  "validPreFixFailures": {
+    "G1_stale_network_and_missing_diagnostics": "g1-red.log",
+    "G1_actual_recorded_dom": "g1-recorded-baseline-red.log",
+    "closed_readonly_owner_native_empty_value": "combobox-portal-red.log"
+  },
+  "driverFailuresPreservedNotProductEvidence": [
+    "combobox-red.log",
+    "combobox-target-red.log",
+    "combobox-effective-red.log",
+    "query-binding.log",
+    "query-binding-details.log",
+    "query-production-composition.log",
+    "query-readback-final-focused.log",
+    "query-negative-observation.log",
+    "query-negative-targets.log",
+    "query-negative-skill.log",
+    "query-negative-options.log"
+  ],
+  "driverCorrections": [
+    "React-style public readonly control opens on ArrowDown; constructed options must be visible outside its clipping container.",
+    "Window.top/parent cannot be reused as top-level const names; script errors now cause assertions.",
+    "B1 requires the production Domain AVAILABILITY_CHECKED transition; no identity, fingerprint or expiry guards were bypassed.",
+    "Constructed portal must not cover its own top control; final wrong-top tests require genuine successful same-control readback before independent shop-query refusal.",
+    "Existing legal-replacement fixture now actually closes its menu after selection, retaining all old assertions."
+  ],
+  "boundaries": [
+    "Original merchant DOM/CSS retained and hash verified.",
+    "No source shop JSON retained; menus, query updates and inventory are explicitly constructed.",
+    "No online four-person or new-slot inventory claim.",
+    "No evaluator, Guard, Prompt, Schema, Skill or production time limit modification."
+  ]
+}

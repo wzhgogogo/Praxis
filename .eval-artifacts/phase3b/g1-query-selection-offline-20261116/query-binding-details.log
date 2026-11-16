@@ -1,0 +1,41 @@
+✖ TableCheck recorded-control component party binds only its actual query and B1 (14553.592875ms)
+✖ TableCheck recorded-control component wrong-time binds only its actual query and B1 (10215.7365ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25080.499
+
+✖ failing tests:
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:804
+✖ TableCheck recorded-control component party binds only its actual query and B1 (14553.592875ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"party","intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","selectionScope":"SPECIFIC_OUTLET","query":"Specializing in Nodoguro Ginza Nakamata"},"date":"2026-11-18","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":4,"criteria":[]},"check":{"status":"AVAILABLE","receptionMode":"RESERVATION_SUPPORTED","checkedAt":"2026-11-16T05:00:00.000Z","evidenceIds":["evidence:restaurant:tablecheck-entity-match:ab5378daa832d2cf174b980c","evidence:restaurant:tablecheck-availability:e75152454f69d1c85c84a997"],"displayExpiresAt":"2026-11-16T05:10:00.000Z","freshnessPolicyVersion":"restaurant-availability-display-freshness@1","timeWindowCoverage":{"date":"2026-11-18","partySize":4,"requestedWindow":{"earliest":"19:00","latest":"19:00"},"covered":[{"earliest":"19:00","latest":"19:00","status":"AVAILABLE"}],"uncovered":[],"stopReason":"RESULT_FOUND"}},"offers":[{"id":"offer:tablecheck:recorded-main:2026-11-18:19:00:4","restaurantId":"recorded-main","source":"TABLECHECK","dateTime":"2026-11-18T19:00:00+09:00","timezone":"Asia/Tokyo","partySize":4,"bookingMode":"REQUEST","executionMode":"BROWSER","checkedAt":"2026-11-16T05:00:00.000Z","displayExpiresAt":"2026-11-16T05:10:00.000Z","bookingRecheckRequired":true,"expiresAt":"2026-11-16T05:00:00.000Z"}],"evidence":[{"kind":"ENTITY_MATCH","provider":"TABLECHECK","url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza","confidence":"HIGH","claims":{"outletName":"Specializing in Nodoguro Ginza Nakamata"}},{"kind":"AVAILABILITY","provider":"TABLECHECK","url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza","confidence":"HIGH","claims":{"date":"2026-11-18","partySize":4,"visibleSlots":["19:00"],"inventoryStatus":"AVAILABLE","receptionMode":"RESERVATION_SUPPORTED"}}],"lastUrl":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza"}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:47:50)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:804
+✖ TableCheck recorded-control component wrong-time binds only its actual query and B1 (10215.7365ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"wrong-time","check":{"status":"UNKNOWN","checkedAt":"2026-11-16T05:00:00.000Z","evidenceIds":["evidence:restaurant:tablecheck-entity-match:ab5378daa832d2cf174b980c"],"reasonCode":"REQUEST_SELECTION_UNCONFIRMED"},"observed":[{"purpose":"For the already identity-grounded outlet, set and verify the requested date, party size, a","progress":"The verifier has not yet established a completed availability result for the full Router-bound request."},{"purpose":"For the already identity-grounded outlet, set and verify the requested date, party size, a","progress":"The previous CLICK did not produce a visible change. Choose a current observed target that advances the goal. Wait only if the result is actually still loading."}]}
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:44:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

@@ -1,0 +1,46 @@
+✖ TableCheck recorded-control component party binds only its actual query and B1 (14590.652084ms)
+✖ TableCheck recorded-control component time binds only its actual query and B1 (24402.59375ms)
+✔ TableCheck recorded-control component wrong-time binds only its actual query and B1 (14455.329459ms)
+✔ TableCheck recorded-control component wrong-party binds only its actual query and B1 (9522.847791ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 63273.343166
+
+✖ failing tests:
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:792
+✖ TableCheck recorded-control component party binds only its actual query and B1 (14590.652084ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"party","intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","selectionScope":"SPECIFIC_OUTLET","query":"Specializing in Nodoguro Ginza Nakamata"},"date":"2026-11-18","timeWindow":{"earliest":"19:00","latest":"19:00"},"partySize":4,"criteria":[]},"check":{"status":"AVAILABLE","receptionMode":"RESERVATION_SUPPORTED","checkedAt":"2026-11-16T05:00:00.000Z","evidenceIds":["evidence:restaurant:tablecheck-entity-match:ab5378daa832d2cf174b980c","evidence:restaurant:tablecheck-availability:e75152454f69d1c85c84a997"],"displayExpiresAt":"2026-11-16T05:10:00.000Z","freshnessPolicyVersion":"restaurant-availability-display-freshness@1","timeWindowCoverage":{"date":"2026-11-18","partySize":4,"requestedWindow":{"earliest":"19:00","latest":"19:00"},"covered":[{"earliest":"19:00","latest":"19:00","status":"AVAILABLE"}],"uncovered":[],"stopReason":"RESULT_FOUND"},"sourceProvider":"TABLECHECK","sourceAttempts":[{"source":"TABLECHECK","outcome":"AVAILABLE"}]},"offers":[{"id":"offer:tablecheck:recorded-main:2026-11-18:19:00:4","restaurantId":"recorded-main","source":"TABLECHECK","dateTime":"2026-11-18T19:00:00+09:00","timezone":"Asia/Tokyo","partySize":4,"bookingMode":"REQUEST","executionMode":"BROWSER","checkedAt":"2026-11-16T05:00:00.000Z","displayExpiresAt":"2026-11-16T05:10:00.000Z","bookingRecheckRequired":true,"expiresAt":"2026-11-16T05:00:00.000Z"}],"evidence":[{"kind":"ENTITY_MATCH","provider":"TABLECHECK","url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza","confidence":"HIGH","claims":{"outletName":"Specializing in Nodoguro Ginza Nakamata","observedOutletName":"Specializing in Nodoguro Ginza Nakamata"}},{"kind":"AVAILABILITY","provider":"TABLECHECK","url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza","confidence":"HIGH","claims":{"date":"2026-11-18","partySize":4,"visibleSlots":["19:00"],"inventoryStatus":"AVAILABLE","receptionMode":"RESERVATION_SUPPORTED"}}],"lastUrl":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza"}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:52:68)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:792
+✖ TableCheck recorded-control component time binds only its actual query and B1 (24402.59375ms)
+  AssertionError [ERR_ASSERTION]: {"mode":"time","intent":{"timezone":"Asia/Tokyo","target":{"goal":"AVAILABILITY","selectionScope":"SPECIFIC_OUTLET","query":"Specializing in Nodoguro Ginza Nakamata"},"date":"2026-11-18","timeWindow":{"earliest":"18:30","latest":"21:00"},"partySize":2,"criteria":[]},"check":{"status":"AVAILABLE","receptionMode":"RESERVATION_SUPPORTED","checkedAt":"2026-11-16T05:00:00.000Z","evidenceIds":["evidence:restaurant:tablecheck-entity-match:ab5378daa832d2cf174b980c","evidence:restaurant:tablecheck-availability:9d371cc7e67fb154a584cf9c"],"displayExpiresAt":"2026-11-16T05:10:00.000Z","freshnessPolicyVersion":"restaurant-availability-display-freshness@1","timeWindowCoverage":{"date":"2026-11-18","partySize":2,"requestedWindow":{"earliest":"18:30","latest":"21:00"},"covered":[{"earliest":"19:00","latest":"19:00","status":"EMPTY"},{"earliest":"20:30","latest":"20:30","status":"AVAILABLE"}],"uncovered":[{"earliest":"18:30","latest":"19:00","earliestExclusive":false,"latestExclusive":true},{"earliest":"19:00","latest":"20:30","earliestExclusive":true,"latestExclusive":true},{"earliest":"20:30","latest":"21:00","earliestExclusive":true,"latestExclusive":false}],"stopReason":"RESULT_FOUND"},"sourceProvider":"TABLECHECK","sourceAttempts":[{"source":"TABLECHECK","outcome":"AVAILABLE"}]},"offers":[{"id":"offer:tablecheck:recorded-main:2026-11-18:20:30:2","restaurantId":"recorded-main","source":"TABLECHECK","dateTime":"2026-11-18T20:30:00+09:00","timezone":"Asia/Tokyo","partySize":2,"bookingMode":"REQUEST","executionMode":"BROWSER","checkedAt":"2026-11-16T05:00:00.000Z","displayExpiresAt":"2026-11-16T05:10:00.000Z","bookingRecheckRequired":true,"expiresAt":"2026-11-16T05:00:00.000Z"}],"evidence":[{"kind":"ENTITY_MATCH","provider":"TABLECHECK","url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza","confidence":"HIGH","claims":{"outletName":"Specializing in Nodoguro Ginza Nakamata","observedOutletName":"Specializing in Nodoguro Ginza Nakamata"}},{"kind":"AVAILABILITY","provider":"TABLECHECK","url":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza","confidence":"HIGH","claims":{"date":"2026-11-18","partySize":2,"visibleSlots":["20:30"],"inventoryStatus":"AVAILABLE","receptionMode":"RESERVATION_SUPPORTED"}}],"lastUrl":"https://www.tablecheck.com/en/nakamata-nodoguro-ginza"}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-query-readback.test.ts:52:68)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
