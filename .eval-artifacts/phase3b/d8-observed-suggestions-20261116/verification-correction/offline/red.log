@@ -1,0 +1,74 @@
+✖ recorded November 16 search panel exposes every visible suggestion and Search to the browser decision (210.136666ms)
+✖ recorded exact suggestion and completed same-page shop GET bind a generic source handoff (63.686375ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 588.978625
+
+✖ failing tests:
+
+test at src/harness/browser/observed-suggestion-handoff.test.ts:1:704
+✖ recorded November 16 search panel exposes every visible suggestion and Search to the browser decision (210.136666ms)
+  Error [BrowserRuntimeError]: Local Playwright Chromium could not launch a browser; install a Playwright Chromium browser binary before using PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM
+      at LocalPlaywrightChromium.openSession (/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/local-playwright-chromium.ts:337:13)
+      at async Object.openSession (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/browser-read-test-fixtures.ts:29:121)
+      at async BrowserTaskExecutor.acquire (/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/browser-task-executor.ts:426:17)
+      at async TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/observed-suggestion-handoff.test.ts:27:21)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_RUNTIME_UNAVAILABLE',
+    cause: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+    
+    <launching> /Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-5LN6TE --remote-debugging-pipe --no-startup-window
+    <launched> pid=34419
+    [pid=34419][err] [1116/120100.825704:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9
+    [pid=34419][err] [1116/120100.826995:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
+    [pid=34419][err] [1116/120100.827322:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.
+    [pid=34419][err] [1116/120100.827465:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.34419: Permission denied (1100)
+    Call log:
+    [2m  - <launching> /Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-5LN6TE --remote-debugging-pipe --no-startup-window[22m
+    [2m  - <launched> pid=34419[22m
+    [2m  - [pid=34419][err] [1116/120100.825704:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9[22m
+    [2m  - [pid=34419][err] [1116/120100.826995:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.[22m
+    [2m  - [pid=34419][err] [1116/120100.827322:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.[22m
+    [2m  - [pid=34419][err] [1116/120100.827465:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.34419: Permission denied (1100)[22m
+    [2m  - [pid=34419] <gracefully close start>[22m
+    [2m  - [pid=34419] <kill>[22m
+    [2m  - [pid=34419] <will force kill>[22m
+    [2m  - [pid=34419] exception while trying to kill process: Error: kill EPERM[22m
+    [2m  - [pid=34419] <process did exit: exitCode=null, signal=SIGTRAP>[22m
+    [2m  - [pid=34419] starting temporary directories cleanup[22m
+    [2m  - [pid=34419] finished temporary directories cleanup[22m
+    [2m  - [pid=34419] <gracefully close end>[22m
+    
+        at LocalPlaywrightChromium.openSession (/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/local-playwright-chromium.ts:317:37)
+        at Object.openSession (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/browser-read-test-fixtures.ts:29:131)
+        at <anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/browser-task-executor.ts:414:63)
+        at async BrowserTaskExecutor.acquire (/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/browser-task-executor.ts:426:17)
+        at async TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/observed-suggestion-handoff.test.ts:27:21) {
+      log: [ '  - <launching> /Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-5LN6TE --remote-debugging-pipe --no-startup-window', '  - <launched> pid=34419', '  - [pid=34419][err] [1116/120100.825704:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9', '  - [pid=34419][err] [1116/120100.826995:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.', '  - [pid=34419][err] [1116/120100.827322:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.', '  - [pid=34419][err] [1116/120100.827465:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.34419: Permission denied (1100)', '  - [pid=34419] <gracefully close start>', '  - [pid=34419] <kill>', '  - [pid=34419] <will force kill>', '  - [pid=34419] exception while trying to kill process: Error: kill EPERM', '  - [pid=34419] <process did exit: exitCode=null, signal=SIGTRAP>', '  - [pid=34419] starting temporary directories cleanup', '  - [pid=34419] finished temporary directories cleanup', '  - [pid=34419] <gracefully close end>' ]
+    },
+    scope: undefined,
+    networkFailures: undefined
+  }
+
+test at src/harness/browser/observed-suggestion-handoff.test.ts:1:2870
+✖ recorded exact suggestion and completed same-page shop GET bind a generic source handoff (63.686375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/observed-suggestion-handoff.test.ts:115:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual'
+  }
