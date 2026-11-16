@@ -302,7 +302,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         };
         const capturePage = async () => {
           const context = {source:provider,stage:"FACTS" as const,signal,session};
-          const page = request.reobservePageOnce ? await executor.reobservePageOnce(context, current) : await executor.snapshot(context);
+          const page = request.reobservePageOnce ? await executor.reobservePageOnce(context, current?.url === sourceUrl ? current : undefined) : await executor.snapshot(context);
           const controls = await executor.observeControls(context);
           if (!request.capturePagesOnly) return {page,controls,ready:true};
           const verified = await executor.verifyPageContent(context,page);

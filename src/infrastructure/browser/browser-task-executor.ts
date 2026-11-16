@@ -671,12 +671,15 @@ export class BrowserTaskExecutor {
     const ready = (page: BrowserSnapshot) => {
       const d = page.settlementDiagnostics;
       return Boolean(page.text.trim()) && !(page.settlement === "PENDING" && !d)
-        && !d?.blockingDataRequests && !d?.visibleTextChanging && !["document", "xhr", "fetch"].some(type => (d?.pendingByType[type] ?? 0) > 0)
+        && !d?.blockingDataRequests && !["document", "xhr", "fetch"].some(type => (d?.pendingByType[type] ?? 0) > 0)
         && !(d?.contentBusySelectors ?? d?.busySelectors)?.length;
     };
     const stable = current.url === previous.url && current.pageId === previous.pageId && current.text === previous.text;
-    return {...current, settlement: stable && ready(previous) && ready(current) ? "SETTLED" : "PENDING",
-      ...(current.settlementDiagnostics ? {settlementDiagnostics: {...current.settlementDiagnostics, visibleTextChanging: !stable}} : {})};
+    // Runtime flags describe only the fresh snapshot; static providers may
+    // explicitly report changes inside their current observation window.
+    const changing = !stable || Boolean(previous.settlementDiagnostics?.visibleTextChanging || current.settlementDiagnostics?.visibleTextChanging);
+    return {...current, settlement: !changing && ready(previous) && ready(current) ? "SETTLED" : "PENDING",
+      ...(current.settlementDiagnostics ? {settlementDiagnostics: {...current.settlementDiagnostics, visibleTextChanging: changing}} : {})};
   }
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {

@@ -91,6 +91,9 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
 
   async snapshot(): Promise<BrowserSnapshot> {
     return this.run(async () => {
+      // Compare this snapshot's own endpoints, never the last wait's flag.
+      // G1 separately proves the 500ms window between fresh snapshots.
+      const textBefore = await this.page.locator("body").innerText();
       const state = await interactiveState(this.page).catch(() => undefined);
       const busy = await pageBusyDiagnostics(this.page);
       const snapshot:BrowserSnapshot = {
@@ -135,6 +138,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: structuredClone(this.networkGuard.snapshotRequests()) } : {}),
         ...(this.networkGuard?.snapshotResourceTypes().length ? { networkResourceTypes: this.networkGuard.snapshotResourceTypes() } : {}),
       };
+      if (snapshot.settlementDiagnostics) snapshot.settlementDiagnostics.visibleTextChanging = textBefore !== snapshot.text;
       const activity = this.networkGuard?.settlementActivity();
       if (activity && snapshot.settlementDiagnostics) Object.assign(snapshot.settlementDiagnostics, {
         pendingByType: activity.pendingByType, oldestPendingMs: activity.oldestPendingMs, blockingDataRequests: activity.pending,

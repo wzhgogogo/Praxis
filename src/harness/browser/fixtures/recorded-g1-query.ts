@@ -10,6 +10,7 @@ import type {RestaurantCandidate} from '../../../domains/restaurant/contracts.js
 
 export const recordedUrl='https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc';
 export const recordedQuote='Specializing in Nodoguro Ginza Nakamata';
+export const privateRoomQuote='和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。';
 export const recordedAt='2026-11-16T05:00:00.000Z';
 export const candidate:RestaurantCandidate={restaurant:{id:'recorded-main',outletName:recordedQuote,address:'東京都中央区銀座4-10-12 銀座サマリヤビルB1F',sourceIds:{tablecheck:'nakamata-nodoguro-ginza',tablecheckNativeGuideUri:recordedUrl},provenance:{}},matchReasons:[],warnings:[],executionConfidence:'LOW'};
 
@@ -28,14 +29,14 @@ export async function recordedHtml(script='',prefix=''){
  return html.replace('</head>','<style>'+css+'</style></head>').replace(/(<body\b[^>]*>)/i,'$1'+prefix).replace('</body>','<script>'+script+'</script></body>');
 }
 
-export async function recordedRuntime(html:string,options:{agedFetch?:boolean;kind?:'LOCAL'|'CLOUDFLARE'}={}){
- const sessions:BrowserSession[]=[],snapshots:Awaited<ReturnType<BrowserSession['snapshot']>>[]=[],controls:import('../../../infrastructure/browser/browser-runtime.js').BrowserPageControl[][]=[],scriptErrors:string[]=[];let held:import('node:http').ServerResponse|undefined;
+export async function recordedRuntime(html:string,options:{agedFetch?:boolean;kind?:'LOCAL'|'CLOUDFLARE';priorTextWait?:'quiet'|'changing'}={}){
+ const sessions:BrowserSession[]=[],snapshots:Awaited<ReturnType<BrowserSession['snapshot']>>[]=[],controls:import('../../../infrastructure/browser/browser-runtime.js').BrowserPageControl[][]=[],scriptErrors:string[]=[],pages:import('playwright-core').Page[]=[],priorWaits:Array<{settled:boolean;visibleTextChanging:boolean|undefined;textChanged:boolean}>=[];let held:import('node:http').ServerResponse|undefined;
  const receiver=createServer((request,response)=>{response.setHeader('Access-Control-Allow-Origin','https://www.tablecheck.com');
   if(request.url?.startsWith('/v2/shops/')){held=response;return;}
   response.setHeader('Content-Type','text/html');response.end(html);
  });receiver.listen(0,'127.0.0.1');await once(receiver,'listening');const origin='http://127.0.0.1:'+((receiver.address() as import('node:net').AddressInfo).port);
  const browserType={async launch(options:Parameters<typeof chromium.launch>[0]){const browser=await chromium.launch(options),create=browser.newContext.bind(browser);browser.newContext=async opts=>{
-  const context=await create(opts),route=context.route.bind(context);context.on('page',page=>page.on('pageerror',error=>scriptErrors.push(error.message)));
+  const context=await create(opts),route=context.route.bind(context);context.on('page',page=>{pages.push(page);page.on('pageerror',error=>scriptErrors.push(error.message));});
   context.route=(pattern,handler,opts)=>route(pattern,async(actual,request)=>{
    const wrapped=new Proxy(actual,{get(target,key){
     if(key==='fetch')return (opts:Parameters<typeof actual.fetch>[0])=>{const u=new URL(request.url());return target.fetch({...opts,url:origin+u.pathname+u.search});};
@@ -49,9 +50,10 @@ export async function recordedRuntime(html:string,options:{agedFetch?:boolean;ki
  const raw:BrowserRuntime=options.kind==='CLOUDFLARE'?new CloudflareBrowserRun({accountId:'fixture',apiToken:'fixture',connectOverCdp:async()=>{const b=await browserType.launch({headless:true});await b.newContext();return b;}}):new LocalPlaywrightChromium({browserType,proxyServer:'http://127.0.0.1:9',directHosts:['127.0.0.1']});
  const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',async openSession(input){const session=await raw.openSession(input),navigate=session.navigate.bind(session),snapshot=session.snapshot.bind(session);
   session.navigate=async(url,opts)=>{await navigate(url,opts);if(options.agedFetch){const end=Date.now()+5000;while(!held&&Date.now()<end)await new Promise(r=>setTimeout(r,10));if(!held)throw Error('Constructed data request was not admitted');await new Promise(r=>setTimeout(r,3200));}};
+  if(options.priorTextWait&&session.waitForSettled){const wait=session.waitForSettled.bind(session);let primed=false;session.waitForSettled=async(previous,timeout)=>{const before=primed?undefined:await pages.at(-1)!.locator('body').innerText();const settled=await wait(previous,primed?timeout:200);if(!primed){primed=true;priorWaits.push({settled,visibleTextChanging:session.settlementDiagnostics?.()?.visibleTextChanging,textChanged:before!==await pages.at(-1)!.locator('body').innerText()});if(options.priorTextWait==='quiet'){await pages.at(-1)!.evaluate(()=>clearInterval((window as unknown as {g1TextTimer:number}).g1TextTimer));await new Promise(r=>setTimeout(r,500));}}return settled;};}
   session.snapshot=async()=>{const page=await snapshot();const reported:typeof page=options.agedFetch?{...page,settlement:'SETTLED'}:page;snapshots.push(reported);return reported;};
   if(session.observeControls){const observe=session.observeControls.bind(session);session.observeControls=async hints=>{const value=await observe(hints);controls.push(value);return value;};}
   sessions.push(session);return session;
  }};
- return {runtime,snapshots,controls,scriptErrors,async close(){held?.destroy();await Promise.all(sessions.map(s=>s.close()));receiver.closeAllConnections();await new Promise<void>(r=>receiver.close(()=>r()));}};
+ return {runtime,snapshots,controls,scriptErrors,priorWaits,async close(){held?.destroy();await Promise.all(sessions.map(s=>s.close()));receiver.closeAllConnections();await new Promise<void>(r=>receiver.close(()=>r()));}};
 }

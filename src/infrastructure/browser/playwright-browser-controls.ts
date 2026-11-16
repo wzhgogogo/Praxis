@@ -659,6 +659,7 @@ export async function pageBusyDiagnostics(page: Page): Promise<{busySelectors: s
       describe(element: Element) { return element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.'); },
       decoration(element: Element) {
         for (let node: Element | null = element; node; node = node.parentElement) if (getComputedStyle(node).opacity === "0") return true;
+        if (element.matches('[aria-busy="true"],[role="progressbar"]')) return false;
         if ((element as HTMLElement).innerText?.trim()) return false;
         const box = element.getBoundingClientRect();
         for (let frame = element.parentElement; frame && !frame.matches('html,body,main,form,section,article'); frame = frame.parentElement) {
@@ -666,12 +667,20 @@ export async function pageBusyDiagnostics(page: Page): Promise<{busySelectors: s
           // surface inside an observed navigation wrapper. Neither names nor
           // private attributes/classes identify the preview.
           const navigation = frame.tagName === "A" && frame.hasAttribute("target");
+          const text = (frame as HTMLElement).innerText?.replace(/\s+/g," ").trim();
+          // Mixed prose cards are not media previews. A navigation preview
+          // may carry its own public accessible label, but no other prose.
+          if (text && (!navigation || text !== frame.getAttribute("aria-label")?.replace(/\s+/g," ").trim())) continue;
+          const frameBox = frame.getBoundingClientRect();
+          const geometry = {sameArea(left: DOMRect, right: DOMRect) {return [left.left-right.left,left.right-right.right,left.top-right.top,left.bottom-right.bottom].every(delta => Math.abs(delta) <= 1);}};
           const surfaces = [...frame.querySelectorAll('img,picture,video,canvas,svg,iframe,[role="img"],div')].filter(node => {
             if (node === element || element.contains(node) || node.contains(element) || busy.includes(node) || (node as HTMLElement).innerText?.trim()) return false;
             const style = getComputedStyle(node), area = node.getBoundingClientRect();
             return area.width > 0 && area.height > 0 && style.display !== "none" && style.visibility !== "hidden"
               && (node.matches('img,picture,video,canvas,svg,iframe,[role="img"]') || style.backgroundImage !== "none" || navigation && node.children.length === 0)
-              && box.left >= area.left && box.right <= area.right && box.top >= area.top && box.bottom <= area.bottom;
+              // A preview mask fills its independent surface and frame;
+              // a small body placeholder inside a large image does not.
+              && geometry.sameArea(box,area) && geometry.sameArea(area,frameBox);
           });
           if (!surfaces.length) continue;
           const walker = document.createTreeWalker(frame, NodeFilter.SHOW_TEXT);
