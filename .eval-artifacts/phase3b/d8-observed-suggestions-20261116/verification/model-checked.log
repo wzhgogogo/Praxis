@@ -1,0 +1,15 @@
+{"id":"nov16-6","passed":true,"action":"CLICK","label":"Specializing in Nodoguro Ginza Nakamata, Ginza · Izakaya (Japanese Tavern)"}
+/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/browser-action-decision.ts:501
+      throw new BrowserReadDecisionError("MODEL_FAILURE", modelError.code);
+            ^
+
+
+BrowserReadDecisionError: NETWORK
+    at ModelBrowserReadActionDecision.decide (/private/tmp/praxis-premerge-scope-main-20261115/src/infrastructure/browser/browser-action-decision.ts:501:13)
+    at async evaluate (/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/d8-observed-suggestions-20261116/verification/model.mjs:187:20)
+    at async <anonymous> (/private/tmp/praxis-category-guidance-live-evidence/.eval-artifacts/phase3b/d8-observed-suggestions-20261116/verification/model.mjs:201:82) {
+  code: 'MODEL_FAILURE',
+  wireRejection: undefined
+}
+
+Node.js v24.4.1
