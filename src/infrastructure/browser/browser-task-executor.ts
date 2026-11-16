@@ -242,10 +242,21 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number, exp
   const targets = new Map<string, ObservedTarget>();
   const controlRefs = new Map<string, string>();
   const groupRefs = new Map<string, string>();
+  const suggestions = new Set(controls.filter(control => exposeSuggestions && isSuggestionButton(control)
+    && !control.optionOwnerId && control.visible && !control.disabled && !control.blockedByActiveLayer
+    && nonSubmittingOptionTags.has(control.structure?.tag ?? "")));
+  const suggestionCounts = new Map<string, Map<string, number>>();
+  for (const control of suggestions) {
+    const groupKey = control.controlGroupKey ?? "";
+    const counts = suggestionCounts.get(groupKey) ?? new Map<string, number>();
+    const label = normalizedTextKey(control.label);
+    counts.set(label, (counts.get(label) ?? 0) + 1);
+    suggestionCounts.set(groupKey, counts);
+  }
   for (const control of controls) {
     if (!control.visible || control.blockedByActiveLayer || (control.kind === "LINK" && !control.href)) continue;
-    const suggestion = exposeSuggestions && isSuggestionButton(control) && !control.optionOwnerId && !control.disabled
-      && nonSubmittingOptionTags.has(control.structure?.tag ?? "");
+    const suggestion = suggestions.has(control)
+      && suggestionCounts.get(control.controlGroupKey ?? "")?.get(normalizedTextKey(control.label)) === 1;
     if (control.observationOnly && !control.calendarDate && !suggestion) continue;
     const groupKey = control.controlGroupLabel !== "Unlabelled group" ? control.controlGroupKey : undefined;
     if (groupKey && !groupRefs.has(groupKey)) groupRefs.set(groupKey, `observation:${revision}:group:${groupRefs.size + 1}`);
