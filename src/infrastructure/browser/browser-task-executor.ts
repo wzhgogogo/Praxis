@@ -3,7 +3,7 @@ import {createHash} from "node:crypto";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import {normalizedTextKey} from "../../core/text-key.js";
 import { setTimeout as wait } from "node:timers/promises";
-import type { BrowserControlHint, BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserControlHint, BrowserPageControl, BrowserReadBoundary, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError, type BrowserDeadlineScope, type BrowserRuntimeFailureCode } from "./browser-runtime-errors.js";
 import {
   type BrowserReadAction,
@@ -107,7 +107,7 @@ export interface BrowserSkillReadInput {
   allowedOrigins: readonly string[];
   /** Complete Router-bound target; model guidance cannot alter it. */
   goal: BrowserReadGoal;
-  objective: string;
+  objective: string | ((targets: readonly BrowserReadActionTarget[]) => string);
   /** Pack-owned source guidance; the browser core never chooses a site skill. */
   sourceSkillPath?: string;
   /** Current method result; it is context for continuation, never a provider failure by itself. */
@@ -119,7 +119,7 @@ export interface BrowserSkillReadInput {
   /** Internal evidence of an actually dispatched, guarded public query. */
   onQuerySubmitted?(owner: string): void;
   /** Code-owned cut immediately before a validated observed button click. */
-  onBeforeClick?(snapshot:BrowserSnapshot,controls:BrowserPageControl[],controlId:string):void|(()=>void);
+  onBeforeClick?(snapshot: BrowserSnapshot, target: BrowserReadActionTarget): void | (() => void);
   /** Current same-session observation already captured by the source caller; no intervening action. */
   initialObservation?: { snapshot: BrowserSnapshot; controls: BrowserPageControl[] };
   /** Explicitly false only when completion validates the captured source without live controls. */
@@ -138,7 +138,7 @@ export interface BrowserGenericReadResult {
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { exactSuggestion?:boolean; controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; readOnly?: boolean; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
+interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; readOnly?: boolean; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
 
 interface Observation {
   revision: number;
@@ -228,20 +228,33 @@ function pointerObstruction(error: unknown): boolean {
   return /(?:intercepts pointer events|would receive the pointer event|another element would receive)/i.test(message);
 }
 
-function toObservedTargets(controls: BrowserPageControl[], revision: number,exactSuggestionId?:string): Map<string, ObservedTarget> {
+const nonSubmittingOptionTags = new Set([
+  "DIV",
+  "LI",
+  "SPAN",
+]);
+
+function isSuggestionButton(target: Pick<BrowserReadActionTarget, "kind" | "role">): boolean {
+  return target.kind === "BUTTON" && target.role === "option";
+}
+
+function toObservedTargets(controls: BrowserPageControl[], revision: number, exposeSuggestions = false): Map<string, ObservedTarget> {
   const targets = new Map<string, ObservedTarget>();
   const controlRefs = new Map<string, string>();
   const groupRefs = new Map<string, string>();
-  const eligible = controls.filter(control => control.visible && !control.blockedByActiveLayer && (!control.observationOnly || control.calendarDate !== undefined || control.id===exactSuggestionId)
-    && (control.kind !== "LINK" || control.href !== undefined));
-  for (const control of eligible) {
+  for (const control of controls) {
+    if (!control.visible || control.blockedByActiveLayer || (control.kind === "LINK" && !control.href)) continue;
+    const suggestion = exposeSuggestions && isSuggestionButton(control) && !control.optionOwnerId && !control.disabled
+      && nonSubmittingOptionTags.has(control.structure?.tag ?? "");
+    if (control.observationOnly && !control.calendarDate && !suggestion) continue;
     const groupKey = control.controlGroupLabel !== "Unlabelled group" ? control.controlGroupKey : undefined;
     if (groupKey && !groupRefs.has(groupKey)) groupRefs.set(groupKey, `observation:${revision}:group:${groupRefs.size + 1}`);
     const group = groupKey ? { controlGroupKey: groupKey, controlGroupRef: groupRefs.get(groupKey)! } : {};
     const ref = `observation:${revision}:target:${targets.size + 1}`;
     controlRefs.set(control.id, ref);
     targets.set(ref, {
-      ref, controlId: control.id, stableKey: control.stableKey, ...(control.id===exactSuggestionId?{exactSuggestion:true}:{}), ...(control.formObservation ? { formObservation: control.formObservation } : {}), ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
+      ref, controlId: control.id, stableKey: control.stableKey, ...(control.formObservation ? { formObservation: control.formObservation } : {}), ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}),
+      kind: control.role === "option" && !suggestion ? "OPTION" : control.kind, role: control.role, label: control.label,
       controlGroupLabel: control.controlGroupLabel ?? "Unlabelled group",
       ...group,
       ...(control.labelSource ? { labelSource: control.labelSource } : {}),
@@ -267,8 +280,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number,exac
     }
   }
   for (const target of targets.values()) {
-    if (target.role !== "option" || target.optionNative || target.exactSuggestion) continue;
-    target.kind = "OPTION";
+    if (target.kind !== "OPTION" || target.optionNative) continue;
     if (target.optionOwnerId) {
       const ownerRef = controlRefs.get(target.optionOwnerId);
       if (ownerRef) {
@@ -490,7 +502,7 @@ export class BrowserTaskExecutor {
 
   /** Query wording comes from G4; all UI steps, including reuse of an already
    * loaded page, are chosen by the ordinary observation loop. */
-  async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; query: string; querySource?: "SPECIFIC_OUTLET" | "G4_SOURCE_TERM"; completion: BrowserSkillReadInput["completion"] }): Promise<BrowserGenericReadResult> {
+  async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins" | "sourceSkillPath"> & { session: BrowserSession; url: string; query: string; querySource?: "SPECIFIC_OUTLET" | "G4_SOURCE_TERM"; completion: BrowserSkillReadInput["completion"] }): Promise<BrowserGenericReadResult> {
     const scoped = { ...input, stage: "DISCOVERY" as const };
     const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
     if (seeds.length !== 1) throw this.rejected(input.source, "DISCOVERY", "Source start is missing or ambiguous");
@@ -511,17 +523,22 @@ export class BrowserTaskExecutor {
     let currentIsResult = false;
     let initialRequestCount: number | undefined;
     const queryKey = normalizedTextKey(input.query);
-    let selected: {boundary:import("./browser-runtime.js").BrowserReadBoundary;url:string}|undefined;
+    let selected: {boundary: BrowserReadBoundary; url: string} | undefined;
     let handoff:BrowserGenericReadResult["sourceHandoff"];
 
     const result = await this.runSkill({ ...scoped, taskId: "observed-source-query", requireModelConfirmation: true,
       goal: { outlet: { name: input.query }, retrievalExpression: input.query, retrievalSource: input.querySource ?? "G4_SOURCE_TERM", hardCriteria: [] },
-      objective: "Submit the authoritative query through observed public search controls and stop at its result LIST. If the source instead presents one visible enabled suggestion BUTTON whose full label exactly equals the query, select it once and stop at the settled destination page. Do not open ordinary individual restaurant cards or unrelated recommendations. Code inspects identities after either source handoff with its shared detail limit. If this term has no matching option and no matching route, REQUEST_HUMAN_HELP ends this method; the caller owns any next approved retrieval term, not the browser model.",
-      onBeforeClick:(page,controls,controlId)=>{
-        selected=undefined;
-        const exact=controls.filter(control=>control.kind==="BUTTON"&&control.visible&&!control.disabled&&!control.blockedByActiveLayer&&normalizedTextKey(control.label)===queryKey);
-        const boundary=input.session.readBoundary?.();
-        if(exact.length===1&&exact[0]!.id===controlId&&boundary&&boundary.pageId===page.pageId)return ()=>{selected={boundary,url:page.url};};
+      objective: targets => {
+        const selection = input.sourceSkillPath || selected || targets.some(isSuggestionButton)
+          ? "If one offered suggestion uniquely identifies the requested outlet, click it once and stop at the settled destination page. Area and cuisine subtitles may describe the same outlet. Do not choose a different branch or guess between ambiguous duplicates."
+          : "If the source instead presents one visible enabled suggestion BUTTON whose full label exactly equals the query, select it once and stop at the settled destination page.";
+        return `Submit the authoritative query through observed public search controls and stop at its result LIST. ${selection} Do not open ordinary individual restaurant cards or unrelated recommendations. Code inspects identities after either source handoff with its shared detail limit. If this term has no matching option and no matching route, REQUEST_HUMAN_HELP ends this method; the caller owns any next approved retrieval term, not the browser model.`;
+      },
+      onBeforeClick: ({pageId, url}, target) => {
+        selected = undefined;
+        if (!isSuggestionButton(target)) return;
+        const boundary = input.session.readBoundary?.();
+        if (boundary && boundary.pageId === pageId) return () => { selected = {boundary, url}; };
       },
       completion: (page, controls) => {
         handoff=undefined;
@@ -580,7 +597,7 @@ export class BrowserTaskExecutor {
           } catch { queryConflict = true; }
         }
         return queryConflict ? { ...assessment, complete: false, reason: "Observed result query contradicts the authoritative input in the observed source form" }
-          : handoff ? {complete:true,resultKey:JSON.stringify(handoff),resultBusy:false,reason:"Exact observed suggestion and current completed reviewed GET hand off the settled same-page destination for adapter identity inspection"}
+          : handoff ? {complete:true,resultKey:JSON.stringify(handoff),resultBusy:false,reason:"Selected source suggestion and current completed reviewed GET hand off the settled same-page destination for adapter identity inspection"}
           : !queryBound ? { ...assessment, complete: false, reason: "No positive source result binding to the current authoritative query has been observed" }
           : currentIsResult ? { ...assessment, complete: false, reason: "The current document is an individual result, not the submitted result list; code inspects identities after list completion" } : assessment;
       } });
@@ -773,7 +790,7 @@ export class BrowserTaskExecutor {
           history: structuredClone(history),
           source: input.source,
           stage: input.stage,
-          objective: input.objective,
+          objective: typeof input.objective === "string" ? input.objective : input.objective(actionTargets),
           progress: `${progress}${alreadySelected.length ? ` Already selected (do not repeat): ${alreadySelected.map(target => target.label).join(", ")}.` : ""}`,
           skills: loadBrowserReadSkills(input.source, input.sourceSkillPath),
           goal: input.goal,
@@ -788,7 +805,7 @@ export class BrowserTaskExecutor {
         "WAIT",
         "PRESS_ESCAPE",
       ] : ["WAIT"],
-            targets: actionTargets.map(({ exactSuggestion:_exactSuggestion, controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
+            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...(confirmedDate(observation.targets.get(target.ref)!)?{availableActions:[],rejectionReason:"SOURCE_DATE_CONFIRMED"}:this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined)),
             })),
           },
@@ -1145,14 +1162,9 @@ export class BrowserTaskExecutor {
     const controls = initialControls ?? (input.session.observeControls
       ? await this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!(input.controlHints?.(snapshot)))
       : []);
-    const exact=input.stage==="DISCOVERY"&&input.goal.retrievalExpression&&input.session.metadata.readNetworkBoundary==="INSTALLED"
-      ?controls.filter(control=>control.visible&&!control.disabled&&!control.blockedByActiveLayer&&control.kind==="BUTTON"&&control.role==="option"
-        &&[
-        "DIV",
-        "LI",
-        "SPAN",
-      ].includes(control.structure?.tag??"")&&normalizedTextKey(control.label)===normalizedTextKey(input.goal.retrievalExpression!)):[];
-    const observation = { revision: this.observationRevision, snapshot, controls, targets: toObservedTargets(controls, this.observationRevision,exact.length===1?exact[0]!.id:undefined) };
+    const exposeSuggestions = input.stage === "DISCOVERY" && Boolean(input.goal.retrievalExpression)
+      && input.session.metadata.readNetworkBoundary === "INSTALLED";
+    const observation = { revision: this.observationRevision, snapshot, controls, targets: toObservedTargets(controls, this.observationRevision, exposeSuggestions) };
     input.onObservation?.({revision: observation.revision, url: snapshot.url, targets: [...observation.targets.values()].map(target => ({...target, ...this.actionHints(input, observation, target, false)}))});
     return observation;
   }
@@ -1297,7 +1309,7 @@ export class BrowserTaskExecutor {
     return {
       title: safeText(observation.snapshot.title, 240),
       visibleTextExcerpt: safeText(observation.snapshot.text, 1_000),
-      targets: [...observation.targets.values()].slice(0, 40).map(({ exactSuggestion:_exactSuggestion, formObservation: _formObservation, controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
+      targets: [...observation.targets.values()].slice(0, 40).map(({ formObservation: _formObservation, controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
         ...target,
         ...(target.href ? { href: this.diagnosticUrl(target.href) } : {}),
       })),
@@ -1405,12 +1417,12 @@ export class BrowserTaskExecutor {
       return;
     }
     if (action.type === "CLICK") {
-      if (target.role === "option"&&!target.exactSuggestion) throw new Error("CLICK cannot choose an option; use CHOOSE_OPTION with its observed owner");
+      if (target.role === "option" && !isSuggestionButton(target)) throw new Error("CLICK cannot choose an option; use CHOOSE_OPTION with its observed owner");
       if (!this.safeGenericClick(target) && !this.safeFragmentClick(input, observation.snapshot, target)
         && !this.guardedReadControl(input, target)) {
         throw new Error("CLICK target has submit, navigation, or other write-capable structure");
       }
-      const clicked=input.onBeforeClick?.(observation.snapshot,observation.controls,target.controlId);
+      const clicked = input.onBeforeClick?.(observation.snapshot, target);
       const navigation = this.guardedPublicQuerySubmit(input, target);
       await this.operation(input, navigation ? "SUBMIT_PUBLIC_QUERY" : "CLICK", () => input.session.click(target.controlId, navigation ? this.navigationOptions() : this.actionOptions()));
       clicked?.();
@@ -1561,11 +1573,7 @@ export class BrowserTaskExecutor {
         "DIV",
         "SPAN",
       ].includes(target.nativeTag ?? ""))
-      || (target.role === "option" && [
-        "DIV",
-        "LI",
-        "SPAN",
-      ].includes(target.nativeTag ?? ""));
+      || (target.role === "option" && nonSubmittingOptionTags.has(target.nativeTag ?? ""));
     if (target.type?.toLowerCase() === "submit" || (!target.type && target.formMethod === "POST" && !nonSubmittingChoice)) return false;
     if (/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label)) return false;
     return true;

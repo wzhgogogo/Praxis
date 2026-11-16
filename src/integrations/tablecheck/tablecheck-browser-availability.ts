@@ -516,6 +516,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           discoveryBase = { requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(directPage.url), title: directPage.title };
         } else {
           const searched = await this.executor.search({
+            ...(tableCheckDiscoveryPack.skillPath ? {sourceSkillPath: tableCheckDiscoveryPack.skillPath} : {}),
             source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName, querySource, completion: page => tableCheckNameSearchCompletion(page, searchName),
           });
           modelFailed ||= searched.status === "MODEL_FAILURE";
