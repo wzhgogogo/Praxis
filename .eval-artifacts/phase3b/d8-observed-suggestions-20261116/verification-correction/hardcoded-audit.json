@@ -1,0 +1,24 @@
+{
+  "sourceSHA": "ccdce4703e36f05d08d076d4fdf86735acf487d6",
+  "baseline": "a66a2edcb2ffe8e3eaa42f4c0e79680382539c9d",
+  "mode": "Added-production-line deterministic scan plus reviewed full diff; repository scan-hardcoded.sh is absent in this baseline. Test/recorded fixtures are excluded, not product exceptions.",
+  "files": [
+    {
+      "path": "src/infrastructure/browser/browser-task-executor.ts",
+      "addedLines": 57,
+      "hits": []
+    },
+    {
+      "path": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "addedLines": 1,
+      "hits": []
+    },
+    {
+      "path": "web-skills/tablecheck/SKILL.md",
+      "addedLines": 1,
+      "hits": []
+    }
+  ],
+  "newProductHits": 0,
+  "manualReview": "New branch logic uses only observed group identity, full normalized label and generic actionability. Non-submitting tag set reuses existing DIV/LI/SPAN values. Source skill is obtained from existing source-pack metadata; no new website URL, outlet/cuisine lexicon, candidate ID or action sequence."
+}

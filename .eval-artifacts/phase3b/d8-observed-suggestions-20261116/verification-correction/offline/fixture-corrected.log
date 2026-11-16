@@ -1,0 +1,31 @@
+✔ recorded November 16 search panel exposes every visible suggestion and Search to the browser decision (578.462542ms)
+✔ recorded exact suggestion and completed same-page shop GET bind a generic source handoff (92.517334ms)
+✖ TableCheck selection reads the recorded shop contract before a detail can appear (3694.596875ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4950.104083
+
+✖ failing tests:
+
+test at src/harness/browser/tablecheck-shop-read.test.ts:1:861
+✖ TableCheck selection reads the recorded shop contract before a detail can appear (3694.596875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'FILL_FULL_NAME'
+  - 'SELECT_MATCH'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-shop-read.test.ts:142:38)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FILL_FULL_NAME',
+    expected: 'SELECT_MATCH',
+    operator: 'strictEqual'
+  }

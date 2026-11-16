@@ -1,0 +1,29 @@
+✖ TableCheck selection reads the recorded shop contract before a detail can appear (3711.549083ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4002.907292
+
+✖ failing tests:
+
+test at src/harness/browser/tablecheck-shop-read.test.ts:1:861
+✖ TableCheck selection reads the recorded shop contract before a detail can appear (3711.549083ms)
+  AssertionError [ERR_ASSERTION]: {"status":"STOP_NO_UNIQUE_SUGGESTION","phase":"FILL_FULL_NAME","catalog200":true,"options":0}
+  + actual - expected
+  
+  + 'FILL_FULL_NAME'
+  - 'SELECT_MATCH'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-premerge-scope-main-20261115/src/harness/browser/tablecheck-shop-read.test.ts:142:38)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FILL_FULL_NAME',
+    expected: 'SELECT_MATCH',
+    operator: 'strictEqual'
+  }

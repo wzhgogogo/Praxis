@@ -1,0 +1,14 @@
+# Observed outlet suggestions: release verification
+2026-11-16 CET. Source `ccdce4703e36f05d08d076d4fdf86735acf487d6`.
+
+Production projects all eligible ownerless suggestions for semantic model choice; duplicates with the same complete normalized label are withheld only within the same observed group. Hidden/disabled/obstructed copies do not suppress a unique usable option. Owned combobox matching, Guard, identity, G1, budgets and deadlines are unchanged. Handoff requires same-tab path change, a current post-action completed reviewed GET200 receipt and SETTLED; pageId alone does not prove an SPA transition.
+
+Raw-control duplicate component: old executor afaabecd exposes two clickable copies; fixed executor exposes zero. Search and distinct branch subtitles remain. SUFFIX removes the main option before projection. Two downstream branch identity counterexamples pass. Original duplicate model failure retained.
+
+Real DeepSeek: main selection/date/suffix initially PASS, original duplicate FAIL; fifth/final call on corrected production projection chose Search, Schema16 PASS. Main/date messages retain their exact hashes. Raw-control suffix targetRefs renumber, old hash a60063e8 differs from85660a20; all non-ref fields equal, and old/new executors yield byte-identical messages for the same raw suffix controls. User explicitly accepted this reuse. Additionally, corrected duplicate serializes to the same85660a20 bytes and the fifth call directly validates that fresh suffix input as well. Seventeen Tabelog messages remain byte-identical. Exactly5/5 model calls overall, one new call in this correction;0 websiteGET/0Live here.
+
+Final same-SHA clean gates: typecheck/arch/build PASS; default1654/1654; browser290/290 including G2; G6 assembly159/159. Added-product scan/manual full-diff audit hits0. No scan-hardcoded.sh exists in this baseline; exact diagnostic scanner and raw classification are retained as audit-hardcoded.py/hardcoded-audit.json, not claimed as an unavailable repository command. Main adds0.eval-artifacts.
+
+First browser gate correctly caught an obsolete constructed ordinary-button suggestion. Fixture now mirrors captured listbox/ownerless option DOM without weakening HIGH identity assertions; ORDINARY_BUTTON remains rejected. Original gate failure and intermediate fixture diagnostics retained. Final product/Prompt/Skills are identical to the fifth-call source; only test and documentation changed afterward.
+
+Primary draft/index/untracked files, prior17 protected ledgers and routing hashes preserved. The authorized model-budget append is the only old-path budget change, explicitly approved by user. Single D8 acceptance is a separate Live batch with a new independent1Live/8GET/50model/0rerun ledger. This report proves recorded-model/component and offline regressions only; Live results remain separate.
