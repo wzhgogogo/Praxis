@@ -1,0 +1,278 @@
+{
+  "sourceSHA": "ccdce4703e36f05d08d076d4fdf86735acf487d6",
+  "result": "DELIVERED_B1_BUT_ACCEPTANCE_INCOMPLETE",
+  "automaticVerdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "NOT_EVALUATED",
+    "stopBatch": true
+  },
+  "requestBoundary": {
+    "PASS": 354
+  },
+  "nonPassChecks": [
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:4:html-sha256:dab22416d6062082607322bd1598d8c588ebaf539673848e733096933dd25645:text-sha256:b286ffbc500ebbcee085f8f5e8c92065fed07a3f9a07473b35f1fa99abbd03f6"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:15:html-sha256:542ec12b03909f5445558f4bae235d46aee9042b80423718a3e8ad8e989e895b:text-sha256:ccb5ab3633783424fb4d62b36bcf43bcbbce8a2c72840a2d071a652938d9b0ea"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:18:html-sha256:89993dd8beea0ddddf43f81aa536c18fd98d3c612bb14cf59d03781a1723b95e:text-sha256:770a67e8068972232ac55f086f7c08ea32846479405aeeceb5100bf9b7a87db3"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:19:html-sha256:582367f084952c0a6b113e658d90b84faa547533c0c34d15b1c754c95d8709ac:text-sha256:c75dcbc47fefc2ad8adbe029a21f8655801d1044fc8f4c1ee3c386da9a6a9829"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:43:html-sha256:ce40e16c2c3f5940b935788bdc2668ab7f2d1db726426f38faaae1a11700593b:text-sha256:d550ee7f282c57e39126d27fb3000b81bc6aa5b42ba9a27a32419a0a14173404"
+      ]
+    },
+    {
+      "rule": "G1_ANSWER",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Question was not answered or bounded as page-not-stated",
+      "evidenceRefs": []
+    }
+  ],
+  "productElapsedMs": 279449.96729199996,
+  "turnBudgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794803247710,
+      "deadlineAtMs": 1794803747710,
+      "elapsedMs": 253072.65729200002,
+      "modelCalls": 37,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "startedAtMs": 1794803500787,
+      "deadlineAtMs": 1794804000787,
+      "elapsedMs": 17886.856541999965,
+      "modelCalls": 1,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "PRIVATE_ROOM_PAGE",
+      "startedAtMs": 1794803518676,
+      "deadlineAtMs": 1794804018676,
+      "elapsedMs": 7784.549624999985,
+      "modelCalls": 0,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    }
+  ],
+  "delivered": [
+    {
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "offerId": "offer:tablecheck:praxis:restaurant:399b940d8930096624424dba:2026-11-18:20:30:2",
+      "name": "Nakamata",
+      "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+      "phone": "050-5385-3420",
+      "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+      "sourceIds": {
+        "TABLECHECK": "nakamata-nodoguro-ginza"
+      },
+      "provider": "TABLECHECK",
+      "sourceEntityId": "nakamata-nodoguro-ginza",
+      "date": "2026-11-18",
+      "time": "20:30",
+      "partySize": 2
+    }
+  ],
+  "handoffs": [
+    {
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "offerId": "offer:tablecheck:praxis:restaurant:399b940d8930096624424dba:2026-11-18:20:30:2",
+      "provider": "TABLECHECK",
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza/reserve/landing?utm_source=tablecheck_portal&start_date=2026-11-18&num_people=2&start_time=20%3A30",
+      "directLabel": "Book on TableCheck",
+      "continueLabel": "Continue on TableCheck — date, time, 2 guests filled in",
+      "verificationHint": "Check date and guests",
+      "checkedAt": "2026-11-16T04:31:29.484Z",
+      "displayExpiresAt": "2026-11-16T04:41:29.484Z",
+      "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+      "linkCarries": [
+        "DATE",
+        "TIME",
+        "PARTY_SIZE"
+      ],
+      "sourceSelection": "UNKNOWN",
+      "terms": []
+    }
+  ],
+  "answers": [
+    {
+      "reason": "INCOMPLETE_PAGE",
+      "status": "UNVERIFIED",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-11-16T04:32:06.424Z"
+        }
+      ],
+      "citations": []
+    }
+  ],
+  "termsDiagnostics": [
+    {
+      "at": "2026-11-16T04:31:40.776Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "QUESTION_UNVERIFIED",
+      "topic": "cancellation",
+      "answerReason": "INCOMPLETE_PAGE",
+      "pageCount": 1,
+      "boundPageCount": 1
+    },
+    {
+      "at": "2026-11-16T04:31:40.776Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "QUESTION_UNVERIFIED",
+      "topic": "card",
+      "answerReason": "INCOMPLETE_PAGE",
+      "pageCount": 1,
+      "boundPageCount": 1
+    },
+    {
+      "at": "2026-11-16T04:31:40.777Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "COMPLETED",
+      "pageCount": 1,
+      "boundPageCount": 1
+    },
+    {
+      "at": "2026-11-16T04:31:58.666Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "QUESTION_UNVERIFIED",
+      "topic": "cancellation",
+      "answerReason": "INCOMPLETE_PAGE",
+      "pageCount": 1,
+      "boundPageCount": 1
+    },
+    {
+      "at": "2026-11-16T04:31:58.666Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "QUESTION_UNVERIFIED",
+      "topic": "card",
+      "answerReason": "INCOMPLETE_PAGE",
+      "pageCount": 1,
+      "boundPageCount": 1
+    },
+    {
+      "at": "2026-11-16T04:31:58.667Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "COMPLETED",
+      "pageCount": 1,
+      "boundPageCount": 1
+    }
+  ],
+  "turns": [
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "status": "SENT"
+    },
+    {
+      "id": "PRIVATE_ROOM_PAGE",
+      "status": "SENT"
+    }
+  ],
+  "providerRejected": 0,
+  "recording": {
+    "configured": {
+      "browser": true,
+      "decisions": true,
+      "googleResponses": true
+    },
+    "actualBrowserRecordingFinalized": false,
+    "decisionsSaved": true,
+    "independentRequestsSaved": true,
+    "missingFinalOutputs": [
+      "browser-diagnostics.json",
+      "browser-trace.json",
+      "recording-observation.json",
+      "recordings/",
+      "batch.json",
+      "development-receipt.json"
+    ]
+  },
+  "budget": {
+    "fullLive": 1,
+    "evaluationPublicGET": 5,
+    "realModelCalls": 38,
+    "environmentReruns": 0
+  },
+  "remaining": {
+    "fullLive": 0,
+    "evaluationPublicGET": 3,
+    "realModelCalls": 12,
+    "environmentReruns": 0
+  },
+  "sourceCountsFromSavedIndependentObservation": {
+    "googleRequests": 1,
+    "restaurantWebsiteRequests": 354
+  },
+  "protectionUnchanged": true,
+  "evidenceSHA256": {
+    "execution.result.json": "febdec6a1937d2205d218dc206c8add52d4efac0f5fc5f5390c02ba4b80c1eda",
+    "case-input.json": "e6172920d9afd869c19723d1e21751d37db0ef1c5108a119d58e9352769ab628",
+    "evaluation.input.json": "254520d1e558e6b4ff89ab7894f773b3caba610d59fcfc78f938b015897bd2ef",
+    "execution.decisions.jsonl": "1558cd37f04add2ab896e37c23ae4e8474986341d5e4231650e37443c96a7ab5",
+    "outer-requests.json": "2cedc1b308d22882a46aeb1c8dc87a7b248a0b583c299f8ea1286650f97cc484",
+    "boundary-observation.json": "dc81bae66f27bf14e3e209e70b197cbf56d84a96ae54275a4749cc5c8d2c9284",
+    "user-turns.json": "efaaa2c284bcd060b65afbde09e61928523c3117625d80ffe5e99683cf90fcdf",
+    "evaluation.json": "053c0d2f6e3e44b3b0c0ffbeee72fd992d5d8de239962015ab5664731ebdd94b"
+  }
+}
