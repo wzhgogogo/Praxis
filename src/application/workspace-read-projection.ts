@@ -1,3 +1,4 @@
+import { isDeepStrictEqual } from "node:util";
 import type { RecordedEventEnvelope } from "../core/task-runtime/contracts.js";
 import type { RestaurantCandidate, RestaurantEvent, RestaurantIntentDraft, RestaurantTaskState } from "../domains/restaurant/contracts.js";
 import { applyRestaurantIntentPatch } from "../domains/restaurant/intent-state.js";
@@ -25,10 +26,20 @@ export function projectWorkspaceRead(input: {
   const questions = new Map<string, RestaurantPageQuestionState>();
   const completedQuestions = new Map<string, RestaurantPageQuestionState>();
   for (const { event } of input.events) {
-    if ((event.type === "SEMANTIC_PROPOSAL_COMPILED" && restaurantIntentPatchHasChanges(event.patch)) || event.type === "SEMANTIC_CONFLICT_RECORDED") {
+    const nextDraft = event.type === "SEMANTIC_PROPOSAL_COMPILED" && restaurantIntentPatchHasChanges(event.patch)
+      ? applyRestaurantIntentPatch(group.draft, event.patch) : group.draft;
+    // Field presence is not a revision: the reducer may retain presentation for
+    // an identical applied draft without emitting another RESULTS_PRESENTED.
+    if (!isDeepStrictEqual(nextDraft, group.draft) || event.type === "SEMANTIC_CONFLICT_RECORDED") {
       groups.push(group);
-      group = { revision: group.revision + 1, presented: new Set(), events: [],
-        draft: event.type === "SEMANTIC_PROPOSAL_COMPILED" ? applyRestaurantIntentPatch(group.draft, event.patch) : group.draft };
+      group = { revision: group.revision + 1, presented: new Set(), events: [], draft: nextDraft };
+    }
+    if (event.type === "EVALUATION_LOCATION_BOUND" && group.draft?.area) {
+      group.draft = { ...group.draft, area: { ...group.draft.area,
+        ...(event.coordinates.radiusMeters !== undefined ? { radiusMeters: event.coordinates.radiusMeters } : {}),
+        coordinates: { latitude: event.coordinates.latitude, longitude: event.coordinates.longitude,
+          ...(event.coordinates.accuracyMeters !== undefined ? { accuracyMeters: event.coordinates.accuracyMeters } : {}),
+          observedAt: event.coordinates.observedAt, source: "EVALUATION" } } };
     }
     group.events.push(event);
     if (event.type === "SEARCH_COMPLETED") for (const candidate of event.candidates) known.set(candidate.restaurant.id, candidate);

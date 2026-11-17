@@ -5,7 +5,7 @@ import {chromium} from 'playwright-core';
 import {startWorkspaceFixture} from '../../src/harness/workspace-fixture-server.ts';
 import {createGooglePhotoFixture,LONG_PHOTO_CREDIT} from '../../src/harness/google-photo-fixtures.ts';
 import {createPhotoSourceFixture} from '../../src/harness/restaurant-photo-fixtures.ts';
-const batch=new URL('./',import.meta.url),out=new URL((process.env.PRAXIS_VISUAL_SUBDIR||'visual')+'/',batch);await mkdir(out,{recursive:true});
+const batch=new URL('./',import.meta.url),out=new URL((process.env.PRAXIS_VISUAL_SUBDIR||'round-2/visual')+'/',batch);await mkdir(out,{recursive:true});
 const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),results=[];
 const sizes=[{name:'mobile',width:390,height:844},{name:'desktop',width:1440,height:900},{name:'breakpoint',width:960,height:900}];
 const scenarios=process.env.PRAXIS_VISUAL_DEVELOPMENT?['google']:['google','google-long-cover','cover-download-fails','cover-decode-fails','no-id','partial-gallery','both-fail'];

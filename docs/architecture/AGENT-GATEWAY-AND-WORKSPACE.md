@@ -152,7 +152,7 @@ Current-run identity-bound pages are reused first. Each question now has an inde
 
 ## 第2段只读工作区投影（工作分支）
 
-Case project复用已读取的同一用户/Case事件，不新增表、State字段、模型/来源调用或数据库往返。searchRevision表达搜索页/批次数，替代原误名requestRevision；requirementRevision按有效条件事件分组，与another-batch分开。revisionDiff只在批次结束后发布，比较最近两个条件版本内经Runtime接纳的展示ID集合；removed/added不由浏览器计算。savedCandidates从同Case历史恢复已保存对象的店名，仅当前合格对象标current，旧证据不成为当前可用性。
+Case project复用已读取的同一用户/Case事件，不新增表、State字段、模型/来源调用或数据库往返。searchRevision表达搜索页/批次数，替代原误名requestRevision；requirementRevision比较应用patch后的完整意图草稿是否实际改变，而非只看SEMANTIC_PROPOSAL_COMPILED是否含字段；沿用Reducer的完整值/来源元数据相等规则，重放已接纳的地点绑定以恢复真实比较上下文，与another-batch分开。等价patch不切空分组，复用保留的展示集合及最近一次真实版本差异，不要求重发RESULTS_PRESENTED。revisionDiff只在批次结束后发布，比较最近两个条件版本内经Runtime接纳的展示ID集合；removed/added不由浏览器计算。savedCandidates从同Case历史恢复已保存对象的店名，仅当前合格对象标current，旧证据不成为当前可用性。
 
 移除原因枚举为OVER_BUDGET、NEW_TIME_MISMATCH、NO_LONGER_MATCHES。预算/时段须有当前结构化判定，其他只能通用原因，不解析助手或Activity文本。questionHistory由PAGE_QUESTION_REQUESTED/COMPLETED按requestId、readRunId、candidateId绑定恢复，完成事件逆序；原引文/敏感标记、G1执行入口和20问限制不改。
 

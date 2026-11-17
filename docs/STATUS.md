@@ -1308,3 +1308,8 @@ Actual630a DOM26->28->29...44 Chromium component: original17 advances/80 operati
 ## 2026-11-17 — Web photos unified: offline gate blocked
 
 Draft / not integrated. Frozen53bbbdc8f6b0a243a44e9c65cf31901e528104ae passed typecheck/arch/default1679; browser G2 5/5, Chromium388/392 failed four equivalent-condition scenarios (phantom NO_LONGER_MATCHES diff and reaffirmation revision6 versus5, both sizes). Per user stop condition, no post-failure product/assertion changes, no G6/build/formal visual/Live, no .env or PostgreSQL access. Development three-size preflight16/16 is provisional pre-freeze evidence, not accepted current baseline. [Full local report](../.eval-artifacts/3c-unified-20261117/REPORT.md). Main/original3C tree unchanged; local branch only.
+
+
+## 2026-11-17 — Unified round 2: reviewed projection repair
+
+User-approved continuation: equivalent-draft projection and unit coverage copied from872785522/f134cb750;727 Domain/search/router and browser assertions retained. Preflight projection+outer contracts22/22 and the original four browser failures4/4 pass offline. Old failure evidence is unchanged. New round-2 five gates, formal16 visual cases and conditional single Live await the new frozen commit.

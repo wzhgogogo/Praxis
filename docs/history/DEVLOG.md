@@ -6331,3 +6331,8 @@ Development / not integrated. Baseline727b8a812 preserved, exact visual delta f1
 ## 2026-11-17 — Web photos unified stopped at compatibility gate
 
 Source3c86d5b30, frozen code/harness/orchestration53bbbdc8f6b0a243a44e9c65cf31901e528104ae. Formal browser integration exposed two equivalent-condition contracts, each failing mobile and desktop: unchanged request produces three removed diff entries; final reaffirmation increments revision5→6. The727 backend is preserved, so this is an integration blocker to diagnose, not permission to import the visual branch's backend wholesale. No source or assertion edits after the failure. Evidence/report only appended; G6/build/formal visual/Live stopped. [Report](../../.eval-artifacts/3c-unified-20261117/REPORT.md).
+
+
+## 2026-11-17 — Unified round 2 projection and orchestration
+
+Review identified the omitted872785522 equivalent-draft projector. Restored its two application files verbatim and only corresponding architecture/flow paragraphs; no727 restaurant Domain/router/search or browser assertion changes. Outer scripts now share round-2, inspect real severity S0/S0_DECLARATION/S0_BOUNDARY PRESENT, retain NOT_EVALUATED, await photo captures without controller gallery GETs, distinguish listed/HTTP200 images and preserve phase/readStatus reasons. Preflight22/22 plus four original browser contracts4/4. Full frozen acceptance and Live remain pending.
