@@ -116,6 +116,8 @@ export interface BrowserSettlementDiagnostics {
 }
 
 export interface BrowserSnapshot {
+  /** Passive rendered image attributes; never a fact or availability claim. */
+  images?: Array<{src:string;srcset:string;lazySrc:string;currentSrc:string;width:number;height:number}>;
   /** Runtime-owned loading feedback; PENDING is never inventory completion evidence. */
   settlement?: "SETTLED" | "PENDING";
   /** Current URL categories from this read, including authoritative-value collisions. */

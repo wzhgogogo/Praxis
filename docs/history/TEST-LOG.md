@@ -7031,3 +7031,8 @@ de9e73bc合并已核对的main7c83e02e/G3，四份冲突文档正文保留；读
 ## 2026-11-17 — 3C第2步真实PostgreSQL入口与单次Live（local / not integrated）
 
 用户批准本机系统账户覆盖后，选空业务praxis_smoke（praxis_web历史保留）；父环境DATABASE_URL/TEST URL在Node --env-file后仍为127.0.0.1:5432专库。执行SHA9201d40bf5eb2e895041a25f6d15628dd6791415：2A原PostgreSQL烟测和FIXTURE CLI通过，终态AWAITING_AUTHORIZATION/SSE终态1条；首轮Markdown归档错误保留，零外调重做后完整归档。2B唯一Live需求自然PRESENT_RESULTS/1店：agentDecisions7、modelCallsStarted47、Google5、elapsedMs266828；一次G1 ANSWERED，回答modelUsage1，B1未过期、departure201与拦截URL及SQL三项绑定成立。0补问/刷新/续查/Live重跑。自动评价NOT_EVALUATED、S0未评价、S1 PRESENT（缺独立来源支撑），不报QUALIFIED_DELIVERY/S0=0；externalSideEffectCount NOT_MEASURED、后端网站总请求未测得。服务/DB连接关闭，临时CLI产物归档清空，主目录/.env/产品/断言不改，不合main/推送，停等复核。 [完整报告](../../.eval-artifacts/3c-step2-20261117/report.md)。
+
+
+## 2026-11-17 — Web photos unified verification preparation
+
+Development / not a Clean Baseline. New unified sparse tree based on727b8a812. Exact54 current-HEAD browser/G6 materials restored and hash-verified. Development checks: photo contracts15/15; website-photo Chromium9/9; three-size deterministic visual preflight16/16. Initial development failures and fixes remain in `.eval-artifacts/3c-unified-20261117/development-*`; they are not final frozen acceptance results. Source and outer orchestration will be frozen before the five gates, full HTTP/SSE visual smoke and any authorized single Live case. No .env loaded by offline checks; OS denial plus local-only context routing for visual Fixture; browser gate runs without a nested outer sandbox.

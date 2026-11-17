@@ -1298,3 +1298,8 @@ Actual630a DOM26->28->29...44 Chromium component: original17 advances/80 operati
 ## 2026-11-17 — 3C第2步真实PostgreSQL入口与单次Live（local / not integrated）
 
 用户批准本机系统账户覆盖后，选空业务praxis_smoke（praxis_web历史保留）；父环境DATABASE_URL/TEST URL在Node --env-file后仍为127.0.0.1:5432专库。执行SHA9201d40bf5eb2e895041a25f6d15628dd6791415：2A原PostgreSQL烟测和FIXTURE CLI通过，终态AWAITING_AUTHORIZATION/SSE终态1条；首轮Markdown归档错误保留，零外调重做后完整归档。2B唯一Live需求自然PRESENT_RESULTS/1店：agentDecisions7、modelCallsStarted47、Google5、elapsedMs266828；一次G1 ANSWERED，回答modelUsage1，B1未过期、departure201与拦截URL及SQL三项绑定成立。0补问/刷新/续查/Live重跑。自动评价NOT_EVALUATED、S0未评价、S1 PRESENT（缺独立来源支撑），不报QUALIFIED_DELIVERY/S0=0；externalSideEffectCount NOT_MEASURED、后端网站总请求未测得。服务/DB连接关闭，临时CLI产物归档清空，主目录/.env/产品/断言不改，不合main/推送，停等复核。 [完整报告](../.eval-artifacts/3c-step2-20261117/report.md)。
+
+
+## 2026-11-17 — Web photos unified (draft / not integrated)
+
+727b8a812 business baseline retained; f134cb750 visual interactions and bf8046ae9 website photos integrated narrowly with IDs-only, on-demand Google photos. No persisted photo or search-field change. Unified authenticated photo endpoints, full attribution and address presentation are under offline acceptance. Plan: [Web photos unified](WEB-PHOTOS-UNIFIED-PLAN.md). No new Live has run; five clean-commit gates and three-size Fixture evidence must pass first. Only local branch commits, no merge/push.

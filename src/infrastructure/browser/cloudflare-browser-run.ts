@@ -1,3 +1,4 @@
+import { observePageImages } from "./observe-page-images.js";
 import { chromium, type Browser, type BrowserContext, type Page } from "playwright-core";
 
 import type {
@@ -134,6 +135,7 @@ class CloudflareBrowserSession implements BrowserSession {
         ...(this.lastSettlementDiagnostic || this.networkGuard ? { settlementDiagnostics: { pendingByType: {}, oldestPendingMs: 0, blockingDataRequests: 0, visibleTextChanging: false, ...this.lastSettlementDiagnostic, url: this.page.url(), ...busy } } : {}),
         url: this.page.url(),
         html: await this.page.content(),
+        images: await observePageImages(this.page),
         text: await this.page.locator("body").innerText(),
         title: await this.page.title(),
         ...(state === undefined ? {} : { interactiveState: state }),

@@ -1,3 +1,8 @@
+import type { PhotoHttpPort } from "../integrations/restaurant-photos/public-photo-http.js";
+import type { GooglePhotoTransport } from "../integrations/restaurant-photos/google-photos.js";
+import { createLiveReadAssembly } from "../integrations/restaurant-search/live-read-assembly.js";
+import { GooglePlacesClient } from "../integrations/google/google-places-client.js";
+import { photoOutlets } from "./restaurant-photo-fixtures.js";
 import { PGlite, type Transaction } from "@electric-sql/pglite";
 import { once } from "node:events";
 import { readFile } from "node:fs/promises";
@@ -36,13 +41,13 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
   let held=options.staged??false,release:()=>void=()=>{},gate=Promise.resolve(),checkStarted:()=>void=()=>{};
   let checking=new Promise<void>(resolve=>{checkStarted=resolve});
-  const requests:ModelRequest[]=[], providerCalls:Array<{candidateId:string;partySize:number;aborted:boolean;completed:boolean}>=[];
+  const requests:ModelRequest[]=[], providerCalls:Array<{candidateId:string;date:string;timeWindow:RestaurantAvailabilityRequest["timeWindow"];partySize:number;aborted:boolean;completed:boolean}>=[];
   const searches:RestaurantSearchRequest[]=[];
   let failuresRecovered=false, reserveUsed=false;
   let candidates:RestaurantCandidate[]=[];
@@ -62,8 +67,19 @@ export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:
       const inlineParty=text.match(/^Change \d+ guests to (\d+)(?: guests)?$/i);
       const edit=Object.keys(semanticContext).some(key=>key!=="viewingContext")&&(/three|3 guests/i.test(text)||!!inlineParty);
       const editedParty=inlineParty?Number(inlineParty[1]):3;
-      const refer=/this one/i.test(text);
-      const facts:RestaurantSemanticProposal["facts"]=edit?[
+      const refer=/this one/i.test(text),inline=text.match(/^Change (.+) to (.+)$/);
+      let inlineFacts:RestaurantSemanticProposal["facts"]|undefined;
+      if(/^(Keep the same dinner conditions|Same dinner, please)$/i.test(text)&&semanticContext.partySize){
+        inlineFacts=[{field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:semanticContext.partySize,source:semanticContext.partySizeSource??"EXPLICIT"}}];
+      }else if(inline&&semanticContext.area&&inline[1]===semanticContext.area.query){
+        inlineFacts=[{field:"AREA",operation:"CORRECT",value:{kind:"AREA",query:inline[2]!}}];
+      }else if(inline&&/^(Sun|Mon|Tue|Wed|Thu|Fri|Sat), [A-Za-z]{3} \d{1,2}$/.test(inline[1]!)&&/^\d{4}-\d{2}-\d{2}$/.test(inline[2]!)){
+        inlineFacts=[{field:"DATE",operation:"CORRECT",value:{kind:"DATE",value:inline[2]!,raw:inline[2]!}}];
+      }else if(inline&&/^\d{2}:\d{2}(?:–\d{2}:\d{2})?$/.test(inline[1]!)){
+        const times=inline[2]!.match(/^(\d{2}:\d{2})(?:–(\d{2}:\d{2}))?$/);
+        if(times)inlineFacts=[{field:"TIME_WINDOW",operation:"CORRECT",value:{kind:"TIME_WINDOW",earliest:times[1]!,latest:times[2]??times[1]!,raw:inline[2]!}}];
+      }
+      const facts:RestaurantSemanticProposal["facts"]=inlineFacts??(edit?[
         {field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:editedParty,source:"EXPLICIT"}},
         ...(options.revisionScenario?[
           {field:"TARGET",operation:"CORRECT",value:{kind:"TARGET",goal:"AVAILABILITY",query:"sushi in Tokyo",selectionScope:"OPEN_ENDED",requestedResultCount:2,goalBasis:{type:"BOOKING_WORDING",reason:"Fixed updated request",quotes:[text]}}},
@@ -78,7 +94,7 @@ export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:
         {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:30",raw:"19:00"}},
         {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:options.inferredParty?4:2,source:options.inferredParty?"INFERRED_CLOSED_PARTY":"EXPLICIT"}},
         {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Tokyo"}},
-      ];
+      ]);
       body={schemaVersion:"4",facts};
     } else if(request.purpose==="restaurant_agent_decide"){
       const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{candidates?:Array<{id:string}>;checkableCandidateIds?:string[];legalActions?:{search:boolean};searchAvailability?:{available:boolean};presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
@@ -102,12 +118,18 @@ export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:
       if(options.extraCandidates||options.continuation==="pool")candidates.push(...fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{...structuredClone(item.restaurant),id:"fixture-later-"+index,outletName:"Fixture later restaurant "+(index+1)}})));
       if(options.continuation==="search")candidates=searches.length===1?candidates.slice(0,1):fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{...structuredClone(item.restaurant),id:"fixture-continuation-"+index,outletName:"Fixture continued restaurant "+(index+1)}}));
       candidates.forEach((c,i)=>{const serial=c.restaurant.id==="fixture-revision-added"?99:c.restaurant.id.startsWith("fixture-continuation-")?100+i:i;c.restaurant.sourceIds={tabelog:String(13123456+serial),...(provider==="TABLECHECK"?{tablecheck:serial===99?"fixture-revision-new":"fixture-sushi"+(serial||"")}:{})};c.executionConfidence="HIGH";});
+      if(options.photoHttp||options.photoGoogle)for(const [index,item]of candidates.entries())if(photoOutlets[index]){
+        item.restaurant.sourceIds.googleWebsiteUri='https://photos.example.org'+photoOutlets[index]!.path;
+        if(options.photoGoogle){item.restaurant.sourceIds.googlePlaces='fixture_'+index;item.restaurant.sourceIds.googleMapsUri='https://maps.google.com/?cid=fixture'+index;}
+        if(options.photoLongAddress){item.restaurant.address='Japan, 〒160-0022 '+photoOutlets[index]!.address+' ※ East entrance, 【annex building, level 8】 '+('Very long building and entrance description, '.repeat(10));}
+      }
       const found=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?candidates.filter(c=>c.restaurant.outletName===request.intent.target!.query):candidates;
-      return {candidates:found,evidence:found.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:"Tokyo",areaMatch:true}})),...(options.continuation==="search"?{continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:searches.length===1?[]:["workspace-next"],pagesRead:searches.length,exhausted:searches.length>1,...(searches.length===1?{nextPageToken:"workspace-next"}:{})}}:{}),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
+      if(options.naturalRecommendation)for(const candidate of found)candidate.matchReasons=["A good fit for your dinner plans in this area."];
+      return {candidates:found,evidence:found.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:request.intent.area?.query??"Tokyo",areaMatch:true,...(options.photoLongAddress?{distanceMeters:450,areaMatchBasis:"TASK_LOCATION_RADIUS"}:{})}})),...(options.continuation==="search"?{continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:searches.length===1?[]:["workspace-next"],pagesRead:searches.length,exhausted:searches.length>1,...(searches.length===1?{nextPageToken:"workspace-next"}:{})}}:{}),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
     },
     async check(request:RestaurantAvailabilityRequest,signal:AbortSignal){
       const id=request.candidateIds[0]!,index=candidates.findIndex(c=>c.restaurant.id===id);
-      const call={candidateId:id,partySize:request.partySize,aborted:false,completed:false};providerCalls.push(call);
+      const call={candidateId:id,date:request.date,timeWindow:structuredClone(request.timeWindow),partySize:request.partySize,aborted:false,completed:false};providerCalls.push(call);
       signal.addEventListener("abort",()=>{call.aborted=true;},{once:true});
       if(held&&index===1){checkStarted();await gate;}
       // Deliberately deliver a late fixture response even after abort. The real Router/Runtime must discard it.
@@ -120,8 +142,8 @@ export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:
       const failed=!failuresRecovered&&(options.outcome==="all-sources-failed"||(options.outcome==="partial"&&index===1)||(reserve&&options.continuation==="pool"));
       const noSlot=reserve||options.outcome==="empty"||(changed&&id==="fixture-restaurant-3");
       const amount=changed&&id==="fixture-restaurant-2"?20_000:5_000;
-      const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),...(options.sourceValidityMs?{sourceExpiresAt:new Date(clock.now().valueOf()+options.sourceValidityMs).toISOString()}:{}),requestedDate:"2026-11-02",requestedPartySize:request.partySize,visibleSlots:noSlot||failed?[]:options.multiSlot?[request.timeWindow.earliest,request.timeWindow.latest]:[request.timeWindow.earliest],pageState:failed?"BOT_CHALLENGE":noSlot?"NO_MATCHING_SLOT":"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
-        ...(options.revisionScenario?{priceFacts:{schemaVersion:"restaurant-price-facts@1" as const,listedCoursePricesYen:[{amount,kind:"MEAL" as const,meal:"DINNER" as const,tax:"INCLUDED" as const,quote:"Dinner course ¥"+amount,sourceUrl}]}}:{})},clock.now().toISOString());
+      const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),...(options.sourceValidityMs?{sourceExpiresAt:new Date(clock.now().valueOf()+options.sourceValidityMs).toISOString()}:{}),requestedDate:request.date,requestedPartySize:request.partySize,visibleSlots:noSlot||failed?[]:options.multiSlot?[request.timeWindow.earliest,request.timeWindow.latest]:[request.timeWindow.earliest],pageState:failed?"BOT_CHALLENGE":noSlot?"NO_MATCHING_SLOT":"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
+        ...(options.revisionScenario||options.photoLongAddress?{priceFacts:{schemaVersion:"restaurant-price-facts@1" as const,listedCoursePricesYen:[{amount,kind:"MEAL" as const,meal:"DINNER" as const,tax:"INCLUDED" as const,quote:"Dinner course ¥"+amount,sourceUrl}]}}:{})},clock.now().toISOString());
       if(options.cuisineDisagreement){
         const at=clock.now().toISOString(),placeId='fixture-place:'+id;
         result.evidence.push({evidenceId:'google-identity:'+id,kind:'ENTITY_MATCH',provider:'GOOGLE_PLACES',candidateId:id,sourceEntityId:placeId,observedAt:at,requestFingerprint:'fixture',claims:{},entityMatch:{confidence:'HIGH',matchedBy:['SYNTHETIC_SAME_OUTLET']}},
@@ -132,14 +154,15 @@ export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:
       if(!result.offers.length){if(reserve){reserveUsed=true;clock.advance(readLimits.maxAutomaticBrowserMs-19_000);}call.completed=true;return {...result,availabilityChecks:{[id]:check},metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};}
       const entity=result.evidence.find(e=>e.kind==="ENTITY_MATCH")!,availability=result.evidence.find(e=>e.kind==="AVAILABILITY")!;
       for(const offer of result.offers){
+      if(options.photoLongAddress)offer.price={amount,currency:"JPY",basis:"PER_PERSON"};
       let source:BookingHandoffSource={...structuredClone(raw.source),observedAt:clock.now().toISOString(),candidateId:id,sourceEntityId,offerId:offer.id,availabilityEvidenceId:availability.evidenceId,
-        url:index===0&&request.partySize===2?raw.source.url:"https://tabelog.com/en/booking/form_course/new?rcd="+sourceEntityId+"&member="+request.partySize+"&visit_date=20261102&visit_time="+offer.dateTime.slice(11,16).replace(":","")};
+        url:index===0&&request.partySize===raw.context.request.partySize&&request.date===raw.context.request.date&&offer.dateTime===raw.context.offer.dateTime?raw.source.url:"https://tabelog.com/en/booking/form_course/new?rcd="+sourceEntityId+"&member="+request.partySize+"&visit_date="+request.date.replaceAll("-","")+"&visit_time="+offer.dateTime.slice(11,16).replace(":","")};
       // The source-cache preparation uses the same request binding that the
       // real reducer will independently attach to the returned availability event.
       if(index!==0)delete source.terms;
       if(provider==="TABLECHECK"){
         const shop=sourceEntityId,entrance="https://www.tablecheck.com/en/shops/"+shop+"/reserve";
-        source={...source,provider:"TABLECHECK",linkBasis:"VERIFIED_PARAMETERS",sourceEntityId:shop,observedEntranceUrl:entrance,url:entrance+"?start_date=2026-11-02&start_time="+encodeURIComponent(offer.dateTime.slice(11,16))+"&num_people="+request.partySize};
+        source={...source,provider:"TABLECHECK",linkBasis:"VERIFIED_PARAMETERS",sourceEntityId:shop,observedEntranceUrl:entrance,url:entrance+"?start_date="+request.date+"&start_time="+encodeURIComponent(offer.dateTime.slice(11,16))+"&num_people="+request.partySize};
       }
       if(source.terms){
         if(options.cancellationConflict&&provider==="TABELOG"){
@@ -170,10 +193,12 @@ export async function startWorkspaceFixture(options:{staged?:boolean;multiSlot?:
     ...(options.questions?{restaurantQuestions:{executionRoute:"STRUCTURED_ADAPTER" as const,async answerQuestion(input:RestaurantPageQuestionRequest):Promise<RestaurantPageAnswer>{questionRequests.push(structuredClone(input));return structuredClone(answers.get(input.candidate.restaurant.id)??{status:"UNVERIFIED",candidateId:input.candidate.restaurant.id,reason:"NO_BOUND_PAGE",checkedPages:[]});}}}:{}),
     workspaceMode:"LIVE_READ",executionRouterOptions:{structuredReadTimeoutMs:readLimits.maxStructuredReadMs,browserReadTimeoutMs:readLimits.maxAutomaticBrowserMs},agentLoopOptions:{maxSteps:readLimits.maxAgentSteps,maxRejectedActions:readLimits.maxRejectedActions,timeoutMs:readLimits.maxAutomaticBrowserMs}});
   const sessions=new PilotSessionService(application.store,[{accessToken:"workspace-fixture",id:"workspace-user",displayName:"Fixture account"},{accessToken:"workspace-other",id:"other-user",displayName:"Other account"}],clock);
-  const server=createLocalWebServer({application,sessions,bookingHandoffs:{readPrepared:()=>[...cache.values()],now:()=>clock.now().toISOString()}});
+  const readAssembly=options.photoHttp||options.photoGoogle?createLiveReadAssembly(readLimits,{model,clock,google:new GooglePlacesClient({apiKey:'fixture-not-a-secret',fetchImplementation:async()=>{throw new Error('Photo fixture must not call Google');}}),browser:{async openSession(){throw new Error('Photo fixture must not launch a model browser');}},...(options.photoHttp?{photoHttp:options.photoHttp}:{}),...(options.photoGoogle?{googlePhotos:options.photoGoogle}:{})}):undefined;
+  const server=createLocalWebServer({application,sessions,...(readAssembly?{readAssembly}:{}),bookingHandoffs:{readPrepared:()=>[...cache.values()],now:()=>clock.now().toISOString()}});
   const streams=new Set<ServerResponse>();server.on("request",(request,response)=>{if(request.url?.endsWith("/events")){streams.add(response);response.on("close",()=>streams.delete(response));}});
   server.listen(0,"127.0.0.1");await once(server,"listening");
-  return {baseUrl:"http://127.0.0.1:"+(server.address() as AddressInfo).port,application,clock,requests,providerCalls,questionRequests,searches,
+  return {database,baseUrl:"http://127.0.0.1:"+(server.address() as AddressInfo).port,application,clock,requests,providerCalls,questionRequests,searches,
+    forgetPrepared(candidateId:string,offerId:string){return cache.delete(candidateId+":"+offerId);},
     recoverSources(){failuresRecovered=true;},
     disconnectStreams(){for(const stream of streams)stream.end();},
     activeStreamCount(){return streams.size;},

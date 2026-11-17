@@ -1,3 +1,4 @@
+import { isSensitiveGenericReadUrl, isSensitiveWorkflowUrl } from "./browser-read-policy.js";
 import {observeNodeRead} from './playwright-node-read-progress.js';
 import {PlaywrightEntryNavigation} from "./playwright-entry-navigation.js";
 import {createHash} from "node:crypto";
@@ -730,20 +731,10 @@ export class PlaywrightReadNetworkGuard {
   private sensitiveGenericRead(url: URL): boolean {
     if(this.policy.dynamicReads.some(rule=>url.origin===rule.origin&&matchesPath(rule,url)
       &&rule.strictQueryKeys?.some(key=>url.searchParams.has(key))))return true;
-    return this.sensitiveWorkflow(url) || [...url.searchParams.keys()].some(key => /(?:email|e-mail|phone|tel|address|name|password|passcode|token|secret|cookie|api_?key|card|payment|credit)/i.test(key));
+    return isSensitiveGenericReadUrl(url);
   }
 
   private sensitiveWorkflow(url: URL): boolean {
-    const path = url.pathname.toLowerCase();
-    // Explicit sensitive segments always win, including below a public
-    // calendar namespace. Only the booking/reserve container itself gets the
-    // narrow public-query exception below.
-    if (/(?:^|\/)(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm)(?:\/|$)/.test(path)) return true;
-    // A booking namespace can still expose public calendars and vacancy lists.
-    // Keep those read-shaped descendants in Generic GET admission; other
-    // booking/reserve descendants remain fail-closed.
-    const publicQueryNamespace = /\/(?:booking|reserve)\/(?:calendar|availability|vacancy|status|search|list)(?:\/|$)/.test(path);
-    if (!publicQueryNamespace && /(?:^|\/)(?:booking|reserve)(?:\/|$)/.test(path)) return true;
-    return [...url.searchParams].some(([key, value]) => /^(?:action|cmd|command|operation)$/i.test(key) && /^(?:cancel|delete|remove|confirm|purchase|pay|book|reserve)$/i.test(value));
+    return isSensitiveWorkflowUrl(url);
   }
 }

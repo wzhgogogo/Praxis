@@ -71,7 +71,7 @@ test("workspace New plan survives a late initial case-list response",async()=>{
     const response=page.waitForResponse(r=>r.url()==="https://workspace.test/api/cases");release();await response;
     await page.locator(".case-link").waitFor();
     assert.equal(oldCaseRequests,0);assert.equal(await page.locator("#home").isVisible(),true);
-    assert.equal(await page.locator("#message").getAttribute("placeholder"),"A quiet dinner with friends in Shibuya on Saturday");
+    assert.equal(await page.locator("#message").getAttribute("placeholder"),null);
   }finally{release();await browser.close();}
 });
 
@@ -98,7 +98,7 @@ test("G1 Web asks only for the displayed outlet and renders quotes, absence and 
       return route.fulfill({json:path==="/api/cases"?{cases:[view().case]}:path==="/api/session"?{user:{id:"fixture"}}:{view:view()}});
     });
     await page.goto("https://workspace.example/");await page.getByRole("button",{name:/Restaurant follow-up/}).click();await page.locator("#details-button").click();
-    assert.equal(await page.locator("#message").getAttribute("placeholder"),"Ask about this place");
+    assert.equal(await page.locator("#message").getAttribute("placeholder"),null);
     assert.equal(await page.locator("#details input, #details textarea").count(),0,"details must not own a second input");
     const ask=async(text:string)=>{
       await page.locator("#message").fill(text);

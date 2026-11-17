@@ -1,3 +1,4 @@
+import { observePageImages } from "./observe-page-images.js";
 import { localBrowserProxyFromEnvironment, playwrightProxy, type LocalBrowserProxySettings } from "./local-browser-proxy.js";
 import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
@@ -102,6 +103,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         url: this.page.url(),
         ...(this.networkGuard ? {urlQueryValues:await this.networkGuard.observeUrlQueryValues(this.page,this.page.url())} : {}),
         html: await this.page.content(),
+        images: await observePageImages(this.page),
         visibleHtml: await this.page.locator("body").evaluate(body => {
           // Cloning an img can trigger a second request even while detached.
           // Serialize the existing tree without constructing any DOM nodes.

@@ -12,7 +12,7 @@ function fakeBrowser(counts: { page: number; context: number; browser: number })
     goto: async () => null,
     content: async () => "<html><body>Example Domain</body></html>",
     evaluate: async () => "",
-    locator: () => ({ evaluate: async () => "", innerText: async () => "Example Domain", click: async () => {}, fill: async () => {}, selectOption: async () => ["2"], waitFor: async () => {} }),
+    locator: () => ({ evaluateAll: async () => [], evaluate: async () => "", innerText: async () => "Example Domain", click: async () => {}, fill: async () => {}, selectOption: async () => ["2"], waitFor: async () => {} }),
     title: async () => "Example Domain",
     screenshot: async () => new Uint8Array(),
     url: () => "https://example.com/",
@@ -45,7 +45,7 @@ test("Local Playwright Chromium preserves the BrowserType method binding, expose
   const snapshot = await session.snapshot();
   const { pageId, ...page } = snapshot;
   assert.deepEqual(page, {
-    settlement: "SETTLED", url: "https://example.com/", html: "<html><body>Example Domain</body></html>", visibleHtml: "", interactiveState: "", text: "Example Domain", title: "Example Domain", responses: [],
+    settlement: "SETTLED", url: "https://example.com/", html: "<html><body>Example Domain</body></html>", images: [], visibleHtml: "", interactiveState: "", text: "Example Domain", title: "Example Domain", responses: [],
   });
   assert.equal(pageId, "page:1");
   assert.equal(session.metadata.runtimeProvider, "LOCAL_PLAYWRIGHT_CHROMIUM");
@@ -112,7 +112,7 @@ test("Local Playwright Chromium maps launch failures into the fail-closed Browse
 test("Local Playwright Chromium installs HAR replay before the Guard and refuses replay without that boundary", async () => {
   const calls: string[] = [];
   const page = {
-    goto: async () => null, content: async () => "<main>Replay</main>", locator: () => ({ innerText: async () => "Replay", click: async () => {}, fill: async () => {}, selectOption: async () => [], waitFor: async () => {} }),
+    goto: async () => null, content: async () => "<main>Replay</main>", locator: () => ({ evaluateAll: async () => [], innerText: async () => "Replay", click: async () => {}, fill: async () => {}, selectOption: async () => [], waitFor: async () => {} }),
     title: async () => "Replay", screenshot: async () => new Uint8Array(), url: () => "https://replay.example/guide", close: async () => {}, keyboard: { press: async () => {} },
   };
   const context = {
