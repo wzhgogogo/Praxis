@@ -6314,3 +6314,10 @@ main249826cc进入slice2分支，13冲突保留主线行为/正文与slice2历�
 ## 2026-11-17 — 3C第2步数据库目标预检停止
 
 3C第2步只读.env预检发现DATABASE_URL为非本机https URL，不满足用户“确认为127.0.0.1:5432才盘点”的前置条件。未建立任何PostgreSQL/代理/模型/Google/网站连接，未盘点/建库/迁移，2A/2B均未启动、预算未消耗；不修改主.env、产品、组装或测试断言。等待用户授权仅子进程覆盖本地目标或自行修正配置；上轮离线证据保持。 [脱敏报告](../../.eval-artifacts/3c-closeout-20261117/step2-preflight/report.md)。
+
+
+<a id="dev-3c-step2-cli-live-20261117"></a>
+
+## 2026-11-17 — 3C第2步真实PostgreSQL入口与单次Live（local / not integrated）
+
+用户批准本机系统账户覆盖后，选空业务praxis_smoke（praxis_web历史保留）；父环境DATABASE_URL/TEST URL在Node --env-file后仍为127.0.0.1:5432专库。执行SHA9201d40bf5eb2e895041a25f6d15628dd6791415：2A原PostgreSQL烟测和FIXTURE CLI通过，终态AWAITING_AUTHORIZATION/SSE终态1条；首轮Markdown归档错误保留，零外调重做后完整归档。2B唯一Live需求自然PRESENT_RESULTS/1店：agentDecisions7、modelCallsStarted47、Google5、elapsedMs266828；一次G1 ANSWERED，回答modelUsage1，B1未过期、departure201与拦截URL及SQL三项绑定成立。0补问/刷新/续查/Live重跑。自动评价NOT_EVALUATED、S0未评价、S1 PRESENT（缺独立来源支撑），不报QUALIFIED_DELIVERY/S0=0；externalSideEffectCount NOT_MEASURED、后端网站总请求未测得。服务/DB连接关闭，临时CLI产物归档清空，主目录/.env/产品/断言不改，不合main/推送，停等复核。 [完整报告](../../.eval-artifacts/3c-step2-20261117/report.md)。

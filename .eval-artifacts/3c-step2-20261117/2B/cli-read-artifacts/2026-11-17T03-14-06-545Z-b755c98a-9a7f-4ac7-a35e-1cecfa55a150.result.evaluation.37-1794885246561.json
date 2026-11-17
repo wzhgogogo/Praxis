@@ -1,0 +1,972 @@
+{
+  "outcome": {
+    "type": "NOT_EVALUATED",
+    "reasons": [
+      "Presentation exists but request equivalence or original support is not independently evaluated."
+    ],
+    "evidenceRefs": [
+      "loop",
+      "finalSnapshot.domainState.presentedResults",
+      "finalSnapshot.domainState.availability",
+      "finalSnapshot.domainState.readEvidence"
+    ],
+    "capabilityDenominator": "NOT_EVALUATED",
+    "userGoalComplete": "NOT_EVALUATED"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Displayed claim lacks complete independent request/source/execution support.",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "PRESENT",
+      "reasons": [
+        "A displayed MET condition lacks independent source evidence; this is S1, not an independently established S0."
+      ],
+      "evidenceRefs": [
+        "presentedResults.conditionStates"
+      ]
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Displayed claim lacks complete independent request/source/execution support."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [
+    {
+      "candidateId": "praxis:restaurant:fc747ae09de4b8ce5f0f69d3",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    }
+  ],
+  "conditionStateComparisons": [
+    {
+      "candidateId": "praxis:restaurant:fc747ae09de4b8ce5f0f69d3",
+      "text": "sushi",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "MET",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "S1_UNSUPPORTED"
+    }
+  ],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": null,
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 1,
+    "maxConsecutiveNoNewObservation": 1,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [
+      {
+        "key": "193fa8d90729674f:CHECK_AVAILABILITY:TABELOG:AVAILABILITY_SOURCES_EXHAUSTED",
+        "steps": [
+          2,
+          3
+        ]
+      }
+    ],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": []
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/private/tmp/praxis-3c-closeout/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@37",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@32",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/private/tmp/praxis-3c-closeout/.eval-artifacts/restaurant-web-read/2026-11-17T03-14-06-545Z-b755c98a-9a7f-4ac7-a35e-1cecfa55a150.result.json",
+    "sha256": "5341e8eb0d11bb637ac203339d56af4f94a2ba2af1b8bda76c0622a128abd8fc",
+    "runId": "b755c98a-9a7f-4ac7-a35e-1cecfa55a150",
+    "caseId": "restaurant:44d9e0479bf52c24a27915d1"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "UNKNOWN",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "NOT_EVALUATED",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130103/13005003",
+      "outletName": "Ginza Sushi Kanesaka Honten",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:1c9592fb131b25aa6cf8f0e4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:discovery-identity:1d051a04bdae6253ae85b600]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:c7b319390979cc51e84e1e9b]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1313/A131301/13209942",
+      "outletName": "Ginza Ichibun",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "UNAVAILABLE",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "UNAVAILABLE",
+      "reasonCode": "NO_MATCHING_SLOT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:f853aab0f4ceb4255a2dff4c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:discovery-identity:e9c09271ac15d7e2db5e8a02]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:c8c6f9d8b3c12db21aef122f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:c4d722e851ea8aad9c4f300c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:b935f3ac15172004591cea7b]"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1301/A130101/13274702",
+      "outletName": "Ginza Sushi Aoki",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[1].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:77469e8ca8210d48fd34e19c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:discovery-identity:399fea574131508190e91156]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:9b24fa10c076f0aa525ebaff]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:4052fa24b9af03f03445922c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:4d7e92eb622ba1845c8f104f]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5dd9916fc56a57fe106fcdbe",
+      "outletName": "Tozaki",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:30d19760ea796ad298cf9f0b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:30d19760ea796ad298cf9f0b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:c8d978202ac06462416dbf5d]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:1de9f1168c9b37b35741c0be",
+      "outletName": "銀座 桶屋 Tokyo",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "AGENT_EXECUTION_FAILED",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "BUDGET_OR_TIMEOUT",
+      "reasonCode": "ADVANCE_OPERATION_BUDGET",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:8cb51d9ab1f4deb1c808a2dd]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:8cb51d9ab1f4deb1c808a2dd]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:73c96a1cf813e466f7d38471]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:95ceff853ba112c4d959a39b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:dbac988855c67027fbf20ba8",
+      "outletName": "銀座千両 Ginza Senryo / Sushi & Dining Bar",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:dc9cf722f5bcee279674f70f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:dc9cf722f5bcee279674f70f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:9ac5834be09e51a5b68b66ee]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:901c1a32d5edde9b9334df90",
+      "outletName": "Ginza Okabe",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:a7da0c74eb60a2a50563ec08]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a7da0c74eb60a2a50563ec08]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:52909f237c9bb13b47549c56]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:f986752b3b5175262afc1763",
+      "outletName": "Sushi momonoki in Ginza",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "BUDGET_OR_TIMEOUT",
+      "reasonCode": "BROWSER_TIMEOUT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:04f768d96343b39a18a98798]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:04f768d96343b39a18a98798]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4583467b38958affd2fa7786]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-source-name:8db4856e2607b250a0c2fbef]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:d2133bfa01f6b97f41b996f7",
+      "outletName": "Sushi Hitotsu",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:6bf45b6559a5c8680a0f3cdd]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:6bf45b6559a5c8680a0f3cdd]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:df7f2b4f5bd1c5f2a4a85477]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:809df70374aa1de33968d6da]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:969ec556a18073784b5b08bb",
+      "outletName": "Ginza Kurosu",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d7b5423bd3b4f02f6799d02a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d7b5423bd3b4f02f6799d02a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2a26ff9c899948a030491c32]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:88e9f5858c1409f7aea05b25",
+      "outletName": "銀座 和食 Dining スブリム",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3b78a32d1b8a5280a571ee4a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3b78a32d1b8a5280a571ee4a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:a1c0887ea161d072b0b09631]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:609006a70e5a67a38c69f4f5",
+      "outletName": "Ginza Harutaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:a07f4fca0310b54e5d7b51e1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a07f4fca0310b54e5d7b51e1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:7fe6ec999721c077858d51a3]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ad0cef22c121a7e144a1075e",
+      "outletName": "Sushi Tofuro Ginza 1-chome",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:aac0904de29b32644e0359b0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:aac0904de29b32644e0359b0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:3c147fc9ded88c49750f1e31]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:7463ccb60f1a90e280c048d1",
+      "outletName": "Sushi Tofuro Ginza Corridor Street",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:bf8b98458493c9022f4c05f1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:bf8b98458493c9022f4c05f1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4aade2d9c54ccf4e4f054b89]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:302ccd466d2c2037a52332a4",
+      "outletName": "Genkaizushi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d312bc948ec4513ebb7d94d2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d312bc948ec4513ebb7d94d2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:5208adbe972ec2c634cb3ead]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:a31eff325eae72a436166b1a",
+      "outletName": "Ginza Sushi Mamoru Omakase",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:72390a578e249e6c41df0119]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:72390a578e249e6c41df0119]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b8db7c9acfa4af781783783c]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:62614f518108780e24b8d52e",
+      "outletName": "GINZA SUSHI BANYA KAI",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e43bbe05e3f9ff198f62b69d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e43bbe05e3f9ff198f62b69d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8fe47fb615727d189609ffa1]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:bc96aa9976f281c328961b88",
+      "outletName": "銀座つかさ｜GINZA SUSHI TSUKASA",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:671b5274a3ac9093d10460cf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:671b5274a3ac9093d10460cf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:6ea28f0f40625289d6d3ebfa]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:dad3fadb58473e7eaa98cac5",
+      "outletName": "Haneda Ichiba",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:5eb6f4d87399d2f57770a69c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:5eb6f4d87399d2f57770a69c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:1ffe1a1bf303b753255daa34]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:45241f0b201f957ac628eb36",
+      "outletName": "Ginza IWA",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:18b263b77d6be045f8bc6187]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:18b263b77d6be045f8bc6187]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:777e6f7b7debf823c46dc4eb]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:fc9bff7b6dad014050de841b",
+      "outletName": "Sushi Yamaken",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3228d5fa36941927f6e61237]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3228d5fa36941927f6e61237]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:16fad2d51aa9045d80691507]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:fc747ae09de4b8ce5f0f69d3",
+      "outletName": "Sushi Tempura iwai in Ginza",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "AVAILABLE",
+          "evidenceRef": "trajectories[4].executionMetadata.providerAttempts[2]"
+        }
+      ],
+      "result": "OFFER_GROUNDED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:ade8969d07a08da91f37b5b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:ade8969d07a08da91f37b5b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:681021dac8ace7bd8a506470]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:4dbae4df2a3d150ae5eac8fc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:3d130a8328c14e321a645648]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:cc46fe2d333d85d2e91a1b45]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:fc747ae09de4b8ce5f0f69d3:2026-11-17T03:14:04.060Z:evidence:restaurant:google-facts:681021dac8ace7bd8a506470,evidence:restaurant:tabelog-hard-criteria:3d130a8328c14e321a645648]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:9124b19020f925e7f89e769b",
+      "outletName": "Sushi Ginza Onodera Toryumon",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:0713e239e3ce7c72296cafdf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:0713e239e3ce7c72296cafdf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:0a04125ef35cb20790a406b5]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:8922a772c14200c35c5a2483",
+      "outletName": "Ginza Sushiyoshi Hanare",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:af917c08a3338513b9689584]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:af917c08a3338513b9689584]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:57c39ff7b03d0c1468cdc996]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:45dc19dc198bc84d2455cb3e",
+      "outletName": "Sushi En Ginza",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:c05f741c02cadf68b569fc0c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:c05f741c02cadf68b569fc0c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:49e92ad2214cae11d79cf0c5]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:3b8aa21df6103cfc34395729",
+      "outletName": "Ginza Sushi Ko Honten",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:7226381a409cb0cfb83b5de0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:7226381a409cb0cfb83b5de0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:306c45218aa625f4d574226b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:a9c0070e4ffc3c6dbfd5b804",
+      "outletName": "Ginza Sushiyoshi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:14411a0fe2fa9664602ed4c5]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:14411a0fe2fa9664602ed4c5]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8474b4a9c621b0d7fd6c1651]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:e685abc2a066487f52035611",
+      "outletName": "Sushi Fukasawa Ginza",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:ef0550e910892f0db4ab9c63]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:ef0550e910892f0db4ab9c63]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:9b5ba2b9c284b02e9836922e]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:960440504984e3c06a060eb0",
+      "outletName": "Bayside SAKURA Orion Sushi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:ebc9609ae415fb3191a1c8ee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:ebc9609ae415fb3191a1c8ee]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:7581435c3d9804b024cd6d63]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5ff88688d66cb9560ff71c1f",
+      "outletName": "ITAMAE SUSHI - H A N A R E - Ginza",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:00122d864614590be1852312]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:00122d864614590be1852312]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:fcca2f74ff329a04345a8d6b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:a08ad5e7f65c6b70f716f50b",
+      "outletName": "銀座うしあわせ Wagyu Sushi Ushiawase Ginza",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b0d2db4988a74b5559e41749]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b0d2db4988a74b5559e41749]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:91f15394fefc2c2ae651de66]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:18df144fafadf4c4c8b25a45",
+      "outletName": "立鮨 銀座 寿 SUSHI GINZA TOSHI",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:0852db203c033216d0edc28d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:0852db203c033216d0edc28d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:95e8d191caa5734b1e4d022b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:12dc9949d6d9603c4f76e54d",
+      "outletName": "Kaiseki Japanese food Shibahama in Ginza",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d9567ef4248c6b2e5614bd25]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d9567ef4248c6b2e5614bd25]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:58efaa092564fbf8532d36e5]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:c6f2cdbc12124c47abeea445",
+      "outletName": "Sushimasa",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:265185bd8c3b35e51faa0226]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:265185bd8c3b35e51faa0226]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8e2d663b29362cf87915a97c]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ec3c276681d8e306f696c0de",
+      "outletName": "Umai Sushikan Ginza Honten",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d63cefd5102e0b0f91cef0ab]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d63cefd5102e0b0f91cef0ab]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:0494410632988011b54d06dc]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5107c00077bd57b26d2f88a4",
+      "outletName": "Sushi Yokota in Ginza",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:333c175b7c1e210f98d4bdc1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:333c175b7c1e210f98d4bdc1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:fd071a7bebcf4577f1de99fd]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:55d46c95ed4735b105cb125c",
+      "outletName": "Ginza Arata",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "REQUEST_SELECTION_UNCONFIRMED",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[0]"
+        }
+      ],
+      "result": "REQUEST_NOT_CONFIRMED",
+      "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:4920d6c815ff1975b992bbfa]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:4920d6c815ff1975b992bbfa]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2f8d7766d85d7bc7200a8565]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:5b64f6dfed823a690ce28b27]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:1149b56d056e28347c8fabb2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:2b0e484153dc7055b4f67a9d]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:37257f9b5db6e1317924ec6b",
+      "outletName": "Ginza Sushi Inada",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:6355255945b722b83d64eb12]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:6355255945b722b83d64eb12]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:641af66d1b3a54d7be85253c]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5a2f321d95718622ad352029",
+      "outletName": "Sushi Ginza Onodera Souhonten",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:53a9ac7de4d7c36e7cded7a1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:53a9ac7de4d7c36e7cded7a1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:5040324ece86d01284639f00]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:e4c4f7a2db17975c81146cdd",
+      "outletName": "Ginza Sushi Den",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:430f6c0dd5ffa698a496fa50]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:430f6c0dd5ffa698a496fa50]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:333a57845ad10785f236bc12]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:0739b9b1899dc8dea2a95b4a",
+      "outletName": "Tsukiji Suzutomi Ginza Six",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:fdf22f978e39114b3707bfc4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:fdf22f978e39114b3707bfc4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:5d171fc6dc2b2d8fe9e6e4e7]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:147a64c483855c99aea7eefe",
+      "outletName": "Tsukiji Sushisei - Ginza 4 Chome",
+      "providers": [
+        "TABELOG"
+      ],
+      "providerAttempts": [
+        {
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT",
+          "evidenceRef": "trajectories[2].executionMetadata.providerAttempts[1]"
+        }
+      ],
+      "result": "BUDGET_OR_TIMEOUT",
+      "reasonCode": "BROWSER_TIMEOUT",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:1a3b10f053bed497b77e8d5f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:1a3b10f053bed497b77e8d5f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8fe28da59f1558daed0c3fcb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-source-name:b37f4eb2ddf763f512d6999c]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:d3f82e270681a23dec5bea9b",
+      "outletName": "Ginza Katana Bistro",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d8837144112ef76342e42c7d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d8837144112ef76342e42c7d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:3e7b49dea455d1ae11107a19]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "NOT_EVALUATED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "raw Tabelog response and selected snapshot date/party missing",
+        "candidate=praxis:restaurant:fc747ae09de4b8ce5f0f69d3",
+        "citedEvidence=7",
+        "offers=1",
+        "missing=raw Tabelog response and selected snapshot date/party missing"
+      ],
+      "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "diagnostics.browserTrace",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:ade8969d07a08da91f37b5b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:ade8969d07a08da91f37b5b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:681021dac8ace7bd8a506470]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:4dbae4df2a3d150ae5eac8fc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-hard-criteria:3d130a8328c14e321a645648]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:cc46fe2d333d85d2e91a1b45]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:fc747ae09de4b8ce5f0f69d3:2026-11-17T03:14:04.060Z:evidence:restaurant:google-facts:681021dac8ace7bd8a506470,evidence:restaurant:tabelog-hard-criteria:3d130a8328c14e321a645648]",
+        "finalSnapshot.domainState.availability[praxis:restaurant:fc747ae09de4b8ce5f0f69d3][id=offer:tabelog:praxis:restaurant:fc747ae09de4b8ce5f0f69d3:2026-11-19:20:00:2]"
+      ],
+      "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=6",
+        "applicableObservations=6",
+        "executedInvestigationVisits=10",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=1",
+        "maxConsecutiveNoNewObservation=1"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[0].observation",
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation",
+        "trajectories[6].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "NOT_EVALUATED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=1"
+      ],
+      "directCause": "Terminal presentation has conflicting or insufficient independent support.",
+      "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "No qualified completion can be claimed."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "NOT_EVALUATED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "missing=browserModelCalls",
+        "missingLimit=maxSteps",
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "limits",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ]
+}

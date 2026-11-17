@@ -1,0 +1,101 @@
+{
+  "praxis_smoke": {
+    "migrations": [
+      {
+        "id": "0001-task-runtime"
+      },
+      {
+        "id": "0002-recovery-coordinator"
+      },
+      {
+        "id": "0003-goal-task-graph"
+      },
+      {
+        "id": "0004-task-triggers"
+      },
+      {
+        "id": "0005-agent-workspace"
+      },
+      {
+        "id": "0006-restaurant-agent-trajectory"
+      },
+      {
+        "id": "0007-restaurant-agent-trajectory-causal-refs"
+      },
+      {
+        "id": "0008-restaurant-agent-trajectory-decision-context"
+      },
+      {
+        "id": "0009-restaurant-live-read-trajectory"
+      },
+      {
+        "id": "0010-restaurant-booking-handoff-feedback"
+      }
+    ],
+    "taskVersions": [
+      {
+        "domain_state_schema_version": "25",
+        "definition_version": "24",
+        "n": 3
+      }
+    ],
+    "connections": [],
+    "counts": {
+      "tasks": 3,
+      "task_events": 20,
+      "conversations": 3,
+      "conversation_messages": 8,
+      "restaurant_agent_trajectory_steps": 16,
+      "workspace_users": 1,
+      "workspace_sessions": 3
+    }
+  },
+  "praxis_web": {
+    "migrations": [
+      {
+        "id": "0001-task-runtime"
+      },
+      {
+        "id": "0002-recovery-coordinator"
+      },
+      {
+        "id": "0003-goal-task-graph"
+      },
+      {
+        "id": "0004-task-triggers"
+      },
+      {
+        "id": "0005-agent-workspace"
+      },
+      {
+        "id": "0006-restaurant-agent-trajectory"
+      },
+      {
+        "id": "0007-restaurant-agent-trajectory-causal-refs"
+      },
+      {
+        "id": "0008-restaurant-agent-trajectory-decision-context"
+      },
+      {
+        "id": "0009-restaurant-live-read-trajectory"
+      }
+    ],
+    "taskVersions": [
+      {
+        "domain_state_schema_version": "10",
+        "definition_version": "10",
+        "n": 14
+      }
+    ],
+    "connections": [],
+    "counts": {
+      "tasks": 14,
+      "task_events": 97,
+      "conversations": 14,
+      "conversation_messages": 32,
+      "restaurant_agent_trajectory_steps": 114,
+      "workspace_users": 1,
+      "workspace_sessions": 2
+    }
+  }
+}

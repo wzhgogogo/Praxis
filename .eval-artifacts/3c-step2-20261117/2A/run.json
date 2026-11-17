@@ -1,0 +1,497 @@
+{
+  "stage": "2A",
+  "sha": "9201d40bf5eb2e895041a25f6d15628dd6791415",
+  "target": {
+    "protocol": "postgresql:",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "database": "praxis_smoke",
+    "accountSource": "local system account"
+  },
+  "mode": "FIXTURE",
+  "engine": "LOCAL_CHROMIUM",
+  "request": "Need a table tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen",
+  "question": "Do they have private rooms?",
+  "http": [
+    {
+      "atMs": 733.8245000000001,
+      "path": "/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 741.231042,
+      "path": "/api/session",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "atMs": 749.3695,
+      "path": "/assets/geist.woff2",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 797.257834,
+      "path": "/api/session",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "atMs": 811.9336249999999,
+      "path": "/api/cases",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 813.032209,
+      "path": "/assets/geist-mono.woff2",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 916.0873750000001,
+      "path": "/api/cases",
+      "method": "POST",
+      "body": {
+        "message": "Need a table tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen",
+        "requestId": "357b8633-cc60-49a3-b325-e8d7042fb893",
+        "viewContext": {
+          "view": "HOME",
+          "comparedCandidateIds": []
+        }
+      }
+    },
+    {
+      "atMs": 982.484917,
+      "path": "/api/cases",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "atMs": 998.1547089999999,
+      "path": "/api/cases/restaurant%3Ab14026df5952165e2f383ecd/events",
+      "method": "GET",
+      "status": 200
+    }
+  ],
+  "sse": [
+    {
+      "atMs": 998.0479170000001,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:b14026df5952165e2f383ecd",
+        "conversationId": "conversation:b14026df5952165e2f383ecd",
+        "phase": "AWAITING_AUTHORIZATION",
+        "taskVersion": 5
+      },
+      "progress": {
+        "active": false,
+        "stopped": false,
+        "discoveredCount": 3,
+        "checkedCount": 3
+      },
+      "readStatus": {
+        "kind": "PENDING",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      }
+    }
+  ],
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    }
+  ],
+  "pageerror": [],
+  "blocked": [],
+  "counts": {
+    "userDemands": 1,
+    "questions": 0,
+    "departures": 0,
+    "refreshes": 0
+  },
+  "externalSideEffectCount": "NOT_MEASURED",
+  "backendWebsiteRequests": "NOT_MEASURED",
+  "independentS0": "NOT_EVALUATED",
+  "postgresSmoke": {
+    "exitCode": 0
+  },
+  "listening": true,
+  "caseId": "restaurant:b14026df5952165e2f383ecd",
+  "conversationId": "conversation:b14026df5952165e2f383ecd",
+  "searchWaitMs": 520.0012080000001,
+  "terminalPhase": "AWAITING_AUTHORIZATION",
+  "g1Status": "NOT_REQUIRED_FIXTURE_CLI",
+  "sql": {
+    "task": [
+      {
+        "id": "restaurant:b14026df5952165e2f383ecd",
+        "definition_version": "24",
+        "domain_state_schema_version": "25",
+        "lifecycle_state": "WAITING_USER",
+        "version": 5,
+        "domain_state": {
+          "phase": "AWAITING_AUTHORIZATION",
+          "intent": {
+            "area": {
+              "query": "Shinjuku"
+            },
+            "date": "2026-08-05",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "find a bookable table"
+            },
+            "criteria": [
+              {
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:30",
+              "earliest": "19:00"
+            },
+            "budgetPerPerson": {
+              "max": 5000,
+              "currency": "JPY"
+            }
+          },
+          "proposal": {
+            "id": "proposal:9cd00e74-ee37-4357-80fe-26601de9dbea",
+            "risk": "LOW",
+            "amount": {
+              "value": 4400,
+              "currency": "JPY"
+            },
+            "target": {
+              "id": "fixture-restaurant-1",
+              "type": "RESTAURANT_OUTLET",
+              "counterparty": "Fixture Yakiniku Shinjuku 1"
+            },
+            "taskId": "restaurant:b14026df5952165e2f383ecd",
+            "termsHash": "59c59286d88fb0de3f1886b78543223d651b33c25c67ffca4193f381b483bfee",
+            "actionType": "BOOK",
+            "reversible": true
+          },
+          "candidates": [
+            {
+              "warnings": [
+                "Fixture data only — availability is not real."
+              ],
+              "restaurant": {
+                "id": "fixture-restaurant-1",
+                "address": "1-1 Shinjuku, Tokyo",
+                "sourceIds": {
+                  "fixture": "fixture-1"
+                },
+                "outletName": "Fixture Yakiniku Shinjuku 1",
+                "provenance": {
+                  "address": "fixture",
+                  "outletName": "fixture"
+                },
+                "coordinates": {
+                  "lat": 35.690999999999995,
+                  "lng": 139.701
+                }
+              },
+              "matchReasons": [
+                "Fixture match for the requested area"
+              ],
+              "executionConfidence": "LOW"
+            },
+            {
+              "warnings": [
+                "Fixture data only — availability is not real."
+              ],
+              "restaurant": {
+                "id": "fixture-restaurant-2",
+                "address": "2-1 Shinjuku, Tokyo",
+                "sourceIds": {
+                  "fixture": "fixture-2"
+                },
+                "outletName": "Fixture Yakiniku Shinjuku 2",
+                "provenance": {
+                  "address": "fixture",
+                  "outletName": "fixture"
+                },
+                "coordinates": {
+                  "lat": 35.692,
+                  "lng": 139.702
+                }
+              },
+              "matchReasons": [
+                "Fixture match for the requested area"
+              ],
+              "executionConfidence": "LOW"
+            },
+            {
+              "warnings": [
+                "Fixture data only — availability is not real."
+              ],
+              "restaurant": {
+                "id": "fixture-restaurant-3",
+                "address": "3-1 Shinjuku, Tokyo",
+                "sourceIds": {
+                  "fixture": "fixture-3"
+                },
+                "outletName": "Fixture Yakiniku Shinjuku 3",
+                "provenance": {
+                  "address": "fixture",
+                  "outletName": "fixture"
+                },
+                "coordinates": {
+                  "lat": 35.693,
+                  "lng": 139.70299999999997
+                }
+              },
+              "matchReasons": [
+                "Fixture match for the requested area"
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "factChecks": {},
+          "intentDraft": {
+            "area": {
+              "query": "Shinjuku"
+            },
+            "date": "2026-08-05",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "find a bookable table"
+            },
+            "criteria": [
+              {
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:30",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "budgetPerPerson": {
+              "max": 5000,
+              "currency": "JPY"
+            },
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "2026-08-05",
+                "resolvedDate": "2026-08-05"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "19:00-19:30",
+                "resolvedTimeWindow": {
+                  "latest": "19:30",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-17T03:08:38.652Z"
+            }
+          },
+          "availability": {
+            "fixture-restaurant-1": [
+              {
+                "id": "fixture-offer-fixture-restaurant-1",
+                "price": {
+                  "basis": "PER_PERSON",
+                  "amount": 4400,
+                  "currency": "JPY"
+                },
+                "source": "fixture",
+                "seating": "TABLE",
+                "dateTime": "2026-08-05T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-08-19T09:00:00.000Z",
+                "expiresAt": "2026-12-31T23:59:00.000Z",
+                "partySize": 2,
+                "bookingMode": "INSTANT",
+                "restaurantId": "fixture-restaurant-1",
+                "executionMode": "DEEPLINK",
+                "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+                "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+              }
+            ],
+            "fixture-restaurant-2": [
+              {
+                "id": "fixture-offer-fixture-restaurant-2",
+                "price": {
+                  "basis": "PER_PERSON",
+                  "amount": 4400,
+                  "currency": "JPY"
+                },
+                "source": "fixture",
+                "seating": "TABLE",
+                "dateTime": "2026-08-05T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-08-19T09:00:00.000Z",
+                "expiresAt": "2026-12-31T23:59:00.000Z",
+                "partySize": 2,
+                "bookingMode": "INSTANT",
+                "restaurantId": "fixture-restaurant-2",
+                "executionMode": "DEEPLINK",
+                "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+                "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+              }
+            ],
+            "fixture-restaurant-3": [
+              {
+                "id": "fixture-offer-fixture-restaurant-3",
+                "price": {
+                  "basis": "PER_PERSON",
+                  "amount": 4400,
+                  "currency": "JPY"
+                },
+                "source": "fixture",
+                "seating": "TABLE",
+                "dateTime": "2026-08-05T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-08-19T09:00:00.000Z",
+                "expiresAt": "2026-12-31T23:59:00.000Z",
+                "partySize": 2,
+                "bookingMode": "INSTANT",
+                "restaurantId": "fixture-restaurant-3",
+                "executionMode": "DEEPLINK",
+                "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+                "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+              }
+            ]
+          },
+          "readEvidence": [],
+          "schemaVersion": "25",
+          "searchRevision": 1,
+          "selectedOfferId": "fixture-offer-fixture-restaurant-1",
+          "availabilityChecks": {
+            "fixture-restaurant-1": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-08-19T09:00:00.000Z",
+              "expiresAt": "2026-12-31T23:59:00.000Z",
+              "evidenceIds": [],
+              "sourceProvider": "FIXTURE",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+              "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "fixture-restaurant-2": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-08-19T09:00:00.000Z",
+              "expiresAt": "2026-12-31T23:59:00.000Z",
+              "evidenceIds": [],
+              "sourceProvider": "FIXTURE",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+              "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "fixture-restaurant-3": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-08-19T09:00:00.000Z",
+              "expiresAt": "2026-12-31T23:59:00.000Z",
+              "evidenceIds": [],
+              "sourceProvider": "FIXTURE",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+              "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            }
+          },
+          "searchContinuation": {
+            "exhausted": true,
+            "pagesRead": 1,
+            "usedPageTokens": [],
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"find a bookable table\"},\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"Shinjuku\"},\"criteria\":[{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}],\"budgetPerPerson\":{\"max\":5000,\"currency\":\"JPY\"}}"
+          },
+          "selectedCandidateId": "fixture-restaurant-1",
+          "investigationRevision": 1
+        }
+      }
+    ],
+    "events": [
+      {
+        "event_type": "AVAILABILITY_CHECKED",
+        "count": 1
+      },
+      {
+        "event_type": "BOOKING_PROPOSED",
+        "count": 1
+      },
+      {
+        "event_type": "CANDIDATE_SELECTED",
+        "count": 1
+      },
+      {
+        "event_type": "SEARCH_COMPLETED",
+        "count": 1
+      },
+      {
+        "event_type": "SEMANTIC_PROPOSAL_COMPILED",
+        "count": 1
+      }
+    ],
+    "conversations": [
+      {
+        "id": "conversation:b14026df5952165e2f383ecd",
+        "root_task_id": "restaurant:b14026df5952165e2f383ecd"
+      }
+    ],
+    "messages": [
+      {
+        "role": "ASSISTANT",
+        "count": 1
+      },
+      {
+        "role": "USER",
+        "count": 1
+      }
+    ],
+    "departures": []
+  },
+  "status": "PASS",
+  "serverShutdown": [
+    0,
+    null
+  ],
+  "archivedArtifacts": [
+    {
+      "name": "2026-11-17T03-08-38-698Z-67fda421-c981-4959-8963-aaa543748f48.result.evaluation.37-1794884918702.json",
+      "rawSHA256": "6932d370c70fa1d144a59f4a4f40675ab76850fe1e9df55c0a6de594e5d0a514",
+      "sanitizedSHA256": "39d87837e3da19c6739dc1296dd841f7f3b37cf8907b547f2cda4f7fca5eeecd"
+    },
+    {
+      "name": "2026-11-17T03-08-38-698Z-67fda421-c981-4959-8963-aaa543748f48.result.evaluation.37-1794884918702.json.diagnosis.json",
+      "rawSHA256": "d453f52e9f6d1b76abfba2bac0bcba34643f91a7f1491bef7d3eeac61487b5ec",
+      "sanitizedSHA256": "d453f52e9f6d1b76abfba2bac0bcba34643f91a7f1491bef7d3eeac61487b5ec"
+    },
+    {
+      "name": "2026-11-17T03-08-38-698Z-67fda421-c981-4959-8963-aaa543748f48.result.evaluation.37-1794884918702.json.diagnosis.md",
+      "rawSHA256": "150d64e325ba8c43bb5b107ad4d964b7b1b5a73da72332a391b9a7f887fc28bd",
+      "sanitizedSHA256": "150d64e325ba8c43bb5b107ad4d964b7b1b5a73da72332a391b9a7f887fc28bd"
+    },
+    {
+      "name": "2026-11-17T03-08-38-698Z-67fda421-c981-4959-8963-aaa543748f48.result.json",
+      "rawSHA256": "7d71fa1125a6b29e5bf0ee81bcd79026e55b5f671645419a918d95399d58336a",
+      "sanitizedSHA256": "c29744e3bd114a3198f625bff74498e6cd86d6bd512606b99b9f4c0cd422e7a0"
+    },
+    {
+      "name": "2026-11-17T03-08-38-698Z-67fda421-c981-4959-8963-aaa543748f48.started.json",
+      "rawSHA256": "ccf96e48dde4821e8b823f3d3ee2e0825dfd2d931a8d489e94937d592811688a",
+      "sanitizedSHA256": "9bc961e823176a75da9929f0c36b15a228ae6e3a6603c2ca9dd6e2c01d2dccb7"
+    }
+  ],
+  "searchResourceUsage": {
+    "elapsedMs": 44,
+    "agentDecisions": 4
+  },
+  "wallMs": 1637.269542,
+  "endedAt": "2026-11-17T03:08:39.365Z"
+}
