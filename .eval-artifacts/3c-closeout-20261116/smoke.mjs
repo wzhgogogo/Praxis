@@ -3,7 +3,7 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
 import {chromium} from 'playwright-core';
 import {startWorkspaceFixture} from '../../src/harness/workspace-fixture-server.ts';
-const dir=new URL('./smoke/',import.meta.url);await mkdir(dir,{recursive:true});
+const dir=new URL('../3c-closeout-20261117/smoke/',import.meta.url);await mkdir(dir,{recursive:true});
 const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 const results=[];
 for(const size of [{name:'mobile',width:390,height:844},{name:'desktop',width:1280,height:900}]){
