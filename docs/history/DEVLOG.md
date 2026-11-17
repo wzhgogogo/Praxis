@@ -6346,3 +6346,8 @@ Current offline baseline `ea7b20c6eaf842a3d365784f529b543f23218ed2` preserves727
 ## 2026-11-17 - Unified round 3 demand-only Google and website lookahead
 
 Current slice raises only Google media ceiling10->20, retains Details1/website pages2/images10, tags website DTOs and adds guarded website-only Lookahead1. Visible img URL format unchanged. Prefetched IDs deduplicate both gallery entrances; completion handlers never cascade or change failed/counter state. Google/unknown providers fail closed. Added exact8/8/16-dispatch and20/21 CDN-redirect contracts, retained partial/both-source failures, and two browser journeys including unknown-provider refusal and failed warm-up isolation. New output round-3 only; old gate/failure/round-2 hashes protected. No.env/DB/Live. Preflight18/18 contracts and2/2 browser journeys; new frozen acceptance pending.
+
+
+## 2026-11-17 - Unified round 3 offline completion
+
+Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` closes Google8-image demand loading and explicit WEBSITE-only Lookahead1 without changing visible URL format, Domain/router/search/projection, dependency versions or evaluator scoring. Preflight18 contracts+2 browser tests and all clean five gates/16 visual cases pass. Redirect boundary20/21 and original corruption/fallback contracts retained. Code/scripts unchanged after freeze; only evidence/docs appended. Literal prior-citation review records "up to 20 people" as unverified by the three returned snippets, without changing old answer or making a truth/S0 verdict. No new Live or PG; old gates/failures/round-2 bytes preserved. [Report](../../.eval-artifacts/3c-unified-20261117/round-3/REPORT.md).
