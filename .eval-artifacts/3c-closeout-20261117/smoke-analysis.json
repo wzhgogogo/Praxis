@@ -1,0 +1,212 @@
+[
+  {
+    "size": {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    },
+    "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+    "status": "PASS",
+    "sseCount": 10,
+    "checks": {
+      "progressAndSse": true,
+      "inlineMessagesAndDraft": true,
+      "g1CandidateAndCitations": true,
+      "secondSlotAndB1Reload": true,
+      "departurePersistedAndExternalBlocked": true,
+      "noAppErrorsAndLayout": true
+    },
+    "citationBindings": [
+      {
+        "identityEvidenceId": "evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184",
+        "candidateMatch": true,
+        "providerMatch": true,
+        "citationURL": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve",
+        "handoffBaseURL": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve",
+        "sourceURLMatch": true
+      }
+    ],
+    "httpRequestCount": 19,
+    "expectedUnauthenticatedBootstrap": [
+      {
+        "url": "http://127.0.0.1:59933/api/session",
+        "status": 401,
+        "method": "GET"
+      }
+    ],
+    "unexpectedHttpErrors": [],
+    "appPageErrors": [],
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "expectedExternalBlocks": [
+      {
+        "url": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A30&num_people=3",
+        "method": "GET",
+        "navigation": true
+      }
+    ],
+    "selected": {
+      "candidateId": "fixture:outlet",
+      "offerId": "offer:tablecheck:fixture:outlet:2026-11-02:19:30:3",
+      "b1": {
+        "candidateId": "fixture:outlet",
+        "offerId": "offer:tablecheck:fixture:outlet:2026-11-02:19:30:3",
+        "provider": "TABLECHECK",
+        "url": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A30&num_people=3",
+        "directLabel": "Book on TableCheck",
+        "continueLabel": "Continue on TableCheck — date, time, 3 guests filled in",
+        "selectionHint": "Pick Omakase Nigiri ¥9,800",
+        "verificationHint": "Check date and guests",
+        "checkedAt": "2026-10-29T10:00:00.000Z",
+        "displayExpiresAt": "2026-10-29T10:10:00.000Z",
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": [
+          {
+            "label": "Same-day cancellation costs 100%.",
+            "citations": [
+              {
+                "text": "Cancellations on the day cost 100%.",
+                "url": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve",
+                "readAt": "2026-10-29T10:00:00.000Z",
+                "identityEvidenceId": "evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184"
+              }
+            ]
+          },
+          {
+            "label": "Card required",
+            "citations": [
+              {
+                "text": "A credit card is required.",
+                "url": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve",
+                "readAt": "2026-10-29T10:00:00.000Z",
+                "identityEvidenceId": "evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sqlPersisted": [
+      {
+        "candidate_id": "fixture:outlet",
+        "offer_id": "offer:tablecheck:fixture:outlet:2026-11-02:19:30:3",
+        "provider": "TABLECHECK"
+      }
+    ]
+  },
+  {
+    "size": {
+      "name": "desktop",
+      "width": 1280,
+      "height": 900
+    },
+    "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+    "status": "PASS",
+    "sseCount": 10,
+    "checks": {
+      "progressAndSse": true,
+      "inlineMessagesAndDraft": true,
+      "g1CandidateAndCitations": true,
+      "secondSlotAndB1Reload": true,
+      "departurePersistedAndExternalBlocked": true,
+      "noAppErrorsAndLayout": true
+    },
+    "citationBindings": [
+      {
+        "identityEvidenceId": "evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184",
+        "candidateMatch": true,
+        "providerMatch": true,
+        "citationURL": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve",
+        "handoffBaseURL": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve",
+        "sourceURLMatch": true
+      }
+    ],
+    "httpRequestCount": 19,
+    "expectedUnauthenticatedBootstrap": [
+      {
+        "url": "http://127.0.0.1:59944/api/session",
+        "status": 401,
+        "method": "GET"
+      }
+    ],
+    "unexpectedHttpErrors": [],
+    "appPageErrors": [],
+    "console": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      }
+    ],
+    "expectedExternalBlocks": [
+      {
+        "url": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A30&num_people=3",
+        "method": "GET",
+        "navigation": true
+      }
+    ],
+    "selected": {
+      "candidateId": "fixture:outlet",
+      "offerId": "offer:tablecheck:fixture:outlet:2026-11-02:19:30:3",
+      "b1": {
+        "candidateId": "fixture:outlet",
+        "offerId": "offer:tablecheck:fixture:outlet:2026-11-02:19:30:3",
+        "provider": "TABLECHECK",
+        "url": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A30&num_people=3",
+        "directLabel": "Book on TableCheck",
+        "continueLabel": "Continue on TableCheck — date, time, 3 guests filled in",
+        "selectionHint": "Pick Omakase Nigiri ¥9,800",
+        "verificationHint": "Check date and guests",
+        "checkedAt": "2026-10-29T10:00:00.000Z",
+        "displayExpiresAt": "2026-10-29T10:10:00.000Z",
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": [
+          {
+            "label": "Same-day cancellation costs 100%.",
+            "citations": [
+              {
+                "text": "Cancellations on the day cost 100%.",
+                "url": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve",
+                "readAt": "2026-10-29T10:00:00.000Z",
+                "identityEvidenceId": "evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184"
+              }
+            ]
+          },
+          {
+            "label": "Card required",
+            "citations": [
+              {
+                "text": "A credit card is required.",
+                "url": "https://www.tablecheck.com/en/shops/fixture-sushi/reserve",
+                "readAt": "2026-10-29T10:00:00.000Z",
+                "identityEvidenceId": "evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "sqlPersisted": [
+      {
+        "candidate_id": "fixture:outlet",
+        "offer_id": "offer:tablecheck:fixture:outlet:2026-11-02:19:30:3",
+        "provider": "TABLECHECK"
+      }
+    ]
+  }
+]

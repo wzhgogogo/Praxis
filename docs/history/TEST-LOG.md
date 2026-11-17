@@ -7010,3 +7010,10 @@ de9e73bc合并已核对的main7c83e02e/G3，四份冲突文档正文保留；读
 ## 2026-11-16 — 3C 第一步门禁失败停止（draft / not integrated）
 
 五门禁实际SHA 4ff189db2c3ebab938508d5b3e0c93b47d103f8e：typecheck/arch/default1663通过；browser退出1，G2 5/5、其余Chromium335/346（7缺材料、4嵌套sandbox错误），G6/build及独立双尺寸HTTP/SSE、PostgreSQL服务入口、D01/D02 Replay未运行。33个必要材料已从本树HEAD精确恢复且哈希一致，未重跑；271项原Replay输入哈希一致。真实外部调用0、不读.env，仅本地提交，不合main/推送。 [完整报告](../../.eval-artifacts/3c-closeout-20261116/report.md)。
+
+
+<a id="test-3c-offline-closeout-20261117"></a>
+
+## 2026-11-17 — 3C 第一步剩余离线验证（local / not integrated）
+
+本轮只修外层离线编排，产品/测试断言不改。冻结bd9fa5c8cda3787b3928eafc2d86f137c390f08b同一净树五门禁全绿：默认1663/1663、G2 5/5、其余Chromium346/346、G6 159/159及type/arch/build。首次G6 8个ENOENT保留，按HEAD精确恢复21文件后全套重跑；原33+83材料保持。390×844/1280×900独立HTTP/SSE完整Fixture均PASS、每尺寸10条SSE、第二时段B1刷新/SQL出发记录与外链拦截成立；12图（10流程+2滚动补证）。D01/D02 OS全断网原样Replay均FAILED/REPLAY_INCOMPLETE，已定位Spanish联想参数差异、D02结果页与两份Google详情缺口。真实外部调用0、不读.env、不连接/写PostgreSQL，不推送/合main；等用户确认第2步LIVE_READ。 [完整证据报告](../../.eval-artifacts/3c-closeout-20261117/report.md)。

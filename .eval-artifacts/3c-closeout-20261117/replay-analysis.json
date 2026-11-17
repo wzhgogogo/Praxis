@@ -1,0 +1,389 @@
+{
+  "D01": {
+    "classification": "REPLAY_INCOMPLETE",
+    "testedSHA": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+    "terminalPhases": [
+      "FAILED"
+    ],
+    "terminalFailure": {
+      "code": "NETWORK",
+      "message": "Model decision failed: NETWORK"
+    },
+    "runnerFailure": null,
+    "firstStop": {
+      "reason": "MISSING_RESPONSE",
+      "origin": "https://tabelog.com",
+      "pathname": "/en/suggest/keyword_suggest",
+      "queryKeys": [
+        "keyword",
+        "no_display_area_suggest_flg",
+        "station_id"
+      ],
+      "method": "GET"
+    },
+    "matchingGaps": [
+      {
+        "stop": {
+          "reason": "MISSING_RESPONSE",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/suggest/keyword_suggest",
+          "queryKeys": [
+            "keyword",
+            "no_display_area_suggest_flg",
+            "station_id"
+          ],
+          "method": "GET"
+        },
+        "requests": [
+          {
+            "kind": "BROWSER_REQUEST",
+            "atMs": 4137.1864160000005,
+            "url": "https://tabelog.com/en/suggest/keyword_suggest?keyword=Spanish&no_display_area_suggest_flg=true&station_id=5779",
+            "method": "GET",
+            "body": null,
+            "resourceType": "xhr",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 1,
+            "samePathCandidates": [
+              {
+                "recordedUrl": "https://tabelog.com/en/suggest/keyword_suggest?keyword=Takadanobaba",
+                "recordedMethod": "GET",
+                "status": 200,
+                "mimeType": "application/json",
+                "responseBodyPresent": true,
+                "queryDifferences": {
+                  "keyword": {
+                    "current": "Spanish",
+                    "recorded": "Takadanobaba"
+                  },
+                  "no_display_area_suggest_flg": {
+                    "current": "true",
+                    "recorded": null
+                  },
+                  "station_id": {
+                    "current": "5779",
+                    "recorded": null
+                  }
+                },
+                "methodMatches": true,
+                "bodyMatches": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stop": {
+          "reason": "DOCUMENT_NOT_QUALIFIED",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/rstLst/",
+          "queryKeys": [
+            "utf8",
+            "pal",
+            "LstPrf",
+            "LstAre",
+            "station_id",
+            "area_datatype",
+            "area_id",
+            "genre_name",
+            "sw",
+            "search_mode"
+          ],
+          "method": "GET"
+        },
+        "requests": [
+          {
+            "kind": "BROWSER_REQUEST",
+            "atMs": 6216.534625,
+            "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=&search_mode=",
+            "method": "GET",
+            "body": null,
+            "resourceType": "document",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 0,
+            "samePathCandidates": []
+          }
+        ]
+      }
+    ],
+    "laterStops": [
+      {
+        "reason": "MISSING_MODEL_OUTPUT",
+        "purpose": "restaurant_agent_decide",
+        "offset": 7
+      },
+      {
+        "reason": "PREVIOUS_TURN_DIVERGED",
+        "turn": "INITIAL",
+        "actualPhase": "FAILED",
+        "capturedPhase": "PRESENT_RESULTS"
+      }
+    ],
+    "rawHarSHA256": "65abc60a2b6393d1afe06449e141cf63c6994ab8295f37a95b1132fbf7d31c76",
+    "resultSHA256": "8111c9fc8f83e6c05bd9a7a698fc050599147595d282dcf740397b3a5711fce7",
+    "fourLayers": {
+      "endToEnd": "FAILED; no qualified delivery claimed",
+      "steps": "First missing/qualified requests compared independently with raw HAR exact URL/method/body",
+      "severity": "Whole Replay S0 NOT_EVALUATED; no real model/Google/website/Live calls",
+      "attribution": "Coverage/matching gaps directly evidenced; no claim of full causal closure or current live regression"
+    }
+  },
+  "D02": {
+    "classification": "REPLAY_INCOMPLETE",
+    "testedSHA": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+    "terminalPhases": [
+      "FAILED"
+    ],
+    "terminalFailure": {
+      "code": "NETWORK",
+      "message": "Model decision failed: NETWORK"
+    },
+    "runnerFailure": null,
+    "firstStop": {
+      "reason": "DOCUMENT_NOT_QUALIFIED",
+      "origin": "https://tabelog.com",
+      "pathname": "/en/rstLst/",
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ],
+      "method": "GET"
+    },
+    "matchingGaps": [
+      {
+        "stop": {
+          "reason": "DOCUMENT_NOT_QUALIFIED",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/rstLst/",
+          "queryKeys": [
+            "utf8",
+            "pal",
+            "LstPrf",
+            "LstAre",
+            "station_id",
+            "area_datatype",
+            "area_id",
+            "genre_name",
+            "sw",
+            "search_mode"
+          ],
+          "method": "GET"
+        },
+        "requests": [
+          {
+            "kind": "BROWSER_REQUEST",
+            "atMs": 3016.2291250000003,
+            "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+City&search_mode=",
+            "method": "GET",
+            "body": null,
+            "resourceType": "document",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 0,
+            "samePathCandidates": []
+          },
+          {
+            "kind": "BROWSER_REQUEST",
+            "atMs": 10416.233917000001,
+            "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=&search_mode=",
+            "method": "GET",
+            "body": null,
+            "resourceType": "document",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 0,
+            "samePathCandidates": []
+          }
+        ]
+      },
+      {
+        "stop": {
+          "reason": "MISSING_GOOGLE_RESPONSE",
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places/ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+          "queryKeys": [],
+          "method": "GET"
+        },
+        "requests": [
+          {
+            "kind": "GOOGLE_REQUEST",
+            "atMs": 6960.305708,
+            "url": "https://places.googleapis.com/v1/places/ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+            "method": "GET",
+            "body": null,
+            "fieldMask": "id,displayName,formattedAddress,addressComponents,location,types,primaryType,nationalPhoneNumber,googleMapsUri,websiteUri,regularOpeningHours,websiteUri",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 0,
+            "samePathCandidates": []
+          }
+        ]
+      },
+      {
+        "stop": {
+          "reason": "MISSING_RESPONSE",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/suggest/keyword_suggest",
+          "queryKeys": [
+            "keyword"
+          ],
+          "method": "GET"
+        },
+        "requests": [
+          {
+            "kind": "BROWSER_REQUEST",
+            "atMs": 9255.291875,
+            "url": "https://tabelog.com/en/suggest/keyword_suggest?keyword=Dai%20Ni%20Chikara%20Shu%20Zo",
+            "method": "GET",
+            "body": null,
+            "resourceType": "xhr",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 3,
+            "samePathCandidates": [
+              {
+                "recordedUrl": "https://tabelog.com/en/suggest/keyword_suggest?keyword=Nakano%20City",
+                "recordedMethod": "GET",
+                "status": 200,
+                "mimeType": "application/json",
+                "responseBodyPresent": true,
+                "queryDifferences": {
+                  "keyword": {
+                    "current": "Dai Ni Chikara Shu Zo",
+                    "recorded": "Nakano City"
+                  }
+                },
+                "methodMatches": true,
+                "bodyMatches": true
+              },
+              {
+                "recordedUrl": "https://tabelog.com/en/suggest/keyword_suggest?keyword=Nakano%20Robata%20Sumika",
+                "recordedMethod": "GET",
+                "status": 200,
+                "mimeType": "application/json",
+                "responseBodyPresent": true,
+                "queryDifferences": {
+                  "keyword": {
+                    "current": "Dai Ni Chikara Shu Zo",
+                    "recorded": "Nakano Robata Sumika"
+                  }
+                },
+                "methodMatches": true,
+                "bodyMatches": true
+              },
+              {
+                "recordedUrl": "https://tabelog.com/en/suggest/keyword_suggest?keyword=Guttsu",
+                "recordedMethod": "GET",
+                "status": 200,
+                "mimeType": "application/json",
+                "responseBodyPresent": true,
+                "queryDifferences": {
+                  "keyword": {
+                    "current": "Dai Ni Chikara Shu Zo",
+                    "recorded": "Guttsu"
+                  }
+                },
+                "methodMatches": true,
+                "bodyMatches": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stop": {
+          "reason": "DOCUMENT_NOT_QUALIFIED",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/rstLst/",
+          "queryKeys": [
+            "utf8",
+            "pal",
+            "LstPrf",
+            "LstAre",
+            "station_id",
+            "area_datatype",
+            "area_id",
+            "genre_name",
+            "sw",
+            "search_mode"
+          ],
+          "method": "GET"
+        },
+        "requests": [
+          {
+            "kind": "BROWSER_REQUEST",
+            "atMs": 3016.2291250000003,
+            "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nakano+City&search_mode=",
+            "method": "GET",
+            "body": null,
+            "resourceType": "document",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 0,
+            "samePathCandidates": []
+          },
+          {
+            "kind": "BROWSER_REQUEST",
+            "atMs": 10416.233917000001,
+            "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=&search_mode=",
+            "method": "GET",
+            "body": null,
+            "resourceType": "document",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 0,
+            "samePathCandidates": []
+          }
+        ]
+      },
+      {
+        "stop": {
+          "reason": "MISSING_GOOGLE_RESPONSE",
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places/ChIJx8njvZbyGGARg-JtPMy7c4Q",
+          "queryKeys": [],
+          "method": "GET"
+        },
+        "requests": [
+          {
+            "kind": "GOOGLE_REQUEST",
+            "atMs": 13984.842083000001,
+            "url": "https://places.googleapis.com/v1/places/ChIJx8njvZbyGGARg-JtPMy7c4Q",
+            "method": "GET",
+            "body": null,
+            "fieldMask": "id,displayName,formattedAddress,addressComponents,location,types,primaryType,nationalPhoneNumber,googleMapsUri,websiteUri,regularOpeningHours,websiteUri",
+            "exactRawHarMatches": 0,
+            "qualifiedExactPages": 0,
+            "samePathRawHarMatches": 0,
+            "samePathCandidates": []
+          }
+        ]
+      }
+    ],
+    "laterStops": [
+      {
+        "reason": "MISSING_MODEL_OUTPUT",
+        "purpose": "restaurant_agent_decide",
+        "offset": 7
+      }
+    ],
+    "rawHarSHA256": "855215b9cde6420a6b0326100a30dc97d13b0dc3eaad69db4bac3fe942f79798",
+    "resultSHA256": "086bc606d8e2360271bdbdeca421ee046141ccc87520ca4e3114d54d1cfef64c",
+    "fourLayers": {
+      "endToEnd": "FAILED; no qualified delivery claimed",
+      "steps": "First missing/qualified requests compared independently with raw HAR exact URL/method/body",
+      "severity": "Whole Replay S0 NOT_EVALUATED; no real model/Google/website/Live calls",
+      "attribution": "Coverage/matching gaps directly evidenced; no claim of full causal closure or current live regression"
+    }
+  }
+}

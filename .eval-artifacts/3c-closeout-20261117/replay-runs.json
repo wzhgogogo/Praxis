@@ -1,0 +1,42 @@
+[
+  {
+    "case": "D01",
+    "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+    "entry": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)",
+      "node",
+      "--import",
+      "tsx",
+      ".eval-artifacts/3c-closeout-20261117/observe-replay.mjs",
+      "D01"
+    ],
+    "exitCode": 0,
+    "seconds": 9.748702250000001,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny all outbound; unchanged original observed-source runner; no outer nested sandbox",
+    "targetedRecordedEntry": false
+  },
+  {
+    "case": "D02",
+    "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+    "entry": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)",
+      "node",
+      "--import",
+      "tsx",
+      ".eval-artifacts/3c-closeout-20261117/observe-replay.mjs",
+      "D02"
+    ],
+    "exitCode": 0,
+    "seconds": 14.492114124999999,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny all outbound; unchanged original observed-source runner; no outer nested sandbox",
+    "targetedRecordedEntry": false
+  }
+]

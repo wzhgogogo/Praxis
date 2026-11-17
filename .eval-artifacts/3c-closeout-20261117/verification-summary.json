@@ -1,0 +1,139 @@
+{
+  "testedSHA": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+  "fiveGates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+      "exitCode": 0,
+      "seconds": 0.5468572500000001,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "typecheck"
+      ]
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+      "exitCode": 0,
+      "seconds": 0.196223625,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "arch:check"
+      ]
+    },
+    {
+      "gate": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+      "exitCode": 0,
+      "seconds": 58.825088333,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "test"
+      ]
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+      "exitCode": 0,
+      "seconds": 355.22161275,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "offline Fixture contracts; runner-replay children apply their own OS outbound denial; no outer sandbox",
+      "invocation": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ]
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+      "exitCode": 0,
+      "seconds": 0.5304332499999873,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "build"
+      ]
+    }
+  ],
+  "defaultTestCount": 1663,
+  "browserGroups": {
+    "G2": {
+      "tests": 5,
+      "pass": 5,
+      "seconds": 24.61775125
+    },
+    "ChromiumRemaining": {
+      "tests": 346,
+      "pass": 346,
+      "seconds": 292.951995291
+    },
+    "ChromiumCombined": {
+      "tests": 351,
+      "pass": 351,
+      "seconds": 317.62348
+    },
+    "G6Assembly": {
+      "tests": 159,
+      "pass": 159,
+      "seconds": 37.362317499999996
+    }
+  },
+  "firstAttempt": "gates-attempt1/manifest.json; G6 151/159 with 8 ENOENT, exact21 restored before clean retry"
+}
