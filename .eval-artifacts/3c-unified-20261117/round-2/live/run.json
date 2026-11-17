@@ -1,0 +1,1033 @@
+{
+  "sha": "ea7b20c6eaf842a3d365784f529b543f23218ed2",
+  "target": {
+    "protocol": "postgresql:",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "database": "praxis_smoke",
+    "accountSource": "local system account"
+  },
+  "engine": "LOCAL_CHROMIUM",
+  "mode": "LIVE_READ",
+  "request": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-11-20 at 19:30, around 5,000 yen per person.",
+  "question": "Do they have private rooms?",
+  "http": [
+    {
+      "atMs": 535.753375,
+      "path": "/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 553.5161250000001,
+      "path": "/api/session",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "atMs": 604.692417,
+      "path": "/assets/dm-sans.woff2",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 659.7302090000001,
+      "path": "/api/session",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "atMs": 687.660709,
+      "path": "/api/cases",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 798.692875,
+      "path": "/api/cases",
+      "method": "POST",
+      "body": {
+        "message": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-11-20 at 19:30, around 5,000 yen per person.",
+        "requestId": "95e707c1-1619-4dde-bbbe-be83bb4e2c20",
+        "viewContext": {
+          "view": "HOME",
+          "comparedCandidateIds": []
+        }
+      }
+    },
+    {
+      "atMs": 4560.517334,
+      "path": "/api/cases",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "atMs": 4573.954084,
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/events",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 95318.426042,
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 95336.077667,
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/22e7b39fa29702c072e30ab76e9c90df/content",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 96129.56766700001,
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "atMs": 96379.313209,
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/questions",
+      "method": "POST",
+      "body": {
+        "question": "Do they have private rooms?",
+        "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+        "taskVersion": 4,
+        "requestId": "87f333cb-5540-4137-ba03-60cb5a6190b0"
+      }
+    },
+    {
+      "atMs": 96426.939167,
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/questions",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "atMs": 100501.546334,
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/booking-departures",
+      "method": "POST",
+      "body": {
+        "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+        "offerId": "offer:tabelog:praxis:restaurant:d9d52e3842eba664b2251e59:2026-11-20:19:30:2",
+        "taskVersion": 6,
+        "requestId": "6c950889-fa51-4ad5-b96e-020b5dbac9b2"
+      }
+    },
+    {
+      "atMs": 100532.0245,
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/booking-departures",
+      "method": "POST",
+      "status": 201
+    }
+  ],
+  "sse": [
+    {
+      "atMs": 4573.9052090000005,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+        "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+        "status": "ACTIVE",
+        "phase": "UNDERSTANDING",
+        "taskVersion": 1,
+        "updatedAt": "2026-11-17T08:31:53.164Z"
+      },
+      "progress": {
+        "active": true,
+        "stopped": false
+      },
+      "readStatus": {
+        "kind": "PENDING",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      }
+    },
+    {
+      "atMs": 56522.731334,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+        "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+        "status": "ACTIVE",
+        "phase": "SEARCHING",
+        "taskVersion": 2,
+        "updatedAt": "2026-11-17T08:32:45.095Z"
+      },
+      "progress": {
+        "active": true,
+        "stopped": false,
+        "discoveredCount": 40
+      },
+      "readStatus": {
+        "kind": "PENDING",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      }
+    },
+    {
+      "atMs": 91735.36608400001,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+        "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+        "status": "ACTIVE",
+        "phase": "SEARCHING",
+        "taskVersion": 3,
+        "updatedAt": "2026-11-17T08:33:20.319Z"
+      },
+      "progress": {
+        "active": true,
+        "stopped": false,
+        "discoveredCount": 40,
+        "checkedCount": 3
+      },
+      "readStatus": {
+        "kind": "RESULTS",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      }
+    },
+    {
+      "atMs": 95313.98408400001,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+        "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+        "status": "NEEDS_YOU",
+        "phase": "PRESENT_RESULTS",
+        "taskVersion": 4,
+        "updatedAt": "2026-11-17T08:33:23.885Z"
+      },
+      "progress": {
+        "active": true,
+        "stopped": false,
+        "discoveredCount": 40,
+        "checkedCount": 3
+      },
+      "readStatus": {
+        "kind": "RESULTS",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      }
+    },
+    {
+      "atMs": 95416.808542,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+        "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+        "status": "NEEDS_YOU",
+        "phase": "PRESENT_RESULTS",
+        "taskVersion": 4,
+        "updatedAt": "2026-11-17T08:33:23.885Z"
+      },
+      "progress": {
+        "active": false,
+        "stopped": false,
+        "discoveredCount": 40,
+        "checkedCount": 3
+      },
+      "readStatus": {
+        "kind": "RESULTS",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      }
+    },
+    {
+      "atMs": 96439.79525000001,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+        "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+        "status": "ACTIVE",
+        "phase": "PRESENT_RESULTS",
+        "taskVersion": 5,
+        "updatedAt": "2026-11-17T08:33:25.020Z"
+      },
+      "progress": {
+        "active": true,
+        "stopped": false,
+        "discoveredCount": 40,
+        "checkedCount": 3
+      },
+      "readStatus": {
+        "kind": "RESULTS",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      },
+      "pageQuestion": {
+        "question": "Do they have private rooms?",
+        "readRunId": "run:restaurant:c79a5c9bceb6a284eaa879e4:investigation:1",
+        "requestId": "87f333cb-5540-4137-ba03-60cb5a6190b0",
+        "deadlineAt": "2026-11-17T08:34:25.003Z",
+        "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+        "requestedAt": "2026-11-17T08:33:25.003Z",
+        "readStartedAt": "2026-11-17T08:31:49.415Z"
+      }
+    },
+    {
+      "atMs": 99860.506542,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+        "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+        "status": "NEEDS_YOU",
+        "phase": "PRESENT_RESULTS",
+        "taskVersion": 6,
+        "updatedAt": "2026-11-17T08:33:28.417Z"
+      },
+      "progress": {
+        "active": true,
+        "stopped": false,
+        "discoveredCount": 40,
+        "checkedCount": 3
+      },
+      "readStatus": {
+        "kind": "RESULTS",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      },
+      "pageQuestion": {
+        "result": {
+          "answer": "No — the page lists private rooms as \"Unavailable,\" though private use of the space is listed as \"Available\" for up to 20 people.",
+          "status": "ANSWERED",
+          "citations": [
+            {
+              "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+              "text": "Private rooms",
+              "readAt": "2026-11-17T08:33:00.808Z",
+              "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+            },
+            {
+              "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+              "text": "Unavailable",
+              "readAt": "2026-11-17T08:33:00.808Z",
+              "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+            },
+            {
+              "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+              "text": "Available",
+              "readAt": "2026-11-17T08:33:00.808Z",
+              "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+            }
+          ],
+          "modelUsage": {
+            "calls": 1,
+            "usage": {
+              "inputTokens": 11494,
+              "totalTokens": 11850,
+              "outputTokens": 356
+            }
+          },
+          "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+          "checkedPages": [
+            {
+              "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+              "readAt": "2026-11-17T08:33:00.808Z"
+            }
+          ],
+          "sensitiveCategory": "NONE",
+          "confirmationRequired": false
+        },
+        "question": "Do they have private rooms?",
+        "readRunId": "run:restaurant:c79a5c9bceb6a284eaa879e4:investigation:1",
+        "requestId": "87f333cb-5540-4137-ba03-60cb5a6190b0",
+        "deadlineAt": "2026-11-17T08:34:25.003Z",
+        "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+        "requestedAt": "2026-11-17T08:33:25.003Z",
+        "readStartedAt": "2026-11-17T08:31:49.415Z"
+      }
+    },
+    {
+      "atMs": 99908.767917,
+      "eventName": "case",
+      "case": {
+        "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+        "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+        "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+        "status": "NEEDS_YOU",
+        "phase": "PRESENT_RESULTS",
+        "taskVersion": 6,
+        "updatedAt": "2026-11-17T08:33:28.417Z"
+      },
+      "progress": {
+        "active": false,
+        "stopped": false,
+        "discoveredCount": 40,
+        "checkedCount": 3
+      },
+      "readStatus": {
+        "kind": "RESULTS",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      },
+      "pageQuestion": {
+        "result": {
+          "answer": "No — the page lists private rooms as \"Unavailable,\" though private use of the space is listed as \"Available\" for up to 20 people.",
+          "status": "ANSWERED",
+          "citations": [
+            {
+              "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+              "text": "Private rooms",
+              "readAt": "2026-11-17T08:33:00.808Z",
+              "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+            },
+            {
+              "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+              "text": "Unavailable",
+              "readAt": "2026-11-17T08:33:00.808Z",
+              "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+            },
+            {
+              "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+              "text": "Available",
+              "readAt": "2026-11-17T08:33:00.808Z",
+              "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+            }
+          ],
+          "modelUsage": {
+            "calls": 1,
+            "usage": {
+              "inputTokens": 11494,
+              "totalTokens": 11850,
+              "outputTokens": 356
+            }
+          },
+          "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+          "checkedPages": [
+            {
+              "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+              "readAt": "2026-11-17T08:33:00.808Z"
+            }
+          ],
+          "sensitiveCategory": "NONE",
+          "confirmationRequired": false
+        },
+        "question": "Do they have private rooms?",
+        "readRunId": "run:restaurant:c79a5c9bceb6a284eaa879e4:investigation:1",
+        "requestId": "87f333cb-5540-4137-ba03-60cb5a6190b0",
+        "deadlineAt": "2026-11-17T08:34:25.003Z",
+        "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+        "requestedAt": "2026-11-17T08:33:25.003Z",
+        "readStartedAt": "2026-11-17T08:31:49.415Z"
+      }
+    }
+  ],
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11c00563600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11c00563600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11c00563600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x11c00563600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    }
+  ],
+  "pageerror": [],
+  "blocked": [
+    {
+      "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13311569&visit_date=20261120&visit_time=1930",
+      "method": "GET",
+      "navigation": true
+    }
+  ],
+  "counts": {
+    "userDemands": 1,
+    "questions": 1,
+    "departures": 1,
+    "refreshes": 0
+  },
+  "photoSnapshots": [
+    {
+      "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+      "status": "READY",
+      "photos": [
+        {
+          "id": "22e7b39fa29702c072e30ab76e9c90df",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/22e7b39fa29702c072e30ab76e9c90df/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+              "uri": "https://maps.google.com/maps/contrib/100869011865661858177"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "width": 1329,
+          "height": 941
+        }
+      ],
+      "expiresAt": "2026-11-17T08:43:20.373Z",
+      "requests": {
+        "googleDetails": 1,
+        "googleMedia": 2,
+        "websitePages": 0,
+        "websiteImages": 0
+      },
+      "scope": "cover",
+      "atMs": 95320.01675000001
+    },
+    {
+      "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+      "status": "READY",
+      "photos": [
+        {
+          "id": "22e7b39fa29702c072e30ab76e9c90df",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/22e7b39fa29702c072e30ab76e9c90df/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+              "uri": "https://maps.google.com/maps/contrib/100869011865661858177"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "width": 1329,
+          "height": 941
+        },
+        {
+          "id": "efd1d55faa3f31d0f96c754829b579df",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/efd1d55faa3f31d0f96c754829b579df/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+              "uri": "https://maps.google.com/maps/contrib/100869011865661858177"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+        },
+        {
+          "id": "1370559c6b0ac9eff6c657f3013024f6",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/1370559c6b0ac9eff6c657f3013024f6/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "Phua Andrea",
+              "uri": "https://maps.google.com/maps/contrib/107355065839048035097"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+        },
+        {
+          "id": "4c67661ff2eb37f37ada1c38145e0c0d",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/4c67661ff2eb37f37ada1c38145e0c0d/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+              "uri": "https://maps.google.com/maps/contrib/100869011865661858177"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+        },
+        {
+          "id": "19b9bc0b374eb75dd3d8046eb240bc3f",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/19b9bc0b374eb75dd3d8046eb240bc3f/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "Santiago Ortiz Guevara",
+              "uri": "https://maps.google.com/maps/contrib/115237962760849916809"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+        },
+        {
+          "id": "56b47f4b61749a2389c456d2fe654faf",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/56b47f4b61749a2389c456d2fe654faf/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "ar yin",
+              "uri": "https://maps.google.com/maps/contrib/107394820981188429446"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+        },
+        {
+          "id": "21cd68bbf55d98df17d5e2a38ed8cb35",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/21cd68bbf55d98df17d5e2a38ed8cb35/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "Around Japan",
+              "uri": "https://maps.google.com/maps/contrib/106107783993885572385"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+        },
+        {
+          "id": "eb074d0f5e9d1d456a7d9ddbd6595ac4",
+          "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/eb074d0f5e9d1d456a7d9ddbd6595ac4/content",
+          "provider": "GOOGLE_PLACES",
+          "sourceLabel": "Google Maps",
+          "authors": [
+            {
+              "displayName": "Erin Au",
+              "uri": "https://maps.google.com/maps/contrib/116554929642835746838"
+            }
+          ],
+          "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+        }
+      ],
+      "expiresAt": "2026-11-17T08:43:20.373Z",
+      "requests": {
+        "googleDetails": 1,
+        "googleMedia": 2,
+        "websitePages": 0,
+        "websiteImages": 0
+      },
+      "scope": "gallery",
+      "atMs": 96130.33541700001
+    }
+  ],
+  "photoContentLoads": [
+    {
+      "path": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/22e7b39fa29702c072e30ab76e9c90df/content",
+      "status": 200,
+      "bodyCompleted": true,
+      "atMs": 95336.441667
+    }
+  ],
+  "evaluatorSeverity": {
+    "2026-11-17T08-33-23-983Z-f77d0015-5a76-46e7-876b-c598592f20b0.result.evaluation.37-1794904403996.json": {
+      "S0": "NOT_EVALUATED",
+      "S0_DECLARATION": "NOT_EVALUATED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    },
+    "2026-11-17T08-33-28-476Z-7e4f6d00-d989-4cfc-877c-b8b41d25616a.result.evaluation.37-1794904408489.json": {
+      "S0": "NOT_EVALUATED",
+      "S0_DECLARATION": "NOT_EVALUATED",
+      "S0_BOUNDARY": "NOT_EVALUATED"
+    }
+  },
+  "externalSideEffectCount": "NOT_MEASURED",
+  "backendWebsiteRequests": "NOT_MEASURED",
+  "independentS0": "NOT_EVALUATED",
+  "existingCases": [
+    "restaurant:3623889c7e60a41b359a3e03",
+    "restaurant:44d9e0479bf52c24a27915d1",
+    "restaurant:b14026df5952165e2f383ecd"
+  ],
+  "postgresConnected": true,
+  "listening": true,
+  "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+  "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+  "searchWaitMs": 91316.034667,
+  "terminalPhase": "PRESENT_RESULTS",
+  "readStatusKind": "RESULTS",
+  "readStatus": {
+    "kind": "RESULTS",
+    "partialSourceFailure": false,
+    "canContinue": false,
+    "canRetry": false
+  },
+  "searchResourceUsage": {
+    "elapsedMs": 94610,
+    "agentDecisions": 3,
+    "googleRequests": {
+      "limit": 100,
+      "total": 3,
+      "discovery": 2,
+      "placeDetails": 0,
+      "namedPlaceResolution": 1,
+      "reverseAddressObservation": 0
+    },
+    "modelCallsStarted": 15
+  },
+  "displayedCandidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+  "displayedRestaurant": {
+    "id": "praxis:restaurant:d9d52e3842eba664b2251e59",
+    "address": "Japan, 〒160-0021 Tokyo, Shinjuku City, Kabukichō, 2-chōme−45−７ 石井ビル 1F",
+    "sourceIds": {
+      "phone": "03-5285-8302",
+      "googlePlaces": "ChIJNS1aSzqNGGARYZnnbwgLCU8",
+      "googleMapsUri": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+      "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+      "discoverySourceId": "google-places"
+    },
+    "outletName": "Wagyu Yakiniku & Meat Sushi Gaen Shinjuku Kabukicho",
+    "provenance": {
+      "address": "evidence:restaurant:google-discovery:9fbbf5baf89a81741a879502",
+      "sourceIds": "evidence:restaurant:google-discovery:9fbbf5baf89a81741a879502",
+      "outletName": "evidence:restaurant:google-discovery:9fbbf5baf89a81741a879502"
+    },
+    "coordinates": {
+      "lat": 35.6969772,
+      "lng": 139.70050089999998
+    }
+  },
+  "coverLoaded": true,
+  "coverCredit": "Google Maps · 和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+  "enteredAbout": true,
+  "aboutCredit": "Google Maps · 和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+  "aboutAddress": "Japan, 〒160-0021 Tokyo, Shinjuku City, Kabukichō, 2-chōme−45−７ 石井ビル 1F",
+  "viewerCredit": "Google Maps · 和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+  "g1HttpStatus": 200,
+  "g1": {
+    "result": {
+      "answer": "No — the page lists private rooms as \"Unavailable,\" though private use of the space is listed as \"Available\" for up to 20 people.",
+      "status": "ANSWERED",
+      "citations": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+          "text": "Private rooms",
+          "readAt": "2026-11-17T08:33:00.808Z",
+          "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+          "text": "Unavailable",
+          "readAt": "2026-11-17T08:33:00.808Z",
+          "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+        },
+        {
+          "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+          "text": "Available",
+          "readAt": "2026-11-17T08:33:00.808Z",
+          "identityEvidenceId": "evidence:restaurant:tabelog-entity-match:bb6546b47327d9540315a5cf"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11494,
+          "totalTokens": 11850,
+          "outputTokens": 356
+        }
+      },
+      "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1304/A130401/13311569/",
+          "readAt": "2026-11-17T08:33:00.808Z"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false
+    },
+    "question": "Do they have private rooms?",
+    "readRunId": "run:restaurant:c79a5c9bceb6a284eaa879e4:investigation:1",
+    "requestId": "87f333cb-5540-4137-ba03-60cb5a6190b0",
+    "deadlineAt": "2026-11-17T08:34:25.003Z",
+    "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+    "requestedAt": "2026-11-17T08:33:25.003Z",
+    "readStartedAt": "2026-11-17T08:31:49.415Z"
+  },
+  "b1CheckedAt": "2026-11-17T08:33:29.053Z",
+  "currentHandoff": {
+    "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+    "offerId": "offer:tabelog:praxis:restaurant:d9d52e3842eba664b2251e59:2026-11-20:19:30:2",
+    "provider": "TABELOG",
+    "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13311569&visit_date=20261120&visit_time=1930",
+    "directLabel": "Book on Tabelog",
+    "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+    "checkedAt": "2026-11-17T08:33:00.795Z",
+    "displayExpiresAt": "2026-11-17T08:43:00.795Z",
+    "platformFee": {
+      "provider": "TABELOG",
+      "channel": "ENGLISH_BOOKING",
+      "amountPerPersonJPY": 440,
+      "userCancellationRefund": false,
+      "restaurantCancellationRefund": true,
+      "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+      "sourceUrl": "https://tabelog.com/en/help",
+      "checkedOn": "2026-10-29",
+      "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+      "quotes": [
+        "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+        "Please note that no refunds will be issued for cancellations made for customer reasons.",
+        "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+      ]
+    },
+    "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+    "linkCarries": [
+      "DATE",
+      "TIME",
+      "PARTY_SIZE"
+    ],
+    "sourceSelection": "UNKNOWN",
+    "terms": []
+  },
+  "departureHttpStatus": 201,
+  "departure": {
+    "departure": {
+      "id": "departure:f7eb83aa-abf4-43c6-82ab-8f489a3d9ff6",
+      "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+      "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+      "offerId": "offer:tabelog:praxis:restaurant:d9d52e3842eba664b2251e59:2026-11-20:19:30:2",
+      "provider": "TABELOG",
+      "departedAt": "2026-11-17T08:33:29.151Z",
+      "provenance": "USER_REPORTED"
+    },
+    "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13311569&visit_date=20261120&visit_time=1930"
+  },
+  "departureStatus": "RECORDED_AND_INTERCEPTED",
+  "finalPhotos": {
+    "candidateId": "praxis:restaurant:d9d52e3842eba664b2251e59",
+    "status": "READY",
+    "photos": [
+      {
+        "id": "22e7b39fa29702c072e30ab76e9c90df",
+        "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/22e7b39fa29702c072e30ab76e9c90df/content",
+        "provider": "GOOGLE_PLACES",
+        "sourceLabel": "Google Maps",
+        "authors": [
+          {
+            "displayName": "和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+            "uri": "https://maps.google.com/maps/contrib/100869011865661858177"
+          }
+        ],
+        "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "width": 1329,
+        "height": 941
+      },
+      {
+        "id": "efd1d55faa3f31d0f96c754829b579df",
+        "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/efd1d55faa3f31d0f96c754829b579df/content",
+        "provider": "GOOGLE_PLACES",
+        "sourceLabel": "Google Maps",
+        "authors": [
+          {
+            "displayName": "和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+            "uri": "https://maps.google.com/maps/contrib/100869011865661858177"
+          }
+        ],
+        "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+      },
+      {
+        "id": "1370559c6b0ac9eff6c657f3013024f6",
+        "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/1370559c6b0ac9eff6c657f3013024f6/content",
+        "provider": "GOOGLE_PLACES",
+        "sourceLabel": "Google Maps",
+        "authors": [
+          {
+            "displayName": "Phua Andrea",
+            "uri": "https://maps.google.com/maps/contrib/107355065839048035097"
+          }
+        ],
+        "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+      },
+      {
+        "id": "4c67661ff2eb37f37ada1c38145e0c0d",
+        "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/4c67661ff2eb37f37ada1c38145e0c0d/content",
+        "provider": "GOOGLE_PLACES",
+        "sourceLabel": "Google Maps",
+        "authors": [
+          {
+            "displayName": "和牛焼肉 肉寿司 雅苑 新宿歌舞伎町店",
+            "uri": "https://maps.google.com/maps/contrib/100869011865661858177"
+          }
+        ],
+        "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+      },
+      {
+        "id": "19b9bc0b374eb75dd3d8046eb240bc3f",
+        "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/19b9bc0b374eb75dd3d8046eb240bc3f/content",
+        "provider": "GOOGLE_PLACES",
+        "sourceLabel": "Google Maps",
+        "authors": [
+          {
+            "displayName": "Santiago Ortiz Guevara",
+            "uri": "https://maps.google.com/maps/contrib/115237962760849916809"
+          }
+        ],
+        "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+      },
+      {
+        "id": "56b47f4b61749a2389c456d2fe654faf",
+        "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/56b47f4b61749a2389c456d2fe654faf/content",
+        "provider": "GOOGLE_PLACES",
+        "sourceLabel": "Google Maps",
+        "authors": [
+          {
+            "displayName": "ar yin",
+            "uri": "https://maps.google.com/maps/contrib/107394820981188429446"
+          }
+        ],
+        "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+      },
+      {
+        "id": "21cd68bbf55d98df17d5e2a38ed8cb35",
+        "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/21cd68bbf55d98df17d5e2a38ed8cb35/content",
+        "provider": "GOOGLE_PLACES",
+        "sourceLabel": "Google Maps",
+        "authors": [
+          {
+            "displayName": "Around Japan",
+            "uri": "https://maps.google.com/maps/contrib/106107783993885572385"
+          }
+        ],
+        "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+      },
+      {
+        "id": "eb074d0f5e9d1d456a7d9ddbd6595ac4",
+        "contentUrl": "/api/cases/restaurant%3Ac79a5c9bceb6a284eaa879e4/candidates/praxis%3Arestaurant%3Ad9d52e3842eba664b2251e59/photos/eb074d0f5e9d1d456a7d9ddbd6595ac4/content",
+        "provider": "GOOGLE_PLACES",
+        "sourceLabel": "Google Maps",
+        "authors": [
+          {
+            "displayName": "Erin Au",
+            "uri": "https://maps.google.com/maps/contrib/116554929642835746838"
+          }
+        ],
+        "sourcePageUrl": "https://maps.google.com/?cid=5695095334651795809&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA"
+      }
+    ],
+    "expiresAt": "2026-11-17T08:43:20.373Z",
+    "requests": {
+      "googleDetails": 1,
+      "googleMedia": 2,
+      "websitePages": 0,
+      "websiteImages": 0
+    },
+    "scope": "gallery",
+    "atMs": 96130.33541700001
+  },
+  "photoRequestCounts": {
+    "googleDetails": 1,
+    "googleMedia": 2,
+    "websitePages": 0,
+    "websiteImages": 0
+  },
+  "photoListCount": 8,
+  "photoListReturnedCounts": [
+    {
+      "scope": "cover",
+      "count": 1,
+      "status": "READY"
+    },
+    {
+      "scope": "gallery",
+      "count": 8,
+      "status": "READY"
+    }
+  ],
+  "photoContentHttp200Count": 1,
+  "photoContentHttp200DistinctCount": 1,
+  "sql": {
+    "departures": [
+      {
+        "id": "departure:f7eb83aa-abf4-43c6-82ab-8f489a3d9ff6",
+        "conversation_id": "conversation:c79a5c9bceb6a284eaa879e4",
+        "candidate_id": "praxis:restaurant:d9d52e3842eba664b2251e59",
+        "offer_id": "offer:tabelog:praxis:restaurant:d9d52e3842eba664b2251e59:2026-11-20:19:30:2",
+        "provider": "TABELOG",
+        "departed_at": "2026-11-17 16:33:29.151+08"
+      }
+    ],
+    "caseIdsAfter": [
+      "restaurant:3623889c7e60a41b359a3e03",
+      "restaurant:44d9e0479bf52c24a27915d1",
+      "restaurant:b14026df5952165e2f383ecd",
+      "restaurant:c79a5c9bceb6a284eaa879e4"
+    ],
+    "allExistingCasesPreserved": true,
+    "newTaskIds": [
+      "restaurant:c79a5c9bceb6a284eaa879e4"
+    ]
+  },
+  "status": "COMPLETED_CONTROLLED_READ",
+  "serverShutdown": [
+    0,
+    null
+  ],
+  "archivedArtifacts": [
+    {
+      "name": "2026-11-17T08-33-23-983Z-f77d0015-5a76-46e7-876b-c598592f20b0.result.evaluation.37-1794904403996.json",
+      "rawSHA256": "2d669ccd23f3b5d88f380c6388762d25143d30a1f32bbfed9be6e57fe97d7f5c",
+      "sanitizedSHA256": "2278197da858b04e04abf7a698cb5934cef44c799a0918a697ffd250440b7a72"
+    },
+    {
+      "name": "2026-11-17T08-33-23-983Z-f77d0015-5a76-46e7-876b-c598592f20b0.result.evaluation.37-1794904403996.json.diagnosis.json",
+      "rawSHA256": "076955fa57c31df3cae5e0dceae24a83cbc33dca918a1db1be8a4d56b606eb6c",
+      "sanitizedSHA256": "076955fa57c31df3cae5e0dceae24a83cbc33dca918a1db1be8a4d56b606eb6c"
+    },
+    {
+      "name": "2026-11-17T08-33-23-983Z-f77d0015-5a76-46e7-876b-c598592f20b0.result.evaluation.37-1794904403996.json.diagnosis.md",
+      "rawSHA256": "6a6925f790d1ea3c640bf7c67476285f6e97ffdb58a41f3bb4f95aa80b1ae7e3",
+      "sanitizedSHA256": "6a6925f790d1ea3c640bf7c67476285f6e97ffdb58a41f3bb4f95aa80b1ae7e3"
+    },
+    {
+      "name": "2026-11-17T08-33-23-983Z-f77d0015-5a76-46e7-876b-c598592f20b0.result.json",
+      "rawSHA256": "757fc10cad408fa00e86df9f57ac06208f4b82712b8bf92b3f60dd758d2817ab",
+      "sanitizedSHA256": "0773d0b79a4760da567af4dd0d6025ab9922110c3db67f921e7d5d417cfb43c4"
+    },
+    {
+      "name": "2026-11-17T08-33-23-983Z-f77d0015-5a76-46e7-876b-c598592f20b0.started.json",
+      "rawSHA256": "5ecc557af86e49c7041068cd8b0aea0d267eb5a4d9da4da9ab1b826c046ba171",
+      "sanitizedSHA256": "2a2d3179b4ebd51b79f92817bfc491f75f3c22615012e3db5e45ffc7573271c7"
+    },
+    {
+      "name": "2026-11-17T08-33-28-476Z-7e4f6d00-d989-4cfc-877c-b8b41d25616a.result.evaluation.37-1794904408489.json",
+      "rawSHA256": "9d3d904f3ba30e5311f97ec51a576427208c066051c79caa1e6bf5656f71ff9f",
+      "sanitizedSHA256": "2511f3559dadf41b9854e38d0250e1d3e3299e08d9fe8a9196f5e2a195df4381"
+    },
+    {
+      "name": "2026-11-17T08-33-28-476Z-7e4f6d00-d989-4cfc-877c-b8b41d25616a.result.evaluation.37-1794904408489.json.diagnosis.json",
+      "rawSHA256": "d1eabc401b19bd8a672a49bbcd0508969a1e9014b2a3cffc29af514d4e8f4f0d",
+      "sanitizedSHA256": "d1eabc401b19bd8a672a49bbcd0508969a1e9014b2a3cffc29af514d4e8f4f0d"
+    },
+    {
+      "name": "2026-11-17T08-33-28-476Z-7e4f6d00-d989-4cfc-877c-b8b41d25616a.result.evaluation.37-1794904408489.json.diagnosis.md",
+      "rawSHA256": "1d3c3819783057baa650fbc4b775277583cefb94c0406148651282a55abe280b",
+      "sanitizedSHA256": "1d3c3819783057baa650fbc4b775277583cefb94c0406148651282a55abe280b"
+    },
+    {
+      "name": "2026-11-17T08-33-28-476Z-7e4f6d00-d989-4cfc-877c-b8b41d25616a.result.json",
+      "rawSHA256": "b2a835450e3748ace39748b4feccc0a48a07842e1a17faa90f88bf0632b328e1",
+      "sanitizedSHA256": "88e210fde34e6ff2f079fde69c96a7e7b4c2aa2b6933d68202eb4b1b74ef513c"
+    },
+    {
+      "name": "2026-11-17T08-33-28-476Z-7e4f6d00-d989-4cfc-877c-b8b41d25616a.started.json",
+      "rawSHA256": "522ff5372449274cec5d4aca33a9c306ae21d45f424cc0519ababcefb4f08a52",
+      "sanitizedSHA256": "7e929836356fdbd856817c6afe333ce06add6901bd3dd60224ebb5a08a3986ac"
+    }
+  ],
+  "wallMs": 100680.784042,
+  "endedAt": "2026-11-17T08:33:29.303Z"
+}

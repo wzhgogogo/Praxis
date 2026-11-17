@@ -1313,3 +1313,8 @@ Draft / not integrated. Frozen53bbbdc8f6b0a243a44e9c65cf31901e528104ae passed ty
 ## 2026-11-17 — Unified round 2: reviewed projection repair
 
 User-approved continuation: equivalent-draft projection and unit coverage copied from872785522/f134cb750;727 Domain/search/router and browser assertions retained. Preflight projection+outer contracts22/22 and the original four browser failures4/4 pass offline. Old failure evidence is unchanged. New round-2 five gates, formal16 visual cases and conditional single Live await the new frozen commit.
+
+
+## 2026-11-17 - Unified round 2: offline all green, bounded Live observed
+
+Frozen `ea7b20c6eaf842a3d365784f529b543f23218ed2`: original equivalent-draft projector closes all four browser failures without changing727 Domain/router/search or assertions. Type/arch/default1689/G2 5/Chromium392/G6 159/build and formal three-size16 cases all pass. One public Live presents Gaen Shinjuku:Google list8/actually loaded HTTP200 photos1, photoDetails1+media/CDN2; G1 ANSWERED/model1; B1 local201/SQL match/navigation blocked. Three old Cases preserved. CLI outcome/S0 three dimensions NOT_EVALUATED; S1 PRESENT for missing independent source support. No independent qualified-delivery or Clean Baseline signoff. Ten CLI artifacts archived; connections/services closed; original trees/.env/old failures unchanged. [Round-2 report](../.eval-artifacts/3c-unified-20261117/round-2/REPORT.md). Local branch only.

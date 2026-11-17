@@ -1,0 +1,120 @@
+{
+  "mode": "LIVE_READ",
+  "case": {
+    "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+    "conversationId": "conversation:c79a5c9bceb6a284eaa879e4",
+    "rootTaskId": "restaurant:c79a5c9bceb6a284eaa879e4",
+    "title": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-1…",
+    "status": "ACTIVE",
+    "phase": "UNDERSTANDING",
+    "taskVersion": 1,
+    "updatedAt": "2026-11-17T08:31:53.164Z"
+  },
+  "conversation": {
+    "id": "conversation:c79a5c9bceb6a284eaa879e4",
+    "messages": [
+      {
+        "id": "message:0:ab6fa8ba730223a8e3175588",
+        "role": "USER",
+        "content": "Find a yakiniku restaurant in Shinjuku, Tokyo, for 2 guests on 2026-11-20 at 19:30, around 5,000 yen per person.",
+        "createdAt": "2026-11-17T08:31:53.170Z"
+      }
+    ]
+  },
+  "restaurant": {
+    "requirementRevision": 1,
+    "questionHistory": [],
+    "savedCandidates": [],
+    "readStatus": {
+      "kind": "PENDING",
+      "partialSourceFailure": false,
+      "canContinue": false,
+      "canRetry": false
+    },
+    "intentDraft": {
+      "area": {
+        "query": "Shinjuku, Tokyo"
+      },
+      "date": "2026-11-20",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "yakiniku restaurant in Shinjuku, Tokyo",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "criteria": [
+        {
+          "text": "yakiniku restaurant",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "around 5,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        }
+      ],
+      "timezone": "Asia/Tokyo",
+      "partySize": 2,
+      "timeWindow": {
+        "latest": "19:30",
+        "earliest": "19:30"
+      },
+      "schemaVersion": "3",
+      "partySizeSource": "EXPLICIT",
+      "temporalResolution": {
+        "date": {
+          "basis": "EXPLICIT_DATE",
+          "expression": "2026-11-20",
+          "resolvedDate": "2026-11-20"
+        },
+        "timezone": "Asia/Tokyo",
+        "timeWindow": {
+          "basis": "EXPLICIT_CLOCK",
+          "expression": "at 19:30",
+          "resolvedTimeWindow": {
+            "latest": "19:30",
+            "earliest": "19:30"
+          }
+        },
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-11-17T08:31:49.418Z"
+      }
+    },
+    "missingRequiredFields": [],
+    "searchRevision": 0,
+    "readyCandidateIds": [],
+    "progress": {
+      "active": true,
+      "stopped": false
+    },
+    "bookingFeedbackAvailable": false,
+    "candidates": [],
+    "availability": {},
+    "availabilityChecks": {},
+    "readEvidence": [],
+    "currentFactEvidence": [],
+    "sourceReadContext": {
+      "runId": "run:restaurant:c79a5c9bceb6a284eaa879e4:investigation:1",
+      "startedAt": "2026-11-17T08:31:49.415Z"
+    },
+    "bookingHandoffs": []
+  },
+  "artifacts": [],
+  "activities": [
+    {
+      "activityId": "activity:event:user:35c390ae5af77573fe2c2c8b3d4ee1f6",
+      "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:user:35c390ae5af77573fe2c2c8b3d4ee1f6"
+      },
+      "type": "SEMANTIC_PROPOSAL_COMPILED",
+      "display": {
+        "title": "Request updated",
+        "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+      },
+      "occurredAt": "2026-11-17T08:31:53.164Z"
+    }
+  ],
+  "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+}
