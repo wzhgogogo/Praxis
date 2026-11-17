@@ -1303,3 +1303,8 @@ Actual630a DOM26->28->29...44 Chromium component: original17 advances/80 operati
 ## 2026-11-17 — Web photos unified (draft / not integrated)
 
 727b8a812 business baseline retained; f134cb750 visual interactions and bf8046ae9 website photos integrated narrowly with IDs-only, on-demand Google photos. No persisted photo or search-field change. Unified authenticated photo endpoints, full attribution and address presentation are under offline acceptance. Plan: [Web photos unified](WEB-PHOTOS-UNIFIED-PLAN.md). No new Live has run; five clean-commit gates and three-size Fixture evidence must pass first. Only local branch commits, no merge/push.
+
+
+## 2026-11-17 — Web photos unified: offline gate blocked
+
+Draft / not integrated. Frozen53bbbdc8f6b0a243a44e9c65cf31901e528104ae passed typecheck/arch/default1679; browser G2 5/5, Chromium388/392 failed four equivalent-condition scenarios (phantom NO_LONGER_MATCHES diff and reaffirmation revision6 versus5, both sizes). Per user stop condition, no post-failure product/assertion changes, no G6/build/formal visual/Live, no .env or PostgreSQL access. Development three-size preflight16/16 is provisional pre-freeze evidence, not accepted current baseline. [Full local report](../.eval-artifacts/3c-unified-20261117/REPORT.md). Main/original3C tree unchanged; local branch only.

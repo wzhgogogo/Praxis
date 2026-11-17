@@ -7036,3 +7036,8 @@ de9e73bc合并已核对的main7c83e02e/G3，四份冲突文档正文保留；读
 ## 2026-11-17 — Web photos unified verification preparation
 
 Development / not a Clean Baseline. New unified sparse tree based on727b8a812. Exact54 current-HEAD browser/G6 materials restored and hash-verified. Development checks: photo contracts15/15; website-photo Chromium9/9; three-size deterministic visual preflight16/16. Initial development failures and fixes remain in `.eval-artifacts/3c-unified-20261117/development-*`; they are not final frozen acceptance results. Source and outer orchestration will be frozen before the five gates, full HTTP/SSE visual smoke and any authorized single Live case. No .env loaded by offline checks; OS denial plus local-only context routing for visual Fixture; browser gate runs without a nested outer sandbox.
+
+
+## 2026-11-17 — Web photos unified formal gates stopped
+
+Same clean53bbbdc8f6b0a243a44e9c65cf31901e528104ae, no .env: typecheck0.547s PASS; arch0.194s PASS; npm test1679/1679 in61.525s; browser fixture exit1 in339.296s (G2 5/5, remaining Chromium388/392; combined393/397 is not G6). Four assertions in web-workspace-slice2:464/527, equivalent request removal diff and revision6≠5, each mobile/desktop. G6/build/formal visual/Live NOT_RUN per user stop condition. Original gate logs/manifest plus all four PNG/trace/JSON diagnostic bundles archived. Development visual16/16 at dirty pre-freeze HEAD727 remains provisional; no current clean-commit visual claim. Main/original3C protection checks match; no PG connection/write, no production calls, no push/merge. [Report and reproduction](../../.eval-artifacts/3c-unified-20261117/REPORT.md).

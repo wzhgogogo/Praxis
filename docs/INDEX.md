@@ -43,7 +43,7 @@ Accepted ADR
 
 - [MVP PRD](product/MVP-PRD.md)：面向在日外国人的东京英文Web决策、准备与来源交接范围；第一版由用户在来源网站自行提交。
 - [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；第1段已复核合main，第2段状态见切片计划。
-- [Web Visual Direction](product/VISUAL-DIRECTION.md)：用户选定的合并版视觉规则及英文文案；Mono仅用于logo，信息靠间距分隔，实施范围/验收见切片计划。
+- [Web Visual Direction](product/VISUAL-DIRECTION.md)：用户选定的合并版视觉规则及英文文案；当前全界面与logo使用DM Sans，信息靠间距分隔，实施范围/验收见切片计划。
 - [Booking Design Draft 0.6](product/BOOKING-DESIGN-DRAFT.md)：draft / not integrated的历史方案输入；B1以Accepted ADR-0049为准，B2/B2+不属于前端第一段，原稿的取消严格程度与工作流读取不得覆盖ADR。
 
 ## 架构

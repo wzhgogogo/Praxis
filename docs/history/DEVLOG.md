@@ -6326,3 +6326,8 @@ main249826cc进入slice2分支，13冲突保留主线行为/正文与slice2历�
 ## 2026-11-17 — Web photos unified implementation
 
 Development / not integrated. Baseline727b8a812 preserved, exact visual delta f134cb750 and website-photo feature delta127d1aa14..bf8046ae9 selected without legacy persisted photo/search injection. Added candidate-authenticated Google IDs-only display reads and bounded website fallback, one cover renderer with complete attribution, DM Sans/native editors/gallery/viewer and address-only clamp. Google bytes stay temporary and original format; website images retain sharp/WebP validation. Guard sensitive URL predicates extracted without changing dynamic strict-query or workflow semantics; passive image attributes added to snapshots. Existing safety/backend tests retained. See [plan](../WEB-PHOTOS-UNIFIED-PLAN.md); verification pending frozen commit.
+
+
+## 2026-11-17 — Web photos unified stopped at compatibility gate
+
+Source3c86d5b30, frozen code/harness/orchestration53bbbdc8f6b0a243a44e9c65cf31901e528104ae. Formal browser integration exposed two equivalent-condition contracts, each failing mobile and desktop: unchanged request produces three removed diff entries; final reaffirmation increments revision5→6. The727 backend is preserved, so this is an integration blocker to diagnose, not permission to import the visual branch's backend wholesale. No source or assertion edits after the failure. Evidence/report only appended; G6/build/formal visual/Live stopped. [Report](../../.eval-artifacts/3c-unified-20261117/REPORT.md).

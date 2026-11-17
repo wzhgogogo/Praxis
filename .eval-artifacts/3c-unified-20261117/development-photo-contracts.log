@@ -1,0 +1,23 @@
+✔ Google display uses IDs-only details once, original decoded bytes and complete authors, with no credentials on CDN or DTO (108.674833ms)
+✔ Google cover-download-fails falls back through the existing bound website source (82.229333ms)
+✔ Google cover-decode-fails falls back through the existing bound website source (62.371333ms)
+✔ Google empty falls back through the existing bound website source (53.43325ms)
+✔ Google unavailable falls back through the existing bound website source (51.121584ms)
+✔ Google no-id falls back through the existing bound website source (61.384542ms)
+✔ Individual gallery corruption is isolated, budgets include media/CDN hops and both-source failure is honest (80.528041ms)
+✔ Photos retain only the owning Restaurant metadata, main photos, declared responsive/lazy URLs and source credit (9.134916ms)
+✔ An OG-only image, unsafe URLs, opaque backgrounds and foreign album links do not produce a restaurant photo (1.194834ms)
+✔ Observed public CDN renditions keep the larger exact URL and prefer a counted main gallery over menu photos (1.042583ms)
+✔ Photo URL admission refuses local, special, credentialled and sensitive targets including encoded IPs (11.241041ms)
+✔ Only the exact reviewed image transform permits its publicly observed signature; document/API/other tokens remain blocked (1.029625ms)
+✔ Photo HTTP pins the validated DNS address and rejects private DNS and redirect destinations before another dispatch (5.449583ms)
+✔ Photo cache isolates Cases, deduplicates concurrent content, expires and refuses an old source binding (81.358667ms)
+✔ Photo failures retain safe transport name/cause code and never expose the original message (0.32225ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3405.017667
