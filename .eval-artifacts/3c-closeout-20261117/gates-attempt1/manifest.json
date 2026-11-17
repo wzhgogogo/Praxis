@@ -1,0 +1,89 @@
+[
+  {
+    "gate": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "sha": "13551319f49ba9c4870e1d2af3b8a98724015bbf",
+    "exitCode": 0,
+    "seconds": 0.5436918749999999,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ]
+  },
+  {
+    "gate": "arch-check",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "sha": "13551319f49ba9c4870e1d2af3b8a98724015bbf",
+    "exitCode": 0,
+    "seconds": 0.20198970800000005,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "arch:check"
+    ]
+  },
+  {
+    "gate": "test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "sha": "13551319f49ba9c4870e1d2af3b8a98724015bbf",
+    "exitCode": 0,
+    "seconds": 57.44015925,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "test"
+    ]
+  },
+  {
+    "gate": "browser-fixture",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "sha": "13551319f49ba9c4870e1d2af3b8a98724015bbf",
+    "exitCode": 1,
+    "seconds": 354.368501333,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "offline Fixture contracts; runner-replay children apply their own OS outbound denial; no outer sandbox",
+    "invocation": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ]
+  }
+]
