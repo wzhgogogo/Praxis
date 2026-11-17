@@ -1,0 +1,2194 @@
+{
+  "mode": "WEB_READ",
+  "caseId": "restaurant:3623889c7e60a41b359a3e03",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@37",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@32"
+  },
+  "requestMetadata": {
+    "sha256": "ee59728ddbf17791e3900189692d2b6ddce29ad961ee8df1c9c34596fdbc8a86"
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "schemaVersion": "1",
+  "runId": "b9c4bbf5-e039-4bfc-919a-6efa438e964c",
+  "status": "FAILED",
+  "stage": "AGENT_LOOP",
+  "materializedCase": {
+    "semantic": {
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "find a bookable table"
+      },
+      "date": {
+        "value": "2026-08-05"
+      },
+      "party_size": 2,
+      "party_size_source": "EXPLICIT",
+      "time": {
+        "start": "19:00",
+        "end": "19:30"
+      },
+      "location": {
+        "value": "Shinjuku",
+        "relation": "NEAR"
+      },
+      "criteria": [
+        {
+          "value": "yakiniku",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED"
+        }
+      ]
+    }
+  },
+  "events": [
+    {
+      "id": "event:user:679deddea80d023574e1f5c51c8861b6",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "area": {
+            "query": "Shinjuku"
+          },
+          "date": "2026-08-05",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "find a bookable table"
+          },
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "addCriteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "schemaVersion": "3",
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          },
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "EXPLICIT_DATE",
+              "expression": "2026-08-05",
+              "resolvedDate": "2026-08-05"
+            },
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "basis": "EXPLICIT_CLOCK",
+              "expression": "19:00-19:30",
+              "resolvedTimeWindow": {
+                "latest": "19:30",
+                "earliest": "19:00"
+              }
+            },
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-17T03:07:16.901Z"
+          }
+        },
+        "partySizeSourceMessageRequestId": "user:a07d9fe7-8e49-437c-82ed-32ea02f3c21b"
+      },
+      "occurredAt": "2026-11-17T03:07:16.912Z",
+      "trace": {
+        "actor": "USER",
+        "runId": "run:restaurant:3623889c7e60a41b359a3e03",
+        "correlationId": "event:user:679deddea80d023574e1f5c51c8861b6",
+        "schemaVersion": "1"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:c8b0c8d7-ba5a-4c1b-b0d3-0cc839660001",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "event": {
+        "type": "SEARCH_COMPLETED",
+        "request": {
+          "intent": {
+            "area": {
+              "query": "Shinjuku"
+            },
+            "date": "2026-08-05",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "find a bookable table"
+            },
+            "criteria": [
+              {
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:30",
+              "earliest": "19:00"
+            },
+            "budgetPerPerson": {
+              "max": 5000,
+              "currency": "JPY"
+            }
+          },
+          "readRunId": "run:restaurant:3623889c7e60a41b359a3e03:investigation:1"
+        },
+        "evidence": [],
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "FIXTURE",
+          "latencyMs": 0
+        },
+        "candidates": [
+          {
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "restaurant": {
+              "id": "fixture-restaurant-1",
+              "address": "1-1 Shinjuku, Tokyo",
+              "sourceIds": {
+                "fixture": "fixture-1"
+              },
+              "outletName": "Fixture Yakiniku Shinjuku 1",
+              "provenance": {
+                "address": "fixture",
+                "outletName": "fixture"
+              },
+              "coordinates": {
+                "lat": 35.690999999999995,
+                "lng": 139.701
+              }
+            },
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "executionConfidence": "LOW"
+          },
+          {
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "restaurant": {
+              "id": "fixture-restaurant-2",
+              "address": "2-1 Shinjuku, Tokyo",
+              "sourceIds": {
+                "fixture": "fixture-2"
+              },
+              "outletName": "Fixture Yakiniku Shinjuku 2",
+              "provenance": {
+                "address": "fixture",
+                "outletName": "fixture"
+              },
+              "coordinates": {
+                "lat": 35.692,
+                "lng": 139.702
+              }
+            },
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "executionConfidence": "LOW"
+          },
+          {
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "restaurant": {
+              "id": "fixture-restaurant-3",
+              "address": "3-1 Shinjuku, Tokyo",
+              "sourceIds": {
+                "fixture": "fixture-3"
+              },
+              "outletName": "Fixture Yakiniku Shinjuku 3",
+              "provenance": {
+                "address": "fixture",
+                "outletName": "fixture"
+              },
+              "coordinates": {
+                "lat": 35.693,
+                "lng": 139.70299999999997
+              }
+            },
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "executionConfidence": "LOW"
+          }
+        ]
+      },
+      "occurredAt": "2026-11-17T03:07:16.922Z",
+      "trace": {
+        "actor": "ADAPTER",
+        "runId": "run:restaurant:3623889c7e60a41b359a3e03",
+        "correlationId": "event:restaurant-agent:c8b0c8d7-ba5a-4c1b-b0d3-0cc839660001",
+        "schemaVersion": "1"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:fba96e74-0a84-4dae-b705-0a89950ad3c5",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "event": {
+        "type": "AVAILABILITY_CHECKED",
+        "offers": [
+          {
+            "id": "fixture-offer-fixture-restaurant-1",
+            "price": {
+              "basis": "PER_PERSON",
+              "amount": 4400,
+              "currency": "JPY"
+            },
+            "source": "fixture",
+            "seating": "TABLE",
+            "dateTime": "2026-08-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "partySize": 2,
+            "bookingMode": "INSTANT",
+            "restaurantId": "fixture-restaurant-1",
+            "executionMode": "DEEPLINK",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+            "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+          },
+          {
+            "id": "fixture-offer-fixture-restaurant-2",
+            "price": {
+              "basis": "PER_PERSON",
+              "amount": 4400,
+              "currency": "JPY"
+            },
+            "source": "fixture",
+            "seating": "TABLE",
+            "dateTime": "2026-08-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "partySize": 2,
+            "bookingMode": "INSTANT",
+            "restaurantId": "fixture-restaurant-2",
+            "executionMode": "DEEPLINK",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+            "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+          },
+          {
+            "id": "fixture-offer-fixture-restaurant-3",
+            "price": {
+              "basis": "PER_PERSON",
+              "amount": 4400,
+              "currency": "JPY"
+            },
+            "source": "fixture",
+            "seating": "TABLE",
+            "dateTime": "2026-08-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "partySize": 2,
+            "bookingMode": "INSTANT",
+            "restaurantId": "fixture-restaurant-3",
+            "executionMode": "DEEPLINK",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+            "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+          }
+        ],
+        "request": {
+          "date": "2026-08-05",
+          "partySize": 2,
+          "candidates": [
+            {
+              "warnings": [
+                "Fixture data only — availability is not real."
+              ],
+              "restaurant": {
+                "id": "fixture-restaurant-1",
+                "address": "1-1 Shinjuku, Tokyo",
+                "sourceIds": {
+                  "fixture": "fixture-1"
+                },
+                "outletName": "Fixture Yakiniku Shinjuku 1",
+                "provenance": {
+                  "address": "fixture",
+                  "outletName": "fixture"
+                },
+                "coordinates": {
+                  "lat": 35.690999999999995,
+                  "lng": 139.701
+                }
+              },
+              "matchReasons": [
+                "Fixture match for the requested area"
+              ],
+              "executionConfidence": "LOW"
+            },
+            {
+              "warnings": [
+                "Fixture data only — availability is not real."
+              ],
+              "restaurant": {
+                "id": "fixture-restaurant-2",
+                "address": "2-1 Shinjuku, Tokyo",
+                "sourceIds": {
+                  "fixture": "fixture-2"
+                },
+                "outletName": "Fixture Yakiniku Shinjuku 2",
+                "provenance": {
+                  "address": "fixture",
+                  "outletName": "fixture"
+                },
+                "coordinates": {
+                  "lat": 35.692,
+                  "lng": 139.702
+                }
+              },
+              "matchReasons": [
+                "Fixture match for the requested area"
+              ],
+              "executionConfidence": "LOW"
+            },
+            {
+              "warnings": [
+                "Fixture data only — availability is not real."
+              ],
+              "restaurant": {
+                "id": "fixture-restaurant-3",
+                "address": "3-1 Shinjuku, Tokyo",
+                "sourceIds": {
+                  "fixture": "fixture-3"
+                },
+                "outletName": "Fixture Yakiniku Shinjuku 3",
+                "provenance": {
+                  "address": "fixture",
+                  "outletName": "fixture"
+                },
+                "coordinates": {
+                  "lat": 35.693,
+                  "lng": 139.70299999999997
+                }
+              },
+              "matchReasons": [
+                "Fixture match for the requested area"
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "candidateIds": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ],
+          "hardCriteria": []
+        },
+        "evidence": [],
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "FIXTURE",
+          "latencyMs": 0,
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        },
+        "availabilityChecks": {
+          "fixture-restaurant-1": {
+            "status": "AVAILABLE",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "evidenceIds": [],
+            "sourceProvider": "FIXTURE",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+          },
+          "fixture-restaurant-2": {
+            "status": "AVAILABLE",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "evidenceIds": [],
+            "sourceProvider": "FIXTURE",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+          },
+          "fixture-restaurant-3": {
+            "status": "AVAILABLE",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "evidenceIds": [],
+            "sourceProvider": "FIXTURE",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+          }
+        }
+      },
+      "occurredAt": "2026-11-17T03:07:16.930Z",
+      "trace": {
+        "actor": "ADAPTER",
+        "runId": "run:restaurant:3623889c7e60a41b359a3e03",
+        "correlationId": "event:restaurant-agent:fba96e74-0a84-4dae-b705-0a89950ad3c5",
+        "schemaVersion": "1"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:30313f73-7ede-4fdd-a686-72aa2ea8d06e",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "event": {
+        "type": "CANDIDATE_SELECTED",
+        "offerId": "fixture-offer-fixture-restaurant-1",
+        "candidateId": "fixture-restaurant-1"
+      },
+      "occurredAt": "2026-11-17T03:07:16.936Z",
+      "trace": {
+        "actor": "SYSTEM",
+        "runId": "run:restaurant:3623889c7e60a41b359a3e03",
+        "correlationId": "event:restaurant-agent:30313f73-7ede-4fdd-a686-72aa2ea8d06e",
+        "schemaVersion": "1"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:d3881504-ecaf-46f4-bfce-8ea038fa7edf",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "event": {
+        "type": "BOOKING_PROPOSED",
+        "offerId": "fixture-offer-fixture-restaurant-1",
+        "candidateId": "fixture-restaurant-1"
+      },
+      "occurredAt": "2026-11-17T03:07:16.942Z",
+      "trace": {
+        "actor": "SYSTEM",
+        "runId": "run:restaurant:3623889c7e60a41b359a3e03",
+        "correlationId": "event:restaurant-agent:d3881504-ecaf-46f4-bfce-8ea038fa7edf",
+        "schemaVersion": "1"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:restaurant:3623889c7e60a41b359a3e03:1",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "stepNumber": 1,
+      "occurredAt": "2026-11-17T03:07:16.921Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "db498eb19539faaa6c41e7d59c9036bf273c6a80413ede8b3f32ee448c893356",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:c8b0c8d7-ba5a-4c1b-b0d3-0cc839660001"
+        ],
+        "attemptIds": [],
+        "commandIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ANSWER_PAGE_QUESTION",
+          "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+          "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+          "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+          "importantConstraints": [
+            "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+          ]
+        },
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "17",
+      "decisionContext": {
+        "now": "2026-11-17T03:07:16.920Z",
+        "phase": "UNDERSTANDING",
+        "candidates": [],
+        "readBudget": {
+          "remainingMs": 499997,
+          "conclusionReserveMs": 20000
+        },
+        "intentDraft": {
+          "area": {
+            "query": "Shinjuku"
+          },
+          "date": "2026-08-05",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "find a bookable table"
+          },
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "schemaVersion": "3",
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          },
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "EXPLICIT_DATE",
+              "expression": "2026-08-05",
+              "resolvedDate": "2026-08-05"
+            },
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "basis": "EXPLICIT_CLOCK",
+              "expression": "19:00-19:30",
+              "resolvedTimeWindow": {
+                "latest": "19:30",
+                "earliest": "19:00"
+              }
+            },
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-17T03:07:16.901Z"
+          }
+        },
+        "availability": {},
+        "legalActions": {
+          "search": true,
+          "endRead": false,
+          "presentResults": [],
+          "checkAvailability": [],
+          "answerPageQuestion": false,
+          "investigateCandidateFacts": []
+        },
+        "presentation": [],
+        "schemaVersion": "17",
+        "readCompletion": {
+          "reason": "No actual source investigation is recorded",
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": []
+        },
+        "availabilityChecks": {},
+        "searchAvailability": {
+          "available": true
+        },
+        "missingBlockingFields": []
+      },
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS"
+      },
+      "decisionSummary": "discover candidates",
+      "modelAttempt": {
+        "model": "fixture-restaurant-semantic-v2",
+        "purpose": "restaurant_agent_decide",
+        "provider": "FIXTURE",
+        "latencyMs": 0,
+        "finishReason": "TOOL_CALLS",
+        "invocationId": "fixture-model-2",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "5"
+        },
+        "promptVersion": "32"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "STRUCTURED_ADAPTER",
+      "executionMetadata": {
+        "route": "STRUCTURED_ADAPTER",
+        "provider": "FIXTURE",
+        "latencyMs": 0
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "3 candidates discovered; 3 newly accepted",
+        "evidenceIds": [],
+        "candidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ],
+        "newCandidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ]
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "13af9c92da8ab44463812147ba3373a5164b54bf0ed3e27fa57d54aec3a5cd48",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:restaurant:3623889c7e60a41b359a3e03:2",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "stepNumber": 2,
+      "occurredAt": "2026-11-17T03:07:16.930Z",
+      "stateVersionBefore": 2,
+      "stateHashBefore": "343b27d275a41c85b89fc11793325f73fd46513c4c860be9a8e71c6a4a0068f8",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:fba96e74-0a84-4dae-b705-0a89950ad3c5"
+        ],
+        "attemptIds": [],
+        "commandIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ANSWER_PAGE_QUESTION",
+          "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+          "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+          "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+          "importantConstraints": [
+            "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+          ]
+        },
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "17",
+      "decisionContext": {
+        "now": "2026-11-17T03:07:16.929Z",
+        "phase": "SEARCHING",
+        "intent": {
+          "area": {
+            "query": "Shinjuku"
+          },
+          "date": "2026-08-05",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "find a bookable table"
+          },
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          }
+        },
+        "candidates": [
+          {
+            "id": "fixture-restaurant-1",
+            "address": "1-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 1",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          },
+          {
+            "id": "fixture-restaurant-2",
+            "address": "2-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 2",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          },
+          {
+            "id": "fixture-restaurant-3",
+            "address": "3-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 3",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          }
+        ],
+        "readBudget": {
+          "remainingMs": 499988,
+          "conclusionReserveMs": 20000
+        },
+        "intentDraft": {
+          "area": {
+            "query": "Shinjuku"
+          },
+          "date": "2026-08-05",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "find a bookable table"
+          },
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "schemaVersion": "3",
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          },
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "EXPLICIT_DATE",
+              "expression": "2026-08-05",
+              "resolvedDate": "2026-08-05"
+            },
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "basis": "EXPLICIT_CLOCK",
+              "expression": "19:00-19:30",
+              "resolvedTimeWindow": {
+                "latest": "19:30",
+                "earliest": "19:00"
+              }
+            },
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-17T03:07:16.901Z"
+          }
+        },
+        "availability": {},
+        "legalActions": {
+          "search": false,
+          "endRead": true,
+          "presentResults": [],
+          "checkAvailability": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ],
+          "answerPageQuestion": false,
+          "investigateCandidateFacts": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ]
+        },
+        "presentation": [
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-1",
+            "missingReason": "Candidate fixture-restaurant-1 has no evidence that it satisfies Shinjuku"
+          },
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-2",
+            "missingReason": "Candidate fixture-restaurant-2 has no evidence that it satisfies Shinjuku"
+          },
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-3",
+            "missingReason": "Candidate fixture-restaurant-3 has no evidence that it satisfies Shinjuku"
+          }
+        ],
+        "schemaVersion": "17",
+        "readCompletion": {
+          "allowed": true,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ]
+        },
+        "availabilityChecks": {},
+        "searchAvailability": {
+          "reason": "DISCOVERY_PLAN_EXHAUSTED",
+          "available": false
+        },
+        "checkableCandidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ],
+        "missingBlockingFields": [],
+        "factInvestigableCandidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ]
+      },
+      "agentAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ]
+      },
+      "decisionSummary": "check discovered candidates",
+      "modelAttempt": {
+        "model": "fixture-restaurant-semantic-v2",
+        "purpose": "restaurant_agent_decide",
+        "provider": "FIXTURE",
+        "latencyMs": 0,
+        "finishReason": "TOOL_CALLS",
+        "invocationId": "fixture-model-3",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "5"
+        },
+        "promptVersion": "32"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "executionRoute": "STRUCTURED_ADAPTER",
+      "executionMetadata": {
+        "route": "STRUCTURED_ADAPTER",
+        "provider": "FIXTURE",
+        "latencyMs": 0,
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      },
+      "observation": {
+        "type": "AVAILABILITY",
+        "detail": "3 offers observed",
+        "evidenceIds": [],
+        "candidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ]
+      },
+      "stateVersionAfter": 3,
+      "stateHashAfter": "c2adb74c4ee67f9d66adf685415d552a7643d8e0f63c35ea65add0df6c7173cc",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:restaurant:3623889c7e60a41b359a3e03:3",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "stepNumber": 3,
+      "occurredAt": "2026-11-17T03:07:16.936Z",
+      "stateVersionBefore": 3,
+      "stateHashBefore": "c4452560f3b9e0d4626d444dd2aa52c975faf16c7722dd7faefe12634f0967a6",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:30313f73-7ede-4fdd-a686-72aa2ea8d06e"
+        ],
+        "attemptIds": [],
+        "commandIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ANSWER_PAGE_QUESTION",
+          "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+          "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+          "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+          "importantConstraints": [
+            "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+          ]
+        },
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "17",
+      "decisionContext": {
+        "now": "2026-11-17T03:07:16.935Z",
+        "phase": "SEARCHING",
+        "intent": {
+          "area": {
+            "query": "Shinjuku"
+          },
+          "date": "2026-08-05",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "find a bookable table"
+          },
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          }
+        },
+        "candidates": [
+          {
+            "id": "fixture-restaurant-1",
+            "address": "1-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 1",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "FIXTURE",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          },
+          {
+            "id": "fixture-restaurant-2",
+            "address": "2-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 2",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "FIXTURE",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          },
+          {
+            "id": "fixture-restaurant-3",
+            "address": "3-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 3",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "FIXTURE",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          }
+        ],
+        "readBudget": {
+          "remainingMs": 499982,
+          "conclusionReserveMs": 20000
+        },
+        "intentDraft": {
+          "area": {
+            "query": "Shinjuku"
+          },
+          "date": "2026-08-05",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "find a bookable table"
+          },
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "schemaVersion": "3",
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          },
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "EXPLICIT_DATE",
+              "expression": "2026-08-05",
+              "resolvedDate": "2026-08-05"
+            },
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "basis": "EXPLICIT_CLOCK",
+              "expression": "19:00-19:30",
+              "resolvedTimeWindow": {
+                "latest": "19:30",
+                "earliest": "19:00"
+              }
+            },
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-17T03:07:16.901Z"
+          }
+        },
+        "availability": {
+          "fixture-restaurant-1": [
+            {
+              "id": "fixture-offer-fixture-restaurant-1",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+            }
+          ],
+          "fixture-restaurant-2": [
+            {
+              "id": "fixture-offer-fixture-restaurant-2",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+            }
+          ],
+          "fixture-restaurant-3": [
+            {
+              "id": "fixture-offer-fixture-restaurant-3",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+            }
+          ]
+        },
+        "legalActions": {
+          "search": false,
+          "endRead": true,
+          "presentResults": [],
+          "checkAvailability": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ],
+          "answerPageQuestion": false,
+          "investigateCandidateFacts": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ]
+        },
+        "presentation": [
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-1",
+            "missingReason": "Candidate fixture-restaurant-1 has no evidence that it satisfies Shinjuku",
+            "recheckReason": "DISPLAY_EVIDENCE_EXPIRED"
+          },
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-2",
+            "missingReason": "Candidate fixture-restaurant-2 has no evidence that it satisfies Shinjuku",
+            "recheckReason": "DISPLAY_EVIDENCE_EXPIRED"
+          },
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-3",
+            "missingReason": "Candidate fixture-restaurant-3 has no evidence that it satisfies Shinjuku",
+            "recheckReason": "DISPLAY_EVIDENCE_EXPIRED"
+          }
+        ],
+        "schemaVersion": "17",
+        "readCompletion": {
+          "allowed": true,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ]
+        },
+        "availabilityChecks": {
+          "fixture-restaurant-1": {
+            "status": "AVAILABLE",
+            "receptionMode": "UNKNOWN"
+          },
+          "fixture-restaurant-2": {
+            "status": "AVAILABLE",
+            "receptionMode": "UNKNOWN"
+          },
+          "fixture-restaurant-3": {
+            "status": "AVAILABLE",
+            "receptionMode": "UNKNOWN"
+          }
+        },
+        "searchAvailability": {
+          "reason": "DISCOVERY_PLAN_EXHAUSTED",
+          "available": false
+        },
+        "checkableCandidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ],
+        "missingBlockingFields": [],
+        "factInvestigableCandidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ]
+      },
+      "agentAction": {
+        "type": "SELECT_CANDIDATE",
+        "offerId": "fixture-offer-fixture-restaurant-1",
+        "candidateId": "fixture-restaurant-1"
+      },
+      "decisionSummary": "select a fresh fixture offer",
+      "modelAttempt": {
+        "model": "fixture-restaurant-semantic-v2",
+        "purpose": "restaurant_agent_decide",
+        "provider": "FIXTURE",
+        "latencyMs": 0,
+        "finishReason": "TOOL_CALLS",
+        "invocationId": "fixture-model-4",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "5"
+        },
+        "promptVersion": "32"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "observation": {
+        "type": "CANDIDATE_SELECTED",
+        "detail": "fixture-restaurant-1"
+      },
+      "stateVersionAfter": 4,
+      "stateHashAfter": "725fa5390749d10a1981a6d906031e32d50091327ca7011582f963f3b80cdd79",
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "id": "trajectory:restaurant:3623889c7e60a41b359a3e03:4",
+      "taskId": "restaurant:3623889c7e60a41b359a3e03",
+      "stepNumber": 4,
+      "occurredAt": "2026-11-17T03:07:16.942Z",
+      "stateVersionBefore": 4,
+      "stateHashBefore": "a254d468c5449ce8e582f2a6a087a97bebb10cceb238edc9904fe3c9a381d806",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:d3881504-ecaf-46f4-bfce-8ea038fa7edf"
+        ],
+        "attemptIds": [],
+        "commandIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ANSWER_PAGE_QUESTION",
+          "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+          "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+          "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+          "importantConstraints": [
+            "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+          ]
+        },
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "17",
+      "decisionContext": {
+        "now": "2026-11-17T03:07:16.941Z",
+        "phase": "SEARCHING",
+        "intent": {
+          "area": {
+            "query": "Shinjuku"
+          },
+          "date": "2026-08-05",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "find a bookable table"
+          },
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          }
+        },
+        "candidates": [
+          {
+            "id": "fixture-restaurant-1",
+            "address": "1-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 1",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "FIXTURE",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          },
+          {
+            "id": "fixture-restaurant-2",
+            "address": "2-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 2",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "FIXTURE",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          },
+          {
+            "id": "fixture-restaurant-3",
+            "address": "3-1 Shinjuku, Tokyo",
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "outletName": "Fixture Yakiniku Shinjuku 3",
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "observedFacts": {
+              "commercialNotes": [],
+              "openingHoursMatch": false,
+              "verifiedHardCriteria": [],
+              "verifiedNegativeCriteria": [],
+              "violatedNegativeCriteria": []
+            },
+            "sourceAttempts": [
+              {
+                "source": "FIXTURE",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "availabilityPath": "NONE",
+            "sourceCategories": [],
+            "executionConfidence": "LOW"
+          }
+        ],
+        "readBudget": {
+          "remainingMs": 499976,
+          "conclusionReserveMs": 20000
+        },
+        "intentDraft": {
+          "area": {
+            "query": "Shinjuku"
+          },
+          "date": "2026-08-05",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "find a bookable table"
+          },
+          "criteria": [
+            {
+              "text": "yakiniku",
+              "polarity": "POSITIVE",
+              "strength": "UNSPECIFIED"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          },
+          "schemaVersion": "3",
+          "budgetPerPerson": {
+            "max": 5000,
+            "currency": "JPY"
+          },
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "EXPLICIT_DATE",
+              "expression": "2026-08-05",
+              "resolvedDate": "2026-08-05"
+            },
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "basis": "EXPLICIT_CLOCK",
+              "expression": "19:00-19:30",
+              "resolvedTimeWindow": {
+                "latest": "19:30",
+                "earliest": "19:00"
+              }
+            },
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-17T03:07:16.901Z"
+          }
+        },
+        "availability": {
+          "fixture-restaurant-1": [
+            {
+              "id": "fixture-offer-fixture-restaurant-1",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+            }
+          ],
+          "fixture-restaurant-2": [
+            {
+              "id": "fixture-offer-fixture-restaurant-2",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+            }
+          ],
+          "fixture-restaurant-3": [
+            {
+              "id": "fixture-offer-fixture-restaurant-3",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z"
+            }
+          ]
+        },
+        "legalActions": {
+          "search": false,
+          "endRead": true,
+          "presentResults": [],
+          "checkAvailability": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ],
+          "answerPageQuestion": false,
+          "investigateCandidateFacts": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ]
+        },
+        "presentation": [
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-1",
+            "missingReason": "Candidate fixture-restaurant-1 has no evidence that it satisfies Shinjuku",
+            "recheckReason": "DISPLAY_EVIDENCE_EXPIRED"
+          },
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-2",
+            "missingReason": "Candidate fixture-restaurant-2 has no evidence that it satisfies Shinjuku",
+            "recheckReason": "DISPLAY_EVIDENCE_EXPIRED"
+          },
+          {
+            "eligible": false,
+            "candidateId": "fixture-restaurant-3",
+            "missingReason": "Candidate fixture-restaurant-3 has no evidence that it satisfies Shinjuku",
+            "recheckReason": "DISPLAY_EVIDENCE_EXPIRED"
+          }
+        ],
+        "schemaVersion": "17",
+        "readCompletion": {
+          "allowed": true,
+          "investigationRecorded": true,
+          "unresolvedCandidateIds": [
+            "fixture-restaurant-1",
+            "fixture-restaurant-2",
+            "fixture-restaurant-3"
+          ]
+        },
+        "selectedOfferId": "fixture-offer-fixture-restaurant-1",
+        "availabilityChecks": {
+          "fixture-restaurant-1": {
+            "status": "AVAILABLE",
+            "receptionMode": "UNKNOWN"
+          },
+          "fixture-restaurant-2": {
+            "status": "AVAILABLE",
+            "receptionMode": "UNKNOWN"
+          },
+          "fixture-restaurant-3": {
+            "status": "AVAILABLE",
+            "receptionMode": "UNKNOWN"
+          }
+        },
+        "searchAvailability": {
+          "reason": "DISCOVERY_PLAN_EXHAUSTED",
+          "available": false
+        },
+        "selectedCandidateId": "fixture-restaurant-1",
+        "checkableCandidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ],
+        "missingBlockingFields": [],
+        "factInvestigableCandidateIds": [
+          "fixture-restaurant-1",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ]
+      },
+      "agentAction": {
+        "type": "BOOK_RESERVATION",
+        "offerId": "fixture-offer-fixture-restaurant-1",
+        "candidateId": "fixture-restaurant-1"
+      },
+      "decisionSummary": "request authorization checkpoint",
+      "modelAttempt": {
+        "model": "fixture-restaurant-semantic-v2",
+        "purpose": "restaurant_agent_decide",
+        "provider": "FIXTURE",
+        "latencyMs": 0,
+        "finishReason": "TOOL_CALLS",
+        "invocationId": "fixture-model-5",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "5"
+        },
+        "promptVersion": "32"
+      },
+      "actionValidation": {
+        "status": "REQUIRES_AUTHORIZATION"
+      },
+      "observation": {
+        "type": "BOOKING_PROPOSAL",
+        "detail": "fixture-restaurant-1:fixture-offer-fixture-restaurant-1"
+      },
+      "proposalId": "proposal:98bd3e5a-c3a8-4544-be6c-6e7d8003f228",
+      "stateVersionAfter": 5,
+      "stateHashAfter": "358abbfb67e655eccbd98ade981679a7d546bfa5f065220bcacc4b6eaa55165b",
+      "stepOutcome": "WAITING_USER"
+    }
+  ],
+  "finalSnapshot": {
+    "id": "restaurant:3623889c7e60a41b359a3e03",
+    "runId": "run:restaurant:3623889c7e60a41b359a3e03",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "24",
+    "lifecycleState": "WAITING_USER",
+    "domainState": {
+      "phase": "AWAITING_AUTHORIZATION",
+      "intent": {
+        "area": {
+          "query": "Shinjuku"
+        },
+        "date": "2026-08-05",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "find a bookable table"
+        },
+        "criteria": [
+          {
+            "text": "yakiniku",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ],
+        "timezone": "Asia/Tokyo",
+        "partySize": 2,
+        "timeWindow": {
+          "latest": "19:30",
+          "earliest": "19:00"
+        },
+        "budgetPerPerson": {
+          "max": 5000,
+          "currency": "JPY"
+        }
+      },
+      "proposal": {
+        "id": "proposal:98bd3e5a-c3a8-4544-be6c-6e7d8003f228",
+        "risk": "LOW",
+        "amount": {
+          "value": 4400,
+          "currency": "JPY"
+        },
+        "target": {
+          "id": "fixture-restaurant-1",
+          "type": "RESTAURANT_OUTLET",
+          "counterparty": "Fixture Yakiniku Shinjuku 1"
+        },
+        "taskId": "restaurant:3623889c7e60a41b359a3e03",
+        "termsHash": "59c59286d88fb0de3f1886b78543223d651b33c25c67ffca4193f381b483bfee",
+        "actionType": "BOOK",
+        "reversible": true
+      },
+      "candidates": [
+        {
+          "warnings": [
+            "Fixture data only — availability is not real."
+          ],
+          "restaurant": {
+            "id": "fixture-restaurant-1",
+            "address": "1-1 Shinjuku, Tokyo",
+            "sourceIds": {
+              "fixture": "fixture-1"
+            },
+            "outletName": "Fixture Yakiniku Shinjuku 1",
+            "provenance": {
+              "address": "fixture",
+              "outletName": "fixture"
+            },
+            "coordinates": {
+              "lat": 35.690999999999995,
+              "lng": 139.701
+            }
+          },
+          "matchReasons": [
+            "Fixture match for the requested area"
+          ],
+          "executionConfidence": "LOW"
+        },
+        {
+          "warnings": [
+            "Fixture data only — availability is not real."
+          ],
+          "restaurant": {
+            "id": "fixture-restaurant-2",
+            "address": "2-1 Shinjuku, Tokyo",
+            "sourceIds": {
+              "fixture": "fixture-2"
+            },
+            "outletName": "Fixture Yakiniku Shinjuku 2",
+            "provenance": {
+              "address": "fixture",
+              "outletName": "fixture"
+            },
+            "coordinates": {
+              "lat": 35.692,
+              "lng": 139.702
+            }
+          },
+          "matchReasons": [
+            "Fixture match for the requested area"
+          ],
+          "executionConfidence": "LOW"
+        },
+        {
+          "warnings": [
+            "Fixture data only — availability is not real."
+          ],
+          "restaurant": {
+            "id": "fixture-restaurant-3",
+            "address": "3-1 Shinjuku, Tokyo",
+            "sourceIds": {
+              "fixture": "fixture-3"
+            },
+            "outletName": "Fixture Yakiniku Shinjuku 3",
+            "provenance": {
+              "address": "fixture",
+              "outletName": "fixture"
+            },
+            "coordinates": {
+              "lat": 35.693,
+              "lng": 139.70299999999997
+            }
+          },
+          "matchReasons": [
+            "Fixture match for the requested area"
+          ],
+          "executionConfidence": "LOW"
+        }
+      ],
+      "factChecks": {},
+      "intentDraft": {
+        "area": {
+          "query": "Shinjuku"
+        },
+        "date": "2026-08-05",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "find a bookable table"
+        },
+        "criteria": [
+          {
+            "text": "yakiniku",
+            "polarity": "POSITIVE",
+            "strength": "UNSPECIFIED"
+          }
+        ],
+        "timezone": "Asia/Tokyo",
+        "partySize": 2,
+        "timeWindow": {
+          "latest": "19:30",
+          "earliest": "19:00"
+        },
+        "schemaVersion": "3",
+        "budgetPerPerson": {
+          "max": 5000,
+          "currency": "JPY"
+        },
+        "partySizeSource": "EXPLICIT",
+        "temporalResolution": {
+          "date": {
+            "basis": "EXPLICIT_DATE",
+            "expression": "2026-08-05",
+            "resolvedDate": "2026-08-05"
+          },
+          "timezone": "Asia/Tokyo",
+          "timeWindow": {
+            "basis": "EXPLICIT_CLOCK",
+            "expression": "19:00-19:30",
+            "resolvedTimeWindow": {
+              "latest": "19:30",
+              "earliest": "19:00"
+            }
+          },
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-11-17T03:07:16.901Z"
+        }
+      },
+      "availability": {
+        "fixture-restaurant-1": [
+          {
+            "id": "fixture-offer-fixture-restaurant-1",
+            "price": {
+              "basis": "PER_PERSON",
+              "amount": 4400,
+              "currency": "JPY"
+            },
+            "source": "fixture",
+            "seating": "TABLE",
+            "dateTime": "2026-08-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "partySize": 2,
+            "bookingMode": "INSTANT",
+            "restaurantId": "fixture-restaurant-1",
+            "executionMode": "DEEPLINK",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+            "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+          }
+        ],
+        "fixture-restaurant-2": [
+          {
+            "id": "fixture-offer-fixture-restaurant-2",
+            "price": {
+              "basis": "PER_PERSON",
+              "amount": 4400,
+              "currency": "JPY"
+            },
+            "source": "fixture",
+            "seating": "TABLE",
+            "dateTime": "2026-08-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "partySize": 2,
+            "bookingMode": "INSTANT",
+            "restaurantId": "fixture-restaurant-2",
+            "executionMode": "DEEPLINK",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+            "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+          }
+        ],
+        "fixture-restaurant-3": [
+          {
+            "id": "fixture-offer-fixture-restaurant-3",
+            "price": {
+              "basis": "PER_PERSON",
+              "amount": 4400,
+              "currency": "JPY"
+            },
+            "source": "fixture",
+            "seating": "TABLE",
+            "dateTime": "2026-08-05T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "checkedAt": "2026-08-19T09:00:00.000Z",
+            "expiresAt": "2026-12-31T23:59:00.000Z",
+            "partySize": 2,
+            "bookingMode": "INSTANT",
+            "restaurantId": "fixture-restaurant-3",
+            "executionMode": "DEEPLINK",
+            "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+            "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+          }
+        ]
+      },
+      "readEvidence": [],
+      "schemaVersion": "25",
+      "searchRevision": 1,
+      "selectedOfferId": "fixture-offer-fixture-restaurant-1",
+      "availabilityChecks": {
+        "fixture-restaurant-1": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-08-19T09:00:00.000Z",
+          "expiresAt": "2026-12-31T23:59:00.000Z",
+          "evidenceIds": [],
+          "sourceProvider": "FIXTURE",
+          "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+          "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+        },
+        "fixture-restaurant-2": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-08-19T09:00:00.000Z",
+          "expiresAt": "2026-12-31T23:59:00.000Z",
+          "evidenceIds": [],
+          "sourceProvider": "FIXTURE",
+          "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+          "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+        },
+        "fixture-restaurant-3": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-08-19T09:00:00.000Z",
+          "expiresAt": "2026-12-31T23:59:00.000Z",
+          "evidenceIds": [],
+          "sourceProvider": "FIXTURE",
+          "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+          "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+        }
+      },
+      "searchContinuation": {
+        "exhausted": true,
+        "pagesRead": 1,
+        "usedPageTokens": [],
+        "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"find a bookable table\"},\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"Shinjuku\"},\"criteria\":[{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}],\"budgetPerPerson\":{\"max\":5000,\"currency\":\"JPY\"}}"
+      },
+      "selectedCandidateId": "fixture-restaurant-1",
+      "investigationRevision": 1
+    },
+    "outcome": null,
+    "version": 5,
+    "createdAt": "2026-11-17T03:07:16.897Z",
+    "updatedAt": "2026-11-17T03:07:16.942Z"
+  },
+  "loop": {
+    "status": "WAITING_USER"
+  },
+  "resourceUsage": {
+    "elapsedMs": 45,
+    "agentDecisions": 4
+  },
+  "resourceAccounting": {
+    "browserModelCalls": "UNKNOWN",
+    "cost": "UNKNOWN"
+  },
+  "startedAt": "2026-11-17T03:07:16.954Z",
+  "finishedAt": "2026-11-17T03:07:16.955Z"
+}
