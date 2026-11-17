@@ -6307,3 +6307,10 @@ main249826cc进入slice2分支，13冲突保留主线行为/正文与slice2历�
 ## 2026-11-17 — 3C 第一步剩余离线验证（local / not integrated）
 
 本轮只修外层离线编排，产品/测试断言不改。冻结bd9fa5c8cda3787b3928eafc2d86f137c390f08b同一净树五门禁全绿：默认1663/1663、G2 5/5、其余Chromium346/346、G6 159/159及type/arch/build。首次G6 8个ENOENT保留，按HEAD精确恢复21文件后全套重跑；原33+83材料保持。390×844/1280×900独立HTTP/SSE完整Fixture均PASS、每尺寸10条SSE、第二时段B1刷新/SQL出发记录与外链拦截成立；12图（10流程+2滚动补证）。D01/D02 OS全断网原样Replay均FAILED/REPLAY_INCOMPLETE，已定位Spanish联想参数差异、D02结果页与两份Google详情缺口。真实外部调用0、不读.env、不连接/写PostgreSQL，不推送/合main；等用户确认第2步LIVE_READ。 [完整证据报告](../../.eval-artifacts/3c-closeout-20261117/report.md)。
+
+
+<a id="dev-3c-step2-preflight-blocked-20261117"></a>
+
+## 2026-11-17 — 3C第2步数据库目标预检停止
+
+3C第2步只读.env预检发现DATABASE_URL为非本机https URL，不满足用户“确认为127.0.0.1:5432才盘点”的前置条件。未建立任何PostgreSQL/代理/模型/Google/网站连接，未盘点/建库/迁移，2A/2B均未启动、预算未消耗；不修改主.env、产品、组装或测试断言。等待用户授权仅子进程覆盖本地目标或自行修正配置；上轮离线证据保持。 [脱敏报告](../../.eval-artifacts/3c-closeout-20261117/step2-preflight/report.md)。
