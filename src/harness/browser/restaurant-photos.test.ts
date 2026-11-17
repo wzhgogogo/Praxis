@@ -106,3 +106,63 @@ test('Photo DOM observation uses the real browser currentSrc for responsive/lazy
     assert.deepEqual(result.photos.map(photo=>photo.url),['https://restaurant.example.org/large.jpg','https://restaurant.example.org/lazy.jpg']);
   }finally{await browser.close();}
 });
+
+async function assertCurrentPhoto(page:Page,imageId:string,counterId:string,photo:{id:string;contentUrl:string},n:number,total:number){
+  await page.waitForFunction(({imageId,path})=>{const image=document.getElementById(imageId) as HTMLImageElement|null;return !!image?.complete&&image.naturalWidth>0&&new URL(image.currentSrc).pathname===path;},{imageId,path:photo.contentUrl});
+  assert.equal(await page.locator('#'+counterId).innerText(),n+' of '+total);
+  assert.equal(await page.locator('#'+imageId).evaluate((image:HTMLImageElement)=>new URL(image.currentSrc).pathname),photo.contentUrl);
+}
+async function photoUiSettled(page:Page){await page.evaluate(()=>new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve()))));}
+
+test('Google photos: eight of eight through About and viewer, with exact demand-only downloads and no lookahead',{timeout:40_000},async()=>{
+  const {createGooglePhotoFixture}=await import('../google-photo-fixtures.js');const google=await createGooglePhotoFixture(),source=await createPhotoSourceFixture(),host=await startWorkspaceFixture({photoHttp:source.http,photoGoogle:google.transport});
+  const browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:1280,height:900}});
+  await context.route('**/*',route=>new URL(route.request().url()).origin===host.baseUrl?route.continue():route.abort('blockedbyclient'));
+  const page=await context.newPage(),photoRequests:string[]=[];page.on('request',r=>{if(r.url().includes('/photos'))photoRequests.push(r.url());});
+  const media=()=>google.calls.filter(c=>!c.headers['x-goog-fieldmask']);
+  try{
+    const coverResponse=page.waitForResponse(r=>r.url().endsWith('/photos?scope=cover'));await start(page,host);await photoLoaded(page);await coverResponse;await photoUiSettled(page);
+    assert.equal(media().length,2);assert.equal(photoRequests.some(url=>url.includes('scope=gallery')),false,'ordinary cards only request cover');
+    const galleryResponse=page.waitForResponse(r=>r.url().endsWith('/photos?scope=gallery'));await page.locator('#details-button').click();const gallery=await(await galleryResponse).json();assert.equal(gallery.photos.length,8);
+    await assertCurrentPhoto(page,'detail-photo','detail-photo-counter',gallery.photos[0],1,8);await photoUiSettled(page);
+    assert.equal(media().length,2,'opening About must not fetch photo[1]');assert.equal(photoRequests.some(url=>url.includes('/'+gallery.photos[1].id+'/content')),false);
+    for(let i=1;i<4;i++){await page.locator('#detail-photo-next').click();await assertCurrentPhoto(page,'detail-photo','detail-photo-counter',gallery.photos[i],i+1,8);await photoUiSettled(page);assert.equal(media().length,2*(i+1));}
+    await page.locator('#detail-photo-open').click();await page.locator('#photo-viewer').waitFor({state:'visible'});await assertCurrentPhoto(page,'large-photo','photo-counter',gallery.photos[3],4,8);assert.equal(await page.locator('#detail-photo-counter').innerText(),'4 of 8');
+    for(let i=4;i<8;i++){await page.keyboard.press('ArrowRight');await assertCurrentPhoto(page,'large-photo','photo-counter',gallery.photos[i],i+1,8);assert.equal(await page.locator('#detail-photo-counter').innerText(),(i+1)+' of 8');await photoUiSettled(page);assert.equal(media().length,2*(i+1));}
+    await capture(page,'google-eight-of-eight-viewer');
+    const again=await(await context.request.get(new URL(gallery.photos[0].contentUrl,host.baseUrl).pathname.replace(/\/[a-f0-9]{32}\/content$/,'')+'?scope=gallery')).json();
+    assert.equal(again.photos.length,8);assert.equal(again.requests.googleDetails,1);assert.equal(again.requests.googleMedia,16);assert.equal(media().length,16);assert.equal(source.calls.length,0);
+  }finally{await browser.close();await host.close();}
+});
+
+test('Website photos: one deduplicated lookahead, fail-closed provider and failed warm-up leave current image/counter untouched',{timeout:45_000},async()=>{
+  const browser=await chromium.launch({headless:true});
+  try{for(const mode of ['normal','bad-second','unknown-provider'] as const){
+    const source=await createPhotoSourceFixture(mode==='unknown-provider'?'normal':mode),host=await startWorkspaceFixture({photoHttp:source.http}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:1280,height:900}});
+    await context.route('**/*',async route=>{
+      if(new URL(route.request().url()).origin!==host.baseUrl)return route.abort('blockedbyclient');
+      if(mode==='unknown-provider'&&route.request().url().endsWith('/photos?scope=gallery')){const response=await route.fetch(),result=await response.json();for(const photo of result.photos)delete photo.provider;return route.fulfill({response,json:result});}
+      return route.continue();
+    });
+    const page=await context.newPage(),errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+    const calls=(i:number)=>source.calls.filter(c=>c.kind==='image'&&new URL(c.url).pathname==='/fixture-sushi/image-'+i+'.jpg').length;
+    try{
+      await start(page,host);await photoLoaded(page);await photoUiSettled(page);assert.equal(calls(0),1);assert.equal(calls(1),0,'card view must not look ahead');assert.equal(calls(2),0);
+      const cover=await page.locator('#cover-image').getAttribute('src');const warmed=mode==='unknown-provider'?undefined:page.waitForResponse(r=>r.url()!==cover&&/\/photos\/[a-f0-9]{32}\/content$/.test(new URL(r.url()).pathname)&&r.status()===(mode==='bad-second'?410:200));
+      const response=page.waitForResponse(r=>r.url().endsWith('/photos?scope=gallery'));await page.locator('#details-button').click();const gallery=await(await response).json();assert.equal(gallery.photos.length,3);
+      const photos=gallery.photos;await assertCurrentPhoto(page,'detail-photo','detail-photo-counter',photos[0],1,3);
+      if(mode!=='unknown-provider'){
+        const warmReply=await warmed;assert.ok(warmReply);assert.ok(warmReply.url().endsWith('/'+photos[1].id+'/content'));
+      }
+      await photoUiSettled(page);assert.equal(calls(1),mode==='unknown-provider'?0:1);assert.equal(calls(2),0,'warm-up completion cannot cascade');await assertCurrentPhoto(page,'detail-photo','detail-photo-counter',photos[0],1,3);
+      await page.locator('#detail-photo-open').click();await assertCurrentPhoto(page,'large-photo','photo-counter',photos[0],1,3);await photoUiSettled(page);assert.equal(calls(1),mode==='unknown-provider'?0:1,'the second entrance must deduplicate lookahead');assert.equal(calls(2),0);
+      await page.locator('#photo-next').click();
+      if(mode==='bad-second'){
+        await assertCurrentPhoto(page,'large-photo','photo-counter',photos[2],2,2);assert.equal(await page.locator('#detail-photo-counter').innerText(),'2 of 2');assert.equal(calls(1),1,'failed prefetch is remembered server-side, not redownloaded from source');
+      }else{
+        await assertCurrentPhoto(page,'large-photo','photo-counter',photos[1],2,3);assert.equal(await page.locator('#detail-photo-counter').innerText(),'2 of 3');assert.equal(calls(1),1,'visible next image reuses the single source download');
+      }
+      assert.deepEqual(errors,[]);await capture(page,'website-lookahead-'+mode);
+    }finally{await context.close();await host.close();}
+  }}finally{await browser.close();}
+});

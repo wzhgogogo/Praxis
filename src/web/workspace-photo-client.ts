@@ -17,6 +17,20 @@ function setPhotoImage(id,photo,key,loaded,failed){
   image.onerror=()=>{if(photoKey()===key&&image.dataset.photo===signature)failed();};
   image.src=url.href;
 }
+function warmNextWebsitePhoto(key,entry,photo){
+  if(photoKey()!==key||photoCache.get(key)!==entry||!(state.ui.view==='DETAILS'||$('photo-viewer').open))return;
+  const photos=photoList(entry),index=photoPosition(key,photos);
+  if(photos[index]?.id!==photo.id)return;
+  const next=photos[index+1];
+  // Google (and unknown providers) are strictly demand-loaded. Only one website image may look ahead.
+  if(next?.provider!=='WEBSITE'||entry.prefetched.has(next.id))return;
+  let url;try{url=new URL(next.contentUrl,location.origin);if(url.origin!==location.origin||!url.pathname.startsWith('/api/cases/'))return;}catch{return;}
+  entry.prefetched.add(next.id);
+  const image=new Image();
+  // Warm-up completion never changes the visible image, failed set, counters or starts another warm-up.
+  image.onload=image.onerror=()=>{image.onload=null;image.onerror=null;};
+  image.src=url.href;
+}
 function renderPhotoImages(key,entry){
   const photos=photoList(entry),index=photoPosition(key,photos),cover=photos[0],current=photos[index];
   const fail=photo=>{if(photo===cover&&photo.provider==='GOOGLE_PLACES'&&!entry.coverRetried){entry.coverRetried=true;entry.failedCoverId=photo.id;entry.scope=null;entry.result=null;}else entry.failed.add(photo.id);renderPhotos();};
@@ -26,7 +40,7 @@ function renderPhotoImages(key,entry){
   setPhotoImage('cover-image',cover,key,coverReady,()=>fail(cover));
   show('place-photos',state.ui.view==='DETAILS'&&photos.length>0);
   if(state.ui.view==='DETAILS'){
-    setPhotoImage('detail-photo',current,key,()=>{},()=>fail(current));
+    setPhotoImage('detail-photo',current,key,()=>warmNextWebsitePhoto(key,entry,current),()=>fail(current));
     text('detail-photo-counter',photos.length?(index+1)+' of '+photos.length:'');
     $('detail-photo-previous').disabled=index===0;$('detail-photo-next').disabled=index>=photos.length-1;
     show('detail-photo-controls',photos.length>1);renderPhotoSource('detail-photo-source',current);
@@ -34,7 +48,7 @@ function renderPhotoImages(key,entry){
   if($('photo-viewer').open){
     if(!current){closePhotos();return;}
     text('photo-place',candidate().restaurant.outletName);
-    setPhotoImage('large-photo',current,key,()=>{},()=>fail(current));
+    setPhotoImage('large-photo',current,key,()=>warmNextWebsitePhoto(key,entry,current),()=>fail(current));
     text('photo-counter',(index+1)+' of '+photos.length);
     $('photo-previous').disabled=index===0;$('photo-next').disabled=index>=photos.length-1;
     show('photo-controls',photos.length>1);renderPhotoSource('photo-source',current);
@@ -63,7 +77,7 @@ function renderPhotos(){
   const scope=state.ui.view==='DETAILS'||$('photo-viewer').open?'gallery':'cover',generation=photoGeneration();let entry=photoCache.get(key);
   if(entry&&entry.generation!==generation&&!entry.loading){if(!entry.result||entry.result.status!=='READY'){photoCache.delete(key);entry=null;}else entry.generation=generation;}
   if(entry&&entry.result&&Date.parse(entry.result.expiresAt)<=Date.now()&&!entry.loading){photoCache.delete(key);entry=null;}
-  if(!entry){entry={result:null,scope:null,loading:false,generation,failed:new Set()};photoCache.set(key,entry);while(photoCache.size>32)photoCache.delete(photoCache.keys().next().value);}
+  if(!entry){entry={result:null,scope:null,loading:false,generation,failed:new Set(),prefetched:new Set()};photoCache.set(key,entry);while(photoCache.size>32)photoCache.delete(photoCache.keys().next().value);}
   renderPhotoImages(key,entry);
   if(entry.loading||(entry.result&&(entry.scope==='gallery'||entry.scope===scope)))return;
   entry.loading=true;const target=entry,c=state.view.case.caseId,id=candidate().restaurant.id;

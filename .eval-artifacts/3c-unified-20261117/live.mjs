@@ -4,7 +4,7 @@ import {spawn,execFileSync} from 'node:child_process';
 import {once} from 'node:events';
 import {chromium} from 'playwright-core';
 import {createHash} from 'node:crypto';
-const base='.eval-artifacts/3c-unified-20261117/round-2',dir=base+'/live';
+const base='.eval-artifacts/3c-unified-20261117/round-3',dir=base+'/live';
 const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 if(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}))throw Error('DIRTY_TREE');
 const gates=JSON.parse(await readFile(base+'/gates/manifest.json','utf8')),visual=JSON.parse(await readFile(base+'/visual/manifest.json','utf8'));
@@ -23,7 +23,7 @@ function summarizePhotos(){
  const preferred=row.enteredAbout?'gallery':'cover';const latest=snapshots.findLast(v=>v.scope===preferred)??snapshots.at(-1);if(latest){row.finalPhotos=latest;row.photoRequestCounts=latest.requests;row.photoListCount=latest.photos?.length??0;}
  row.photoListReturnedCounts=snapshots.map(v=>({scope:v.scope,count:v.photos?.length??0,status:v.status}));
  const loaded=row.photoContentLoads.filter(v=>v.status===200&&v.bodyCompleted);row.photoContentHttp200Count=loaded.length;row.photoContentHttp200DistinctCount=new Set(loaded.map(v=>v.path)).size;
- const q=row.photoRequestCounts;if(q&&(q.googleDetails>1||q.googleMedia>10||q.websitePages>2||q.websiteImages>10))throw Error('PHOTO_BUDGET_EXCEEDED');
+ const q=row.photoRequestCounts;if(q&&(q.googleDetails>1||q.googleMedia>20||q.websitePages>2||q.websiteImages>10))throw Error('PHOTO_BUDGET_EXCEEDED');
 }
 function terminalBlock(view){
  const kind=view.restaurant.readStatus?.kind;

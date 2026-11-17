@@ -8,7 +8,7 @@ Baseline 727b8a812b805fb836612e077ba4f97a802506b9 retains backend, Guard, G1 and
 
 Promise: the current candidate has one authenticated photo renderer, Google IDs-only on-demand photos with complete attribution, existing bound-website fallback, isolated failures, responsive DM Sans interaction and complete address in About. Photos are temporary presentation material, never State facts or booking authority.
 
-Acceptance: frozen clean source and harness commit; five offline gates without .env; deterministic 390×844 / 1440×900 / 960×900 screenshots and Google/website/failure scenarios. Stop before Live on any acceptance failure. Only after all pass: one controlled public Tokyo Case, one optional G1, local PostgreSQL praxis_smoke only, no refresh/retry or external booking GET. Search ceilings remain 50 model / 100 Google / 500s browser; separate photo ceilings 1 Details / 10 media / 2 source pages / 10 source images, redirects included. Preserve old trees, main files, .env and database cases.
+Current round-3 acceptance: frozen clean source and harness commit; five offline gates without .env; deterministic 390x844 / 1440x900 / 960x900 sixteen-case visual matrix and strict photo regressions. This round is offline-only: no Live, PostgreSQL connection/write, main merge or push. Photo ceilings are1 Details /20 media /2 website pages /10 website images, redirects included. Preserve old trees, main files, .env, database and all prior evidence. Historical round-2 execution remains recorded below.
 
 Harness oracle: synthetic image bytes, explicit author strings, request ledger, HTTP auth isolation, actual Chromium layout and SQL departure record. Existing product evaluator unchanged; Live quality/S0 require independent evidence and will not be inferred from Fixture tests. externalSideEffectCount and uninstrumented backend total website requests remain NOT_MEASURED.
 
@@ -21,3 +21,12 @@ Acceptance sequence: pre-freeze projection/outer contracts and the four prior fa
 
 
 Round-2 completion evidence: sole frozen candidate `ea7b20c6eaf842a3d365784f529b543f23218ed2` passes all five gates includingG6/build and formal16 visual cases, followed by only one authorized public Live. Execution chain observed; independent qualification/S0 remain NOT_EVALUATED and CLI S1 PRESENT for missing independent support. See [round-2 report](../.eval-artifacts/3c-unified-20261117/round-2/REPORT.md). No additional Live, main merge or push.
+
+
+## Round 3: offline-only demand loading
+
+Google media dispatch ceiling is20 (8 images require16 API+CDN dispatches, with4 spare for redirects/failure isolation); Details1, website pages2 and website images10 remain unchanged. Google photos are strictly demand-loaded: card view requests cover only; About/viewer never prefetch a Google or unknown-provider image. Only an explicitly WEBSITE next image may warm once after the currently visible main image loads successfully in About or an open viewer. No card warm-up, no cascade from warm-up callbacks, no early failed-set/counter mutation, and no late triggers after changing outlet/closing the view.
+
+Freeze source/tests/docs/outer scripts before running five offline gates and the unchanged16-case visual matrix into round-3. Add exact Google8/8/16-dispatch and20/21 redirect-boundary contracts plus one browser journey across About/viewer and website Lookahead1/failure isolation. Preserve all old gates/failures/round-2 bytes. No.env configuration load, PostgreSQL connection/write, Live, main merge or push in this round.
+
+Historical qualification note: ea7b20c6e Live G1 was ANSWERED, but the phrase "up to 20 people" is absent from the three returned citation texts (Private rooms, Unavailable, Available). That clause was not verified by those citations. Keep original round-2 evidence unchanged; this round does not rerun Live or independently upgrade that answer.

@@ -16,16 +16,35 @@ test('Google display uses IDs-only details once, original decoded bytes and comp
  assert.doesNotMatch(JSON.stringify(gallery),/fixture-photo-key|places\/fixture_0\/photos|googleusercontent/);assert.equal(JSON.stringify(v),before);
  const other=structuredClone(v);other.case.rootTaskId='other';assert.equal(await reader.content(other,'fixture:outlet',cover.photos[0]!.id,signal),undefined);
 });
+test('All eight Google gallery images load exactly once: one Details and sixteen media/CDN dispatches',async()=>{
+ const google=await createGooglePhotoFixture(),reader=new RestaurantDisplayPhotos(google.transport),v=view();
+ const gallery=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(gallery.photos.length,8);
+ for(const photo of gallery.photos){const image=await reader.content(v,'fixture:outlet',photo.id,signal);assert.ok(image&&image.body.byteLength>0,photo.id+' must have actual decoded image bytes');}
+ const again=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(again.photos.length,8);assert.equal(again.requests?.googleDetails,1);assert.equal(again.requests?.googleMedia,16);
+ assert.equal(google.calls.filter(c=>c.headers['x-goog-fieldmask']).length,1);assert.equal(google.calls.filter(c=>!c.headers['x-goog-fieldmask']).length,16);
+});
+test('Google CDN redirects consume the twenty-dispatch budget; the twenty-first send is refused while prior images stay readable',async()=>{
+ const google=await createGooglePhotoFixture('redirect-budget'),reader=new RestaurantDisplayPhotos(google.transport),v=view();
+ const gallery=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(gallery.photos.length,8);
+ for(const photo of gallery.photos.slice(0,6)){const image=await reader.content(v,'fixture:outlet',photo.id,signal);assert.ok(image&&image.body.byteLength>0);}
+ const media=()=>google.calls.filter(c=>!c.headers['x-goog-fieldmask']);assert.equal(media().length,18);
+ assert.equal(await reader.content(v,'fixture:outlet',gallery.photos[6]!.id,signal),undefined);
+ assert.equal(media().length,20);assert.ok(media().at(-1)!.url.endsWith('/photo_6.jpg'));
+ assert.equal(media().some(c=>c.url.endsWith('/photo_6.jpg?final=1')),false,'the required twenty-first HTTP dispatch never reaches transport');
+ assert.equal(await reader.content(v,'fixture:outlet',gallery.photos[7]!.id,signal),undefined);assert.equal(media().length,20,'no later API request may bypass the exhausted budget');
+ for(const photo of gallery.photos.slice(0,6)){const image=await reader.content(v,'fixture:outlet',photo.id,signal);assert.ok(image&&image.body.byteLength>0);}
+ const remaining=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(remaining.photos.length,6);assert.equal(remaining.requests?.googleDetails,1);assert.equal(remaining.requests?.googleMedia,20);assert.equal(media().length,20);
+});
 for(const mode of ['cover-download-fails','cover-decode-fails','empty','unavailable','no-id'] as const)test('Google '+mode+' falls back through the existing bound website source',async()=>{
  const google=await createGooglePhotoFixture(mode==='no-id'?'google':mode),source=await createPhotoSourceFixture(),reader=new RestaurantDisplayPhotos(google.transport,source.http),v=view(mode!=='no-id');
- const cover=await reader.read(v,'fixture:outlet','cover',signal);assert.equal(cover.status,'READY');assert.equal(cover.photos[0]!.sourceLabel,'photos.example.org');assert.equal(source.calls.filter(c=>c.kind==='html').length,1);assert.equal(cover.requests?.websitePages,1);
+ const cover=await reader.read(v,'fixture:outlet','cover',signal);assert.equal(cover.status,'READY');assert.equal(cover.photos[0]!.sourceLabel,'photos.example.org');assert.equal(cover.photos[0]!.provider,'WEBSITE');assert.equal(source.calls.filter(c=>c.kind==='html').length,1);assert.equal(cover.requests?.websitePages,1);
  if(mode==='no-id')assert.equal(google.calls.length,0);const image=await reader.content(v,'fixture:outlet',cover.photos[0]!.id,signal);assert.equal(image?.contentType,'image/webp');
 });
 test('Individual gallery corruption is isolated, budgets include media/CDN hops and both-source failure is honest',async()=>{
  const google=await createGooglePhotoFixture('partial-gallery'),source=await createPhotoSourceFixture(),reader=new RestaurantDisplayPhotos(google.transport,source.http),v=view();
  const gallery=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(await reader.content(v,'fixture:outlet',gallery.photos[2]!.id,signal),undefined);assert.ok(await reader.content(v,'fixture:outlet',gallery.photos[3]!.id,signal));
  for(const photo of gallery.photos)await reader.content(v,'fixture:outlet',photo.id,signal);
- assert.equal(google.calls.filter(c=>c.url.includes('/media')||c.url.includes('googleusercontent.com')).length,10);assert.equal(source.calls.length,0);
+ assert.equal(google.calls.filter(c=>c.url.includes('/media')||c.url.includes('googleusercontent.com')).length,16);const remaining=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(remaining.photos.length,7);assert.equal(remaining.requests?.googleMedia,16);assert.equal(remaining.photos.some(p=>p.id===gallery.photos[2]!.id),false);assert.equal(source.calls.length,0);
  const bad=await createGooglePhotoFixture('cover-decode-fails'),website=await createPhotoSourceFixture('bad-image'),empty=new RestaurantDisplayPhotos(bad.transport,website.http);const result=await empty.read(v,'fixture:outlet','cover',signal);assert.equal(result.status,'UNAVAILABLE');assert.equal(result.photos.length,0);
 });
 

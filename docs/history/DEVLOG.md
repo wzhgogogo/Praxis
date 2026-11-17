@@ -6341,3 +6341,8 @@ Review identified the omitted872785522 equivalent-draft projector. Restored its 
 ## 2026-11-17 - Unified round 2 completion evidence
 
 Current offline baseline `ea7b20c6eaf842a3d365784f529b543f23218ed2` preserves727 restaurant Domain/router/search and existing browser assertions. Restored872785522 projector/unit contracts verbatim; three outer scripts use round-2, actual severity statuses, awaited page-owned photo responses, honest blockers and separate list/content counts. After all offline gates and formal16 cases passed, ran only one public Live:Gaen Shinjuku, Google Maps photo, Tabelog G1/B1. List8 but loaded1; no controller gallery GET. Execution observation is separate from qualification:CLI S0 three dimensions NOT_EVALUATED, S1 PRESENT; no new oracle or extra Live. All original evidence/trees/.env preserved and services/connections closed. [Full report](../../.eval-artifacts/3c-unified-20261117/round-2/REPORT.md).
+
+
+## 2026-11-17 - Unified round 3 demand-only Google and website lookahead
+
+Current slice raises only Google media ceiling10->20, retains Details1/website pages2/images10, tags website DTOs and adds guarded website-only Lookahead1. Visible img URL format unchanged. Prefetched IDs deduplicate both gallery entrances; completion handlers never cascade or change failed/counter state. Google/unknown providers fail closed. Added exact8/8/16-dispatch and20/21 CDN-redirect contracts, retained partial/both-source failures, and two browser journeys including unknown-provider refusal and failed warm-up isolation. New output round-3 only; old gate/failure/round-2 hashes protected. No.env/DB/Live. Preflight18/18 contracts and2/2 browser journeys; new frozen acceptance pending.

@@ -1,6 +1,6 @@
 import sharp from 'sharp';
 import { GooglePlacesPhotos } from '../integrations/restaurant-photos/google-photos.js';
-export type PhotoScenario='google'|'cover-download-fails'|'cover-decode-fails'|'partial-gallery'|'empty'|'unavailable';
+export type PhotoScenario='google'|'cover-download-fails'|'cover-decode-fails'|'partial-gallery'|'empty'|'unavailable'|'redirect-budget';
 export const LONG_PHOTO_CREDIT='The complete synthetic restaurant photography collective, with the east dining room team and all contributing photographers';
 /** Synthetic transport, real decoder and production Google adapter; zero external requests. */
 export async function createGooglePhotoFixture(mode:PhotoScenario='google',longCover=false){
@@ -17,6 +17,7 @@ export async function createGooglePhotoFixture(mode:PhotoScenario='google',longC
       const ref=url.pathname.split('/').at(-2)!;return Response.json({photoUri:'https://fixture.googleusercontent.com/'+ref+'.jpg'});
     }
     const index=Number(url.pathname.match(/photo_(\d+)/)?.[1]??0);
+    if(mode==='redirect-budget'&&!url.searchParams.has('final'))return new Response(null,{status:302,headers:{location:url.href+'?final=1'}});
     if(index===0&&mode==='cover-download-fails')return new Response('Not found',{status:404});
     const bad=index===0&&mode==='cover-decode-fails'||index===2&&mode==='partial-gallery';
     return new Response(bad?new TextEncoder().encode('synthetic corrupt image'):new Uint8Array(images[index]!),{headers:{'content-type':'image/jpeg'}});

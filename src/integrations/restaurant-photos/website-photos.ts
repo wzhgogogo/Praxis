@@ -117,7 +117,7 @@ export class RestaurantWebsitePhotos implements RestaurantPhotosPort {
   }
 
   private projection(view:RestaurantCaseView,id:string,image:Image):RestaurantPhoto {
-    return {id:image.id,contentUrl:'/api/cases/'+encodeURIComponent(view.case.caseId)+'/candidates/'+encodeURIComponent(id)+'/photos/'+image.id+'/content',sourcePageUrl:image.sourcePageUrl,
+    return {id:image.id,provider:'WEBSITE',contentUrl:'/api/cases/'+encodeURIComponent(view.case.caseId)+'/candidates/'+encodeURIComponent(id)+'/photos/'+image.id+'/content',sourcePageUrl:image.sourcePageUrl,
       sourceLabel:new URL(image.sourcePageUrl).hostname.replace(/^www\./,''),...(image.attribution?{attribution:image.attribution}:{}),...(image.width?{width:image.width,height:image.height!}:{})};
   }
   private addImages(entry:Entry,extracted:ExtractedPhotos,source:string):void {

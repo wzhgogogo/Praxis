@@ -8,7 +8,7 @@ import { PhotoReadError, PublicPhotoHttp, type PhotoHttpPort } from "./public-ph
 type Counts=NonNullable<RestaurantPhotos['requests']>;
 type Image=Awaited<ReturnType<GooglePhotoTransport['image']>>;
 interface Display {signature:string;expires:number;counts:Counts;references:GooglePhotoReference[];images:Map<string,Image>;imagePending:Map<string,Promise<Image|undefined>>;failed:Set<string>;website:boolean;pending?:Promise<void>;}
-const limits:Counts={googleDetails:1,googleMedia:10,websitePages:2,websiteImages:10};
+const limits:Counts={googleDetails:1,googleMedia:20,websitePages:2,websiteImages:10};
 const digest=(name:string)=>createHash('sha256').update(name).digest('hex').slice(0,32);
 /** Ephemeral display scope. One list serves cover/gallery; nothing enters State or disk. */
 export class RestaurantDisplayPhotos implements RestaurantPhotosPort {

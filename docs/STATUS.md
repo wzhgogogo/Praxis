@@ -1318,3 +1318,8 @@ User-approved continuation: equivalent-draft projection and unit coverage copied
 ## 2026-11-17 - Unified round 2: offline all green, bounded Live observed
 
 Frozen `ea7b20c6eaf842a3d365784f529b543f23218ed2`: original equivalent-draft projector closes all four browser failures without changing727 Domain/router/search or assertions. Type/arch/default1689/G2 5/Chromium392/G6 159/build and formal three-size16 cases all pass. One public Live presents Gaen Shinjuku:Google list8/actually loaded HTTP200 photos1, photoDetails1+media/CDN2; G1 ANSWERED/model1; B1 local201/SQL match/navigation blocked. Three old Cases preserved. CLI outcome/S0 three dimensions NOT_EVALUATED; S1 PRESENT for missing independent source support. No independent qualified-delivery or Clean Baseline signoff. Ten CLI artifacts archived; connections/services closed; original trees/.env/old failures unchanged. [Round-2 report](../.eval-artifacts/3c-unified-20261117/round-2/REPORT.md). Local branch only.
+
+
+## 2026-11-17 - Unified round 3 offline-only photo closure
+
+Google media cap20 supports8 demand-loaded photos at16 API/CDN dispatches. Only explicit WEBSITE next photos may warm once after the visible main image loads in About/open viewer; no card/Google/unknown-provider prefetch, callback cascade or early failure/counter mutation. Preflight photo contracts18/18 and two new real-Chromium journeys2/2 pass; full frozen gates/16 visual cases pending round-3. No Live or PG this round. Previous ea7b20c6e ANSWERED clause "up to 20 people" was not present in its three citation texts and is not citation-verified. Round-2 remains unchanged.
