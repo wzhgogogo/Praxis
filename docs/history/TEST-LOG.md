@@ -7096,3 +7096,8 @@ Focus-only result at59b1f26ce: typecheck/arch/build PASS; local Chromium390x844 
 ### 2026-11-18 — Unified round-6 development verification
 
 Draft / not integrated; exposed local development fixtures. Same production assembly concurrency proves separate consumed counters and retained sessions while A finishes before B; persistent stale versions and refresh/batch/location preparation gaps pass. Actual B1 composition uses a real Fixture planner budget consumer to make post-loop preservation observable (its deterministic inventory path otherwise consumes zero browser decisions). Generic/retail beer admission checks both newly judged and previously judged evidence in bare/CATEGORY/GOOGLE_TYPE formats; source prose and existing lounge-bar/local-food controls remain. Browser9/9 tests terminal view recovery, whole-batch refresh labels and six Style1 size/status combinations; prior photo contracts remain. Early development failures/logs are retained separately (restricted listen EPERM and test wiring/type mistakes), not formal frozen acceptance. Full five gates, original16 visual scenes and6 additional screenshots pending. No new Live/PG.
+
+
+### 2026-11-18 — Round-6 first frozen gate stopped
+
+Source313af33e8d0a164fcb0492db636d320ce35dc9f8: typecheck/arch pass, default1749/1750. Newly added pure-fact refresh assertion wrongly required a source call although the fixture's other already-qualified candidates can be presented. Correct it to the persisted CANDIDATE_FACTS_REFRESH_REQUESTED event plus0 availability calls, preserving all prior assertions and product code. First gate logs/manifest retained under round-6/failures/313af33e8; no later gate/visual/Live ran on that freeze. A new source/test freeze reruns the complete acceptance.
