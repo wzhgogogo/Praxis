@@ -1343,3 +1343,6 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G
 
 
 2026-11-18 — draft / not integrated, unified round-5 PASS: frozen 08dbec05e95793d9f94440afb083d4dfc71c0522, product changes limited to two hours-regex lines and one submit-failure reset/render line. Fingerprint contracts blob unchanged, no old-state compatibility. Five gates pass: default1706/G2 5/Chromium406/G6 159/build; original16 visual scenes pass. No new Live/PG; all prior batch hashes and main/env/closeout protection checks unchanged. [Report](../.eval-artifacts/3c-unified-20261117/round-5/REPORT.md).
+
+
+2026-11-18 — draft / not integrated, focus feedback: remove the global blue textarea focus outline per user screenshot; retain composer focus shadow, caret and Adjust focus/draft behavior. Existing local user artifacts show Dec9 recommendation completed (3 results), then a later fact refresh failed with an already-active browser read and cleared presentation. Beer met is only a model judgment over generic bar/liquor-store categories, not explicit beer evidence; availability is unqueried. First-result revision diff0 removed/3 new is a confusing comparison label. These three findings are diagnosis, not fixes or new Live validation.

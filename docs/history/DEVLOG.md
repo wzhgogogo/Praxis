@@ -6378,3 +6378,8 @@ Three product lines: recognize actual DAYPART:AFTER_WORK_BROAD_WINDOW in product
 ### 2026-11-18 — Unified round-5 completion
 
 Frozen 08dbec05e95793d9f94440afb083d4dfc71c0522 passes the full clean offline acceptance. Real AFTER_WORK_BROAD_WINDOW is recognized consistently with the short alias; existing-Case request failure restores controls/current clarification/empty draft. No fingerprint or old-state compatibility changes. All prior batches remain byte-identical; report/artifacts only follow this source freeze.
+
+
+### 2026-11-18 — Focus outline and screenshot diagnosis
+
+Remove one global focus CSS rule only; no runtime, qualification, refresh, condition-state or revision-diff changes. Inspect existing local user artifacts read-only for the three other screenshot questions: Dec9 recommendation was presented, subsequent refresh hit browser-run concurrency failure; beer condition was promoted from generic source categories, so it lacks explicit beer support;0 removed/3 new compares against an empty previous revision. No new Live, model/provider call or PG query.

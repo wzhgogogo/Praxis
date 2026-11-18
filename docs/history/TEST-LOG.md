@@ -7084,3 +7084,8 @@ Real AFTER_WORK materialization unit/independent diagnostic2/2 and failed existi
 ### 2026-11-18 — Unified round-5 frozen acceptance PASS
 
 SHA 08dbec05e95793d9f94440afb083d4dfc71c0522: typecheck0.549s, arch0.199s, default1706/1706 in60.877s; browser390.566s (G2 5/5, remaining Chromium406/406, combined411 aggregate, G6 assembly159/159); build0.541s. Zero failure/skip/cancellation. Same-SHA formal visual16/16 in32.667s:390x844(7),1440x900(7),960x900(2),41 screenshots. Actual local HTTP/SSE, original G1/photo/second-slot B1 reload/PGlite SQL persistence and external navigation interception retained. New real materializer/independent diagnostic2 and failed-submit two-size2 pass in the full gates. Synthetic503 and controlled SSE projection are explicit regression inputs, not real platform failures. No .env load, Live or PG connection/query. Prior evidence/main/env/closeout unchanged. [Report](../../.eval-artifacts/3c-unified-20261117/round-5/REPORT.md).
+
+
+### 2026-11-18 — Focus-only verification scope
+
+The prior round-5 frozen five gates/16 visual results remain historical, unchanged. This CSS-only follow-up uses typecheck/arch/build and a targeted real local Chromium Fixture check at390x844/1440x900 for pointer/keyboard focus without an outline, Adjust focus and draft preservation. New source SHA/results follow in focus-feedback-20261118; no full-gate claim for the style follow-up. User diagnostic artifacts are read-only and are not a newly executed Live.
