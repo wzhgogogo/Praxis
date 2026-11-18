@@ -41,7 +41,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -80,6 +80,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
         if(times)inlineFacts=[{field:"TIME_WINDOW",operation:"CORRECT",value:{kind:"TIME_WINDOW",earliest:times[1]!,latest:times[2]??times[1]!,raw:inline[2]!}}];
       }
       const facts:RestaurantSemanticProposal["facts"]=inlineFacts??(edit?[
+        ...(options.revisionCuisine?[{field:"CRITERION" as const,operation:"ASSERT" as const,value:{kind:"CRITERION" as const,text:"tempura",polarity:"POSITIVE" as const,strength:"SOFT" as const}}]:[]),
         {field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:editedParty,source:"EXPLICIT"}},
         ...(options.revisionScenario?[
           {field:"TARGET",operation:"CORRECT",value:{kind:"TARGET",goal:"AVAILABILITY",query:"sushi in Tokyo",selectionScope:"OPEN_ENDED",requestedResultCount:2,goalBasis:{type:"BOOKING_WORDING",reason:"Fixed updated request",quotes:[text]}}},
@@ -180,7 +181,10 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
         if(source.terms.plan){source.terms.plan.identityEvidenceId=entity.evidenceId;if(provider==="TABLECHECK")source.terms.plan.url=source.terms.pages[0]!.url;}
       }
       const prepared=prepareBookingHandoff(source,{candidate,offer:offer,check,request:{...raw.context.request,date:request.date,timeWindow:request.timeWindow,partySize:request.partySize},evidence:result.evidence,now:clock.now().toISOString()});
-      if(source.terms?.card?.answer)answers.set(id,structuredClone(source.terms.card.answer));
+      if(source.terms?.card?.answer){const answer=structuredClone(source.terms.card.answer);
+        if(options.questionCitations&&answer.status==="ANSWERED")answer.citations=[0,1,2].map(i=>({...answer.citations[0]!,text:["Private rooms","Unavailable","Available"][i]!,readAt:new Date(clock.now().valueOf()-i*1000).toISOString()}));
+        answers.set(id,answer);
+      }
       if(prepared)cache.set(id+":"+offer.id,prepared);
       else throw new Error("Fixture B1 source was not admitted for "+id);
       }

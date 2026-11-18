@@ -202,7 +202,7 @@ for(const size of sizes){
   for(const outcome of ["empty","all-sources-failed"] as const)test("Workspace slice2 "+size.name+": empty result copy is honest "+outcome,{timeout:25_000},async()=>{
     const host=await startWorkspaceFixture({outcome}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await tracedPage(context);
     try{
-      await start(page,host,"Dinner to adjust",0);assert.equal(await page.locator("#empty-message").innerText(),outcome==="empty"?"Nothing matched yet.":"Couldn't reach the sources. Try again?");
+      await start(page,host,"Dinner to adjust",0);assert.equal(await page.locator("#empty-message").innerText(),outcome==="empty"?"Couldn't confirm a matching place this time. Try adjusting the area, time, or party size.":"Couldn't reach the sources. Try again?");
       assert.doesNotMatch(await page.locator("body").innerText(),/no seats|no (?:restaurants|places) nearby/i);
       if(outcome==="empty"){
         await page.locator("#message").fill("Keep this adjustment draft");await page.locator("#empty-adjust").click();

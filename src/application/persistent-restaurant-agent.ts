@@ -1123,12 +1123,22 @@ export class PersistentRestaurantAgentApplication {
     const checked = new Set(requestEvents.flatMap(item => item.event.type === "AVAILABILITY_CHECKED" ? item.event.request.candidateIds : []));
     const readyCandidateIds = state.candidates.filter(candidate => restaurantPresentationEvidenceIds(state, candidate.restaurant.id, this.clock.now().toISOString()) !== undefined).map(candidate => candidate.restaurant.id);
     const presentedCandidateIds=state.presentedResults?.candidateIds.filter(id=>namedOutletCandidateResolved(state,id));
+    const workspaceRead = projectWorkspaceRead({ state, events, readyCandidateIds,
+      openableCandidateIds: state.phase === "PRESENT_RESULTS" ? presentedCandidateIds ?? [] : readyCandidateIds,
+      active: this.activeReads.has(record.rootTaskId), now: this.clock.now().toISOString() });
+    const draft = state.intentDraft;
+    const revisedTitle = workspaceRead.requirementRevision > 1 && draft ? [
+      ...draft.criteria.map(criterion => `${criterion.polarity === "NEGATIVE" ? "No " : ""}${criterion.text}`),
+      draft.area?.query, draft.date,
+      draft.timeWindow ? `${draft.timeWindow.earliest}${draft.timeWindow.latest !== draft.timeWindow.earliest ? "–" + draft.timeWindow.latest : ""}` : undefined,
+      draft.partySize ? `${draft.partySize} guests` : undefined,
+    ].filter(Boolean).join(" · ") : undefined;
     const action = state.pageQuestion && !state.pageQuestion.result ? undefined : pendingAction(state.phase);
     const summary: RestaurantCaseSummary = {
       caseId: record.rootTaskId,
       conversationId: record.id,
       rootTaskId: record.rootTaskId,
-      title: record.title,
+      title: revisedTitle || record.title,
       status: caseStatus(snapshot.lifecycleState),
       phase: state.phase,
       taskVersion: snapshot.version,
@@ -1179,7 +1189,8 @@ export class PersistentRestaurantAgentApplication {
       case: summary,
       conversation: { id: record.id, messages },
       restaurant: {
-        ...projectWorkspaceRead({ state, events, readyCandidateIds, active: this.activeReads.has(record.rootTaskId), now: this.clock.now().toISOString() }),
+        ...workspaceRead,
+        ...(state.phase === "NEEDS_INPUT" ? { clarificationQuestion: assistantSummary(state) } : {}),
         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
         ...(state.searchContinuation?.locationContext ? { searchLocation: structuredClone(state.searchContinuation.locationContext) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),

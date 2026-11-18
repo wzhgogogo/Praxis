@@ -60,7 +60,13 @@ for(const size of sizes){
       const original=await page.locator('#large-photo').getAttribute('src'),path=new URL(original!).pathname.split('/candidates/')[0]!,before=(await (await context.request.get(path)).json()).view;
       host.hold();host.clock.advance(60_000);
       const refreshed=await context.request.post(path+'/refresh',{data:{taskVersion:before.case.taskVersion,requestId:'photos-sse-'+size.name}});assert.equal(refreshed.status(),200);
-      await host.waitForCheck();await page.locator('#progress').waitFor({state:'visible'});host.release();await page.locator('#progress').waitFor({state:'hidden'});
+      await host.waitForCheck();
+      const active=(await(await context.request.get(path)).json()).view;assert.equal(active.restaurant.progress.active,true);
+      await page.waitForFunction(()=>document.querySelector('.case-link.active small')?.textContent==='In progress');
+      assert.equal(await page.locator('#progress').isVisible(),false,'Details keeps search progress isolated from the open gallery');
+      host.release();await page.waitForFunction(()=>document.querySelector('.case-link.active small')?.textContent==='Ready');
+      assert.equal((await(await context.request.get(path)).json()).view.restaurant.progress.active,false);
+      assert.equal(await page.locator('#progress').isVisible(),false);
       assert.equal(await page.locator('#photo-viewer').isVisible(),true,'a changed identity observation must not dismiss the current gallery');assert.equal(await page.locator('#photo-counter').innerText(),'3 of 3');assert.equal(await page.locator('#large-photo').getAttribute('src'),original);
       await page.locator('#photo-close').click();assert.equal(await page.locator('#message').inputValue(),'Keep this question draft');assert.equal(await page.locator('#detail-photo-counter').innerText(),'3 of 3');assert.equal(source.calls.filter(call=>call.kind==='html').length,1);
       await capture(page,size.name+'-photos-sse-preserved');

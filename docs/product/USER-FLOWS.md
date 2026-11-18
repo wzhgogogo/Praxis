@@ -228,3 +228,8 @@ Current-run identity-bound pages are reused first. Each question now has an inde
 地点、日期、时间窗、人数胶囊均在原位编辑。Save/Enter时若规范化后的值未改变，收起编辑器并保留底部草稿，不发送消息；人数按数值比较（2与2.0相同）。实际改变仍经原有Change消息、语义编译和Runtime更新，再读取新条件下的结果；不新增结构化修改事件。
 
 服务端需求版本按应用patch后的完整草稿是否实际改变划分；草稿完全相同的重申保留现有展示集合及最近一次真实变更差异，不制造“所有餐厅不再匹配”。真实值、推测来源等元数据改变仍形成新版本；新条件确实无合格结果时，仍可显示原批次的移除项。备选与另一批流程继续按原合同处理。
+
+
+### Round-4 workspace refinement (2026-11-18, draft / not integrated)
+
+A Saved item remains clickable while its card is presented, including after availability expiry; booking refreshes evidence before handoff. Interrupted revised searches never claim that Saved places no longer match. Revised plan headings and My plans reflect current structured conditions. Main progress, empty/error notices and search messages appear only with candidate browsing; changing requirements hides old messages immediately. About owns full condition quotations, source links and Read at timestamps; cards show concise conclusions. Each Q&A answer uses one Source disclosure preserving every quotation and observation time, with source-page URLs deduplicated. Adjust focuses the composer with temporary guidance without moving the page or clearing a draft.

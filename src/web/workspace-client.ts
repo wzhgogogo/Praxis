@@ -115,35 +115,44 @@ function citation(container,item,index){const d=element('details');d.dataset.sou
 function preserveSources(target,build){const open=new Set([...target.querySelectorAll('details[open]')].map(n=>n.dataset.sourceId));target.replaceChildren();build(target);for(const d of target.querySelectorAll('details'))d.open=open.has(d.dataset.sourceId);}
 // Exact source statements remain separate; this display does not judge cuisine.
 function renderSourceCategories(id){
-  const target=$('source-categories'),facts=state.view.restaurant.currentFactEvidence.filter(f=>f.candidateId===id),seen=new Set();target.replaceChildren();
-  for(const fact of facts){
-    const quotes=fact.provider==='GOOGLE_PLACES'&&Array.isArray(fact.claims.restaurantTypeFacts)?fact.claims.restaurantTypeFacts.filter(q=>typeof q==='string'):(fact.sourceFieldQuotes||[]).filter(q=>q.field==='CATEGORY').map(q=>q.quote);
-    if(!quotes.length||!fact.sourceUrl)continue;
-    const quote=quotes.join(', '),key=fact.provider+':'+quote;if(seen.has(key))continue;seen.add(key);
-    const row=element('p',sourceName(fact.provider)+': '+quote,'muted');row.append(document.createTextNode(' '),link('Source',fact.sourceUrl));target.append(row);
-  }
-  target.hidden=!target.childElementCount;
+ const target=$('source-categories'),facts=state.view.restaurant.currentFactEvidence.filter(f=>f.candidateId===id),rows=[],seen=new Set();target.replaceChildren();
+ const generic=new Set(['restaurant','food','point of interest','establishment','store','food store']);
+ for(const fact of facts){
+  const raw=fact.provider==='GOOGLE_PLACES'&&Array.isArray(fact.claims.restaurantTypeFacts)?fact.claims.restaurantTypeFacts.filter(q=>typeof q==='string'):(fact.sourceFieldQuotes||[]).filter(q=>q.field==='CATEGORY').map(q=>q.quote);
+  const quotes=raw.flatMap(q=>q.split(/[,，]/)).map(q=>q.trim()).filter(q=>q&&!generic.has(q.toLocaleLowerCase('en-US').replace(/_/g,' ')));
+  if(!quotes.length||!fact.sourceUrl)continue;
+  const quote=quotes.join(', '),key=fact.provider+':'+quote;if(seen.has(key))continue;seen.add(key);rows.push({fact,quote,signature:[...new Set(quotes.map(q=>q.toLowerCase().replace(/ restaurant$/,'')))].sort().join('|')});
+ }
+ const disagreement=new Set(rows.map(row=>row.fact.provider)).size>1&&new Set(rows.map(row=>row.signature)).size>1;
+ if(disagreement)for(const {fact,quote}of rows){const row=element('p',sourceName(fact.provider)+': '+quote,'muted');row.append(document.createTextNode(' '),link('Source',fact.sourceUrl));target.append(row);}
+ target.hidden=!disagreement;
 }
 function renderDelivery(){
  const r=state.view.restaurant,id=state.ui.candidateId;
  const offers=(r.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());
  const groups=new Map();for(const offer of offers){const label=displayDate(offer.dateTime),key=label+':'+offer.partySize;let group=groups.get(key);if(!group){group={label,partySize:offer.partySize,offers:[]};groups.set(key,group);}group.offers.push(offer);}
  const selected=offerFor(id);$('delivery-slots').replaceChildren(...Array.from(groups.values()).map((group,index)=>{const row=element('div');if(index>0)row.append(element('p','Available '+group.label));const options=element('div',undefined,'slot-options');for(const offer of group.offers){const button=element('button',displayTime(offer.dateTime),'slot-time');button.dataset.offerId=offer.id;button.setAttribute('aria-label','Time '+displayTime(offer.dateTime)+' on '+group.label);button.setAttribute('aria-pressed',String(!!selected&&selected.id===offer.id));button.disabled=state.blocked||!!state.preparing;button.onclick=event=>{state.ui.offerId=offer.id;savePosition();renderCard();const current=$('delivery-slots').querySelector('[data-offer-id="'+CSS.escape(offer.id)+'"]');if(current&&event.detail===0)current.focus({preventScroll:true});};options.append(button);}row.append(options);return row;}));
- preserveSources($('delivery-conditions'),target=>{for(const item of r.conditionStates&&r.conditionStates[id]||[]){
-  const row=element('div',undefined,'fact');row.append(element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status]));
-  for(const source of item.sources||[]){row.append(element('p',source.quote,'muted'),link('Source',source.sourceUrl));
-   const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===source.sourceUrl);
-   if(evidence&&evidence.observedAt)row.append(element('p','Read at: '+availabilityTime(evidence.observedAt),'muted'));
-  }
-  if(!(item.sources||[]).length&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
- }});
+ $('delivery-conditions').replaceChildren(...(r.conditionStates&&r.conditionStates[id]||[]).map(item=>element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status])));
 }
-function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), check=r.availabilityChecks[id], source=sourceFor(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now()?'Availability expired':'Not checked');text('recommendation',(c.matchReasons||[])[0]||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible;$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
-function renderDetails(){const c=candidate();if(!c)return;const r=state.view.restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source&&!!source.observedAt);if(source)text('evidence',sourceName(source.provider)+', checked '+displayTime(source.observedAt));const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{target.append(element('p',c.restaurant.address,'muted'));for(const fact of facts){const values=[],claims=fact.claims||{};if(Array.isArray(claims.listedCourseDetails))values.push(...claims.listedCourseDetails);if(typeof claims.coursePriceYen==='number')values.push('Course '+money(claims.coursePriceYen));for(const k of ['cancellationTerms','noShowTerms'])if(typeof claims[k]==='string')values.push(claims[k]);if(!values.length)continue;const row=element('div',undefined,'fact');for(const value of values)row.append(element('p',value));if(fact.sourceUrl)row.append(link('Terms source',fact.sourceUrl));target.append(row);}for(const item of conditions){const row=element('div',undefined,'fact');row.append(element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status]));for(const source of item.sources||[])row.append(element('p',(source.field==='NAME'?'Based on outlet name: ':source.field==='GOOGLE_TYPE'?'Google category: ':source.field==='CATEGORY'?'Source category: ':source.field==='PRICE'?'Observed price: ':'Observed ')+source.quote,'muted'),link('Source',source.sourceUrl));if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);}});}renderAsked(id);}
+function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), check=r.availabilityChecks[id], source=sourceFor(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now()?'Availability expired':'Not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible;$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
+function renderDetails(){
+ const c=candidate();if(!c)return;const r=state.view.restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];
+ text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source&&!!source.observedAt);if(source)text('evidence',sourceName(source.provider)+', checked '+displayTime(source.observedAt));
+ const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{
+  target.append(element('p',c.restaurant.address,'muted'));const sources=new Map();
+  const addSource=(url,quote,readAt)=>{if(!url)return;let row=sources.get(url);if(!row){row={quotes:new Set(),times:new Set()};sources.set(url,row);}if(quote)row.quotes.add(quote);if(readAt)row.times.add(readAt);};
+  for(const fact of facts){const values=[],claims=fact.claims||{};if(Array.isArray(claims.listedCourseDetails))values.push(...claims.listedCourseDetails);if(typeof claims.coursePriceYen==='number')values.push('Course '+money(claims.coursePriceYen));for(const k of ['cancellationTerms','noShowTerms'])if(typeof claims[k]==='string')values.push(claims[k]);for(const value of values){target.append(element('p',value));addSource(fact.sourceUrl,null,fact.observedAt);if(fact.sourceUrl)sources.get(fact.sourceUrl).commercial=true;}}
+  for(const item of conditions){const row=element('div',undefined,'fact');row.append(element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status]));
+   for(const source of item.sources||[]){const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===source.sourceUrl);addSource(source.sourceUrl,(source.field==='PRICE'?'Observed price: ':source.field==='NAME'?'Based on outlet name: ':source.field==='GOOGLE_TYPE'?'Google category: ':source.field==='CATEGORY'?'Source category: ':'Observed ')+source.quote,evidence&&evidence.observedAt);}
+   if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
+  }
+  for(const [url,row]of sources){const d=element('div',undefined,'fact');d.dataset.sourceId=url;for(const quote of row.quotes)d.append(element('blockquote',quote));d.append(link(row.commercial?'Terms source':'Source',url));for(const at of row.times)d.append(element('p','Read at: '+at,'muted'));target.append(d);}
+ });}renderAsked(id);
+}
 function renderAnswer(target,result){
   preserveSources(target,container=>{
     container.append(element('p',result.status==='ANSWERED'?result.answer:result.status==='NOT_STATED'?'Not stated on the page':'This answer could not be verified.'));
-    for(const [i,item]of(result.citations||[]).entries())citation(container,item,i);
+    if((result.citations||[]).length){const d=element('details');d.dataset.sourceId='answer-sources';d.append(element('summary','Source'));const urls=new Set();for(const item of result.citations){d.append(element('blockquote',item.text),element('p','Read at: '+item.readAt,'muted'));if(!urls.has(item.url)){urls.add(item.url);d.append(link('Source page',item.url));}}container.append(d);}
     if(!(result.citations||[]).length)for(const item of result.checkedPages||[])container.append(link('Checked page',item.url),element('p','Read at: '+item.readAt,'muted'));
     if(result.confirmationRequired)container.append(element('p','Please confirm with the restaurant.'));
   });
@@ -229,7 +238,7 @@ function renderReadState(end){
   const r=state.view.restaurant,status=r.readStatus;
   const empty=status.kind==='NO_QUALIFIED_RESULTS'||status.kind==='ALL_SOURCES_FAILED';
   show('empty-state',empty);show('understanding-error',status.kind==='MODEL_FAILURE');
-  if(empty){text('empty-message',status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":'Nothing matched yet.');show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canContinue);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canRetry);$('empty-more').disabled=state.blocked;$('empty-retry').disabled=state.blocked;}
+  if(empty){text('empty-message',status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":status.canContinue?'Nothing matched yet.':"Couldn't confirm a matching place this time. Try adjusting the area, time, or party size.");show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canContinue);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canRetry);$('empty-more').disabled=state.blocked;$('empty-retry').disabled=state.blocked;}
   const list=ids(),last=list.indexOf(state.ui.candidateId)===list.length-1;
   show('partial-source-note',status.partialSourceFailure&&!r.progress.active&&(end||(state.ui.view==='CANDIDATES'&&last)));
   return empty||status.kind==='MODEL_FAILURE';
@@ -278,6 +287,8 @@ function renderHandoff(){
 function updateComposerClearance(){const host=$('workspace-composer'),bottom=parseFloat(getComputedStyle(host).bottom)||0;document.documentElement.style.setProperty('--composer-clearance',(host.hidden?0:host.getBoundingClientRect().height+bottom+24)+'px');}
 function resizeMessage(){const input=$('message');input.style.height='';if($('workspace-composer').contains(input)){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,140)+'px';}}
 function setMessage(value){$('message').value=value;resizeMessage();}
+function focusAdjustment(){const input=$('message');if(!input.value)input.placeholder='Try another area, time, or party size…';input.focus({preventScroll:true});}
+$('message').addEventListener('blur',()=>{$('message').removeAttribute('placeholder');});
 $('message').addEventListener('input',resizeMessage);
 $('message').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
 new ResizeObserver(updateComposerClearance).observe($('workspace-composer'));window.addEventListener('resize',()=>{resizeMessage();updateComposerClearance();if(state.conditionEditor)state.conditionEditor.position();});
@@ -290,7 +301,7 @@ function render(){
   if(real&&caseScroller.dataset.caseId!==state.view.case.caseId){caseScroller.scrollTop=0;caseScroller.dataset.caseId=state.view.case.caseId;}
   if(!has){caseScroller.scrollTop=0;$('topbar').classList.remove('scrolled');if($('error').parentElement===caseScroller)$('workspace-composer').before($('error'));}else if($('error').parentElement!==caseScroller)caseScroller.append($('error'));
   const parent=has?$('workspace-composer'):$('home-composer');if($('composer').parentElement!==parent)parent.append($('composer'));resizeMessage();updateComposerClearance();
-  const asking=real&&state.ui.view==='DETAILS';$('message').removeAttribute('placeholder');$('message').setAttribute('aria-label',asking?'Restaurant question':'Plan message');
+  const asking=real&&state.ui.view==='DETAILS';$('message').setAttribute('aria-label',asking?'Restaurant question':'Plan message');
   $('send').setAttribute('aria-busy',String(Boolean(state.sending||state.asking)));
   $('send').disabled=state.blocked||state.asking||(asking&&state.view.case.phase!=='PRESENT_RESULTS');
   if(!has){$('brand').classList.remove('working');show('progress',false);show('feedback',false);renderPhotos();return;}
@@ -309,16 +320,19 @@ function render(){
   show('candidate-panel',mode==='CANDIDATES'&&!!candidate()&&!end&&(!state.preview||state.preview.phase==='card'));show('batch-end',!!end);show('details',mode==='DETAILS'&&!!candidate());show('saved-panel',mode==='SAVED');show('saved',mode!=='SAVED');conditionRow.hidden=['SAVED','HANDOFF'].includes(mode);conditionRow.style.visibility=mode==='CANDIDATES'&&(state.preview&&state.preview.phase==='understanding'||!candidate()&&!$('request-conditions').childElementCount&&(r.progress.active||state.view.case.phase==='UNDERSTANDING'))?'hidden':'';show('handoff',mode==='HANDOFF'&&!!candidate());
   show('end-saved',savedCount>0);text('end-saved-count',savedCount);$('end-saved').setAttribute('aria-label','Saved '+savedCount);$('find-more').disabled=state.blocked;
   if(mode==='CANDIDATES'&&!end)renderCard();if(mode==='DETAILS')renderDetails();if(mode==='SAVED')renderSaved();if(mode==='HANDOFF')renderHandoff();renderPhotos();
-  show('messages',true);const shortState=renderReadState(end),last=[...state.view.conversation.messages].reverse().find(m=>m.role==='ASSISTANT');text('messages',!shortState&&last&&(!candidate()||mode==='CONVERSATION')?last.content:'');if(r.progress.stopped)text('messages','Search stopped.');
+  const shortState=renderReadState(end),busy=!!(pending||state.preview||state.sending||state.blocked||r.progress.active||['UNDERSTANDING','SEARCHING'].includes(state.view.case.phase));
+  const message=!busy&&mode==='CANDIDATES'?(r.progress.stopped?'Search stopped.':state.view.case.phase==='NEEDS_INPUT'?r.clarificationQuestion||'':r.readStatus.kind==='OTHER_FAILURE'&&!candidateIds.length?"Couldn't complete this search. Please try again.":''):'';
+  text('messages',message);show('messages',!!message);
+  if(mode!=='CANDIDATES')for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])show(id,false);
   show('mode-note',state.view.mode==='FIXTURE');text('mode-note','Fixture only. No real availability or reservations.');show('use-location',(r.missingRequiredFields||[]).includes('location'));savePosition();clearTimeout(state.expiry);
   const expiry=Object.values(r.availability).flat().map(o=>Date.parse(o.displayExpiresAt)).filter(t=>t>Date.now()).sort((a,b)=>a-b)[0];if(expiry)state.expiry=setTimeout(render,Math.min(expiry-Date.now()+10,2147483647));show('feedback',!!state.feedback);
 }
 function viewContext(){return {view:state.view?state.ui.view:'HOME',...(state.view&&!state.ui.atEnd&&state.ui.candidateId&&['CANDIDATES','DETAILS','HANDOFF'].includes(state.ui.view)?{candidateId:state.ui.candidateId}:{}),comparedCandidateIds:[]};}
 async function submitRequirement(message,preserveComposer=false){
  if(!message||state.blocked||state.asking)return false;
- const nav=state.nav,old=state.view,context=viewContext(),draft=$('message').value,startedAt=performance.now();clearEntryTransition();state.blocked=true;state.sending=!preserveComposer;clearError();
+ $('message').removeAttribute('placeholder');const nav=state.nav,old=state.view,context=viewContext(),draft=$('message').value,startedAt=performance.now();clearEntryTransition();state.blocked=true;state.sending=!preserveComposer;clearError();
  if(!old){state.pendingCase={title:message};if(!preserveComposer)setMessage('');render();}
- else{$('send').disabled=true;if(!preserveComposer)$('send').setAttribute('aria-busy','true');}
+ else{render();}
  try{
   const path=old?'/api/conversations/'+encodeURIComponent(old.conversation.id)+'/messages':'/api/cases';const body={message,requestId:requestId(),viewContext:context,...(old?{taskVersion:old.case.taskVersion}:{})};
   const p=await api(path,{method:'POST',body:JSON.stringify(body)});if(nav!==state.nav)return false;
@@ -369,13 +383,13 @@ $('refresh').onclick=refreshCase;
 $('answer-backdrop').onclick=closeAnswer;$('answer-dismiss').onclick=closeAnswer;
 let answerDragY=null;$('answer-dismiss').onpointerdown=event=>{answerDragY=event.clientY;$('answer-dismiss').setPointerCapture(event.pointerId);};
 $('answer-dismiss').onpointerup=event=>{if(answerDragY!==null&&event.clientY-answerDragY>40)closeAnswer();answerDragY=null;};
-$('batch-back').onclick=()=>moveCard(-1);$('end-saved').onclick=()=>setView('SAVED');$('end-adjust').onclick=()=>{$('message').focus({preventScroll:true});};
+$('batch-back').onclick=()=>moveCard(-1);$('end-saved').onclick=()=>setView('SAVED');$('end-adjust').onclick=focusAdjustment;
 async function findMore(){
   if(state.blocked)return;const nav=state.nav;state.blocked=true;$('find-more').disabled=true;
   try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/another-batch',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});if(nav!==state.nav)return;state.blocked=false;state.ui.atEnd=false;state.ui.candidateId=null;accept(p.view);}
   catch(error){if(nav===state.nav)report(error);}finally{if(nav===state.nav){state.blocked=false;render();}}
 }
-$('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=()=>{$('message').focus({preventScroll:true});};
+$('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=focusAdjustment;
 async function depart(event){const h=currentHandoff();if(!h){event.preventDefault();await refreshCase();return;}event.preventDefault();const target=window.open('about:blank','_blank');if(target)target.opener=null;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId()})});localStorage.setItem(key(state.view.case.caseId)+':return','1');if(target)target.location.href=p.url;else throw new Error('Please allow this source tab to open.');}catch(error){if(target)target.close();report(error);}}
 $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};
 async function claimFeedback(){if(!state.view||state.feedback||state.claiming)return;const id=state.view.case.caseId;state.claiming=true;try{const p=await api('/api/cases/'+encodeURIComponent(id)+'/booking-feedback/claim',{method:'POST',body:'{}'});if(!state.view||state.view.case.caseId!==id)return;localStorage.removeItem(key(id)+':return');state.feedback=p.prompt||null;show('feedback',!!state.feedback);}catch(error){report(error);}finally{state.claiming=false;}}

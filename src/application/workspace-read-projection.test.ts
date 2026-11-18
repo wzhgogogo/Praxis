@@ -18,8 +18,8 @@ test("Workspace source failure copy requires explicit failed attempts, never unk
     {label:"successful check without optional attempt detail",checks:{a:check("FAILED"),b:{status:"AVAILABLE" as const,checkedAt:now,evidenceIds:[]}},expected:"NO_QUALIFIED_RESULTS"},
     {label:"unknown check without attempt detail",checks:{a:check("FAILED"),b:{status:"UNKNOWN" as const,checkedAt:now,evidenceIds:[]}},expected:"NO_QUALIFIED_RESULTS"},
   ];
-  for(const row of rows)assert.equal(projectWorkspaceRead({state:state(row.checks),events:[],readyCandidateIds:[],active:false,now}).readStatus.kind,row.expected,row.label);
-  const partial=projectWorkspaceRead({state:state({a:check("FAILED"),b:check("AVAILABLE")}),events:[],readyCandidateIds:["b"],active:false,now});
+  for(const row of rows)assert.equal(projectWorkspaceRead({state:state(row.checks),events:[],readyCandidateIds:[],openableCandidateIds:[],active:false,now}).readStatus.kind,row.expected,row.label);
+  const partial=projectWorkspaceRead({state:state({a:check("FAILED"),b:check("AVAILABLE")}),events:[],readyCandidateIds:["b"],openableCandidateIds:["b"],active:false,now});
   assert.equal(partial.readStatus.kind,"RESULTS");assert.equal(partial.readStatus.partialSourceFailure,true);
 });
 
@@ -27,7 +27,7 @@ test("Workspace interpretation copy uses the recorded model status, not failure 
   for(const status of ["MODEL_FAILURE","INVALID_MODEL_OUTPUT","INPUT_INVALID"] as const){
     const event:RecordedEventEnvelope<RestaurantEvent>={id:"semantic",taskId:"task",occurredAt:now,trace:{schemaVersion:"1",runId:"run",correlationId:"semantic",actor:"MODEL"},
       event:{type:"SEMANTIC_INTERPRETATION_FAILED",status,reason:"This text deliberately says MODEL_FAILURE for every control"}};
-    const projection=projectWorkspaceRead({state:{...state({}),phase:"FAILED"},events:[event],readyCandidateIds:[],active:false,now});
+    const projection=projectWorkspaceRead({state:{...state({}),phase:"FAILED"},events:[event],readyCandidateIds:[],openableCandidateIds:[],active:false,now});
     assert.equal(projection.readStatus.kind,status==="MODEL_FAILURE"?"MODEL_FAILURE":"OTHER_FAILURE");
   }
 });
@@ -51,25 +51,25 @@ for(const [label,patch] of Object.entries({
 }) as Array<[string,typeof initialPatch]>) test('Workspace equivalent '+label+' patch cannot remove retained presented restaurants',()=>{
   const current={...state({}),phase:'PRESENT_RESULTS' as const,intentDraft:initialDraft,candidates:['a','b','c'].map(candidate)};
   const events=history([compiled(initialPatch),presented(['a','b','c']),compiled(patch)]);
-  const projection=projectWorkspaceRead({state:current,events,readyCandidateIds:['a','b','c'],active:false,now});
+  const projection=projectWorkspaceRead({state:current,events,readyCandidateIds:['a','b','c'],openableCandidateIds:['a','b','c'],active:false,now});
   assert.deepEqual(projection.revisionDiff?.removed??[],[],'retained cards are not removed by an equivalent nonempty patch');
   assert.equal(projection.requirementRevision,1);assert.equal(projection.revisionDiff,undefined);
 });
 test('Workspace reaffirmation retains the last real revision diff instead of opening an empty group',()=>{
   const events=history([compiled(initialPatch),presented(['a','b','c']),compiled({schemaVersion:'3',partySize:3}),presented(['a','c','d']),compiled({schemaVersion:'3',partySize:3})]);
-  const projection=projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:3},candidates:['a','b','c','d'].map(candidate)},events,readyCandidateIds:['a','c','d'],active:false,now});
+  const projection=projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:3},candidates:['a','b','c','d'].map(candidate)},events,readyCandidateIds:['a','c','d'],openableCandidateIds:['a','c','d'],active:false,now});
   assert.deepEqual(projection.revisionDiff,{fromRevision:1,toRevision:2,removed:[{candidateId:'b',outletName:'b',reasonCode:'NO_LONGER_MATCHES'}],added:[{candidateId:'d',outletName:'d'}]});
   assert.equal(projection.requirementRevision,2);
 });
 test('Workspace real changed requirements with no results still remove the prior batch',()=>{
   const events=history([compiled(initialPatch),presented(['a','b','c']),compiled({schemaVersion:'3',partySize:3})]);
-  const projection=projectWorkspaceRead({state:{...state({}),intentDraft:{...initialDraft,partySize:3}},events,readyCandidateIds:[],active:false,now});
+  const projection=projectWorkspaceRead({state:{...state({}),intentDraft:{...initialDraft,partySize:3}},events,readyCandidateIds:[],openableCandidateIds:[],active:false,now});
   assert.equal(projection.requirementRevision,2);assert.deepEqual(projection.revisionDiff?.removed.map(r=>r.candidateId),['a','b','c']);
 });
 
 test('Workspace value equality includes party provenance: same count with a new source is a real revision',()=>{
   const events=history([compiled(initialPatch),presented(['a','b','c']),compiled({schemaVersion:'3',partySize:2,partySizeSource:'INFERRED_CLOSED_PARTY'})]);
-  const projection=projectWorkspaceRead({state:{...state({}),intentDraft:{...initialDraft,partySizeSource:'INFERRED_CLOSED_PARTY'}},events,readyCandidateIds:[],active:false,now});
+  const projection=projectWorkspaceRead({state:{...state({}),intentDraft:{...initialDraft,partySizeSource:'INFERRED_CLOSED_PARTY'}},events,readyCandidateIds:[],openableCandidateIds:[],active:false,now});
   assert.equal(projection.requirementRevision,2);assert.equal(projection.revisionDiff?.removed.length,3);
 });
 for(const retainLocation of [true,false])test('Workspace replays an authoritative location binding before comparing a patch: retain='+retainLocation,()=>{
@@ -77,6 +77,18 @@ for(const retainLocation of [true,false])test('Workspace replays an authoritativ
   const area={query:'nearby',coordinates:{...coordinates,source:'EVALUATION' as const}};
   const patch=retainLocation?{schemaVersion:'3' as const,area}:{schemaVersion:'3' as const,area:{query:'nearby'}};
   const events=history([compiled({...initialPatch,area:{query:'nearby'}}),{type:'EVALUATION_LOCATION_BOUND',coordinates},presented(['a','b','c']),compiled(patch)]);
-  const projection=projectWorkspaceRead({state:{...state({}),phase:retainLocation?'PRESENT_RESULTS':'NO_VERIFIED_RESULT',intentDraft:{...initialDraft,area:patch.area}},events,readyCandidateIds:retainLocation?['a','b','c']:[],active:false,now});
+  const projection=projectWorkspaceRead({state:{...state({}),phase:retainLocation?'PRESENT_RESULTS':'NO_VERIFIED_RESULT',intentDraft:{...initialDraft,area:patch.area}},events,readyCandidateIds:retainLocation?['a','b','c']:[],openableCandidateIds:retainLocation?['a','b','c']:[],active:false,now});
   assert.equal(projection.requirementRevision,retainLocation?1:2);assert.deepEqual(projection.revisionDiff?.removed.map(r=>r.candidateId)??[],retainLocation?[]:['a','b','c']);
+});
+
+test('Saved uses the supplied visible candidate set even after inventory expiry',()=>{
+ const current={...state({a:check('AVAILABLE'),b:check('AVAILABLE')}),phase:'PRESENT_RESULTS' as const,selectionSession:{deliveredCandidateIds:[],viewedCandidateIds:[],shortlistCandidateIds:['a','b'],feedback:[]}};
+ const view=projectWorkspaceRead({state:current,events:[],readyCandidateIds:['b'],openableCandidateIds:['a'],active:false,now});
+ assert.deepEqual(view.savedCandidates.map(row=>[row.candidateId,row.current]),[['a',true],['b',false]]);
+});
+for(const phase of ['SEARCHING','FAILED','NO_VERIFIED_RESULT'] as const)for(const cancelled of [true,false])test('Incomplete revision never invents removal: '+phase+' cancelled='+cancelled,()=>{
+ const events=history([compiled(initialPatch),presented(['a','b']),{type:'SHORTLIST_UPDATED',candidateId:'a',shortlisted:true},compiled({schemaVersion:'3',partySize:3}),...(cancelled?[{type:'AGENT_LOOP_TERMINATED' as const,termination:'CANCELLED' as const,reason:'User stopped'}]:[])]);
+ const current={...state({a:check('FAILED'),b:check('FAILED')}),phase,intentDraft:{...initialDraft,partySize:3},selectionSession:{deliveredCandidateIds:[],viewedCandidateIds:[],shortlistCandidateIds:['a'],feedback:[]}};
+ const view=projectWorkspaceRead({state:current,events,readyCandidateIds:[],openableCandidateIds:[],active:false,now});
+ assert.equal(view.revisionDiff,undefined);assert.equal(view.savedCandidates[0]?.reasonCode,undefined);
 });

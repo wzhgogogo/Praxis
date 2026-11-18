@@ -1331,3 +1331,6 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G
 
 
 2026-11-18 — draft / not integrated: unified round-4 Domain change retains active DAYPART interpretation across date/party patches and grounds a single positive source-hours intersection for EVENING/AFTERNOON/AFTER_WORK; explicit numeric windows retain strict full coverage. Recorded MIRAI historical-clock counterfactual and independent diagnostic controls pass. No new Live/PG. Web/Application closure and clean frozen full gates remain pending.
+
+
+2026-11-18 — draft / not integrated: round-4 Web/Application closure follows the separate Domain commit. Saved/current and stopped qualification, state/view-isolated messaging, authoritative revised titles, compact cards and timed About/Q&A evidence are implemented. New dual-size Fixture regressions and existing browser contracts are being verified; same-SHA full offline gates/16 visual matrix are the final acceptance. No new Live or PostgreSQL.

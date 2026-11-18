@@ -159,3 +159,8 @@ Case project复用已读取的同一用户/Case事件，不新增表、State字�
 readStatus区分已有结果、无合格结果、明确的全部来源失败、语义MODEL_FAILURE及其他故障。全部失败须逐店有非空的显式失败尝试且无成功检查；UNKNOWN、正常无位、未查或缺少attempt细节不冒充来源失败。按用户2026-10-30批准，TaskDefinition22→23，State24形状不变：NO_VERIFIED_RESULT可经NEXT_BATCH_REPLENISHMENT_REQUESTED回到SEARCHING，但服务端canContinue必须证明必要条件齐全、池内有未调查对象或已有匹配条件的观察游标/发现计划仍有未查工作。保留旧检查和游标，不重置来源计划；已有失败/不合格对象在Context及Validator中排除，模型不能改写这个边界。前端只消费canContinue，不自行推断。
 
 全部来源失败不走another-batch；服务端canRetry允许原refresh通过AVAILABILITY_REFRESH_REQUESTED显式重查全部已确认失败的候选，保留原有展示结果刷新，不运行语义。两个入口均先核对归属，requestId重交不再读取，其他请求仍核对版本；沿用原有界读取、Stop、迟到丢弃和预算。只清除上一轮收尾窗口，不清空检查/备选或新增条件修改事件。实现与验证见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
+
+
+### Round-4 workspace projection (2026-11-18, draft / not integrated)
+
+The server supplies the exact current openable candidate IDs: presented IDs in PRESENT_RESULTS, otherwise currently qualified ready IDs. Saved links use that set; expired displayed availability remains browsable and booking still requires the existing fresh check. Removal/reason inference runs only for completed qualification (PRESENT_RESULTS or non-source-failed NO_VERIFIED_RESULT), never a stopped/cancelled/failed read. Revised Case titles after requirementRevision1 derive from authoritative criteria, area/date/time/party, never the old retrieval query; all server projections and list reloads share the result. NEEDS_INPUT exposes its current structured clarification separately from conversation history. Main messages are state-driven and isolated to CANDIDATES; restaurant Q&A stays in Details.

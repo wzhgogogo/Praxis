@@ -4,7 +4,7 @@ import {spawn,execFileSync} from 'node:child_process';
 import {once} from 'node:events';
 import {chromium} from 'playwright-core';
 import {createHash} from 'node:crypto';
-const base='.eval-artifacts/3c-unified-20261117/round-3',dir=base+'/live';
+const base='.eval-artifacts/3c-unified-20261117/round-4',dir=base+'/live';
 const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 if(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}))throw Error('DIRTY_TREE');
 const gates=JSON.parse(await readFile(base+'/gates/manifest.json','utf8')),visual=JSON.parse(await readFile(base+'/visual/manifest.json','utf8'));

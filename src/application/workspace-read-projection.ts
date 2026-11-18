@@ -15,6 +15,7 @@ export function projectWorkspaceRead(input: {
   state: Readonly<RestaurantTaskState>;
   events: readonly RecordedEventEnvelope<RestaurantEvent>[];
   readyCandidateIds: readonly string[];
+  openableCandidateIds: readonly string[];
   active: boolean;
   now: string;
 }): RestaurantWorkspaceReadProjection {
@@ -60,7 +61,11 @@ export function projectWorkspaceRead(input: {
   for (const candidate of state.candidates) known.set(candidate.restaurant.id, candidate);
   const previous = groups.findLast(item => item.revision > 0 && item.events.some(event => event.type === "SEMANTIC_PROPOSAL_COMPILED"));
   const ready = new Set(readyCandidateIds);
+  const openable = new Set(input.openableCandidateIds);
   const finished = !input.active && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT", "FAILED"].includes(state.phase);
+  const terminal = group.events.findLast(event => event.type === "RESULTS_PRESENTED" || event.type === "READ_ENDED_NO_VERIFIED_RESULT" || event.type === "AGENT_LOOP_TERMINATED");
+  const qualifiedRevision = !input.active && (state.phase === "PRESENT_RESULTS" || state.phase === "NO_VERIFIED_RESULT" && !allRestaurantSourcesFailed(state))
+    && !(terminal?.type === "AGENT_LOOP_TERMINATED" && terminal.termination === "CANCELLED");
   const name = (id: string) => known.get(id)?.restaurant.outletName ?? "Saved restaurant";
   const reason = (id: string): WorkspaceCandidateChangeReason => {
     const draft = state.intentDraft;
@@ -75,10 +80,10 @@ export function projectWorkspaceRead(input: {
     return "NO_LONGER_MATCHES";
   };
   const savedCandidates = (state.selectionSession?.shortlistCandidateIds ?? []).map(id => ({
-    candidateId: id, outletName: name(id), current: ready.has(id),
-    ...(!ready.has(id) && finished && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
+    candidateId: id, outletName: name(id), current: openable.has(id),
+    ...(!openable.has(id) && qualifiedRevision && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
   }));
-  const revisionDiff = previous && finished && group.revision > previous.revision ? {
+  const revisionDiff = previous && qualifiedRevision && group.revision > previous.revision ? {
     fromRevision: previous.revision, toRevision: group.revision,
     removed: [...previous.presented].filter(id => !group.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id), reasonCode: reason(id) })),
     added: [...group.presented].filter(id => !previous.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id) })),

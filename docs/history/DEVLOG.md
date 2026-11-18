@@ -6356,3 +6356,10 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` closes Google8-image demand lo
 ### 2026-11-18 — Unified round-4 Domain DAYPART
 
 Preserve effective time interpretation in search intents and Google/website facts. A broad supported DAYPART admits one actual source-hours intersection; explicit numeric windows and recommendation identity/area/HARD evidence gates remain unchanged. Archive four user Live groups (20 redacted, hash-verified files) by Case; stop confirmed own preview/forward on4312. Historical MIRAI is an exposed offline counterfactual, not a new source observation.
+
+
+### 2026-11-18 — Unified round-4 Web/Application
+
+Align Saved current IDs to frontend navigation and infer revision removals only after qualification finishes. Project revised titles and current clarification from authoritative state. Isolate search notices by view/state, move condition sources/times into About, group answer citations, filter generic/machine card prose, center busy indicators and add transient Adjust guidance. Outer scripts target round-4; prior batches remain immutable. New browser checks cover both390x844 and1280x900 with actual HTTP/SSE/PGlite and local Chromium. No new Live/PG.
+
+Round-4 About qualification retains the original direct commercial-term text and Terms source link once per URL; source quotation groups remain visible with Read at rather than hiding previously visible evidence. First failed freeze retained independently; no browser assertion weakened.

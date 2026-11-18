@@ -38,3 +38,6 @@ Round-3 completion: frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes all
 ## Round-4 slice — DAYPART and workspace closure (2026-11-18)
 
 Draft / not integrated. Two implementation commits: Domain effective DAYPART time basis, single source-shift intersection and independent diagnostic/regression controls; then Application Saved/current completion semantics, authoritative revised titles and Web view/message/evidence/empty-state refinements. Preserve recommendation ADR0020/0044 and all image demand-loading boundaries. Archive today20 user Live files with redacted SHA receipts; no new Live or PG. Freeze the second commit, then five clean offline gates and unchanged three-size16-case matrix into round-4. Prior gates/failures/round-2/round-3 are immutable.
+
+
+Round-4 implementation acceptance: Domain commit6933f4a20 plus Web/Application commit; no new source observations, no PostgreSQL connection/write. Default/browser regressions retain the full original gate commands, including G6 assembly; intentional exhausted-empty copy and Details-hidden progress synchronization are reflected in browser expectations, retaining every photo/gallery/draft invariant. Image/gallery strict contracts remain unchanged. Frozen SHA and exact counts are recorded in round-4/REPORT.md after execution.

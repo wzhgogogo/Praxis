@@ -139,6 +139,8 @@ export interface RestaurantCaseView {
     intentDraft?: import("../domains/restaurant/contracts.js").RestaurantIntentDraft;
     /** The source-observed center actually used; never a rewrite of the user's AREA. */
     searchLocation?: RestaurantSearchContinuation["locationContext"];
+    /** Current structured-state clarification, never a historical G1 answer. */
+    clarificationQuestion?: string;
     missingRequiredFields: string[];
     /** Search/page counter; requirementRevision tracks condition updates separately. */
     searchRevision: number;

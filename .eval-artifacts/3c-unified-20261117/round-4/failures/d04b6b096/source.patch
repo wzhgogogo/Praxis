@@ -1,0 +1,646 @@
+From d04b6b09604c8c12ea7c6fdc2af3f20e5a8b8f57 Mon Sep 17 00:00:00 2001
+From: WangZhouR <wangzhour@WangZhouRdeMacBook-Air.local>
+Date: Wed, 18 Nov 2026 13:42:58 +0800
+Subject: [PATCH] fix(workspace): align saved navigation and isolate current
+ read presentation
+
+---
+ .eval-artifacts/3c-unified-20261117/live.mjs  |  2 +-
+ .../round-4/archive-user-live.mjs             | 19 +++++
+ .../3c-unified-20261117/run-gates.py          |  2 +-
+ .../3c-unified-20261117/visual-smoke.mjs      |  2 +-
+ docs/STATUS.md                                |  3 +
+ docs/WEB-PHOTOS-UNIFIED-PLAN.md               |  3 +
+ .../AGENT-GATEWAY-AND-WORKSPACE.md            |  5 ++
+ docs/history/DEVLOG.md                        |  5 ++
+ docs/history/TEST-LOG.md                      |  5 ++
+ docs/history/monthly/2026-11-index.md         |  2 +
+ docs/history/monthly/2026-11.md               |  2 +
+ docs/product/USER-FLOWS.md                    |  5 ++
+ src/application/agent-workspace.ts            |  2 +
+ .../persistent-restaurant-agent.ts            | 15 +++-
+ .../workspace-read-projection.test.ts         | 28 +++++--
+ src/application/workspace-read-projection.ts  | 11 ++-
+ .../browser/web-workspace-round4.test.ts      | 76 +++++++++++++++++++
+ .../browser/web-workspace-slice2.test.ts      |  2 +-
+ src/harness/workspace-fixture-server.ts       |  8 +-
+ src/web/local-workspace-page.ts               |  6 +-
+ src/web/workspace-client.ts                   | 64 ++++++++++------
+ 21 files changed, 220 insertions(+), 47 deletions(-)
+ create mode 100644 .eval-artifacts/3c-unified-20261117/round-4/archive-user-live.mjs
+ create mode 100644 src/harness/browser/web-workspace-round4.test.ts
+
+diff --git a/.eval-artifacts/3c-unified-20261117/live.mjs b/.eval-artifacts/3c-unified-20261117/live.mjs
+index 9cda24346..f8d13103a 100644
+--- a/.eval-artifacts/3c-unified-20261117/live.mjs
++++ b/.eval-artifacts/3c-unified-20261117/live.mjs
+@@ -4,7 +4,7 @@ import {spawn,execFileSync} from 'node:child_process';
+ import {once} from 'node:events';
+ import {chromium} from 'playwright-core';
+ import {createHash} from 'node:crypto';
+-const base='.eval-artifacts/3c-unified-20261117/round-3',dir=base+'/live';
++const base='.eval-artifacts/3c-unified-20261117/round-4',dir=base+'/live';
+ const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+ if(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}))throw Error('DIRTY_TREE');
+ const gates=JSON.parse(await readFile(base+'/gates/manifest.json','utf8')),visual=JSON.parse(await readFile(base+'/visual/manifest.json','utf8'));
+diff --git a/.eval-artifacts/3c-unified-20261117/round-4/archive-user-live.mjs b/.eval-artifacts/3c-unified-20261117/round-4/archive-user-live.mjs
+new file mode 100644
+index 000000000..5a93136f1
+--- /dev/null
++++ b/.eval-artifacts/3c-unified-20261117/round-4/archive-user-live.mjs
+@@ -0,0 +1,19 @@
++import {readFile,writeFile,mkdir,readdir,unlink} from 'node:fs/promises';
++import {parseEnv} from 'node:util';
++import {createHash} from 'node:crypto';
++import {join} from 'node:path';
++const source='.eval-artifacts/restaurant-web-read',destination='.eval-artifacts/3c-unified-20261117/user-live-20261118';
++// This dictionary is used only to remove secret literals, never injected into process/child configuration.
++const dictionary=parseEnv(await readFile('/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env','utf8'));
++const secrets=Object.entries(dictionary).filter(([k,v])=>v&&/KEY|TOKEN|SECRET|PASSWORD|DATABASE_URL|PILOT_ACCESS_JSON|PROXY/.test(k)).map(([,v])=>v).sort((a,b)=>b.length-a.length);
++const hash=b=>createHash('sha256').update(b).digest('hex');
++function redact(text){for(const value of secrets)text=text.split(value).join('[REDACTED]');return text.replace(/\bsk-[A-Za-z0-9_-]{12,}/g,'[REDACTED_KEY]').replace(/([?&](?:key|api_key|access_token|session_token)=)[^\s&#"<>]+/gi,'$1[REDACTED]').replace(/\bBearer\s+[A-Za-z0-9._~-]+/gi,'Bearer [REDACTED]').replace(/postgres(?:ql)?:\/\/[^\s"'<>]+/g,'[REDACTED_DATABASE_URL]');}
++function scrub(value){if(typeof value==='string')return redact(value);if(Array.isArray(value))return value.map(scrub);if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).filter(([key])=>!/^(?:headers|authorization|cookie|set-cookie|accessToken|sessionToken|apiKey|password|secret|credential)$/i.test(key)).map(([k,v])=>[k,scrub(v)]));return value;}
++const files=(await readdir(source)).sort();if(files.length!==20)throw Error('EXPECTED_20_USER_ARTIFACTS');
++const starts=[];for(const name of files.filter(n=>n.endsWith('.started.json'))){const value=JSON.parse(await readFile(join(source,name),'utf8'));starts.push({prefix:name.slice(0,-'.started.json'.length),caseId:value.caseId,runId:value.runId});}
++if(starts.length!==4)throw Error('EXPECTED_FOUR_RUNS');await mkdir(destination,{recursive:false});
++const rows=[];
++for(const item of starts){const runFiles=files.filter(n=>n.startsWith(item.prefix));if(runFiles.length!==5)throw Error('EXPECTED_FIVE_FILES_PER_RUN');const dir=join(destination,item.caseId.replace(/[^A-Za-z0-9_-]/g,'-'),item.prefix);await mkdir(dir,{recursive:true});for(const name of runFiles){const raw=await readFile(join(source,name));const clean=name.endsWith('.json')?JSON.stringify(scrub(JSON.parse(raw.toString())),null,2)+'\n':redact(raw.toString());for(const value of secrets)if(clean.includes(value))throw Error('SECRET_REDACTION_FAILED');const target=join(dir,name);await writeFile(target,clean);const saved=await readFile(target);if(hash(saved)!==hash(Buffer.from(clean)))throw Error('ARCHIVE_HASH_MISMATCH');rows.push({caseId:item.caseId,runId:item.runId,source:join(source,name),path:target,rawBytes:raw.length,rawSHA256:hash(raw),sanitizedBytes:saved.length,sanitizedSHA256:hash(saved)});}}
++await writeFile(join(destination,'manifest.json'),JSON.stringify({status:'ARCHIVED_REDACTED_HASH_VERIFIED',runs:4,files:20,cases:[...new Set(starts.map(r=>r.caseId))],configurationLoadedIntoEnvironment:false,credentialDictionaryUsedOnlyForRedaction:true,records:rows},null,2)+'\n');
++for(const row of rows){const current=await readFile(row.source);if(hash(current)!==row.rawSHA256)throw Error('SOURCE_CHANGED_DURING_ARCHIVE');await unlink(row.source);}
++if((await readdir(source)).length)throw Error('TEMP_NOT_EMPTY');console.log(JSON.stringify({runs:4,files:20,cases:2,hashVerified:true,temporaryDirectoryEmpty:true}));
+diff --git a/.eval-artifacts/3c-unified-20261117/run-gates.py b/.eval-artifacts/3c-unified-20261117/run-gates.py
+index 521fa0ac2..dbfe287ce 100644
+--- a/.eval-artifacts/3c-unified-20261117/run-gates.py
++++ b/.eval-artifacts/3c-unified-20261117/run-gates.py
+@@ -1,5 +1,5 @@
+ import os, subprocess, time, json, pathlib, sys
+-root=pathlib.Path(__file__).resolve().parents[2]; out=root/'.eval-artifacts/3c-unified-20261117/round-3/gates'; out.mkdir(parents=True, exist_ok=False)
++root=pathlib.Path(__file__).resolve().parents[2]; out=root/'.eval-artifacts/3c-unified-20261117/round-4/gates'; out.mkdir(parents=True, exist_ok=False)
+ sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+ env={k:os.environ[k] for k in ['PATH','HOME','TMPDIR'] if k in os.environ}
+ profile='(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip "localhost:*"))'
+diff --git a/.eval-artifacts/3c-unified-20261117/visual-smoke.mjs b/.eval-artifacts/3c-unified-20261117/visual-smoke.mjs
+index b8b6ef4c4..6ab3a0871 100644
+--- a/.eval-artifacts/3c-unified-20261117/visual-smoke.mjs
++++ b/.eval-artifacts/3c-unified-20261117/visual-smoke.mjs
+@@ -5,7 +5,7 @@ import {chromium} from 'playwright-core';
+ import {startWorkspaceFixture} from '../../src/harness/workspace-fixture-server.ts';
+ import {createGooglePhotoFixture,LONG_PHOTO_CREDIT} from '../../src/harness/google-photo-fixtures.ts';
+ import {createPhotoSourceFixture} from '../../src/harness/restaurant-photo-fixtures.ts';
+-const batch=new URL('./',import.meta.url),out=new URL((process.env.PRAXIS_VISUAL_SUBDIR||'round-3/visual')+'/',batch);await mkdir(out,{recursive:true});
++const batch=new URL('./',import.meta.url),out=new URL((process.env.PRAXIS_VISUAL_SUBDIR||'round-4/visual')+'/',batch);await mkdir(out,{recursive:true});
+ const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),results=[];
+ const sizes=[{name:'mobile',width:390,height:844},{name:'desktop',width:1440,height:900},{name:'breakpoint',width:960,height:900}];
+ const scenarios=process.env.PRAXIS_VISUAL_DEVELOPMENT?['google']:['google','google-long-cover','cover-download-fails','cover-decode-fails','no-id','partial-gallery','both-fail'];
+diff --git a/docs/STATUS.md b/docs/STATUS.md
+index 2b849840e..142f62ec4 100644
+--- a/docs/STATUS.md
++++ b/docs/STATUS.md
+@@ -1331,3 +1331,6 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G
+ 
+ 
+ 2026-11-18 — draft / not integrated: unified round-4 Domain change retains active DAYPART interpretation across date/party patches and grounds a single positive source-hours intersection for EVENING/AFTERNOON/AFTER_WORK; explicit numeric windows retain strict full coverage. Recorded MIRAI historical-clock counterfactual and independent diagnostic controls pass. No new Live/PG. Web/Application closure and clean frozen full gates remain pending.
++
++
++2026-11-18 — draft / not integrated: round-4 Web/Application closure follows the separate Domain commit. Saved/current and stopped qualification, state/view-isolated messaging, authoritative revised titles, compact cards and timed About/Q&A evidence are implemented. New dual-size Fixture regressions and existing browser contracts are being verified; same-SHA full offline gates/16 visual matrix are the final acceptance. No new Live or PostgreSQL.
+diff --git a/docs/WEB-PHOTOS-UNIFIED-PLAN.md b/docs/WEB-PHOTOS-UNIFIED-PLAN.md
+index 5fc1f2902..b4805abc7 100644
+--- a/docs/WEB-PHOTOS-UNIFIED-PLAN.md
++++ b/docs/WEB-PHOTOS-UNIFIED-PLAN.md
+@@ -38,3 +38,6 @@ Round-3 completion: frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes all
+ ## Round-4 slice — DAYPART and workspace closure (2026-11-18)
+ 
+ Draft / not integrated. Two implementation commits: Domain effective DAYPART time basis, single source-shift intersection and independent diagnostic/regression controls; then Application Saved/current completion semantics, authoritative revised titles and Web view/message/evidence/empty-state refinements. Preserve recommendation ADR0020/0044 and all image demand-loading boundaries. Archive today20 user Live files with redacted SHA receipts; no new Live or PG. Freeze the second commit, then five clean offline gates and unchanged three-size16-case matrix into round-4. Prior gates/failures/round-2/round-3 are immutable.
++
++
++Round-4 implementation acceptance: Domain commit6933f4a20 plus Web/Application commit; no new source observations, no PostgreSQL connection/write. Default/browser regressions retain the full original gate commands, including G6 assembly; only the intentionally changed exhausted-empty user copy is updated in its browser expectation. Image/gallery strict contracts remain unchanged. Frozen SHA and exact counts are recorded in round-4/REPORT.md after execution.
+diff --git a/docs/architecture/AGENT-GATEWAY-AND-WORKSPACE.md b/docs/architecture/AGENT-GATEWAY-AND-WORKSPACE.md
+index 77beb127a..664a279cc 100644
+--- a/docs/architecture/AGENT-GATEWAY-AND-WORKSPACE.md
++++ b/docs/architecture/AGENT-GATEWAY-AND-WORKSPACE.md
+@@ -159,3 +159,8 @@ Case project复用已读取的同一用户/Case事件，不新增表、State字
+ readStatus区分已有结果、无合格结果、明确的全部来源失败、语义MODEL_FAILURE及其他故障。全部失败须逐店有非空的显式失败尝试且无成功检查；UNKNOWN、正常无位、未查或缺少attempt细节不冒充来源失败。按用户2026-10-30批准，TaskDefinition22→23，State24形状不变：NO_VERIFIED_RESULT可经NEXT_BATCH_REPLENISHMENT_REQUESTED回到SEARCHING，但服务端canContinue必须证明必要条件齐全、池内有未调查对象或已有匹配条件的观察游标/发现计划仍有未查工作。保留旧检查和游标，不重置来源计划；已有失败/不合格对象在Context及Validator中排除，模型不能改写这个边界。前端只消费canContinue，不自行推断。
+ 
+ 全部来源失败不走another-batch；服务端canRetry允许原refresh通过AVAILABILITY_REFRESH_REQUESTED显式重查全部已确认失败的候选，保留原有展示结果刷新，不运行语义。两个入口均先核对归属，requestId重交不再读取，其他请求仍核对版本；沿用原有界读取、Stop、迟到丢弃和预算。只清除上一轮收尾窗口，不清空检查/备选或新增条件修改事件。实现与验证见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
++
++
++### Round-4 workspace projection (2026-11-18, draft / not integrated)
++
++The server supplies the exact current openable candidate IDs: presented IDs in PRESENT_RESULTS, otherwise currently qualified ready IDs. Saved links use that set; expired displayed availability remains browsable and booking still requires the existing fresh check. Removal/reason inference runs only for completed qualification (PRESENT_RESULTS or non-source-failed NO_VERIFIED_RESULT), never a stopped/cancelled/failed read. Revised Case titles after requirementRevision1 derive from authoritative criteria, area/date/time/party, never the old retrieval query; all server projections and list reloads share the result. NEEDS_INPUT exposes its current structured clarification separately from conversation history. Main messages are state-driven and isolated to CANDIDATES; restaurant Q&A stays in Details.
+diff --git a/docs/history/DEVLOG.md b/docs/history/DEVLOG.md
+index 28d1477ab..339b4a111 100644
+--- a/docs/history/DEVLOG.md
++++ b/docs/history/DEVLOG.md
+@@ -6356,3 +6356,8 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` closes Google8-image demand lo
+ ### 2026-11-18 — Unified round-4 Domain DAYPART
+ 
+ Preserve effective time interpretation in search intents and Google/website facts. A broad supported DAYPART admits one actual source-hours intersection; explicit numeric windows and recommendation identity/area/HARD evidence gates remain unchanged. Archive four user Live groups (20 redacted, hash-verified files) by Case; stop confirmed own preview/forward on4312. Historical MIRAI is an exposed offline counterfactual, not a new source observation.
++
++
++### 2026-11-18 — Unified round-4 Web/Application
++
++Align Saved current IDs to frontend navigation and infer revision removals only after qualification finishes. Project revised titles and current clarification from authoritative state. Isolate search notices by view/state, move condition sources/times into About, group answer citations, filter generic/machine card prose, center busy indicators and add transient Adjust guidance. Outer scripts target round-4; prior batches remain immutable. New browser checks cover both390x844 and1280x900 with actual HTTP/SSE/PGlite and local Chromium. No new Live/PG.
+diff --git a/docs/history/TEST-LOG.md b/docs/history/TEST-LOG.md
+index f99c91195..a466f5e26 100644
+--- a/docs/history/TEST-LOG.md
++++ b/docs/history/TEST-LOG.md
+@@ -7060,3 +7060,8 @@ Original formal390/1440/960 matrix16/16 at32.393s, OS/context nonlocal denial, n
+ ### 2026-11-18 — Unified round-4 Domain development checks
+ 
+ Local development: read-grounding/read-assessment/website composition59/59; independent DAYPART and recorded MIRAI diagnostic2/2. Typecheck passes. Frozen full five gates and16 visual scenarios pending the Web/Application commit. No new Live, production credential configuration or PostgreSQL access.
++
++
++### 2026-11-18 — Unified round-4 Web/Application development checks
++
++Projection19/19 and ten new dual-size Fixture browser regressions pass in development: expired Saved and refresh; stopped revised search/messages/title/list reload; timed About and grouped three-citation Q&A; exhausted empty Adjust. Existing workspace/slice2 development batch64/64 plus state-message controls2/2 pass; default development1704/1704. Frozen five gates/16 visual scenarios are reported separately under round-4. No real service or credential configuration load.
+diff --git a/docs/history/monthly/2026-11-index.md b/docs/history/monthly/2026-11-index.md
+index fad632fd6..0e060c885 100644
+--- a/docs/history/monthly/2026-11-index.md
++++ b/docs/history/monthly/2026-11-index.md
+@@ -314,3 +314,5 @@
+ - 2026-11-17 - [Unified round3 completion](../DEVLOG.md#2026-11-17---unified-round-3-offline-completion) / [strict contracts and gates](../TEST-LOG.md#2026-11-17---unified-round-3-strict-photo-contracts-and-formal-offline-gates):all offline green, Google8/8 with16 dispatches, website-onlyLookahead1; no new Live, prior citation clause unverified.
+ 
+ - 2026-11-18: unified round-4 Domain DAYPART + Web/Application closure, draft / not integrated; [plan](../../WEB-PHOTOS-UNIFIED-PLAN.md), frozen acceptance pending.
++
++- Round-4 development checks: default1704/1704, projection19/19, workspace browser64/64 plus message-state2/2; final five gates/16 visual checks pending unique frozen Web/Application commit.
+diff --git a/docs/history/monthly/2026-11.md b/docs/history/monthly/2026-11.md
+index 26df69dc9..d596b7b31 100644
+--- a/docs/history/monthly/2026-11.md
++++ b/docs/history/monthly/2026-11.md
+@@ -265,3 +265,5 @@ Google gallery now supports8 strictly demand-loaded images within20 media dispat
+ ### 2026-11-18 — Unified round-4 DAYPART and workspace closure
+ 
+ Draft / not integrated. Domain change preserves DAYPART basis and grounds actual single-shift supported windows; archived user Live inputs remain exposed regression material. Web/Application closure and frozen offline acceptance follow in a separate commit; no new Live/PG.
++
++Round-4 Web/Application implementation is complete after Domain6933f4a20; same frozen second commit will run full offline acceptance in round-4, preserving all historical evidence.
+diff --git a/docs/product/USER-FLOWS.md b/docs/product/USER-FLOWS.md
+index ffbcadddb..f6d305f64 100644
+--- a/docs/product/USER-FLOWS.md
++++ b/docs/product/USER-FLOWS.md
+@@ -228,3 +228,8 @@ Current-run identity-bound pages are reused first. Each question now has an inde
+ 地点、日期、时间窗、人数胶囊均在原位编辑。Save/Enter时若规范化后的值未改变，收起编辑器并保留底部草稿，不发送消息；人数按数值比较（2与2.0相同）。实际改变仍经原有Change消息、语义编译和Runtime更新，再读取新条件下的结果；不新增结构化修改事件。
+ 
+ 服务端需求版本按应用patch后的完整草稿是否实际改变划分；草稿完全相同的重申保留现有展示集合及最近一次真实变更差异，不制造“所有餐厅不再匹配”。真实值、推测来源等元数据改变仍形成新版本；新条件确实无合格结果时，仍可显示原批次的移除项。备选与另一批流程继续按原合同处理。
++
++
++### Round-4 workspace refinement (2026-11-18, draft / not integrated)
++
++A Saved item remains clickable while its card is presented, including after availability expiry; booking refreshes evidence before handoff. Interrupted revised searches never claim that Saved places no longer match. Revised plan headings and My plans reflect current structured conditions. Main progress, empty/error notices and search messages appear only with candidate browsing; changing requirements hides old messages immediately. About owns full condition quotations, source links and Read at timestamps; cards show concise conclusions. Each Q&A answer uses one Source disclosure preserving every quotation and observation time, with source-page URLs deduplicated. Adjust focuses the composer with temporary guidance without moving the page or clearing a draft.
+diff --git a/src/application/agent-workspace.ts b/src/application/agent-workspace.ts
+index 9e5c5be06..3b6873f48 100644
+--- a/src/application/agent-workspace.ts
++++ b/src/application/agent-workspace.ts
+@@ -139,6 +139,8 @@ export interface RestaurantCaseView {
+     intentDraft?: import("../domains/restaurant/contracts.js").RestaurantIntentDraft;
+     /** The source-observed center actually used; never a rewrite of the user's AREA. */
+     searchLocation?: RestaurantSearchContinuation["locationContext"];
++    /** Current structured-state clarification, never a historical G1 answer. */
++    clarificationQuestion?: string;
+     missingRequiredFields: string[];
+     /** Search/page counter; requirementRevision tracks condition updates separately. */
+     searchRevision: number;
+diff --git a/src/application/persistent-restaurant-agent.ts b/src/application/persistent-restaurant-agent.ts
+index b043e8a61..505c3ecf2 100644
+--- a/src/application/persistent-restaurant-agent.ts
++++ b/src/application/persistent-restaurant-agent.ts
+@@ -1123,12 +1123,22 @@ export class PersistentRestaurantAgentApplication {
+     const checked = new Set(requestEvents.flatMap(item => item.event.type === "AVAILABILITY_CHECKED" ? item.event.request.candidateIds : []));
+     const readyCandidateIds = state.candidates.filter(candidate => restaurantPresentationEvidenceIds(state, candidate.restaurant.id, this.clock.now().toISOString()) !== undefined).map(candidate => candidate.restaurant.id);
+     const presentedCandidateIds=state.presentedResults?.candidateIds.filter(id=>namedOutletCandidateResolved(state,id));
++    const workspaceRead = projectWorkspaceRead({ state, events, readyCandidateIds,
++      openableCandidateIds: state.phase === "PRESENT_RESULTS" ? presentedCandidateIds ?? [] : readyCandidateIds,
++      active: this.activeReads.has(record.rootTaskId), now: this.clock.now().toISOString() });
++    const draft = state.intentDraft;
++    const revisedTitle = workspaceRead.requirementRevision > 1 && draft ? [
++      ...draft.criteria.map(criterion => `${criterion.polarity === "NEGATIVE" ? "No " : ""}${criterion.text}`),
++      draft.area?.query, draft.date,
++      draft.timeWindow ? `${draft.timeWindow.earliest}${draft.timeWindow.latest !== draft.timeWindow.earliest ? "–" + draft.timeWindow.latest : ""}` : undefined,
++      draft.partySize ? `${draft.partySize} guests` : undefined,
++    ].filter(Boolean).join(" · ") : undefined;
+     const action = state.pageQuestion && !state.pageQuestion.result ? undefined : pendingAction(state.phase);
+     const summary: RestaurantCaseSummary = {
+       caseId: record.rootTaskId,
+       conversationId: record.id,
+       rootTaskId: record.rootTaskId,
+-      title: record.title,
++      title: revisedTitle || record.title,
+       status: caseStatus(snapshot.lifecycleState),
+       phase: state.phase,
+       taskVersion: snapshot.version,
+@@ -1179,7 +1189,8 @@ export class PersistentRestaurantAgentApplication {
+       case: summary,
+       conversation: { id: record.id, messages },
+       restaurant: {
+-        ...projectWorkspaceRead({ state, events, readyCandidateIds, active: this.activeReads.has(record.rootTaskId), now: this.clock.now().toISOString() }),
++        ...workspaceRead,
++        ...(state.phase === "NEEDS_INPUT" ? { clarificationQuestion: assistantSummary(state) } : {}),
+         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
+         ...(state.searchContinuation?.locationContext ? { searchLocation: structuredClone(state.searchContinuation.locationContext) } : {}),
+         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
+diff --git a/src/application/workspace-read-projection.test.ts b/src/application/workspace-read-projection.test.ts
+index ae4bafdb7..04917202c 100644
+--- a/src/application/workspace-read-projection.test.ts
++++ b/src/application/workspace-read-projection.test.ts
+@@ -18,8 +18,8 @@ test("Workspace source failure copy requires explicit failed attempts, never unk
+     {label:"successful check without optional attempt detail",checks:{a:check("FAILED"),b:{status:"AVAILABLE" as const,checkedAt:now,evidenceIds:[]}},expected:"NO_QUALIFIED_RESULTS"},
+     {label:"unknown check without attempt detail",checks:{a:check("FAILED"),b:{status:"UNKNOWN" as const,checkedAt:now,evidenceIds:[]}},expected:"NO_QUALIFIED_RESULTS"},
+   ];
+-  for(const row of rows)assert.equal(projectWorkspaceRead({state:state(row.checks),events:[],readyCandidateIds:[],active:false,now}).readStatus.kind,row.expected,row.label);
+-  const partial=projectWorkspaceRead({state:state({a:check("FAILED"),b:check("AVAILABLE")}),events:[],readyCandidateIds:["b"],active:false,now});
++  for(const row of rows)assert.equal(projectWorkspaceRead({state:state(row.checks),events:[],readyCandidateIds:[],openableCandidateIds:[],active:false,now}).readStatus.kind,row.expected,row.label);
++  const partial=projectWorkspaceRead({state:state({a:check("FAILED"),b:check("AVAILABLE")}),events:[],readyCandidateIds:["b"],openableCandidateIds:["b"],active:false,now});
+   assert.equal(partial.readStatus.kind,"RESULTS");assert.equal(partial.readStatus.partialSourceFailure,true);
+ });
+ 
+@@ -27,7 +27,7 @@ test("Workspace interpretation copy uses the recorded model status, not failure
+   for(const status of ["MODEL_FAILURE","INVALID_MODEL_OUTPUT","INPUT_INVALID"] as const){
+     const event:RecordedEventEnvelope<RestaurantEvent>={id:"semantic",taskId:"task",occurredAt:now,trace:{schemaVersion:"1",runId:"run",correlationId:"semantic",actor:"MODEL"},
+       event:{type:"SEMANTIC_INTERPRETATION_FAILED",status,reason:"This text deliberately says MODEL_FAILURE for every control"}};
+-    const projection=projectWorkspaceRead({state:{...state({}),phase:"FAILED"},events:[event],readyCandidateIds:[],active:false,now});
++    const projection=projectWorkspaceRead({state:{...state({}),phase:"FAILED"},events:[event],readyCandidateIds:[],openableCandidateIds:[],active:false,now});
+     assert.equal(projection.readStatus.kind,status==="MODEL_FAILURE"?"MODEL_FAILURE":"OTHER_FAILURE");
+   }
+ });
+@@ -51,25 +51,25 @@ for(const [label,patch] of Object.entries({
+ }) as Array<[string,typeof initialPatch]>) test('Workspace equivalent '+label+' patch cannot remove retained presented restaurants',()=>{
+   const current={...state({}),phase:'PRESENT_RESULTS' as const,intentDraft:initialDraft,candidates:['a','b','c'].map(candidate)};
+   const events=history([compiled(initialPatch),presented(['a','b','c']),compiled(patch)]);
+-  const projection=projectWorkspaceRead({state:current,events,readyCandidateIds:['a','b','c'],active:false,now});
++  const projection=projectWorkspaceRead({state:current,events,readyCandidateIds:['a','b','c'],openableCandidateIds:['a','b','c'],active:false,now});
+   assert.deepEqual(projection.revisionDiff?.removed??[],[],'retained cards are not removed by an equivalent nonempty patch');
+   assert.equal(projection.requirementRevision,1);assert.equal(projection.revisionDiff,undefined);
+ });
+ test('Workspace reaffirmation retains the last real revision diff instead of opening an empty group',()=>{
+   const events=history([compiled(initialPatch),presented(['a','b','c']),compiled({schemaVersion:'3',partySize:3}),presented(['a','c','d']),compiled({schemaVersion:'3',partySize:3})]);
+-  const projection=projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:3},candidates:['a','b','c','d'].map(candidate)},events,readyCandidateIds:['a','c','d'],active:false,now});
++  const projection=projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:3},candidates:['a','b','c','d'].map(candidate)},events,readyCandidateIds:['a','c','d'],openableCandidateIds:['a','c','d'],active:false,now});
+   assert.deepEqual(projection.revisionDiff,{fromRevision:1,toRevision:2,removed:[{candidateId:'b',outletName:'b',reasonCode:'NO_LONGER_MATCHES'}],added:[{candidateId:'d',outletName:'d'}]});
+   assert.equal(projection.requirementRevision,2);
+ });
+ test('Workspace real changed requirements with no results still remove the prior batch',()=>{
+   const events=history([compiled(initialPatch),presented(['a','b','c']),compiled({schemaVersion:'3',partySize:3})]);
+-  const projection=projectWorkspaceRead({state:{...state({}),intentDraft:{...initialDraft,partySize:3}},events,readyCandidateIds:[],active:false,now});
++  const projection=projectWorkspaceRead({state:{...state({}),intentDraft:{...initialDraft,partySize:3}},events,readyCandidateIds:[],openableCandidateIds:[],active:false,now});
+   assert.equal(projection.requirementRevision,2);assert.deepEqual(projection.revisionDiff?.removed.map(r=>r.candidateId),['a','b','c']);
+ });
+ 
+ test('Workspace value equality includes party provenance: same count with a new source is a real revision',()=>{
+   const events=history([compiled(initialPatch),presented(['a','b','c']),compiled({schemaVersion:'3',partySize:2,partySizeSource:'INFERRED_CLOSED_PARTY'})]);
+-  const projection=projectWorkspaceRead({state:{...state({}),intentDraft:{...initialDraft,partySizeSource:'INFERRED_CLOSED_PARTY'}},events,readyCandidateIds:[],active:false,now});
++  const projection=projectWorkspaceRead({state:{...state({}),intentDraft:{...initialDraft,partySizeSource:'INFERRED_CLOSED_PARTY'}},events,readyCandidateIds:[],openableCandidateIds:[],active:false,now});
+   assert.equal(projection.requirementRevision,2);assert.equal(projection.revisionDiff?.removed.length,3);
+ });
+ for(const retainLocation of [true,false])test('Workspace replays an authoritative location binding before comparing a patch: retain='+retainLocation,()=>{
+@@ -77,6 +77,18 @@ for(const retainLocation of [true,false])test('Workspace replays an authoritativ
+   const area={query:'nearby',coordinates:{...coordinates,source:'EVALUATION' as const}};
+   const patch=retainLocation?{schemaVersion:'3' as const,area}:{schemaVersion:'3' as const,area:{query:'nearby'}};
+   const events=history([compiled({...initialPatch,area:{query:'nearby'}}),{type:'EVALUATION_LOCATION_BOUND',coordinates},presented(['a','b','c']),compiled(patch)]);
+-  const projection=projectWorkspaceRead({state:{...state({}),phase:retainLocation?'PRESENT_RESULTS':'NO_VERIFIED_RESULT',intentDraft:{...initialDraft,area:patch.area}},events,readyCandidateIds:retainLocation?['a','b','c']:[],active:false,now});
++  const projection=projectWorkspaceRead({state:{...state({}),phase:retainLocation?'PRESENT_RESULTS':'NO_VERIFIED_RESULT',intentDraft:{...initialDraft,area:patch.area}},events,readyCandidateIds:retainLocation?['a','b','c']:[],openableCandidateIds:retainLocation?['a','b','c']:[],active:false,now});
+   assert.equal(projection.requirementRevision,retainLocation?1:2);assert.deepEqual(projection.revisionDiff?.removed.map(r=>r.candidateId)??[],retainLocation?[]:['a','b','c']);
+ });
++
++test('Saved uses the supplied visible candidate set even after inventory expiry',()=>{
++ const current={...state({a:check('AVAILABLE'),b:check('AVAILABLE')}),phase:'PRESENT_RESULTS' as const,selectionSession:{deliveredCandidateIds:[],viewedCandidateIds:[],shortlistCandidateIds:['a','b'],feedback:[]}};
++ const view=projectWorkspaceRead({state:current,events:[],readyCandidateIds:['b'],openableCandidateIds:['a'],active:false,now});
++ assert.deepEqual(view.savedCandidates.map(row=>[row.candidateId,row.current]),[['a',true],['b',false]]);
++});
++for(const phase of ['SEARCHING','FAILED','NO_VERIFIED_RESULT'] as const)for(const cancelled of [true,false])test('Incomplete revision never invents removal: '+phase+' cancelled='+cancelled,()=>{
++ const events=history([compiled(initialPatch),presented(['a','b']),{type:'SHORTLIST_UPDATED',candidateId:'a',shortlisted:true},compiled({schemaVersion:'3',partySize:3}),...(cancelled?[{type:'AGENT_LOOP_TERMINATED' as const,termination:'CANCELLED' as const,reason:'User stopped'}]:[])]);
++ const current={...state({a:check('FAILED'),b:check('FAILED')}),phase,intentDraft:{...initialDraft,partySize:3},selectionSession:{deliveredCandidateIds:[],viewedCandidateIds:[],shortlistCandidateIds:['a'],feedback:[]}};
++ const view=projectWorkspaceRead({state:current,events,readyCandidateIds:[],openableCandidateIds:[],active:false,now});
++ assert.equal(view.revisionDiff,undefined);assert.equal(view.savedCandidates[0]?.reasonCode,undefined);
++});
+diff --git a/src/application/workspace-read-projection.ts b/src/application/workspace-read-projection.ts
+index 51c9badba..d75ed0ed2 100644
+--- a/src/application/workspace-read-projection.ts
++++ b/src/application/workspace-read-projection.ts
+@@ -15,6 +15,7 @@ export function projectWorkspaceRead(input: {
+   state: Readonly<RestaurantTaskState>;
+   events: readonly RecordedEventEnvelope<RestaurantEvent>[];
+   readyCandidateIds: readonly string[];
++  openableCandidateIds: readonly string[];
+   active: boolean;
+   now: string;
+ }): RestaurantWorkspaceReadProjection {
+@@ -60,7 +61,11 @@ export function projectWorkspaceRead(input: {
+   for (const candidate of state.candidates) known.set(candidate.restaurant.id, candidate);
+   const previous = groups.findLast(item => item.revision > 0 && item.events.some(event => event.type === "SEMANTIC_PROPOSAL_COMPILED"));
+   const ready = new Set(readyCandidateIds);
++  const openable = new Set(input.openableCandidateIds);
+   const finished = !input.active && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT", "FAILED"].includes(state.phase);
++  const terminal = group.events.findLast(event => event.type === "RESULTS_PRESENTED" || event.type === "READ_ENDED_NO_VERIFIED_RESULT" || event.type === "AGENT_LOOP_TERMINATED");
++  const qualifiedRevision = !input.active && (state.phase === "PRESENT_RESULTS" || state.phase === "NO_VERIFIED_RESULT" && !allRestaurantSourcesFailed(state))
++    && !(terminal?.type === "AGENT_LOOP_TERMINATED" && terminal.termination === "CANCELLED");
+   const name = (id: string) => known.get(id)?.restaurant.outletName ?? "Saved restaurant";
+   const reason = (id: string): WorkspaceCandidateChangeReason => {
+     const draft = state.intentDraft;
+@@ -75,10 +80,10 @@ export function projectWorkspaceRead(input: {
+     return "NO_LONGER_MATCHES";
+   };
+   const savedCandidates = (state.selectionSession?.shortlistCandidateIds ?? []).map(id => ({
+-    candidateId: id, outletName: name(id), current: ready.has(id),
+-    ...(!ready.has(id) && finished && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
++    candidateId: id, outletName: name(id), current: openable.has(id),
++    ...(!openable.has(id) && qualifiedRevision && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
+   }));
+-  const revisionDiff = previous && finished && group.revision > previous.revision ? {
++  const revisionDiff = previous && qualifiedRevision && group.revision > previous.revision ? {
+     fromRevision: previous.revision, toRevision: group.revision,
+     removed: [...previous.presented].filter(id => !group.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id), reasonCode: reason(id) })),
+     added: [...group.presented].filter(id => !previous.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id) })),
+diff --git a/src/harness/browser/web-workspace-round4.test.ts b/src/harness/browser/web-workspace-round4.test.ts
+new file mode 100644
+index 000000000..3abc43240
+--- /dev/null
++++ b/src/harness/browser/web-workspace-round4.test.ts
+@@ -0,0 +1,76 @@
++import assert from 'node:assert/strict';
++import test from 'node:test';
++import { chromium, type Page } from 'playwright-core';
++import { mkdir } from 'node:fs/promises';
++import { join } from 'node:path';
++import { startWorkspaceFixture } from '../workspace-fixture-server.js';
++const sizes=[{width:390,height:844},{width:1280,height:900}];
++async function ready(page:Page){await page.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3');await page.locator('#progress').waitFor({state:'hidden'});}
++async function open(page:Page,host:Awaited<ReturnType<typeof startWorkspaceFixture>>,empty=false){
++ page.setDefaultTimeout(10_000);await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);
++ await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();
++ await page.locator('#message').fill('Dinner in Tokyo');await page.locator('#send').click();
++ if(empty)await page.locator('#empty-state').waitFor({state:'visible'});else await ready(page);
++}
++async function view(page:Page){const id=await page.locator('.case-link.active').getAttribute('data-case-id');return (await(await page.request.get('/api/cases/'+encodeURIComponent(id!))).json()).view;}
++async function shot(page:Page,name:string){if(!process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT)return;await mkdir(process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT,{recursive:true});await page.screenshot({path:join(process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT,name+'.png')});}
++for(const size of sizes){
++ test('Round4 '+size.width+': expired Saved opens the exact presented card and refreshes before booking',{timeout:45_000},async()=>{
++  const host=await startWorkspaceFixture({sourceValidityMs:60_000}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size});
++  await context.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.abort());const page=await context.newPage();let refreshes=0;
++  page.on('request',r=>{if(r.method()==='POST'&&new URL(r.url()).pathname.endsWith('/refresh'))refreshes++;});
++  try{await open(page,host);await page.locator('#next').click();const name=await page.locator('#restaurant-name').innerText();await page.locator('#bookmark').click();await page.waitForFunction(()=>document.getElementById('bookmark')?.getAttribute('aria-pressed')==='true');
++   const before=await view(page),id=before.restaurant.presentedCandidateIds[1];const ttl=Math.max(...Object.values(before.restaurant.availabilityChecks).map((c:any)=>Date.parse(c.displayExpiresAt)))-host.clock.now().valueOf()+100;
++   host.clock.advance(ttl);await page.clock.fastForward(ttl);await page.reload();await page.locator('#restaurant-name').waitFor();
++   const expired=await view(page);assert.ok(expired.restaurant.presentedCandidateIds.includes(id));assert.ok(!expired.restaurant.readyCandidateIds.includes(id));
++   await page.locator('#saved').click();const row=page.locator('#saved-list button[data-candidate-id="'+id+'"]');assert.equal(await row.isEnabled(),true);await row.click();assert.equal(await page.locator('#restaurant-name').innerText(),name);
++   await page.locator('#choose').click();await page.locator('#handoff').waitFor({state:'visible'});assert.equal(await page.locator('#handoff-name').innerText(),name);assert.equal(refreshes,1);await shot(page,'round4-'+size.width+'-saved-expired');
++  }finally{await context.close();await browser.close();await host.close();}
++ });
++ test('Round4 '+size.width+': interrupted revision hides old answers, syncs title and never infers Saved removal',{timeout:45_000},async()=>{
++  const host=await startWorkspaceFixture({questions:true,revisionCuisine:true}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size});
++  await context.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.abort());const page=await context.newPage();let release=()=>{};
++  try{await open(page,host);await page.locator('#bookmark').click();await page.waitForFunction(()=>document.getElementById('bookmark')?.getAttribute('aria-pressed')==='true');await page.locator('#details-button').click();await page.locator('#message').fill('Does this place require a card?');await page.locator('#send').click();await page.locator('#answer-sheet').waitFor({state:'visible'});await page.locator('#answer-dismiss').click();await page.locator('#details-back').click();
++   host.hold();const gate=new Promise<void>(r=>{release=r;});await page.route('**/api/conversations/*/messages',async r=>{await gate;await r.continue();});
++   await page.locator('#message').fill('Make it three guests and tempura');const sent=page.waitForRequest(r=>new URL(r.url()).pathname.endsWith('/messages'));await page.locator('#send').click();await sent;
++   assert.equal(await page.locator('#messages').isVisible(),false);assert.equal(await page.locator('#messages').textContent(),'');
++   const geometry=await page.locator('#send').evaluate(button=>{const rect=button.getBoundingClientRect(),style=getComputedStyle(button,'::after');return {dx:button.clientLeft+parseFloat(style.left)+parseFloat(style.width)/2-rect.width/2,dy:button.clientTop+parseFloat(style.top)+parseFloat(style.height)/2-rect.height/2,box:style.boxSizing};});assert.equal(geometry.box,'border-box');assert.ok(Math.abs(geometry.dx)<1&&Math.abs(geometry.dy)<1,JSON.stringify(geometry));
++   release();await host.waitForCheck();await page.waitForFunction(()=>document.getElementById('case-title')?.textContent?.includes('3 guests'));assert.match(await page.locator('#case-title').innerText(),/Tempura/);assert.doesNotMatch(await page.locator('#case-title').innerText(),/sushi/i);assert.equal(await page.locator('#case-title').innerText(),await page.locator('.case-link.active span').innerText());
++   await page.locator('#stop').click();await page.waitForFunction(()=>document.getElementById('messages')?.textContent==='Search stopped.');const stopped=await view(page);assert.deepEqual(stopped.restaurant.revisionDiff?.removed??[],[]);assert.equal(stopped.restaurant.savedCandidates[0].reasonCode,undefined);
++   await page.locator('#saved').click();for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])assert.equal(await page.locator('#'+id).isVisible(),false,id);assert.doesNotMatch(await page.locator('#saved-list').innerText(),/No longer matches/);
++   host.release();await page.reload();await page.locator('#saved-panel').waitFor({state:'visible'});const current=await view(page);const listed=(await(await page.request.get('/api/cases')).json()).cases.find((c:any)=>c.caseId===current.case.caseId);assert.equal(listed.title,current.case.title);assert.equal(await page.locator('#case-title').getAttribute('title'),current.case.title);await shot(page,'round4-'+size.width+'-stopped-saved');
++  }finally{release();host.release();await context.close();await browser.close();await host.close();}
++ });
++ test('Round4 '+size.width+': About keeps timed condition evidence and one Source for all answer citations',{timeout:30_000},async()=>{
++  const host=await startWorkspaceFixture({questions:true,questionCitations:true,revisionScenario:'structured'}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size});
++  await context.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.abort());const page=await context.newPage();
++  try{await open(page,host);assert.equal(await page.locator('#delivery-conditions a').count(),0);assert.doesNotMatch(await page.locator('#delivery-conditions').textContent()||'',/Read at:/);await page.locator('#details-button').click();
++   await page.locator('#message').fill('Does this place require a card?');await page.locator('#send').click();await page.locator('#answer-sheet').waitFor({state:'visible'});
++   for(const selector of ['#question-result','#asked-result']){assert.equal(await page.locator(selector+' details').count(),1);assert.equal(await page.locator(selector+' blockquote').count(),3);assert.equal(await page.locator(selector+' a').count(),1);assert.equal((await page.locator(selector).textContent()||'').match(/Read at:/g)?.length,3);}
++   assert.equal(await page.locator('#asked-history h3').textContent(),'Q&A');await page.locator('#answer-dismiss').click();await page.locator('#details-back').click();await page.locator('#message').fill('Make it three guests');await page.locator('#send').click();await ready(page);await page.locator('#details-button').click();
++   assert.ok(await page.locator('#details-content details').count()>0);assert.match(await page.locator('#details-content').textContent()||'',/Dinner course ¥5000/);assert.match(await page.locator('#details-content').textContent()||'',/Read at: 2026-/);for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])assert.equal(await page.locator('#'+id).isVisible(),false,id);await shot(page,'round4-'+size.width+'-about-sources');
++  }finally{await context.close();await browser.close();await host.close();}
++ });
++ test('Round4 '+size.width+': exhausted empty state has a full-width Adjust with transient focus guidance',{timeout:25_000},async()=>{
++  const host=await startWorkspaceFixture({outcome:'empty'}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await context.newPage();
++  await context.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.abort());
++  try{await open(page,host,true);assert.equal(await page.locator('#empty-message').innerText(),"Couldn't confirm a matching place this time. Try adjusting the area, time, or party size.");const button=await page.locator('#empty-adjust').boundingBox(),actions=await page.locator('.empty-actions').boundingBox();assert.ok(button&&actions&&Math.abs(button.width-actions.width)<1);
++   await page.locator('#empty-adjust').click();assert.match((await page.locator('#message').getAttribute('placeholder'))!,/Try another area/);assert.equal(await page.locator('#message').evaluate(n=>n===document.activeElement),true);await page.locator('#case-title').click();assert.equal(await page.locator('#message').getAttribute('placeholder'),null);await shot(page,'round4-'+size.width+'-empty-adjust');
++  }finally{await context.close();await browser.close();await host.close();}
++ });
++}
++
++for(const size of sizes)test('Round4 '+size.width+': current state alone selects clarification/retry messages and suppresses historical answers',{timeout:30_000},async()=>{
++ const host=await startWorkspaceFixture({questions:true}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await context.newPage();
++ await context.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.abort());
++ try{await open(page,host);const original=await view(page);host.disconnectStreams();let projected=structuredClone(original);
++  // Controlled read-projection fixtures over the real local HTTP session; no state or database is changed.
++  projected.restaurant.candidates=[];projected.restaurant.readyCandidateIds=[];projected.restaurant.presentedCandidateIds=[];projected.restaurant.availability={};projected.restaurant.progress={active:true,stopped:false};projected.case.phase='SEARCHING';
++  projected.conversation.messages.push({role:'ASSISTANT',content:'旧的单店回答 / internal diagnostic details deliberately retained in history'});
++  await page.route('**/api/cases/*/events',r=>r.fulfill({status:200,contentType:'text/event-stream',body:': projection fixture\n\n'}));
++  await page.route('**/api/cases/*',r=>r.request().method()==='GET'&&!r.request().url().endsWith('/events')?r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({view:projected})}):r.continue());
++  await page.reload();await page.locator('#progress').waitFor({state:'visible'});assert.equal(await page.locator('#messages').textContent(),'');assert.equal(await page.locator('#messages').isVisible(),false);
++  projected.case.phase='NEEDS_INPUT';projected.restaurant.progress.active=false;projected.restaurant.clarificationQuestion='Which area would you like this time?';await page.reload();await page.locator('#messages').waitFor({state:'visible'});assert.equal(await page.locator('#messages').innerText(),projected.restaurant.clarificationQuestion);
++  projected.case.phase='FAILED';projected.restaurant.readStatus.kind='OTHER_FAILURE';delete projected.restaurant.clarificationQuestion;await page.reload();await page.locator('#messages').waitFor({state:'visible'});assert.equal(await page.locator('#messages').innerText(),"Couldn't complete this search. Please try again.");await shot(page,'round4-'+size.width+'-retry-message');
++ }finally{await context.close();await browser.close();await host.close();}
++});
+diff --git a/src/harness/browser/web-workspace-slice2.test.ts b/src/harness/browser/web-workspace-slice2.test.ts
+index f383d186f..628604a20 100644
+--- a/src/harness/browser/web-workspace-slice2.test.ts
++++ b/src/harness/browser/web-workspace-slice2.test.ts
+@@ -202,7 +202,7 @@ for(const size of sizes){
+   for(const outcome of ["empty","all-sources-failed"] as const)test("Workspace slice2 "+size.name+": empty result copy is honest "+outcome,{timeout:25_000},async()=>{
+     const host=await startWorkspaceFixture({outcome}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await tracedPage(context);
+     try{
+-      await start(page,host,"Dinner to adjust",0);assert.equal(await page.locator("#empty-message").innerText(),outcome==="empty"?"Nothing matched yet.":"Couldn't reach the sources. Try again?");
++      await start(page,host,"Dinner to adjust",0);assert.equal(await page.locator("#empty-message").innerText(),outcome==="empty"?"Couldn't confirm a matching place this time. Try adjusting the area, time, or party size.":"Couldn't reach the sources. Try again?");
+       assert.doesNotMatch(await page.locator("body").innerText(),/no seats|no (?:restaurants|places) nearby/i);
+       if(outcome==="empty"){
+         await page.locator("#message").fill("Keep this adjustment draft");await page.locator("#empty-adjust").click();
+diff --git a/src/harness/workspace-fixture-server.ts b/src/harness/workspace-fixture-server.ts
+index 6a8a36b15..59c694883 100644
+--- a/src/harness/workspace-fixture-server.ts
++++ b/src/harness/workspace-fixture-server.ts
+@@ -41,7 +41,7 @@ class Database implements SqlDatabase {
+ }
+ 
+ /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
+-export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
++export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
+   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
+   await applyPostgresMigrations(database);
+@@ -80,6 +80,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
+         if(times)inlineFacts=[{field:"TIME_WINDOW",operation:"CORRECT",value:{kind:"TIME_WINDOW",earliest:times[1]!,latest:times[2]??times[1]!,raw:inline[2]!}}];
+       }
+       const facts:RestaurantSemanticProposal["facts"]=inlineFacts??(edit?[
++        ...(options.revisionCuisine?[{field:"CRITERION" as const,operation:"ASSERT" as const,value:{kind:"CRITERION" as const,text:"tempura",polarity:"POSITIVE" as const,strength:"SOFT" as const}}]:[]),
+         {field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:editedParty,source:"EXPLICIT"}},
+         ...(options.revisionScenario?[
+           {field:"TARGET",operation:"CORRECT",value:{kind:"TARGET",goal:"AVAILABILITY",query:"sushi in Tokyo",selectionScope:"OPEN_ENDED",requestedResultCount:2,goalBasis:{type:"BOOKING_WORDING",reason:"Fixed updated request",quotes:[text]}}},
+@@ -180,7 +181,10 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
+         if(source.terms.plan){source.terms.plan.identityEvidenceId=entity.evidenceId;if(provider==="TABLECHECK")source.terms.plan.url=source.terms.pages[0]!.url;}
+       }
+       const prepared=prepareBookingHandoff(source,{candidate,offer:offer,check,request:{...raw.context.request,date:request.date,timeWindow:request.timeWindow,partySize:request.partySize},evidence:result.evidence,now:clock.now().toISOString()});
+-      if(source.terms?.card?.answer)answers.set(id,structuredClone(source.terms.card.answer));
++      if(source.terms?.card?.answer){const answer=structuredClone(source.terms.card.answer);
++        if(options.questionCitations&&answer.status==="ANSWERED")answer.citations=[0,1,2].map(i=>({...answer.citations[0]!,text:["Private rooms","Unavailable","Available"][i]!,readAt:new Date(clock.now().valueOf()-i*1000).toISOString()}));
++        answers.set(id,answer);
++      }
+       if(prepared)cache.set(id+":"+offer.id,prepared);
+       else throw new Error("Fixture B1 source was not admitted for "+id);
+       }
+diff --git a/src/web/local-workspace-page.ts b/src/web/local-workspace-page.ts
+index 1d5d6f69f..0e1a82ee4 100644
+--- a/src/web/local-workspace-page.ts
++++ b/src/web/local-workspace-page.ts
+@@ -11,7 +11,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
+ <style>
+ @font-face{font-family:'DM Sans';src:url('/assets/dm-sans.woff2') format('woff2');font-weight:100 1000;font-display:swap}
+ :root{--ink:#15172B;--ink-3:#5F6275;--line:#E3E5EC;--fill:#F5F6F9;--brand:#3D5AFE;--surface:#fff;--radius-card:24px;--radius-media:12px;--touch:44px;--ui-font:'DM Sans','PingFang SC','Hiragino Sans GB','Hiragino Sans','Microsoft YaHei UI','Noto Sans CJK SC',sans-serif;font-family:var(--ui-font);font-size:15px;line-height:1.5;color:#15172B;background:#fff;font-variant-numeric:tabular-nums}
+-*{box-sizing:border-box}body{margin:0;line-height:1.5;font-family:var(--ui-font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}button,input,textarea,select{font:inherit;font-family:var(--ui-font);color:inherit;line-height:1.4}button,a{-webkit-tap-highlight-color:transparent}
++*,*::before,*::after{box-sizing:border-box}body{margin:0;line-height:1.5;font-family:var(--ui-font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}button,input,textarea,select{font:inherit;font-family:var(--ui-font);color:inherit;line-height:1.4}button,a{-webkit-tap-highlight-color:transparent}
+ button{cursor:pointer;border:0;background:transparent;padding:10px 12px;border-radius:999px}button:disabled{opacity:.45;cursor:default}
+ button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+ input[type=text]:focus-visible,input[type=search]:focus-visible,input:not([type]):focus-visible,.condition-editor input:focus-visible{outline:none}
+@@ -100,7 +100,7 @@ html{scroll-padding-bottom:var(--composer-clearance,120px)}body:has(#case-worksp
+ #access-token{width:100%;border:0;border-radius:999px;padding:16px 20px;box-shadow:0 6px 20px rgba(21,23,43,.08);margin:10px 0 20px}
+ #access-token:focus-visible{box-shadow:0 0 0 1px var(--ink-3),0 8px 24px rgba(21,23,43,.12)}
+ #revision-changes{font-size:13px;margin-top:0;margin-bottom:16px}#revision-changes summary{display:inline-flex;gap:16px;color:#5F6275;font-weight:600}#removed-list{list-style:none;padding:12px 14px;margin:10px 0 0;background:#F5F6F9;border-radius:14px;display:flex;flex-direction:column;gap:10px}#removed-list p{margin-top:2px}
+-.saved-row:disabled{opacity:1;cursor:default}.saved-row p{margin-top:4px}#empty-message{font-size:15px;line-height:1.55}.empty-actions{display:flex;align-items:center;gap:12px;margin-top:18px}#understanding-error{font-size:13px;color:#5F6275;margin-top:16px;margin-bottom:16px;line-height:1.55}#partial-source-note{margin-top:16px}
++.saved-row:disabled{opacity:1;cursor:default}.saved-row p{margin-top:4px}#empty-message{font-size:15px;line-height:1.55}.empty-actions{display:flex;align-items:stretch;gap:12px;margin-top:18px}.empty-actions>button{flex:1;min-height:48px;margin:0}.empty-actions #empty-adjust{min-height:48px}#message:focus{outline:2px solid #405CF5;outline-offset:3px;border-radius:6px}#understanding-error{font-size:13px;color:#5F6275;margin-top:16px;margin-bottom:16px;line-height:1.55}#partial-source-note{margin-top:16px}
+ /* Local interaction feedback: dimensions stay fixed through pending states. */
+ button,.primary{touch-action:manipulation;position:relative;transition:transform 80ms ease-out,background-color 120ms ease-out}
+ button:not(:disabled):not([aria-busy=true]):active,.primary:not([aria-busy=true]):active{transform:translateY(1px)}
+@@ -271,7 +271,7 @@ SOFTWARE.
+ <section id="feedback" hidden><p>Did you get the booking?</p><div class="answers"><button data-answer="YES">Yes</button><button data-answer="NO">Not yet</button><button id="feedback-dismiss" aria-label="Skip booking feedback" data-answer="SKIP">×</button></div></section>
+ <section id="candidate-panel" hidden><article class="candidate" id="candidate-card"><div class="photo-frame"><div class="photo"><button id="cover-open" aria-label="Open restaurant photos" hidden><img id="cover-image" class="card-media" alt="" decoding="async"></button><span class="initial" id="restaurant-initial"></span><span id="no-photo"><svg class="photo-placeholder" viewBox="0 0 24 24" role="img" aria-label="Image placeholder"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="m4 17 5-5 4 4 3-3 4 4"/></svg></span><button id="bookmark" aria-label="Save for later" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></button></div><p id="cover-photo-source" class="photo-credit" hidden></p></div><div class="card-head"><h2 id="restaurant-name"></h2><button id="details-button">About <span aria-hidden="true">›</span></button></div><div id="key-facts"></div><p id="availability"></p><div id="delivery-slots" class="muted"></div><div id="delivery-conditions"></div><p id="recommendation"></p><div id="source-categories" hidden aria-label="Source cuisine classifications"></div><button id="choose" class="primary">Let's book</button><div id="card-actions"><div id="card-pagination" role="group" aria-label="Browse restaurants"><button id="previous" aria-label="Previous restaurant">←</button><span id="card-counter" aria-live="polite" aria-atomic="true"></span><button id="next" aria-label="Next restaurant">→</button></div></div></article></section>
+ <details id="revision-changes" hidden><summary><span id="removed-count"></span><span id="added-count"></span></summary><ul id="removed-list"></ul></details>
+-<section id="details" class="panel" hidden><button id="details-back" class="view-back">← Back</button><h2 id="details-name"></h2><p id="evidence" hidden></p><section id="place-photos" hidden aria-label="Restaurant photos"><div class="photo-frame detail-photo-frame"><button id="detail-photo-open" aria-label="Open restaurant photos"><img id="detail-photo" alt="" decoding="async"></button><p id="detail-photo-source" class="photo-credit"></p></div><div id="detail-photo-controls" class="photo-controls" hidden><button id="detail-photo-previous" aria-label="Previous photo">←</button><span id="detail-photo-counter"></span><button id="detail-photo-next" aria-label="Next photo">→</button></div></section><div id="details-content"></div><button id="refresh">Refresh availability</button><section id="asked-history" hidden><h3>You asked</h3><p id="asked-question"></p><div id="asked-result"></div><div id="asked-earlier"></div></section></section>
++<section id="details" class="panel" hidden><button id="details-back" class="view-back">← Back</button><h2 id="details-name"></h2><p id="evidence" hidden></p><section id="place-photos" hidden aria-label="Restaurant photos"><div class="photo-frame detail-photo-frame"><button id="detail-photo-open" aria-label="Open restaurant photos"><img id="detail-photo" alt="" decoding="async"></button><p id="detail-photo-source" class="photo-credit"></p></div><div id="detail-photo-controls" class="photo-controls" hidden><button id="detail-photo-previous" aria-label="Previous photo">←</button><span id="detail-photo-counter"></span><button id="detail-photo-next" aria-label="Next photo">→</button></div></section><div id="details-content"></div><button id="refresh">Refresh availability</button><section id="asked-history" hidden><h3>Q&A</h3><p id="asked-question"></p><div id="asked-result"></div><div id="asked-earlier"></div></section></section>
+ <section id="saved-panel" class="panel" hidden><button id="saved-back" class="view-back">← Back</button><h2>Saved</h2><div id="saved-list"></div><p id="saved-empty">No places saved yet.</p></section>
+ <section id="handoff" class="panel" hidden><button id="handoff-back" class="view-back">← Back</button><p id="handoff-provider"><span id="handoff-recommended">Recommended</span><span id="handoff-provider-name"></span></p><h2 id="handoff-name"></h2><div class="handoff-time-row" id="handoff-time-row" hidden><label id="handoff-slot-label">Time <span class="handoff-slot-control"><select id="handoff-slot" aria-label="Booking time"></select><svg class="handoff-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="m2 4 4 4 4-4"/></svg></span></label><span id="handoff-price" hidden></span></div><div id="handoff-terms"></div><p id="handoff-unavailable" hidden>No current booking handoff is available. You can check the source website or refresh availability.</p><a id="departure" class="primary" href="#" target="_blank" rel="noopener"><span id="departure-title"></span></a><p id="departure-fields" class="muted"></p><p class="hint" id="selection-hint" hidden></p><p class="hint" id="verification-hint" hidden></p><a id="direct-source" href="#" target="_blank" rel="noopener noreferrer">Go to source website ↗</a></section>
+ <section id="batch-end" class="panel" hidden><button id="batch-back" class="view-back">← Back</button><h2>Any of these work?</h2><div id="end-options"><button id="end-saved"><span>Saved</span><span id="end-saved-count"></span></button><button id="end-adjust">Adjust</button></div><button id="find-more" class="primary">Find more</button></section>
+diff --git a/src/web/workspace-client.ts b/src/web/workspace-client.ts
+index 5b1293101..5e4078e30 100644
+--- a/src/web/workspace-client.ts
++++ b/src/web/workspace-client.ts
+@@ -115,35 +115,44 @@ function citation(container,item,index){const d=element('details');d.dataset.sou
+ function preserveSources(target,build){const open=new Set([...target.querySelectorAll('details[open]')].map(n=>n.dataset.sourceId));target.replaceChildren();build(target);for(const d of target.querySelectorAll('details'))d.open=open.has(d.dataset.sourceId);}
+ // Exact source statements remain separate; this display does not judge cuisine.
+ function renderSourceCategories(id){
+-  const target=$('source-categories'),facts=state.view.restaurant.currentFactEvidence.filter(f=>f.candidateId===id),seen=new Set();target.replaceChildren();
+-  for(const fact of facts){
+-    const quotes=fact.provider==='GOOGLE_PLACES'&&Array.isArray(fact.claims.restaurantTypeFacts)?fact.claims.restaurantTypeFacts.filter(q=>typeof q==='string'):(fact.sourceFieldQuotes||[]).filter(q=>q.field==='CATEGORY').map(q=>q.quote);
+-    if(!quotes.length||!fact.sourceUrl)continue;
+-    const quote=quotes.join(', '),key=fact.provider+':'+quote;if(seen.has(key))continue;seen.add(key);
+-    const row=element('p',sourceName(fact.provider)+': '+quote,'muted');row.append(document.createTextNode(' '),link('Source',fact.sourceUrl));target.append(row);
+-  }
+-  target.hidden=!target.childElementCount;
++ const target=$('source-categories'),facts=state.view.restaurant.currentFactEvidence.filter(f=>f.candidateId===id),rows=[],seen=new Set();target.replaceChildren();
++ const generic=new Set(['restaurant','food','point of interest','establishment','store','food store']);
++ for(const fact of facts){
++  const raw=fact.provider==='GOOGLE_PLACES'&&Array.isArray(fact.claims.restaurantTypeFacts)?fact.claims.restaurantTypeFacts.filter(q=>typeof q==='string'):(fact.sourceFieldQuotes||[]).filter(q=>q.field==='CATEGORY').map(q=>q.quote);
++  const quotes=raw.flatMap(q=>q.split(/[,，]/)).map(q=>q.trim()).filter(q=>q&&!generic.has(q.toLocaleLowerCase('en-US').replace(/_/g,' ')));
++  if(!quotes.length||!fact.sourceUrl)continue;
++  const quote=quotes.join(', '),key=fact.provider+':'+quote;if(seen.has(key))continue;seen.add(key);rows.push({fact,quote,signature:[...new Set(quotes.map(q=>q.toLowerCase().replace(/ restaurant$/,'')))].sort().join('|')});
++ }
++ const disagreement=new Set(rows.map(row=>row.fact.provider)).size>1&&new Set(rows.map(row=>row.signature)).size>1;
++ if(disagreement)for(const {fact,quote}of rows){const row=element('p',sourceName(fact.provider)+': '+quote,'muted');row.append(document.createTextNode(' '),link('Source',fact.sourceUrl));target.append(row);}
++ target.hidden=!disagreement;
+ }
+ function renderDelivery(){
+  const r=state.view.restaurant,id=state.ui.candidateId;
+  const offers=(r.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());
+  const groups=new Map();for(const offer of offers){const label=displayDate(offer.dateTime),key=label+':'+offer.partySize;let group=groups.get(key);if(!group){group={label,partySize:offer.partySize,offers:[]};groups.set(key,group);}group.offers.push(offer);}
+  const selected=offerFor(id);$('delivery-slots').replaceChildren(...Array.from(groups.values()).map((group,index)=>{const row=element('div');if(index>0)row.append(element('p','Available '+group.label));const options=element('div',undefined,'slot-options');for(const offer of group.offers){const button=element('button',displayTime(offer.dateTime),'slot-time');button.dataset.offerId=offer.id;button.setAttribute('aria-label','Time '+displayTime(offer.dateTime)+' on '+group.label);button.setAttribute('aria-pressed',String(!!selected&&selected.id===offer.id));button.disabled=state.blocked||!!state.preparing;button.onclick=event=>{state.ui.offerId=offer.id;savePosition();renderCard();const current=$('delivery-slots').querySelector('[data-offer-id="'+CSS.escape(offer.id)+'"]');if(current&&event.detail===0)current.focus({preventScroll:true});};options.append(button);}row.append(options);return row;}));
+- preserveSources($('delivery-conditions'),target=>{for(const item of r.conditionStates&&r.conditionStates[id]||[]){
+-  const row=element('div',undefined,'fact');row.append(element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status]));
+-  for(const source of item.sources||[]){row.append(element('p',source.quote,'muted'),link('Source',source.sourceUrl));
+-   const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===source.sourceUrl);
+-   if(evidence&&evidence.observedAt)row.append(element('p','Read at: '+availabilityTime(evidence.observedAt),'muted'));
++ $('delivery-conditions').replaceChildren(...(r.conditionStates&&r.conditionStates[id]||[]).map(item=>element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status])));
++}
++function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), check=r.availabilityChecks[id], source=sourceFor(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now()?'Availability expired':'Not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible;$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
++function renderDetails(){
++ const c=candidate();if(!c)return;const r=state.view.restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];
++ text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source&&!!source.observedAt);if(source)text('evidence',sourceName(source.provider)+', checked '+displayTime(source.observedAt));
++ const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{
++  target.append(element('p',c.restaurant.address,'muted'));const sources=new Map();
++  const addSource=(url,quote,readAt)=>{if(!url)return;let row=sources.get(url);if(!row){row={quotes:new Set(),times:new Set()};sources.set(url,row);}if(quote)row.quotes.add(quote);if(readAt)row.times.add(readAt);};
++  for(const fact of facts){const values=[],claims=fact.claims||{};if(Array.isArray(claims.listedCourseDetails))values.push(...claims.listedCourseDetails);if(typeof claims.coursePriceYen==='number')values.push('Course '+money(claims.coursePriceYen));for(const k of ['cancellationTerms','noShowTerms'])if(typeof claims[k]==='string')values.push(claims[k]);for(const value of values){target.append(element('p',value));addSource(fact.sourceUrl,value,fact.observedAt);}}
++  for(const item of conditions){const row=element('div',undefined,'fact');row.append(element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status]));
++   for(const source of item.sources||[]){const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===source.sourceUrl);addSource(source.sourceUrl,source.quote,evidence&&evidence.observedAt);}
++   if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
+   }
+-  if(!(item.sources||[]).length&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
+- }});
++  for(const [url,row]of sources){const d=element('details');d.dataset.sourceId=url;d.append(element('summary','Source'));for(const quote of row.quotes)d.append(element('blockquote',quote));d.append(link('Source page',url));for(const at of row.times)d.append(element('p','Read at: '+at,'muted'));target.append(d);}
++ });}renderAsked(id);
+ }
+-function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), check=r.availabilityChecks[id], source=sourceFor(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now()?'Availability expired':'Not checked');text('recommendation',(c.matchReasons||[])[0]||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible;$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
+-function renderDetails(){const c=candidate();if(!c)return;const r=state.view.restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source&&!!source.observedAt);if(source)text('evidence',sourceName(source.provider)+', checked '+displayTime(source.observedAt));const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{target.append(element('p',c.restaurant.address,'muted'));for(const fact of facts){const values=[],claims=fact.claims||{};if(Array.isArray(claims.listedCourseDetails))values.push(...claims.listedCourseDetails);if(typeof claims.coursePriceYen==='number')values.push('Course '+money(claims.coursePriceYen));for(const k of ['cancellationTerms','noShowTerms'])if(typeof claims[k]==='string')values.push(claims[k]);if(!values.length)continue;const row=element('div',undefined,'fact');for(const value of values)row.append(element('p',value));if(fact.sourceUrl)row.append(link('Terms source',fact.sourceUrl));target.append(row);}for(const item of conditions){const row=element('div',undefined,'fact');row.append(element('p',item.text+' — '+({MET:'met',NOT_MET:'not met',NOT_CHECKED:'not checked'})[item.status]));for(const source of item.sources||[])row.append(element('p',(source.field==='NAME'?'Based on outlet name: ':source.field==='GOOGLE_TYPE'?'Google category: ':source.field==='CATEGORY'?'Source category: ':source.field==='PRICE'?'Observed price: ':'Observed ')+source.quote,'muted'),link('Source',source.sourceUrl));if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);}});}renderAsked(id);}
+ function renderAnswer(target,result){
+   preserveSources(target,container=>{
+     container.append(element('p',result.status==='ANSWERED'?result.answer:result.status==='NOT_STATED'?'Not stated on the page':'This answer could not be verified.'));
+-    for(const [i,item]of(result.citations||[]).entries())citation(container,item,i);
++    if((result.citations||[]).length){const d=element('details');d.dataset.sourceId='answer-sources';d.append(element('summary','Source'));const urls=new Set();for(const item of result.citations){d.append(element('blockquote',item.text),element('p','Read at: '+item.readAt,'muted'));if(!urls.has(item.url)){urls.add(item.url);d.append(link('Source page',item.url));}}container.append(d);}
+     if(!(result.citations||[]).length)for(const item of result.checkedPages||[])container.append(link('Checked page',item.url),element('p','Read at: '+item.readAt,'muted'));
+     if(result.confirmationRequired)container.append(element('p','Please confirm with the restaurant.'));
+   });
+@@ -229,7 +238,7 @@ function renderReadState(end){
+   const r=state.view.restaurant,status=r.readStatus;
+   const empty=status.kind==='NO_QUALIFIED_RESULTS'||status.kind==='ALL_SOURCES_FAILED';
+   show('empty-state',empty);show('understanding-error',status.kind==='MODEL_FAILURE');
+-  if(empty){text('empty-message',status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":'Nothing matched yet.');show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canContinue);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canRetry);$('empty-more').disabled=state.blocked;$('empty-retry').disabled=state.blocked;}
++  if(empty){text('empty-message',status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":status.canContinue?'Nothing matched yet.':"Couldn't confirm a matching place this time. Try adjusting the area, time, or party size.");show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canContinue);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canRetry);$('empty-more').disabled=state.blocked;$('empty-retry').disabled=state.blocked;}
+   const list=ids(),last=list.indexOf(state.ui.candidateId)===list.length-1;
+   show('partial-source-note',status.partialSourceFailure&&!r.progress.active&&(end||(state.ui.view==='CANDIDATES'&&last)));
+   return empty||status.kind==='MODEL_FAILURE';
+@@ -278,6 +287,8 @@ function renderHandoff(){
+ function updateComposerClearance(){const host=$('workspace-composer'),bottom=parseFloat(getComputedStyle(host).bottom)||0;document.documentElement.style.setProperty('--composer-clearance',(host.hidden?0:host.getBoundingClientRect().height+bottom+24)+'px');}
+ function resizeMessage(){const input=$('message');input.style.height='';if($('workspace-composer').contains(input)){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,140)+'px';}}
+ function setMessage(value){$('message').value=value;resizeMessage();}
++function focusAdjustment(){const input=$('message');if(!input.value)input.placeholder='Try another area, time, or party size…';input.focus({preventScroll:true});}
++$('message').addEventListener('blur',()=>{$('message').removeAttribute('placeholder');});
+ $('message').addEventListener('input',resizeMessage);
+ $('message').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
+ new ResizeObserver(updateComposerClearance).observe($('workspace-composer'));window.addEventListener('resize',()=>{resizeMessage();updateComposerClearance();if(state.conditionEditor)state.conditionEditor.position();});
+@@ -290,7 +301,7 @@ function render(){
+   if(real&&caseScroller.dataset.caseId!==state.view.case.caseId){caseScroller.scrollTop=0;caseScroller.dataset.caseId=state.view.case.caseId;}
+   if(!has){caseScroller.scrollTop=0;$('topbar').classList.remove('scrolled');if($('error').parentElement===caseScroller)$('workspace-composer').before($('error'));}else if($('error').parentElement!==caseScroller)caseScroller.append($('error'));
+   const parent=has?$('workspace-composer'):$('home-composer');if($('composer').parentElement!==parent)parent.append($('composer'));resizeMessage();updateComposerClearance();
+-  const asking=real&&state.ui.view==='DETAILS';$('message').removeAttribute('placeholder');$('message').setAttribute('aria-label',asking?'Restaurant question':'Plan message');
++  const asking=real&&state.ui.view==='DETAILS';$('message').setAttribute('aria-label',asking?'Restaurant question':'Plan message');
+   $('send').setAttribute('aria-busy',String(Boolean(state.sending||state.asking)));
+   $('send').disabled=state.blocked||state.asking||(asking&&state.view.case.phase!=='PRESENT_RESULTS');
+   if(!has){$('brand').classList.remove('working');show('progress',false);show('feedback',false);renderPhotos();return;}
+@@ -309,16 +320,19 @@ function render(){
+   show('candidate-panel',mode==='CANDIDATES'&&!!candidate()&&!end&&(!state.preview||state.preview.phase==='card'));show('batch-end',!!end);show('details',mode==='DETAILS'&&!!candidate());show('saved-panel',mode==='SAVED');show('saved',mode!=='SAVED');conditionRow.hidden=['SAVED','HANDOFF'].includes(mode);conditionRow.style.visibility=mode==='CANDIDATES'&&(state.preview&&state.preview.phase==='understanding'||!candidate()&&!$('request-conditions').childElementCount&&(r.progress.active||state.view.case.phase==='UNDERSTANDING'))?'hidden':'';show('handoff',mode==='HANDOFF'&&!!candidate());
+   show('end-saved',savedCount>0);text('end-saved-count',savedCount);$('end-saved').setAttribute('aria-label','Saved '+savedCount);$('find-more').disabled=state.blocked;
+   if(mode==='CANDIDATES'&&!end)renderCard();if(mode==='DETAILS')renderDetails();if(mode==='SAVED')renderSaved();if(mode==='HANDOFF')renderHandoff();renderPhotos();
+-  show('messages',true);const shortState=renderReadState(end),last=[...state.view.conversation.messages].reverse().find(m=>m.role==='ASSISTANT');text('messages',!shortState&&last&&(!candidate()||mode==='CONVERSATION')?last.content:'');if(r.progress.stopped)text('messages','Search stopped.');
++  const shortState=renderReadState(end),busy=!!(pending||state.preview||state.sending||state.blocked||r.progress.active||['UNDERSTANDING','SEARCHING'].includes(state.view.case.phase));
++  const message=!busy&&mode==='CANDIDATES'?(r.progress.stopped?'Search stopped.':state.view.case.phase==='NEEDS_INPUT'?r.clarificationQuestion||'':r.readStatus.kind==='OTHER_FAILURE'&&!candidateIds.length?"Couldn't complete this search. Please try again.":''):'';
++  text('messages',message);show('messages',!!message);
++  if(mode!=='CANDIDATES')for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])show(id,false);
+   show('mode-note',state.view.mode==='FIXTURE');text('mode-note','Fixture only. No real availability or reservations.');show('use-location',(r.missingRequiredFields||[]).includes('location'));savePosition();clearTimeout(state.expiry);
+   const expiry=Object.values(r.availability).flat().map(o=>Date.parse(o.displayExpiresAt)).filter(t=>t>Date.now()).sort((a,b)=>a-b)[0];if(expiry)state.expiry=setTimeout(render,Math.min(expiry-Date.now()+10,2147483647));show('feedback',!!state.feedback);
+ }
+ function viewContext(){return {view:state.view?state.ui.view:'HOME',...(state.view&&!state.ui.atEnd&&state.ui.candidateId&&['CANDIDATES','DETAILS','HANDOFF'].includes(state.ui.view)?{candidateId:state.ui.candidateId}:{}),comparedCandidateIds:[]};}
+ async function submitRequirement(message,preserveComposer=false){
+  if(!message||state.blocked||state.asking)return false;
+- const nav=state.nav,old=state.view,context=viewContext(),draft=$('message').value,startedAt=performance.now();clearEntryTransition();state.blocked=true;state.sending=!preserveComposer;clearError();
++ $('message').removeAttribute('placeholder');const nav=state.nav,old=state.view,context=viewContext(),draft=$('message').value,startedAt=performance.now();clearEntryTransition();state.blocked=true;state.sending=!preserveComposer;clearError();
+  if(!old){state.pendingCase={title:message};if(!preserveComposer)setMessage('');render();}
+- else{$('send').disabled=true;if(!preserveComposer)$('send').setAttribute('aria-busy','true');}
++ else{render();}
+  try{
+   const path=old?'/api/conversations/'+encodeURIComponent(old.conversation.id)+'/messages':'/api/cases';const body={message,requestId:requestId(),viewContext:context,...(old?{taskVersion:old.case.taskVersion}:{})};
+   const p=await api(path,{method:'POST',body:JSON.stringify(body)});if(nav!==state.nav)return false;
+@@ -369,13 +383,13 @@ $('refresh').onclick=refreshCase;
+ $('answer-backdrop').onclick=closeAnswer;$('answer-dismiss').onclick=closeAnswer;
+ let answerDragY=null;$('answer-dismiss').onpointerdown=event=>{answerDragY=event.clientY;$('answer-dismiss').setPointerCapture(event.pointerId);};
+ $('answer-dismiss').onpointerup=event=>{if(answerDragY!==null&&event.clientY-answerDragY>40)closeAnswer();answerDragY=null;};
+-$('batch-back').onclick=()=>moveCard(-1);$('end-saved').onclick=()=>setView('SAVED');$('end-adjust').onclick=()=>{$('message').focus({preventScroll:true});};
++$('batch-back').onclick=()=>moveCard(-1);$('end-saved').onclick=()=>setView('SAVED');$('end-adjust').onclick=focusAdjustment;
+ async function findMore(){
+   if(state.blocked)return;const nav=state.nav;state.blocked=true;$('find-more').disabled=true;
+   try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/another-batch',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});if(nav!==state.nav)return;state.blocked=false;state.ui.atEnd=false;state.ui.candidateId=null;accept(p.view);}
+   catch(error){if(nav===state.nav)report(error);}finally{if(nav===state.nav){state.blocked=false;render();}}
+ }
+-$('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=()=>{$('message').focus({preventScroll:true});};
++$('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=focusAdjustment;
+ async function depart(event){const h=currentHandoff();if(!h){event.preventDefault();await refreshCase();return;}event.preventDefault();const target=window.open('about:blank','_blank');if(target)target.opener=null;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId()})});localStorage.setItem(key(state.view.case.caseId)+':return','1');if(target)target.location.href=p.url;else throw new Error('Please allow this source tab to open.');}catch(error){if(target)target.close();report(error);}}
+ $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};
+ async function claimFeedback(){if(!state.view||state.feedback||state.claiming)return;const id=state.view.case.caseId;state.claiming=true;try{const p=await api('/api/cases/'+encodeURIComponent(id)+'/booking-feedback/claim',{method:'POST',body:'{}'});if(!state.view||state.view.case.caseId!==id)return;localStorage.removeItem(key(id)+':return');state.feedback=p.prompt||null;show('feedback',!!state.feedback);}catch(error){report(error);}finally{state.claiming=false;}}
+-- 
+2.50.1 (Apple Git-155)
+

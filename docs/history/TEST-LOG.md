@@ -7060,3 +7060,12 @@ Original formal390/1440/960 matrix16/16 at32.393s, OS/context nonlocal denial, n
 ### 2026-11-18 — Unified round-4 Domain development checks
 
 Local development: read-grounding/read-assessment/website composition59/59; independent DAYPART and recorded MIRAI diagnostic2/2. Typecheck passes. Frozen full five gates and16 visual scenarios pending the Web/Application commit. No new Live, production credential configuration or PostgreSQL access.
+
+
+### 2026-11-18 — Unified round-4 Web/Application development checks
+
+Projection19/19 and ten new dual-size Fixture browser regressions pass in development: expired Saved and refresh; stopped revised search/messages/title/list reload; timed About and grouped three-citation Q&A; exhausted empty Adjust. Existing workspace/slice2 development batch64/64 plus state-message controls2/2 pass; default development1704/1704. Frozen five gates/16 visual scenarios are reported separately under round-4. No real service or credential configuration load.
+
+Round-4 first frozen d04b6b096 stopped on an About commercial-terms browser regression: duplicate paragraph/blockquote made the existing No-show locator ambiguous. G6/build/visual were not reached;42 browser cases were cancelled after the first observed failure. Preserve raw output, manifest, source patch/bundle under round-4/failures/d04b6b096. Product repair removes duplicate commercial quotations, retains visible Observed price and Terms source; existing assertion is unchanged. Re-freeze the Web/Application commit before rerunning the full five gates.
+
+Round-4 second freeze6387eb21c: default1704/1704, G2 5/5; Chromium402/404 with only the two existing photo-SSE tests waiting for visible progress in Details. New round-4 regressions10/10, strict photo8/8/lookahead and Replay runner OS isolation pass. G6/build/visual were not run. Preserve all raw evidence and exact source bundle under round-4/failures/6387eb21c. Adapt the obsolete synchronization signal to actual server active state plus SSE-updated plan status, explicitly assert progress remains hidden; retain open-gallery/current-photo/draft/single-source-read assertions without loosening them.

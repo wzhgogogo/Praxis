@@ -1,0 +1,743 @@
+
+> praxis-zhixing@0.1.0 test:browser:fixture
+> node scripts/run-browser-fixtures.mjs && npm run test:g6:assembly
+
+[browser fixtures] 70/70 files; G2 never overlaps the remaining fixtures
+[browser fixtures] G2 (exclusive): 3 files, concurrency 1
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change-agent.test.ts"}
+✔ G2 constructed normal control uses observed labels after every private marker changes (3816.684584ms)
+✔ G2 public selection is observable but only a bound source response confirms the request (190.498ms)
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change-agent.test.ts","elapsedMs":4312.691,"passed":true}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change-mutation.test.ts"}
+✔ G2 extends the F3 class-only mutation to every id and private data attribute (128.168084ms)
+✔ G2 rule two rewrites all bound ID references, leaves dangling/script references and preserves CSS (137.605875ms)
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change-mutation.test.ts","elapsedMs":550.4653749999998,"passed":true}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_START","file":"src/harness/browser/dom-change.test.ts"}
+✔ G2 saved pages preserve the frozen reference capability and reject new false claims (19209.965334ms)
+ℹ {"id":"tabelog-list-nerima","classification":"PASS","referenceFacts":20,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-list-akabane","classification":"PASS","referenceFacts":1,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-01","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-02","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-teppen","classification":"PASS","referenceFacts":3,"lost":[],"unknownDates":{"day:2026-09-29":{"before":null,"after":null},"day:2026-09-28":{"before":null,"after":null},"day:2026-09-30":{"before":null,"after":null}},"sourceTransportCalls":0}
+ℹ {"id":"tabelog-calendar-sen","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{"day:2026-10-22":{"before":null,"after":null},"day:2026-10-01":{"before":null,"after":null}},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-ginza","classification":"PASS","referenceFacts":1,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-list-akabane","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-nakamata","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-detail-takahashiya","classification":"PASS","referenceFacts":2,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-nakamata","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+ℹ {"id":"tablecheck-calendar-kinri","classification":"PASS","referenceFacts":0,"lost":[],"unknownDates":{},"sourceTransportCalls":0}
+[browser fixtures] {"phase":"G2 (exclusive)","event":"FILE_END","file":"src/harness/browser/dom-change.test.ts","elapsedMs":19526.840542,"passed":true}
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24391.579708
+[browser fixtures] remaining fixtures: 67 files, concurrency 4
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/advance-control-recorded.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/bound-outlet-availability.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-calendar-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-category.test.ts"}
+✔ actual D02V people: bounded advancement hands back without intermediate decisions (2461.173375ms)
+ℹ {"mode":"RECORDED_COMPONENT","advanceModelCallsBefore":2,"advanceModelCallsAfter":1,"savedModelCalls":1,"projectedModelLatencySavedMs":4698,"note":"Real native click followed by original next DOM; stripped listeners not reconstructed. No Live success or new model latency asserted."}
+✔ actual D02V calendar: bounded advancement hands back without intermediate decisions (1638.157125ms)
+ℹ {"mode":"RECORDED_COMPONENT","advanceModelCallsBefore":1,"advanceModelCallsAfter":1,"savedModelCalls":0,"projectedModelLatencySavedMs":0,"note":"Real native click followed by original next DOM; stripped listeners not reconstructed. No Live success or new model latency asserted."}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/advance-control-recorded.test.ts","elapsedMs":4547.758249999999,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-discovery.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-calendar-controls.test.ts","elapsedMs":9595.529624999996,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-named-query.test.ts"}
+✔ confirmed outlet availability starts at recorded date controls; alreadyCurrent=true (10798.555417ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-named-query.test.ts","elapsedMs":4159.903916000003,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-option-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-discovery.test.ts","elapsedMs":9364.43275,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-page-controls.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-category.test.ts","elapsedMs":19253.0455,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-public-selection.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-public-selection.test.ts","elapsedMs":842.484083000003,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-replay.test.ts"}
+✔ confirmed outlet availability starts at recorded date controls; alreadyCurrent=false (10515.21325ms)
+✔ recorded twenty-page corpus retains outlet identity and the original search detour decisions (19.43075ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/bound-outlet-availability.test.ts","elapsedMs":21792.481165999998,"passed":true}
+✔ Matsumoto selected-party 1 escapes the guest Next loop through production observation (1687.34325ms)
+✔ Matsumoto selected-party 2 escapes the guest Next loop through production observation (1201.5135ms)
+✔ generic selected state requires public ARIA, with independent same-label groups (530.885416ms)
+✔ party click does not confirm from unrelated page changes or an unchanged group value (822.483875ms)
+✔ Chromium labels public icon alternatives and leaves ambiguous calendar ownership unlabelled (142.881ms)
+✔ calendar month postcondition ignores unrelated page changes and feeds NO_CHANGE back (796.179167ms)
+✔ Chromium control observation discards only a handle confirmed disconnected between reads (164.086292ms)
+✔ Chromium control observation preserves an attached control-read failure (153.283708ms)
+✔ Chromium control signatures ignore presentation-only classes but reject value and owner changes (169.258875ms)
+✔ Chromium projects an owned default-method submit as GET without classifying bare or POST submits as public GET (131.691ms)
+✔ C2a recorded date controls reject other days without class-derived party confirmation (2545.978458ms)
+✔ C2a selectable requested date retains authoritative click and blocks an ordinary other-date click (810.04ms)
+✔ observed source category links retain radius and partial-result safety: visible (4961.209375ms)
+✔ observed source category links retain radius and partial-result safety: hidden (5262.944833ms)
+✔ observed source category links retain radius and partial-result safety: foreign (4923.728833ms)
+✔ observed source category links retain radius and partial-result safety: cancel-partial (3522.544083ms)
+✔ P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests (1346.255875ms)
+✔ P21b guarded search filters reject unaudited parameters under the production generic-read policy (261.831583ms)
+✔ name-resolution benchmark uses the production prefix on Chromium and stops before any reservation navigation (3681.608792ms)
+✔ F5 current observation rejects three out-of-radius details and retains both in-radius candidates (3690.855542ms)
+✔ D8 real unnamed search box and script-populated hidden query reach a guarded bound list (3827.309042ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-request-binding.test.ts"}
+✔ button name metadata does not replace visible time or Reserve safety label (473.530584ms)
+✔ LOCAL chooses a visible time option with an opaque native value and reads it back (828.932709ms)
+✔ CLOUDFLARE_SESSION chooses a visible time option with an opaque native value and reads it back (789.200541ms)
+✔ LOCAL binds a button combobox to its own listbox option through the strict browser wire (1179.348ms)
+✔ CLOUDFLARE_SESSION binds a button combobox to its own listbox option through the strict browser wire (1144.318292ms)
+✔ public combobox value is independent of an empty input and confirms a changed option (1196.964792ms)
+✔ public combobox value is independent of an empty input and avoids a duplicate choice (473.677625ms)
+✔ LOCAL keeps the observed option node when unrelated buttons arrive during model decision (1317.98625ms)
+✔ CLOUDFLARE_SESSION keeps the observed option node when unrelated buttons arrive during model decision (1340.245542ms)
+✔ changed observed option role-change is rejected before execution (863.188959ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-page-controls.test.ts","elapsedMs":10125.306582999998,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-search-controls.test.ts"}
+✔ changed observed option replacement is rejected before execution (876.295875ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-replay.test.ts","elapsedMs":4838.279208,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-snapshot.test.ts"}
+✔ changed observed option legal-replacement is rejected before execution (1238.349875ms)
+✔ a visible option from another listbox cannot be claimed by the expanded combobox (463.035709ms)
+✔ native option disabled cannot be signed off as a selected time (441.988791ms)
+✔ native option unchanged cannot be signed off as a selected time (798.685667ms)
+✔ native option complete cannot be signed off as a selected time (838.865ms)
+✔ an asynchronously applied option can complete after a later selected-value observation (1204.149166ms)
+✔ an unconfirmed time choice cannot be replaced by a successful party choice (841.656666ms)
+✔ an applied custom option with true expanded state and an open own listbox remains unconfirmed (1237.909917ms)
+✔ an applied custom option with missing expanded state and an open own listbox remains unconfirmed (1214.255833ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-option-controls.test.ts","elapsedMs":19102.396041999993,"passed":true}
+✔ real browser waits for the requested page update instead of reporting stale slots (453.729208ms)
+✔ a requested ready marker that never appears fails within the probe deadline (1605.442584ms)
+✔ generic controlled browser path completes a local read-only page task without a site-specific adapter method (821.112459ms)
+✔ an observed public target-blank link switches the same session to a new page before reading its terms (850.09725ms)
+✔ real DOM observation exposes an unlabelled-id role button and calendar navigation without permitting submission (1156.635209ms)
+✔ an active language dialog blocks background calendar actions until the dialog is closed (1144.662375ms)
+✔ shared executor keeps unguarded public filters unavailable (475.316583ms)
+✔ slider observations follow native properties and ARIA state in both directions (290.94525ms)
+✔ a model cannot consent by setting an unclassified checkbox (486.459709ms)
+✔ nested and hidden dialogs preserve only the active layer's targets (273.302792ms)
+✔ C5a one choice reveals a clipped PARTY_SIZE option inside its current list (895.281208ms)
+✔ C5a one choice reveals a clipped TIME option inside its current list (850.827792ms)
+✔ C5a excludes disabled, occluded and noncurrent list options (469.790209ms)
+✔ Chromium observes public selection, native checked values and a calendar day without a private child shape (521.25675ms)
+✔ guarded HAR replay drives the production executor offline and keeps missing requests off the network (2724.722834ms)
+✔ guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic (1700.862666ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-stability.test.ts"}
+✔ LOCAL applies authoritative date and party through observed DOM references (1204.181209ms)
+✔ CLOUDFLARE_SESSION applies authoritative date and party through observed DOM references (1137.385167ms)
+✔ LOCAL settles delayed visible query state (938.526792ms)
+✔ CLOUDFLARE_SESSION settles delayed visible query state (890.539916ms)
+✔ LOCAL settles hidden and property-only control mutations without treating either as inventory (558.747958ms)
+✔ CLOUDFLARE_SESSION settles hidden and property-only control mutations without treating either as inventory (561.438666ms)
+✔ LOCAL recovers once from a visible header obstruction and re-observes before the next click (5845.333541ms)
+✔ CLOUDFLARE_SESSION recovers once from a visible header obstruction and re-observes before the next click (5854.847125ms)
+✔ TableCheck real Chromium Adapter completes a dynamic scrollable guest query (party-first) within 24 operations (2122.71175ms)
+✔ TableCheck real Chromium Adapter completes a dynamic scrollable guest query (date-first) within 24 operations (2080.315292ms)
+✔ native Tabelog detail uses real local Chromium controls before accepting its bound vacancy response (1568.546334ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-search-controls.test.ts","elapsedMs":24575.000291999997,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-control-fallback.test.ts"}
+✔ native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence (4335.311584ms)
+ℹ {"outcome":"AVAILABLE","modelCalls":14,"sourceFactSelections":[{"documentId":"tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","candidateId":"tabelog:en/tokyo/A1304/A130401/100","identityEvidenceId":"evidence:restaurant:tabelog-entity-match:b17866f9823ba635f7c3c7b7","promptVersion":"2","schemaVersion":"2","selections":[{"firstStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","lastStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","role":"COURSE","priceStatementId":""}],"selectedStatements":[{"id":"tabelog:en/tokyo/A1304/A130401/100:statement:2","text":"Omakase course","sourceRole":"SOURCE_TEXT"}]},{"documentId":"tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","candidateId":"tabelog:en/tokyo/A1304/A130401/100","identityEvidenceId":"evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b","promptVersion":"2","schemaVersion":"2","selections":[{"firstStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","lastStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","role":"COURSE","priceStatementId":""}],"selectedStatements":[{"id":"tabelog:en/tokyo/A1304/A130401/100:statement:2","text":"Omakase course","sourceRole":"SOURCE_TEXT"}]}],"phase":"PRESENT_RESULTS","availabilityStatus":"AVAILABLE","factCheck":{"status":"COMPLETED","checkedAt":"2026-08-19T07:20:00.000Z","evidenceIds":["evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b","quoted-source:c6e54935c8f66700dff525d8","tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"sourceProvider":"TABELOG","supersededEvidenceIds":["evidence:restaurant:tabelog-hard-criteria:cf8f2a36bf037130c26a2289"]},"matchReasons":["Source coordinates within 1000 m of Shibuya"],"sourceFieldQuotes":[{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"},{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"},{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"}],"modelVerifiedHardCriteria":[["omakase"]],"conditionStates":{"tabelog:en/tokyo/A1304/A130401/100":[{"text":"omakase","strength":"HARD","polarity":"POSITIVE","criterionRef":"criterion:0","status":"MET","explanation":"Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.","evidenceIds":["fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"sources":[{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"}]}]},"agentSequence":["SEARCH_RESTAURANTS","CHECK_AVAILABILITY","INVESTIGATE_CANDIDATE_FACTS","PRESENT_RESULTS","PRESENT_RESULTS","PRESENT_RESULTS"],"browserActions":["DATE","PARTY_SIZE"]}
+ℹ {"outcome":"AVAILABLE","control":"CURRENT_JUDGMENT_AND_ACTUAL_AGENT_CONTEXT","readRunId":"run:native-dynamic-tabelog-formal:AVAILABLE:investigation:1","judgmentIds":["fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"supportingEvidenceIds":["tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"agentVerifiedHardCriteria":["omakase"]}
+ℹ {"outcome":"AVAILABLE","control":"LOCAL_CONSTRUCTED_FACT_REPLACEMENT","historicalJudgmentsRetained":1,"currentJudgmentIds":[],"agentVerifiedHardCriteria":[]}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-control-fallback.test.ts","elapsedMs":3188.172999999995,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-public-list.test.ts"}
+✔ native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence (5031.003875ms)
+ℹ {"outcome":"UNAVAILABLE","modelCalls":16,"sourceFactSelections":[{"documentId":"tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","candidateId":"tabelog:en/tokyo/A1304/A130401/100","identityEvidenceId":"evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b","promptVersion":"2","schemaVersion":"2","selections":[{"firstStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","lastStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","role":"COURSE","priceStatementId":""}],"selectedStatements":[{"id":"tabelog:en/tokyo/A1304/A130401/100:statement:2","text":"Omakase course","sourceRole":"SOURCE_TEXT"}]},{"documentId":"tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","candidateId":"tabelog:en/tokyo/A1304/A130401/100","identityEvidenceId":"evidence:restaurant:tabelog-entity-match:b17866f9823ba635f7c3c7b7","promptVersion":"2","schemaVersion":"2","selections":[{"firstStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","lastStatementId":"tabelog:en/tokyo/A1304/A130401/100:statement:2","role":"COURSE","priceStatementId":""}],"selectedStatements":[{"id":"tabelog:en/tokyo/A1304/A130401/100:statement:2","text":"Omakase course","sourceRole":"SOURCE_TEXT"}]}],"phase":"NO_VERIFIED_RESULT","availabilityStatus":"UNAVAILABLE","factCheck":{"status":"COMPLETED","checkedAt":"2026-08-19T07:20:00.000Z","evidenceIds":["evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b","quoted-source:c6e54935c8f66700dff525d8","tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a","fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"sourceProvider":"TABELOG","supersededEvidenceIds":[]},"matchReasons":["Source coordinates within 1000 m of Shibuya"],"sourceFieldQuotes":[{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"},{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"},{"field":"COURSE_DESCRIPTION","quote":"Omakase course","sourceUrl":"https://tabelog.com/en/tokyo/A1304/A130401/100/","meal":"UNSPECIFIED"}],"modelVerifiedHardCriteria":[["omakase"]],"agentSequence":["SEARCH_RESTAURANTS","INVESTIGATE_CANDIDATE_FACTS","CHECK_AVAILABILITY","SEARCH_RESTAURANTS","END_READ"],"browserActions":["DATE","PARTY_SIZE"]}
+ℹ {"outcome":"UNAVAILABLE","control":"CURRENT_JUDGMENT_AND_ACTUAL_AGENT_CONTEXT","readRunId":"run:native-dynamic-tabelog-formal:UNAVAILABLE:investigation:1","judgmentIds":["fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"supportingEvidenceIds":["tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"],"agentVerifiedHardCriteria":["omakase"]}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-request-binding.test.ts","elapsedMs":32601.154125,"passed":true}
+✔ LOCAL projects TableCheck search wrapper as combobox and only its native input as fillable (325.111833ms)
+✔ LOCAL completes an exact bound search suggestion without clicking its covered background control (1247.106042ms)
+✔ LOCAL opens an observed covered public result at offset 0 (5276.279291ms)
+✔ LOCAL opens an observed covered public result at offset 1400 (5307.515375ms)
+✔ CLOUDFLARE_SESSION projects TableCheck search wrapper as combobox and only its native input as fillable (180.1195ms)
+✔ CLOUDFLARE_SESSION completes an exact bound search suggestion without clicking its covered background control (1290.202875ms)
+✔ CLOUDFLARE_SESSION opens an observed covered public result at offset 0 (5292.639792ms)
+✔ CLOUDFLARE_SESSION opens an observed covered public result at offset 1400 (5283.736541ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-response-only.test.ts"}
+✔ D4 recorded body-gap failure recovers through the production snapshot reader without an empty success (30347.407416ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-response-only.test.ts","elapsedMs":1336.6279170000053,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog-structure.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-snapshot.test.ts","elapsedMs":31071.346833000003,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tabelog.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-structure.test.ts","elapsedMs":1285.497166999994,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-tablecheck.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog-public-list.test.ts","elapsedMs":5503.340166999988,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-workspace.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-workspace.test.ts","elapsedMs":1749.3814580000035,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-visible-progress.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-visible-progress.test.ts","elapsedMs":2424.2620419999876,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/combobox-readback-recorded.test.ts"}
+✔ C3 settles delayed date results before asking the model and never completes from stale loading stock (6456.807125ms)
+✔ C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton (11346.693709ms)
+✔ C4 blocks repeated toggle state but allows the same Next control on changed pages (2646.008291ms)
+✔ C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending (21517.943542ms)
+✔ C3b Chromium ignores an outstanding image once data has completed (447.913333ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tabelog.test.ts","elapsedMs":19831.776209000003,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/d02v-recorded-progress.test.ts"}
+✔ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (12780.080792ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-stability.test.ts","elapsedMs":55517.842833,"passed":true}
+✔ G3 real Chromium failed native accelerator returns to observed date and party controls (2858.252833ms)
+✔ G3 real Chromium Agent reveals public renamed results and retains same-branch grounding (5144.473125ms)
+✔ G3 real Chromium Japanese outlet needs captured data response rather than a private slot class (1018.773708ms)
+✔ G3 real Chromium passive vacancy capture surfaces changed JSON without losing same-outlet identity (974.063917ms)
+✔ Tabelog category discovery expands observed links and removes the keyword within the same area (3542.408083ms)
+✔ saved Tabelog calendar keeps hidden future dates and disabled guests out of ready state (694.475834ms)
+✔ real Chromium recovers a Tabelog busy page once and still grounds the exact request (2222.496709ms)
+✔ Tabelog Adapter consumes loading-to-restricted calendar without model action or timeout (1360.53425ms)
+✔ LOCAL retires a real Chromium session after a delayed failed navigation (550.553167ms)
+✔ CLOUDFLARE_SESSION retires a real Chromium session after a delayed failed navigation (571.678958ms)
+✔ LOCAL retires a real Chromium session after a delayed failed navigation (source dispatch follows retirement) (557.554209ms)
+✔ LOCAL selects Tabelog paragraph dates and labelled guests without treating time options as slots (1874.77375ms)
+✔ CLOUDFLARE_SESSION selects Tabelog paragraph dates and labelled guests without treating time options as slots (1892.518709ms)
+✔ LOCAL legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1559.8505ms)
+✔ LOCAL current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1567.019375ms)
+✔ CLOUDFLARE_SESSION legacy Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1547.663791ms)
+✔ CLOUDFLARE_SESSION current Tabelog Adapter grounds passive exact-query responses and clears them on navigation (1535.011417ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/disabled-party-recorded.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/d02v-recorded-progress.test.ts","elapsedMs":14393.718042000008,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/document-header-budget.test.ts"}
+✔ TableCheck waits for its guide result and grounds exact-query empty availability (1245.956709ms)
+✔ real Chromium TableCheck source observation completes inside the current 45s provider window (32008.488917ms)
+✔ TableCheck handles multiple current search links and reads only the identity-bound outlet (1963.682ms)
+✔ TableCheck form waits past old inventory until a current same-outlet slot link appears (1216.246584ms)
+✔ LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2430.700584ms)
+✔ CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2464.938167ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-tablecheck.test.ts","elapsedMs":41666.133292,"passed":true}
+✖ Web refresh replaces commercial terms and cites the displayed fact source (430.303ms)
+✔ workspace New plan survives a late initial case-list response (236.825083ms)
+✔ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (750.043833ms)
+✔ recorded DIRECTORY components stop on second equivalent visible-state/action stall, despite changing refs/prose (16.7705ms)
+ℹ {"run":"D01","oldCalls":17,"used":12,"avoided":5,"noProgress":2}
+ℹ {"run":"p3b-holdout-01-r1-retry1","oldCalls":7,"used":6,"avoided":0,"noProgress":0}
+ℹ {"run":"p3b-holdout-02-r2","oldCalls":18,"used":10,"avoided":8,"noProgress":2}
+✔ changing controls through exact suggestion, outlet and date/party has no stall; hidden/opaque refs/prose aren't progress (0.145917ms)
+✔ executor closes a source after two no-effect actions, exposes factual stateChanged history and preserves filled inputs (2081.629583ms)
+✔ real successful D8 exact suggestion and direct availability observations do not hit two stalls within either scope (4.973042ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/entry-document-retry.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/disabled-party-recorded.test.ts","elapsedMs":19540.697457999995,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/entry-shared-retry.test.ts"}
+✔ recorded readonly combobox closed checks the same public control (15334.825416ms)
+✔ recorded readonly combobox missing-expanded-closed checks the same public control (15247.227125ms)
+✔ recorded readonly combobox log-conflict checks the same public control (15735.415666ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/document-header-budget.test.ts","elapsedMs":30803.088499999998,"passed":true}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/entry-unsafe-no-retry.test.ts"}
+✔ recorded readonly combobox missing-expanded-open checks the same public control (15400.424458ms)
+✔ recorded readonly combobox label-conflict checks the same public control (15400.077417ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/combobox-readback-recorded.test.ts","elapsedMs":86563.779209,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/fact-qa-runner.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/fact-qa-runner.test.ts","elapsedMs":0.30858299997635186,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/fact-qa-scoring.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/fact-qa-scoring.test.ts","elapsedMs":0.04316700002527796,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/g1-content-recorded.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/g1-content-recorded.test.ts","elapsedMs":0.031959000014467165,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/g6-source-read-check.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/g6-source-read-check.test.ts","elapsedMs":0.0503749999916181,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/group-window.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/group-window.test.ts","elapsedMs":0.25224999999045394,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/health-response-headers.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/health-response-headers.test.ts","elapsedMs":0.0342499999969732,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/live-source-health.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/live-source-health.test.ts","elapsedMs":0.4703330000047572,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/local-proxy-routing.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/local-proxy-routing.test.ts","elapsedMs":0.0384580000245478,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/native-static-transport.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/native-static-transport.test.ts","elapsedMs":0.03383400000166148,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/observed-get-form.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/observed-get-form.test.ts","elapsedMs":0.03054200002225116,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/observed-suggestion-handoff.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/observed-suggestion-handoff.test.ts","elapsedMs":0.03150000001187436,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/pacing-static-resources.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/pacing-static-resources.test.ts","elapsedMs":0.034207999997306615,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/pacing-transport.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/pacing-transport.test.ts","elapsedMs":0.03033300000242889,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/page-question-budget.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/page-question-budget.test.ts","elapsedMs":0.03141699999105185,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/query-values.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/query-values.test.ts","elapsedMs":0.027624999987892807,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/read-network-redirect.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/read-network-redirect.test.ts","elapsedMs":0.028749999997671694,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recorded-delivery-component.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recorded-delivery-component.test.ts","elapsedMs":0.028458999993745238,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recorded-reference.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recorded-reference.test.ts","elapsedMs":0.027708000008715317,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recorded-timeout-recovery.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recorded-timeout-recovery.test.ts","elapsedMs":0.029749999986961484,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/recording-keys.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/recording-keys.test.ts","elapsedMs":0.0490410000202246,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/replay-missing-response.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/replay-missing-response.test.ts","elapsedMs":0.03662500000791624,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/request-timeline.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/request-timeline.test.ts","elapsedMs":0.02604200001223944,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/restaurant-photos.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/restaurant-photos.test.ts","elapsedMs":0.025874999992083758,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-interruption.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-interruption.test.ts","elapsedMs":0.027125000022351742,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-pacing.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-pacing.test.ts","elapsedMs":0.02641699998639524,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-post-exit.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-post-exit.test.ts","elapsedMs":0.025790999992750585,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-replay.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-replay.test.ts","elapsedMs":0.03537499997764826,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/seed-readiness-selection.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/seed-readiness-selection.test.ts","elapsedMs":0.02649999997811392,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/tabelog-party-progress-recorded.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/tabelog-party-progress-recorded.test.ts","elapsedMs":0.06295799999497831,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/tabelog-terminal-observe-recorded.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/tabelog-terminal-observe-recorded.test.ts","elapsedMs":0.03462500000023283,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/tablecheck-query-readback.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/tablecheck-query-readback.test.ts","elapsedMs":0.08658299999660812,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/tablecheck-shop-read.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/tablecheck-shop-read.test.ts","elapsedMs":0.033124999987194315,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/transport-fidelity.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/transport-fidelity.test.ts","elapsedMs":0.02941699998336844,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/web-landing-background.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/web-landing-background.test.ts","elapsedMs":0.027540999988559633,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/web-workspace-navigation.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/web-workspace-navigation.test.ts","elapsedMs":0.03404100000625476,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/web-workspace-round4.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/web-workspace-round4.test.ts","elapsedMs":0.036791999998968095,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/web-workspace-slice2.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/web-workspace-slice2.test.ts","elapsedMs":0.03429199999663979,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/web-workspace.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/web-workspace.test.ts","elapsedMs":0.02833400000235997,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/entry-document-retry.test.ts","elapsedMs":49360.801959000004,"passed":false}
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/combobox-readback-recorded.test.ts (86559.338792ms)
+✔ D02-V ORIGINAL Manten DOM/HAR/actions finish exact 8-person slot inside unchanged45s provider window (7324.71225ms)
+ℹ {"mode":"RECORDED_COMPONENT","providerWindowMs":45000,"elapsedMs":44508,"models":5,"avoidedModelLatencyMs":0,"scans":5,"snapshots":5,"originalFinalCanceledScanAtMs":44493,"originalProviderTimeoutMs":45000,"timingNote":"Date clock uses original operation/model intervals; final canceled control scan reuses immediately preceding same-merchant recorded541ms scan. No invented HTTP/model response. DOM transitions are driven by original snapshots, not restored page JS."}
+✔ D02-V ADVANCE Manten DOM/HAR/actions finish exact 8-person slot inside unchanged45s provider window (6039.244084ms)
+ℹ {"mode":"RECORDED_COMPONENT","providerWindowMs":45000,"elapsedMs":41870,"models":4,"avoidedModelLatencyMs":2638,"scans":5,"snapshots":5,"originalFinalCanceledScanAtMs":44493,"originalProviderTimeoutMs":45000,"timingNote":"Date clock uses original operation/model intervals; final canceled control scan reuses immediately preceding same-merchant recorded541ms scan. No invented HTTP/model response. DOM transitions are driven by original snapshots, not restored page JS."}
+✔ D02-V actual Sumika partial observation confirms date but cannot invent eight guests (640.148375ms)
+✔ recorded disabled party stops only with source-confirmed date: true (3821.632792ms)
+ℹ {"frame":29,"controls":[{"label":"Date 2026-12-10","value":"2026-12-10","disabled":false,"group":"Calendar"},{"label":"Guests 8","value":"8","disabled":true,"group":"Guests"}]}
+ℹ {"mode":"RECORDED_COMPONENT","origin":"630a250e608ec903863b70c16bd7f8d63becf639","clicks":2,"modelCalls":1,"reason":"PARTY_SIZE_NOT_SELECTABLE","frame":29,"operations":20}
+✔ recorded disabled party stops only with source-confirmed date: false (15387.222042ms)
+ℹ {"frame":29,"controls":[{"label":"Date 2026-12-10","value":"2026-12-10","disabled":false,"group":"Calendar"},{"label":"Guests 8","value":"8","disabled":true,"group":"Guests"}]}
+ℹ {"mode":"RECORDED_COMPONENT","origin":"630a250e608ec903863b70c16bd7f8d63becf639","clicks":17,"modelCalls":1,"reason":"ADVANCE_OPERATION_BUDGET","frame":44,"operations":80}
+HEADER_RESOURCE_BUDGET {"mode":"SCRIPT_15_SECONDS","scriptBytes":10485782,"elapsedMs":15129.702917}
+✔ header-only10s attempt preserves20s load: SCRIPT_15_SECONDS (15321.085417ms)
+HEADER_RESOURCE_BUDGET {"mode":"HEADERS_BODY_15_SECONDS","scriptBytes":0,"elapsedMs":15018.180208000002}
+✔ header-only10s attempt preserves20s load: HEADERS_BODY_15_SECONDS (15171.296458ms)
+DOCUMENT_ATTEMPTS {"mode":"NO_HEADERS","requests":2,"elapsedMs":10109.852416,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":10015,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":1,"retryCount":0,"event":"ZERO_BYTE_TIMEOUT","elapsedMs":10015,"receivedBodyBytes":0,"bytesObserved":true,"resourceType":"document"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":10022,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":10022,"attemptTimeoutMs":9978},{"attempt":2,"retryCount":1,"event":"SUCCEEDED","elapsedMs":10040,"receivedBodyBytes":49,"bytesObserved":true,"status":200}]}
+✔ document zero-byte retry boundary: NO_HEADERS (10253.825083ms)
+DOCUMENT_ATTEMPTS {"mode":"ZERO_NODE_FETCH","requests":2,"elapsedMs":10074.759417000001,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":10005,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":1,"retryCount":0,"event":"ZERO_BYTE_TIMEOUT","elapsedMs":10005,"receivedBodyBytes":0,"bytesObserved":true,"resourceType":"document"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":10006,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":10006,"attemptTimeoutMs":9993},{"attempt":2,"retryCount":1,"event":"SUCCEEDED","elapsedMs":10018,"receivedBodyBytes":49,"bytesObserved":true,"status":200}]}
+✔ document zero-byte retry boundary: ZERO_NODE_FETCH (10165.7345ms)
+DOCUMENT_ATTEMPTS {"mode":"HEADERS_ONLY","requests":1,"elapsedMs":20031.167875,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":20001,"receivedBodyBytes":0,"bytesObserved":true,"status":200}]}
+✔ document zero-byte retry boundary: HEADERS_ONLY (20121.731208ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/entry-document-retry.test.ts (49356.943709ms)
+{"mode":"IDLE_THEN_NO_HEADERS","documents":2,"scripts":1,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":5075,"receivedBodyBytes":111,"bytesObserved":true,"status":200},{"attempt":1,"retryCount":0,"event":"IDLE_ABORT","elapsedMs":5075,"receivedBodyBytes":111,"bytesObserved":true,"status":200,"resourceType":"static"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":5087,"receivedBodyBytes":111,"bytesObserved":true,"status":200},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":5087,"attemptTimeoutMs":14912},{"attempt":2,"retryCount":1,"event":"FAILED","elapsedMs":20002,"receivedBodyBytes":0,"bytesObserved":true}]}
+✔ shared entry retry slot: IDLE_THEN_NO_HEADERS (20139.697292ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/entry-shared-retry.test.ts (40122.975375ms)
+{"mode":"NO_HEADERS","requests":[{"outcome":"ADMITTED","origin":"http://127.0.0.1:64404","pathname":"/start","method":"GET","resourceType":"document","transport":"NODE_FETCH","resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"document"},"queryKeys":[],"queryValues":[]},{"outcome":"BLOCKED","origin":"http://127.0.0.1:64404","pathname":"/write","method":"POST","resourceType":"fetch","queryKeys":[],"queryValues":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:64404","pathname":"/pending","method":"GET","resourceType":"document","transport":"NODE_FETCH","resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"document"},"queryKeys":[],"queryValues":[]},{"outcome":"TIMED_OUT","error":{"name":"TimeoutError","message":"route.fetch: Document headers timed out"},"origin":"http://127.0.0.1:64404","pathname":"/pending","method":"GET","resourceType":"document","transport":"NODE_FETCH","resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"document"},"queryKeys":[],"queryValues":[]}]}
+✔ blocked POST suppresses entry recovery: NO_HEADERS (10234.591833ms)
+{"mode":"IDLE_ABORT","requests":[{"outcome":"ADMITTED","origin":"http://127.0.0.1:64417","pathname":"/pending","method":"GET","resourceType":"document","transport":"NODE_FETCH","resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"document"},"queryKeys":[],"queryValues":[]},{"outcome":"BLOCKED","origin":"http://127.0.0.1:64417","pathname":"/write","method":"POST","resourceType":"fetch","queryKeys":[],"queryValues":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:64417","pathname":"/stall.css","method":"GET","resourceType":"stylesheet","transport":"BROWSER_GET_HEAD","admissionRule":{"collection":"staticResources","index":0},"resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"stylesheet"},"queryKeys":[],"queryValues":[]},{"outcome":"ADMITTED","origin":"http://127.0.0.1:64417","pathname":"/ready.js","method":"GET","resourceType":"script","transport":"BROWSER_GET_HEAD","admissionRule":{"collection":"staticResources","index":1},"resourceTypeDetails":{"selectedFrom":"PLAYWRIGHT","playwright":"script"},"queryKeys":[],"queryValues":[]}]}
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/entry-unsafe-no-retry.test.ts (27005.677541ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/fact-qa-runner.test.ts (0.003208ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/fact-qa-scoring.test.ts (0.0005ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/g1-content-recorded.test.ts (0.001542ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/g6-source-read-check.test.ts (0.000666ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/group-window.test.ts (0.000417ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/health-response-headers.test.ts (0.000292ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/live-source-health.test.ts (0.000458ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/local-proxy-routing.test.ts (0.000333ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/native-static-transport.test.ts (0.000375ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/observed-get-form.test.ts (0.000333ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/observed-suggestion-handoff.test.ts (0.0045ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/pacing-static-resources.test.ts (0.002666ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/pacing-transport.test.ts (0.001125ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/page-question-budget.test.ts (0.082416ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/query-values.test.ts (0.00175ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/read-network-redirect.test.ts (0.001042ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/recorded-delivery-component.test.ts (0.001125ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/recorded-reference.test.ts (0.0015ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/recorded-timeout-recovery.test.ts (0.001292ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/recording-keys.test.ts (0.001ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/replay-missing-response.test.ts (0.001333ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/request-timeline.test.ts (0.001417ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/restaurant-photos.test.ts (0.000959ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/runner-interruption.test.ts (0.000958ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/runner-pacing.test.ts (0.000958ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/runner-post-exit.test.ts (0.001ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/runner-replay.test.ts (0.000959ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/seed-readiness-selection.test.ts (0.000958ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/tabelog-party-progress-recorded.test.ts (0.001792ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/tabelog-terminal-observe-recorded.test.ts (0.001042ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/tablecheck-query-readback.test.ts (0.000958ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/tablecheck-shop-read.test.ts (0.000917ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/transport-fidelity.test.ts (0.001375ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-landing-background.test.ts (0.004625ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-navigation.test.ts (0.001541ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts (0.000917ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts (0.000834ms)
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-workspace.test.ts (0.00075ms)
+ℹ tests 179
+ℹ suites 0
+ℹ pass 136
+ℹ fail 1
+ℹ cancelled 42
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 148044.927042
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/entry-shared-retry.test.ts","elapsedMs":40126.58595900002,"passed":false}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/entry-unsafe-no-retry.test.ts","elapsedMs":27009.059917000006,"passed":false}
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-workspace.test.ts:1:288
+✖ Web refresh replaces commercial terms and cites the displayed fact source (430.303ms)
+  locator.waitFor: Error: strict mode violation: getByText('No-show: old rule') resolved to 2 elements:
+      1) <p>No-show: old rule</p> aka getByRole('paragraph').filter({ hasText: 'No-show: old rule' })
+      2) <blockquote>No-show: old rule</blockquote> aka locator('blockquote').filter({ hasText: 'No-show: old rule' })
+  
+  Call log:
+    - waiting for getByText('No-show: old rule') to be visible
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/browser-read-workspace.test.ts:39:61) {
+    log: [ "  - waiting for getByText('No-show: old rule') to be visible" ]
+  }
+
+test at src/harness/browser/combobox-readback-recorded.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/combobox-readback-recorded.test.ts (86559.338792ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/entry-document-retry.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/entry-document-retry.test.ts (49356.943709ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/entry-shared-retry.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/entry-shared-retry.test.ts (40122.975375ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/entry-unsafe-no-retry.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/entry-unsafe-no-retry.test.ts (27005.677541ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/fact-qa-runner.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/fact-qa-runner.test.ts (0.003208ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/fact-qa-scoring.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/fact-qa-scoring.test.ts (0.0005ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/g1-content-recorded.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/g1-content-recorded.test.ts (0.001542ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/g6-source-read-check.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/g6-source-read-check.test.ts (0.000666ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/group-window.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/group-window.test.ts (0.000417ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/health-response-headers.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/health-response-headers.test.ts (0.000292ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/live-source-health.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/live-source-health.test.ts (0.000458ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/local-proxy-routing.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/local-proxy-routing.test.ts (0.000333ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/native-static-transport.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/native-static-transport.test.ts (0.000375ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/observed-get-form.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/observed-get-form.test.ts (0.000333ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/observed-suggestion-handoff.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/observed-suggestion-handoff.test.ts (0.0045ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/pacing-static-resources.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/pacing-static-resources.test.ts (0.002666ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/pacing-transport.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/pacing-transport.test.ts (0.001125ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/page-question-budget.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/page-question-budget.test.ts (0.082416ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/query-values.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/query-values.test.ts (0.00175ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/read-network-redirect.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/read-network-redirect.test.ts (0.001042ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/recorded-delivery-component.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/recorded-delivery-component.test.ts (0.001125ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/recorded-reference.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/recorded-reference.test.ts (0.0015ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/recorded-timeout-recovery.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/recorded-timeout-recovery.test.ts (0.001292ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/recording-keys.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/recording-keys.test.ts (0.001ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/replay-missing-response.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/replay-missing-response.test.ts (0.001333ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/request-timeline.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/request-timeline.test.ts (0.001417ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/restaurant-photos.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/restaurant-photos.test.ts (0.000959ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/runner-interruption.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/runner-interruption.test.ts (0.000958ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/runner-pacing.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/runner-pacing.test.ts (0.000958ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/runner-post-exit.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/runner-post-exit.test.ts (0.001ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/runner-replay.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/runner-replay.test.ts (0.000959ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/seed-readiness-selection.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/seed-readiness-selection.test.ts (0.000958ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/tabelog-party-progress-recorded.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/tabelog-party-progress-recorded.test.ts (0.001792ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/tabelog-terminal-observe-recorded.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/tabelog-terminal-observe-recorded.test.ts (0.001042ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/tablecheck-query-readback.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/tablecheck-query-readback.test.ts (0.000958ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/tablecheck-shop-read.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/tablecheck-shop-read.test.ts (0.000917ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/transport-fidelity.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/transport-fidelity.test.ts (0.001375ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/web-landing-background.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-landing-background.test.ts (0.004625ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/web-workspace-navigation.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-navigation.test.ts (0.001541ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/web-workspace-round4.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts (0.000917ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts (0.000834ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:1
+✖ /private/tmp/praxis-3c-unified/src/harness/browser/web-workspace.test.ts (0.00075ms)
+  Error: Browser phase outer guard reached
+      at process.<anonymous> (file:///private/tmp/praxis-3c-unified/scripts/browser-fixture-worker.mjs:9:46)
+      at process.emit (node:events:507:28) {
+    failureType: 'testAborted'
+  }
+[browser fixtures] combined summary
+ℹ tests 184
+ℹ suites 0
+ℹ pass 141
+ℹ fail 1
+ℹ cancelled 42
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 193298.570
