@@ -64,6 +64,7 @@ for(const size of sizes){
       const active=(await(await context.request.get(path)).json()).view;assert.equal(active.restaurant.progress.active,true);
       await page.waitForFunction(()=>document.querySelector('.case-link.active small')?.textContent==='In progress');
       assert.equal(await page.locator('#progress').isVisible(),false,'Details keeps search progress isolated from the open gallery');
+      assert.equal(await page.locator('#details').isVisible(),true);assert.equal(await page.locator('#refresh').isVisible(),false,'refresh is only offered for presented results');assert.equal(await page.locator('#details-refresh-status').innerText(),'Refreshing…');assert.equal(await page.locator('#photo-viewer').isVisible(),true);assert.equal(await page.locator('#photo-counter').innerText(),'3 of 3');
       host.release();await page.waitForFunction(()=>document.querySelector('.case-link.active small')?.textContent==='Ready');
       assert.equal((await(await context.request.get(path)).json()).view.restaurant.progress.active,false);
       assert.equal(await page.locator('#progress').isVisible(),false);

@@ -83,7 +83,7 @@ export function projectWorkspaceRead(input: {
     candidateId: id, outletName: name(id), current: openable.has(id),
     ...(!openable.has(id) && qualifiedRevision && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
   }));
-  const revisionDiff = previous && qualifiedRevision && group.revision > previous.revision ? {
+  const revisionDiff = previous && groups.some(item => item.presented.size > 0) && qualifiedRevision && group.revision > previous.revision ? {
     fromRevision: previous.revision, toRevision: group.revision,
     removed: [...previous.presented].filter(id => !group.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id), reasonCode: reason(id) })),
     added: [...group.presented].filter(id => !previous.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id) })),

@@ -1,0 +1,360 @@
+{
+  "mode": "WEB_READ",
+  "caseId": "restaurant:d851345f47bb12e554341400",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@37",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@32"
+  },
+  "requestMetadata": {
+    "sha256": "a22101db140b8a5321fe8b499b37fd4084f9a73d64afa4650f1eb977385d5819"
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "schemaVersion": "1",
+  "runId": "0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+  "status": "FAILED",
+  "stage": "AGENT_LOOP",
+  "materializedCase": {
+    "semantic": {
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Restaurants with beer",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "criteria": [
+        {
+          "value": "serves beer",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    }
+  },
+  "events": [
+    {
+      "id": "event:user:c96ac490c8720eaa37ea4b6b0682ffbb",
+      "taskId": "restaurant:d851345f47bb12e554341400",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Restaurants with beer",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "addCriteria": [
+            {
+              "text": "serves beer",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "schemaVersion": "3"
+        }
+      },
+      "occurredAt": "2026-11-18T07:45:21.826Z",
+      "trace": {
+        "actor": "USER",
+        "runId": "run:restaurant:d851345f47bb12e554341400",
+        "correlationId": "event:user:c96ac490c8720eaa37ea4b6b0682ffbb",
+        "schemaVersion": "1"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:7f841bd9-1a60-4ae9-be3f-23f80be8aa37",
+      "taskId": "restaurant:d851345f47bb12e554341400",
+      "event": {
+        "type": "AGENT_ASKED_USER",
+        "question": "Which area would you like to find restaurants with beer in?",
+        "relatedFields": [
+          "area"
+        ]
+      },
+      "occurredAt": "2026-11-18T07:45:23.914Z",
+      "trace": {
+        "actor": "SYSTEM",
+        "runId": "run:restaurant:d851345f47bb12e554341400",
+        "correlationId": "event:restaurant-agent:7f841bd9-1a60-4ae9-be3f-23f80be8aa37",
+        "schemaVersion": "1"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:restaurant:d851345f47bb12e554341400:1",
+      "taskId": "restaurant:d851345f47bb12e554341400",
+      "stepNumber": 1,
+      "occurredAt": "2026-11-18T07:45:23.914Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "cc7784f38edb3f60a91d9d65bca1db71041acbc49ec45db27440d961b21fcf10",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:7f841bd9-1a60-4ae9-be3f-23f80be8aa37"
+        ],
+        "attemptIds": [],
+        "commandIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ANSWER_PAGE_QUESTION",
+          "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+          "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+          "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+          "importantConstraints": [
+            "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+          ]
+        },
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "17",
+      "decisionContext": {
+        "now": "2026-11-18T07:45:21.836Z",
+        "phase": "UNDERSTANDING",
+        "candidates": [],
+        "readBudget": {
+          "remainingMs": 497294,
+          "conclusionReserveMs": 20000
+        },
+        "intentDraft": {
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Restaurants with beer",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "criteria": [
+            {
+              "text": "serves beer",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "schemaVersion": "3"
+        },
+        "availability": {},
+        "legalActions": {
+          "search": false,
+          "endRead": false,
+          "presentResults": [],
+          "checkAvailability": [],
+          "answerPageQuestion": false,
+          "investigateCandidateFacts": []
+        },
+        "presentation": [],
+        "schemaVersion": "17",
+        "readCompletion": {
+          "reason": "The current request is incomplete",
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": []
+        },
+        "availabilityChecks": {},
+        "searchAvailability": {
+          "available": true
+        },
+        "missingBlockingFields": [
+          "area"
+        ]
+      },
+      "agentAction": {
+        "type": "ASK_USER",
+        "question": "Which area would you like to find restaurants with beer in?",
+        "relatedFields": [
+          "area"
+        ]
+      },
+      "decisionSummary": "Area is a missing blocking field and search is not yet legal; ask the user for the area.",
+      "modelAttempt": {
+        "model": "deepseek-flash",
+        "usage": {
+          "inputTokens": 4023,
+          "totalTokens": 4205,
+          "outputTokens": 182
+        },
+        "purpose": "restaurant_agent_decide",
+        "provider": "DEEPSEEK",
+        "latencyMs": 2074,
+        "finishReason": "TOOL_CALLS",
+        "invocationId": "58d206a6-811f-4c89-aa28-7a7297c9a0df",
+        "outputSchema": {
+          "name": "restaurant_agent_action",
+          "version": "5"
+        },
+        "promptVersion": "32",
+        "providerRequestId": "89abcf24-1560-450a-80fc-8dad757081a3"
+      },
+      "actionValidation": {
+        "status": "ALLOWED"
+      },
+      "observation": {
+        "type": "USER_QUESTION",
+        "detail": "Which area would you like to find restaurants with beer in?"
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "d82b551d3289421776567dbf24873f87c8b23a60b4354c7dd304ced14ca67aa1",
+      "stepOutcome": "WAITING_USER"
+    }
+  ],
+  "finalSnapshot": {
+    "id": "restaurant:d851345f47bb12e554341400",
+    "runId": "run:restaurant:d851345f47bb12e554341400",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "24",
+    "lifecycleState": "WAITING_USER",
+    "domainState": {
+      "phase": "NEEDS_INPUT",
+      "candidates": [],
+      "factChecks": {},
+      "intentDraft": {
+        "target": {
+          "goal": "RECOMMENDATION",
+          "query": "Restaurants with beer",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "criteria": [
+          {
+            "text": "serves beer",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "timezone": "Asia/Tokyo",
+        "schemaVersion": "3"
+      },
+      "availability": {},
+      "readEvidence": [],
+      "schemaVersion": "25",
+      "searchRevision": 0,
+      "availabilityChecks": {},
+      "pendingUserQuestion": {
+        "question": "Which area would you like to find restaurants with beer in?",
+        "relatedFields": [
+          "area"
+        ]
+      },
+      "investigationRevision": 1
+    },
+    "outcome": null,
+    "version": 2,
+    "createdAt": "2026-11-18T07:45:19.125Z",
+    "updatedAt": "2026-11-18T07:45:23.914Z"
+  },
+  "loop": {
+    "status": "WAITING_USER"
+  },
+  "resourceUsage": {
+    "elapsedMs": 4798,
+    "agentDecisions": 1,
+    "modelCallsStarted": 2
+  },
+  "resourceAccounting": {
+    "browserModelCalls": "UNKNOWN",
+    "cost": "UNKNOWN"
+  },
+  "bookingTermsDiagnostics": [
+    {
+      "at": "2026-11-18T07:45:23.926Z",
+      "rootTaskId": "restaurant:d851345f47bb12e554341400",
+      "readRunId": "run:restaurant:d851345f47bb12e554341400:investigation:1",
+      "reason": "NOT_SELECTED"
+    }
+  ],
+  "limits": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 100,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 90000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "startedAt": "2026-11-18T07:45:23.928Z",
+  "finishedAt": "2026-11-18T07:45:23.929Z"
+}

@@ -41,7 +41,8 @@ function scopeKey(scope: ServiceScopeClaims | undefined): string {
 
 /** These labels identify a venue class too broadly to discharge a cuisine/type exclusion. */
 function concreteTypeFacts(values: string[]): string[] {
-  const broad = new Set(["restaurant", "food", "dining", "cuisine", "chinese restaurant", "asian restaurant"]);
+  const broad = new Set(["restaurant", "food", "dining", "cuisine", "chinese restaurant", "asian restaurant",
+    "point of interest", "establishment", "store", "food store", "liquor store", "wholesaler", "service"]);
   return values.filter((value) => !broad.has(normalized(value)));
 }
 

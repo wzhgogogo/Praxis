@@ -6383,3 +6383,8 @@ Frozen 08dbec05e95793d9f94440afb083d4dfc71c0522 passes the full clean offline ac
 ### 2026-11-18 — Focus outline and screenshot diagnosis
 
 Remove one global focus CSS rule only; no runtime, qualification, refresh, condition-state or revision-diff changes. Inspect existing local user artifacts read-only for the three other screenshot questions: Dec9 recommendation was presented, subsequent refresh hit browser-run concurrency failure; beer condition was promoted from generic source categories, so it lacks explicit beer support;0 removed/3 new compares against an empty previous revision. No new Live, model/provider call or PG query.
+
+
+### 2026-11-18 — Unified round-6 implementation
+
+Draft / not integrated. Fix screenshot findings2/3/4 through ALS ownership of the full Case read including automatic B1, pre-cancellation version/business checks and preparing-read coverage, terminal Details/Handoff synchronization, explicit beer-service evidence admission, Style1 conditions and a first-delivery diff guard. Keep previous revision selection and Prompt15 bytes unchanged. Archive the second user walkthrough batch7/35 with sanitized/original hashes; retain first-batch index bytes under manifest.batch-1.json because the local filesystem is case-insensitive, with MANIFEST.json as combined index. No new Live, real PostgreSQL or4312 preview restart. Source freeze and clean full offline acceptance follow in round-6.

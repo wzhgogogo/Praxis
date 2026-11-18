@@ -233,3 +233,12 @@ Current-run identity-bound pages are reused first. Each question now has an inde
 ### Round-4 workspace refinement (2026-11-18, draft / not integrated)
 
 A Saved item remains clickable while its card is presented, including after availability expiry; booking refreshes evidence before handoff. Interrupted revised searches never claim that Saved places no longer match. Revised plan headings and My plans reflect current structured conditions. Main progress, empty/error notices and search messages appear only with candidate browsing; changing requirements hides old messages immediately. About owns full condition quotations, source links and Read at timestamps; cards show concise conclusions. Each Q&A answer uses one Source disclosure preserving every quotation and observation time, with source-page URLs deduplicated. Adjust focuses the composer with temporary guidance without moving the page or clearing a draft.
+
+
+## 2026-11-18 — Refresh and result explanations
+
+Draft / not integrated. About shows refresh only for PRESENT_RESULTS. An active/blocked refresh is disabled with Refreshing… feedback, retaining current photos and unsent text. The batch label is Refresh availability when retrying source failures, any shown outlet has offers/AVAILABLE, or the goal is AVAILABILITY; an entirely fact-only recommendation batch uses Refresh details. Active work stays in About/Handoff. Inactive failure, no verified results or removal of the current outlet returns to the main workspace and closes answer/photo overlays.
+
+Card availability is explicitly Availability not checked (or Availability expired), independent of condition evidence. Conditions use Confirmed / Not a match / Unverified with name left and status right, and the same words in About. Generic bar/pub/izakaya and retail categories cannot establish serves beer: new assessment needs explicit merchant/menu prose or an explicitly beer-serving dining category. Stored historical presentedResults.conditionStates are not rewritten; the historical Mikkeller Case therefore still projects Confirmed.
+
+The first actual delivery has no change summary, including after NEEDS_INPUT. Later diffs hide each zero side. An added-only N new is static, without an empty removal disclosure. Real completed empty revisions still form the next comparison baseline.

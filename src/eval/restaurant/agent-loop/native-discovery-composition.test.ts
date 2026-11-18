@@ -1,4 +1,5 @@
 import { fixtureGoalBasis } from "../../../harness/restaurant-read-test-fixtures.js";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { runDiscoveryProbe } from "./discovery-probe.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -878,6 +879,47 @@ test("T1 Runner and Web assemblies expose equal effective limits and independent
   assert.equal(runner.loop.maxRejectedActions, 5, "neither host may fall back to the retired test default of three");
   assert.equal(runner.router.structuredReadTimeoutMs, 30_000);
   assert.equal(runner.router.browserReadTimeoutMs, runner.runCeilings.maxAutomaticBrowserMs);
+});
+
+test("one production assembly isolates concurrent Case sessions and budgets through loop return", {timeout:30_000}, async () => {
+  const owners = new AsyncLocalStorage<"A" | "B">();
+  const models = { A: new H001NativeModel("TABELOG_DELIVERS"), B: new H001NativeModel("TABELOG_DELIVERS") };
+  const opened = { A: [] as number[], B: [] as number[] }, closed = { A: [] as number[], B: [] as number[] };
+  const browsers = Object.fromEntries((["A", "B"] as const).map(id => [id,
+    sourcePages("TABELOG_DELIVERS", [], opened[id], [], closed[id], {guardedReadBoundary:true})])) as Record<"A" | "B", ReturnType<typeof sourcePages>>;
+  const assembly = createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {
+    model:{complete:request=>models[owners.getStore()!].complete(request)},
+    browser:{readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:input=>browsers[owners.getStore()!].openSession(input)},
+    google:new GooglePlacesClient({apiKey:"FIXTURE",fetchImplementation:async()=>new Response(JSON.stringify({places:[{id:"shibuya",displayName:{text:"Shibuya"},formattedAddress:"Shibuya, Tokyo",location:center,types:["locality","political"],addressComponents:[{longText:"Shibuya",types:["locality"]}]}]}),{status:200})}),
+    clock:{now:()=>reference},currentTaskId:()=>owners.getStore(),
+  });
+  const deferred = () => { let resolve!:()=>void; const promise=new Promise<void>(r=>{resolve=r;});return {promise,resolve}; };
+  const paused={A:deferred(),B:deferred()},resume={A:deferred(),B:deferred()},seen=new Set<string>();
+  const probes:Partial<Record<"A"|"B",{count:()=>number;atPause:number;live:number[]}>>={};
+  const check=assembly.availability.check.bind(assembly.availability);
+  assembly.availability.check=async(...args)=>{
+    const result=await check(...args),id=owners.getStore()!;
+    if(!seen.has(id)){seen.add(id);const restore=AsyncLocalStorage.snapshot();probes[id]={count:()=>restore(()=>assembly.browserBudget.totalModelCalls),atPause:assembly.browserBudget.totalModelCalls,live:opened[id].filter(n=>!closed[id].includes(n))};paused[id].resolve();await resume[id].promise;}
+    return result;
+  };
+  const run=(id:"A"|"B")=>owners.run(id,async()=>{
+    const composition=createHybridReadComposition({taskId:id,runId:"run:"+id,clock:{now:()=>reference},model:models[id],...assembly});
+    await composition.interpretAndDispatch({taskId:id,message:"Find omakase near Shibuya tonight for2",referenceTime:reference.toISOString(),timezone:"Asia/Tokyo"});
+    return composition.coordinator.withReadRun(async()=>{
+      await composition.coordinator.run(id);
+      assert.ok(assembly.browserBudget.totalModelCalls>0,"loop return must not clear the enclosing B1 supplement budget");
+      return composition.runtime.snapshot(id).domainState;
+    },id);
+  });
+  const a=run("A");void a.catch(()=>{});let b:ReturnType<typeof run>|undefined;
+  try{
+    await paused.A.promise;assert.ok(probes.A!.atPause>0);assert.ok(probes.A!.live.length>0,"A retains its source session");
+    b=run("B");void b.catch(()=>{});await paused.B.promise;assert.ok(probes.B!.atPause>0);assert.ok(probes.B!.live.length>0);
+    resume.A.resolve();const aState=await a;assert.equal(aState.phase,"PRESENT_RESULTS");
+    assert.equal(probes.B!.count(),probes.B!.atPause,"ending A must not clear B's consumed browser budget");
+    assert.ok(probes.B!.live.every(n=>!closed.B.includes(n)),"ending A cannot close B's source sessions");
+    resume.B.resolve();assert.equal((await b).phase,"PRESENT_RESULTS");
+  }finally{resume.A.resolve();resume.B.resolve();await Promise.allSettled([a,...(b?[b]:[])]);}
 });
 
 

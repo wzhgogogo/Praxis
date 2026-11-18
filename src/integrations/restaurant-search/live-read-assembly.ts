@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from "node:async_hooks";
 import type { PhotoHttpPort } from "../restaurant-photos/public-photo-http.js";
 import { RestaurantDisplayPhotos } from "../restaurant-photos/display-photos.js";
 import type { GooglePhotoTransport } from "../restaurant-photos/google-photos.js";
@@ -65,7 +66,16 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       tabelogHandoffs.capture(request, signal, () => tablecheckHandoffs.capture(request, signal, read)),
     readPrepared: (view: Parameters<typeof tablecheckHandoffs.readPrepared>[0]) => [...tabelogHandoffs.readPrepared(view), ...tablecheckHandoffs.readPrepared(view)],
   };
-  const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: config.maxBrowserModelCallsTotal };
+  const runBudgets = new AsyncLocalStorage<{ budget: BrowserExecutionBudget; scopeId?: string }>();
+  const newBudget = () => ({ totalModelCalls: 0, maxModelCalls: config.maxBrowserModelCallsTotal });
+  const standaloneBudget = newBudget();
+  // All concrete readers keep this same reference; its counters belong to the current async read.
+  const browserBudget: BrowserExecutionBudget = {
+    get totalModelCalls() { return (runBudgets.getStore()?.budget ?? standaloneBudget).totalModelCalls; },
+    set totalModelCalls(value: number) { (runBudgets.getStore()?.budget ?? standaloneBudget).totalModelCalls = value; },
+    get maxModelCalls() { return (runBudgets.getStore()?.budget ?? standaloneBudget).maxModelCalls ?? config.maxBrowserModelCallsTotal; },
+    set maxModelCalls(value: number) { (runBudgets.getStore()?.budget ?? standaloneBudget).maxModelCalls = value; },
+  };
   const google = new GooglePlacesRestaurantSearch(transports.google, now, config.maxDiscoveryCandidates, { maxRequests: config.maxGoogleRequests });
   const native = composeNativeRestaurantRead(google, sourceNames.runtime, transports.model, browserBudget,
     transports.onBrowserDiagnostic, evaluationLocation, now, {
@@ -104,6 +114,12 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   });
   const availability = {
     executionRoute: sourceAvailability.executionRoute,
+    withReadRun: <T>(read: () => Promise<T>, scopeId?: string): Promise<T> => {
+      const active = runBudgets.getStore();
+      if (active && (scopeId === undefined || active.scopeId === scopeId)) return read();
+      const budget = newBudget();
+      return runBudgets.run({ budget, ...(scopeId !== undefined ? { scopeId } : {}) }, () => sourceAvailability.withReadRun(read, scopeId, budget));
+    },
     beginReadRun: () => sourceAvailability.beginReadRun(),
     endReadRun: () => sourceAvailability.endReadRun(),
     browserModelBudgetExhausted: () => sourceAvailability.browserModelBudgetExhausted(),

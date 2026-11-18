@@ -34,6 +34,27 @@ function model(output: unknown): ModelGateway {
   }) };
 }
 
+for (const format of ["bare", "GOOGLE_TYPE", "CATEGORY"] as const) for (const type of ["bar", "pub", "izakaya", "liquor store", "beer store", "restaurant", "point of interest", "brewpub", "beer bar", "beer hall", "beer garden", "beer restaurant"])
+  test(`beer service admission ${format}: ${type}`, async () => {
+    const raw:RestaurantReadEvidence={...sourceEvidence[0]!,sourceUrl:"https://venue.example/",claims:{restaurantTypeFacts:[type]},
+      ...(format!=="bare"?{sourceFieldQuotes:[{field:format,quote:type,sourceUrl:"https://venue.example/"}]}:{})};
+    const beerIntent={...positiveIntent,criteria:[{text:"serves beer",polarity:"POSITIVE" as const,strength:"HARD" as const}]};
+    const result=await new ModelRestaurantFactJudgment(model({judgments:[{criterion:"serves beer",outcome:"SUPPORTED",scope:"RESTAURANT_CATEGORY_TYPE",evidenceIds:[raw.evidenceId]}]}))
+      .judge({candidate,intent:beerIntent,evidence:[raw]});
+    const expected=["brewpub","beer bar","beer hall","beer garden","beer restaurant"].includes(type);
+    assert.equal(assessRestaurantConditions(beerIntent,[raw,...result.evidence])[0]?.status,expected?"MET":"NOT_CHECKED");
+    const previouslyJudged:RestaurantReadEvidence={...raw,evidenceId:"judged",provider:"MODEL_JUDGMENT",claims:{verifiedHardCriteria:["serves beer"],supportingEvidenceIds:[raw.evidenceId]}};
+    assert.equal(assessRestaurantConditions(beerIntent,[raw,previouslyJudged])[0]?.status,expected?"MET":"NOT_CHECKED","the admission boundary checks both raw and already-judged evidence");
+  });
+
+test("beer service from explicit merchant source text stays admissible", async()=>{
+  const raw:RestaurantReadEvidence={...sourceEvidence[0]!,provider:"RESTAURANT_WEBSITE",sourceUrl:"https://venue.example/menu",claims:{restaurantTypeFacts:["We serve beer with our meals."]},
+    sourceFieldQuotes:[{field:"SOURCE_TEXT",quote:"We serve beer with our meals.",sourceUrl:"https://venue.example/menu"}]};
+  const beerIntent={...positiveIntent,criteria:[{text:"serves beer",polarity:"POSITIVE" as const,strength:"HARD" as const}]};
+  const result=await new ModelRestaurantFactJudgment(model({judgments:[{criterion:"serves beer",outcome:"SUPPORTED",scope:"OTHER",evidenceIds:[raw.evidenceId]}]})).judge({candidate,intent:beerIntent,evidence:[raw]});
+  assert.equal(assessRestaurantConditions(beerIntent,[raw,...result.evidence])[0]?.status,"MET");
+});
+
 for (const control of [
   { name: "observed name explicitly includes type", field: "NAME", quote: "Kaga Kaiseki", supported: true },
   { name: "name without requested type", field: "NAME", quote: "Kaga", supported: false },

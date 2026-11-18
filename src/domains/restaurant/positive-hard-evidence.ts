@@ -15,20 +15,42 @@ export interface PositiveHardSupport {
   basis: string[];
 }
 
+const broadCategories = new Set(["restaurant", "food", "dining", "cuisine", "point of interest", "establishment", "service", "wholesaler"]);
+const beerServiceCategories = new Set(["brewpub", "beer bar", "beer hall", "beer garden", "beer restaurant",
+  "craft beer bar", "craft beer hall", "craft beer garden", "craft beer restaurant"]);
+const supply = (criterion: string) => /^(?:serves?|offers?|provides?|has|with) (.+)$/.exec(normalize(criterion))?.[1];
+const concreteSupply = (criterion: string) => /\bbeers?\b|ビール|啤酒/.test(normalize(criterion))
+  || Boolean(supply(criterion) && !["food", "drinks", "dining", "cuisine"].includes(supply(criterion)!));
+
+/** A category is not a menu. Retail and generic types cannot prove a specific serving claim. */
+function categorySupports(criterion: string, label: string): boolean {
+  return label.split(/[,、;|]/).some(part => {
+    const type = normalize(part);
+    if (!type || broadCategories.has(type) || /\b(?:stores?|retail|wholesalers?|service)\b/.test(type)
+      || /^(?:liquor|beer|wine|food|grocery) shop$/.test(type)) return false;
+    if (/\bbeers?\b|ビール|啤酒/.test(normalize(criterion))) return beerServiceCategories.has(type);
+    const serving = supply(criterion);
+    return !concreteSupply(criterion) || Boolean(serving && outletNameSupportsHardCriterion(type, serving));
+  });
+}
+
 /** Source roles are supplied by readers, never by the judgment model. */
 export function positiveHardSourceSupport(criterion: string, source: RestaurantReadEvidence, meal?: "LUNCH" | "DINNER", semanticJudgment = true): PositiveHardSupport | undefined {
   const fields = source.sourceFieldQuotes ?? [];
   const quotes = fields.filter(q => q.sourceUrl === source.sourceUrl && q.quote.trim()
     && ["CATEGORY", "GOOGLE_TYPE", "COURSE_TITLE", "COURSE_DESCRIPTION", "SOURCE_TEXT", "NAME"].includes(q.field)
     && (q.field !== "NAME" || outletNameSupportsHardCriterion(q.quote, criterion))
+    && (!["CATEGORY", "GOOGLE_TYPE"].includes(q.field) || categorySupports(criterion, q.quote))
     && (semanticJudgment || outletNameSupportsHardCriterion(q.quote, criterion))
     && (q.field === "NAME" || !/\bno\b|\bnot\b|without|not offered|提供していません/i.test(q.quote))
     && (!/course|menu|套餐|コース/i.test(criterion) || !meal || !q.meal || q.meal === "UNSPECIFIED" || q.meal === meal));
   // A selected prose record needs its observed field/region. In contrast,
   // structured provider type claims already passed the existing source rule;
   // they may have no textual quotation (and must not acquire a made-up one).
+  const types = strings(source.claims.restaurantTypeFacts);
   const structured = !fields.length && !strings(source.claims.sourceStatementIds).length
-    && (strings(source.claims.restaurantTypeFacts).length > 0 || strings(source.claims.verifiedHardCriteria).length > 0);
+    && (types.length ? types.some(type => categorySupports(criterion, type))
+      : !concreteSupply(criterion) && strings(source.claims.verifiedHardCriteria).length > 0);
   if (!quotes.length && !structured) return undefined;
   const basis = quotes.length ? quotes.map(q => q.field === "NAME" ? "outlet name"
     : q.field === "GOOGLE_TYPE" ? "Google category" : q.field === "CATEGORY" && source.provider === "TABELOG" ? "Tabelog category"

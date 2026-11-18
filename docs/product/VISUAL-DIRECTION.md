@@ -31,3 +31,8 @@ Short credits sit at the lower corner on a small translucent background. If actu
 The backend address and About text remain complete. Only the address item in key-facts clamps to two lines; distance and price stay separate and visible. Card display may remove a leading Japan, and a leading Japanese postal code. Text after ※ or 【 remains part of the address, with no length-based removal.
 
 [Previous visual specification](../history/VISUAL-DIRECTION-BEFORE-DM-SANS-20261117.md) is archived as one historical document and does not define current typography, copy, placeholder or CSS.
+
+
+## 2026-11-18 — Style 1 condition rows
+
+User-approved / implementation in Round 6, draft / not integrated. Availability not checked / Availability expired uses 13px 500 #5F6275 without a dot. Available <Date> remains 15px 600 #15172B with 8px time controls. Empty slots/recommendation occupy no space. Conditions have 8px top margin, 6px row gap, 13px/1.45 text. Each row aligns baselines with space-between and 12px gap: capitalized name (#15172B, min-width:0), nonshrinking status (#5F6275,500). Status words are Confirmed / Not a match / Unverified, without dash or internal enum terms; About uses the same words. Added-only change summaries are static and hide zero counts.

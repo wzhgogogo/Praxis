@@ -44,6 +44,16 @@ function history(events: RestaurantEvent[]):RecordedEventEnvelope<RestaurantEven
 }
 const presented=(candidateIds:string[]):RestaurantEvent=>({type:'RESULTS_PRESENTED',candidateIds,evidenceIds:[]});
 const compiled=(patch:typeof initialPatch):RestaurantEvent=>({type:'SEMANTIC_PROPOSAL_COMPILED',patch});
+test('Workspace first delivery after NEEDS_INPUT has no revision diff; real empty prior revision remains the baseline',()=>{
+  const first=history([compiled({schemaVersion:'3',replaceCriteria:[]}),{type:'AGENT_ASKED_USER',question:'Which area?',relatedFields:['area']},compiled(initialPatch),presented(['a','b'])]);
+  const input={state:{...state({}),candidates:['a','b','c','d','e'].map(candidate),phase:'PRESENT_RESULTS' as const,intentDraft:initialDraft},events:first,readyCandidateIds:['a','b'],openableCandidateIds:['a','b'],active:false,now};
+  assert.equal(projectWorkspaceRead(input).revisionDiff,undefined,'no earlier delivered batch exists');
+  const realEmpty=history([compiled(initialPatch),presented(['a','b']),compiled({schemaVersion:'3',partySize:3}),compiled({schemaVersion:'3',partySize:4}),presented(['c'])]);
+  const later=projectWorkspaceRead({...input,state:{...input.state,intentDraft:{...initialDraft,partySize:4}},events:realEmpty,readyCandidateIds:['c'],openableCandidateIds:['c']});
+  assert.deepEqual(later.revisionDiff,{fromRevision:2,toRevision:3,removed:[],added:[{candidateId:'c',outletName:'c'}]},'the immediate real empty revision is not skipped');
+  const added=projectWorkspaceRead({...input,events:history([compiled(initialPatch),presented(['a','b']),compiled({schemaVersion:'3',partySize:3}),presented(['a','b','c','d','e'])]),readyCandidateIds:['a','b','c','d','e'],openableCandidateIds:['a','b','c','d','e']});
+  assert.equal(added.revisionDiff?.removed.length,0);assert.equal(added.revisionDiff?.added.length,3);
+});
 for(const [label,patch] of Object.entries({
   area:{schemaVersion:'3',area:{query:'Tokyo'}},date:{schemaVersion:'3',date:'2026-11-02'},
   time:{schemaVersion:'3',timeWindow:{earliest:'19:00',latest:'19:30'}},

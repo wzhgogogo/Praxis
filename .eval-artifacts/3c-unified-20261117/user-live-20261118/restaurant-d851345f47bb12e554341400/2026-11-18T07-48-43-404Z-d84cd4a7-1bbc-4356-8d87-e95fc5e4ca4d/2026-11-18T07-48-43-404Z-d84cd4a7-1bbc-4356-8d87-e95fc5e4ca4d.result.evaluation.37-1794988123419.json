@@ -1,0 +1,818 @@
+{
+  "outcome": {
+    "type": "QUALIFIED_DELIVERY",
+    "reasons": [
+      "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+    ],
+    "evidenceRefs": [
+      "loop",
+      "finalSnapshot.domainState.presentedResults",
+      "finalSnapshot.domainState.availability",
+      "finalSnapshot.domainState.readEvidence"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "YES"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "PRESENT",
+      "reasons": [
+        "A displayed MET condition lacks independent source evidence; this is S1, not an independently established S0."
+      ],
+      "evidenceRefs": [
+        "presentedResults.conditionStates"
+      ]
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [
+    {
+      "candidateId": "praxis:restaurant:37c01f23a1347f5a428c4a27",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "serves beer",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:9968a835535ebb51cecfc2b7",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "serves beer",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:4a56b757bc3f6444d7cccbfa",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "serves beer",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    }
+  ],
+  "conditionStateComparisons": [
+    {
+      "candidateId": "praxis:restaurant:37c01f23a1347f5a428c4a27",
+      "text": "serves beer",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "MET",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "S1_UNSUPPORTED"
+    },
+    {
+      "candidateId": "praxis:restaurant:9968a835535ebb51cecfc2b7",
+      "text": "serves beer",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "MET",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "S1_UNSUPPORTED"
+    },
+    {
+      "candidateId": "praxis:restaurant:4a56b757bc3f6444d7cccbfa",
+      "text": "serves beer",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "MET",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "S1_UNSUPPORTED"
+    }
+  ],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": null,
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 1,
+    "noNewObservationRuns": [],
+    "sameFailureRuns": [],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": []
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/private/tmp/praxis-3c-unified/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@37",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@32",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.json",
+    "sha256": "9ca20c60b3e5bd7db1ae4cf231a4fcc1a2249115d8506ba541374786102b6cf4",
+    "runId": "d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+    "caseId": "restaurant:d851345f47bb12e554341400"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "YES",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "praxis:restaurant:61702859634e75e5a484ddfe",
+      "outletName": "TAP & CROWLER TOKYO SHIBUYA",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:f52929b3cb0e737e4dcc02e2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:f52929b3cb0e737e4dcc02e2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:414023542fec38f620a20596]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:27c1cf002e8f31d420d9b73d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:3e7e2495fd43d264dbcbe2f5]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:406daf9f40ab0de4d2d61116",
+      "outletName": "Ottotto BREWERY Shibuya Dogenzaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:1a35dcde3e05d3c653c23e96]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:1a35dcde3e05d3c653c23e96]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:adbdfaa16b1c212e016244cb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:525699218b6b8b0350ad6289]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:cd87b3179b6bb87a980760c8]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-entity:ada32760d16925b29c883858]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=quoted-source:eabbe562e7b2ebd8a5b49acf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=website-document:2375750bedff5c00e53f18d475a4cb51da4be3af3d539f5f49365cdf5dfe0b1e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:406daf9f40ab0de4d2d61116:2026-11-18T07:47:36.541Z:website-document:2375750bedff5c00e53f18d475a4cb51da4be3af3d539f5f49365cdf5dfe0b1e]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:93088b338d4b5c534d8793a7",
+      "outletName": "THE BEER HOUSE 渋谷フクラス店",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:4ec6dcb33b72d9a86e32969e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:4ec6dcb33b72d9a86e32969e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e7e23b9e641425731b691733]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:611039e3d15400b35f9fbccc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:fb7de1ac0cd77e23bf232a95]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:6a319aaa69d77fe96b0fd1f6",
+      "outletName": "Mikkeller Tokyo",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:229741ca5498980fcf1ccad3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:229741ca5498980fcf1ccad3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:fb1aa812fbc1725c61b25d60]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:57f9096f2a9686ea4a0ba522]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:834a57144cc72fb509b3b710]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:6a319aaa69d77fe96b0fd1f6:2026-11-18T07:47:51.260Z:evidence:restaurant:google-facts:834a57144cc72fb509b3b710]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:2fb2e393a7d2064250da766b",
+      "outletName": "Craft Beer Tap - Shibuya Stream",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:02dba34cd3178418c9cd58b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:02dba34cd3178418c9cd58b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8daba3545052a2ac846b64b6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:0e8a42676cd6d569418907af]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:988e88f048b14407ad34b077]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-entity:9e92bc309adaf8674f424986]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-facts:ac2eaad707acfbbec91303bf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=website-document:b286b26701d232c874e0462bd2a34827b8013839a4670fbd220467ad095349b1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:2fb2e393a7d2064250da766b:2026-11-18T07:48:04.426Z:website-document:b286b26701d232c874e0462bd2a34827b8013839a4670fbd220467ad095349b1]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:37c01f23a1347f5a428c4a27",
+      "outletName": "Mikkeller Kiosk/Bar",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:edcf7f1a2fe0b68b91e64a9f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:edcf7f1a2fe0b68b91e64a9f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:37de339dc3cb1b33b15f4bba]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:bd174ff08de562ccc3ca3953]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e256384352407515a7792fbc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:37c01f23a1347f5a428c4a27:2026-11-18T07:48:08.084Z:evidence:restaurant:google-facts:e256384352407515a7792fbc]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:947e63ba446c87f86d320ee2",
+      "outletName": "Stand Umineko SiB100",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:2365e0a20117d95f0ef0c13f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:2365e0a20117d95f0ef0c13f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:50acb68cf8b8dd295fed48ba]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:d43b9754807029c2337122f2",
+      "outletName": "Kirin City Shibuya Dogenzaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:94c5f162bd16adb75fba21ca]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:94c5f162bd16adb75fba21ca]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:cc46540f100ce86e288ed484]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:91b95b4dc3d2ed82330ce608",
+      "outletName": "threefeet Tokyo",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:7bb168dee751f6cfee9773f6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:7bb168dee751f6cfee9773f6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:c67ef1e18c9f264068b8745e]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:90eeeea25672447ceb6fba15",
+      "outletName": "KILN THE BEER HOUSE",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:a3834e09fe46de5d0a8cb39e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a3834e09fe46de5d0a8cb39e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4a629c17e321f0ed8d36e3fa]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:6893b51a32b026c466db4bb8",
+      "outletName": "ØL by Oslo Brewing Co.",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:94293c93cc1cc960162834e4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:94293c93cc1cc960162834e4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:17ba711009dac01780fdccff]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:2014859d4c0c8653329256e7",
+      "outletName": "PERFECT BEER KITCHEN Shibuya(PBK)",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e18553e611db6f7084869b06]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e18553e611db6f7084869b06]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b38157f8e53ca04aa95e3b79]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:9968a835535ebb51cecfc2b7",
+      "outletName": "PDX Taproom",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:1fdf22b51d6651ab0b169faf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:1fdf22b51d6651ab0b169faf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:10cad56a415b682ba22a1323]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a8d0b78b102c5a0618cb8615]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:047ce5033d388f0599984207]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:9968a835535ebb51cecfc2b7:2026-11-18T07:48:16.245Z:evidence:restaurant:google-facts:047ce5033d388f0599984207]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5e630867c658529e722568e3",
+      "outletName": "Abbot's Choice Shibuya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:9619246f546d465b5558b59b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:9619246f546d465b5558b59b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:c98af2806ce3f4efa2e79e98]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:0d0963c70117fb9b28e7a4a2",
+      "outletName": "Brasserie Ginza Lion Shibuya Mark City Branch",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:72a25e32a327118b2948aecd]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:72a25e32a327118b2948aecd]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:265ad835cfe370d77444ac0c]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:26c9322fec0163f454b678ba",
+      "outletName": "Goodbeer faucets",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d23c91f6263ea3001498a23a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d23c91f6263ea3001498a23a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:a382169f7b78c860ad620e91]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:a43b7e13622eea52747c2534",
+      "outletName": "HUB Shibuya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:08d3a9ee5514dd5b8850f594]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:08d3a9ee5514dd5b8850f594]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:70cd499870c37f17c44b3f36]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:58823e62e9fe7c9fc19666f5",
+      "outletName": "Lad's Dining Shibuya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:424f79a7019cd762a1a51505]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:424f79a7019cd762a1a51505]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8c3ff59dc46b0072ec438305]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:7e6e0c04d1e939e42e2d1263",
+      "outletName": "HUB Shibuya Dougenzaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3d90d6336044d6d1d26e1096]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3d90d6336044d6d1d26e1096]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:1f34662216013dc9c4a5c473]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:cba51c6e59f0e1aa40fd5d0f",
+      "outletName": "LITTS BAR",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:0e698e3064839d1160ee169c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:0e698e3064839d1160ee169c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:c0b6c6ee458e83b54b2c389b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:1550492a0bf555d774b48fa9",
+      "outletName": "Shibuya Sakuragaoka Beer Hall",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:bbb1e9ff09a481ba95d1a16b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:bbb1e9ff09a481ba95d1a16b]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:7ecf8225bcbe747e22b27260]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:4a56b757bc3f6444d7cccbfa",
+      "outletName": "Cerveza JPN",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:6086c81353bb1cff9c2fce66]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:6086c81353bb1cff9c2fce66]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e1cd15bab98130dcad30fe83]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:71a255e56e889fd8e7563133]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:aabe112d3d6fe9c1e7e8c5a3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-entity:51c65b8789a6e391e201e453]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-facts:bbe9f3d7438df6eb04a83dce]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=website-document:a595f71433642aaf3c9f0595b67076889a984f9044c50dc4cb95853584aafb38]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:4a56b757bc3f6444d7cccbfa:2026-11-18T07:48:28.862Z:evidence:restaurant:website-facts:bbe9f3d7438df6eb04a83dce,website-document:a595f71433642aaf3c9f0595b67076889a984f9044c50dc4cb95853584aafb38]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:1a38213a694c5c245e200946",
+      "outletName": "HUB Shibuya Center Gai",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:f9f64a210ec98bb4f8b987b0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:f9f64a210ec98bb4f8b987b0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b96bfab5680b8f768995a9c4]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:062078d86ab34cfb4e859063",
+      "outletName": "Maribana Craft Beer Izakaya (Shibuya Dogenzaka)",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:2bce886bd6a66172fc785cf0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:2bce886bd6a66172fc785cf0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:94bd3156a7925b02db19f82c]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:3c03ee14c6cea25abd59b6f7",
+      "outletName": "CATARATAS カタラタス",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3aff0227daca06e8a638dcf3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3aff0227daca06e8a638dcf3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:d97fce7286cf68a070cd32ae]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:20ea029de2e85808305ad19a",
+      "outletName": "格安ビールと鉄鍋餃子 3・6・5酒場 渋谷宮益坂店",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:c3be91a2f3b51a65a124cdd4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:c3be91a2f3b51a65a124cdd4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:230e7e3a85a6bc719cf30f7c]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:61836bfbed8b09d8c9f8faba",
+      "outletName": "Wagyu SHOUTAIAN SHIBUYA",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:c1922a16a3574221046aaf85]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:c1922a16a3574221046aaf85]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:49469a0f364578d1d7f00dd0]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:3ba485ec03b91d1dc74e959b",
+      "outletName": "Beer Boy",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:4b9b849e739994f59da968da]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:4b9b849e739994f59da968da]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:8409787b393d83acafa2a6cc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:64b25d1aa2e8226d12b5f4f1]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b6e02b9f43999099b533cd78]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-entity:3bc9198ce180ec2663d7202e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-facts:ef3a2baa66c1a239226abe2c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=quoted-source:d1f3c24fa5d5109cbfb1623e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=website-document:88c2c004d20141ae78a8f4be5bb677bb0f97c234f3965c20671edb12850038cf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:3ba485ec03b91d1dc74e959b:2026-11-18T07:48:40.481Z:evidence:restaurant:website-facts:ef3a2baa66c1a239226abe2c,website-document:88c2c004d20141ae78a8f4be5bb677bb0f97c234f3965c20671edb12850038cf]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5fe6571aac8f7c50be802519",
+      "outletName": "CARVAAN Delicatessen",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:08f2bbf56407a9876e8224e0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:08f2bbf56407a9876e8224e0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:904e7ae87008ff6f9912bc42]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ab15ca58068aa394c22adec8",
+      "outletName": "Wailele",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:598b5a30beae020475fa29ce]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:598b5a30beae020475fa29ce]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:ec5972e6013e5fe34ebc5a96]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "candidate=praxis:restaurant:37c01f23a1347f5a428c4a27",
+        "citedEvidence=4",
+        "offers=0",
+        "candidate=praxis:restaurant:9968a835535ebb51cecfc2b7",
+        "citedEvidence=4",
+        "offers=0",
+        "candidate=praxis:restaurant:4a56b757bc3f6444d7cccbfa",
+        "citedEvidence=7",
+        "offers=0"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:edcf7f1a2fe0b68b91e64a9f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:edcf7f1a2fe0b68b91e64a9f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:e256384352407515a7792fbc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:37c01f23a1347f5a428c4a27:2026-11-18T07:48:08.084Z:evidence:restaurant:google-facts:e256384352407515a7792fbc]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:1fdf22b51d6651ab0b169faf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:1fdf22b51d6651ab0b169faf]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:047ce5033d388f0599984207]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:9968a835535ebb51cecfc2b7:2026-11-18T07:48:16.245Z:evidence:restaurant:google-facts:047ce5033d388f0599984207]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:6086c81353bb1cff9c2fce66]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:6086c81353bb1cff9c2fce66]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:aabe112d3d6fe9c1e7e8c5a3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-entity:51c65b8789a6e391e201e453]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:website-facts:bbe9f3d7438df6eb04a83dce]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=website-document:a595f71433642aaf3c9f0595b67076889a984f9044c50dc4cb95853584aafb38]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:4a56b757bc3f6444d7cccbfa:2026-11-18T07:48:28.862Z:evidence:restaurant:website-facts:bbe9f3d7438df6eb04a83dce,website-document:a595f71433642aaf3c9f0595b67076889a984f9044c50dc4cb95853584aafb38]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=5",
+        "applicableObservations=5",
+        "executedInvestigationVisits=9",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=0",
+        "maxConsecutiveNoNewObservation=1"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "SATISFIED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=3"
+      ],
+      "directCause": "Terminal presentation and independently evaluated evidence agree.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "Execution produced a qualified read-only result."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "missing=browserModelCalls",
+        "missingLimit=maxSteps",
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "limits",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ]
+}

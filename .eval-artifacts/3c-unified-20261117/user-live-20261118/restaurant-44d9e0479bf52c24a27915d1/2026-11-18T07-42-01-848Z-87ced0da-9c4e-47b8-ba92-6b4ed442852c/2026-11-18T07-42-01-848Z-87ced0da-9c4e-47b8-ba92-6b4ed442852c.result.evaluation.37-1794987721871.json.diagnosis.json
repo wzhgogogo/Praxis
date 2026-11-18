@@ -1,0 +1,913 @@
+{
+  "schema": "run-diagnosis@1",
+  "runId": "87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+  "attemptId": "87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+  "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+  "evaluationMetadata": {
+    "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@37",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@32",
+    "goldCorrection": null,
+    "mode": "WEB_READ"
+  },
+  "inputs": {
+    "artifact": {
+      "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+      "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10"
+    },
+    "evaluation": {
+      "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+      "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d"
+    }
+  },
+  "summary": {
+    "outcome": {
+      "type": "NOT_EVALUATED",
+      "reasons": [
+        "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+      ],
+      "evidenceRefs": [
+        "trajectories",
+        "finalSnapshot"
+      ],
+      "capabilityDenominator": "NOT_EVALUATED",
+      "userGoalComplete": "NOT_EVALUATED"
+    },
+    "severity": {
+      "S0": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Displayed claim lacks complete independent request/source/execution support.",
+          "EVIDENCE_GAP: run: missing network request records",
+          "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ]
+      },
+      "S1": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No independently established unmet user-need conclusion."
+        ],
+        "evidenceRefs": []
+      },
+      "S2": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "No valid independent feasible witness supplied."
+        ],
+        "evidenceRefs": []
+      },
+      "S3": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Experience/latency thresholds belong to E2; not scored here."
+        ],
+        "evidenceRefs": []
+      },
+      "S4": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "User-invisible retry effects are not independently established."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_DECLARATION": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "Displayed claim lacks complete independent request/source/execution support."
+        ],
+        "evidenceRefs": []
+      },
+      "S0_BOUNDARY": {
+        "status": "NOT_EVALUATED",
+        "reasons": [
+          "EVIDENCE_GAP: run: missing network request records",
+          "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+        ],
+        "evidenceRefs": [
+          "docs/decisions/0036-generic-public-read-network-policy.md",
+          "docs/decisions/0035-browser-read-network-boundary.md"
+        ],
+        "gaps": [
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "run",
+            "missing": [
+              "network request records"
+            ],
+            "evidenceRefs": [
+              "browserTrace.networkRequests"
+            ]
+          },
+          {
+            "kind": "EVIDENCE_GAP",
+            "request": "session",
+            "missing": [
+              "recorded network-boundary installation"
+            ],
+            "evidenceRefs": [
+              "browserTrace.SESSION_OPENED"
+            ]
+          }
+        ]
+      }
+    },
+    "execution": {
+      "status": "CANCELLED",
+      "stage": "AGENT_LOOP",
+      "taskProducedQualifiedResult": "NO",
+      "systemBehavior": "NOT_SUPPORTED",
+      "externalConditions": "NOT_EVALUATED",
+      "evidenceSufficiency": "NOT_EVALUATED",
+      "completion": "INTERNAL_EXECUTION_FAILURE"
+    },
+    "evaluationFailure": null
+  },
+  "stages": [
+    {
+      "id": "UNDERSTANDING",
+      "reach": "REACHED",
+      "assessment": "PASSED",
+      "refs": [
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/materializedCase"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/0"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/11"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/13"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+          "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+          "pointer": "/findings/0"
+        }
+      ],
+      "missing": [],
+      "independentConclusions": [
+        {
+          "finding": {
+            "dimension": "AUTHORITATIVE_CONDITIONS",
+            "status": "SATISFIED",
+            "stage": "SEMANTIC_TO_FINAL_STATE",
+            "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+            "observations": [
+              "All independently readable applicable request fields match."
+            ],
+            "directCause": "No conflict observed.",
+            "rootCauseHypothesis": "Not applicable.",
+            "certainty": "CONFIRMED",
+            "evidenceRefs": [
+              "materializedCase.semantic",
+              "finalSnapshot.domainState.intentDraft"
+            ],
+            "downstreamImpact": "Grounding can be evaluated against one request."
+          },
+          "ref": {
+            "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+            "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+            "pointer": "/findings/0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "LOCATION",
+      "reach": "NOT_REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "DISCOVERY",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/finalSnapshot/domainState/candidates"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/1"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "IDENTITY",
+      "reach": "NOT_REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "FACTS_HARD",
+      "reach": "NOT_REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "AVAILABILITY",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/finalSnapshot/domainState/availabilityChecks"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/2"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/3"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/4"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "PRESENTATION",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/7"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+          "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+          "pointer": "/findings/3"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": [
+        {
+          "finding": {
+            "dimension": "FINAL_CLAIM",
+            "status": "NOT_EVALUATED",
+            "stage": "PRESENT_RESULTS",
+            "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+            "observations": [
+              "phase=FAILED",
+              "loop=CANCELLED",
+              "presentedCandidates=0"
+            ],
+            "directCause": "No terminal presentation was executed.",
+            "rootCauseHypothesis": "Verifier, serialization, or upstream execution record requires review.",
+            "certainty": "UNKNOWN",
+            "evidenceRefs": [
+              "loop",
+              "finalSnapshot.domainState.presentedResults",
+              "finalSnapshot.domainState.availability",
+              "finalSnapshot.domainState.readEvidence"
+            ],
+            "downstreamImpact": "No qualified completion can be claimed."
+          },
+          "ref": {
+            "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+            "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+            "pointer": "/findings/3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "SELECTION",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "B1_HANDOFF",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "CARD_TERMS",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "QUESTION_PAGE",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/8"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "QUESTION_ANSWER",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/events/9"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "ENDING",
+      "reach": "REACHED",
+      "assessment": "DEVIATED",
+      "refs": [
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/status"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+          "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+          "pointer": "/loop"
+        },
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+          "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+          "pointer": "/findings/4"
+        }
+      ],
+      "missing": [],
+      "independentConclusions": [
+        {
+          "finding": {
+            "dimension": "COMPLETION_OUTCOME",
+            "status": "NOT_SATISFIED",
+            "stage": "TERMINATION",
+            "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+            "observations": [
+              "completion=INTERNAL_EXECUTION_FAILURE",
+              "phase=FAILED",
+              "loop=CANCELLED",
+              "noVerifiedResult=missing",
+              "failureCode=missing"
+            ],
+            "directCause": "The execution record reports an internal failure; it is not a normal no-result outcome.",
+            "rootCauseHypothesis": "Execution, Router, or model transport requires review.",
+            "certainty": "CONFIRMED",
+            "evidenceRefs": [
+              "status",
+              "execution.failureCode",
+              "loop.status",
+              "finalSnapshot.domainState.phase",
+              "finalSnapshot.domainState.noVerifiedResult",
+              "finalSnapshot.domainState.failure"
+            ],
+            "downstreamImpact": "Do not ask the user to cure an internal failure or report it as normal search exhaustion."
+          },
+          "ref": {
+            "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+            "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+            "pointer": "/findings/4"
+          }
+        }
+      ]
+    }
+  ],
+  "firstConfirmedDeviation": {
+    "stage": "ENDING",
+    "certainty": "CONFIRMED",
+    "causeCertainty": "HYPOTHESIS",
+    "reason": "The execution record reports an internal failure; it is not a normal no-result outcome.",
+    "refs": [
+      {
+        "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+        "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+        "pointer": "/findings/4"
+      }
+    ],
+    "scope": "RUN",
+    "issueId": "finding:4"
+  },
+  "confirmedDeviations": [
+    {
+      "stage": "ENDING",
+      "certainty": "CONFIRMED",
+      "causeCertainty": "HYPOTHESIS",
+      "reason": "The execution record reports an internal failure; it is not a normal no-result outcome.",
+      "refs": [
+        {
+          "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+          "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+          "pointer": "/findings/4"
+        }
+      ],
+      "scope": "RUN",
+      "issueId": "finding:4"
+    }
+  ],
+  "witnessCoverageObservations": [],
+  "hypothesizedBottlenecks": [],
+  "firstPoint": {
+    "status": "DEVIATION",
+    "stage": "ENDING",
+    "certainty": "CONFIRMED",
+    "column": "FIRST_CONFIRMED_DEVIATION",
+    "earliestKnownOnly": true
+  },
+  "downstreamBlocked": [],
+  "unlocatedFindings": [
+    {
+      "finding": {
+        "dimension": "REQUIRED_EVIDENCE",
+        "status": "NOT_EVALUATED",
+        "stage": "GROUNDING",
+        "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+        "observations": [],
+        "directCause": "Artifact records or accepted evidence contract are insufficient for an independent conclusion.",
+        "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+        "certainty": "UNKNOWN",
+        "evidenceRefs": [],
+        "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+      },
+      "ref": {
+        "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+        "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+        "pointer": "/findings/1"
+      }
+    },
+    {
+      "finding": {
+        "dimension": "RESOURCES",
+        "status": "NOT_EVALUATED",
+        "stage": "RUN_ACCOUNTING",
+        "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+        "observations": [
+          "missing=browserModelCalls",
+          "missingLimit=maxSteps",
+          "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+        ],
+        "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+        "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+        "certainty": "UNKNOWN",
+        "evidenceRefs": [
+          "resourceUsage",
+          "limits",
+          "modelInvocations"
+        ],
+        "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+      },
+      "ref": {
+        "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+        "sha256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+        "pointer": "/findings/5"
+      }
+    }
+  ],
+  "witnessFunnel": [],
+  "systemObservations": {
+    "status": "CANCELLED",
+    "startedAt": "2026-11-18T07:42:01.848Z",
+    "finishedAt": "2026-11-18T07:42:01.849Z",
+    "stage": "AGENT_LOOP",
+    "failureCode": null,
+    "noVerifiedResult": null,
+    "availabilityChecks": {},
+    "selectedCandidateId": null,
+    "bookingHandoffs": null,
+    "pageQuestion": null
+  },
+  "unassessed": [
+    {
+      "stage": "LOCATION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "DISCOVERY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "IDENTITY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "FACTS_HARD",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "AVAILABILITY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "PRESENTATION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "SELECTION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "B1_HANDOFF",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "CARD_TERMS",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "QUESTION_PAGE",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "QUESTION_ANSWER",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "EVALUATOR_UNASSESSED",
+      "missing": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ]
+    },
+    {
+      "stage": "EVALUATOR_UNASSESSED",
+      "missing": [
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+      ]
+    },
+    {
+      "stage": "EVALUATOR_UNASSESSED",
+      "missing": [
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced."
+      ]
+    },
+    {
+      "stage": "EVALUATOR_UNASSESSED",
+      "missing": [
+        "Cost is not inferred without explicit configured price inputs."
+      ]
+    },
+    {
+      "stage": "EVALUATOR_UNASSESSED",
+      "missing": [
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    }
+  ],
+  "experience": {
+    "gateEffect": "NONE",
+    "timing": {
+      "startBasis": "RUN_START_PROXY",
+      "absoluteTimesCET": {
+        "runStart": "2026-11-18T08:42:01.848+01:00",
+        "observationComplete": null,
+        "serverPresentation": null
+      },
+      "elapsed": {
+        "status": "MEASURED",
+        "value": 1,
+        "basis": "RECORDED_RUN_ELAPSED",
+        "refs": [
+          {
+            "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+            "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+            "pointer": "/startedAt"
+          },
+          {
+            "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+            "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+            "pointer": "/finishedAt"
+          }
+        ],
+        "missing": []
+      },
+      "firstSupportedObservationComplete": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "FINAL_CITED_SUPPORTED_SOURCE_OBSERVATION",
+        "refs": [],
+        "missing": [
+          "No independently qualified presentation with complete timestamped citations."
+        ]
+      },
+      "firstServerPresentation": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "RUN_START_PROXY_TO_SERVER_PRESENTATION",
+        "refs": [],
+        "missing": [
+          "Valid run start/presentation timestamps missing or reversed; no UI render evidence."
+        ]
+      },
+      "observationToPresentation": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "OBSERVATION_TO_SERVER_PRESENTATION",
+        "refs": [],
+        "missing": [
+          "A supported observation-complete instant and server presentation in one clock are required."
+        ]
+      },
+      "acceptanceEvents": [
+        {
+          "type": "AVAILABILITY_CHECKED",
+          "elapsedMs": -102657089,
+          "ref": {
+            "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+            "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+            "pointer": "/events/2"
+          }
+        },
+        {
+          "type": "AVAILABILITY_CHECKED",
+          "elapsedMs": -102572470,
+          "ref": {
+            "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+            "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+            "pointer": "/events/3"
+          }
+        },
+        {
+          "type": "AVAILABILITY_CHECKED",
+          "elapsedMs": -102481725,
+          "ref": {
+            "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+            "sha256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+            "pointer": "/events/4"
+          }
+        }
+      ],
+      "uiVisible": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "UI_VISIBLE",
+        "refs": [],
+        "missing": [
+          "No client render acknowledgement."
+        ]
+      },
+      "turnResponses": [
+        {
+          "userMessageId": null,
+          "metric": {
+            "status": "NOT_EVALUATED",
+            "value": null,
+            "basis": "USER_TO_ASSOCIATED_ASSISTANT_WALL_TIME",
+            "refs": [],
+            "missing": [
+              "Conversation messages are not present in this artifact."
+            ]
+          }
+        }
+      ],
+      "stageBreakdown": {
+        "schemaVersion": "restaurant-stage-timings@1",
+        "status": "MEASURED_WITH_EXPLICIT_GAPS",
+        "elapsedMs": 1,
+        "method": "Observed wall-time partition; model intervals override nested action/trace intervals. This is not a dependency-DAG critical-path proof.",
+        "criticalPath": [
+          {
+            "stage": "UNATTRIBUTED",
+            "elapsedMs": 1,
+            "percent": 100
+          }
+        ],
+        "modelSteps": [],
+        "gaps": [
+          "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+        ]
+      },
+      "repeatedLoads": {
+        "counts": {
+          "status": "NOT_EVALUATED",
+          "scope": "REDACTED_PATHS_ONLY",
+          "loads": []
+        },
+        "durationRatio": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "RELOAD_DURATION_RATIO",
+          "refs": [],
+          "missing": [
+            "Counts alone or incomplete/redacted trace do not establish exact reload duration."
+          ]
+        }
+      },
+      "externalVsSystem": {
+        "navigationOperation": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "SOURCE_IO_OPERATION_PROXY",
+          "refs": [],
+          "missing": [
+            "Timestamped matched navigation boundaries missing."
+          ]
+        },
+        "googleWait": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "GOOGLE_WAIT",
+          "refs": [],
+          "missing": [
+            "No independently timestamped Google response boundary supplied."
+          ]
+        },
+        "modelWallMs": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "MODEL_WALL_TIME",
+          "refs": [],
+          "missing": [
+            "Counters alone cannot place model intervals."
+          ]
+        },
+        "systemOperationMs": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "SYSTEM_OPERATION_WALL_TIME",
+          "refs": [],
+          "missing": [
+            "Timestamped operation pairs missing."
+          ]
+        },
+        "gaps": [],
+        "additive": false
+      }
+    },
+    "clarifications": {
+      "excess": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "FROZEN_GOLD_AND_ACTUAL_QUESTION",
+        "refs": [],
+        "missing": [
+          "Frozen clarification Gold with a complete turn history was not supplied."
+        ]
+      },
+      "missing": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "REQUIRED_MISSING_FIELD_AND_UNSOURCED_NEW_VALUE",
+        "refs": [],
+        "missing": [
+          "Frozen required/missing fields and complete before/after history were not supplied."
+        ]
+      },
+      "excessQuestions": [],
+      "missingQuestions": []
+    },
+    "conditions": [],
+    "softPreferenceObservations": null,
+    "explicitOrdering": {
+      "status": "NOT_EVALUATED",
+      "requirement": null,
+      "gateEffect": "NONE",
+      "missing": [
+        "Explicit objective requires a frozen comparison population and source-bound values."
+      ]
+    }
+  },
+  "existingDiagnostics": {
+    "investigationMetrics": {
+      "status": "OBSERVED",
+      "rejectedActions": 1,
+      "maxConsecutiveNoNewObservation": 2,
+      "noNewObservationRuns": [
+        {
+          "key": "719af15d8609efdb",
+          "steps": [
+            7,
+            8
+          ]
+        }
+      ],
+      "sameFailureRuns": [
+        {
+          "key": "719af15d8609efdb:CHECK_AVAILABILITY:TABELOG:AVAILABILITY_SOURCES_EXHAUSTED",
+          "steps": [
+            2,
+            3
+          ]
+        }
+      ],
+      "sameTermRuns": [],
+      "urls": {
+        "status": "NOT_EVALUATED",
+        "scope": "REDACTED_PATHS_ONLY",
+        "loads": []
+      },
+      "violations": [],
+      "unassessed": [
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+      ]
+    },
+    "effectiveResources": {
+      "status": "NOT_EVALUATED",
+      "scope": "RECORDED_EXECUTOR_LIMITS",
+      "scopes": [],
+      "declarationDifferences": [],
+      "violations": [],
+      "unassessed": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ]
+    },
+    "reachedStages": null,
+    "recordReadIssues": [],
+    "unassessedDimensions": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+      "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+      "Cost is not inferred without explicit configured price inputs.",
+      "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+    ]
+  },
+  "independentNotes": [],
+  "deferred": [
+    "A G6 independent evaluator integration and B1/terms/page red-light first-point acceptance remain incomplete until that evaluator is merged."
+  ],
+  "testInterfaceInput": false
+}

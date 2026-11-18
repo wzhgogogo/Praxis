@@ -37,12 +37,12 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
     assert.match(await page.locator("#availability").innerText(),/Availability expired/);
     await page.locator("#details-button").click();
     await page.getByText("No-show: old rule",{exact:false}).waitFor();
-    assert.match(await page.locator("#details-content").innerText(),/Around ¥10,000 per person — not met/);
-    assert.match(await page.locator("#details-content").innerText(),/Private room — not checked/);
+    assert.match(await page.locator("#details-content").innerText(),/Around ¥10,000 per person\s*Not a match/);
+    assert.match(await page.locator("#details-content").innerText(),/Private room\s*Unverified/);
     await page.getByRole("button",{name:"Refresh availability",exact:true}).click();
     await page.getByText("Cancellation: current rule",{exact:false}).waitFor();
     const text=await page.locator("#details-content").innerText();
-    assert.match(text,/8,000/);assert.match(text,/Around ¥10,000 per person — met/);assert.match(text,/Observed price: Dinner course/);
+    assert.match(text,/8,000/);assert.match(text,/Around ¥10,000 per person\s*Confirmed/);assert.match(text,/Observed price: Dinner course/);
     assert.doesNotMatch(text,/7,500|No-show: old rule|Discovery only/);
     assert.equal(await page.getByRole("link",{name:"Terms source",exact:true}).getAttribute("href"),current.sourceUrl);
     await page.locator("#details-back").click();

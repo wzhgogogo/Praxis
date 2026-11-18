@@ -719,6 +719,8 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
         body: JSON.stringify({ requestId: "h002-refresh-action", taskVersion: created.case.taskVersion }),
       });
       assert.equal(refreshed.response.status, 200, String(refreshed.payload.error));
+      assert.equal(refreshCalls.availability,0,"pure recommendation refresh is fact-only");
+      assert.ok(refreshCalls.facts>0,"the displayed recommendation batch is rechecked through facts");
       assert.equal(refreshResolver.messages.length, 0, "availability refresh never re-interprets or supplements the original request");
       assert.ok((refreshModel.usage(created.case.caseId)?.calls ?? 0) > 0, "a direct refresh owns a fresh bounded model scope rather than borrowing the completed message run");
     } finally {

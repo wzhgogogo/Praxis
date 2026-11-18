@@ -112,7 +112,7 @@ for(const size of sizes){
       const response=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith("/another-batch"));await page.locator("#find-more").click();assert.equal((await response).status(),200);
       await ready(page);assert.match(await page.locator("#restaurant-name").innerText(),/Fixture later restaurant/);
       assert.equal(await page.locator("#revision-changes").isVisible(),true,"a nonzero addition still shows the changes row");
-      assert.deepEqual([await page.locator("#removed-count").innerText(),await page.locator("#added-count").innerText()],["0 places no longer match","3 new"]);
+      assert.equal(await page.locator("#removed-count").isVisible(),false);assert.equal(await page.locator("#added-count").innerText(),"3 new");assert.equal(await page.locator("#removed-list").isVisible(),false);assert.equal(await page.locator("#revision-changes summary").isEnabled(),false);
       assert.equal(await page.locator("#message").inputValue(),"Keep this draft while finding more");
       assert.equal(posts.filter(p=>p.path.endsWith("/another-batch")).length,1);
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}

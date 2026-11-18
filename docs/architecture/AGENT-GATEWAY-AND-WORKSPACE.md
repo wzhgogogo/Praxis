@@ -164,3 +164,12 @@ readStatus区分已有结果、无合格结果、明确的全部来源失败、�
 ### Round-4 workspace projection (2026-11-18, draft / not integrated)
 
 The server supplies the exact current openable candidate IDs: presented IDs in PRESENT_RESULTS, otherwise currently qualified ready IDs. Saved links use that set; expired displayed availability remains browsable and booking still requires the existing fresh check. Removal/reason inference runs only for completed qualification (PRESENT_RESULTS or non-source-failed NO_VERIFIED_RESULT), never a stopped/cancelled/failed read. Revised Case titles after requirementRevision1 derive from authoritative criteria, area/date/time/party, never the old retrieval query; all server projections and list reloads share the result. NEEDS_INPUT exposes its current structured clarification separately from conversation history. Main messages are state-driven and isolated to CANDIDATES; restaurant Q&A stays in Details.
+
+
+## 2026-11-18 — Round 6 read ownership and projections
+
+Draft / not integrated. One persistent Case read owns an AsyncLocalStorage scope through discovery/retrieval, facts, availability and post-loop B1 terms. The shared production assembly resolves a separate browser budget and availability executor/entry ledger/named queries for each run; nested same-run work joins it, concurrent Cases cannot reset or close each other. Explicit G1 retains its independent budget. The legacy begin/end lifecycle remains available for existing callers.
+
+Refresh, next-batch and location validate idempotency, pending G1, expected version and business prerequisites before cancelling only their Case. Preparation covers cancellation, fresh snapshot/rechecks, event persistence and asynchronous read registration; concurrent projection cannot classify that gap as an interrupted process. Preparing UNDERSTANDING/SEARCHING/SELECTION_REQUIRED counts as active. Details/Handoff and open galleries remain during active work, then return to candidates if the terminal projection has no current presented candidate.
+
+The shared previous-revision selector is unchanged. revisionDiff additionally requires an actual earlier delivered batch; initial delivery after a clarification has no diff. A completed empty revision remains the immediately preceding baseline for a later diff and Saved validation.

@@ -172,13 +172,10 @@ export class RestaurantAgentLoopCoordinator {
   async run(taskId: string, signal?: AbortSignal, readDeadlineAt?: Date, userSelection?: UserBookingSelectionRequest): Promise<RestaurantAgentLoopResult> {
     const initial = await this.runtime.snapshot(taskId);
     if (initial.domainState.pageQuestion && !initial.domainState.pageQuestion.result) return this.runPageQuestion(initial, signal, readDeadlineAt);
-    this.router.beginReadRun();
-    try {
-      return await this.runWithinReadBudget(taskId, signal, readDeadlineAt, userSelection);
-    } finally {
-      await this.router.endReadRun();
-    }
+    return this.withReadRun(() => this.runWithinReadBudget(taskId, signal, readDeadlineAt, userSelection), taskId);
   }
+
+  withReadRun<T>(read: () => Promise<T>, taskId?: string): Promise<T> { return this.router.withReadRun(read, taskId); }
 
   /** One ordinary validated action for a code-bound displayed-outlet question. */
   private async runPageQuestion(initial: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>, parentSignal?: AbortSignal, readDeadlineAt?: Date): Promise<RestaurantAgentLoopResult> {

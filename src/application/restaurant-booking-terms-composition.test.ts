@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import {readFile} from "node:fs/promises";
+import {ModelDiscoveryRetrievalPlanner} from "../integrations/restaurant-search/discovery-retrieval-planner.js";
 import {bookingTermsComposition,cancellationQuote,cancellationAnswer,cardQuote,japaneseQuote,japaneseAnswer} from "./fixtures/booking-terms-composition.js";
 
 type Fixture=Awaited<ReturnType<typeof bookingTermsComposition>>;
@@ -110,4 +112,31 @@ test("B1 drops expired G1 pages and enclosing-deadline output independently of i
   let late!:Fixture;late=await bookingTermsComposition({onQuestion:()=>{late.clock.advance(500_001);}});
   try{await late.initial();const v=await late.select();assert.ok(v.restaurant.bookingHandoffs?.length);assert.deepEqual(v.restaurant.bookingHandoffs![0]!.terms,[]);assert.equal(questions(late).length,1);await capture(late,"deadline");}
   finally{await late.close();}
+});
+
+
+test("B1 stays in the selected Case read scope after the Agent loop returns",async()=>{
+  const outputText=await readFile(new URL("./fixtures/named-outlet-without-area/d3-semantic.original.json",import.meta.url),"utf8");
+  const f=await bookingTermsComposition({provider:"TABLECHECK",namedWithoutArea:{outputText}});
+  const checkpoints:number[]=[],questionBudgets:number[]=[];
+  const check=f.assembly.availability.check.bind(f.assembly.availability);
+  f.assembly.availability.check=async (...args)=>{
+    // A real bounded planner call consumes the shared budget. This transport-only
+    // fixture otherwise takes a deterministic inventory path with zero browser decisions.
+    const plan=await new ModelDiscoveryRetrievalPlanner(f.counted,f.assembly.browserBudget).decide({taskId:f.counted.currentTaskId()!,intent:{timezone:"Asia/Tokyo",target:{goal:"RECOMMENDATION",query:"restaurant"},criteria:[{text:"kushikatsu",polarity:"POSITIVE",strength:"HARD"}]},locationName:"Akabane",timeoutMs:1000,attemptedRetrievals:[],rewrites:0});
+    assert.equal(plan.accepted,true);
+    const result=await check(...args);checkpoints.push(f.assembly.browserBudget.totalModelCalls);return result;
+  };
+  const terms=f.assembly.questions.readBookingTerms.bind(f.assembly.questions);
+  f.assembly.questions.readBookingTerms=async(view,deadline,signal)=>{
+    if(view.restaurant.selectedCandidateId&&view.restaurant.intentDraft?.target?.selectionScope==="SPECIFIC_OUTLET")questionBudgets.push(f.assembly.browserBudget.totalModelCalls);
+    await terms(view,deadline,signal);
+  };
+  try{
+    const selected=await f.initial();
+    assert.equal(selected.case.phase,"PRESENT_RESULTS");assert.equal(selected.restaurant.bookingHandoffs?.[0]?.terms.length,2);
+    assert.ok(checkpoints.length&&checkpoints.at(-1)!>0,"actual planner work consumes the read budget before the loop returns");
+    assert.ok(questionBudgets.length);assert.equal(questionBudgets[0],checkpoints.at(-1),"loop return must not clear the budget before automatic B1");
+    assert.equal(questions(f).length,2);
+  }finally{await f.close();}
 });

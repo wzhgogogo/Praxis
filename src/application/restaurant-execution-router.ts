@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from "node:async_hooks";
 import type { RestaurantPageQuestionPort } from "../domains/restaurant/page-question.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../domains/restaurant/failure-codes.js";
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
@@ -38,6 +39,7 @@ export interface RestaurantAvailabilityPort {
   browserModelBudgetExhausted?(): boolean;
   beginReadRun?(): void;
   endReadRun?(): void | Promise<void>;
+  withReadRun?<T>(read: () => Promise<T>, scopeId?: string): Promise<T>;
   check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead>;
 }
 
@@ -210,6 +212,7 @@ function immediateAvailabilityFailure(
  * to the Agent and deliberately has no direct Commit implementation.
  */
 export class RestaurantExecutionRouter {
+  private readonly readScopes = new AsyncLocalStorage<string | symbol>();
   readBudgetStatus() { return { browserModelBudgetExhausted: this.availability.browserModelBudgetExhausted?.() === true }; }
 
   private readonly structuredReadTimeoutMs: number;
@@ -230,6 +233,16 @@ export class RestaurantExecutionRouter {
   beginReadRun(): void { this.availability.beginReadRun?.(); }
 
   async endReadRun(): Promise<void> { await this.availability.endReadRun?.(); }
+
+  async withReadRun<T>(read: () => Promise<T>, scopeId?: string): Promise<T> {
+    const active = this.readScopes.getStore();
+    if (active && (scopeId === undefined || active === scopeId)) return read();
+    return this.readScopes.run(scopeId ?? Symbol("restaurant-read"), async () => {
+      if (this.availability.withReadRun) return this.availability.withReadRun(read, scopeId);
+      this.beginReadRun();
+      try { return await read(); } finally { await this.endReadRun(); }
+    });
+  }
 
   async execute(
     action: RestaurantAgentAction,
