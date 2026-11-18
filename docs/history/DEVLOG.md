@@ -6363,3 +6363,8 @@ Preserve effective time interpretation in search intents and Google/website fact
 Align Saved current IDs to frontend navigation and infer revision removals only after qualification finishes. Project revised titles and current clarification from authoritative state. Isolate search notices by view/state, move condition sources/times into About, group answer citations, filter generic/machine card prose, center busy indicators and add transient Adjust guidance. Outer scripts target round-4; prior batches remain immutable. New browser checks cover both390x844 and1280x900 with actual HTTP/SSE/PGlite and local Chromium. No new Live/PG.
 
 Round-4 About qualification retains the original direct commercial-term text and Terms source link once per URL; source quotation groups remain visible with Read at rather than hiding previously visible evidence. First failed freeze retained independently; no browser assertion weakened.
+
+
+### 2026-11-18 — Unified round-4 offline closure
+
+Frozen 60a4e962e4804ee80f43a7b4b1f245061c6a5ca7 closes DAYPART source-hours qualification and workspace Saved/current/title/messages/evidence/empty-state behavior. Two earlier failed freezes retain exact source bundles and original diagnostics; commercial quotation duplication was repaired in product, and the obsolete Details-visible-progress test signal was aligned to explicit hidden-progress requirements without weakening gallery/current-photo/draft/source-read invariants. Final full gates and16 visual scenes pass. No new Live or PG command; stopped residual prior preview and closed all own resources. Report-only local evidence commit follows; product source remains frozen.

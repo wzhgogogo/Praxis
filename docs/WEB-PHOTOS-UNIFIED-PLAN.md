@@ -8,7 +8,7 @@ Baseline 727b8a812b805fb836612e077ba4f97a802506b9 retains backend, Guard, G1 and
 
 Promise: the current candidate has one authenticated photo renderer, Google IDs-only on-demand photos with complete attribution, existing bound-website fallback, isolated failures, responsive DM Sans interaction and complete address in About. Photos are temporary presentation material, never State facts or booking authority.
 
-Current round-3 acceptance: frozen clean source and harness commit; five offline gates without .env; deterministic 390x844 / 1440x900 / 960x900 sixteen-case visual matrix and strict photo regressions. This round is offline-only: no Live, PostgreSQL connection/write, main merge or push. Photo ceilings are1 Details /20 media /2 website pages /10 website images, redirects included. Preserve old trees, main files, .env, database and all prior evidence. Historical round-2 execution remains recorded below.
+Current round-4 acceptance: frozen clean source and harness commit; five offline gates without .env; deterministic 390x844 / 1440x900 / 960x900 sixteen-case visual matrix and strict photo regressions. This round is offline-only: no Live, PostgreSQL connection/write, main merge or push. Photo ceilings are1 Details /20 media /2 website pages /10 website images, redirects included. Preserve old trees, main files, .env, database and all prior evidence. Historical round-2 execution remains recorded below.
 
 Harness oracle: synthetic image bytes, explicit author strings, request ledger, HTTP auth isolation, actual Chromium layout and SQL departure record. Existing product evaluator unchanged; Live quality/S0 require independent evidence and will not be inferred from Fixture tests. externalSideEffectCount and uninstrumented backend total website requests remain NOT_MEASURED.
 
@@ -41,3 +41,6 @@ Draft / not integrated. Two implementation commits: Domain effective DAYPART tim
 
 
 Round-4 implementation acceptance: Domain commit6933f4a20 plus Web/Application commit; no new source observations, no PostgreSQL connection/write. Default/browser regressions retain the full original gate commands, including G6 assembly; intentional exhausted-empty copy and Details-hidden progress synchronization are reflected in browser expectations, retaining every photo/gallery/draft invariant. Image/gallery strict contracts remain unchanged. Frozen SHA and exact counts are recorded in round-4/REPORT.md after execution.
+
+
+Round-4 completion: frozen 60a4e962e4804ee80f43a7b4b1f245061c6a5ca7 passes all five clean offline gates (default1704; G2 5 + Chromium404 + G6 159; build) and the unchanged16 visual scenarios. Ten new dual-size workspace regressions and recorded MIRAI historical-clock counterfactual pass. First two failed freezes, raw diagnostics and exact source bundles are retained. No new Live/PG; own services/browsers closed, protected prior files unchanged. [Report](../.eval-artifacts/3c-unified-20261117/round-4/REPORT.md).

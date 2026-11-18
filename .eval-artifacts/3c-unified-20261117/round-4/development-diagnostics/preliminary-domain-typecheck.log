@@ -1,0 +1,8 @@
+src/domains/restaurant/read-grounding.test.ts(328,49): error TS2379: Argument of type '{ schemaVersion: "3"; timeWindow: { earliest: string; latest: string; } | undefined; temporalResolution: RestaurantTemporalResolution | undefined; }' is not assignable to parameter of type 'RestaurantIntentPatch' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'timeWindow' are incompatible.
+    Type '{ earliest: string; latest: string; } | undefined' is not assignable to type '{ earliest: string; latest: string; } | null'.
+      Type 'undefined' is not assignable to type '{ earliest: string; latest: string; } | null'.
+src/domains/restaurant/read-grounding.test.ts(337,7): error TS2379: Argument of type '{ timezone: "Asia/Tokyo"; requestFingerprint: string; areaQuery: string; observedAt: string; requestedDate: string | undefined; requestedTimeWindow: { earliest: string; latest: string; } | undefined; requestedTimeWindowBasis?: string; }' is not assignable to parameter of type 'GoogleDiscoveryGroundingInput' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'requestedDate' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
