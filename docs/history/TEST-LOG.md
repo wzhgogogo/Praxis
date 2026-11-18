@@ -7106,3 +7106,8 @@ Source313af33e8d0a164fcb0492db636d320ce35dc9f8: typecheck/arch pass, default1749
 ### 2026-11-18 — Round-6 second frozen gate stopped
 
 39a26bb9d32e13e7e03ff5c5fdc413e0abd3fe0a passes default1750; browser gate stops at G2 5/5 and Chromium413/415. Only the newly changed added-only summary isEnabled assertion fails on both sizes: native summary has no HTML disabled semantics. Replace it with aria-disabled=true/tabindex=-1 plus click-does-not-open behavior, retaining hidden zero counts/list assertions. Product code unchanged. Full diagnostics retained under round-6/failures/39a26bb9d. G6/build/formal visual NOT_RUN on this SHA.
+
+
+### 2026-11-18 — Unified round-6 final acceptance
+
+ddd9eda8d04b304f09b3629bb0d64828645c5789, clean before/after each gate: typecheck0.532s, arch0.197s, default1750/1750 in61.772s, browser fixture G2 5/5 + Chromium415/415 + G6 159/159 in397.843s, build0.536s. Original16 three-size actual HTTP/SSE/PGlite visual scenes PASS32.14s/41 screenshots; additional Style1 six combinations PASS7.46s/6 screenshots manually inspected. All env-whitelisted, no.env loading; browser full gate has no outer sandbox around its own replay OS isolation. New regressions cover actual same-assembly concurrency and B1 budget preservation, same-Case stale/preparing races, admission with bare/quoted categories and source prose, active/terminal view/photo behavior, batch labels and static zero-hidden diffs. All raw logs/manifests and two earlier failed freezes remain in round-6. New Live/PG0, independent Live S0 NOT_EVALUATED; original4312 listeners preserved, own resources closed. [Report](../../.eval-artifacts/3c-unified-20261117/round-6/REPORT.md).

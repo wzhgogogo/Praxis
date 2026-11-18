@@ -1,0 +1,24 @@
+✖ B1 stays in the selected Case read scope after the Agent loop returns (2753.061583ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3178.155167
+
+✖ failing tests:
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:8895
+✖ B1 stays in the selected Case read scope after the Agent loop returns (2753.061583ms)
+  AssertionError [ERR_ASSERTION]: {"checkpoints":[0],"questionBudgets":[0],"purposes":["restaurant_semantic_interpret","restaurant_agent_decide","restaurant_agent_decide","restaurant_agent_decide","restaurant_page_question","restaurant_page_question"]}
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-booking-terms-composition.test.ts:131:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

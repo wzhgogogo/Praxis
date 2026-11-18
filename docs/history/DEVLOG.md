@@ -6388,3 +6388,8 @@ Remove one global focus CSS rule only; no runtime, qualification, refresh, condi
 ### 2026-11-18 — Unified round-6 implementation
 
 Draft / not integrated. Fix screenshot findings2/3/4 through ALS ownership of the full Case read including automatic B1, pre-cancellation version/business checks and preparing-read coverage, terminal Details/Handoff synchronization, explicit beer-service evidence admission, Style1 conditions and a first-delivery diff guard. Keep previous revision selection and Prompt15 bytes unchanged. Archive the second user walkthrough batch7/35 with sanitized/original hashes; retain first-batch index bytes under manifest.batch-1.json because the local filesystem is case-insensitive, with MANIFEST.json as combined index. No new Live, real PostgreSQL or4312 preview restart. Source freeze and clean full offline acceptance follow in round-6.
+
+
+### 2026-11-18 — Unified round-6 offline closure
+
+Final frozen source/tests/orchestration ddd9eda8d04b304f09b3629bb0d64828645c5789 passes complete clean offline acceptance after two explicitly retained new-test oracle corrections. All product code matches implementation313af33e8; later freezes correct fact-route/source-call and native-summary interaction checks. Existing user Live7/35 archived with55/55 combined hashes, original first-batch index retained. Prior evidence and main/env/closeout remain unchanged; Prompt15 bytes/version preserved. No new Live or real PostgreSQL, no4312 restart. Final followup changes only documentation/artifacts.

@@ -1,0 +1,104 @@
+✖ stale same-Case refresh, batch and location requests never cancel an active read (927.702292ms)
+✖ preparing refresh: concurrent getCase cannot fail persisted SEARCHING before read registration (538.721416ms)
+✖ preparing batch: concurrent getCase cannot fail persisted SEARCHING before read registration (481.776083ms)
+✖ preparing location: concurrent getCase cannot fail persisted SEARCHING before read registration (515.270709ms)
+✔ B1 open request does not read terms merely because the Agent chose a candidate (1011.840291ms)
+✔ B1 selected TABELOG outlet proactively acquires same-channel cancellation and card terms through ordinary composition (1156.715125ms)
+✖ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (891.910416ms)
+✔ B1 reuses the actual admitted G1 cancellation answer without another model call, before or after selection (1210.703583ms)
+✔ B1 carries both observed language policies and separate English paraphrases when G1 reports conflict (1575.454792ms)
+✔ B1 hides SHOP G1 pages without losing the source link (1073.951875ms)
+✔ B1 hides CHANNEL G1 pages without losing the source link (1055.839125ms)
+✔ B1 omits unstated policy and card requirements, and never carries previous-run terms (1628.255875ms)
+✔ B1 shares the real run model ceiling and drops optional terms when that budget is spent (1071.875125ms)
+✔ B1 discards late terms on cancellation while keeping its qualified handoff (1057.580125ms)
+✔ B1 drops expired G1 pages and enclosing-deadline output independently of its still-current link (2116.083458ms)
+✖ B1 stays in the selected Case read scope after the Agent loop returns (495.425709ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 10
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14835.510792
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:1058
+✖ stale same-Case refresh, batch and location requests never cancel an active read (927.702292ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing refresh: concurrent getCase cannot fail persisted SEARCHING before read registration (538.721416ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing batch: concurrent getCase cannot fail persisted SEARCHING before read registration (481.776083ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing location: concurrent getCase cannot fail persisted SEARCHING before read registration (515.270709ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:1295
+✖ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (891.910416ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(initial.restaurant.bookingHandoffs?.length)
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-booking-terms-composition.test.ts:22:44)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:8856
+✖ B1 stays in the selected Case read scope after the Agent loop returns (495.425709ms)
+  TypeError [Error]: Cannot read properties of undefined (reading '0')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/application/fixtures/booking-terms-composition.ts:340:473)
+      at finished (/private/tmp/praxis-3c-unified/src/application/fixtures/booking-terms-composition.ts:336:525)
+      at Object.select (/private/tmp/praxis-3c-unified/src/application/fixtures/booking-terms-composition.ts:340:124)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-booking-terms-composition.test.ts:128:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

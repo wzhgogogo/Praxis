@@ -1,0 +1,66 @@
+✖ stale same-Case refresh, batch and location requests never cancel an active read (721.711125ms)
+✖ preparing refresh: concurrent getCase cannot fail persisted SEARCHING before read registration (482.949125ms)
+✖ preparing batch: concurrent getCase cannot fail persisted SEARCHING before read registration (476.108416ms)
+✖ preparing location: concurrent getCase cannot fail persisted SEARCHING before read registration (462.6155ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12638.184459
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:1058
+✖ stale same-Case refresh, batch and location requests never cancel an active read (721.711125ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing refresh: concurrent getCase cannot fail persisted SEARCHING before read registration (482.949125ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing batch: concurrent getCase cannot fail persisted SEARCHING before read registration (476.108416ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing location: concurrent getCase cannot fail persisted SEARCHING before read registration (462.6155ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

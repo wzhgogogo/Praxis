@@ -728,3 +728,8 @@ Actual Saigyo DOM/HAR Chromium component stops at the observed disabled requeste
 
 
 2026-11-18 — draft / not integrated, offline DAYPART grounding: Google discovery/Place Details and identity-bound website facts consume the same current time basis. EVENING/AFTERNOON/AFTER_WORK need a positive intersection with one explicit source interval and record only the supported subset; explicit numeric times retain start<=requestedStart and end>requestedEnd. Sufficient Google hours plus other required facts end the chain without a website fallback. Recorded MIRAI historical-clock counterfactual is exposed development regression, not a new Live claim.
+
+
+### 2026-11-18 — Shared live-read assembly ownership (offline verified)
+
+Draft / not integrated. The same production factory now isolates each Case read with AsyncLocalStorage: Native discovery/retrieval/facts, source availability and post-loop B1 share one run budget; availability executor/ledger/named queries belong to that run. Explicit G1 remains independent and distinct factory instances remain isolated. Same-assembly fixed-transport concurrency and actual persistent B1 composition pass in Round6. This is offline assembly evidence, not new platform Live capability; no new external model/Google/site call or real PostgreSQL connection. [Report](../../.eval-artifacts/3c-unified-20261117/round-6/REPORT.md).
