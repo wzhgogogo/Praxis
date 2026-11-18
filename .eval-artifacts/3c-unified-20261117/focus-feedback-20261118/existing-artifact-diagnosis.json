@@ -1,0 +1,93 @@
+{
+  "mode": "READ_EXISTING_LOCAL_ARTIFACTS_ONLY",
+  "newLive": 0,
+  "postgresqlQueries": 0,
+  "records": [
+    {
+      "path": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.json",
+      "sha256": "33ba15bad492d8e5935a4a630acb7e47fa535234f5d587fc4014bc7d20989ee5",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "finishedAt": "2026-11-18T07:45:00.528Z",
+      "phase": "PRESENT_RESULTS",
+      "goal": "RECOMMENDATION",
+      "date": "2026-12-09",
+      "presentedCount": 3,
+      "presentedNames": [
+        "Sushi Ayatsuki Osaka Umeda-ten",
+        "Umeda Sushi Tsugu",
+        "Sushi Akazu"
+      ]
+    },
+    {
+      "path": ".eval-artifacts/restaurant-web-read/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.json",
+      "sha256": "d33c5653089ecf92ca8986b616f2688ae5da76cdd469ab859c9e59f472e060c0",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "finishedAt": "2026-11-18T07:47:44.142Z",
+      "phase": "FAILED",
+      "goal": "RECOMMENDATION",
+      "date": "2026-12-09",
+      "presentedCount": 0,
+      "presentedNames": [],
+      "lastTermination": {
+        "type": "AGENT_LOOP_TERMINATED",
+        "reason": "A browser read run is already active",
+        "termination": "EXECUTION_FAILURE"
+      }
+    },
+    {
+      "path": ".eval-artifacts/restaurant-web-read/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.json",
+      "sha256": "9ca20c60b3e5bd7db1ae4cf231a4fcc1a2249115d8506ba541374786102b6cf4",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "finishedAt": "2026-11-18T07:48:43.405Z",
+      "phase": "PRESENT_RESULTS",
+      "goal": "RECOMMENDATION",
+      "date": null,
+      "presentedCount": 3,
+      "presentedNames": [
+        "Mikkeller Kiosk/Bar",
+        "PDX Taproom",
+        "Cerveza JPN"
+      ],
+      "beerEvidence": [
+        {
+          "provider": "GOOGLE_PLACES",
+          "types": [
+            "bar",
+            "liquor store",
+            "restaurant",
+            "food",
+            "point of interest",
+            "store",
+            "establishment"
+          ],
+          "verifiedCriteria": null,
+          "sourceFieldQuotes": null
+        },
+        {
+          "provider": "GOOGLE_PLACES",
+          "types": [
+            "bar",
+            "liquor store",
+            "restaurant",
+            "food",
+            "point of interest",
+            "store",
+            "establishment"
+          ],
+          "verifiedCriteria": null,
+          "sourceFieldQuotes": null
+        },
+        {
+          "provider": "MODEL_JUDGMENT",
+          "types": null,
+          "verifiedCriteria": [
+            "serves beer"
+          ],
+          "sourceFieldQuotes": null
+        }
+      ],
+      "availabilityCheck": null,
+      "offerCount": 0
+    }
+  ]
+}

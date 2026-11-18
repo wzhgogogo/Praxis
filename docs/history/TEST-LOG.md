@@ -7089,3 +7089,5 @@ SHA 08dbec05e95793d9f94440afb083d4dfc71c0522: typecheck0.549s, arch0.199s, defau
 ### 2026-11-18 — Focus-only verification scope
 
 The prior round-5 frozen five gates/16 visual results remain historical, unchanged. This CSS-only follow-up uses typecheck/arch/build and a targeted real local Chromium Fixture check at390x844/1440x900 for pointer/keyboard focus without an outline, Adjust focus and draft preservation. New source SHA/results follow in focus-feedback-20261118; no full-gate claim for the style follow-up. User diagnostic artifacts are read-only and are not a newly executed Live.
+
+Focus-only result at59b1f26ce: typecheck/arch/build PASS; local Chromium390x844 and1440x900 focus/Adjust/draft2/2 PASS (3.103s). No new full five-gate claim, no preview restart or new Live. Existing artifacts confirm completed Dec9 recommendation followed by failed refresh, overly generic beer evidence and first-result diff wording. Report: ../../.eval-artifacts/3c-unified-20261117/focus-feedback-20261118/REPORT.md.
