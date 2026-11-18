@@ -112,7 +112,7 @@ for(const size of sizes){
       const response=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith("/another-batch"));await page.locator("#find-more").click();assert.equal((await response).status(),200);
       await ready(page);assert.match(await page.locator("#restaurant-name").innerText(),/Fixture later restaurant/);
       assert.equal(await page.locator("#revision-changes").isVisible(),true,"a nonzero addition still shows the changes row");
-      assert.equal(await page.locator("#removed-count").isVisible(),false);assert.equal(await page.locator("#added-count").innerText(),"3 new");assert.equal(await page.locator("#removed-list").isVisible(),false);assert.equal(await page.locator("#revision-changes summary").isEnabled(),false);
+      assert.equal(await page.locator("#removed-count").isVisible(),false);assert.equal(await page.locator("#added-count").innerText(),"3 new");assert.equal(await page.locator("#removed-list").isVisible(),false);assert.equal(await page.locator("#revision-changes summary").getAttribute("aria-disabled"),"true");assert.equal(await page.locator("#revision-changes summary").getAttribute("tabindex"),"-1");await page.locator("#revision-changes summary").evaluate(node=>(node as HTMLElement).click());assert.equal(await page.locator("#revision-changes").evaluate(node=>(node as HTMLDetailsElement).open),false);
       assert.equal(await page.locator("#message").inputValue(),"Keep this draft while finding more");
       assert.equal(posts.filter(p=>p.path.endsWith("/another-batch")).length,1);
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}

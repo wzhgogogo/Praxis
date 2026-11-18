@@ -7101,3 +7101,8 @@ Draft / not integrated; exposed local development fixtures. Same production asse
 ### 2026-11-18 — Round-6 first frozen gate stopped
 
 Source313af33e8d0a164fcb0492db636d320ce35dc9f8: typecheck/arch pass, default1749/1750. Newly added pure-fact refresh assertion wrongly required a source call although the fixture's other already-qualified candidates can be presented. Correct it to the persisted CANDIDATE_FACTS_REFRESH_REQUESTED event plus0 availability calls, preserving all prior assertions and product code. First gate logs/manifest retained under round-6/failures/313af33e8; no later gate/visual/Live ran on that freeze. A new source/test freeze reruns the complete acceptance.
+
+
+### 2026-11-18 — Round-6 second frozen gate stopped
+
+39a26bb9d32e13e7e03ff5c5fdc413e0abd3fe0a passes default1750; browser gate stops at G2 5/5 and Chromium413/415. Only the newly changed added-only summary isEnabled assertion fails on both sizes: native summary has no HTML disabled semantics. Replace it with aria-disabled=true/tabindex=-1 plus click-does-not-open behavior, retaining hidden zero counts/list assertions. Product code unchanged. Full diagnostics retained under round-6/failures/39a26bb9d. G6/build/formal visual NOT_RUN on this SHA.
