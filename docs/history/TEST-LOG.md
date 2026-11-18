@@ -7055,3 +7055,8 @@ Then exactly one Live at100.681s:search modelCallsStarted15/Google3/resourceelap
 Same clean `98a6dc4b1d449880af6f92fdb098f3364299c75a`, no.env: type0.565s/arch0.197s/default1691/1691 at59.715s/browser379.000s (G2 5/5;Chromium394/394;G6 159/159)/build0.536s. Photo contracts18/18; restaurant-photos.test.ts11 tests includes the2 new Google8/8 and website lookahead journeys. Exact normalGoogle Details1/media16; redirect media20, send21 blocked before transport,6 successful images cached/readable; partial item3 leaves7, double-source failure honest. Card/About initially only current Google image; user clicks/keys across both entrances reach8/8 with counter/currentSrc/decode checks. Website source image1 downloads once; failed warm-up keeps1-of-3 until actual Next skips to2-of-2; unknown provider refuses warm-up.
 
 Original formal390/1440/960 matrix16/16 at32.393s, OS/context nonlocal denial, no unexpected errors, source/attribution/address/G1/B1 evidence saved. Current SHA not Live-run, PG not connected, no real provider calls. Historical ea7b20c6e numeric clause "up to 20 people" not verified by citations Private rooms/Unavailable/Available; only literal review, no scorer/old artifact changes. Original125 protected files/trees/.env unchanged. [Full report](../../.eval-artifacts/3c-unified-20261117/round-3/REPORT.md).
+
+
+### 2026-11-18 — Unified round-4 Domain development checks
+
+Local development: read-grounding/read-assessment/website composition59/59; independent DAYPART and recorded MIRAI diagnostic2/2. Typecheck passes. Frozen full five gates and16 visual scenarios pending the Web/Application commit. No new Live, production credential configuration or PostgreSQL access.

@@ -806,7 +806,7 @@ function assessPresentedCandidate(candidateId: string, root: RunRecord, domain: 
       if (!sourceHours.length) { missing.push("raw opening-hours source fact"); return false; }
       const timezone = asString((domain.intentDraft)?.timezone);
       if (!timezone) { missing.push("request timezone"); return false; }
-      const independentlyApplicable = evaluateSourceOpeningHours(sourceHours, request.date!, request.timeWindow!, timezone);
+      const independentlyApplicable = evaluateSourceOpeningHours(sourceHours, request.date!, request.timeWindow!, timezone, asString(domain.intentDraft?.temporalResolution?.timeWindow?.basis) ?? asString(domain.intentDraft?.timeWindowBasis));
       if (independentlyApplicable === "UNKNOWN") { missing.push("independently parseable source opening hours"); return false; }
       if (independentlyApplicable === "CLOSED") { conflicts.push("opening-hours conclusion conflicts with cited source hours"); return false; }
       return true;

@@ -450,3 +450,19 @@ for(const failure of ['OTHER_DOCUMENT','STATIC_RESOURCE','GUARD_BLOCKED'] as con
   const input=structuredClone(request);input.capturePagesOnly=true;input.candidates[0]!.restaurant.sourceIds.googleWebsiteUri='http://cafe.example/about';
   await reader(browser).inspectFacts(input,new AbortController().signal);assert.deepEqual(urls,['https://cafe.example/about']);
 });
+
+test("a sufficient Google DAYPART hours fact does not open the listed website", async () => {
+  const { groundGoogleDiscovery } = await import("../../domains/restaurant/read-grounding.js");
+  const intent = { ...request.intent, date: "2026-11-20", timeWindow: { earliest: "18:00", latest: "23:00" }, timeWindowBasis: "DAYPART:EVENING" };
+  const grounded = groundGoogleDiscovery({ placeId: "daypart-cafe", displayName: "Cafe A", formattedAddress: "1 Ginza, Tokyo", types: ["cafe"], websiteUri: "https://cafe.example/", regularOpeningHours: ["Friday: 11:00 AM – 10:00 PM"] },
+    { timezone: intent.timezone, requestFingerprint: "daypart", areaQuery: "Ginza", observedAt: "2026-11-18T03:52:25.365Z", requestedDate: intent.date, requestedTimeWindow: intent.timeWindow, requestedTimeWindowBasis: intent.timeWindowBasis, requiredTypeCriteria: ["cafe"] });
+  assert.ok(grounded.accepted); if (!grounded.accepted) return;
+  const id = grounded.candidate.restaurant.id;
+  let websiteCalls = 0;
+  const result = await new GoogleThenWebsiteFactRead({ executionRoute: "STRUCTURED_ADAPTER", async inspectFacts() {
+    return { evidence: [grounded.evidence, ...grounded.additionalEvidence], factChecks: { [id]: { status: "COMPLETED", checkedAt: "2026-11-18T03:52:25.365Z", evidenceIds: grounded.additionalEvidence.map(e => e.evidenceId) } }, metadata: { provider: "GOOGLE_PLACES", route: "STRUCTURED_ADAPTER", latencyMs: 0 } };
+  } }, { executionRoute: "GENERIC_BROWSER", async inspectFacts() { websiteCalls++; throw new Error("sufficient Google facts must end the chain"); } })
+    .inspectFacts({ candidateIds: [id], candidates: [grounded.candidate], intent }, new AbortController().signal);
+  assert.equal(websiteCalls, 0);
+  assert.equal(result.evidence.find(e => e.kind === "RESTAURANT_FACT")?.claims.openingHoursMatch, true);
+});

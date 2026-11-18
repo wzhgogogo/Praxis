@@ -302,3 +302,50 @@ test("opening-hours weekdays use the supplied timezone for the current and previ
   assert.deepEqual(timezones, ["UTC", "UTC"]);
   assert.deepEqual(result, { matches: false, noWindow: false });
 });
+
+import { groundRestaurantWebsiteFacts } from "./read-grounding.js";
+import { applyRestaurantIntentPatch, completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
+import type { RestaurantIntentDraft } from "./contracts.js";
+
+const eveningDraft: RestaurantIntentDraft = {
+  ...fixtureIntent, schemaVersion: "3", date: "2026-11-20", timeWindow: { earliest: "18:00", latest: "23:00" },
+  temporalResolution: { policyVersion: "restaurant-temporal-materialization@6", referenceTime: now, timezone: "Asia/Tokyo",
+    timeWindow: { expression: "evening", basis: "DAYPART:EVENING", resolvedTimeWindow: { earliest: "18:00", latest: "23:00" } } },
+};
+
+test("party/date patches retain the active DAYPART basis; explicit numeric replacement or clear removes it", () => {
+  const party = applyRestaurantIntentPatch(eveningDraft, { schemaVersion: "3", partySize: 7 });
+  const date = applyRestaurantIntentPatch(party, { schemaVersion: "3", date: "2026-11-27", temporalResolution: {
+    policyVersion: "restaurant-temporal-materialization@6", referenceTime: now, timezone: "Asia/Tokyo",
+    date: { expression: "next Friday", basis: "WEEKDAY:FRIDAY", resolvedDate: "2026-11-27" },
+  } });
+  assert.deepEqual(date.temporalResolution?.timeWindow, eveningDraft.temporalResolution!.timeWindow);
+  assert.equal(completeRestaurantSearchIntent(date)?.timeWindowBasis, "DAYPART:EVENING");
+  assert.equal(completeRestaurantIntent(date)?.timeWindowBasis, "DAYPART:EVENING");
+  for (const timeWindow of [null, { earliest: "18:00", latest: "23:00" }]) {
+    assert.equal(applyRestaurantIntentPatch(date, { schemaVersion: "3", timeWindow }).temporalResolution?.timeWindow, undefined);
+  }
+  assert.equal(applyRestaurantIntentPatch(date, { schemaVersion: "3", timeWindow: eveningDraft.timeWindow!,
+    temporalResolution: eveningDraft.temporalResolution! }).temporalResolution?.timeWindow?.basis, "DAYPART:EVENING");
+});
+
+test("Google and website distinguish DAYPART intersection from the identical explicit numeric window", () => {
+  const hours = ["Friday: 11:00 AM – 10:00 PM"];
+  for (const basis of ["DAYPART:EVENING", "DAYPART:AFTERNOON", "DAYPART:AFTER_WORK", "EXPLICIT_RANGE", undefined]) {
+    const expected = basis?.startsWith("DAYPART:") === true;
+    const google = groundGoogleDiscovery({ placeId: "daypart", displayName: "Evening Sushi", formattedAddress: "Tokyo", types: ["restaurant", "sushi_restaurant"], regularOpeningHours: hours },
+      { timezone: "Asia/Tokyo", requestFingerprint: "daypart", areaQuery: "Tokyo", observedAt: now, requestedDate: eveningDraft.date!,
+        requestedTimeWindow: eveningDraft.timeWindow!, ...(basis ? { requestedTimeWindowBasis: basis } : {}) });
+    assert.ok(google.accepted); if (!google.accepted) continue;
+    const website = groundRestaurantWebsiteFacts(google.candidate, { ...completeRestaurantSearchIntent({ ...eveningDraft, temporalResolution: { ...eveningDraft.temporalResolution!, timeWindow: { ...eveningDraft.temporalResolution!.timeWindow!, basis: basis ?? "EXPLICIT_RANGE" } } })! },
+      { candidateId: google.candidate.restaurant.id, sourceUrl: "https://sushi.example/", observedAt: now,
+        entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_LISTED_WEBSITE_URI"] }, regularOpeningHours: hours });
+    for (const facts of [google.additionalEvidence, website.evidence]) {
+      const claims = facts.find(e => e.kind === "RESTAURANT_FACT")!.claims;
+      assert.equal(claims.openingHoursMatch, expected, String(basis));
+      assert.deepEqual(claims.openingHoursMatchedWindow, expected ? ["18:00", "22:00"] : undefined);
+    }
+  }
+  assert.equal(openingHoursForRequest(["Friday: 11:00 AM – 6:00 PM"], eveningDraft.date, eveningDraft.timeWindow, "Asia/Tokyo", "DAYPART:EVENING")?.matches, false, "touching the exclusive closing boundary is not an intersection");
+  assert.deepEqual(openingHoursForRequest(["Friday: 5:00 PM – 7:00 PM, 8:00 PM – 10:00 PM"], eveningDraft.date, eveningDraft.timeWindow, "Asia/Tokyo", "DAYPART:EVENING")?.window, ["18:00", "19:00"], "split shifts remain separate");
+});

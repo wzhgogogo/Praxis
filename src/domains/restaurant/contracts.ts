@@ -95,6 +95,8 @@ export interface RestaurantSearchIntent {
   /** A fact-only recommendation may be unscheduled and must not claim hours. */
   date?: string;
   timeWindow?: { earliest: string; latest: string };
+  /** Current code-derived time interpretation, carried to fact readers without audit timestamps. */
+  timeWindowBasis?: string;
   permittedAlternativeTimeWindow?: { earliest: string; latest: string };
   /** Discovery ordering may use an already-authoritative group size; it never grants an availability claim. */
   partySize?: number;

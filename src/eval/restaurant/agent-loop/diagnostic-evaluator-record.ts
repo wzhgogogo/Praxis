@@ -75,7 +75,8 @@ const criterion: typeof criterionFields = (value, path, issues) => {
 const party: Decoder<number | { value?: number }> = (value, path, issues) => typeof value === "number" ? number(value, path, issues) : object({ value: number })(value, path, issues);
 const semantic = object({ target, date: object({ value: text }), time: object({ value: text, start: text, end: text }), party_size: party,
   location: object({ value: text, relation: text }), criteria: array(criterion), permittedAlternativeTimeWindow: window });
-const intent = object({ target, date: text, partySize: party, timeWindow: window, area: object({ query: text }),
+const temporalResolution = object({ timeWindow: object({ basis: text, resolvedTimeWindow: window }) });
+const intent = object({ temporalResolution, timeWindowBasis: text, target, date: text, partySize: party, timeWindow: window, area: object({ query: text }),
   criteria: array(criterion), permittedAlternativeTimeWindow: window, timezone: text });
 const serviceScope = object({ field: text, group: text, value: text });
 const claims = object({ serviceScopeField: text, serviceScopeGroup: text, serviceScopeValue: text, supportingEvidenceIds: texts,

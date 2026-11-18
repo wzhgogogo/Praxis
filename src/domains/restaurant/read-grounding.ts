@@ -86,6 +86,7 @@ export interface GoogleDiscoveryGroundingInput {
   negativeCriteria?: string[];
   requestedDate?: string;
   requestedTimeWindow?: { earliest: string; latest: string };
+  requestedTimeWindowBasis?: string;
 }
 
 export interface GroundedAvailability {
@@ -225,6 +226,7 @@ export function openingHoursForRequest(
   date: string | undefined,
   timeWindow: { earliest: string; latest: string } | undefined,
   timezone: string,
+  timeWindowBasis?: string,
 ): { matches: boolean; window?: string[]; noWindow?: boolean } | undefined {
   if (!descriptions || !date || !timeWindow) return undefined;
   const day = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: timezone })
@@ -254,8 +256,13 @@ export function openingHoursForRequest(
   // One explicit interval must cover the requested window; adjacent split
   // periods cannot be fused into an invented continuous opening.
   if (!intervals.length) return undefined;
-  const matching = intervals.find(([start, end]) => start <= requestedStart && end > requestedEnd);
-  return matching ? { matches: true, window: [hhmm(requestedStart), hhmm(requestedEnd)], noWindow: false }
+  const daypart = /^(?:DAYPART:EVENING|DAYPART:AFTERNOON|DAYPART:AFTER_WORK)$/.test(timeWindowBasis ?? "");
+  const matching = intervals.find(([start, end]) => daypart
+    ? Math.max(start, requestedStart) < Math.min(end, requestedEnd)
+    : start <= requestedStart && end > requestedEnd);
+  return matching ? { matches: true, window: daypart
+    ? [hhmm(Math.max(matching[0], requestedStart)), hhmm(Math.min(matching[1], requestedEnd))]
+    : [hhmm(requestedStart), hhmm(requestedEnd)], noWindow: false }
     : { matches: false, noWindow: !priorOverlap && !intervals.some(([start, end]) => start <= requestedEnd && end > requestedStart) };
 }
 
@@ -290,7 +297,7 @@ export interface UntrustedRestaurantWebsiteObservation {
  */
 export function groundRestaurantWebsiteFacts(
   candidate: RestaurantCandidate,
-  intent: Pick<RestaurantSearchIntent, "timezone" | "area" | "criteria" | "date" | "timeWindow">,
+  intent: Pick<RestaurantSearchIntent, "timezone" | "area" | "criteria" | "date" | "timeWindow" | "timeWindowBasis">,
   observation: UntrustedRestaurantWebsiteObservation,
 ): { evidence: RestaurantReadEvidence[]; status: "COMPLETED" | "UNKNOWN"; reasonCode?: string } {
   if (observation.candidateId !== candidate.restaurant.id || observation.entityMatch.confidence !== "HIGH") {
@@ -308,7 +315,7 @@ export function groundRestaurantWebsiteFacts(
   const positive = supportedTypeCriteria(types, intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text));
   const negative = negativeTypeConflicts(types, undefined, intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD").map((item) => item.text));
   const openingHours = intent.date && intent.timeWindow
-    ? openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow, intent.timezone)
+    ? openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow, intent.timezone, intent.timeWindowBasis)
     : undefined;
   const commercialTerms = observation.publicCommercialTerms;
   const facts: RestaurantReadEvidence[] = types.length || openingHours !== undefined || commercialTerms !== undefined ? [{
@@ -404,7 +411,7 @@ export function groundGoogleDiscovery(
   const restaurantTypeFacts = sourceRestaurantTypeFacts(observation);
   const verifiedHardCriteria = supportedTypeCriteria(restaurantTypeFacts, input.requiredTypeCriteria);
   const negativeTypes = negativeTypeConflicts(observation.types, observation.primaryType, input.negativeCriteria);
-  const openingHours = openingHoursForRequest(observation.regularOpeningHours, input.requestedDate, input.requestedTimeWindow, input.timezone);
+  const openingHours = openingHoursForRequest(observation.regularOpeningHours, input.requestedDate, input.requestedTimeWindow, input.timezone, input.requestedTimeWindowBasis);
   const facts: RestaurantReadEvidence[] = restaurantTypeFacts.length || openingHours !== undefined ? [{
     evidenceId: evidenceId("google-facts", { placeId: observation.placeId, observedAt: input.observedAt, verifiedHardCriteria, openingHours }),
     kind: "RESTAURANT_FACT",

@@ -531,6 +531,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         .map((criterion) => criterion.text),
       ...(request.intent.date ? { requestedDate: request.intent.date } : {}),
       ...(request.intent.timeWindow ? { requestedTimeWindow: request.intent.timeWindow } : {}),
+      ...(request.intent.timeWindowBasis ? { requestedTimeWindowBasis: request.intent.timeWindowBasis } : {}),
       ...(locationContext ? { evaluationLocation: locationContext } : {}),
     };
     const groundPage = (places: typeof first.places) => places.map((place) => {
@@ -652,6 +653,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         negativeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
         ...(request.intent.date ? { requestedDate: request.intent.date } : {}),
         ...(request.intent.timeWindow ? { requestedTimeWindow: request.intent.timeWindow } : {}),
+      ...(request.intent.timeWindowBasis ? { requestedTimeWindowBasis: request.intent.timeWindowBasis } : {}),
       });
       if (!grounded.accepted || grounded.candidate.restaurant.id !== candidate.restaurant.id) {
         factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_CANDIDATE_MISMATCH" };

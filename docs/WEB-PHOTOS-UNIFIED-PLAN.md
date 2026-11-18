@@ -33,3 +33,8 @@ Historical qualification note: ea7b20c6e Live G1 was ANSWERED, but the phrase "u
 
 
 Round-3 completion: frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes all five offline gates and the original16 visual scenarios; strict Google8/8/16,20/21 budget and website-onlyLookahead1 regressions pass. No new Live, .env configuration load or PG. [Report](../.eval-artifacts/3c-unified-20261117/round-3/REPORT.md).
+
+
+## Round-4 slice — DAYPART and workspace closure (2026-11-18)
+
+Draft / not integrated. Two implementation commits: Domain effective DAYPART time basis, single source-shift intersection and independent diagnostic/regression controls; then Application Saved/current completion semantics, authoritative revised titles and Web view/message/evidence/empty-state refinements. Preserve recommendation ADR0020/0044 and all image demand-loading boundaries. Archive today20 user Live files with redacted SHA receipts; no new Live or PG. Freeze the second commit, then five clean offline gates and unchanged three-size16-case matrix into round-4. Prior gates/failures/round-2/round-3 are immutable.

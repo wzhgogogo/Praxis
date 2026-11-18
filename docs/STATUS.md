@@ -1328,3 +1328,6 @@ Google media cap20 supports8 demand-loaded photos at16 API/CDN dispatches. Only 
 ## 2026-11-17 - Unified round 3 offline photo acceptance
 
 Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G2 5/Chromium394/G6 159/build and original three-size16/16. Google normal8/8 has exact Details1/media16; CDN boundary refuses send21 at20 while prior6 images remain readable. Website Lookahead1 source download once, corrupt warm-up leaves current/counter untouched until selection, unknown providers never warm. All11 photo browser tests including the2 new journeys pass. No Live/.env configuration/PG this round; old125 evidence files and original trees unchanged. Prior ea7b20c6e ANSWERED clause "up to 20 people" is not verified by its three citation texts; round-2 unchanged. [Round-3 report](../.eval-artifacts/3c-unified-20261117/round-3/REPORT.md).
+
+
+2026-11-18 — draft / not integrated: unified round-4 Domain change retains active DAYPART interpretation across date/party patches and grounds a single positive source-hours intersection for EVENING/AFTERNOON/AFTER_WORK; explicit numeric windows retain strict full coverage. Recorded MIRAI historical-clock counterfactual and independent diagnostic controls pass. No new Live/PG. Web/Application closure and clean frozen full gates remain pending.

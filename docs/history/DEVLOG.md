@@ -6351,3 +6351,8 @@ Current slice raises only Google media ceiling10->20, retains Details1/website p
 ## 2026-11-17 - Unified round 3 offline completion
 
 Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` closes Google8-image demand loading and explicit WEBSITE-only Lookahead1 without changing visible URL format, Domain/router/search/projection, dependency versions or evaluator scoring. Preflight18 contracts+2 browser tests and all clean five gates/16 visual cases pass. Redirect boundary20/21 and original corruption/fallback contracts retained. Code/scripts unchanged after freeze; only evidence/docs appended. Literal prior-citation review records "up to 20 people" as unverified by the three returned snippets, without changing old answer or making a truth/S0 verdict. No new Live or PG; old gates/failures/round-2 bytes preserved. [Report](../../.eval-artifacts/3c-unified-20261117/round-3/REPORT.md).
+
+
+### 2026-11-18 — Unified round-4 Domain DAYPART
+
+Preserve effective time interpretation in search intents and Google/website facts. A broad supported DAYPART admits one actual source-hours intersection; explicit numeric windows and recommendation identity/area/HARD evidence gates remain unchanged. Archive four user Live groups (20 redacted, hash-verified files) by Case; stop confirmed own preview/forward on4312. Historical MIRAI is an exposed offline counterfactual, not a new source observation.
