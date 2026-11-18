@@ -6373,3 +6373,8 @@ Frozen 60a4e962e4804ee80f43a7b4b1f245061c6a5ca7 closes DAYPART source-hours qual
 ### 2026-11-18 — Unified round-5 minimal follow-up
 
 Three product lines: recognize actual DAYPART:AFTER_WORK_BROAD_WINDOW in production/independent hours grammars, retain the short AFTER_WORK spelling, and share submit-failure busy-state reset/render/draft restoration between new/existing Cases. Real materializer outputs exercise the17:30-22:00 versus11:00-20:00 intersection. Browser regression checks disabled controls/hidden current clarification while pending, then enabled controls/current clarification and draft after503. No fingerprint compatibility or unrelated product changes. Offline orchestration targets round-5; earlier evidence remains immutable.
+
+
+### 2026-11-18 — Unified round-5 completion
+
+Frozen 08dbec05e95793d9f94440afb083d4dfc71c0522 passes the full clean offline acceptance. Real AFTER_WORK_BROAD_WINDOW is recognized consistently with the short alias; existing-Case request failure restores controls/current clarification/empty draft. No fingerprint or old-state compatibility changes. All prior batches remain byte-identical; report/artifacts only follow this source freeze.

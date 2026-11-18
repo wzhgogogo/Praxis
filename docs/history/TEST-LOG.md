@@ -7079,3 +7079,8 @@ SHA 60a4e962e4804ee80f43a7b4b1f245061c6a5ca7: typecheck0.518s, arch0.200s, defau
 ### 2026-11-18 — Unified round-5 development checks
 
 Real AFTER_WORK materialization unit/independent diagnostic2/2 and failed existing-Case submit browser regression2/2 (390x844,1280x900) pass; typecheck passes. Browser failure is deliberately constructed503 over local Fixture HTTP/read projection, not a real service failure. Full five gates plus16 visual cases will use one committed clean SHA and round-5 output. No .env configuration, new Live or PG.
+
+
+### 2026-11-18 — Unified round-5 frozen acceptance PASS
+
+SHA 08dbec05e95793d9f94440afb083d4dfc71c0522: typecheck0.549s, arch0.199s, default1706/1706 in60.877s; browser390.566s (G2 5/5, remaining Chromium406/406, combined411 aggregate, G6 assembly159/159); build0.541s. Zero failure/skip/cancellation. Same-SHA formal visual16/16 in32.667s:390x844(7),1440x900(7),960x900(2),41 screenshots. Actual local HTTP/SSE, original G1/photo/second-slot B1 reload/PGlite SQL persistence and external navigation interception retained. New real materializer/independent diagnostic2 and failed-submit two-size2 pass in the full gates. Synthetic503 and controlled SSE projection are explicit regression inputs, not real platform failures. No .env load, Live or PG connection/query. Prior evidence/main/env/closeout unchanged. [Report](../../.eval-artifacts/3c-unified-20261117/round-5/REPORT.md).
