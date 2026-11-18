@@ -6368,3 +6368,8 @@ Round-4 About qualification retains the original direct commercial-term text and
 ### 2026-11-18 — Unified round-4 offline closure
 
 Frozen 60a4e962e4804ee80f43a7b4b1f245061c6a5ca7 closes DAYPART source-hours qualification and workspace Saved/current/title/messages/evidence/empty-state behavior. Two earlier failed freezes retain exact source bundles and original diagnostics; commercial quotation duplication was repaired in product, and the obsolete Details-visible-progress test signal was aligned to explicit hidden-progress requirements without weakening gallery/current-photo/draft/source-read invariants. Final full gates and16 visual scenes pass. No new Live or PG command; stopped residual prior preview and closed all own resources. Report-only local evidence commit follows; product source remains frozen.
+
+
+### 2026-11-18 — Unified round-5 minimal follow-up
+
+Three product lines: recognize actual DAYPART:AFTER_WORK_BROAD_WINDOW in production/independent hours grammars, retain the short AFTER_WORK spelling, and share submit-failure busy-state reset/render/draft restoration between new/existing Cases. Real materializer outputs exercise the17:30-22:00 versus11:00-20:00 intersection. Browser regression checks disabled controls/hidden current clarification while pending, then enabled controls/current clarification and draft after503. No fingerprint compatibility or unrelated product changes. Offline orchestration targets round-5; earlier evidence remains immutable.

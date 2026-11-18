@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { materializeRestaurantTemporalFacts } from "./temporal-materialization.js";
 
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import { groundGoogleDiscovery, groundTabelogAvailability, openingHoursForRequest } from "./read-grounding.js";
@@ -10,6 +11,19 @@ const request = {
   timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: ["yakiniku"],
 };
 const now = "2026-08-05T09:00:00.000Z";
+
+test("materialized AFTER_WORK broad window grounds the actual supported source-hours subset", () => {
+  const request = materializeRestaurantTemporalFacts({
+    date: { kind: "DATE", value: "2026-11-20", raw: "2026-11-20" },
+    timeWindow: { kind: "TIME_WINDOW", daypart: "AFTER_WORK", raw: "after work" },
+    referenceTime: now, timezone: "Asia/Tokyo",
+  });
+  assert.deepEqual(request.timeWindow, { earliest: "17:30", latest: "22:00" });
+  assert.equal(request.temporalResolution?.timeWindow?.basis, "DAYPART:AFTER_WORK_BROAD_WINDOW");
+  assert.deepEqual(openingHoursForRequest(["Friday: 11:00 AM – 8:00 PM"], request.date,
+    request.timeWindow, "Asia/Tokyo", request.temporalResolution?.timeWindow?.basis),
+    { matches: true, window: ["17:30", "20:00"], noWindow: false });
+});
 
 test("Google discovery accepts structurally valid restaurant places without claiming retrieval criteria as facts", () => {
   const result = groundGoogleDiscovery({

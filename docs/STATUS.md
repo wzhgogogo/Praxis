@@ -1337,3 +1337,6 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G
 
 
 2026-11-18 — draft / not integrated: unified round-4 offline closure PASS at frozen 60a4e962e4804ee80f43a7b4b1f245061c6a5ca7. Two implementation commits separate Domain6933f4a20 and Web/Application60a4e962e. Default1704, G2 5, Chromium404, G6 159 and build pass; original three-size16 visual scenarios and ten new dual-size workspace regressions pass. Twenty user Live files archived/redacted/hash-verified; no new Live/PG command, no push/main merge. Prior batches and main/env/closeout checks unchanged; own services/browsers closed. [Report](../.eval-artifacts/3c-unified-20261117/round-4/REPORT.md).
+
+
+2026-11-18 — draft / not integrated, unified round-5: two-line DAYPART enum alignment accepts the real AFTER_WORK_BROAD_WINDOW materialization plus AFTER_WORK; existing-Case submit failure now clears busy state and re-renders controls/current clarification, restoring only an emptied draft. Search-intent fingerprint and old-state compatibility are unchanged. Targeted materialization2/2 and dual-size failed-submit2/2 pass; frozen five gates and original16 visual scenes pending in round-5. No new Live/PG.

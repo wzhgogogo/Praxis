@@ -39,6 +39,7 @@ import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
 import { compileRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-compiler.js";
 import type { RestaurantIntentDraft } from "../../../domains/restaurant/contracts.js";
 import { applyRestaurantIntentPatch } from "../../../domains/restaurant/intent-state.js";
+import { materializeRestaurantTemporalFacts } from "../../../domains/restaurant/temporal-materialization.js";
 import { validateRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-proposal.js";
 import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { snapshotRecord } from "./runners/browser-case-slice-evidence.js";
@@ -2244,6 +2245,18 @@ test('independent native GET audit binds actual form data and authority rather t
  for(const patch of [{method:'POST'},{matches:2}])assert.equal(audit(patch).status,'PRESENT');
  assert.equal(audit({documentOrigin:'https://other.example'}).status,'NOT_EVALUATED');
  assert.equal(auditReadOnlyTrace([{kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}}] as any,[request],false).status,'NOT_EVALUATED','a production receipt alone is insufficient');
+});
+
+test("independent hours oracle accepts the actual materialized AFTER_WORK broad window", () => {
+  const request = materializeRestaurantTemporalFacts({
+    date: { kind: "DATE", value: "2026-11-20", raw: "2026-11-20" },
+    timeWindow: { kind: "TIME_WINDOW", daypart: "AFTER_WORK", raw: "after work" },
+    referenceTime: "2026-11-18T03:52:25.365Z", timezone: "Asia/Tokyo",
+  });
+  assert.deepEqual(request.timeWindow, { earliest: "17:30", latest: "22:00" });
+  assert.equal(request.temporalResolution?.timeWindow?.basis, "DAYPART:AFTER_WORK_BROAD_WINDOW");
+  assert.equal(evaluateSourceOpeningHours(["Friday: 11:00 AM – 8:00 PM"], request.date!,
+    request.timeWindow!, "Asia/Tokyo", request.temporalResolution?.timeWindow?.basis), "OPEN");
 });
 
 test("independent hours oracle retains explicit-window strictness and accepts only a single positive DAYPART intersection", () => {

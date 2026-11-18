@@ -64,7 +64,7 @@ export function evaluateSourceOpeningHours(lines: string[], date: string, window
   const start = minute(window.earliest), end = minute(window.latest);
   if (start === undefined || end === undefined || start > end) return "UNKNOWN";
   const ranges = value.split(/\s*[,;]\s*/).map(range => range.split(/\s*[–-]\s*/).map(minute));
-  const daypart = /^(?:DAYPART:EVENING|DAYPART:AFTERNOON|DAYPART:AFTER_WORK)$/.test(timeWindowBasis ?? "");
+  const daypart = /^(?:DAYPART:EVENING|DAYPART:AFTERNOON|DAYPART:AFTER_WORK(?:_BROAD_WINDOW)?)$/.test(timeWindowBasis ?? "");
   if (ranges.some(range => range.length !== 2 || range.some(value => value === undefined) || (daypart ? range[0] === range[1] : range[0]! >= range[1]!))) return "UNKNOWN";
   return ranges.some(([open, close]) => daypart
     ? Math.max(open!, start) < Math.min(close! < open! ? close! + 1440 : close!, end)

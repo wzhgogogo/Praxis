@@ -256,7 +256,7 @@ export function openingHoursForRequest(
   // One explicit interval must cover the requested window; adjacent split
   // periods cannot be fused into an invented continuous opening.
   if (!intervals.length) return undefined;
-  const daypart = /^(?:DAYPART:EVENING|DAYPART:AFTERNOON|DAYPART:AFTER_WORK)$/.test(timeWindowBasis ?? "");
+  const daypart = /^(?:DAYPART:EVENING|DAYPART:AFTERNOON|DAYPART:AFTER_WORK(?:_BROAD_WINDOW)?)$/.test(timeWindowBasis ?? "");
   const matching = intervals.find(([start, end]) => daypart
     ? Math.max(start, requestedStart) < Math.min(end, requestedEnd)
     : start <= requestedStart && end > requestedEnd);

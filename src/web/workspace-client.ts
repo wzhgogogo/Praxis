@@ -343,7 +343,7 @@ async function submitRequirement(message,preserveComposer=false){
   if(!old&&previewPace&&fixturePresentation(p.view))state.entryPace=startedAt;accept(p.view);
   if(modelFailed)$('understanding-error').scrollIntoView({block:'nearest',behavior:'instant'});openStream(p.view.case.caseId,nav);savePosition();return !modelFailed;
  }catch(error){
-  if(nav===state.nav){if(!old){clearEntryTransition();state.blocked=false;state.sending=false;render();if(!$('message').value)setMessage(draft);}report(error);}return false;
+  if(nav===state.nav){if(!old)clearEntryTransition();state.blocked=false;state.sending=false;render();if(!$('message').value)setMessage(draft);report(error);}return false;
  }finally{if(nav===state.nav){state.blocked=false;state.sending=false;$('send').disabled=false;$('send').setAttribute('aria-busy','false');}}
 }
 $('composer').onsubmit=async event=>{event.preventDefault();const message=$('message').value.trim();if(!message||state.blocked||state.asking)return;if(state.view&&state.ui.view==='DETAILS'){await askCurrentPlace(message);return;}await submitRequirement(message);};

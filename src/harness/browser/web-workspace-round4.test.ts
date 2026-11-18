@@ -14,6 +14,26 @@ async function open(page:Page,host:Awaited<ReturnType<typeof startWorkspaceFixtu
 }
 async function view(page:Page){const id=await page.locator('.case-link.active').getAttribute('data-case-id');return (await(await page.request.get('/api/cases/'+encodeURIComponent(id!))).json()).view;}
 async function shot(page:Page,name:string){if(!process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT)return;await mkdir(process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT,{recursive:true});await page.screenshot({path:join(process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT,name+'.png')});}
+for(const size of sizes)test('Round5 '+size.width+': failed existing-Case submit restores card controls, current clarification and an emptied draft',{timeout:30_000},async()=>{
+ const host=await startWorkspaceFixture({multiSlot:true}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size});
+ await context.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.abort());const page=await context.newPage();let release=()=>{};
+ try{await open(page,host);const projected=await view(page);host.disconnectStreams();
+  // A retained qualified card beside a current clarification, using only the read-projection boundary.
+  projected.case.phase='NEEDS_INPUT';projected.restaurant.clarificationQuestion='Which area should I use for this change?';
+  await page.route('**/api/cases/*/events',r=>r.fulfill({status:200,contentType:'text/event-stream',body:': projection fixture\n\n'}));
+  await page.route(host.baseUrl+'/api/cases/'+encodeURIComponent(projected.case.caseId),r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({view:projected})}));
+  await page.reload();await page.locator('#messages').waitFor({state:'visible'});
+  const slots=page.locator('#delivery-slots .slot-time');assert.equal(await slots.count(),2);assert.equal(await page.locator('#choose').isEnabled(),true);
+  const gate=new Promise<void>(r=>{release=r;});await page.route('**/api/conversations/*/messages',async r=>{await gate;await r.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:'Controlled submit failure'})});});
+  const draft='Change this existing plan';await page.locator('#message').fill(draft);const sent=page.waitForRequest(r=>r.method()==='POST'&&new URL(r.url()).pathname.endsWith('/messages'));await page.locator('#send').click();await sent;
+  assert.equal(await page.locator('#choose').isDisabled(),true);for(const slot of await slots.all())assert.equal(await slot.isDisabled(),true);
+  assert.equal(await page.locator('#messages').isVisible(),false);await page.locator('#message').fill('');release();
+  await page.locator('#error').waitFor({state:'visible'});assert.match(await page.locator('#error').innerText(),/Controlled submit failure/);
+  assert.equal(await page.locator('#choose').isEnabled(),true);for(const slot of await slots.all())assert.equal(await slot.isEnabled(),true);
+  assert.equal(await page.locator('#messages').isVisible(),true);assert.equal(await page.locator('#messages').innerText(),projected.restaurant.clarificationQuestion);
+  assert.equal(await page.locator('#message').inputValue(),draft);assert.equal(await page.locator('#send').getAttribute('aria-busy'),'false');await shot(page,'round5-'+size.width+'-failed-submit-restored');
+ }finally{release();await context.close();await browser.close();await host.close();}
+});
 for(const size of sizes){
  test('Round4 '+size.width+': expired Saved opens the exact presented card and refreshes before booking',{timeout:45_000},async()=>{
   const host=await startWorkspaceFixture({sourceValidityMs:60_000}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size});
