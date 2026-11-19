@@ -2,7 +2,7 @@
 
 2026-11-19。工作树 `/private/tmp/praxis-3c-unified`，分支 `codex/feat-web-photos-unified`，基线 `9cb56dede15e5c6cd1aefb64181416485e523d19`。
 
-唯一冻结验收 SHA **`0d354f1e85cb95992dc63cbe05241960b78ea2b5`**。证据提交 **`6f4546dc7aab2c33dec784ae7a85ac4cc16cd12e`**。五道门禁与三组视觉使用同一净树提交，报告及账本随后提交。
+唯一冻结验收 SHA **`0d354f1e85cb95992dc63cbe05241960b78ea2b5`**。证据提交 **`6f4546dc7aab2c33dec784ae7a85ac4cc16cd12e`**。五道门禁与三组视觉使用同一净树提交，报告及账本随后提交。最终归档提交修正了预检日志拷贝路径，补齐三份 Round 12 日志并更新哈希索引。
 
 ## 换批就绪与全案资格
 
@@ -35,6 +35,6 @@ G2 与 Chromium 合并摘要为 443/443，G6 单列。子进程使用环境白�
 
 已目检三组截图。新增 390×844 截图取自第三批耗尽后实际刷新，空态和 Adjust 可见，Saved 1 保留，餐厅卡片、翻页和预约按钮均不显示。桌面侧栏回归图与 Round 11 对应原件哈希一致。 [侧栏回归图](states/sidebar-order-and-status.png)
 
-主工作区、主 `.env`、closeout、Prompt 15、搜索指纹和 `missingBlockingFields()` 通过前后比对。Round 6 至 Round 11 冻结证据、走查和复核目录逐文件哈希一致。本轮 106 份原始产物哈希及报告校验均通过。Domain、Agent Loop、Reducer 和前端源码保持原样。 [保护记录](protection-check.log) · [证据哈希](artifact-sha256.json) · [报告校验](REPORT.sha256)
+主工作区、主 `.env`、closeout、Prompt 15、搜索指纹和 `missingBlockingFields()` 通过前后比对。Round 6 至 Round 11 冻结证据、走查和复核目录逐文件哈希一致。本轮 107 份原始产物哈希及报告校验均通过。Domain、Agent Loop、Reducer 和前端源码保持原样。 [保护记录](protection-check.log) · [证据哈希](artifact-sha256.json) · [报告校验](REPORT.sha256)
 
 浏览器、回环服务和 PGlite 已退出。未运行 Live、连接真实 PostgreSQL、使用 4312、运行独立整单 Replay 或真机浏览器验收。所有提交留在本地分支，未推送或合入 `main`。停在离线验收完成处，等待确认。
