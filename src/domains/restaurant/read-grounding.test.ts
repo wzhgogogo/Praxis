@@ -363,3 +363,21 @@ test("Google and website distinguish DAYPART intersection from the identical exp
   assert.equal(openingHoursForRequest(["Friday: 11:00 AM – 6:00 PM"], eveningDraft.date, eveningDraft.timeWindow, "Asia/Tokyo", "DAYPART:EVENING")?.matches, false, "touching the exclusive closing boundary is not an intersection");
   assert.deepEqual(openingHoursForRequest(["Friday: 5:00 PM – 7:00 PM, 8:00 PM – 10:00 PM"], eveningDraft.date, eveningDraft.timeWindow, "Asia/Tokyo", "DAYPART:EVENING")?.window, ["18:00", "19:00"], "split shifts remain separate");
 });
+
+test("Google primary dining types admit standalone food and drink venues and reject mixed-use primaries", () => {
+  const place = {
+    placeId:"place-mixed",displayName:"Fixture in Shibuya",formattedAddress:"Shibuya, Tokyo",
+    location:{latitude:35.66,longitude:139.7},
+  };
+  const context = {timezone:fixtureIntent.timezone,requestFingerprint:"request",observedAt:now,areaQuery:"Shibuya"};
+  for (const primaryType of ["hotel","shopping_mall","department_store","art_museum","museum","banquet_hall","event_venue","grocery_store","butcher_shop"]) {
+    assert.deepEqual(groundGoogleDiscovery({...place,primaryType,types:["restaurant","food"]},context),
+      {accepted:false,reasonCode:"GOOGLE_PLACE_TYPE_UNUSABLE"},primaryType);
+  }
+  for (const primaryType of ["restaurant","japanese_restaurant","cafe","bar","brewpub","bakery","  WINE Bar  "]) {
+    assert.equal(groundGoogleDiscovery({...place,primaryType,types:[primaryType,"point_of_interest","establishment"]},context).accepted,true,primaryType);
+  }
+  for (const type of ["restaurant","cafe","food","brewpub"]) {
+    assert.equal(groundGoogleDiscovery({...place,types:[type,"establishment"]},context).accepted,true,type);
+  }
+});

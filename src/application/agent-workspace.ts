@@ -103,6 +103,7 @@ export interface RestaurantCaseSummary {
   status: CaseStatus;
   phase: RestaurantPhase;
   taskVersion: number;
+  readonly stopped?: boolean;
   pendingUserAction?: PendingUserAction;
   updatedAt: string;
 }

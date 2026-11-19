@@ -412,6 +412,19 @@ export function discoveryShortBatchDeliveryReady(state: Readonly<RestaurantTaskS
 }
 
 /** Keep independently evidenced source records separate while refusing to count an unresolved same outlet twice. */
+/** Qualified, distinct candidates the current delivery may consider. */
+export function restaurantPresentableCandidateIds(
+  state: Readonly<RestaurantTaskState>,
+  now: string,
+  presentation = assessRestaurantRead(state, now).presentation,
+): string[] {
+  if (state.refreshRequestedCandidateIds?.length || state.factRefreshRequestedCandidateIds?.length) return [];
+  const delivered = new Set(state.pendingResultBatchTarget === undefined ? [] : state.selectionSession?.deliveredCandidateIds ?? []);
+  return distinctDiscoveryResultCandidateIds(state, presentation
+    .filter(item => item.eligible && !delivered.has(item.candidateId))
+    .map(item => item.candidateId));
+}
+
 export function distinctDiscoveryResultCandidateIds(state: Readonly<RestaurantTaskState>, candidateIds: readonly string[]): string[] {
   const compact = (value: string) => value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
   const selected: string[] = [];

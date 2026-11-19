@@ -851,7 +851,8 @@ export class PersistentRestaurantAgentApplication {
 
   async listCases(userId: string): Promise<RestaurantCaseSummary[]> {
     const records = await this.store.listConversationsForUser(userId);
-    return Promise.all(records.map(async (record) => (await this.project(record)).case));
+    const summaries = await Promise.all(records.map(async record => (await this.project(record)).case));
+    return summaries.sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt) || a.caseId.localeCompare(b.caseId));
   }
 
   /** Cancels only the active read owned by this Case; it never touches an external booking flow. */
@@ -1231,6 +1232,7 @@ export class PersistentRestaurantAgentApplication {
       status: caseStatus(snapshot.lifecycleState),
       phase: state.phase,
       taskVersion: snapshot.version,
+      ...(state.phase === "FAILED" && state.failure?.code === "AGENT_LOOP_CANCELLED" ? { stopped: true } : {}),
       ...(action ? { pendingUserAction: action } : {}),
       updatedAt: snapshot.updatedAt,
     };

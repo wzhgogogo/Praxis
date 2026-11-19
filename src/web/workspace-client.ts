@@ -60,7 +60,37 @@ function startEntryPreview(view,startedAt){
  };advance();
 }
 function displayTitle(value){return String(value).replace(/\p{L}/u,letter=>letter.toLocaleUpperCase('en-US'));}
-function updateCases(summary){state.cases.set(summary.caseId,summary);let button=$('case-list').querySelector('[data-case-id="'+CSS.escape(summary.caseId)+'"]');if(!button){button=element('button',undefined,'case-link');button.dataset.caseId=summary.caseId;button.append(element('span'),element('small'));button.onclick=()=>loadCase(summary.caseId);$('case-list').append(button);}button.firstChild.textContent=displayTitle(summary.title);button.title=summary.title;button.lastChild.textContent=state.preview&&state.preview.caseId===summary.caseId?'In progress':summary.phase==='PRESENT_RESULTS'?'Ready':summary.status==='ACTIVE'?'In progress':'';}
+function caseLabel(summary){
+  if(state.preview?.caseId===summary.caseId||summary.status==='ACTIVE')return 'In progress';
+  switch(summary.phase){
+    case 'PRESENT_RESULTS': return 'Ready';
+    case 'NEEDS_INPUT': return 'Needs details';
+    case 'NO_VERIFIED_RESULT': return 'No verified results';
+    case 'FAILED': return summary.stopped?'Stopped':'Failed';
+    default: return summary.status==='NEEDS_YOU'?'Needs details':summary.status==='WAITING'?'Waiting':'Completed';
+  }
+}
+function updateCases(summary){
+  state.cases.set(summary.caseId,summary);
+  const list=$('case-list');
+  let button=list.querySelector('[data-case-id="'+CSS.escape(summary.caseId)+'"]');
+  if(!button){
+    button=element('button',undefined,'case-link');button.dataset.caseId=summary.caseId;
+    button.append(element('span'),element('small'));button.onclick=()=>loadCase(summary.caseId);
+  }
+  button.firstChild.textContent=displayTitle(summary.title);button.title=summary.title;button.lastChild.textContent=caseLabel(summary);
+  const next=[...list.children].find(row=>{
+    if(row===button)return false;
+    const other=state.cases.get(row.dataset.caseId);
+    const byTime=Date.parse(summary.updatedAt)-Date.parse(other.updatedAt);
+    return byTime>0||(byTime===0&&summary.caseId.localeCompare(other.caseId)<0);
+  })||null;
+  if(button.parentElement!==list||button.nextElementSibling!==next){
+    const focused=document.activeElement===button;
+    list.insertBefore(button,next);
+    if(focused)button.focus({preventScroll:true});
+  }
+}
 function refreshCaseLinks(){for(const s of state.cases.values())updateCases(s);}
 function openStream(caseId,nav){
   if(state.stream)state.stream.close();show('reconnecting',false);
@@ -93,21 +123,23 @@ function renderProgress(){
  const pending=state.pendingCase,preview=state.preview,r=state.view&&state.view.restaurant,p=r&&r.progress;
  const understanding=!!state.view&&state.view.case.phase==='UNDERSTANDING';
  const active=!!pending||!!preview||understanding||!!(p.active&&!p.stopped&&!['MODEL_FAILURE','NO_QUALIFIED_RESULTS','ALL_SOURCES_FAILED','OTHER_FAILURE'].includes(r.readStatus.kind));
- const hasCard=!pending&&(!preview||preview.phase==='card')&&!!candidate();
+ const hasCard=!pending&&state.ui.view==='CANDIDATES'&&(!preview||preview.phase==='card')&&!!candidate();
  show('progress',active);$('progress').classList.toggle('has-card',hasCard);$('brand').classList.toggle('working',active);show('stop',!pending&&!preview&&!!p.active&&active);$('stop').disabled=state.blocked;
+ text('stop',hasCard?'Stop searching':'Stop');
  if(!active)return;
  let rows;
- if(pending||understanding||preview&&preview.phase==='understanding')rows=[['request','Understanding your request',false]];
+ if(hasCard)rows=[['check','Looking for more options',false,preview?Math.min(1,p.checkedCount||0):p.checkedCount]];
+ else if(pending||understanding||preview&&preview.phase==='understanding')rows=[['request','Understanding your request',false]];
  else if(preview)rows=[['request','Request understood',true],['search',preview.phase==='finding'?'Finding places':'Places found',preview.phase!=='finding']];
  else rows=[['request','Request understood',true],['search',p.discoveredCount===undefined?'Finding places':'Places found',p.discoveredCount!==undefined]];
- if(!pending&&!understanding&&(!preview&&p.discoveredCount!==undefined||preview&&['checking','card'].includes(preview.phase))){
+ if(!hasCard&&!pending&&!understanding&&(!preview&&p.discoveredCount!==undefined||preview&&['checking','card'].includes(preview.phase))){
   const label=r.intentDraft&&r.intentDraft.target&&r.intentDraft.target.goal==='RECOMMENDATION'?'Checking details':'Checking availability';
   rows.push(['check',label,false,preview?(preview.phase==='checking'?0:Math.min(1,p.checkedCount||0)):p.checkedCount]);
  }
  for(const row of rows){
   let node=$('stages').querySelector('[data-stage="'+row[0]+'"]');
   if(!node){node=element('div',undefined,'stage');node.dataset.stage=row[0];node.append(element('span',undefined,'mark'),element('span'));$('stages').append(node);}
-  node.hidden=false;node.lastChild.replaceChildren(document.createTextNode(row[1]));if(row[3]!==undefined)node.lastChild.append(element('span',' '+row[3]+' checked','stage-count'));node.className='stage '+(row[2]?'done':'current');
+  node.hidden=false;node.lastChild.replaceChildren(document.createTextNode(row[1]));if(row[3]!==undefined)node.lastChild.append(element('span',(hasCard?' · ':' ')+row[3]+' checked','stage-count'));node.className='stage '+(row[2]?'done':'current');
  }
  for(const node of $('stages').children)node.hidden=!rows.some(row=>row[0]===node.dataset.stage);
 }
@@ -133,9 +165,11 @@ function renderDelivery(){
  const offers=(r.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());
  const groups=new Map();for(const offer of offers){const label=displayDate(offer.dateTime),key=label+':'+offer.partySize;let group=groups.get(key);if(!group){group={label,partySize:offer.partySize,offers:[]};groups.set(key,group);}group.offers.push(offer);}
  const selected=offerFor(id);$('delivery-slots').replaceChildren(...Array.from(groups.values()).map((group,index)=>{const row=element('div');if(index>0)row.append(element('p','Available '+group.label));const options=element('div',undefined,'slot-options');for(const offer of group.offers){const button=element('button',displayTime(offer.dateTime),'slot-time');button.dataset.offerId=offer.id;button.setAttribute('aria-label','Time '+displayTime(offer.dateTime)+' on '+group.label);button.setAttribute('aria-pressed',String(!!selected&&selected.id===offer.id));button.disabled=state.blocked||!!state.preparing;button.onclick=event=>{state.ui.offerId=offer.id;savePosition();renderCard();const current=$('delivery-slots').querySelector('[data-offer-id="'+CSS.escape(offer.id)+'"]');if(current&&event.detail===0)current.focus({preventScroll:true});};options.append(button);}row.append(options);return row;}));
- $('delivery-conditions').replaceChildren(...(r.conditionStates&&r.conditionStates[id]||[]).map(conditionRow));
+ $('delivery-conditions').replaceChildren(...(r.conditionStates?.[id]||[])
+   .filter(item=>item.status!=='NOT_CHECKED'||item.strength==='HARD').map(conditionRow));
 }
-function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), check=r.availabilityChecks[id], source=sourceFor(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now()?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible;$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
+function canShortlist(){return ['SEARCHING','SELECTION_REQUIRED','PRESENT_RESULTS','NO_VERIFIED_RESULT'].includes(state.view?.case.phase);}
+function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), check=r.availabilityChecks[id], source=sourceFor(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now()?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible;$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
 function renderDetails(){
  const c=candidate();if(!c)return;const r=state.view.restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];
  const refreshBusy=r.progress.active||state.blocked,refreshSlots=r.readStatus.canRetry||ids().some(cid=>(r.availability[cid]||[]).length||r.availabilityChecks[cid]?.status==='AVAILABLE')||r.intentDraft?.target?.goal==='AVAILABILITY';
@@ -240,12 +274,11 @@ function renderSaved(){
 }
 function renderReadState(end){
   const r=state.view.restaurant,status=r.readStatus;
-  const empty=status.kind==='NO_QUALIFIED_RESULTS'||status.kind==='ALL_SOURCES_FAILED';
+  const failed=status.kind==='OTHER_FAILURE'&&!r.progress.active&&!r.progress.stopped;
+  const empty=failed||status.kind==='NO_QUALIFIED_RESULTS'||status.kind==='ALL_SOURCES_FAILED';
   show('empty-state',empty);show('understanding-error',status.kind==='MODEL_FAILURE');
-  if(empty){text('empty-message',status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":status.canContinue?'Nothing matched yet.':"Couldn't confirm a matching place this time. Try adjusting the area, time, or party size.");show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canContinue);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canRetry);$('empty-more').disabled=state.blocked;$('empty-retry').disabled=state.blocked;}
-  const list=ids(),last=list.indexOf(state.ui.candidateId)===list.length-1;
-  show('partial-source-note',status.partialSourceFailure&&!r.progress.active&&(end||(state.ui.view==='CANDIDATES'&&last)));
-  return empty||status.kind==='MODEL_FAILURE';
+  if(empty){text('empty-message',failed?"Couldn't complete this search. Please try again.":status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":status.canContinue?'Nothing matched yet.':"Couldn't confirm a matching place this time. Try adjusting the area, time, or party size.");show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canContinue);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canRetry);$('empty-more').disabled=state.blocked;$('empty-retry').disabled=state.blocked;}
+  show('partial-source-note',status.partialSourceFailure&&!r.progress.active&&end);
 }
 function renderHandoff(){
   const c=candidate();if(!c)return;
@@ -301,8 +334,8 @@ new IntersectionObserver(entries=>{$('topbar').classList.toggle('scrolled',!case
 ${WORKSPACE_PHOTO_CLIENT_SCRIPT}
 function render(){
   if(state.view&&!state.pendingCase&&!state.view.restaurant.progress.active&&['DETAILS','HANDOFF'].includes(state.ui.view)){
-   const currentIds=ids();if(state.view.case.phase!=='PRESENT_RESULTS'||!currentIds.length||!currentIds.includes(state.ui.candidateId)){
-    closeAnswer();closePhotos();state.ui.view='CANDIDATES';state.ui.candidateId=currentIds[0]||null;state.ui.atEnd=false;state.detailKey='';state.handoffKey='';
+   const currentIds=ids();if(state.view.restaurant.readStatus.kind!=='RESULTS'||!currentIds.length||!currentIds.includes(state.ui.candidateId)){
+    closeAnswer();closePhotos();state.ui.view='CANDIDATES';state.ui.atEnd=false;
    }
   }
   const real=!!state.view,pending=state.pendingCase,has=real||!!pending,mode=pending?'CANDIDATES':state.ui.view;caseScroller.dataset.view=mode;show('home',!has);show('case-workspace',has);show('workspace-composer',has&&['CANDIDATES','DETAILS'].includes(mode));const conditionRow=document.querySelector('.workspace-conditions');conditionRow.hidden=mode==='SAVED'||mode==='HANDOFF';
@@ -317,20 +350,31 @@ function render(){
   if(pending){
    caseScroller.scrollTop=0;delete caseScroller.dataset.caseId;
    text('case-title',displayTitle(pending.title));$('case-title').title=pending.title;
-   for(const id of ['candidate-panel','details','handoff','saved-panel','batch-end','empty-state','understanding-error','revision-changes','partial-source-note','messages','feedback','mode-note','use-location','saved'])show(id,false);
+   for(const id of ['candidate-panel','details','handoff','saved-panel','batch-end','empty-state','understanding-error','revision-changes','partial-source-note','clarification-reply','messages','feedback','mode-note','use-location','saved'])show(id,false);
    $('request-conditions').replaceChildren();delete $('request-conditions').dataset.signature;conditionRow.hidden=false;conditionRow.style.visibility='hidden';renderProgress();return;
   }
   const r=state.view.restaurant,candidateIds=ids();
-  if(!state.ui.candidateId&&candidateIds.length)state.ui.candidateId=candidateIds[0];
-  if(state.ui.candidateId&&!r.candidates.some(c=>c.restaurant.id===state.ui.candidateId))state.ui.candidateId=candidateIds[0]||null;
-  if(state.ui.view==='CANDIDATES'&&!state.ui.atEnd&&state.view.case.phase==='PRESENT_RESULTS'&&candidateIds.length&&!candidateIds.includes(state.ui.candidateId))state.ui.candidateId=candidateIds[0];
+  let currentId=state.ui.candidateId;
+  if(!r.progress.active){
+    if(r.readStatus.kind!=='RESULTS'||!candidateIds.length)currentId=null;
+    else if(!candidateIds.includes(currentId))currentId=candidateIds[0];
+  }else if(!currentId||!r.candidates.some(c=>c.restaurant.id===currentId)){
+    currentId=candidateIds[0]||currentId;
+  }
+  if(currentId!==state.ui.candidateId){
+    state.ui.candidateId=currentId;state.ui.offerId=null;state.detailKey='';state.handoffKey='';
+  }
   text('case-title',displayTitle(state.view.case.title));$('case-title').title=state.view.case.title;const savedCount=(r.shortlistCandidateIds||[]).length;text('saved-count',savedCount);show('saved-count',savedCount>0);$('saved').setAttribute('aria-label',savedCount>0?'Saved '+savedCount:'Saved');
   renderConditions();renderChanges();renderProgress();const end=mode==='CANDIDATES'&&state.ui.atEnd&&!r.progress.active&&state.view.case.phase==='PRESENT_RESULTS';
   show('candidate-panel',mode==='CANDIDATES'&&!!candidate()&&!end&&(!state.preview||state.preview.phase==='card'));show('batch-end',!!end);show('details',mode==='DETAILS'&&!!candidate());show('saved-panel',mode==='SAVED');show('saved',mode!=='SAVED');conditionRow.hidden=['SAVED','HANDOFF'].includes(mode);conditionRow.style.visibility=mode==='CANDIDATES'&&(state.preview&&state.preview.phase==='understanding'||!candidate()&&!$('request-conditions').childElementCount&&(r.progress.active||state.view.case.phase==='UNDERSTANDING'))?'hidden':'';show('handoff',mode==='HANDOFF'&&!!candidate());
   show('end-saved',savedCount>0);text('end-saved-count',savedCount);$('end-saved').setAttribute('aria-label','Saved '+savedCount);$('find-more').disabled=state.blocked;
   if(mode==='CANDIDATES'&&!end)renderCard();if(mode==='DETAILS')renderDetails();if(mode==='SAVED')renderSaved();if(mode==='HANDOFF')renderHandoff();renderPhotos();
-  const shortState=renderReadState(end),busy=!!(pending||state.preview||state.sending||state.blocked||r.progress.active||['UNDERSTANDING','SEARCHING'].includes(state.view.case.phase));
-  const message=!busy&&mode==='CANDIDATES'?(r.progress.stopped?'Search stopped.':state.view.case.phase==='NEEDS_INPUT'?r.clarificationQuestion||'':r.readStatus.kind==='OTHER_FAILURE'&&!candidateIds.length?"Couldn't complete this search. Please try again.":''):'';
+  renderReadState(end);const busy=!!(pending||state.preview||state.sending||state.blocked||r.progress.active||['UNDERSTANDING','SEARCHING'].includes(state.view.case.phase));
+  const clarifying=!busy&&mode==='CANDIDATES'&&state.view.case.phase==='NEEDS_INPUT';
+  const replies=clarifying?state.view.conversation.messages.filter(message=>message.role==='USER'):[];
+  const reply=replies.length>1?replies.at(-1).content:'';
+  text('clarification-reply',reply);show('clarification-reply',!!reply);
+  const message=clarifying?r.clarificationQuestion||'':!busy&&mode==='CANDIDATES'&&r.progress.stopped?'Search stopped.':'';
   text('messages',message);show('messages',!!message);
   if(mode!=='CANDIDATES')for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])show(id,false);
   show('mode-note',state.view.mode==='FIXTURE');text('mode-note','Fixture only. No real availability or reservations.');show('use-location',(r.missingRequiredFields||[]).includes('location'));savePosition();clearTimeout(state.expiry);
@@ -357,7 +401,7 @@ async function submitRequirement(message,preserveComposer=false){
 }
 $('composer').onsubmit=async event=>{event.preventDefault();const message=$('message').value.trim();if(!message||state.blocked||state.asking)return;if(state.view&&state.ui.view==='DETAILS'){await askCurrentPlace(message);return;}await submitRequirement(message);};
 $('stop').onclick=async()=>{if(state.blocked||!state.view)return;const nav=state.nav;state.blocked=true;$('stop').disabled=true;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/run',{method:'DELETE'});if(nav!==state.nav)return;state.blocked=false;accept(p.view);}catch(error){report(error);}finally{if(nav===state.nav){state.blocked=false;$('stop').disabled=false;}}};
-$('bookmark').onclick=async()=>{const c=candidate();if(!c)return;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/shortlist',{method:'POST',body:JSON.stringify({candidateId:c.restaurant.id,shortlisted:!(state.view.restaurant.shortlistCandidateIds||[]).includes(c.restaurant.id),taskVersion:state.view.case.taskVersion,requestId:requestId()})});accept(p.view);}catch(error){report(error);}};
+$('bookmark').onclick=async()=>{const c=candidate();if(!c||!canShortlist())return;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/shortlist',{method:'POST',body:JSON.stringify({candidateId:c.restaurant.id,shortlisted:!(state.view.restaurant.shortlistCandidateIds||[]).includes(c.restaurant.id),taskVersion:state.view.case.taskVersion,requestId:requestId()})});accept(p.view);}catch(error){report(error);}};
 function moveCard(delta){
   clearEntryPreview();cancelPreparation();const list=ids(),i=list.indexOf(state.ui.candidateId);
   if(state.ui.atEnd&&delta<0){state.ui.atEnd=false;savePosition();render();return;}
@@ -399,7 +443,7 @@ async function findMore(){
   catch(error){if(nav===state.nav)report(error);}finally{if(nav===state.nav){state.blocked=false;render();}}
 }
 $('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=focusAdjustment;
-async function depart(event){const h=currentHandoff();if(!h){event.preventDefault();await refreshCase();return;}event.preventDefault();const target=window.open('about:blank','_blank');if(target)target.opener=null;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId()})});localStorage.setItem(key(state.view.case.caseId)+':return','1');if(target)target.location.href=p.url;else throw new Error('Please allow this source tab to open.');}catch(error){if(target)target.close();report(error);}}
+async function depart(event){const h=currentHandoff();if(!h){event.preventDefault();await refreshCase();return;}event.preventDefault();const target=window.open('about:blank','_blank');if(!target){report(new Error('Please allow this source tab to open.'));return;}target.opener=null;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId()})});localStorage.setItem(key(state.view.case.caseId)+':return','1');target.location.href=p.url;}catch(error){target.close();report(error);}}
 $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};
 async function claimFeedback(){if(!state.view||state.feedback||state.claiming)return;const id=state.view.case.caseId;state.claiming=true;try{const p=await api('/api/cases/'+encodeURIComponent(id)+'/booking-feedback/claim',{method:'POST',body:'{}'});if(!state.view||state.view.case.caseId!==id)return;localStorage.removeItem(key(id)+':return');state.feedback=p.prompt||null;show('feedback',!!state.feedback);}catch(error){report(error);}finally{state.claiming=false;}}
 window.addEventListener('focus',async()=>{if(!state.view||!localStorage.getItem(key(state.view.case.caseId)+':return'))return;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId));accept(p.view);}catch(error){report(error);}});

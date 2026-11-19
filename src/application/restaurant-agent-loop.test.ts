@@ -7,7 +7,7 @@ import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 import type { TaskSnapshot } from "../core/task-runtime/contracts.js";
 import type { RestaurantAgentLoopTermination, RestaurantOutcome, RestaurantTaskState, RestaurantEvent } from "../domains/restaurant/contracts.js";
 import { ScriptedRestaurantAgentDecisionPort, type RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
-import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
+import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition as definition } from "../domains/restaurant/task-definition.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
@@ -18,7 +18,7 @@ const fixtures = JSON.parse(await readFile(new URL("./fixtures/p1-g2-h001-termin
 // A real saved state is explicitly injected for terminal-path regression only.
 // This is not an end-to-end discovery claim; the separate native composition
 // tests retain the production Guard, network policy and evidence-producing path.
-async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "FAILED_SEARCH") {
+async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "EXHAUSTED_MODEL" | "FAILED_SEARCH") {
   let ticks = 0;
   const clock = { now: () => new Date(Date.parse(fixture.now) + ticks++) };
   let current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome> = {
@@ -44,6 +44,9 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
     decision.decide = async input => { decisionCalls++; return originalDecide(input); };
     router.execute = async () => ({ event: {type:"SEARCH_FAILED",code,reason:"Scripted failed search"}, observation: {type:"DISCOVERY_FAILED",detail:"No model budget"}, failure: {source:"PROVIDER",scope:"PROVIDER",code,reason:"Scripted failed search",terminal:false} });
   }
+  if (runFailure === "EXHAUSTED_MODEL") decision.decide = async () => {
+    throw new Error("Budget exhaustion must deliver without a model call");
+  };
   if (runFailure === "UNCAUGHT_EXCEPTION") router.execute = async () => { throw new Error("Uncaught router exception"); };
   const coordinator = new RestaurantAgentLoopCoordinator({
     async snapshot() { return current; },
@@ -57,7 +60,9 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
         lifecycleState: definition.getLifecycleState(result.state), outcome: definition.evaluateOutcome(result.state), updatedAt: envelope.occurredAt };
       return { snapshot: current, commands: [], duplicateEvent: false };
     },
-  }, decision, router, trajectories, clock, { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 500_000 });
+  }, decision, router, trajectories, clock, { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 500_000,
+    ...(runFailure === "EXHAUSTED_MODEL" ? { remainingModelCalls: () => 0 } : {}),
+  });
   // Deliberately exercise the same internal stop boundary as the recorded
   // trajectory, with a monotonically advancing clock rather than frozen time.
   if (runFailure) await coordinator.run(current.id);
@@ -189,4 +194,61 @@ test('F6 slot3 26.596 seconds blocks the original availability action and ends h
  assert.ok(current.domainState.noVerifiedResult?.remainingGaps.some(gap=>/time|reserve|未|UNKNOWN|NOT_CHECKED/i.test(gap)));
  assert.equal(current.domainState.searchContinuation?.exhausted,f.state.searchContinuation?.exhausted,'closure cannot manufacture source exhaustion');
  assert.equal(events.filter(e=>e.type==='AVAILABILITY_CHECKED').length,0);
+});
+
+function qualifiedBudgetFixture(count: number): SavedState {
+  const now = "2026-11-19T09:00:00.000Z";
+  const candidates: RestaurantTaskState["candidates"] = Array.from({length:count}, (_, index) => {
+    const id = String(index+1);
+    return {
+      restaurant:{id,outletName:"Fixture "+id,address:"Shinjuku "+id,sourceIds:{googlePlaces:"place-"+id},provenance:{}},
+      matchReasons:[],warnings:[],executionConfidence:"HIGH",
+    };
+  });
+  const readEvidence: RestaurantTaskState["readEvidence"] = candidates.flatMap(({restaurant:{id}}) => {
+    const binding = {candidateId:id,sourceEntityId:"place-"+id,provider:"GOOGLE_PLACES" as const,observedAt:now,requestFingerprint:"fixture"};
+    return [
+      {...binding,evidenceId:"area-"+id,kind:"DISCOVERY" as const,claims:{areaQuery:"Shinjuku",areaMatch:true}},
+      {...binding,evidenceId:"entity-"+id,kind:"ENTITY_MATCH" as const,claims:{},entityMatch:{confidence:"HIGH" as const,matchedBy:["FIXTURE"]}},
+      {...binding,evidenceId:"fact-"+id,kind:"RESTAURANT_FACT" as const,claims:{}},
+    ];
+  });
+  return {
+    name:"qualified-budget",now,reason:"Model calls exhausted",source:{stateVersionBefore:10},
+    state:{
+      schemaVersion:"25",phase:"SEARCHING",pendingResultBatchTarget:3,searchRevision:1,
+      intentDraft:{schemaVersion:"3",timezone:"Asia/Tokyo",target:{goal:"RECOMMENDATION",query:"restaurants",selectionScope:"OPEN_ENDED"},
+        area:{query:"Shinjuku"},criteria:[]},
+      candidates,readEvidence,availability:{},availabilityChecks:{},
+    },
+  };
+}
+
+for (const count of [1,2]) test(`first short batch still delivers ${count} qualified restaurants after saving a card`,async()=>{
+  const fixture = qualifiedBudgetFixture(count);
+  fixture.state = definition.transition(fixture.state,{type:"SHORTLIST_UPDATED",candidateId:"1",shortlisted:true},
+    {taskId:"fixture",runId:"fixture",now:fixture.now,createId:prefix=>prefix}).state;
+  assert.deepEqual(fixture.state.selectionSession?.deliveredCandidateIds,[]);
+  assert.deepEqual(fixture.state.selectionSession?.shortlistCandidateIds,["1"]);
+  const result = await stop(fixture,"NO_PROGRESS","EXHAUSTED_MODEL");
+  assert.equal(result.current.domainState.phase,"PRESENT_RESULTS");
+  assert.deepEqual(result.current.domainState.presentedResults?.candidateIds,count===1?["1"]:["1","2"]);
+  assert.ok(result.events.includes("DEFAULT_BATCH_DELIVERY_WINDOW_OPENED"));
+  assert.deepEqual(result.current.domainState.selectionSession?.shortlistCandidateIds,["1"]);
+});
+
+test("previously delivered restaurants cannot open a first-batch short delivery window",()=>{
+  const {state,now} = qualifiedBudgetFixture(2);
+  state.selectionSession = {deliveredCandidateIds:["earlier"],viewedCandidateIds:[],shortlistCandidateIds:["1"]};
+  assert.deepEqual(defaultBatchDeliveryCandidateIds(state,now),[]);
+});
+
+for (const continuing of [false,true]) test(`budget exhaustion delivers only three qualified ${continuing?"new":"first-batch"} restaurants`,async()=>{
+  const fixture = qualifiedBudgetFixture(continuing?8:5);
+  if (continuing) fixture.state.selectionSession = {deliveredCandidateIds:["1","2","3"],viewedCandidateIds:[],shortlistCandidateIds:[]};
+  assert.equal(assessRestaurantRead(fixture.state,fixture.now).presentation.filter(item=>item.eligible).length,continuing?8:5);
+  const result = await stop(fixture,"NO_PROGRESS","EXHAUSTED_MODEL");
+  assert.equal(result.current.domainState.phase,"PRESENT_RESULTS");
+  assert.deepEqual(result.current.domainState.presentedResults?.candidateIds,continuing?["4","5","6"]:["1","2","3"]);
+  assert.deepEqual(result.events,["RESULTS_PRESENTED"]);
 });

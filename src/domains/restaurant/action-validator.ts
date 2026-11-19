@@ -113,7 +113,7 @@ export function defaultBatchDeliveryCandidateIds(state: Readonly<RestaurantTaskS
   if (state.phase !== "SEARCHING" || state.pendingResultBatchTarget !== 3
     || state.intentDraft?.target?.selectionScope !== "OPEN_ENDED"
     || state.intentDraft.target.requestedResultCount !== undefined
-    || state.selectionSession !== undefined
+    || (state.selectionSession?.deliveredCandidateIds.length ?? 0) > 0
     || state.refreshRequestedCandidateIds?.length || state.factRefreshRequestedCandidateIds?.length) return [];
   const eligible = distinctDiscoveryResultCandidateIds(state, assessRestaurantRead(state, now).presentation.filter((item) => item.eligible).map((item) => item.candidateId));
   return eligible.length >= 1 && eligible.length <= 2 ? eligible : [];

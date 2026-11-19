@@ -6397,3 +6397,7 @@ Final frozen source/tests/orchestration ddd9eda8d04b304f09b3629bb0d64828645c5789
 ### 2026-11-19 — Unified Round 7 implementation
 
 Draft / not integrated. Require observations for the original fact refresh targets before presenting results. Bind cancellation to the preflight ActiveRead and reconcile durable request IDs, new user events and target changes before writing. A duplicate dispatch does not enqueue another read. Preserve qualifiers on beer evidence, and give the condition list a 12px gap above the booking button. The Round 7 report corrects the Round 6 fact refresh explanation.
+
+### 2026-11-19 — Unified Round 8 implementation
+
+Draft / not integrated. Separate a shortlist from delivered batches. Bound budget-exhaustion presentation to the same distinct and undelivered pool as the Agent context. Gate Google discovery by the primary dining type and use secondary types for observations without a primary type. Align idle card selection, About and bookmark permissions with workspace state. Sort the sidebar by task activity, preserve the latest clarification reply, focus card condition rows and group search and stop feedback. A blocked popup exits before the booking departure request.

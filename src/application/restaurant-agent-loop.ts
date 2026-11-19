@@ -18,7 +18,7 @@ import {
   type RestaurantAgentContext,
 } from "../domains/restaurant/agent-context.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "../domains/restaurant/action-validator.js";
-import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
+import { assessRestaurantRead, restaurantPresentableCandidateIds } from "../domains/restaurant/read-assessment.js";
 import { restaurantReadStopIsSystem } from "../domains/restaurant/read-loop-termination.js";
 import type {
   RestaurantAgentLoopTermination,
@@ -655,15 +655,16 @@ export class RestaurantAgentLoopCoordinator {
     let presentationGap = "";
     if (!restaurantReadStopIsSystem(termination, state.failure?.code)) {
       const now = this.clock.now().toISOString();
-      const eligible = assessRestaurantRead(state, now).presentation.filter(item => item.eligible).map(item => item.candidateId);
       const shortBatch = defaultBatchDeliveryCandidateIds(state, now);
-      if (eligible.length) {
+      const candidateIds = shortBatch.length ? shortBatch
+        : restaurantPresentableCandidateIds(state, now).slice(0, state.pendingResultBatchTarget);
+      if (candidateIds.length) {
         if (shortBatch.length && (!state.defaultBatchDeliveryWindow || Date.parse(state.defaultBatchDeliveryWindow.deadlineAt) < Date.parse(now))) {
           current = (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: new Date(Math.min(this.clock.now().valueOf() + 45_000, state.readEndWindow ? Date.parse(state.readEndWindow.deadlineAt) : Number.POSITIVE_INFINITY)).toISOString() }, "SYSTEM")).snapshot;
         }
         // Validate against time sampled AFTER the persisted window was opened.
         const presentationTime = this.clock.now().toISOString();
-        const action = { type: "PRESENT_RESULTS" as const, candidateIds: shortBatch.length ? shortBatch : eligible };
+        const action = { type: "PRESENT_RESULTS" as const, candidateIds };
         const validation = validateRestaurantAction(current.domainState, action, presentationTime);
         if (validation.status === "ALLOWED") {
           const execution = await this.router.execute(action, current.domainState, presentationTime);

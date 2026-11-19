@@ -93,7 +93,9 @@ export function projectWorkspaceRead(input: {
   const unchecked = attempts.some(attempt => ["FAILED", "UNKNOWN", "SOURCE_UNSUPPORTED"].includes(attempt.outcome));
   const interpretation = group.events.findLast(event => event.type === "SEMANTIC_INTERPRETATION_FAILED" || event.type === "SEMANTIC_PROPOSAL_COMPILED");
   const modelFailed = interpretation?.type === "SEMANTIC_INTERPRETATION_FAILED" && interpretation.status === "MODEL_FAILURE";
-  const kind = modelFailed ? "MODEL_FAILURE" : ready.size ? "RESULTS" : input.active ? "PENDING"
+  // Displayed cards can remain browsable after their inventory expires.
+  const hasResults = state.phase === "PRESENT_RESULTS" ? openable.size > 0 : ready.size > 0;
+  const kind = modelFailed ? "MODEL_FAILURE" : hasResults ? "RESULTS" : input.active ? "PENDING"
     : finished && allRestaurantSourcesFailed(state) ? "ALL_SOURCES_FAILED"
     : state.phase === "NO_VERIFIED_RESULT" ? "NO_QUALIFIED_RESULTS" : state.phase === "FAILED" ? "OTHER_FAILURE" : "PENDING";
   return { requirementRevision: group.revision, questionHistory: [...completedQuestions.values()].reverse(), savedCandidates, ...(revisionDiff ? { revisionDiff } : {}),

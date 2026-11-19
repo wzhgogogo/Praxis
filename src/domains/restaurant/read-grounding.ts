@@ -108,9 +108,18 @@ function stableCandidateId(placeId: string): string {
   return `praxis:restaurant:${createHash("sha256").update(placeId).digest("hex").slice(0, 24)}`;
 }
 
+const DINING_PRIMARY_TYPES = new Set([
+  "cafe", "coffee_shop", "bakery", "bar", "pub", "brewpub", "wine_bar", "cocktail_bar",
+  "bar_and_grill", "gastropub", "bistro", "diner", "steak_house", "deli", "tea_house",
+  "sandwich_shop", "cafeteria", "food_court", "dessert_shop", "ice_cream_shop", "bagel_shop",
+  "donut_shop", "juice_shop", "acai_shop", "meal_takeaway", "meal_delivery", "pizza_delivery", "izakaya",
+]);
+
 function usableRestaurant(place: UntrustedGooglePlaceObservation): boolean {
-  const types = new Set([...(place.types ?? []), ...(place.primaryType ? [place.primaryType] : [])]);
-  return types.has("restaurant") || types.has("cafe") || types.has("food");
+  const normalizeType = (type: string) => type.trim().toLowerCase().replace(/[\s-]+/g, "_");
+  const isDining = (type: string) => type === "restaurant" || type.endsWith("_restaurant") || DINING_PRIMARY_TYPES.has(type);
+  if (place.primaryType !== undefined) return isDining(normalizeType(place.primaryType));
+  return (place.types ?? []).map(normalizeType).some(type => type === "food" || isDining(type));
 }
 
 function normalized(value: string): string {

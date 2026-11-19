@@ -219,14 +219,14 @@ for(const size of sizes){
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}
   });
 
-  test("Workspace slice2 "+size.name+": semantic model failure retains the submitted text and current card, then accepts rephrasing",{timeout:25_000},async()=>{
+  test("Workspace slice2 "+size.name+": semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing",{timeout:25_000},async()=>{
     const bad="Unreadable fixture request",host=await startWorkspaceFixture({semanticFailureMessage:bad}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await tracedPage(context);
     try{
-      await start(page,host,"Dinner with friends");await page.locator("#next").click();const card=await page.locator("#restaurant-name").innerText(),reads=host.providerCalls.length;
+      await start(page,host,"Dinner with friends");await page.locator("#next").click();const reads=host.providerCalls.length;
       await page.locator("#message").fill(bad);await page.getByRole("button",{name:"Send",exact:true}).click();await page.locator("#understanding-error").waitFor({state:"visible"});
       assert.equal(await page.locator("#understanding-error").innerText(),"Couldn't read that. Try rephrasing?");assert.equal(await page.locator("#message").inputValue(),bad);
       const notice=await page.locator("#understanding-error").boundingBox(),composer=await page.locator("#composer").boundingBox();assert.ok(notice&&composer&&notice.y>=0&&notice.y+notice.height<=composer.y,"the model-failure next step must be fully visible above the fixed composer");
-      assert.equal(await page.locator("#restaurant-name").innerText(),card);assert.equal(host.providerCalls.length,reads);
+      assert.equal(await page.locator("#candidate-panel").isVisible(),false);assert.equal(host.providerCalls.length,reads);
       assert.equal(await page.locator("#messages").innerText(),"");await capture(page,size.name+"-slice2-model-failure");
       await page.locator("#message").fill("Make it three people");await page.getByRole("button",{name:"Send",exact:true}).click();await ready(page);
       assert.equal(await page.locator("#understanding-error").isVisible(),false);assert.equal(await page.locator("#message").inputValue(),"");
@@ -237,9 +237,9 @@ for(const size of sizes){
     const host=await startWorkspaceFixture({outcome:"partial"}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await tracedPage(context);
     try{
       await start(page,host,"Two dinner options",2);assert.equal(await page.locator("#empty-state").isVisible(),false);assert.equal(await page.locator("#partial-source-note").isVisible(),false);
-      await page.locator("#next").click();assert.equal(await page.locator("#partial-source-note").innerText(),"Some sources couldn't be checked.");assert.equal(await page.locator("#partial-source-note").isVisible(),true);
+      await page.locator("#next").click();assert.equal(await page.locator("#partial-source-note").isVisible(),false);
       assert.equal(await page.locator("#candidate-panel").isVisible(),true);assert.doesNotMatch(await page.locator("#partial-source-note").innerText(),/no seats|no restaurants nearby/i);
-      await page.locator("#next").click();await page.locator("#batch-end").waitFor({state:"visible"});assert.equal(await page.locator("#partial-source-note").isVisible(),true);
+      await page.locator("#next").click();await page.locator("#batch-end").waitFor({state:"visible"});assert.equal(await page.locator("#partial-source-note").isVisible(),true);assert.equal(await page.locator("#partial-source-note").innerText(),"Some sources couldn't be checked.");
       await capture(page,size.name+"-slice2-partial-source");
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}
   });

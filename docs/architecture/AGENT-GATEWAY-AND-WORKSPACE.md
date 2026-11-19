@@ -179,3 +179,9 @@ The shared previous-revision selector is unchanged. revisionDiff additionally re
 A durable request ID returns the current projection before the version check. Cancellation targets the ActiveRead instance seen by preflight. After it ends, the application rechecks the request ID, intervening user events, the requested target and read ownership before dispatching at the current snapshot version. An ordinary background completion on the same target can advance the version. Runtime duplicate delivery stops before appending another message or launching another read.
 
 While the displayed batch has a pending fact refresh, the context and Validator allow fact investigation of its original targets and withhold discovery, availability and presentation. An availability refresh also withholds presentation until its pending targets are observed.
+
+### 2026-11-19 — Round 8 delivery and workspace state
+
+Saving a restaurant during the first read records a shortlist entry without consuming the short-delivery window. On bounded termination, the coordinator uses the same qualified, distinct candidate pool as the Agent context. A pending next batch excludes delivered outlets and caps automatic presentation at its target. The Validator, Router and Reducer still authorize presentation.
+
+A Case summary carries the last task activity time and indicates an explicitly stopped failed read. The workspace orders cases newest first and ties by Case ID. The selected card follows the current qualifying set after the read ends. A stopped read may retain a ready outlet for About, with shortlist actions gated by the same phases as the reducer. Displayed expired cards remain available for refresh.

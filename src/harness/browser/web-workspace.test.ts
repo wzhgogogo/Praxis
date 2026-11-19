@@ -71,7 +71,7 @@ for(const size of sizes){
       await page.getByRole("heading",{name:"Fixture Sushi",exact:true}).waitFor();
       assert.equal(await page.locator("#card-counter").isVisible(),false,"candidate totals are hidden until the investigation finishes");
       assert.equal(await page.locator("#card-counter").textContent(),"");
-      assert.match(await page.locator("#stages").innerText(),/Checking availability\s+1 checked/);
+      assert.match(await page.locator("#stages").innerText(),/Looking for more options\s*·\s*1 checked/);
       assert.equal((await current(page,plan.case.caseId)).restaurant.progress.discoveredCount,3);
       assert.equal(host.providerCalls[1]?.completed,false);
       await capture(page,size.name+"-searching");

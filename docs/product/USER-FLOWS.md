@@ -242,3 +242,9 @@ Draft / not integrated. About shows refresh only for PRESENT_RESULTS. An active/
 Card availability is explicitly Availability not checked (or Availability expired), independent of condition evidence. Conditions use Confirmed / Not a match / Unverified with name left and status right, and the same words in About. Generic bar/pub/izakaya and retail categories cannot establish serves beer: new assessment needs explicit merchant/menu prose or an explicitly beer-serving dining category. Stored historical presentedResults.conditionStates are not rewritten; the historical Mikkeller Case therefore still projects Confirmed.
 
 The first actual delivery has no change summary, including after NEEDS_INPUT. Later diffs hide each zero side. An added-only N new is static, without an empty removal disclosure. Real completed empty revisions still form the next comparison baseline.
+
+### 2026-11-19 — Round 8 workspace feedback
+
+My plans orders cases by latest activity and names progress, ready, clarification, no results, stopped and failed states. A continuing clarification shows the latest user reply beside the current question. While an eligible card is visible, the progress message and Stop searching control stay together. Partial source failures appear at the batch end.
+
+Cards omit unverified preferences. About keeps their evidence and status, and the card still shows unverified hard conditions. If the browser blocks the booking tab, the user sees the popup message before any departure is saved.

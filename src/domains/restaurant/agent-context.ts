@@ -9,7 +9,7 @@ import type {
   RestaurantTaskState,
 } from "./contracts.js";
 import { missingBlockingFields, missingSearchFields } from "./intent-state.js";
-import { assessRestaurantRead, distinctDiscoveryResultCandidateIds, discoveryShortBatchDeliveryReady, discoveryPlanSearchBlockReason, restaurantCurrentFactEvidence, immediateRequestWindowExpired } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantPresentableCandidateIds, discoveryShortBatchDeliveryReady, discoveryPlanSearchBlockReason, restaurantCurrentFactEvidence, immediateRequestWindowExpired } from "./read-assessment.js";
 import { observedCandidateAvailabilityPath, observedCandidateDistance, type CandidateDistanceObservation } from "./candidate-read-observations.js";
 import { defaultBatchDeliveryWindowActive, type RestaurantReadBudgetStatus } from "./action-validator.js";
 
@@ -128,7 +128,6 @@ export function projectRestaurantAgentContext(
 ): RestaurantAgentContext {
   const assessment = assessRestaurantRead(state, now);
   const factRefreshPending = Boolean(state.factRefreshRequestedCandidateIds?.length);
-  const refreshPending = factRefreshPending || Boolean(state.refreshRequestedCandidateIds?.length);
   const deliveryWindow = defaultBatchDeliveryWindowActive(state, now);
   const nativeBatchDeliveryReady = discoveryShortBatchDeliveryReady(state, now);
   const presentation = assessment.presentation;
@@ -256,9 +255,7 @@ export function projectRestaurantAgentContext(
       search: !factRefreshPending && restaurantReadActionFits("SEARCH_RESTAURANTS",budget.remainingAutomaticMs) && !/^(MODEL_CALL_RESERVE|READ_TIME_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessment.endReadReason ?? "") && !immediateRequestWindowExpired(state, now) && !deliveryWindow && !nativeBatchDeliveryReady && !discoveryPlanSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
       investigateCandidateFacts: deliveryWindow || !restaurantReadActionFits("INVESTIGATE_CANDIDATE_FACTS",budget.remainingAutomaticMs) ? [] : [...assessment.factInvestigableCandidateIds].sort((a,b)=>restaurantCandidateReadPriority(state,a)-restaurantCandidateReadPriority(state,b)),
       checkAvailability: deliveryWindow || !restaurantReadActionFits("CHECK_AVAILABILITY",budget.remainingAutomaticMs) ? [] : [...assessment.checkableCandidateIds].sort((a,b)=>restaurantCandidateReadPriority(state,a)-restaurantCandidateReadPriority(state,b)),
-      presentResults: refreshPending ? [] : distinctDiscoveryResultCandidateIds(state, presentation
-        .filter((item) => item.eligible && !(state.pendingResultBatchTarget !== undefined && (state.selectionSession?.deliveredCandidateIds ?? []).includes(item.candidateId)))
-        .map((item) => item.candidateId)),
+      presentResults: restaurantPresentableCandidateIds(state, now, presentation),
       endRead: assessment.canEndRead,
     },
     ...(state.pageQuestion && !state.pageQuestion.result ? { legalActions: {
