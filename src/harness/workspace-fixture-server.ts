@@ -41,7 +41,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean|{newCandidates:number;beforeDecision?:()=>Promise<void>};sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -54,6 +54,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
   const cache=new Map<string,PreparedBookingHandoff>();
   const questionRequests:RestaurantPageQuestionRequest[]=[],answers=new Map<string,RestaurantPageAnswer>();
   const base=new FixtureRestaurantSearch(), provider=options.provider??"TABLECHECK";
+  const batchPool=typeof options.cachedCrossSourceDuplicate==="object"?options.cachedCrossSourceDuplicate:undefined;
   const resetGate=()=>{held=true;gate=new Promise<void>(resolve=>{release=resolve});checking=new Promise<void>(resolve=>{checkStarted=resolve});};
   if(held)resetGate();
   const model:ModelGateway={async complete(request):Promise<ModelResponse>{
@@ -100,8 +101,9 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       ]);
       body={schemaVersion:"4",facts};
     } else if(request.purpose==="restaurant_agent_decide"){
-      const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{candidates?:Array<{id:string}>;checkableCandidateIds?:string[];legalActions?:{search:boolean};searchAvailability?:{available:boolean};presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
-      const ready=context.presentation?.filter(item=>item.eligible&&!context.resultBatchTarget?.excludeCandidateIds.includes(item.candidateId)).map(item=>item.candidateId)??[];
+      const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{candidates?:Array<{id:string}>;checkableCandidateIds?:string[];legalActions?:{search:boolean;presentResults:string[]};searchAvailability?:{available:boolean};presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
+      await batchPool?.beforeDecision?.();
+      const ready=batchPool?context.legalActions?.presentResults??[]:context.presentation?.filter(item=>item.eligible&&!context.resultBatchTarget?.excludeCandidateIds.includes(item.candidateId)).map(item=>item.candidateId)??[];
       body=(options.checkWholePool||options.cachedCrossSourceDuplicate)&&context.checkableCandidateIds?.length
         ?strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length>=3?strictAction("PRESENT_RESULTS",ready.slice(0,3)):!context.candidates?.length?strictAction("SEARCH_RESTAURANTS"):context.checkableCandidateIds?.length?
         strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length?strictAction("PRESENT_RESULTS",ready):options.continuation==="search"&&context.legalActions?.search?strictAction("SEARCH_RESTAURANTS"):strictAction("END_READ");
@@ -123,7 +125,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       if(options.continuation==="search")candidates=searches.length===1?candidates.slice(0,1):fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{...structuredClone(item.restaurant),id:"fixture-continuation-"+index,outletName:"Fixture continued restaurant "+(index+1)}}));
       if(options.cachedCrossSourceDuplicate){
         const first=candidates[0]!;
-        const cached=fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{
+        const cached=fixture.candidates.slice(0,batchPool?.newCandidates??fixture.candidates.length).map((item,index)=>({...structuredClone(item),restaurant:{
           ...structuredClone(item.restaurant),id:"fixture-cache-"+index,outletName:"Fixture cached restaurant "+(index+1),address:"Fixture cache address "+(index+1),
         }}));
         candidates.push({...structuredClone(first),restaurant:{...structuredClone(first.restaurant),id:"fixture-cache-alias"}},...cached);
@@ -140,7 +142,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       if(options.laterBatchFirstOnRevision&&request.intent.partySize===3)candidates.push(...candidates.splice(0,3));
       const found=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?candidates.filter(c=>c.restaurant.outletName===request.intent.target!.query):candidates;
       if(options.naturalRecommendation)for(const candidate of found)candidate.matchReasons=["A good fit for your dinner plans in this area."];
-      return {candidates:found,evidence:found.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:request.intent.area?.query??"Tokyo",areaMatch:true,...(options.photoLongAddress?{distanceMeters:450,areaMatchBasis:"TASK_LOCATION_RADIUS"}:{})}})),...(options.continuation==="search"?{continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:searches.length===1?[]:["workspace-next"],pagesRead:searches.length,exhausted:searches.length>1,...(searches.length===1?{nextPageToken:"workspace-next"}:{})}}:{}),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
+      return {candidates:found,evidence:found.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:request.intent.area?.query??"Tokyo",areaMatch:true,...(options.photoLongAddress?{distanceMeters:450,areaMatchBasis:"TASK_LOCATION_RADIUS"}:{})}})),...(options.continuation==="search"?{continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:searches.length===1?[]:["workspace-next"],pagesRead:searches.length,exhausted:searches.length>1,...(searches.length===1?{nextPageToken:"workspace-next"}:{})}}:batchPool?{continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:[],pagesRead:1,exhausted:true}}:{}),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
     },
     async check(request:RestaurantAvailabilityRequest,signal:AbortSignal){
       const id=request.candidateIds[0]!,index=candidates.findIndex(c=>c.restaurant.id===id);

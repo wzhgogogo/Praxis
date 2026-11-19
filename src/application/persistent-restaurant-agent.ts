@@ -1209,10 +1209,13 @@ export class PersistentRestaurantAgentApplication {
     const requestStart = events.findLastIndex(item => item.event.type === "SEMANTIC_PROPOSAL_COMPILED");
     const requestEvents = events.slice(Math.max(0, requestStart));
     const checked = new Set(requestEvents.flatMap(item => item.event.type === "AVAILABILITY_CHECKED" ? item.event.request.candidateIds : []));
-    const readyCandidateIds = state.candidates.filter(candidate => restaurantPresentationEvidenceIds(state, candidate.restaurant.id, this.clock.now().toISOString()) !== undefined).map(candidate => candidate.restaurant.id);
+    const qualifiedCandidateIds = state.candidates.filter(candidate => restaurantPresentationEvidenceIds(state, candidate.restaurant.id, this.clock.now().toISOString()) !== undefined).map(candidate => candidate.restaurant.id);
+    const readyCandidateIds = state.phase === "NO_VERIFIED_RESULT" ? []
+      : state.pendingResultBatchTarget === undefined ? qualifiedCandidateIds
+      : distinctDiscoveryResultCandidateIds(state, qualifiedCandidateIds, state.selectionSession?.deliveredCandidateIds ?? []);
     const presentedCandidateIds=state.presentedResults?.candidateIds.filter(id=>namedOutletCandidateResolved(state,id));
     const reading = this.activeReads.has(record.rootTaskId) || this.preparingReads.has(record.rootTaskId) && ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"].includes(state.phase);
-    const workspaceRead = projectWorkspaceRead({ state, events, readyCandidateIds,
+    const workspaceRead = projectWorkspaceRead({ state, events, qualifiedCandidateIds, readyCandidateIds,
       openableCandidateIds: state.phase === "PRESENT_RESULTS" ? presentedCandidateIds ?? [] : readyCandidateIds,
       active: reading, now: this.clock.now().toISOString() });
     const draft = state.intentDraft;
@@ -1295,7 +1298,7 @@ export class PersistentRestaurantAgentApplication {
         availabilityChecks: structuredClone(state.availabilityChecks),
         readEvidence: structuredClone(state.readEvidence),
         currentFactEvidence: state.candidates.flatMap(candidate => structuredClone(restaurantCurrentFactEvidence(state, candidate.restaurant.id))),
-        ...(state.presentedResults ? { presentedCandidateIds: [...presentedCandidateIds!], conditionStates: structuredClone(Object.fromEntries(Object.entries(state.presentedResults.conditionStates).filter(([id])=>presentedCandidateIds!.includes(id)))) } : {}),
+        ...(state.phase !== "NO_VERIFIED_RESULT" && state.presentedResults ? { presentedCandidateIds: [...presentedCandidateIds!], conditionStates: structuredClone(Object.fromEntries(Object.entries(state.presentedResults.conditionStates).filter(([id])=>presentedCandidateIds!.includes(id)))) } : {}),
         ...(state.selectionSession ? {
           viewedCandidateIds: [...state.selectionSession.viewedCandidateIds],
           shortlistCandidateIds: [...state.selectionSession.shortlistCandidateIds],

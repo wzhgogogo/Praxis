@@ -604,3 +604,48 @@ test("Round11 UI: a persisted departure opens its own source tab after the main 
     }
   });
 });
+
+test("Round12 UI: an exhausted next batch stays empty after reload and keeps the old Saved row read-only", { timeout: 30_000 }, async () => {
+  await fixture({ cachedCrossSourceDuplicate: { newCandidates: 3 } }, async page => {
+    await signin(page);
+    const { view } = await createPlan(page, "Dinner in Tokyo");
+    const read = async (): Promise<RestaurantCaseView> => {
+      const response = await page.request.get(pathFor(view));
+      assert.equal(response.status(), 200);
+      return (await response.json()).view;
+    };
+    const first = await read();
+    const savedId = first.restaurant.presentedCandidateIds![0]!;
+    assert.ok(first.restaurant.bookingHandoffs?.some(handoff => handoff.candidateId === savedId));
+    await page.locator("#bookmark").click();
+    await page.getByRole("button", { name: "Saved 1", exact: true }).waitFor();
+    await nextBatch(page);
+    const second = await read();
+    assert.deepEqual(second.restaurant.presentedCandidateIds, ["fixture-cache-0", "fixture-cache-1", "fixture-cache-2"]);
+    for (let i = 0; i < 3; i++) await page.locator("#next").click();
+    const requested = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/another-batch"));
+    await page.locator("#find-more").click();
+    assert.equal((await requested).status(), 200);
+    await page.waitForFunction(() => document.querySelector(".case-link.active small")?.textContent === "No verified results");
+    const assertEmpty = async () => {
+      const latest = await read();
+      assert.equal(latest.case.phase, "NO_VERIFIED_RESULT");
+      assert.equal(latest.restaurant.readStatus.kind, "NO_QUALIFIED_RESULTS");
+      assert.deepEqual(latest.restaurant.readyCandidateIds, []);
+      assert.equal(latest.restaurant.presentedCandidateIds, undefined);
+      assert.equal(latest.restaurant.conditionStates, undefined);
+      assert.deepEqual(latest.restaurant.bookingHandoffs, []);
+      await page.locator("#empty-state").waitFor();
+      assert.equal(await page.locator("#candidate-panel").isVisible(), false);
+      assert.equal(await page.locator("#choose").isVisible(), false);
+    };
+    await assertEmpty();
+    await page.reload();
+    await assertEmpty();
+    await screenshot(page, "round12-exhausted-batch-reload");
+    await page.locator("#saved").click();
+    const saved = page.locator(`#saved-list .saved-row[data-candidate-id="${savedId}"]`);
+    assert.equal(await saved.isDisabled(), true);
+    assert.equal(await saved.innerText(), "Fixture Sushi");
+  }, true);
+});

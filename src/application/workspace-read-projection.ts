@@ -15,6 +15,7 @@ export function projectWorkspaceRead(input: {
   state: Readonly<RestaurantTaskState>;
   events: readonly RecordedEventEnvelope<RestaurantEvent>[];
   readyCandidateIds: readonly string[];
+  qualifiedCandidateIds?: readonly string[];
   openableCandidateIds: readonly string[];
   active: boolean;
   now: string;
@@ -61,6 +62,7 @@ export function projectWorkspaceRead(input: {
   for (const candidate of state.candidates) known.set(candidate.restaurant.id, candidate);
   const previous = groups.findLast(item => item.revision > 0 && item.events.some(event => event.type === "SEMANTIC_PROPOSAL_COMPILED"));
   const ready = new Set(readyCandidateIds);
+  const qualified = new Set(input.qualifiedCandidateIds ?? readyCandidateIds);
   const openable = new Set(input.openableCandidateIds);
   const finished = !input.active && ["PRESENT_RESULTS", "NO_VERIFIED_RESULT", "FAILED"].includes(state.phase);
   const terminal = group.events.findLast(event => event.type === "RESULTS_PRESENTED" || event.type === "READ_ENDED_NO_VERIFIED_RESULT" || event.type === "AGENT_LOOP_TERMINATED");
@@ -83,22 +85,24 @@ export function projectWorkspaceRead(input: {
   const modelFailed = interpretation?.type === "SEMANTIC_INTERPRETATION_FAILED" && interpretation.status === "MODEL_FAILURE";
   const savedCandidates = (state.selectionSession?.shortlistCandidateIds ?? []).map(id => ({
     candidateId: id, outletName: name(id), current: !modelFailed && openable.has(id),
-    ...(!openable.has(id) && !ready.has(id) && qualifiedRevision && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
+    ...(!openable.has(id) && !qualified.has(id) && qualifiedRevision && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
   }));
   const revisionDiff = previous && groups.some(item => item.presented.size > 0) && qualifiedRevision && group.revision > previous.revision ? {
     fromRevision: previous.revision, toRevision: group.revision,
-    removed: [...previous.presented].filter(id => !group.presented.has(id) && !ready.has(id)).map(id => ({ candidateId: id, outletName: name(id), reasonCode: reason(id) })),
+    removed: [...previous.presented].filter(id => !group.presented.has(id) && !qualified.has(id)).map(id => ({ candidateId: id, outletName: name(id), reasonCode: reason(id) })),
     added: [...group.presented].filter(id => !previous.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id) })),
   } : undefined;
   const attempts = [...Object.values(state.availabilityChecks).flatMap(check => check.sourceAttempts ?? []),
     ...Object.values(state.factChecks ?? {}).flatMap(check => check.sourceAttempts ?? [])];
   const unchecked = attempts.some(attempt => ["FAILED", "UNKNOWN", "SOURCE_UNSUPPORTED"].includes(attempt.outcome));
   // Displayed cards can remain browsable after their inventory expires.
-  const hasResults = state.phase === "PRESENT_RESULTS" ? openable.size > 0 : ready.size > 0;
-  const kind = modelFailed ? "MODEL_FAILURE" : hasResults ? "RESULTS" : input.active ? "PENDING"
+  const hasResults = state.phase === "PRESENT_RESULTS" ? openable.size > 0
+    : state.phase !== "NO_VERIFIED_RESULT" && ready.size > 0;
+  const kind = state.phase === "NO_VERIFIED_RESULT" ? (allRestaurantSourcesFailed(state) ? "ALL_SOURCES_FAILED" : "NO_QUALIFIED_RESULTS")
+    : modelFailed ? "MODEL_FAILURE" : hasResults ? "RESULTS" : input.active ? "PENDING"
     : finished && allRestaurantSourcesFailed(state) ? "ALL_SOURCES_FAILED"
-    : state.phase === "NO_VERIFIED_RESULT" ? "NO_QUALIFIED_RESULTS" : state.phase === "FAILED" ? "OTHER_FAILURE" : "PENDING";
+    : state.phase === "FAILED" ? "OTHER_FAILURE" : "PENDING";
   return { requirementRevision: group.revision, questionHistory: [...completedQuestions.values()].reverse(), savedCandidates, ...(revisionDiff ? { revisionDiff } : {}),
-    readStatus: { kind, partialSourceFailure: ready.size > 0 && unchecked,
+    readStatus: { kind, partialSourceFailure: hasResults && unchecked,
       canContinue: !input.active && canContinueRestaurantRead(state, input.now), canRetry: !input.active && failedSourceRetryCandidateIds(state, input.now).length > 0 } };
 }

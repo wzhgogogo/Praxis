@@ -6415,3 +6415,7 @@ Draft / not integrated. Preserve the selected booking time during refresh, isola
 ### 2026-11-19 — Unified Round 11 implementation
 
 Draft / not integrated. Require explicit time reselection after refresh and scroll notices clear of the composer. Cross-check cached SSE against the version in a 409 response. Preserve qualified later-batch restaurants in revision diffs, clean up the matching draft after a late success, and finish persisted source-tab navigation independently of main-tab navigation.
+
+### 2026-11-19 — Unified Round 12 implementation
+
+Draft / not integrated. The workspace keeps full Case qualification for Saved and revision differences. Its display-ready set represents the current batch, filters delivered outlets and cross-source aliases during replenishment, and stays empty after a no-result conclusion.

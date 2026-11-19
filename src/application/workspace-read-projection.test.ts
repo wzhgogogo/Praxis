@@ -19,7 +19,7 @@ test("Workspace source failure copy requires explicit failed attempts, never unk
     {label:"unknown check without attempt detail",checks:{a:check("FAILED"),b:{status:"UNKNOWN" as const,checkedAt:now,evidenceIds:[]}},expected:"NO_QUALIFIED_RESULTS"},
   ];
   for(const row of rows)assert.equal(projectWorkspaceRead({state:state(row.checks),events:[],readyCandidateIds:[],openableCandidateIds:[],active:false,now}).readStatus.kind,row.expected,row.label);
-  const partial=projectWorkspaceRead({state:state({a:check("FAILED"),b:check("AVAILABLE")}),events:[],readyCandidateIds:["b"],openableCandidateIds:["b"],active:false,now});
+  const partial=projectWorkspaceRead({state:{...state({a:check("FAILED"),b:check("AVAILABLE")}),phase:"PRESENT_RESULTS"},events:[],readyCandidateIds:["b"],openableCandidateIds:["b"],active:false,now});
   assert.equal(partial.readStatus.kind,"RESULTS");assert.equal(partial.readStatus.partialSourceFailure,true);
 });
 
@@ -124,4 +124,21 @@ test("Revision diff omits a qualified outlet reserved for a later batch and keep
   const current = { ...state({}), phase: "PRESENT_RESULTS" as const, intentDraft: { ...initialDraft, partySize: 3 }, candidates: ["a", "b", "c"].map(candidate) };
   const projection = projectWorkspaceRead({ state: current, events, readyCandidateIds: ["a", "c"], openableCandidateIds: ["c"], active: false, now });
   assert.deepEqual(projection.revisionDiff?.removed, [{ candidateId: "b", outletName: "b", reasonCode: "NO_LONGER_MATCHES" }]);
+});
+
+test("An exhausted batch projects an empty status even with stale readiness, while qualification protects Saved and revision diff", () => {
+  const events = history([compiled(initialPatch), presented(["a", "b"]),
+    { type: "SHORTLIST_UPDATED", candidateId: "a", shortlisted: true },
+    compiled({ schemaVersion: "3", partySize: 3 })]);
+  const current = { ...state({ a: check("AVAILABLE"), b: check("FAILED") }), intentDraft: { ...initialDraft, partySize: 3 },
+    selectionSession: { deliveredCandidateIds: ["a", "b"], viewedCandidateIds: [], shortlistCandidateIds: ["a"], feedback: [] } };
+  const projection = projectWorkspaceRead({ state: current, events, readyCandidateIds: [], qualifiedCandidateIds: ["a"],
+    openableCandidateIds: [], active: false, now });
+  assert.deepEqual(projection.savedCandidates, [{ candidateId: "a", outletName: "a", current: false }]);
+  assert.deepEqual(projection.revisionDiff?.removed, [{ candidateId: "b", outletName: "b", reasonCode: "NO_LONGER_MATCHES" }]);
+  for (const active of [false, true]) {
+    const stale = projectWorkspaceRead({ state: current, events, readyCandidateIds: ["a"], openableCandidateIds: ["a"], active, now });
+    assert.equal(stale.readStatus.kind, "NO_QUALIFIED_RESULTS");
+    assert.equal(stale.readStatus.partialSourceFailure, false);
+  }
 });

@@ -160,3 +160,56 @@ test("cached another-batch skips the cross-source copy of a delivered restaurant
     assert.equal(host.searches.length,1);
   }finally{await host.close();}
 });
+
+test("Exhausted third batch cannot project the six delivered outlets or their cross-source alias", { timeout: 20_000 }, async () => {
+  const host = await startWorkspaceFixture({ cachedCrossSourceDuplicate: { newCandidates: 3 } });
+  try {
+    const created = await create(host);
+    const first = await settled(host, created.case.caseId);
+    const scope = { userId, caseId: created.case.caseId };
+    assert.equal(first.restaurant.presentedCandidateIds?.length, 3);
+    assert.equal(first.restaurant.readyCandidateIds.length, 7);
+    const savedId = first.restaurant.presentedCandidateIds![0]!;
+    const saved = await host.application.setShortlist({ ...scope, expectedVersion: first.case.taskVersion,
+      requestId: "save-in-first", candidateId: savedId, shortlisted: true });
+    const second = await host.application.requestAnotherBatch({ ...scope, expectedVersion: saved.case.taskVersion, requestId: "second" });
+    assert.deepEqual(second.restaurant.presentedCandidateIds, ["fixture-cache-0", "fixture-cache-1", "fixture-cache-2"]);
+    await host.application.requestAnotherBatch({ ...scope, expectedVersion: second.case.taskVersion, requestId: "third" });
+    const exhausted = await settled(host, scope.caseId);
+    assert.equal(exhausted.case.phase, "NO_VERIFIED_RESULT");
+    assert.equal(exhausted.restaurant.readStatus.kind, "NO_QUALIFIED_RESULTS");
+    assert.deepEqual(exhausted.restaurant.readyCandidateIds, []);
+    assert.equal(exhausted.restaurant.presentedCandidateIds, undefined);
+    assert.equal(exhausted.restaurant.conditionStates, undefined);
+    assert.deepEqual(exhausted.restaurant.bookingHandoffs ?? [], []);
+    assert.deepEqual(exhausted.restaurant.savedCandidates, [{ candidateId: savedId, outletName: "Fixture Sushi", current: false }]);
+    assert.equal(host.searches.length, 1);
+    assert.equal(host.providerCalls.length, 7);
+    const artifact = await host.application.exportReadArtifact(scope.caseId);
+    const events = artifact.events as Array<{ event: { type: string } }>;
+    assert.equal(events.at(-1)?.event.type, "READ_ENDED_NO_VERIFIED_RESULT");
+  } finally { await host.close(); }
+});
+
+test("Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias", { timeout: 20_000 }, async () => {
+  const pool: { newCandidates: number; beforeDecision?: () => Promise<void> } = { newCandidates: 2 };
+  const host = await startWorkspaceFixture({ cachedCrossSourceDuplicate: pool });
+  const entered = latch(), release = latch();
+  try {
+    const created = await create(host);
+    const first = await settled(host, created.case.caseId);
+    assert.equal(first.restaurant.presentedCandidateIds?.length, 3);
+    assert.ok(first.restaurant.readyCandidateIds.includes("fixture-cache-alias"));
+    pool.beforeDecision = async () => { entered.release(); await release.promise; };
+    await host.application.requestAnotherBatch({ userId, caseId: first.case.caseId, expectedVersion: first.case.taskVersion, requestId: "next-for-stop" });
+    await entered.promise;
+    const during = await host.application.getCase(userId, first.case.caseId);
+    assert.equal(during.case.phase, "SEARCHING");
+    assert.equal(during.restaurant.progress.active, true);
+    assert.deepEqual(during.restaurant.readyCandidateIds, ["fixture-cache-0", "fixture-cache-1"]);
+    const stopped = await host.application.cancelCase(userId, first.case.caseId);
+    assert.equal(stopped.case.phase, "FAILED");
+    assert.equal(stopped.restaurant.progress.stopped, true);
+    assert.deepEqual(stopped.restaurant.readyCandidateIds, during.restaurant.readyCandidateIds);
+  } finally { release.release(); await host.close(); }
+});
