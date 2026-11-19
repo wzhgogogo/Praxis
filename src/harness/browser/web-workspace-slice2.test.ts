@@ -443,7 +443,7 @@ for(const size of sizes)test('Workspace selected slot '+size.name+': missing han
   const caseId=await page.locator('.case-link.active').getAttribute('data-case-id'),view=(await(await page.request.get(host.baseUrl+'/api/cases/'+encodeURIComponent(caseId!))).json()).view;
   const candidateId=view.restaurant.presentedCandidateIds[0],offer=view.restaurant.availability[candidateId][1];assert.ok(offer);assert.equal(host.forgetPrepared(candidateId,offer.id),true);
   await page.reload();await page.locator('#candidate-panel').waitFor();await page.locator('#choose').click();await page.locator('#handoff').waitFor();
-  assert.equal(await page.locator('#departure').isVisible(),false);assert.equal(await page.locator('#handoff-unavailable').isVisible(),true);await capture(page,size.name+'-selected-link-missing');
+  assert.equal(await page.locator('#departure').isVisible(),false);assert.equal(await page.locator('#handoff-unavailable').isVisible(),true);assert.equal(await page.locator('#handoff-slot').isEnabled(),true);await capture(page,size.name+'-selected-link-missing');
   await page.locator('#handoff-back').click();const ttl=Math.min(...Object.values(view.restaurant.availabilityChecks).map((v:unknown)=>Date.parse((v as {displayExpiresAt:string}).displayExpiresAt)))-host.clock.now().valueOf()+100;host.clock.advance(ttl);await page.clock.fastForward(ttl);options.multiSlot=false;
   await page.locator('#choose').click();await page.getByText("Availability couldn't be confirmed. Try again.",{exact:true}).waitFor();
   assert.equal(await page.locator('#handoff').isVisible(),false);assert.deepEqual(await page.locator('.slot-time').allTextContents(),['19:00']);await capture(page,size.name+'-selected-time-changed');

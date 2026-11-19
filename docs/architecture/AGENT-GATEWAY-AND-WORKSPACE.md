@@ -191,3 +191,8 @@ A Case summary carries the last task activity time and indicates an explicitly s
 Search, read completion, Validator and cached delivery apply the same exclusion for previously delivered outlets across source records while a user seeks another batch. Existing displayed results keep their refresh path. A delivery window uses the time at opening, and the closing action uses one timestamp across validation, routing and persistence.
 
 Displayed expired cards offer refresh when permitted by the current Case. An expired stopped handoff can still show its safe source link.
+
+
+### 2026-11-19 — Round 10 Case response ordering
+
+Case responses are bound to the navigation and Case that started them. An older plan can update its sidebar summary after navigation. The currently open Case uses its SSE projection, buffering the newest snapshot while a mutation is pending. A version conflict uses that snapshot or reads the current Case once, preserving the unsent text. Sidebar status polling runs only while another Case is active.

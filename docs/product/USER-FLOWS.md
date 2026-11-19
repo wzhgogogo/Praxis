@@ -254,3 +254,10 @@ Cards omit unverified preferences. About keeps their evidence and status, and th
 A clarification shows the latest user message beside the current question, starting with the request that first needs clarification. On mobile, the stop notice fits above the fixed composer when a ready card is retained.
 
 When the request cannot be parsed, saved restaurants remain visible and their rows cannot reopen the previous results. A stopped card can open a current booking handoff. When its availability expires, the refresh action follows the current Case permissions, and Handoff can still show a safe source link when one is available.
+
+
+### 2026-11-19 — Round 10 workspace behavior
+
+My plans updates in the background while a different plan is open. The composer keeps a separate unsent draft per plan while the page is open. Nearby requests without coordinates offer device location and accept a typed station, address or district if permission is denied.
+
+When booking availability is refreshed, Handoff keeps the chosen date, time and party size if a current offer still matches. If that time disappears, the workspace returns to the card for a new selection. Saved keeps a qualified restaurant from a later batch without a mismatch label.

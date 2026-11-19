@@ -102,3 +102,19 @@ for(const phase of ['SEARCHING','FAILED','NO_VERIFIED_RESULT'] as const)for(cons
  const view=projectWorkspaceRead({state:current,events,readyCandidateIds:[],openableCandidateIds:[],active:false,now});
  assert.equal(view.revisionDiff,undefined);assert.equal(view.savedCandidates[0]?.reasonCode,undefined);
 });
+
+test("Saved omits mismatch reasons for a qualified later-batch outlet after requirements change",()=>{
+ const shortlistCandidateIds=["later","removed"], events=history([
+   compiled(initialPatch),presented(shortlistCandidateIds),
+   ...shortlistCandidateIds.map(candidateId=>({type:"SHORTLIST_UPDATED" as const,candidateId,shortlisted:true})),
+   compiled({schemaVersion:"3",partySize:3}),presented(["first"]),
+ ]);
+ const current={...state({}),phase:"PRESENT_RESULTS" as const,intentDraft:{...initialDraft,partySize:3},
+   candidates:["first",...shortlistCandidateIds].map(candidate),
+   selectionSession:{deliveredCandidateIds:["first"],viewedCandidateIds:[],shortlistCandidateIds,feedback:[]}};
+ const view=projectWorkspaceRead({state:current,events,readyCandidateIds:["first","later"],openableCandidateIds:["first"],active:false,now});
+ assert.deepEqual(view.savedCandidates,[
+   {candidateId:"later",outletName:"later",current:false},
+   {candidateId:"removed",outletName:"removed",current:false,reasonCode:"NO_LONGER_MATCHES"},
+ ]);
+});

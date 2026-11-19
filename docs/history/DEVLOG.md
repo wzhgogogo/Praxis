@@ -6406,3 +6406,8 @@ Draft / not integrated. Separate a shortlist from delivered batches. Bound budge
 ### 2026-11-19 — Unified Round 9 implementation
 
 Draft / not integrated. Use the same clock sample across short-delivery validation, routing and writing, with the existing read deadline constraining new windows. Apply the established cross-source same-outlet comparison against previously delivered candidates during next-batch search, conclusion and delivery. Keep saved rows read-only during model failure and gate expired stopped booking actions by Case refresh permissions. Show the initial user request during clarification and keep the mobile stop notice above the composer.
+
+
+### 2026-11-19 — Unified Round 10 implementation
+
+Draft / not integrated. Preserve the selected booking time during refresh, isolate Case response and composer state across navigation, and recover version conflicts from buffered SSE or a single current snapshot. Add the nearby device-location entry and ordinary HTTP request IDs. Update active background summaries while needed, and use the full qualifying pool when interpreting Saved mismatch reasons.

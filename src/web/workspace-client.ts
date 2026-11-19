@@ -2,14 +2,26 @@ import { WORKSPACE_PHOTO_CLIENT_SCRIPT } from "./workspace-photo-client.js";
 /** Browser projection only: all source facts and actions are checked by the server. */
 export const WORKSPACE_CLIENT_SCRIPT = String.raw`'use strict';
 const $ = id => document.getElementById(id);
-const state = {user:null, cases:new Map(), view:null, nav:0, stream:null, blocked:false, ui:{view:'CANDIDATES',candidateId:null}, expiry:null, feedback:null, detailKey:'',questionKey:'',handoffKey:'',pendingQuestion:null,asking:false,diffKey:'',pendingCase:null,preview:null,entryPace:null};
-const requestId = () => window.crypto.randomUUID();
+const state = {user:null, cases:new Map(), drafts:new Map(), view:null, nav:0, stream:null, streamCaseId:null, caseListTimer:null, caseListSyncing:false, signingOut:false, deferredView:null, blocked:false, ui:{view:'CANDIDATES',candidateId:null}, expiry:null, feedback:null, detailKey:'',questionKey:'',handoffKey:'',pendingQuestion:null,asking:false,askingId:null,locating:null,claiming:null,diffKey:'',pendingCase:null,preview:null,entryPace:null};
+function requestId(){
+  const crypto=globalThis.crypto;
+  if(crypto?.randomUUID)return crypto.randomUUID();
+  const bytes=new Uint8Array(16);
+  if(crypto?.getRandomValues)crypto.getRandomValues(bytes);
+  else for(let i=0;i<bytes.length;i++)bytes[i]=Math.floor(Math.random()*256);
+  bytes[6]=(bytes[6]&15)|64;
+  bytes[8]=(bytes[8]&63)|128;
+  const hex=Array.from(bytes,byte=>byte.toString(16).padStart(2,'0')).join('');
+  return [hex.slice(0,8),hex.slice(8,12),hex.slice(12,16),hex.slice(16,20),hex.slice(20)].join('-');
+}
 const text = (id,value) => {const node=$(id), next=String(value == null?'':value);if(node.textContent!==next)node.textContent=next;};
 const show = (id,visible) => {$(id).hidden=!visible;};
 const element = (tag,value,className) => {const n=document.createElement(tag);if(value!==undefined)n.textContent=value;if(className)n.className=className;return n;};
 function report(error){text('error',error.message||'Please try again.');show('error',true);}
 function clearError(){text('error','');show('error',false);}
 async function api(path,options){const init=options||{}, response=await fetch(path,{...init,headers:{...(init.body?{'content-type':'application/json'}:{}),...(init.headers||{})}});const payload=await response.json();if(!response.ok){const e=new Error(payload.error||'Please try again.');e.status=response.status;throw e;}return payload;}
+function casePath(caseId){return '/api/cases/'+encodeURIComponent(caseId);}
+function currentCase(nav,caseId){return nav===state.nav&&state.view?.case.caseId===caseId;}
 function key(caseId){return 'praxis:workspace:'+state.user.id+':'+caseId;}
 function savePosition(){if(!state.view)return;localStorage.setItem(key(state.view.case.caseId),JSON.stringify(state.ui));localStorage.setItem('praxis:active:'+state.user.id,state.view.case.caseId);}
 function restorePosition(caseId){try{return JSON.parse(localStorage.getItem(key(caseId)))||{view:'CANDIDATES',candidateId:null};}catch{return {view:'CANDIDATES',candidateId:null};}}
@@ -44,7 +56,7 @@ function availabilityExpired(id){
 }
 function offerFor(id){const fresh=(state.view.restaurant.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());return fresh.find(o=>o.id===state.ui.offerId)||fresh[0];}
 function handoffs(){return (state.view.restaurant.bookingHandoffs||[]).filter(h=>h.candidateId===state.ui.candidateId&&Date.parse(h.displayExpiresAt)>Date.now());}
-function currentHandoff(){const list=handoffs(),viewed=(state.view.restaurant.availability[state.ui.candidateId]||[]).some(o=>o.id===state.ui.offerId);return viewed?list.find(h=>h.offerId===state.ui.offerId):list[0];}
+function currentHandoff(){const list=handoffs();return state.ui.offerId?list.find(h=>h.offerId===state.ui.offerId):list[0];}
 function sourceFor(id){const r=state.view.restaurant, check=r.availabilityChecks[id], evidence=new Set(check&&check.evidenceIds||[]);return r.readEvidence.find(e=>e.candidateId===id&&e.sourceUrl&&evidence.has(e.evidenceId))||r.currentFactEvidence.find(e=>e.candidateId===id&&e.sourceUrl);}
 function cancelPreparation(){state.preparing=null;}
 function setView(view){closePhotos();clearEntryTransition();cancelPreparation();closeAnswer();state.ui.view=view;savePosition();clearError();render();$('case-workspace').scrollTop=0;}
@@ -76,6 +88,8 @@ function caseLabel(summary){
   }
 }
 function updateCases(summary){
+  const prior=state.cases.get(summary.caseId);
+  if(prior&&prior.taskVersion>summary.taskVersion)return;
   state.cases.set(summary.caseId,summary);
   const list=$('case-list');
   let button=list.querySelector('[data-case-id="'+CSS.escape(summary.caseId)+'"]');
@@ -83,6 +97,7 @@ function updateCases(summary){
     button=element('button',undefined,'case-link');button.dataset.caseId=summary.caseId;
     button.append(element('span'),element('small'));button.onclick=()=>loadCase(summary.caseId);
   }
+  button.classList.toggle('active',summary.caseId===state.view?.case.caseId);
   button.firstChild.textContent=displayTitle(summary.title);button.title=summary.title;button.lastChild.textContent=caseLabel(summary);
   const next=[...list.children].find(row=>{
     if(row===button)return false;
@@ -95,19 +110,77 @@ function updateCases(summary){
     list.insertBefore(button,next);
     if(focused)button.focus({preventScroll:true});
   }
+  scheduleCaseListSync();
 }
 function refreshCaseLinks(){for(const s of state.cases.values())updateCases(s);}
+function hasBackgroundActiveCase(){
+  return [...state.cases.values()].some(item=>
+    (item.caseId!==state.streamCaseId||state.stream?.readyState===EventSource.CLOSED)
+    &&(item.status==='ACTIVE'||['UNDERSTANDING','SEARCHING','SELECTION_REQUIRED'].includes(item.phase)));
+}
+function scheduleCaseListSync(immediate=false){
+  if(!state.user||state.signingOut||!hasBackgroundActiveCase()){
+    clearTimeout(state.caseListTimer);state.caseListTimer=null;return;
+  }
+  if(state.caseListSyncing||state.caseListTimer!==null&&!immediate)return;
+  clearTimeout(state.caseListTimer);
+  state.caseListTimer=setTimeout(syncCaseList,immediate?0:1750);
+}
+async function syncCaseList(){
+  state.caseListTimer=null;
+  if(state.signingOut||!hasBackgroundActiveCase())return;
+  const user=state.user;state.caseListSyncing=true;
+  try{
+    const p=await api('/api/cases');
+    if(user===state.user&&!state.signingOut)for(const item of p.cases)updateCases(item);
+  }catch{/* A later background sync can retry without interrupting the current plan. */}
+  finally{state.caseListSyncing=false;scheduleCaseListSync();}
+}
+function closeStream(){state.stream?.close();state.stream=null;state.streamCaseId=null;state.deferredView=null;}
 function openStream(caseId,nav){
-  if(state.stream)state.stream.close();show('reconnecting',false);
-  const stream=new EventSource('/api/cases/'+encodeURIComponent(caseId)+'/events');state.stream=stream;
-  const current=()=>nav===state.nav&&state.stream===stream;
+  closeStream();show('reconnecting',false);
+  const stream=new EventSource(casePath(caseId)+'/events');state.stream=stream;state.streamCaseId=caseId;
+  const current=()=>currentCase(nav,caseId)&&state.stream===stream;
   stream.addEventListener('open',()=>{if(current())show('reconnecting',false);});
-  stream.addEventListener('error',()=>{if(current())show('reconnecting',stream.readyState===EventSource.CONNECTING);});
-  stream.addEventListener('case',event=>{if(!current()||state.blocked)return;try{accept(JSON.parse(event.data));}catch(error){report(error);}});
+  stream.addEventListener('error',()=>{if(current()){show('reconnecting',stream.readyState===EventSource.CONNECTING);scheduleCaseListSync();}});
+  stream.addEventListener('case',event=>{if(!current())return;try{receiveCase(JSON.parse(event.data),nav,caseId);}catch(error){report(error);}});
+  scheduleCaseListSync();
+}
+function receiveCase(view,nav,caseId){
+  if(!currentCase(nav,caseId)){updateCases(view.case);return false;}
+  if(state.blocked){
+    const version=view.case.taskVersion;
+    if(version>=state.view.case.taskVersion&&(!state.deferredView||version>=state.deferredView.view.case.taskVersion)){
+      state.deferredView={nav,caseId,view};updateCases(view.case);
+    }
+  }else accept(view);
+  return true;
+}
+function flushDeferredView(){
+  const next=state.deferredView;state.deferredView=null;
+  return !!next&&currentCase(next.nav,next.caseId)&&accept(next.view);
+}
+function resumeCase(nav,caseId){
+  if(!currentCase(nav,caseId))return;
+  state.blocked=false;
+  if(!flushDeferredView())render();
+}
+async function reportCaseError(error,nav,caseId){
+  if(!currentCase(nav,caseId))return;
+  if(error.status===409&&caseId&&!flushDeferredView()){
+    try{
+      const p=await api(casePath(caseId));
+      if(currentCase(nav,caseId))accept(p.view);else updateCases(p.view.case);
+    }catch{/* Preserve the original conflict when the latest snapshot cannot be read. */}
+  }
+  if(currentCase(nav,caseId))report(error);
 }
 function accept(view){
-  if(state.view&&view.case.caseId!==state.view.case.caseId)return;
-  if(state.view&&view.case.taskVersion<state.view.case.taskVersion)return;
+  if(state.view&&view.case.caseId!==state.view.case.caseId)return false;
+  const next=state.deferredView;
+  if(next&&currentCase(next.nav,next.caseId)&&next.caseId===view.case.caseId&&next.view.case.taskVersion>=view.case.taskVersion)view=next.view;
+  state.deferredView=null;
+  if(state.view&&view.case.taskVersion<state.view.case.taskVersion)return false;
   if(state.ui.atEnd&&view.case.phase==='PRESENT_RESULTS'&&state.view&&JSON.stringify(view.restaurant.presentedCandidateIds)!==JSON.stringify(state.view.restaurant.presentedCandidateIds)){state.ui.atEnd=false;state.ui.candidateId=null;}
   if(state.entryPace!==null){
    if(!fixturePresentation(view)||view.restaurant.progress.active&&view.case.phase!=='UNDERSTANDING'||['MODEL_FAILURE','NO_QUALIFIED_RESULTS','ALL_SOURCES_FAILED','OTHER_FAILURE'].includes(view.restaurant.readStatus.kind))state.entryPace=null;
@@ -121,9 +194,35 @@ function accept(view){
     if(state.ui.view==='DETAILS'&&state.ui.candidateId===pending.candidateId)openAnswer(q);
   }
   if(view.restaurant.bookingFeedbackAvailable)void claimFeedback();
+  return true;
 }
-async function loadCase(caseId){clearEntryTransition();state.sending=false;cancelPreparation();const nav=++state.nav;state.blocked=false;state.feedback=null;state.pendingQuestion=null;closeAnswer();if(state.stream)state.stream.close();show('reconnecting',false);clearError();try{const p=await api('/api/cases/'+encodeURIComponent(caseId));if(nav!==state.nav)return;state.view=null;state.ui=restorePosition(caseId);state.detailKey='';state.handoffKey='';accept(p.view);savePosition();openStream(caseId,nav);closePlans();}catch(error){if(nav===state.nav){render();report(error);}}}
-function newPlan(){clearEntryTransition();state.sending=false;cancelPreparation();closeAnswer();show('reconnecting',false);state.pendingQuestion=null;++state.nav;if(state.stream)state.stream.close();state.stream=null;state.view=null;state.feedback=null;state.blocked=false;clearTimeout(state.expiry);localStorage.removeItem('praxis:active:'+state.user.id);state.ui={view:'CANDIDATES',candidateId:null};setMessage('');clearError();closePlans();render();refreshCaseLinks();$('message').focus();}
+function resetCaseRequests(){
+  clearEntryTransition();cancelPreparation();closeAnswer();closeStream();
+  state.sending=false;state.asking=false;state.askingId=null;state.locating=null;state.claiming=null;
+  state.blocked=false;state.feedback=null;state.pendingQuestion=null;
+  show('reconnecting',false);clearError();
+}
+async function loadCase(caseId){
+  saveDraft();
+  const nav=++state.nav,previousId=state.view?.case.caseId;
+  resetCaseRequests();state.blocked=true;render();scheduleCaseListSync(true);
+  try{
+    const p=await api(casePath(caseId));
+    if(!currentCase(nav,previousId)){updateCases(p.view.case);return;}
+    saveDraft();state.blocked=false;state.view=null;state.ui=restorePosition(caseId);state.detailKey='';state.handoffKey='';
+    restoreDraft(caseId);accept(p.view);savePosition();openStream(caseId,nav);closePlans();
+  }catch(error){
+    if(!currentCase(nav,previousId))return;
+    state.blocked=false;if(previousId)openStream(previousId,nav);
+    render();report(error);
+  }
+}
+function newPlan(){
+  saveDraft();++state.nav;resetCaseRequests();
+  state.view=null;clearTimeout(state.expiry);localStorage.removeItem('praxis:active:'+state.user.id);
+  state.ui={view:'CANDIDATES',candidateId:null};state.drafts.delete('HOME');restoreDraft('HOME');
+  closePlans();render();refreshCaseLinks();scheduleCaseListSync(true);$('message').focus();
+}
 function renderProgress(){
  const pending=state.pendingCase,preview=state.preview,r=state.view&&state.view.restaurant,p=r&&r.progress;
  const understanding=!!state.view&&state.view.case.phase==='UNDERSTANDING';
@@ -213,11 +312,20 @@ function openAnswer(q){
   show('answer-sheet',true);show('answer-backdrop',true);$('answer-sheet').focus({preventScroll:true});
 }
 async function askCurrentPlace(message){
-  const old=state.view,c=candidate(),nav=state.nav;if(!old||!c||old.case.phase!=='PRESENT_RESULTS')return;
-  const id=requestId();state.pendingQuestion={requestId:id,caseId:old.case.caseId,candidateId:c.restaurant.id};state.asking=true;$('send').disabled=true;$('send').setAttribute('aria-busy','true');clearError();
-  try{const p=await api('/api/cases/'+encodeURIComponent(old.case.caseId)+'/questions',{method:'POST',body:JSON.stringify({candidateId:c.restaurant.id,question:message,taskVersion:old.case.taskVersion,requestId:id})});if(nav!==state.nav)return;accept(p.view);}
-  catch(error){if(nav===state.nav){state.pendingQuestion=null;report(error);}}
-  finally{state.asking=false;if(nav===state.nav)render();}
+  const old=state.view,c=candidate(),nav=state.nav,caseId=old?.case.caseId;
+  if(!old||!c||old.case.phase!=='PRESENT_RESULTS')return;
+  const id=requestId();state.pendingQuestion={requestId:id,caseId,candidateId:c.restaurant.id};
+  state.asking=true;state.askingId=id;render();clearError();
+  try{
+    const p=await api(casePath(caseId)+'/questions',{method:'POST',body:JSON.stringify({
+      candidateId:c.restaurant.id,question:message,taskVersion:old.case.taskVersion,requestId:id,
+    })});
+    receiveCase(p.view,nav,caseId);
+  }catch(error){
+    if(currentCase(nav,caseId)&&state.askingId===id){state.pendingQuestion=null;await reportCaseError(error,nav,caseId);}
+  }finally{
+    if(state.askingId===id){state.asking=false;state.askingId=null;render();}
+  }
 }
 function editCondition(button,label,kind,value){
   if(state.blocked||state.asking)return;
@@ -289,7 +397,7 @@ function renderHandoff(){
   const c=candidate();if(!c)return;
   const h=currentHandoff(),source=sourceFor(c.restaurant.id);
   text('handoff-name',c.restaurant.outletName);
-  const slots=handoffs(),selector=$('handoff-slot');show('handoff-slot-label',slots.length>0);show('handoff-time-row',slots.length>0);selector.disabled=slots.length<=1;
+  const slots=handoffs(),selector=$('handoff-slot');show('handoff-slot-label',slots.length>0);show('handoff-time-row',slots.length>0);selector.disabled=state.blocked||!!state.preparing||!!h&&slots.length<=1;
   selector.replaceChildren(...slots.map(slot=>{const offer=(state.view.restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===slot.offerId);const option=element('option',offer?availabilityTime(offer.dateTime)+'　'+offer.partySize+' guests':slot.continueLabel);option.value=slot.offerId;return option;}));
   if(h)selector.value=h.offerId;else{const placeholder=element('option','Choose a time');placeholder.value='';placeholder.disabled=true;placeholder.selected=true;selector.prepend(placeholder);}
   const selectedOffer=h&&(state.view.restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===h.offerId),price=selectedOffer&&selectedOffer.price;show('handoff-price',!!price);text('handoff-price',price?money(price.amount)+(price.basis==='PER_PERSON'?' per guest':price.basis==='TOTAL'?' total':''):'');
@@ -332,6 +440,12 @@ function renderHandoff(){
 function updateComposerClearance(){const host=$('workspace-composer'),bottom=parseFloat(getComputedStyle(host).bottom)||0;document.documentElement.style.setProperty('--composer-clearance',(host.hidden?0:host.getBoundingClientRect().height+bottom+24)+'px');}
 function resizeMessage(){const input=$('message');input.style.height='';if($('workspace-composer').contains(input)){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,140)+'px';}}
 function setMessage(value){$('message').value=value;resizeMessage();}
+function draftKey(){return state.view?.case.caseId??'HOME';}
+function saveDraft(){
+  const id=draftKey(),value=$('message').value;
+  if(value)state.drafts.set(id,value);else state.drafts.delete(id);
+}
+function restoreDraft(id){setMessage(state.drafts.get(id)||'');}
 function focusAdjustment(){const input=$('message');if(!input.value)input.placeholder='Try another area, time, or party size…';input.focus({preventScroll:true});}
 $('message').addEventListener('blur',()=>{$('message').removeAttribute('placeholder');});
 $('message').addEventListener('input',resizeMessage);
@@ -384,32 +498,72 @@ function render(){
   text('clarification-reply',reply);show('clarification-reply',!!reply);
   const message=clarifying?r.clarificationQuestion||'':!busy&&mode==='CANDIDATES'&&r.progress.stopped?'Search stopped.':'';
   text('messages',message);show('messages',!!message);
-  if(mode!=='CANDIDATES')for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])show(id,false);
-  show('mode-note',state.view.mode==='FIXTURE');text('mode-note','Fixture only. No real availability or reservations.');show('use-location',(r.missingRequiredFields||[]).includes('location'));savePosition();clearTimeout(state.expiry);
+  const area=r.intentDraft?.area,needsLocation=!!area&&area.query.trim().toLocaleLowerCase('en-US')==='nearby'&&!area.coordinates;
+  show('use-location',mode==='CANDIDATES'&&!busy&&((r.missingRequiredFields||[]).includes('location')||needsLocation));
+  $('use-location').disabled=!!state.locating;
+  if(mode!=='CANDIDATES')for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages','use-location'])show(id,false);
+  show('mode-note',state.view.mode==='FIXTURE');text('mode-note','Fixture only. No real availability or reservations.');savePosition();clearTimeout(state.expiry);
   const expiry=Object.values(r.availability).flat().map(o=>Date.parse(o.displayExpiresAt)).filter(t=>t>Date.now()).sort((a,b)=>a-b)[0];if(expiry)state.expiry=setTimeout(render,Math.min(expiry-Date.now()+10,2147483647));show('feedback',!!state.feedback);
 }
 function viewContext(){return {view:state.view?state.ui.view:'HOME',...(state.view&&!state.ui.atEnd&&state.ui.candidateId&&['CANDIDATES','DETAILS','HANDOFF'].includes(state.ui.view)?{candidateId:state.ui.candidateId}:{}),comparedCandidateIds:[]};}
 async function submitRequirement(message,preserveComposer=false){
  if(!message||state.blocked||state.asking)return false;
- $('message').removeAttribute('placeholder');const nav=state.nav,old=state.view,context=viewContext(),draft=$('message').value,startedAt=performance.now();clearEntryTransition();state.blocked=true;state.sending=!preserveComposer;clearError();
- if(!old){state.pendingCase={title:message};if(!preserveComposer)setMessage('');render();}
- else{render();}
+ $('message').removeAttribute('placeholder');
+ const nav=state.nav,old=state.view,caseId=old?.case.caseId,context=viewContext(),draft=$('message').value,startedAt=performance.now();
+ clearEntryTransition();state.blocked=true;state.sending=!preserveComposer;clearError();
+ if(!old){state.pendingCase={title:message};if(!preserveComposer)setMessage('');}
+ render();
  try{
-  const path=old?'/api/conversations/'+encodeURIComponent(old.conversation.id)+'/messages':'/api/cases';const body={message,requestId:requestId(),viewContext:context,...(old?{taskVersion:old.case.taskVersion}:{})};
-  const p=await api(path,{method:'POST',body:JSON.stringify(body)});if(nav!==state.nav)return false;
-  state.pendingCase=null;state.blocked=false;state.sending=false;const modelFailed=p.view.restaurant.readStatus.kind==='MODEL_FAILURE';state.view=null;
-  if(!modelFailed||!old)state.ui={view:'CANDIDATES',candidateId:null};state.detailKey='';state.handoffKey='';
+  const path=old?'/api/conversations/'+encodeURIComponent(old.conversation.id)+'/messages':'/api/cases';
+  const body={message,requestId:requestId(),viewContext:context,...(old?{taskVersion:old.case.taskVersion}:{})};
+  const p=await api(path,{method:'POST',body:JSON.stringify(body)});
+  if(!currentCase(nav,caseId)){updateCases(p.view.case);return false;}
+  state.pendingCase=null;state.blocked=false;state.sending=false;
+  const modelFailed=p.view.restaurant.readStatus.kind==='MODEL_FAILURE';
+  if(!modelFailed||!old)state.ui={view:'CANDIDATES',candidateId:null};
+  state.detailKey='';state.handoffKey='';
   if(!old&&modelFailed&&!$('message').value)setMessage(draft);
-  if(!preserveComposer&&!modelFailed&&$('message').value.trim()===message)setMessage('');
-  if(!old&&previewPace&&fixturePresentation(p.view))state.entryPace=startedAt;accept(p.view);
-  if(modelFailed)$('understanding-error').scrollIntoView({block:'nearest',behavior:'instant'});openStream(p.view.case.caseId,nav);savePosition();return !modelFailed;
+  if(!preserveComposer&&!modelFailed){
+    if($('message').value.trim()===message)setMessage('');
+    state.drafts.delete(draftKey());
+  }
+  if(!old&&previewPace&&fixturePresentation(p.view))state.entryPace=startedAt;
+  accept(p.view);
+  if(modelFailed)$('understanding-error').scrollIntoView({block:'nearest',behavior:'instant'});
+  if(!old||state.streamCaseId!==p.view.case.caseId)openStream(p.view.case.caseId,nav);
+  savePosition();return !modelFailed;
  }catch(error){
-  if(nav===state.nav){if(!old)clearEntryTransition();state.blocked=false;state.sending=false;render();if(!$('message').value)setMessage(draft);report(error);}return false;
- }finally{if(nav===state.nav){state.blocked=false;state.sending=false;$('send').disabled=false;$('send').setAttribute('aria-busy','false');}}
+  if(currentCase(nav,caseId)){
+    if(!old)clearEntryTransition();
+    state.sending=false;
+    if(!$('message').value)setMessage(draft);
+    await reportCaseError(error,nav,caseId);
+  }
+  return false;
+ }finally{resumeCase(nav,caseId);}
 }
 $('composer').onsubmit=async event=>{event.preventDefault();const message=$('message').value.trim();if(!message||state.blocked||state.asking)return;if(state.view&&state.ui.view==='DETAILS'){await askCurrentPlace(message);return;}await submitRequirement(message);};
-$('stop').onclick=async()=>{if(state.blocked||!state.view)return;const nav=state.nav;state.blocked=true;$('stop').disabled=true;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/run',{method:'DELETE'});if(nav!==state.nav)return;state.blocked=false;accept(p.view);}catch(error){report(error);}finally{if(nav===state.nav){state.blocked=false;$('stop').disabled=false;}}};
-$('bookmark').onclick=async()=>{const c=candidate();if(!c||!canShortlist())return;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/shortlist',{method:'POST',body:JSON.stringify({candidateId:c.restaurant.id,shortlisted:!(state.view.restaurant.shortlistCandidateIds||[]).includes(c.restaurant.id),taskVersion:state.view.case.taskVersion,requestId:requestId()})});accept(p.view);}catch(error){report(error);}};
+$('stop').onclick=async()=>{
+  if(state.blocked||!state.view)return;
+  const nav=state.nav,caseId=state.view.case.caseId;
+  state.blocked=true;$('stop').disabled=true;
+  try{
+    const p=await api(casePath(caseId)+'/run',{method:'DELETE'});
+    receiveCase(p.view,nav,caseId);
+  }catch(error){await reportCaseError(error,nav,caseId);}
+  finally{resumeCase(nav,caseId);}
+};
+$('bookmark').onclick=async()=>{
+  const c=candidate();if(state.blocked||!c||!canShortlist())return;
+  const nav=state.nav,caseId=state.view.case.caseId;
+  try{
+    const p=await api(casePath(caseId)+'/shortlist',{method:'POST',body:JSON.stringify({
+      candidateId:c.restaurant.id,shortlisted:!(state.view.restaurant.shortlistCandidateIds||[]).includes(c.restaurant.id),
+      taskVersion:state.view.case.taskVersion,requestId:requestId(),
+    })});
+    receiveCase(p.view,nav,caseId);
+  }catch(error){await reportCaseError(error,nav,caseId);}
+};
 function moveCard(delta){
   clearEntryPreview();cancelPreparation();const list=ids(),i=list.indexOf(state.ui.candidateId);
   if(state.ui.atEnd&&delta<0){state.ui.atEnd=false;savePosition();render();return;}
@@ -419,26 +573,48 @@ function moveCard(delta){
 }
 $('previous').onclick=()=>moveCard(-1);$('next').onclick=()=>moveCard(1);
 $('details-button').onclick=()=>setView('DETAILS');$('details-back').onclick=()=>setView('CANDIDATES');$('saved').onclick=()=>setView('SAVED');$('saved-back').onclick=()=>setView('CANDIDATES');$('choose').onclick=prepareBooking;$('handoff-back').onclick=()=>setView('CANDIDATES');
-async function refreshCase(){if(state.blocked)return false;const nav=state.nav;state.blocked=true;render();try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/refresh',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});if(nav!==state.nav)return;state.blocked=false;accept(p.view);return true;}catch(error){if(nav===state.nav)report(error);return false;}finally{if(nav===state.nav){state.blocked=false;render();}}}
+async function refreshCase(){
+ if(state.blocked||!state.view)return false;
+ const nav=state.nav,caseId=state.view.case.caseId;
+ state.blocked=true;render();
+ try{
+  const p=await api(casePath(caseId)+'/refresh',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});
+  return receiveCase(p.view,nav,caseId);
+ }catch(error){
+  if(currentCase(nav,caseId))cancelPreparation();
+  await reportCaseError(error,nav,caseId);return false;
+ }finally{resumeCase(nav,caseId);}
+}
 function finishPreparation(){
  const pending=state.preparing;if(!pending)return;
- if(pending.nav!==state.nav||state.ui.candidateId!==pending.id||state.ui.view!=='CANDIDATES'||state.view.restaurant.requirementRevision!==pending.revision){cancelPreparation();return;}
+ if(!currentCase(pending.nav,pending.caseId)||state.ui.candidateId!==pending.id
+  ||!['CANDIDATES','HANDOFF'].includes(state.ui.view)||state.view.restaurant.requirementRevision!==pending.revision){cancelPreparation();return;}
  if(state.view.restaurant.progress.active)return;
  cancelPreparation();
- const fresh=(state.view.restaurant.availability[pending.id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now()),matched=pending.slot?fresh.find(o=>o.dateTime===pending.slot.dateTime&&o.partySize===pending.slot.partySize):fresh[0];
- if(ids().includes(pending.id)&&state.view.restaurant.readyCandidateIds.includes(pending.id)&&matched){state.ui.offerId=matched.id;closeAnswer();state.ui.view='HANDOFF';savePosition();clearError();}
- else report(new Error("Availability couldn't be confirmed. Try again."));
+ const fresh=(state.view.restaurant.availability[pending.id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());
+ const matched=pending.slot?fresh.find(o=>o.dateTime===pending.slot.dateTime&&o.partySize===pending.slot.partySize):!pending.offerId?fresh[0]:undefined;
+ if(ids().includes(pending.id)&&state.view.restaurant.readyCandidateIds.includes(pending.id)&&matched){
+   state.ui.offerId=matched.id;closeAnswer();state.ui.view='HANDOFF';savePosition();clearError();
+ }else{
+   if(state.ui.view==='HANDOFF'){state.ui.view='CANDIDATES';state.ui.offerId=null;state.handoffKey='';}
+   report(new Error("Availability couldn't be confirmed. Try again."));
+ }
+}
+async function refreshSelectedSlot(){
+ if(!canRefresh()||state.blocked||state.preparing)return;
+ const id=state.ui.candidateId,nav=state.nav,caseId=state.view.case.caseId,revision=state.view.restaurant.requirementRevision,offerId=state.ui.offerId;
+ const offers=state.view.restaurant.availability[id]||[];
+ const old=offerId?offers.find(o=>o.id===offerId):offers[0];
+ const pending={id,nav,caseId,revision,offerId,slot:old?{dateTime:old.dateTime,partySize:old.partySize}:null};
+ state.preparing=pending;clearError();
+ const refreshed=await refreshCase();
+ if(!refreshed&&state.preparing===pending){cancelPreparation();if(currentCase(nav,caseId))render();}
 }
 async function prepareBooking(){
  if(state.blocked||state.preparing||!candidate()||!ids().includes(state.ui.candidateId))return;
- const id=state.ui.candidateId,nav=state.nav,revision=state.view.restaurant.requirementRevision;
+ const id=state.ui.candidateId;
  if(!availabilityExpired(id)){const viewed=offerFor(id);if(viewed)state.ui.offerId=viewed.id;setView('HANDOFF');return;}
- if(!canRefresh())return;
- const old=(state.view.restaurant.availability[id]||[]).find(o=>o.id===state.ui.offerId)||(state.view.restaurant.availability[id]||[])[0];
- const pending={id,nav,revision,slot:old?{dateTime:old.dateTime,partySize:old.partySize}:null};state.preparing=pending;clearError();
- const refreshed=await refreshCase();
- if(!refreshed&&state.preparing===pending)cancelPreparation();
- if(nav===state.nav)render();
+ await refreshSelectedSlot();
 }
 $('refresh').onclick=refreshCase;
 $('answer-backdrop').onclick=closeAnswer;$('answer-dismiss').onclick=closeAnswer;
@@ -446,17 +622,65 @@ let answerDragY=null;$('answer-dismiss').onpointerdown=event=>{answerDragY=event
 $('answer-dismiss').onpointerup=event=>{if(answerDragY!==null&&event.clientY-answerDragY>40)closeAnswer();answerDragY=null;};
 $('batch-back').onclick=()=>moveCard(-1);$('end-saved').onclick=()=>setView('SAVED');$('end-adjust').onclick=focusAdjustment;
 async function findMore(){
-  if(state.blocked)return;const nav=state.nav;state.blocked=true;$('find-more').disabled=true;
-  try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/another-batch',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});if(nav!==state.nav)return;state.blocked=false;state.ui.atEnd=false;state.ui.candidateId=null;accept(p.view);}
-  catch(error){if(nav===state.nav)report(error);}finally{if(nav===state.nav){state.blocked=false;render();}}
+  if(state.blocked||!state.view)return;
+  const nav=state.nav,caseId=state.view.case.caseId;
+  state.blocked=true;$('find-more').disabled=true;
+  try{
+    const p=await api(casePath(caseId)+'/another-batch',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});
+    if(currentCase(nav,caseId)){state.ui.atEnd=false;state.ui.candidateId=null;}
+    receiveCase(p.view,nav,caseId);
+  }catch(error){await reportCaseError(error,nav,caseId);}
+  finally{resumeCase(nav,caseId);}
 }
 $('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=focusAdjustment;
-async function depart(event){const h=currentHandoff();if(!h){event.preventDefault();if(canRefresh())await refreshCase();return;}event.preventDefault();const target=window.open('about:blank','_blank');if(!target){report(new Error('Please allow this source tab to open.'));return;}target.opener=null;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId()})});localStorage.setItem(key(state.view.case.caseId)+':return','1');target.location.href=p.url;}catch(error){target.close();report(error);}}
+async function depart(event){
+ event.preventDefault();
+ if(!state.view||state.blocked||state.preparing)return;
+ const nav=state.nav,caseId=state.view.case.caseId,h=currentHandoff();
+ if(!h){await refreshSelectedSlot();return;}
+ const target=window.open('about:blank','_blank');
+ if(!target){report(new Error('Please allow this source tab to open.'));return;}
+ target.opener=null;
+ try{
+  const p=await api(casePath(caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({
+    candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId(),
+  })});
+  if(!currentCase(nav,caseId)){target.close();return;}
+  localStorage.setItem(key(caseId)+':return','1');target.location.href=p.url;
+ }catch(error){target.close();await reportCaseError(error,nav,caseId);}
+}
 $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};
-async function claimFeedback(){if(!state.view||state.feedback||state.claiming)return;const id=state.view.case.caseId;state.claiming=true;try{const p=await api('/api/cases/'+encodeURIComponent(id)+'/booking-feedback/claim',{method:'POST',body:'{}'});if(!state.view||state.view.case.caseId!==id)return;localStorage.removeItem(key(id)+':return');state.feedback=p.prompt||null;show('feedback',!!state.feedback);}catch(error){report(error);}finally{state.claiming=false;}}
-window.addEventListener('focus',async()=>{if(!state.view||!localStorage.getItem(key(state.view.case.caseId)+':return'))return;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId));accept(p.view);}catch(error){report(error);}});
-for(const button of $('feedback').querySelectorAll('[data-answer]'))button.onclick=async()=>{if(!state.feedback)return;const prompt=state.feedback;try{await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-feedback',{method:'POST',body:JSON.stringify({departureId:prompt.departure.id,answer:button.dataset.answer})});state.feedback=null;show('feedback',false);}catch(error){report(error);}};
-$('menu').onclick=event=>{if(desktopLayout.matches){sidebarCollapsed=false;syncSidebar();if(event.detail===0)$('collapse-plans').focus({preventScroll:true});return;}if($('plans').classList.contains('open'))return closePlans(event.detail===0);$('plans').classList.add('open');show('backdrop',true);$('menu').setAttribute('aria-expanded','true');syncBrand();if(event.detail===0)$('collapse-plans').focus({preventScroll:true});};$('backdrop').onclick=()=>closePlans();
+async function claimFeedback(){
+ if(!state.view||state.feedback||state.claiming)return;
+ const nav=state.nav,caseId=state.view.case.caseId,claim={};state.claiming=claim;
+ try{
+   const p=await api(casePath(caseId)+'/booking-feedback/claim',{method:'POST',body:'{}'});
+   if(!currentCase(nav,caseId))return;
+   localStorage.removeItem(key(caseId)+':return');state.feedback=p.prompt||null;show('feedback',!!state.feedback);
+ }catch(error){await reportCaseError(error,nav,caseId);}
+ finally{if(state.claiming===claim)state.claiming=null;}
+}
+window.addEventListener('focus',async()=>{
+ scheduleCaseListSync(true);
+ const nav=state.nav,caseId=state.view?.case.caseId;
+ if(!caseId||!localStorage.getItem(key(caseId)+':return'))return;
+ try{const p=await api(casePath(caseId));receiveCase(p.view,nav,caseId);}
+ catch(error){await reportCaseError(error,nav,caseId);}
+});
+for(const button of $('feedback').querySelectorAll('[data-answer]'))button.onclick=async()=>{
+ if(!state.feedback)return;
+ const prompt=state.feedback,nav=state.nav,caseId=state.view.case.caseId;
+ try{
+   await api(casePath(caseId)+'/booking-feedback',{method:'POST',body:JSON.stringify({departureId:prompt.departure.id,answer:button.dataset.answer})});
+   if(currentCase(nav,caseId)){state.feedback=null;show('feedback',false);}
+ }catch(error){await reportCaseError(error,nav,caseId);}
+};
+$('menu').onclick=event=>{
+ if(desktopLayout.matches){sidebarCollapsed=false;syncSidebar();if(event.detail===0)$('collapse-plans').focus({preventScroll:true});return;}
+ if($('plans').classList.contains('open'))return closePlans(event.detail===0);
+ $('plans').classList.add('open');show('backdrop',true);$('menu').setAttribute('aria-expanded','true');syncBrand();scheduleCaseListSync(true);
+ if(event.detail===0)$('collapse-plans').focus({preventScroll:true});
+};$('backdrop').onclick=()=>closePlans();
 document.addEventListener('pointerdown',event=>{
  const editor=state.conditionEditor;if(editor&&!editor.busy&&!editor.form.contains(event.target)&&!editor.anchor.contains(event.target))editor.cancel();
  if($('profile').open&&!$('profile').contains(event.target))$('profile').open=false;
@@ -468,8 +692,37 @@ document.addEventListener('keydown',event=>{
  const button=$(event.key==='ArrowLeft'?'previous':'next');if(!button.disabled){event.preventDefault();button.click();}
 });
 $('new-case').onclick=newPlan;$('brand').onclick=event=>{event.preventDefault();newPlan();};
-$('logout').onclick=async()=>{clearEntryTransition();++state.nav;await api('/api/session',{method:'DELETE'});location.reload();};
-$('use-location').onclick=()=>{if(!navigator.geolocation)return report(new Error('Type a nearby station, address, or district instead.'));navigator.geolocation.getCurrentPosition(async p=>{try{const result=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/location',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId(),latitude:p.coords.latitude,longitude:p.coords.longitude,accuracyMeters:p.coords.accuracy})});accept(result.view);}catch(error){report(error);}},()=>report(new Error('Type a nearby station, address, or district instead.')));};
+$('logout').onclick=async()=>{
+ clearEntryTransition();++state.nav;state.signingOut=true;scheduleCaseListSync();
+ try{await api('/api/session',{method:'DELETE'});location.reload();}
+ catch(error){
+  state.signingOut=false;resetCaseRequests();render();
+  if(state.view)openStream(state.view.case.caseId,state.nav);
+  scheduleCaseListSync(true);report(error);
+ }
+};
+$('use-location').onclick=()=>{
+ const nav=state.nav,caseId=state.view?.case.caseId,taskVersion=state.view?.case.taskVersion;
+ if(!caseId||state.locating||state.blocked)return;
+ const fallback=new Error('Type a nearby station, address, or district instead.');
+ clearError();
+ if(!navigator.geolocation){report(fallback);return;}
+ const id=requestId();state.locating=id;$('use-location').disabled=true;
+ const finish=()=>{if(state.locating===id){state.locating=null;render();}};
+ const denied=()=>{if(currentCase(nav,caseId))report(fallback);finish();};
+ try{
+  navigator.geolocation.getCurrentPosition(async p=>{
+    if(!currentCase(nav,caseId))return;
+    try{
+      const result=await api(casePath(caseId)+'/location',{method:'POST',body:JSON.stringify({
+        taskVersion,requestId:id,latitude:p.coords.latitude,longitude:p.coords.longitude,accuracyMeters:p.coords.accuracy,
+      })});
+      receiveCase(result.view,nav,caseId);
+    }catch(error){await reportCaseError(error,nav,caseId);}
+    finally{finish();}
+  },denied);
+ }catch{denied();}
+};
 async function enter(user){state.user=user;show('login',false);show('app',true);text('profile-label',user.displayName||'Profile');text('profile-avatar',Array.from(user.displayName||'P')[0].toLocaleUpperCase('en-US'));render();const nav=state.nav;const p=await api('/api/cases');for(const item of p.cases)updateCases(item);const active=localStorage.getItem('praxis:active:'+user.id);if(nav===state.nav&&active&&state.cases.has(active))await loadCase(active);}
 $('login-form').onsubmit=async event=>{event.preventDefault();try{const p=await api('/api/session',{method:'POST',body:JSON.stringify({accessToken:$('access-token').value})});await enter(p.user);}catch(error){text('login-error',error.message);show('login-error',true);}};
 void api('/api/session').then(p=>enter(p.user)).catch(()=>{show('login',true);show('app',false);});

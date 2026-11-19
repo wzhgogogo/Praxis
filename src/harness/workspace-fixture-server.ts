@@ -41,7 +41,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;cachedCrossSourceDuplicate?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;cachedCrossSourceDuplicate?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -71,6 +71,8 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       let inlineFacts:RestaurantSemanticProposal["facts"]|undefined;
       if(/^(Keep the same dinner conditions|Same dinner, please)$/i.test(text)&&semanticContext.partySize){
         inlineFacts=[{field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:semanticContext.partySize,source:semanticContext.partySizeSource??"EXPLICIT"}}];
+      }else if(text==="Higashi-Ginza"&&semanticContext.area?.query==="nearby"){
+        inlineFacts=[{field:"AREA",operation:"CORRECT",value:{kind:"AREA",query:text}}];
       }else if(inline&&semanticContext.area&&inline[1]===semanticContext.area.query){
         inlineFacts=[{field:"AREA",operation:"CORRECT",value:{kind:"AREA",query:inline[2]!}}];
       }else if(inline&&/^(Sun|Mon|Tue|Wed|Thu|Fri|Sat), [A-Za-z]{3} \d{1,2}$/.test(inline[1]!)&&/^\d{4}-\d{2}-\d{2}$/.test(inline[2]!)){
@@ -100,7 +102,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
     } else if(request.purpose==="restaurant_agent_decide"){
       const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{candidates?:Array<{id:string}>;checkableCandidateIds?:string[];legalActions?:{search:boolean};searchAvailability?:{available:boolean};presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
       const ready=context.presentation?.filter(item=>item.eligible&&!context.resultBatchTarget?.excludeCandidateIds.includes(item.candidateId)).map(item=>item.candidateId)??[];
-      body=options.cachedCrossSourceDuplicate&&context.checkableCandidateIds?.length
+      body=(options.checkWholePool||options.cachedCrossSourceDuplicate)&&context.checkableCandidateIds?.length
         ?strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length>=3?strictAction("PRESENT_RESULTS",ready.slice(0,3)):!context.candidates?.length?strictAction("SEARCH_RESTAURANTS"):context.checkableCandidateIds?.length?
         strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length?strictAction("PRESENT_RESULTS",ready):options.continuation==="search"&&context.legalActions?.search?strictAction("SEARCH_RESTAURANTS"):strictAction("END_READ");
     } else throw new Error("No external model or unsupported fixture purpose: "+request.purpose);

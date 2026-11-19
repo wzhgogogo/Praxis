@@ -5,7 +5,7 @@ import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { startWorkspaceFixture } from '../workspace-fixture-server.js';
 const sizes=[{width:390,height:844},{width:1280,height:900}];
-async function ready(page:Page){await page.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3');await page.locator('#progress').waitFor({state:'hidden'});}
+async function ready(page:Page,count=3){await page.waitForFunction(count=>document.getElementById('card-counter')?.textContent==='1 of '+count,count);await page.locator('#progress').waitFor({state:'hidden'});}
 async function open(page:Page,host:Awaited<ReturnType<typeof startWorkspaceFixture>>,empty=false){
  page.setDefaultTimeout(10_000);await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);
  await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();
@@ -67,7 +67,7 @@ for(const size of sizes){
   try{await open(page,host);assert.equal(await page.locator('#delivery-conditions a').count(),0);assert.doesNotMatch(await page.locator('#delivery-conditions').textContent()||'',/Read at:/);await page.locator('#details-button').click();
    await page.locator('#message').fill('Does this place require a card?');await page.locator('#send').click();await page.locator('#answer-sheet').waitFor({state:'visible'});
    for(const selector of ['#question-result','#asked-result']){assert.equal(await page.locator(selector+' details').count(),1);assert.equal(await page.locator(selector+' blockquote').count(),3);assert.equal(await page.locator(selector+' a').count(),1);assert.equal((await page.locator(selector).textContent()||'').match(/Read at:/g)?.length,3);}
-   assert.equal(await page.locator('#asked-history h3').textContent(),'Q&A');await page.locator('#answer-dismiss').click();await page.locator('#details-back').click();await page.locator('#message').fill('Make it three guests');await page.locator('#send').click();await ready(page);await page.locator('#details-button').click();
+   assert.equal(await page.locator('#asked-history h3').textContent(),'Q&A');await page.locator('#answer-dismiss').click();await page.locator('#details-back').click();await page.locator('#message').fill('Make it three guests');await page.locator('#send').click();await ready(page,2);assert.equal((await view(page)).restaurant.intentDraft.partySize,3);await page.locator('#details-button').click();
    assert.ok(await page.locator('#details-content [data-source-id]').count()>0);assert.match(await page.locator('#details-content').innerText(),/Dinner course ¥5000/);assert.match(await page.locator('#details-content').innerText(),/Read at: 2026-/);for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])assert.equal(await page.locator('#'+id).isVisible(),false,id);await shot(page,'round4-'+size.width+'-about-sources');
   }finally{await context.close();await browser.close();await host.close();}
  });

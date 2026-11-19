@@ -83,7 +83,7 @@ export function projectWorkspaceRead(input: {
   const modelFailed = interpretation?.type === "SEMANTIC_INTERPRETATION_FAILED" && interpretation.status === "MODEL_FAILURE";
   const savedCandidates = (state.selectionSession?.shortlistCandidateIds ?? []).map(id => ({
     candidateId: id, outletName: name(id), current: !modelFailed && openable.has(id),
-    ...(!openable.has(id) && qualifiedRevision && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
+    ...(!openable.has(id) && !ready.has(id) && qualifiedRevision && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
   }));
   const revisionDiff = previous && groups.some(item => item.presented.size > 0) && qualifiedRevision && group.revision > previous.revision ? {
     fromRevision: previous.revision, toRevision: group.revision,
