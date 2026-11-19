@@ -1,0 +1,111 @@
+✖ cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh (1085.419375ms)
+✖ expired read-end deadline with unread sources resolves without reopening a short window (7.625208ms)
+✖ expired read-end deadline with exhausted sources resolves without reopening a short window (0.885125ms)
+✖ the real Reducer accepts short delivery at the deadline even after the clock advances before dispatch (0.857917ms)
+✖ another batch continues past a cross-source duplicate, ends when exhausted, and delivers a genuinely new outlet (0.63625ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1713.853166
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:7478
+✖ cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh (1085.419375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'fixture-cache-alias',
+      'fixture-cache-0',
+      'fixture-cache-1',
+  -   'fixture-cache-2'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:158:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'fixture-cache-alias', 'fixture-cache-0', 'fixture-cache-1' ],
+    expected: [ 'fixture-cache-0', 'fixture-cache-1', 'fixture-cache-2' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/application/restaurant-agent-loop.test.ts:1:17535
+✖ expired read-end deadline with unread sources resolves without reopening a short window (7.625208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PRESENT_RESULTS'
+  - 'NO_VERIFIED_RESULT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-agent-loop.test.ts:283:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT_RESULTS',
+    expected: 'NO_VERIFIED_RESULT',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-agent-loop.test.ts:1:17535
+✖ expired read-end deadline with exhausted sources resolves without reopening a short window (0.885125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'DEFAULT_BATCH_DELIVERY_WINDOW_OPENED',
+      'RESULTS_PRESENTED'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-agent-loop.test.ts:284:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'DEFAULT_BATCH_DELIVERY_WINDOW_OPENED', 'RESULTS_PRESENTED' ],
+    expected: [ 'RESULTS_PRESENTED' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/application/restaurant-agent-loop.test.ts:1:18667
+✖ the real Reducer accepts short delivery at the deadline even after the clock advances before dispatch (0.857917ms)
+  Error: Results presentation is not grounded: The requested next batch requires 3 distinct qualified restaurants before it can be presented
+      at Object.transition (/private/tmp/praxis-3c-unified/src/domains/restaurant/task-definition.ts:650:15)
+      at Object.dispatch (/private/tmp/praxis-3c-unified/src/application/restaurant-agent-loop.test.ts:69:33)
+      at RestaurantAgentLoopCoordinator.dispatch (/private/tmp/praxis-3c-unified/src/application/restaurant-agent-loop.ts:705:39)
+      at RestaurantAgentLoopCoordinator.terminate (/private/tmp/praxis-3c-unified/src/application/restaurant-agent-loop.ts:672:36)
+      at async stop (/private/tmp/praxis-3c-unified/src/application/restaurant-agent-loop.test.ts:83:8)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-agent-loop.test.ts:294:31)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-agent-loop.test.ts:1:19487
+✖ another batch continues past a cross-source duplicate, ends when exhausted, and delivers a genuinely new outlet (0.63625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   '2'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-agent-loop.test.ts:331:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '2' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
