@@ -1,0 +1,73 @@
+✔ stale same-Case refresh, batch and location requests never cancel an active read (1073.408208ms)
+✔ preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration (624.46975ms)
+✔ preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration (543.502084ms)
+✔ preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration (553.868292ms)
+✔ beer service admission bare: bar (2.255667ms)
+✔ beer service admission bare: pub (0.124916ms)
+✔ beer service admission bare: izakaya (0.085167ms)
+✔ beer service admission bare: liquor store (0.608125ms)
+✔ beer service admission bare: beer store (0.084375ms)
+✔ beer service admission bare: restaurant (0.051916ms)
+✔ beer service admission bare: point of interest (0.039625ms)
+✔ beer service admission bare: brewpub (3.953833ms)
+✔ beer service admission bare: beer bar (0.784792ms)
+✔ beer service admission bare: beer hall (0.143208ms)
+✔ beer service admission bare: beer garden (0.0795ms)
+✔ beer service admission bare: beer restaurant (0.057292ms)
+✔ beer service admission GOOGLE_TYPE: bar (0.083167ms)
+✔ beer service admission GOOGLE_TYPE: pub (0.034083ms)
+✔ beer service admission GOOGLE_TYPE: izakaya (0.03ms)
+✔ beer service admission GOOGLE_TYPE: liquor store (0.022084ms)
+✔ beer service admission GOOGLE_TYPE: beer store (0.029041ms)
+✔ beer service admission GOOGLE_TYPE: restaurant (0.038917ms)
+✔ beer service admission GOOGLE_TYPE: point of interest (0.025417ms)
+✔ beer service admission GOOGLE_TYPE: brewpub (0.291125ms)
+✔ beer service admission GOOGLE_TYPE: beer bar (0.216542ms)
+✔ beer service admission GOOGLE_TYPE: beer hall (0.063667ms)
+✔ beer service admission GOOGLE_TYPE: beer garden (0.094334ms)
+✔ beer service admission GOOGLE_TYPE: beer restaurant (0.056667ms)
+✔ beer service admission CATEGORY: bar (0.072209ms)
+✔ beer service admission CATEGORY: pub (0.069708ms)
+✔ beer service admission CATEGORY: izakaya (0.084459ms)
+✔ beer service admission CATEGORY: liquor store (0.027166ms)
+✔ beer service admission CATEGORY: beer store (0.036667ms)
+✔ beer service admission CATEGORY: restaurant (0.025541ms)
+✔ beer service admission CATEGORY: point of interest (0.032792ms)
+✔ beer service admission CATEGORY: brewpub (0.20325ms)
+✔ beer service admission CATEGORY: beer bar (0.208083ms)
+✔ beer service admission CATEGORY: beer hall (0.061ms)
+✔ beer service admission CATEGORY: beer garden (0.045125ms)
+✔ beer service admission CATEGORY: beer restaurant (0.055167ms)
+✔ explicit merchant source text supports beer (0.094958ms)
+✔ explicit merchant source text supports non-alcoholic beer (0.044ms)
+✔ explicit merchant source text supports gluten-free beer (0.04775ms)
+✖ H002 persistent duplicate message delivery invokes the supplement once; completed retries and refresh do not invoke it (1342.496459ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 43
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3389.9235
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:1:24634
+✖ H002 persistent duplicate message delivery invokes the supplement once; completed retries and refresh do not invoke it (1342.496459ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.deepEqual(resolver.messages, [], "T1 primary explicit party must not call the supplement")
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:761:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:250:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:616:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

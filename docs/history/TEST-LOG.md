@@ -7111,3 +7111,7 @@ Source313af33e8d0a164fcb0492db636d320ce35dc9f8: typecheck/arch pass, default1749
 ### 2026-11-18 — Unified round-6 final acceptance
 
 ddd9eda8d04b304f09b3629bb0d64828645c5789, clean before/after each gate: typecheck0.532s, arch0.197s, default1750/1750 in61.772s, browser fixture G2 5/5 + Chromium415/415 + G6 159/159 in397.843s, build0.536s. Original16 three-size actual HTTP/SSE/PGlite visual scenes PASS32.14s/41 screenshots; additional Style1 six combinations PASS7.46s/6 screenshots manually inspected. All env-whitelisted, no.env loading; browser full gate has no outer sandbox around its own replay OS isolation. New regressions cover actual same-assembly concurrency and B1 budget preservation, same-Case stale/preparing races, admission with bare/quoted categories and source prose, active/terminal view/photo behavior, batch labels and static zero-hidden diffs. All raw logs/manifests and two earlier failed freezes remain in round-6. New Live/PG0, independent Live S0 NOT_EVALUATED; original4312 listeners preserved, own resources closed. [Report](../../.eval-artifacts/3c-unified-20261117/round-6/REPORT.md).
+
+### 2026-11-19 — Unified Round 7 离线验收
+
+净树 `30a90301df8212e4ff128ef88d04df3653018a7f`。Typecheck、arch 和 Build PASS，默认 1759/1759，G2 5/5，Chromium 415/415，G6 159/159。正式本地 HTTP/SSE/PGlite Fixture 16/16，风格 1 补图 6/6，逐张目检且实测间距均为 12px。原批事实观察、HTTP 409/200、G1 正常完成与取消、Runtime 去重和限定词证据均有回归。Live、真实 PostgreSQL 与独立 Live S0 本轮未评估。 [原始证据及勘误](../../.eval-artifacts/3c-unified-20261117/round-7/REPORT.md)
