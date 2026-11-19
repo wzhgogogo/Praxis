@@ -7123,3 +7123,7 @@ ddd9eda8d04b304f09b3629bb0d64828645c5789, clean before/after each gate: typechec
 ### 2026-11-19 — Unified Round 9 离线验收
 
 净树 `1929ff88c5bb1849e4f9ac2a29e59c49de9fc318`。Typecheck、Arch、Build 通过。默认 1770/1770，G2 5/5，Chromium 420/420，G6 assembly 159/159。正式三尺寸视觉 16/16、Style 1 6/6、新增状态 5/5。390×844 停止提示在滚动位置 0 完整位于输入栏上方。保留修复前行为对照和产物哈希。 [报告](../../.eval-artifacts/3c-unified-20261117/round-9/REPORT.md)
+
+### 2026-11-19 — Unified Round 10 离线验收
+
+净树 `9933ad36eece414f2d37e85710ad825f52dfa16a`。Typecheck、Arch、Build 通过。默认 1771/1771，G2 5/5，Chromium 432/432，G6 assembly 159/159。正式三尺寸视觉 16/16、Style 1 6/6、状态 17/17。真实本地 409 路径验证缓冲 SSE 与一次权威 GET，503 对照无额外 GET。 [报告](../../.eval-artifacts/3c-unified-20261117/round-10/REPORT.md)
