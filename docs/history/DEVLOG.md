@@ -6411,3 +6411,7 @@ Draft / not integrated. Use the same clock sample across short-delivery validati
 ### 2026-11-19 — Unified Round 10 implementation
 
 Draft / not integrated. Preserve the selected booking time during refresh, isolate Case response and composer state across navigation, and recover version conflicts from buffered SSE or a single current snapshot. Add the nearby device-location entry and ordinary HTTP request IDs. Update active background summaries while needed, and use the full qualifying pool when interpreting Saved mismatch reasons.
+
+### 2026-11-19 — Unified Round 11 implementation
+
+Draft / not integrated. Require explicit time reselection after refresh and scroll notices clear of the composer. Cross-check cached SSE against the version in a 409 response. Preserve qualified later-batch restaurants in revision diffs, clean up the matching draft after a late success, and finish persisted source-tab navigation independently of main-tab navigation.

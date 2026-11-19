@@ -432,6 +432,7 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       if (!response.headersSent) {
         json(response, errorStatus(error), {
           error: error instanceof Error ? error.message : "Request failed",
+          ...(error instanceof StaleTaskVersionError ? { actualVersion: error.actualVersion } : {}),
         });
       } else {
         response.end();

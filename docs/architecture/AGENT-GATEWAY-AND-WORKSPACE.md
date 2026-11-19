@@ -196,3 +196,5 @@ Displayed expired cards offer refresh when permitted by the current Case. An exp
 ### 2026-11-19 — Round 10 Case response ordering
 
 Case responses are bound to the navigation and Case that started them. An older plan can update its sidebar summary after navigation. The currently open Case uses its SSE projection, buffering the newest snapshot while a mutation is pending. A version conflict uses that snapshot or reads the current Case once, preserving the unsent text. Sidebar status polling runs only while another Case is active.
+
+A Case version conflict includes the server's current version. The workspace uses a buffered event only if its version has caught up, otherwise it reads the latest Case once. A successful response clears only the matching sent draft in its own plan. A prior-batch outlet still verified for the current request does not count as a removal.

@@ -2,7 +2,7 @@ import { WORKSPACE_PHOTO_CLIENT_SCRIPT } from "./workspace-photo-client.js";
 /** Browser projection only: all source facts and actions are checked by the server. */
 export const WORKSPACE_CLIENT_SCRIPT = String.raw`'use strict';
 const $ = id => document.getElementById(id);
-const state = {user:null, cases:new Map(), drafts:new Map(), view:null, nav:0, stream:null, streamCaseId:null, caseListTimer:null, caseListSyncing:false, signingOut:false, deferredView:null, blocked:false, ui:{view:'CANDIDATES',candidateId:null}, expiry:null, feedback:null, detailKey:'',questionKey:'',handoffKey:'',pendingQuestion:null,asking:false,askingId:null,locating:null,claiming:null,diffKey:'',pendingCase:null,preview:null,entryPace:null};
+const state = {user:null, cases:new Map(), drafts:new Map(), view:null, nav:0, stream:null, streamCaseId:null, caseListTimer:null, caseListSyncing:false, signingOut:false, deferredView:null, blocked:false, ui:{view:'CANDIDATES',candidateId:null,reselectSlot:false}, expiry:null, feedback:null, detailKey:'',questionKey:'',handoffKey:'',pendingQuestion:null,asking:false,askingId:null,locating:null,claiming:null,diffKey:'',pendingCase:null,preview:null,entryPace:null};
 function requestId(){
   const crypto=globalThis.crypto;
   if(crypto?.randomUUID)return crypto.randomUUID();
@@ -17,14 +17,22 @@ function requestId(){
 const text = (id,value) => {const node=$(id), next=String(value == null?'':value);if(node.textContent!==next)node.textContent=next;};
 const show = (id,visible) => {$(id).hidden=!visible;};
 const element = (tag,value,className) => {const n=document.createElement(tag);if(value!==undefined)n.textContent=value;if(className)n.className=className;return n;};
-function report(error){text('error',error.message||'Please try again.');show('error',true);}
+function report(error){
+ const alert=$('error');text('error',error.message||'Please try again.');show('error',true);
+ requestAnimationFrame(()=>{
+   if(!alert.hidden&&!$('case-workspace').hidden&&$('case-workspace').contains(alert))alert.scrollIntoView({block:'nearest',behavior:'instant'});
+ });
+}
 function clearError(){text('error','');show('error',false);}
-async function api(path,options){const init=options||{}, response=await fetch(path,{...init,headers:{...(init.body?{'content-type':'application/json'}:{}),...(init.headers||{})}});const payload=await response.json();if(!response.ok){const e=new Error(payload.error||'Please try again.');e.status=response.status;throw e;}return payload;}
+async function api(path,options){const init=options||{}, response=await fetch(path,{...init,headers:{...(init.body?{'content-type':'application/json'}:{}),...(init.headers||{})}});const payload=await response.json();if(!response.ok){const e=new Error(payload.error||'Please try again.');e.status=response.status;if(typeof payload.actualVersion==='number')e.actualVersion=payload.actualVersion;throw e;}return payload;}
 function casePath(caseId){return '/api/cases/'+encodeURIComponent(caseId);}
 function currentCase(nav,caseId){return nav===state.nav&&state.view?.case.caseId===caseId;}
 function key(caseId){return 'praxis:workspace:'+state.user.id+':'+caseId;}
 function savePosition(){if(!state.view)return;localStorage.setItem(key(state.view.case.caseId),JSON.stringify(state.ui));localStorage.setItem('praxis:active:'+state.user.id,state.view.case.caseId);}
-function restorePosition(caseId){try{return JSON.parse(localStorage.getItem(key(caseId)))||{view:'CANDIDATES',candidateId:null};}catch{return {view:'CANDIDATES',candidateId:null};}}
+function restorePosition(caseId){
+ const defaults={view:'CANDIDATES',candidateId:null,reselectSlot:false};
+ try{return {...defaults,...JSON.parse(localStorage.getItem(key(caseId)))};}catch{return defaults;}
+}
 function closePlans(restoreFocus=false){const wasOpen=$('plans').classList.contains('open');$('plans').classList.remove('open');show('backdrop',false);$('menu').setAttribute('aria-expanded','false');syncBrand();if(restoreFocus&&wasOpen)$('menu').focus({preventScroll:true});}
 const desktopLayout=matchMedia('(min-width:960px)');let sidebarCollapsed=false;
 function syncBrand(){
@@ -50,11 +58,18 @@ function availabilityTime(value){return displayDate(value)+' '+displayTime(value
 function ids(){const r=state.view.restaurant;return state.view.case.phase==='PRESENT_RESULTS'?(r.presentedCandidateIds||[]):r.readyCandidateIds;}
 function candidate(){return state.view&&state.view.restaurant.candidates.find(c=>c.restaurant.id===state.ui.candidateId);}
 function canRefresh(){return !!state.view&&(state.view.case.phase==='PRESENT_RESULTS'||!!state.view.restaurant.readStatus.canRetry);}
+function freshOffers(id){return (state.view.restaurant.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());}
+function needsSlotReselection(id){return state.ui.reselectSlot===true&&state.ui.candidateId===id&&freshOffers(id).length>0;}
 function availabilityExpired(id){
  const r=state.view.restaurant,expiry=r.availabilityChecks[id]?.displayExpiresAt;
- return !!(expiry&&Date.parse(expiry)<=Date.now())||((r.availability[id]||[]).length>0&&!offerFor(id));
+ return !freshOffers(id).length&&(!!(expiry&&Date.parse(expiry)<=Date.now())||!!r.availability[id]?.length);
 }
-function offerFor(id){const fresh=(state.view.restaurant.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());return fresh.find(o=>o.id===state.ui.offerId)||fresh[0];}
+function offerFor(id){
+ if(needsSlotReselection(id))return undefined;
+ const fresh=freshOffers(id);
+ return fresh.find(o=>o.id===state.ui.offerId)||fresh[0];
+}
+function clearSlotSelection(){state.ui.offerId=null;state.ui.reselectSlot=false;delete state.ui.retrySlot;}
 function handoffs(){return (state.view.restaurant.bookingHandoffs||[]).filter(h=>h.candidateId===state.ui.candidateId&&Date.parse(h.displayExpiresAt)>Date.now());}
 function currentHandoff(){const list=handoffs();return state.ui.offerId?list.find(h=>h.offerId===state.ui.offerId):list[0];}
 function sourceFor(id){const r=state.view.restaurant, check=r.availabilityChecks[id], evidence=new Set(check&&check.evidenceIds||[]);return r.readEvidence.find(e=>e.candidateId===id&&e.sourceUrl&&evidence.has(e.evidenceId))||r.currentFactEvidence.find(e=>e.candidateId===id&&e.sourceUrl);}
@@ -167,11 +182,14 @@ function resumeCase(nav,caseId){
 }
 async function reportCaseError(error,nav,caseId){
   if(!currentCase(nav,caseId))return;
-  if(error.status===409&&caseId&&!flushDeferredView()){
-    try{
-      const p=await api(casePath(caseId));
-      if(currentCase(nav,caseId))accept(p.view);else updateCases(p.view.case);
-    }catch{/* Preserve the original conflict when the latest snapshot cannot be read. */}
+  if(error.status===409&&caseId){
+    flushDeferredView();
+    if(typeof error.actualVersion!=='number'||state.view.case.taskVersion<error.actualVersion){
+      try{
+        const p=await api(casePath(caseId));
+        if(currentCase(nav,caseId))accept(p.view);else updateCases(p.view.case);
+      }catch{/* Preserve the original conflict when the latest snapshot cannot be read. */}
+    }
   }
   if(currentCase(nav,caseId))report(error);
 }
@@ -220,7 +238,7 @@ async function loadCase(caseId){
 function newPlan(){
   saveDraft();++state.nav;resetCaseRequests();
   state.view=null;clearTimeout(state.expiry);localStorage.removeItem('praxis:active:'+state.user.id);
-  state.ui={view:'CANDIDATES',candidateId:null};state.drafts.delete('HOME');restoreDraft('HOME');
+  state.ui={view:'CANDIDATES',candidateId:null,reselectSlot:false};state.drafts.delete('HOME');restoreDraft('HOME');
   closePlans();render();refreshCaseLinks();scheduleCaseListSync(true);$('message').focus();
 }
 function renderProgress(){
@@ -266,14 +284,14 @@ function renderSourceCategories(id){
 function conditionRow(item){const row=element('div',undefined,'condition-row');row.append(element('span',displayTitle(item.text),'condition-name'),document.createTextNode(' '),element('span',({MET:'Confirmed',NOT_MET:'Not a match',NOT_CHECKED:'Unverified'})[item.status],'condition-status'));return row;}
 function renderDelivery(){
  const r=state.view.restaurant,id=state.ui.candidateId;
- const offers=(r.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());
+ const offers=freshOffers(id);
  const groups=new Map();for(const offer of offers){const label=displayDate(offer.dateTime),key=label+':'+offer.partySize;let group=groups.get(key);if(!group){group={label,partySize:offer.partySize,offers:[]};groups.set(key,group);}group.offers.push(offer);}
- const selected=offerFor(id);$('delivery-slots').replaceChildren(...Array.from(groups.values()).map((group,index)=>{const row=element('div');if(index>0)row.append(element('p','Available '+group.label));const options=element('div',undefined,'slot-options');for(const offer of group.offers){const button=element('button',displayTime(offer.dateTime),'slot-time');button.dataset.offerId=offer.id;button.setAttribute('aria-label','Time '+displayTime(offer.dateTime)+' on '+group.label);button.setAttribute('aria-pressed',String(!!selected&&selected.id===offer.id));button.disabled=state.blocked||!!state.preparing;button.onclick=event=>{state.ui.offerId=offer.id;savePosition();renderCard();const current=$('delivery-slots').querySelector('[data-offer-id="'+CSS.escape(offer.id)+'"]');if(current&&event.detail===0)current.focus({preventScroll:true});};options.append(button);}row.append(options);return row;}));
+ const selected=offerFor(id);$('delivery-slots').replaceChildren(...Array.from(groups.values()).map((group,index)=>{const row=element('div');if(index>0)row.append(element('p','Available '+group.label));const options=element('div',undefined,'slot-options');for(const offer of group.offers){const button=element('button',displayTime(offer.dateTime),'slot-time');button.dataset.offerId=offer.id;button.setAttribute('aria-label','Time '+displayTime(offer.dateTime)+' on '+group.label);button.setAttribute('aria-pressed',String(!!selected&&selected.id===offer.id));button.disabled=state.blocked||!!state.preparing;button.onclick=event=>{clearSlotSelection();state.ui.offerId=offer.id;clearError();savePosition();renderCard();const current=$('delivery-slots').querySelector('[data-offer-id="'+CSS.escape(offer.id)+'"]');if(current&&event.detail===0)current.focus({preventScroll:true});};options.append(button);}row.append(options);return row;}));
  $('delivery-conditions').replaceChildren(...(r.conditionStates?.[id]||[])
    .filter(item=>item.status!=='NOT_CHECKED'||item.strength==='HARD').map(conditionRow));
 }
 function canShortlist(){return ['SEARCHING','SELECTION_REQUIRED','PRESENT_RESULTS','NO_VERIFIED_RESULT'].includes(state.view?.case.phase);}
-function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), expired=availabilityExpired(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):expired?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible||expired&&!canRefresh();$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
+function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), available=eligible&&freshOffers(id)[0], expired=availabilityExpired(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=available?'available':'unknown';text('availability',available?'Available '+displayDate(available.dateTime):expired?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible||needsSlotReselection(id)||expired&&!canRefresh();$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
 function renderDetails(){
  const c=candidate();if(!c)return;const r=state.view.restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];
  const refreshBusy=r.progress.active||state.blocked,refreshSlots=r.readStatus.canRetry||ids().some(cid=>(r.availability[cid]||[]).length||r.availabilityChecks[cid]?.status==='AVAILABLE')||r.intentDraft?.target?.goal==='AVAILABILITY';
@@ -381,7 +399,7 @@ function renderSaved(){
   const saved=state.view.restaurant.savedCandidates;show('saved-empty',!saved.length);$('saved-list').replaceChildren();
   for(const item of saved){const button=element('button',undefined,'saved-row'),description=element('div');description.append(element('span',item.outletName));
     if(item.reasonCode)description.append(element('p',changeReason(item.reasonCode),'muted'));button.append(description);button.dataset.candidateId=item.candidateId;button.disabled=!item.current;
-    if(item.current){button.append(element('span','→'));button.onclick=()=>{state.ui.atEnd=false;state.ui.candidateId=item.candidateId;setView('CANDIDATES');};}
+    if(item.current){button.append(element('span','→'));button.onclick=()=>{state.ui.atEnd=false;if(state.ui.candidateId!==item.candidateId)clearSlotSelection();state.ui.candidateId=item.candidateId;setView('CANDIDATES');};}
     $('saved-list').append(button);
   }
 }
@@ -401,7 +419,7 @@ function renderHandoff(){
   selector.replaceChildren(...slots.map(slot=>{const offer=(state.view.restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===slot.offerId);const option=element('option',offer?availabilityTime(offer.dateTime)+'　'+offer.partySize+' guests':slot.continueLabel);option.value=slot.offerId;return option;}));
   if(h)selector.value=h.offerId;else{const placeholder=element('option','Choose a time');placeholder.value='';placeholder.disabled=true;placeholder.selected=true;selector.prepend(placeholder);}
   const selectedOffer=h&&(state.view.restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===h.offerId),price=selectedOffer&&selectedOffer.price;show('handoff-price',!!price);text('handoff-price',price?money(price.amount)+(price.basis==='PER_PERSON'?' per guest':price.basis==='TOTAL'?' total':''):'');
-  selector.onchange=()=>{state.ui.offerId=selector.value;savePosition();renderHandoff();};
+  selector.onchange=()=>{clearSlotSelection();state.ui.offerId=selector.value;savePosition();renderHandoff();};
   text('handoff-provider-name',h?sourceName(h.provider):'');show('handoff-provider',!!h);
   const refreshable=canRefresh(),refresh=refreshable&&availabilityExpired(c.restaurant.id);
   show('departure',!!h||refresh);show('departure-fields',!!h);show('handoff-unavailable',!h&&!refresh);
@@ -484,7 +502,7 @@ function render(){
     currentId=candidateIds[0]||currentId;
   }
   if(currentId!==state.ui.candidateId){
-    state.ui.candidateId=currentId;state.ui.offerId=null;state.detailKey='';state.handoffKey='';
+    state.ui.candidateId=currentId;clearSlotSelection();state.detailKey='';state.handoffKey='';
   }
   text('case-title',displayTitle(state.view.case.title));$('case-title').title=state.view.case.title;const savedCount=(r.shortlistCandidateIds||[]).length;text('saved-count',savedCount);show('saved-count',savedCount>0);$('saved').setAttribute('aria-label',savedCount>0?'Saved '+savedCount:'Saved');
   renderConditions();renderChanges();renderProgress();const end=mode==='CANDIDATES'&&state.ui.atEnd&&!r.progress.active&&state.view.case.phase==='PRESENT_RESULTS';
@@ -517,16 +535,17 @@ async function submitRequirement(message,preserveComposer=false){
   const path=old?'/api/conversations/'+encodeURIComponent(old.conversation.id)+'/messages':'/api/cases';
   const body={message,requestId:requestId(),viewContext:context,...(old?{taskVersion:old.case.taskVersion}:{})};
   const p=await api(path,{method:'POST',body:JSON.stringify(body)});
+  const modelFailed=p.view.restaurant.readStatus.kind==='MODEL_FAILURE';
+  if(!preserveComposer&&!modelFailed){
+    const targetKey=caseId||'HOME';
+    if(state.drafts.get(targetKey)?.trim()===message)state.drafts.delete(targetKey);
+    if(draftKey()===targetKey&&$('message').value.trim()===message)setMessage('');
+  }
   if(!currentCase(nav,caseId)){updateCases(p.view.case);return false;}
   state.pendingCase=null;state.blocked=false;state.sending=false;
-  const modelFailed=p.view.restaurant.readStatus.kind==='MODEL_FAILURE';
-  if(!modelFailed||!old)state.ui={view:'CANDIDATES',candidateId:null};
+  if(!modelFailed||!old)state.ui={view:'CANDIDATES',candidateId:null,reselectSlot:false};
   state.detailKey='';state.handoffKey='';
   if(!old&&modelFailed&&!$('message').value)setMessage(draft);
-  if(!preserveComposer&&!modelFailed){
-    if($('message').value.trim()===message)setMessage('');
-    state.drafts.delete(draftKey());
-  }
   if(!old&&previewPace&&fixturePresentation(p.view))state.entryPace=startedAt;
   accept(p.view);
   if(modelFailed)$('understanding-error').scrollIntoView({block:'nearest',behavior:'instant'});
@@ -568,7 +587,7 @@ function moveCard(delta){
   clearEntryPreview();cancelPreparation();const list=ids(),i=list.indexOf(state.ui.candidateId);
   if(state.ui.atEnd&&delta<0){state.ui.atEnd=false;savePosition();render();return;}
   const id=list[i+delta];
-  if(id){closeAnswer();state.ui.offerId=null;state.ui.candidateId=id;state.ui.atEnd=false;state.detailKey='';state.handoffKey='';savePosition();render();}
+  if(id){closeAnswer();clearSlotSelection();state.ui.candidateId=id;state.ui.atEnd=false;state.detailKey='';state.handoffKey='';savePosition();render();}
   else if(delta>0&&i===list.length-1&&state.view.case.phase==='PRESENT_RESULTS'&&!state.view.restaurant.progress.active){state.ui.atEnd=true;savePosition();render();}
 }
 $('previous').onclick=()=>moveCard(-1);$('next').onclick=()=>moveCard(1);
@@ -591,20 +610,23 @@ function finishPreparation(){
   ||!['CANDIDATES','HANDOFF'].includes(state.ui.view)||state.view.restaurant.requirementRevision!==pending.revision){cancelPreparation();return;}
  if(state.view.restaurant.progress.active)return;
  cancelPreparation();
- const fresh=(state.view.restaurant.availability[pending.id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());
- const matched=pending.slot?fresh.find(o=>o.dateTime===pending.slot.dateTime&&o.partySize===pending.slot.partySize):!pending.offerId?fresh[0]:undefined;
+ const fresh=freshOffers(pending.id);
+ const matched=pending.slot?fresh.find(o=>o.dateTime===pending.slot.dateTime&&o.partySize===pending.slot.partySize):!pending.offerId&&!state.ui.reselectSlot?fresh[0]:undefined;
+ clearSlotSelection();
  if(ids().includes(pending.id)&&state.view.restaurant.readyCandidateIds.includes(pending.id)&&matched){
    state.ui.offerId=matched.id;closeAnswer();state.ui.view='HANDOFF';savePosition();clearError();
  }else{
-   if(state.ui.view==='HANDOFF'){state.ui.view='CANDIDATES';state.ui.offerId=null;state.handoffKey='';}
-   report(new Error("Availability couldn't be confirmed. Try again."));
+   state.ui.reselectSlot=fresh.length>0;
+   if(!fresh.length&&pending.slot)state.ui.retrySlot=pending.slot;
+   if(state.ui.view==='HANDOFF'){state.ui.view='CANDIDATES';state.handoffKey='';}
+   savePosition();report(new Error("Availability couldn't be confirmed. Try again."));
  }
 }
 async function refreshSelectedSlot(){
  if(!canRefresh()||state.blocked||state.preparing)return;
  const id=state.ui.candidateId,nav=state.nav,caseId=state.view.case.caseId,revision=state.view.restaurant.requirementRevision,offerId=state.ui.offerId;
  const offers=state.view.restaurant.availability[id]||[];
- const old=offerId?offers.find(o=>o.id===offerId):offers[0];
+ const old=offerId?offers.find(o=>o.id===offerId):state.ui.retrySlot||(!state.ui.reselectSlot?offers[0]:null);
  const pending={id,nav,caseId,revision,offerId,slot:old?{dateTime:old.dateTime,partySize:old.partySize}:null};
  state.preparing=pending;clearError();
  const refreshed=await refreshCase();
@@ -613,6 +635,7 @@ async function refreshSelectedSlot(){
 async function prepareBooking(){
  if(state.blocked||state.preparing||!candidate()||!ids().includes(state.ui.candidateId))return;
  const id=state.ui.candidateId;
+ if(needsSlotReselection(id))return;
  if(!availabilityExpired(id)){const viewed=offerFor(id);if(viewed)state.ui.offerId=viewed.id;setView('HANDOFF');return;}
  await refreshSelectedSlot();
 }
@@ -627,7 +650,7 @@ async function findMore(){
   state.blocked=true;$('find-more').disabled=true;
   try{
     const p=await api(casePath(caseId)+'/another-batch',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});
-    if(currentCase(nav,caseId)){state.ui.atEnd=false;state.ui.candidateId=null;}
+    if(currentCase(nav,caseId)){state.ui.atEnd=false;state.ui.candidateId=null;clearSlotSelection();}
     receiveCase(p.view,nav,caseId);
   }catch(error){await reportCaseError(error,nav,caseId);}
   finally{resumeCase(nav,caseId);}
@@ -638,6 +661,7 @@ async function depart(event){
  if(!state.view||state.blocked||state.preparing)return;
  const nav=state.nav,caseId=state.view.case.caseId,h=currentHandoff();
  if(!h){await refreshSelectedSlot();return;}
+ const returnKey=key(caseId)+':return';
  const target=window.open('about:blank','_blank');
  if(!target){report(new Error('Please allow this source tab to open.'));return;}
  target.opener=null;
@@ -645,8 +669,8 @@ async function depart(event){
   const p=await api(casePath(caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({
     candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId(),
   })});
-  if(!currentCase(nav,caseId)){target.close();return;}
-  localStorage.setItem(key(caseId)+':return','1');target.location.href=p.url;
+  if(state.signingOut){target.close();return;}
+  localStorage.setItem(returnKey,'1');target.location.href=p.url;
  }catch(error){target.close();await reportCaseError(error,nav,caseId);}
 }
 $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};

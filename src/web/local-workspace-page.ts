@@ -143,7 +143,7 @@ body.sidebar-collapsed #workspace-composer{left:24px}
 
 /* Candidate-only visual refinement; other workspace views retain their styles. */
 #candidate-panel{margin-bottom:96px}
-#candidate-panel:has(+ #revision-changes:not([hidden])),#candidate-panel:has(~ #messages:not([hidden])){margin-bottom:16px}
+#candidate-panel:has(+ #revision-changes:not([hidden])),#candidate-panel:has(~ #messages:not([hidden])),#candidate-panel:has(~ #error:not([hidden])){margin-bottom:16px}
 #candidate-panel .candidate{padding:16px;container-type:inline-size}
 #candidate-panel .photo{width:100%;height:auto;aspect-ratio:16 / 9;border-radius:12px;background:#F5F6F9;overflow:hidden;margin-bottom:12px}
 #candidate-panel .photo .initial,#candidate-panel .photo>small{display:none}

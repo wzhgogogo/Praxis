@@ -118,3 +118,10 @@ test("Saved omits mismatch reasons for a qualified later-batch outlet after requ
    {candidateId:"removed",outletName:"removed",current:false,reasonCode:"NO_LONGER_MATCHES"},
  ]);
 });
+
+test("Revision diff omits a qualified outlet reserved for a later batch and keeps a genuine removal", () => {
+  const events = history([compiled(initialPatch), presented(["a", "b"]), compiled({ schemaVersion: "3", partySize: 3 }), presented(["c"])]);
+  const current = { ...state({}), phase: "PRESENT_RESULTS" as const, intentDraft: { ...initialDraft, partySize: 3 }, candidates: ["a", "b", "c"].map(candidate) };
+  const projection = projectWorkspaceRead({ state: current, events, readyCandidateIds: ["a", "c"], openableCandidateIds: ["c"], active: false, now });
+  assert.deepEqual(projection.revisionDiff?.removed, [{ candidateId: "b", outletName: "b", reasonCode: "NO_LONGER_MATCHES" }]);
+});

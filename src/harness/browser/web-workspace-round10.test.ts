@@ -9,6 +9,8 @@ import { startWorkspaceFixture } from "../workspace-fixture-server.js";
 type Options = NonNullable<Parameters<typeof startWorkspaceFixture>[0]>;
 type Host = Awaited<ReturnType<typeof startWorkspaceFixture>>;
 const userId = "workspace-user";
+// The browser client owns this state. Locate and close the actual stream after it buffers an event.
+declare const state: { stream: EventSource; deferredView?: { view: RestaurantCaseView } };
 
 async function fixture(options: Options, run: (page: Page, host: Host) => Promise<void>, mobile = false) {
   const host = await startWorkspaceFixture(options);
@@ -79,6 +81,17 @@ async function frames(page: Page) {
   await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
 }
 
+async function alertAboveComposer(page: Page) {
+  await page.waitForFunction(() => {
+    const alert = document.getElementById("error")!;
+    const scroll = document.getElementById("case-workspace")!.getBoundingClientRect();
+    const composer = document.getElementById("workspace-composer")!.getBoundingClientRect();
+    const bounds = alert.getBoundingClientRect();
+    return !alert.hidden && bounds.height > 0 && bounds.top >= scroll.top
+      && bounds.bottom <= Math.min(composer.top, scroll.bottom);
+  });
+}
+
 async function screenshot(page: Page, name: string) {
   const output = process.env.PRAXIS_ROUND8_VISUAL_OUTPUT;
   if (!output) return;
@@ -104,8 +117,9 @@ function trackRequests(page: Page, method: string, path: string) {
   return requests;
 }
 
-for (const retainsSlot of [false, true]) {
-  test(`Round10 UI: Handoff refresh ${retainsSlot ? "retains a verified 19:30" : "asks for a new choice when 19:30 is gone"}`, { timeout: 30_000 }, async () => {
+for (const entry of ["handoff", "card", "renewed"] as const) {
+  const retainsSlot = entry === "renewed";
+  test(`Round10 UI: ${entry} refresh ${retainsSlot ? "retains a verified 19:30" : "requires a new choice when 19:30 is gone"}`, { timeout: 30_000 }, async () => {
     const options = { multiSlot: true, sourceValidityMs: 60_000 };
     await fixture(options, async (page, host) => {
       await signin(page);
@@ -114,15 +128,21 @@ for (const retainsSlot of [false, true]) {
       const candidateId = before.restaurant.presentedCandidateIds![0]!;
       const refreshes = trackRequests(page, "POST", pathFor(before) + "/refresh");
       const departures = trackRequests(page, "POST", pathFor(before) + "/booking-departures");
+      const choose = page.locator("#choose");
+      const time = page.getByRole("button", { name: "Time 19:00 on Mon, Nov 2", exact: true });
+      assert.equal(await time.getAttribute("aria-pressed"), "true");
+      assert.equal(await choose.isEnabled(), true);
       await page.getByRole("button", { name: "Time 19:30 on Mon, Nov 2", exact: true }).click();
-      await page.locator("#choose").click();
       const departure = page.locator("#departure");
-      assert.match(await departure.getAttribute("href") ?? "", /start_time=19%3A30/);
+      if (entry !== "card") {
+        await choose.click();
+        assert.match(await departure.getAttribute("href") ?? "", /start_time=19%3A30/);
+      }
       await expire(page, host, before, candidateId);
-      assert.equal(await page.locator("#departure-title").innerText(), "Check availability again");
+      if (entry !== "card") assert.equal(await page.locator("#departure-title").innerText(), "Check availability again");
       options.multiSlot = retainsSlot;
       const refreshed = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/refresh"));
-      await departure.click();
+      await (entry === "card" ? choose : departure).click();
       assert.equal((await refreshed).status(), 200);
       if (retainsSlot) {
         await page.waitForFunction(() => document.getElementById("departure")?.getAttribute("href")?.includes("start_time=19%3A30"));
@@ -138,11 +158,18 @@ for (const retainsSlot of [false, true]) {
         await page.getByText("Availability couldn't be confirmed. Try again.", { exact: true }).waitFor();
         assert.equal(await page.locator("#handoff").isVisible(), false);
         assert.doesNotMatch(await departure.getAttribute("href") ?? "", /start_time=19%3A00/);
-        await screenshot(page, "round10-handoff-reselect");
-        const time = page.getByRole("button", { name: "Time 19:00 on Mon, Nov 2", exact: true });
+        assert.equal(await page.locator("#availability").innerText(), "Available Mon, Nov 2");
+        assert.equal(await time.getAttribute("aria-pressed"), "false");
+        assert.equal(await choose.isDisabled(), true);
+        await choose.dispatchEvent("click");
+        assert.equal(await page.locator("#handoff").isVisible(), false);
+        await alertAboveComposer(page);
+        await screenshot(page, entry === "card" ? "round11-card-reselect" : "round10-handoff-reselect");
         await time.click();
         assert.equal(await time.getAttribute("aria-pressed"), "true");
-        await page.locator("#choose").click();
+        assert.equal(await page.locator("#error").isVisible(), false);
+        assert.equal(await choose.isEnabled(), true);
+        await choose.click();
         assert.match(await departure.getAttribute("href") ?? "", /start_time=19%3A00/);
       }
       assert.equal(refreshes.length, 1);
@@ -362,19 +389,8 @@ test("Round10 UI: a background case updates My plans at Home and polling stops w
 });
 
 for (const bufferSse of [true, false]) {
-  test(`Round10 UI: actual 409 recovers ${bufferSse ? "the deferred SSE snapshot" : "the latest Case when SSE is unavailable"}`, { timeout: 30_000 }, async () => {
+  test(`Round10 UI: actual 409 recovers ${bufferSse ? "the deferred SSE snapshot" : "the latest Case after an intermediate SSE and disconnect"}`, { timeout: 30_000 }, async () => {
     await fixture({ staged: true }, async (page, host) => {
-      if (!bufferSse) await page.addInitScript(() => {
-        const subscribe = EventTarget.prototype.addEventListener;
-        Object.defineProperty(EventSource.prototype, "addEventListener", {
-          value(this: EventSource, type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) {
-            if (type !== "case" || typeof listener !== "function") return subscribe.call(this, type, listener, options);
-            return subscribe.call(this, type, event => {
-              if (document.documentElement.dataset.suppressCaseEvent !== "true") listener.call(this, event);
-            }, options);
-          },
-        });
-      });
       const cdp = await page.context().newCDPSession(page);
       await cdp.send("Network.enable");
       await signin(page);
@@ -390,10 +406,15 @@ for (const bufferSse of [true, false]) {
         await deliver.ready;
         await route.continue();
       });
+      const deliveredVersions: number[] = [];
+      cdp.on("Network.eventSourceMessageReceived", event => {
+        if (event.eventName !== "case") return;
+        const projection: RestaurantCaseView = JSON.parse(event.data);
+        if (projection.case.caseId === view.case.caseId) deliveredVersions.push(projection.case.taskVersion);
+      });
+      let unsubscribe = () => {};
       const terminal = new Promise<RestaurantCaseView>(resolve => {
-        cdp.on("Network.eventSourceMessageReceived", event => {
-          if (event.eventName !== "case") return;
-          const projection: RestaurantCaseView = JSON.parse(event.data);
+        unsubscribe = host.application.subscribeCaseUpdates(projection => {
           if (projection.case.caseId === view.case.caseId && projection.case.phase === "PRESENT_RESULTS") resolve(projection);
         });
       });
@@ -403,28 +424,35 @@ for (const bufferSse of [true, false]) {
         const rejected = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/messages"));
         await page.locator("#send").click();
         await entered.ready;
-        if (!bufferSse) await page.evaluate(() => { document.documentElement.dataset.suppressCaseEvent = "true"; });
         const active = await host.application.getCase(userId, view.case.caseId);
-        await host.application.setShortlist({
+        const intermediate = await host.application.setShortlist({
           userId, caseId: active.case.caseId, requestId: "concurrent-shortlist", expectedVersion: active.case.taskVersion,
           candidateId: active.restaurant.readyCandidateIds[0]!, shortlisted: true,
         });
+        assert.equal(intermediate.case.phase, "SEARCHING");
+        await page.waitForFunction(version => state.deferredView?.view.case.taskVersion === version, intermediate.case.taskVersion);
+        if (!bufferSse) await page.evaluate(() => state.stream.close());
         host.release();
-        await terminal;
+        const latest = await terminal;
+        assert.ok(latest.case.taskVersion > intermediate.case.taskVersion);
         if (bufferSse) await page.waitForFunction(() => document.querySelector(".case-link.active small")?.textContent === "Ready");
+        else assert.ok(!deliveredVersions.includes(latest.case.taskVersion));
         assert.equal(await page.locator("#progress.has-card").isVisible(), true, "the pending edit keeps the main projection frozen");
         deliver.release();
         const response = await rejected;
         assert.equal(response.status(), 409);
-        const conflict = (await response.json()).error;
-        await page.getByText(conflict, { exact: true }).waitFor();
+        const conflict = await response.json();
+        assert.equal(conflict.actualVersion, latest.case.taskVersion);
+        await page.getByText(conflict.error, { exact: true }).waitFor();
         await ready(page);
         assert.equal(await page.locator("#message").inputValue(), draft);
         assert.equal(gets.length, bufferSse ? 0 : 1);
         const persisted = await host.application.getCase(userId, view.case.caseId);
         assert.ok(!persisted.conversation.messages.some(message => message.content === draft));
+        await alertAboveComposer(page);
         if (bufferSse) await screenshot(page, "round10-conflict-recovered");
         else {
+          await screenshot(page, "round11-conflict-intermediate");
           await page.unroute("**/api/conversations/*/messages");
           await page.route("**/api/conversations/*/messages", route => route.fulfill({
             status: 503, json: { error: "Fixture unavailable" },
@@ -435,8 +463,144 @@ for (const bufferSse of [true, false]) {
           assert.equal(await page.locator("#message").inputValue(), draft);
         }
       } finally {
+        unsubscribe();
         deliver.release();
       }
     });
   });
 }
+
+test("Round11 UI: prior-batch outlets still qualified for three guests appear in Find more without a removal label", { timeout: 30_000 }, async () => {
+  await fixture({ extraCandidates: true, checkWholePool: true, laterBatchFirstOnRevision: true }, async (page, host) => {
+    await signin(page);
+    const { view } = await createPlan(page, "Dinner in Tokyo");
+    const before = await host.application.getCase(userId, view.case.caseId);
+    const prior = before.restaurant.presentedCandidateIds!;
+    assert.equal(prior.length, 3);
+    await updateRequirement(page, "Make it three people");
+    await page.getByRole("button", { name: "3 guests", exact: true }).waitFor();
+    await ready(page);
+    const revised = await host.application.getCase(userId, view.case.caseId);
+    assert.ok(prior.every(id => revised.restaurant.readyCandidateIds.includes(id)));
+    assert.ok(prior.every(id => !revised.restaurant.presentedCandidateIds?.includes(id)));
+    assert.deepEqual(revised.restaurant.revisionDiff?.removed, []);
+    assert.equal(await page.locator("#removed-count").isVisible(), false);
+    assert.doesNotMatch(await page.locator("#case-workspace").innerText(), /places? no longer match/);
+    await screenshot(page, "round11-revision-no-removals");
+    await nextBatch(page);
+    const next = await host.application.getCase(userId, view.case.caseId);
+    assert.deepEqual(next.restaurant.presentedCandidateIds, prior);
+  });
+});
+
+for (const futureDraft of ["", "Keep a separate unsent follow-up"]) {
+  test(`Round11 UI: a late submission ${futureDraft ? "preserves a replacement draft" : "clears the sent draft from its original plan"}`, { timeout: 30_000 }, async () => {
+    await fixture({}, async (page, host) => {
+      await signin(page);
+      const { view } = await createPlan(page, "Dinner in Tokyo");
+      const sent = "Make it three people";
+      const composer = page.locator("#message");
+      const captured = latch(), deliver = latch();
+      await page.route("**/api/conversations/*/messages", async route => {
+        const response = await route.fetch({ maxRedirects: 0 });
+        captured.release();
+        await deliver.ready;
+        await route.fulfill({ response });
+      });
+      const returnToPlan = async () => {
+        await byCase(page, view.case.caseId).click();
+        await page.waitForFunction(id => document.querySelector<HTMLElement>(".case-link.active")?.dataset.caseId === id && (document.getElementById("send") as HTMLButtonElement).disabled === false, view.case.caseId);
+      };
+      try {
+        await composer.fill(sent);
+        const response = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/messages"));
+        await page.locator("#send").click();
+        await captured.ready;
+        await page.locator("#new-case").click();
+        if (futureDraft) {
+          await returnToPlan();
+          assert.equal(await composer.inputValue(), sent);
+          await composer.fill(futureDraft);
+        }
+        deliver.release();
+        assert.equal((await response).status(), 200);
+        await frames(page);
+        if (!futureDraft) await returnToPlan();
+        assert.equal(await composer.inputValue(), futureDraft);
+        await page.locator("#new-case").click();
+        await returnToPlan();
+        assert.equal(await composer.inputValue(), futureDraft);
+        const persisted = await host.application.getCase(userId, view.case.caseId);
+        assert.equal(persisted.conversation.messages.filter(message => message.content === sent).length, 1);
+      } finally {
+        deliver.release();
+      }
+    });
+  });
+}
+
+test("Round11 UI: a persisted departure opens its own source tab after the main tab changes plans", { timeout: 30_000 }, async () => {
+  await fixture({ multiSlot: true }, async (page, host) => {
+    await signin(page);
+    const { view: a } = await createPlan(page, "First dinner");
+    await page.locator("#new-case").click();
+    const { view: b } = await createPlan(page, "Second dinner");
+    await byCase(page, a.case.caseId).click();
+    await ready(page);
+    await page.getByRole("button", { name: "Time 19:30 on Mon, Nov 2", exact: true }).click();
+    await page.locator("#choose").click();
+
+    const captured = latch(), deliver = latch();
+    const href = await page.locator("#departure").getAttribute("href");
+    assert.match(href ?? "", /^https:\/\/www\.tablecheck\.com\/.+start_time=19%3A30/);
+    const intercepted: string[] = [];
+    await page.context().route(href!, async route => {
+      intercepted.push(route.request().url());
+      assert.equal(route.request().isNavigationRequest(), true);
+      await route.fulfill({ status: 200, contentType: "text/html", body: "<title>Offline source tab</title><p>Fixture only</p>" });
+    });
+    let result: { url: string } | undefined;
+    await page.route("**" + pathFor(a) + "/booking-departures", async route => {
+      const upstream = await route.fetch({ maxRedirects: 0 });
+      assert.equal(upstream.status(), 201);
+      result = await upstream.json();
+      captured.release();
+      await deliver.ready;
+      await route.fulfill({ response: upstream });
+    });
+
+    try {
+      const popup = page.context().waitForEvent("page");
+      await page.locator("#departure").click();
+      const source = await popup;
+      await captured.ready;
+      assert.equal(source.url(), "about:blank");
+      assert.equal(result?.url, href);
+      const rows = await host.database.query<{ conversation_id: string; offer_id: string }>(
+        "select conversation_id, offer_id from restaurant_booking_departures",
+      );
+      assert.equal(rows.rows.length, 1);
+      assert.equal(rows.rows[0]?.conversation_id, a.case.conversationId);
+      assert.match(rows.rows[0]?.offer_id ?? "", /19:30/);
+
+      await byCase(page, b.case.caseId).click();
+      await page.waitForFunction(id => document.querySelector<HTMLElement>(".case-link.active")?.dataset.caseId === id, b.case.caseId);
+      const sourceReady = source.waitForURL(href!);
+      deliver.release();
+      await sourceReady;
+      assert.equal(await source.title(), "Offline source tab");
+      assert.equal(source.isClosed(), false);
+      assert.deepEqual(intercepted, [href]);
+      assert.equal(await byCase(page, b.case.caseId).evaluate(row => row.classList.contains("active")), true);
+      assert.equal(await page.locator("#feedback").isVisible(), false);
+      const returnKey = "praxis:workspace:" + userId + ":" + a.case.caseId + ":return";
+      assert.equal(await page.evaluate(key => localStorage.getItem(key), returnKey), "1");
+      await byCase(page, a.case.caseId).click();
+      await page.getByText("Did you get the booking?", { exact: true }).waitFor();
+      assert.equal(await page.evaluate(key => localStorage.getItem(key), returnKey), null);
+      assert.equal(source.isClosed(), false);
+    } finally {
+      deliver.release();
+    }
+  });
+});

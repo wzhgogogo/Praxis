@@ -87,7 +87,7 @@ export function projectWorkspaceRead(input: {
   }));
   const revisionDiff = previous && groups.some(item => item.presented.size > 0) && qualifiedRevision && group.revision > previous.revision ? {
     fromRevision: previous.revision, toRevision: group.revision,
-    removed: [...previous.presented].filter(id => !group.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id), reasonCode: reason(id) })),
+    removed: [...previous.presented].filter(id => !group.presented.has(id) && !ready.has(id)).map(id => ({ candidateId: id, outletName: name(id), reasonCode: reason(id) })),
     added: [...group.presented].filter(id => !previous.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id) })),
   } : undefined;
   const attempts = [...Object.values(state.availabilityChecks).flatMap(check => check.sourceAttempts ?? []),
