@@ -7119,3 +7119,7 @@ ddd9eda8d04b304f09b3629bb0d64828645c5789, clean before/after each gate: typechec
 ### 2026-11-19 — Unified Round 8 离线验收
 
 净树 `1e191c0bca458887bba653208341976681685f44`。Typecheck、Arch 和 Build 均通过。默认 1765/1765，G2 5/5，Chromium 420/420，G6 159/159。正式视觉 16/16、风格 1 六组合 6/6、新增状态浏览器 5/5。六张风格 1 和四张状态截图逐张目检，条件到预约按钮均 12px。冻结前一次 V8 Wasm 崩溃在受影响文件独立重跑与冻结默认回归中未复现。 [报告与产物](../../.eval-artifacts/3c-unified-20261117/round-8/REPORT.md)
+
+### 2026-11-19 — Unified Round 9 离线验收
+
+净树 `1929ff88c5bb1849e4f9ac2a29e59c49de9fc318`。Typecheck、Arch、Build 通过。默认 1770/1770，G2 5/5，Chromium 420/420，G6 assembly 159/159。正式三尺寸视觉 16/16、Style 1 6/6、新增状态 5/5。390×844 停止提示在滚动位置 0 完整位于输入栏上方。保留修复前行为对照和产物哈希。 [报告](../../.eval-artifacts/3c-unified-20261117/round-9/REPORT.md)

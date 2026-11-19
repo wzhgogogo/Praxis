@@ -1356,3 +1356,5 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G
 2026-11-19 — Unified Round 7，draft / not integrated。冻结 `30a90301df8212e4ff128ef88d04df3653018a7f` 通过五门禁和 16+6 视觉验收。纯事实刷新实际重查原批次，过期并发请求返回 409 且不影响接手读取，原请求重试返回 200。啤酒证据保留限定词，风格 1 的预约按钮间距实测 12px。 [报告及 Round 6 勘误](../.eval-artifacts/3c-unified-20261117/round-7/REPORT.md)
 
 2026-11-19 — Unified Round 8，draft / not integrated。冻结 `1e191c0bca458887bba653208341976681685f44` 完成首轮短批次和预算收尾、Google 主类型、工作区状态、澄清回显、进度与条件显示、侧栏及弹窗拦截修复。五门禁全绿，正式视觉 16/16，风格 1 6/6，新增状态回归 5/5。 [报告](../.eval-artifacts/3c-unified-20261117/round-8/REPORT.md)
+
+2026-11-19 — Unified Round 9，draft / not integrated。冻结 `1929ff88c5bb1849e4f9ac2a29e59c49de9fc318` 修复截止瞬间交付、跨来源下一批去重、解析失败的 Saved、停止态过期刷新、首条澄清回显及手机停止提示。五门禁、正式视觉 16/16 和补测均通过。 [报告](../.eval-artifacts/3c-unified-20261117/round-9/REPORT.md)
