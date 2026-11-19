@@ -5,10 +5,12 @@ import test from "node:test";
 import { RestaurantAgentLoopCoordinator } from "./restaurant-agent-loop.js";
 import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 import type { TaskSnapshot } from "../core/task-runtime/contracts.js";
-import type { RestaurantAgentLoopTermination, RestaurantOutcome, RestaurantTaskState, RestaurantEvent } from "../domains/restaurant/contracts.js";
+import { restaurantSearchIntentFingerprint, type RestaurantAgentLoopTermination, type RestaurantOutcome, type RestaurantTaskState, type RestaurantEvent } from "../domains/restaurant/contracts.js";
 import { ScriptedRestaurantAgentDecisionPort, type RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "../domains/restaurant/action-validator.js";
-import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
+import { assessRestaurantRead, discoveryShortBatchDeliveryReady } from "../domains/restaurant/read-assessment.js";
+import { projectRestaurantAgentContext } from "../domains/restaurant/agent-context.js";
+import { completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import { restaurantBookingTaskDefinition as definition } from "../domains/restaurant/task-definition.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 
@@ -18,9 +20,9 @@ const fixtures = JSON.parse(await readFile(new URL("./fixtures/p1-g2-h001-termin
 // A real saved state is explicitly injected for terminal-path regression only.
 // This is not an end-to-end discovery claim; the separate native composition
 // tests retain the production Guard, network policy and evidence-producing path.
-async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "EXHAUSTED_MODEL" | "FAILED_SEARCH") {
+async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "EXHAUSTED_MODEL" | "FAILED_SEARCH", timing?: { now: () => Date; afterPresentation?: (presentationTime: string) => void }) {
   let ticks = 0;
-  const clock = { now: () => new Date(Date.parse(fixture.now) + ticks++) };
+  const clock = { now: timing?.now ?? (() => new Date(Date.parse(fixture.now) + ticks++)) };
   let current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome> = {
     id: "saved-h001", runId: "saved-h001", taskType: definition.type, definitionVersion: definition.version,
     domainState: structuredClone(fixture.state), lifecycleState: definition.getLifecycleState(fixture.state),
@@ -34,6 +36,18 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
     { executionRoute: "STRUCTURED_ADAPTER", async search() { throw new Error("No network allowed"); } },
     { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("No network allowed"); } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
+  const afterPresentation = timing?.afterPresentation;
+  if (afterPresentation) {
+    const execute = router.execute.bind(router);
+    router.execute = async (action, state, now) => {
+      const result = await execute(action, state, now);
+      if (result.event?.type === "RESULTS_PRESENTED") {
+        assert.ok(now);
+        afterPresentation(now);
+      }
+      return result;
+    };
+  }
   let decisionCalls = 0;
   const decision = new ScriptedRestaurantAgentDecisionPort((runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") ? Array.from({length:12},()=>({type:"SEARCH_RESTAURANTS" as const})) : runFailure === "UNCAUGHT_EXCEPTION"
     ? [{ type: "CHECK_AVAILABILITY", candidateIds: assessRestaurantRead(fixture.state, fixture.now).checkableCandidateIds.slice(0, 1) }] : []);
@@ -251,4 +265,110 @@ for (const continuing of [false,true]) test(`budget exhaustion delivers only thr
   assert.equal(result.current.domainState.phase,"PRESENT_RESULTS");
   assert.deepEqual(result.current.domainState.presentedResults?.candidateIds,continuing?["4","5","6"]:["1","2","3"]);
   assert.deepEqual(result.events,["RESULTS_PRESENTED"]);
+});
+
+for (const exhausted of [false, true]) test(`expired read-end deadline with ${exhausted ? "exhausted" : "unread"} sources resolves without reopening a short window`, async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const { state, now } = fixture;
+  state.readEndWindow = {
+    reason: "DELIVERY_TIME", openedAt: new Date(Date.parse(now) - 1000).toISOString(), deadlineAt: now,
+  };
+  state.searchContinuation = { intentFingerprint: "recorded", usedPageTokens: [], pagesRead: 1, exhausted };
+  if (exhausted) state.factChecks = { "1": { status: "COMPLETED", checkedAt: now, evidenceIds: ["fact-1"] } };
+  const afterDeadline = new Date(Date.parse(now) + 1);
+  const assessment = assessRestaurantRead(state, afterDeadline.toISOString());
+  assert.deepEqual(assessment.factInvestigableCandidateIds, exhausted ? [] : ["1"]);
+  assert.deepEqual(assessment.checkableCandidateIds, []);
+  const { current, events, trajectories } = await stop(fixture, "NO_PROGRESS", "EXHAUSTED_MODEL", { now: () => afterDeadline });
+  assert.equal(current.domainState.phase, exhausted ? "PRESENT_RESULTS" : "NO_VERIFIED_RESULT");
+  assert.deepEqual(events, [exhausted ? "RESULTS_PRESENTED" : "AGENT_LOOP_TERMINATED"]);
+  assert.equal((await trajectories.list(current.id)).at(-1)?.stepOutcome, "TERMINAL");
+});
+
+test("the real Reducer accepts short delivery at the deadline even after the clock advances before dispatch", async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const atDeadline = Date.parse(fixture.now);
+  fixture.state.readEndWindow = { reason: "MODEL_CALL", openedAt: new Date(atDeadline - 1000).toISOString(), deadlineAt: fixture.now };
+  let instant = atDeadline;
+  let routed = false;
+  const { current, events } = await stop(fixture, "NO_PROGRESS", undefined, {
+    now: () => new Date(instant),
+    afterPresentation(presentationTime) {
+      assert.equal(presentationTime, fixture.now);
+      routed = true;
+      instant += 1;
+    },
+  });
+  assert.equal(routed, true);
+  assert.equal(instant, atDeadline + 1);
+  assert.equal(current.updatedAt, fixture.now);
+  assert.equal(current.domainState.phase, "PRESENT_RESULTS");
+  assert.deepEqual(events, ["DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", "RESULTS_PRESENTED"]);
+});
+
+test("another batch continues past a cross-source duplicate, ends when exhausted, and delivers a genuinely new outlet", async () => {
+  const { state, now } = qualifiedBudgetFixture(3);
+  const [a, alias, b] = state.candidates;
+  a!.restaurant.sourceIds.discoverySourceId = "tabelog";
+  alias!.restaurant.sourceIds.discoverySourceId = "tablecheck";
+  alias!.restaurant.outletName = a!.restaurant.outletName;
+  alias!.restaurant.address = a!.restaurant.address;
+  b!.restaurant.sourceIds.discoverySourceId = "google-places";
+  state.candidates = [a!, alias!];
+  state.selectionSession = { deliveredCandidateIds: ["1"], viewedCandidateIds: [], shortlistCandidateIds: [] };
+  state.factChecks = Object.fromEntries(["1", "2", "3"].map(id => [id, { status: "COMPLETED", checkedAt: now, evidenceIds: ["fact-" + id] }]));
+  const entries = ["tabelog", "tablecheck", "google-places"].map(sourceId => ({
+    sourceId, query: { positiveCriteria: [], category: "restaurant",
+      location: { latitude: 35.69, longitude: 139.7, radiusMeters: 1000, label: "Shinjuku", areaMatchBasis: "TASK_LOCATION_RADIUS" as const } },
+  }));
+  state.searchContinuation = {
+    intentFingerprint: restaurantSearchIntentFingerprint(completeRestaurantSearchIntent(state.intentDraft)!),
+    usedPageTokens: [], pagesRead: 2, exhausted: false, discoveryPlan: { entries, cursor: 2 },
+    currentDiscoveryBatch: { sourceId: "tablecheck", candidateIds: ["2"] },
+  };
+  const context = projectRestaurantAgentContext(state, now);
+  assert.equal(assessRestaurantRead(state, now).presentation.find(item => item.candidateId === "2")?.eligible, true);
+  assert.deepEqual(context.legalActions.presentResults, []);
+  assert.equal(context.legalActions.search, true);
+  assert.equal(discoveryShortBatchDeliveryReady(state, now), false);
+  for (const candidateId of ["1", "2"]) {
+    const result = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now);
+    assert.equal(result.status, "REJECTED");
+    assert.equal("code" in result && result.code, "PRESENTATION_EVIDENCE_MISSING");
+  }
+  for (const reason of ["DELIVERY_TIME", "MODEL_CALL"] as const) {
+    assert.equal(assessRestaurantRead({ ...state, readEndWindow: { reason, openedAt: now, deadlineAt: now } }, now).canEndRead, true);
+  }
+
+  const exhausted: RestaurantTaskState = { ...state, searchContinuation: { ...state.searchContinuation, exhausted: true, discoveryPlan: { entries, cursor: 3 } } };
+  const assessment = assessRestaurantRead(exhausted, now);
+  assert.deepEqual(assessment.factInvestigableCandidateIds, []);
+  assert.deepEqual(assessment.checkableCandidateIds, []);
+  assert.equal(assessment.canEndRead, true);
+
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { throw new Error("No source calls expected"); } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("No source calls expected"); } },
+    { structuredReadTimeoutMs: 8000, browserReadTimeoutMs: 20_000 },
+  );
+  const reduce = (snapshot: RestaurantTaskState, event: RestaurantEvent) =>
+    definition.transition(snapshot, event, { taskId: "batch", runId: "batch", now, createId: prefix => prefix }).state;
+  const end = { type: "END_READ" as const };
+  assert.equal(validateRestaurantAction(exhausted, end, now).status, "ALLOWED");
+  const ended = await router.execute(end, exhausted, now);
+  assert.equal(ended.event?.type, "READ_ENDED_NO_VERIFIED_RESULT");
+  assert.equal(reduce(exhausted, ended.event!).phase, "NO_VERIFIED_RESULT");
+
+  const withNew: RestaurantTaskState = {
+    ...exhausted, candidates: [a!, alias!, b!],
+    searchContinuation: { ...exhausted.searchContinuation!, currentDiscoveryBatch: { sourceId: "google-places", candidateIds: ["3"] } },
+  };
+  assert.deepEqual(projectRestaurantAgentContext(withNew, now).legalActions.presentResults, ["3"]);
+  const present = { type: "PRESENT_RESULTS" as const, candidateIds: ["3"] };
+  assert.equal(validateRestaurantAction(withNew, present, now).status, "ALLOWED");
+  const presented = await router.execute(present, withNew, now);
+  assert.equal(presented.event?.type, "RESULTS_PRESENTED");
+  const delivered = reduce(withNew, presented.event!);
+  assert.deepEqual(delivered.presentedResults?.candidateIds, ["3"]);
+  assert.deepEqual(delivered.selectionSession?.deliveredCandidateIds, ["1", "3"]);
 });

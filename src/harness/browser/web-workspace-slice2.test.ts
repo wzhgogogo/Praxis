@@ -223,11 +223,20 @@ for(const size of sizes){
     const bad="Unreadable fixture request",host=await startWorkspaceFixture({semanticFailureMessage:bad}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await tracedPage(context);
     try{
       await start(page,host,"Dinner with friends");await page.locator("#next").click();const reads=host.providerCalls.length;
+      const savedName=await page.locator("#restaurant-name").innerText();
+      await page.locator("#bookmark").click();
+      await page.getByRole("button",{name:"Saved 1",exact:true}).waitFor();
       await page.locator("#message").fill(bad);await page.getByRole("button",{name:"Send",exact:true}).click();await page.locator("#understanding-error").waitFor({state:"visible"});
       assert.equal(await page.locator("#understanding-error").innerText(),"Couldn't read that. Try rephrasing?");assert.equal(await page.locator("#message").inputValue(),bad);
       const notice=await page.locator("#understanding-error").boundingBox(),composer=await page.locator("#composer").boundingBox();assert.ok(notice&&composer&&notice.y>=0&&notice.y+notice.height<=composer.y,"the model-failure next step must be fully visible above the fixed composer");
       assert.equal(await page.locator("#candidate-panel").isVisible(),false);assert.equal(host.providerCalls.length,reads);
       assert.equal(await page.locator("#messages").innerText(),"");await capture(page,size.name+"-slice2-model-failure");
+      await page.locator("#saved").click();
+      const saved=page.locator("#saved-list .saved-row");
+      assert.equal(await saved.count(),1);
+      assert.equal(await saved.innerText(),savedName,"Saved retains the name without an arrow or mismatch claim");
+      assert.equal(await saved.isDisabled(),true);
+      await page.locator("#saved-back").click();
       await page.locator("#message").fill("Make it three people");await page.getByRole("button",{name:"Send",exact:true}).click();await ready(page);
       assert.equal(await page.locator("#understanding-error").isVisible(),false);assert.equal(await page.locator("#message").inputValue(),"");
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}

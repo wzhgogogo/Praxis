@@ -6401,3 +6401,8 @@ Draft / not integrated. Require observations for the original fact refresh targe
 ### 2026-11-19 — Unified Round 8 implementation
 
 Draft / not integrated. Separate a shortlist from delivered batches. Bound budget-exhaustion presentation to the same distinct and undelivered pool as the Agent context. Gate Google discovery by the primary dining type and use secondary types for observations without a primary type. Align idle card selection, About and bookmark permissions with workspace state. Sort the sidebar by task activity, preserve the latest clarification reply, focus card condition rows and group search and stop feedback. A blocked popup exits before the booking departure request.
+
+
+### 2026-11-19 — Unified Round 9 implementation
+
+Draft / not integrated. Use the same clock sample across short-delivery validation, routing and writing, with the existing read deadline constraining new windows. Apply the established cross-source same-outlet comparison against previously delivered candidates during next-batch search, conclusion and delivery. Keep saved rows read-only during model failure and gate expired stopped booking actions by Case refresh permissions. Show the initial user request during clarification and keep the mobile stop notice above the composer.

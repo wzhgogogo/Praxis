@@ -79,8 +79,10 @@ export function projectWorkspaceRead(input: {
     if (changedTime && check?.status === "UNAVAILABLE" && check.reasonCode === "NO_MATCHING_SLOT") return "NEW_TIME_MISMATCH";
     return "NO_LONGER_MATCHES";
   };
+  const interpretation = group.events.findLast(event => event.type === "SEMANTIC_INTERPRETATION_FAILED" || event.type === "SEMANTIC_PROPOSAL_COMPILED");
+  const modelFailed = interpretation?.type === "SEMANTIC_INTERPRETATION_FAILED" && interpretation.status === "MODEL_FAILURE";
   const savedCandidates = (state.selectionSession?.shortlistCandidateIds ?? []).map(id => ({
-    candidateId: id, outletName: name(id), current: openable.has(id),
+    candidateId: id, outletName: name(id), current: !modelFailed && openable.has(id),
     ...(!openable.has(id) && qualifiedRevision && group.revision > (savedAt.get(id) ?? group.revision) ? { reasonCode: reason(id) } : {}),
   }));
   const revisionDiff = previous && groups.some(item => item.presented.size > 0) && qualifiedRevision && group.revision > previous.revision ? {
@@ -91,8 +93,6 @@ export function projectWorkspaceRead(input: {
   const attempts = [...Object.values(state.availabilityChecks).flatMap(check => check.sourceAttempts ?? []),
     ...Object.values(state.factChecks ?? {}).flatMap(check => check.sourceAttempts ?? [])];
   const unchecked = attempts.some(attempt => ["FAILED", "UNKNOWN", "SOURCE_UNSUPPORTED"].includes(attempt.outcome));
-  const interpretation = group.events.findLast(event => event.type === "SEMANTIC_INTERPRETATION_FAILED" || event.type === "SEMANTIC_PROPOSAL_COMPILED");
-  const modelFailed = interpretation?.type === "SEMANTIC_INTERPRETATION_FAILED" && interpretation.status === "MODEL_FAILURE";
   // Displayed cards can remain browsable after their inventory expires.
   const hasResults = state.phase === "PRESENT_RESULTS" ? openable.size > 0 : ready.size > 0;
   const kind = modelFailed ? "MODEL_FAILURE" : hasResults ? "RESULTS" : input.active ? "PENDING"

@@ -267,7 +267,11 @@ export function validateRestaurantAction(
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Presenting results requires one or more unique known candidate IDs");
     }
-    if (distinctDiscoveryResultCandidateIds(state, action.candidateIds).length !== action.candidateIds.length) {
+    const delivered = state.pendingResultBatchTarget === undefined ? [] : state.selectionSession?.deliveredCandidateIds ?? [];
+    if (action.candidateIds.some(candidateId => delivered.includes(candidateId))) {
+      return rejected("PRESENTATION_EVIDENCE_MISSING", "The requested next batch may contain only previously unshown restaurants");
+    }
+    if (distinctDiscoveryResultCandidateIds(state, action.candidateIds, delivered).length !== action.candidateIds.length) {
       return rejected("PRESENTATION_EVIDENCE_MISSING", "Native source records with unresolved same-outlet signals cannot count as distinct restaurants");
     }
     if (state.pendingResultBatchTarget !== undefined) {
@@ -283,10 +287,6 @@ export function validateRestaurantAction(
         if (action.candidateIds.length !== eligible.length || action.candidateIds.some((candidateId) => !eligible.includes(candidateId))) {
           return rejected("PRESENTATION_EVIDENCE_MISSING", "The delivery window must include every currently eligible unshown restaurant");
         }
-      }
-      const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);
-      if (action.candidateIds.some((candidateId) => delivered.has(candidateId))) {
-        return rejected("PRESENTATION_EVIDENCE_MISSING", "The requested next batch may contain only previously unshown restaurants");
       }
     }
     if ((state.refreshRequestedCandidateIds?.length ?? 0) > 0) {

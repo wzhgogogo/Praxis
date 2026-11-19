@@ -41,7 +41,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;cachedCrossSourceDuplicate?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -100,7 +100,8 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
     } else if(request.purpose==="restaurant_agent_decide"){
       const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{candidates?:Array<{id:string}>;checkableCandidateIds?:string[];legalActions?:{search:boolean};searchAvailability?:{available:boolean};presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
       const ready=context.presentation?.filter(item=>item.eligible&&!context.resultBatchTarget?.excludeCandidateIds.includes(item.candidateId)).map(item=>item.candidateId)??[];
-      body=ready.length>=3?strictAction("PRESENT_RESULTS",ready.slice(0,3)):!context.candidates?.length?strictAction("SEARCH_RESTAURANTS"):context.checkableCandidateIds?.length?
+      body=options.cachedCrossSourceDuplicate&&context.checkableCandidateIds?.length
+        ?strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length>=3?strictAction("PRESENT_RESULTS",ready.slice(0,3)):!context.candidates?.length?strictAction("SEARCH_RESTAURANTS"):context.checkableCandidateIds?.length?
         strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length?strictAction("PRESENT_RESULTS",ready):options.continuation==="search"&&context.legalActions?.search?strictAction("SEARCH_RESTAURANTS"):strictAction("END_READ");
     } else throw new Error("No external model or unsupported fixture purpose: "+request.purpose);
     return {invocationId:"workspace-fixture:"+requests.length,provider:"FIXTURE",model:"workspace-fixed-boundary",outputText:JSON.stringify(body),finishReason:"TOOL_CALLS",latencyMs:0};
@@ -118,7 +119,17 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       }
       if(options.extraCandidates||options.continuation==="pool")candidates.push(...fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{...structuredClone(item.restaurant),id:"fixture-later-"+index,outletName:"Fixture later restaurant "+(index+1)}})));
       if(options.continuation==="search")candidates=searches.length===1?candidates.slice(0,1):fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{...structuredClone(item.restaurant),id:"fixture-continuation-"+index,outletName:"Fixture continued restaurant "+(index+1)}}));
+      if(options.cachedCrossSourceDuplicate){
+        const first=candidates[0]!;
+        const cached=fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{
+          ...structuredClone(item.restaurant),id:"fixture-cache-"+index,outletName:"Fixture cached restaurant "+(index+1),address:"Fixture cache address "+(index+1),
+        }}));
+        candidates.push({...structuredClone(first),restaurant:{...structuredClone(first.restaurant),id:"fixture-cache-alias"}},...cached);
+      }
       candidates.forEach((c,i)=>{const serial=c.restaurant.id==="fixture-revision-added"?99:c.restaurant.id.startsWith("fixture-continuation-")?100+i:i;c.restaurant.sourceIds={tabelog:String(13123456+serial),...(provider==="TABLECHECK"?{tablecheck:serial===99?"fixture-revision-new":"fixture-sushi"+(serial||"")}:{})};c.executionConfidence="HIGH";});
+      if(options.cachedCrossSourceDuplicate)for(const [index,candidate] of candidates.entries()){
+        candidate.restaurant.sourceIds.discoverySourceId=index<3?"tabelog":"tablecheck";
+      }
       if(options.photoHttp||options.photoGoogle)for(const [index,item]of candidates.entries())if(photoOutlets[index]){
         item.restaurant.sourceIds.googleWebsiteUri='https://photos.example.org'+photoOutlets[index]!.path;
         if(options.photoGoogle){item.restaurant.sourceIds.googlePlaces='fixture_'+index;item.restaurant.sourceIds.googleMapsUri='https://maps.google.com/?cid=fixture'+index;}

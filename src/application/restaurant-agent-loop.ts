@@ -251,19 +251,22 @@ export class RestaurantAgentLoopCoordinator {
         if (remainingMs <= RESTAURANT_READ_CONCLUSION_RESERVE_MS || blocked && !anyRead) {
           return (await this.dispatch(current, {
             type: "READ_END_WINDOW_OPENED", reason: "DELIVERY_TIME", deadlineAt: deadlineAt.toISOString(),
-          }, "SYSTEM")).snapshot;
+          }, "SYSTEM", undefined, now.toISOString())).snapshot;
         }
       }
+      const readEnd = current.domainState.readEndWindow;
+      const deliveryDeadlineMs = Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000, readEnd ? Date.parse(readEnd.deadlineAt) : Infinity);
       if ((callReserve || this.timeoutMs >= 90_000 && remainingMs <= 45_000)
-        && (!oldWindow || Date.parse(oldWindow.deadlineAt) < now.valueOf()) && remainingMs >= 0
+        && (!oldWindow || Date.parse(oldWindow.deadlineAt) < now.valueOf()) && deliveryDeadlineMs >= now.valueOf()
         && defaultBatchDeliveryCandidateIds(current.domainState, now.toISOString()).length > 0) {
-        const deliveryDeadline = new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000));
-        return (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: deliveryDeadline.toISOString() }, "SYSTEM")).snapshot;
+        return (await this.dispatch(current, {
+          type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: new Date(deliveryDeadlineMs).toISOString(),
+        }, "SYSTEM", undefined, now.toISOString())).snapshot;
       }
       if (callReserve && remainingMs >= 0 && current.domainState.phase === "SEARCHING"
         && !assessRestaurantRead(current.domainState, now.toISOString()).presentation.some(item => item.eligible)
         && (!current.domainState.readEndWindow || Date.parse(current.domainState.readEndWindow.deadlineAt) < now.valueOf())) {
-        return (await this.dispatch(current, { type: "READ_END_WINDOW_OPENED", reason: "MODEL_CALL", deadlineAt: new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000)).toISOString() }, "SYSTEM")).snapshot;
+        return (await this.dispatch(current, { type: "READ_END_WINDOW_OPENED", reason: "MODEL_CALL", deadlineAt: new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000)).toISOString() }, "SYSTEM", undefined, now.toISOString())).snapshot;
       }
       return current;
     };
@@ -654,13 +657,20 @@ export class RestaurantAgentLoopCoordinator {
     let current = snapshot;
     let presentationGap = "";
     if (!restaurantReadStopIsSystem(termination, state.failure?.code)) {
-      const now = this.clock.now().toISOString();
+      const windowNow = this.clock.now();
+      const windowNowMs = windowNow.valueOf();
+      const now = windowNow.toISOString();
       const shortBatch = defaultBatchDeliveryCandidateIds(state, now);
       const candidateIds = shortBatch.length ? shortBatch
         : restaurantPresentableCandidateIds(state, now).slice(0, state.pendingResultBatchTarget);
       if (candidateIds.length) {
-        if (shortBatch.length && (!state.defaultBatchDeliveryWindow || Date.parse(state.defaultBatchDeliveryWindow.deadlineAt) < Date.parse(now))) {
-          current = (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: new Date(Math.min(this.clock.now().valueOf() + 45_000, state.readEndWindow ? Date.parse(state.readEndWindow.deadlineAt) : Number.POSITIVE_INFINITY)).toISOString() }, "SYSTEM")).snapshot;
+        if (shortBatch.length && (!state.defaultBatchDeliveryWindow || Date.parse(state.defaultBatchDeliveryWindow.deadlineAt) < windowNowMs)) {
+          const windowDeadlineMs = Math.min(windowNowMs + 45_000, state.readEndWindow ? Date.parse(state.readEndWindow.deadlineAt) : Infinity);
+          if (Number.isFinite(windowDeadlineMs) && windowDeadlineMs >= windowNowMs) {
+            current = (await this.dispatch(current, {
+              type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: new Date(windowDeadlineMs).toISOString(),
+            }, "SYSTEM", undefined, now)).snapshot;
+          }
         }
         // Validate against time sampled AFTER the persisted window was opened.
         const presentationTime = this.clock.now().toISOString();
@@ -669,7 +679,7 @@ export class RestaurantAgentLoopCoordinator {
         if (validation.status === "ALLOWED") {
           const execution = await this.router.execute(action, current.domainState, presentationTime);
           if (execution.event?.type !== "RESULTS_PRESENTED" || !execution.observation) throw new Error("Validated presentation did not produce its required event");
-          const after = await this.dispatch(current, execution.event, "SYSTEM");
+          const after = await this.dispatch(current, execution.event, "SYSTEM", undefined, presentationTime);
           const context = projectRestaurantAgentContext(current.domainState, presentationTime);
           await this.trajectories.append({ ...base, ...extra, decisionContext: context,
             contextSchemaVersion: context.schemaVersion, agentAction: action, actionValidation: validation,
@@ -700,13 +710,14 @@ export class RestaurantAgentLoopCoordinator {
     event: RestaurantEvent,
     actor: "SYSTEM" | "ADAPTER" | "USER",
     causationId?: string,
+    occurredAt = this.clock.now().toISOString(),
   ): Promise<{ snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>; causalRefs: RestaurantAgentTrajectoryCausalRefs }> {
     const id = this.createId("event:restaurant-agent");
     const result = await this.runtime.dispatch({
       id,
       taskId: snapshot.id,
       event,
-      occurredAt: this.clock.now().toISOString(),
+      occurredAt,
       trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor, ...(causationId ? { causationId } : {}) },
     }, snapshot.version);
     // Persistence is authoritative; a disconnected UI observer must not make

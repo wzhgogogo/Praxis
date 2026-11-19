@@ -184,4 +184,10 @@ While the displayed batch has a pending fact refresh, the context and Validator 
 
 Saving a restaurant during the first read records a shortlist entry without consuming the short-delivery window. On bounded termination, the coordinator uses the same qualified, distinct candidate pool as the Agent context. A pending next batch excludes delivered outlets and caps automatic presentation at its target. The Validator, Router and Reducer still authorize presentation.
 
-A Case summary carries the last task activity time and indicates an explicitly stopped failed read. The workspace orders cases newest first and ties by Case ID. The selected card follows the current qualifying set after the read ends. A stopped read may retain a ready outlet for About, with shortlist actions gated by the same phases as the reducer. Displayed expired cards remain available for refresh.
+A Case summary carries the last task activity time and indicates an explicitly stopped failed read. The workspace orders cases newest first and ties by Case ID. The selected card follows the current qualifying set after the read ends. A stopped read may retain a ready outlet for About, with shortlist actions gated by the same phases as the reducer.
+
+### 2026-11-19 — Round 9 delivery boundaries
+
+Search, read completion, Validator and cached delivery apply the same exclusion for previously delivered outlets across source records while a user seeks another batch. Existing displayed results keep their refresh path. A delivery window uses the time at opening, and the closing action uses one timestamp across validation, routing and persistence.
+
+Displayed expired cards offer refresh when permitted by the current Case. An expired stopped handoff can still show its safe source link.

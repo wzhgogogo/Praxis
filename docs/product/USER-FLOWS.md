@@ -245,6 +245,12 @@ The first actual delivery has no change summary, including after NEEDS_INPUT. La
 
 ### 2026-11-19 — Round 8 workspace feedback
 
-My plans orders cases by latest activity and names progress, ready, clarification, no results, stopped and failed states. A continuing clarification shows the latest user reply beside the current question. While an eligible card is visible, the progress message and Stop searching control stay together. Partial source failures appear at the batch end.
+My plans orders cases by latest activity and names progress, ready, clarification, no results, stopped and failed states. While an eligible card is visible, the progress message and Stop searching control stay together. Partial source failures appear at the batch end.
 
 Cards omit unverified preferences. About keeps their evidence and status, and the card still shows unverified hard conditions. If the browser blocks the booking tab, the user sees the popup message before any departure is saved.
+
+### 2026-11-19 — Round 9 workspace feedback
+
+A clarification shows the latest user message beside the current question, starting with the request that first needs clarification. On mobile, the stop notice fits above the fixed composer when a ready card is retained.
+
+When the request cannot be parsed, saved restaurants remain visible and their rows cannot reopen the previous results. A stopped card can open a current booking handoff. When its availability expires, the refresh action follows the current Case permissions, and Handoff can still show a safe source link when one is available.

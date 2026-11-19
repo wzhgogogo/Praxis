@@ -25,7 +25,7 @@ import type {
   RestaurantReadExecutionMetadata,
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
-import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
+import { distinctDiscoveryResultCandidateIds, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import { applyRestaurantIntentPatch, missingBlockingFields, missingSearchFields } from "../domains/restaurant/intent-state.js";
 import {namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
@@ -718,12 +718,11 @@ export class PersistentRestaurantAgentApplication {
           && (state.phase !== "NO_VERIFIED_RESULT" || canContinueRestaurantRead(state, this.clock.now().toISOString())));
       if (!validated) return this.project(record);
       if (validated.domainState.pageQuestion && !validated.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
-      const delivered = new Set(validated.domainState.selectionSession?.deliveredCandidateIds ?? validated.domainState.presentedResults?.candidateIds ?? []);
-      const candidates = validated.domainState.candidates
-        .map((candidate) => candidate.restaurant.id)
-        .filter((candidateId) => !delivered.has(candidateId))
-        .filter((candidateId) => restaurantPresentationEvidenceIds(validated.domainState, candidateId, this.clock.now().toISOString()) !== undefined)
-        .slice(0, 3);
+      const delivered = validated.domainState.selectionSession?.deliveredCandidateIds ?? validated.domainState.presentedResults?.candidateIds ?? [];
+      const unshownEligible = validated.domainState.candidates.map(candidate => candidate.restaurant.id)
+        .filter(candidateId => !delivered.includes(candidateId)
+          && restaurantPresentationEvidenceIds(validated.domainState, candidateId, this.clock.now().toISOString()) !== undefined);
+      const candidates = distinctDiscoveryResultCandidateIds(validated.domainState, unshownEligible, delivered).slice(0, 3);
       if (candidates.length < 3) {
         const result = await this.runtime.dispatch(this.userEvent(validated, input.requestId, { type: "NEXT_BATCH_REPLENISHMENT_REQUESTED", targetCandidateCount: 3 }), validated.version);
         if (result.duplicateEvent) return this.project(record);

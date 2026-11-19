@@ -37,6 +37,11 @@ function displayDate(value){return new Intl.DateTimeFormat('en-US',{timeZone:'As
 function availabilityTime(value){return displayDate(value)+' '+displayTime(value);}
 function ids(){const r=state.view.restaurant;return state.view.case.phase==='PRESENT_RESULTS'?(r.presentedCandidateIds||[]):r.readyCandidateIds;}
 function candidate(){return state.view&&state.view.restaurant.candidates.find(c=>c.restaurant.id===state.ui.candidateId);}
+function canRefresh(){return !!state.view&&(state.view.case.phase==='PRESENT_RESULTS'||!!state.view.restaurant.readStatus.canRetry);}
+function availabilityExpired(id){
+ const r=state.view.restaurant,expiry=r.availabilityChecks[id]?.displayExpiresAt;
+ return !!(expiry&&Date.parse(expiry)<=Date.now())||((r.availability[id]||[]).length>0&&!offerFor(id));
+}
 function offerFor(id){const fresh=(state.view.restaurant.availability[id]||[]).filter(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now());return fresh.find(o=>o.id===state.ui.offerId)||fresh[0];}
 function handoffs(){return (state.view.restaurant.bookingHandoffs||[]).filter(h=>h.candidateId===state.ui.candidateId&&Date.parse(h.displayExpiresAt)>Date.now());}
 function currentHandoff(){const list=handoffs(),viewed=(state.view.restaurant.availability[state.ui.candidateId]||[]).some(o=>o.id===state.ui.offerId);return viewed?list.find(h=>h.offerId===state.ui.offerId):list[0];}
@@ -169,7 +174,7 @@ function renderDelivery(){
    .filter(item=>item.status!=='NOT_CHECKED'||item.strength==='HARD').map(conditionRow));
 }
 function canShortlist(){return ['SEARCHING','SELECTION_REQUIRED','PRESENT_RESULTS','NO_VERIFIED_RESULT'].includes(state.view?.case.phase);}
-function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), check=r.availabilityChecks[id], source=sourceFor(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now()?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible;$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
+function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), expired=availabilityExpired(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=offer&&eligible?'available':'unknown';text('availability',offer&&eligible?'Available '+displayDate(((r.availability[id]||[]).find(o=>!o.displayExpiresAt||Date.parse(o.displayExpiresAt)>Date.now())||offer).dateTime):expired?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible||expired&&!canRefresh();$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
 function renderDetails(){
  const c=candidate();if(!c)return;const r=state.view.restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];
  const refreshBusy=r.progress.active||state.blocked,refreshSlots=r.readStatus.canRetry||ids().some(cid=>(r.availability[cid]||[]).length||r.availabilityChecks[cid]?.status==='AVAILABLE')||r.intentDraft?.target?.goal==='AVAILABILITY';
@@ -290,9 +295,9 @@ function renderHandoff(){
   const selectedOffer=h&&(state.view.restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===h.offerId),price=selectedOffer&&selectedOffer.price;show('handoff-price',!!price);text('handoff-price',price?money(price.amount)+(price.basis==='PER_PERSON'?' per guest':price.basis==='TOTAL'?' total':''):'');
   selector.onchange=()=>{state.ui.offerId=selector.value;savePosition();renderHandoff();};
   text('handoff-provider-name',h?sourceName(h.provider):'');show('handoff-provider',!!h);
-  const check=state.view.restaurant.availabilityChecks[c.restaurant.id],expired=!!(check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now());
-  show('departure',!!h||expired);show('departure-fields',!!h);show('handoff-unavailable',!h&&!expired);
-  if(!h&&expired){text('departure-title','Check availability again');$('departure').href='#';}
+  const refreshable=canRefresh(),refresh=refreshable&&availabilityExpired(c.restaurant.id);
+  show('departure',!!h||refresh);show('departure-fields',!!h);show('handoff-unavailable',!h&&!refresh);
+  if(!h&&refresh){text('departure-title','Check availability again');$('departure').href='#';}
   show('selection-hint',!!h&&!!h.selectionHint);show('verification-hint',!!h&&!!h.verificationHint&&!['Check date and guests','Check date and guests on the website'].includes(h.verificationHint));
   if(h){
     const parts=h.continueLabel.split(' — ');
@@ -320,6 +325,9 @@ function renderHandoff(){
   }
   const href=h&&h.url||source&&safeLink(source.sourceUrl);
   show('direct-source',!h&&!!href);if(href)$('direct-source').href=href;
+  text('handoff-unavailable',refreshable
+    ? 'No current booking handoff is available. You can check the source website or refresh availability.'
+    : href?'No current booking handoff is available. You can check the source website.':'No current booking handoff is available.');
 }
 function updateComposerClearance(){const host=$('workspace-composer'),bottom=parseFloat(getComputedStyle(host).bottom)||0;document.documentElement.style.setProperty('--composer-clearance',(host.hidden?0:host.getBoundingClientRect().height+bottom+24)+'px');}
 function resizeMessage(){const input=$('message');input.style.height='';if($('workspace-composer').contains(input)){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,140)+'px';}}
@@ -372,7 +380,7 @@ function render(){
   renderReadState(end);const busy=!!(pending||state.preview||state.sending||state.blocked||r.progress.active||['UNDERSTANDING','SEARCHING'].includes(state.view.case.phase));
   const clarifying=!busy&&mode==='CANDIDATES'&&state.view.case.phase==='NEEDS_INPUT';
   const replies=clarifying?state.view.conversation.messages.filter(message=>message.role==='USER'):[];
-  const reply=replies.length>1?replies.at(-1).content:'';
+  const reply=replies.at(-1)?.content||'';
   text('clarification-reply',reply);show('clarification-reply',!!reply);
   const message=clarifying?r.clarificationQuestion||'':!busy&&mode==='CANDIDATES'&&r.progress.stopped?'Search stopped.':'';
   text('messages',message);show('messages',!!message);
@@ -423,9 +431,9 @@ function finishPreparation(){
 }
 async function prepareBooking(){
  if(state.blocked||state.preparing||!candidate()||!ids().includes(state.ui.candidateId))return;
- const id=state.ui.candidateId,nav=state.nav,revision=state.view.restaurant.requirementRevision,check=state.view.restaurant.availabilityChecks[id];
- const expired=!!(check&&check.displayExpiresAt&&Date.parse(check.displayExpiresAt)<=Date.now())||(state.view.restaurant.availability[id]||[]).length>0&&!offerFor(id);
- if(!expired){const viewed=offerFor(id);if(viewed)state.ui.offerId=viewed.id;setView('HANDOFF');return;}
+ const id=state.ui.candidateId,nav=state.nav,revision=state.view.restaurant.requirementRevision;
+ if(!availabilityExpired(id)){const viewed=offerFor(id);if(viewed)state.ui.offerId=viewed.id;setView('HANDOFF');return;}
+ if(!canRefresh())return;
  const old=(state.view.restaurant.availability[id]||[]).find(o=>o.id===state.ui.offerId)||(state.view.restaurant.availability[id]||[])[0];
  const pending={id,nav,revision,slot:old?{dateTime:old.dateTime,partySize:old.partySize}:null};state.preparing=pending;clearError();
  const refreshed=await refreshCase();
@@ -443,7 +451,7 @@ async function findMore(){
   catch(error){if(nav===state.nav)report(error);}finally{if(nav===state.nav){state.blocked=false;render();}}
 }
 $('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=focusAdjustment;
-async function depart(event){const h=currentHandoff();if(!h){event.preventDefault();await refreshCase();return;}event.preventDefault();const target=window.open('about:blank','_blank');if(!target){report(new Error('Please allow this source tab to open.'));return;}target.opener=null;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId()})});localStorage.setItem(key(state.view.case.caseId)+':return','1');target.location.href=p.url;}catch(error){target.close();report(error);}}
+async function depart(event){const h=currentHandoff();if(!h){event.preventDefault();if(canRefresh())await refreshCase();return;}event.preventDefault();const target=window.open('about:blank','_blank');if(!target){report(new Error('Please allow this source tab to open.'));return;}target.opener=null;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId()})});localStorage.setItem(key(state.view.case.caseId)+':return','1');target.location.href=p.url;}catch(error){target.close();report(error);}}
 $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};
 async function claimFeedback(){if(!state.view||state.feedback||state.claiming)return;const id=state.view.case.caseId;state.claiming=true;try{const p=await api('/api/cases/'+encodeURIComponent(id)+'/booking-feedback/claim',{method:'POST',body:'{}'});if(!state.view||state.view.case.caseId!==id)return;localStorage.removeItem(key(id)+':return');state.feedback=p.prompt||null;show('feedback',!!state.feedback);}catch(error){report(error);}finally{state.claiming=false;}}
 window.addEventListener('focus',async()=>{if(!state.view||!localStorage.getItem(key(state.view.case.caseId)+':return'))return;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId));accept(p.view);}catch(error){report(error);}});

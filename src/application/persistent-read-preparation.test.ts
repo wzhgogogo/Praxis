@@ -133,3 +133,30 @@ for (const kind of ["refresh","location"] as const) test(`old HTTP ${kind} canno
     await host.close();
   }
 });
+
+test("cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh",{timeout:20_000},async()=>{
+  const host=await startWorkspaceFixture({cachedCrossSourceDuplicate:true});
+  try{
+    const initial=await create(host);
+    let view=await settled(host,initial.case.caseId);
+    assert.equal(view.case.phase,"PRESENT_RESULTS");
+    const first=view.restaurant.presentedCandidateIds;
+    assert.equal(first?.length,3);
+    assert.ok(view.restaurant.readyCandidateIds.includes("fixture-cache-alias"));
+    assert.equal(view.restaurant.readyCandidateIds.length,7);
+
+    const originalReadCount=host.providerCalls.length;
+    const scope={userId,caseId:view.case.caseId,expectedVersion:view.case.taskVersion,requestId:"refresh-first"};
+    await host.application.refreshAvailability(scope);
+    view=await settled(host,view.case.caseId);
+    assert.deepEqual(view.restaurant.presentedCandidateIds,first);
+    assert.deepEqual(host.providerCalls.slice(originalReadCount).map(call=>call.candidateId),first);
+
+    const readsAfterRefresh=host.providerCalls.length;
+    view=await host.application.requestAnotherBatch({...scope,expectedVersion:view.case.taskVersion,requestId:"cached-next"});
+    assert.equal(view.case.phase,"PRESENT_RESULTS");
+    assert.deepEqual(view.restaurant.presentedCandidateIds,["fixture-cache-0","fixture-cache-1","fixture-cache-2"]);
+    assert.equal(host.providerCalls.length,readsAfterRefresh);
+    assert.equal(host.searches.length,1);
+  }finally{await host.close();}
+});

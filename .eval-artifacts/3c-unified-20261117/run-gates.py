@@ -1,5 +1,5 @@
 import os, subprocess, time, json, pathlib, sys
-root=pathlib.Path(__file__).resolve().parents[2]; out=root/'.eval-artifacts/3c-unified-20261117/round-8/gates'; out.mkdir(parents=True, exist_ok=False)
+root=pathlib.Path(__file__).resolve().parents[2]; out=root/'.eval-artifacts/3c-unified-20261117'/os.environ.get('PRAXIS_GATES_SUBDIR', 'round-9/gates'); out.mkdir(parents=True, exist_ok=False)
 sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
 env={k:os.environ[k] for k in ['PATH','HOME','TMPDIR'] if k in os.environ}
 profile='(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip "localhost:*"))'

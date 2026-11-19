@@ -119,14 +119,19 @@ async function captureRound8(page:Page,name:string){
   await page.screenshot({path:join(output,name+".png"),animations:"disabled"});
 }
 
-test("Round8 UI: real Stop retains About and blocks shortlist writes", {timeout:30_000}, async()=>{
-  const host=await startWorkspaceFixture({staged:true});
+test("Round8 UI: real Stop retains About and never offers an unavailable refresh", {timeout:30_000}, async()=>{
+  const sourceValidityMs=5*60_000;
+  const host=await startWorkspaceFixture({staged:true,sourceValidityMs});
   const browser=await chromium.launch({headless:true});
   const context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:390,height:844}});
   await context.route("**/*",r=>new URL(r.request().url()).origin===host.baseUrl?r.continue():r.abort());
   const page=await context.newPage();
-  let shortlistPosts=0;
-  page.on("request",r=>{if(r.method()==="POST"&&r.url().endsWith("/shortlist"))shortlistPosts++;});
+  let shortlistPosts=0,refreshPosts=0;
+  page.on("request",r=>{
+    if(r.method()!=="POST")return;
+    if(r.url().endsWith("/shortlist"))shortlistPosts++;
+    if(r.url().endsWith("/refresh"))refreshPosts++;
+  });
   try{
     await page.clock.install({time:host.clock.now()});
     await page.goto(host.baseUrl);
@@ -155,7 +160,31 @@ test("Round8 UI: real Stop retains About and blocks shortlist writes", {timeout:
     await page.locator("#candidate-panel").waitFor();
     assert.equal(await page.locator("#bookmark").isDisabled(),true);
     assert.equal(shortlistPosts,0);
+    assert.equal(await page.locator("#messages").innerText(),"Search stopped.");
+    assert.equal(await page.locator("#case-workspace").evaluate(node=>node.scrollTop),0);
+    const message=await page.locator("#messages").boundingBox(),composer=await page.locator("#workspace-composer").boundingBox();
+    assert.ok(message&&composer&&message.y>=0&&message.y+message.height<=composer.y,
+      `Search stopped must fit above the composer without scrolling: ${JSON.stringify({message,composer})}`);
     await captureRound8(page,"stopped-ready-card");
+
+    await page.locator("#choose").click();
+    await page.locator("#departure").waitFor();
+    assert.match(await page.locator("#departure").getAttribute("href")??"",/^https:/);
+    host.clock.advance(sourceValidityMs+1000);
+    await page.clock.fastForward(sourceValidityMs+1000);
+    assert.equal(await page.locator("#handoff").isVisible(),true);
+    assert.equal(await page.locator("#departure").isVisible(),false,"Stopped Handoff must hide the expired refresh link");
+    assert.equal(await page.locator("#handoff-unavailable").isVisible(),true);
+    assert.equal(await page.locator("#direct-source").isVisible(),true);
+    assert.equal(await page.locator("#handoff-unavailable").innerText(),
+      "No current booking handoff is available. You can check the source website.");
+    await page.locator("#departure").evaluate(node=>node.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true})));
+    await page.locator("#handoff-back").click();
+    assert.equal(await page.locator("#availability").innerText(),"Availability expired");
+    assert.equal(await page.locator("#choose").isDisabled(),true);
+    await page.locator("#choose").evaluate(node=>node.dispatchEvent(new MouseEvent("click",{bubbles:true})));
+    assert.equal(await page.locator("#handoff").isVisible(),false);
+    assert.equal(refreshPosts,0);
   }finally{host.release();await context.close();await browser.close();await host.close();}
 });
 
@@ -196,7 +225,7 @@ test("Round8 UI: SSE switches the idle card to the eligible outlet and removes s
   }finally{await context.close();await browser.close();await host.close();}
 });
 
-test("Round8 UI: a second user reply appears beside the current clarification and hides during search or in another view", {timeout:30_000}, async()=>{
+test("Round8 UI: the original request and later reply appear beside the current clarification and hide in other states", {timeout:30_000}, async()=>{
   const host=await startWorkspaceFixture();
   const browser=await chromium.launch({headless:true});
   const context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:390,height:844}});
@@ -214,7 +243,10 @@ test("Round8 UI: a second user reply appears beside the current clarification an
     await page.route(host.baseUrl+"/api/cases/"+encodeURIComponent(view.case.caseId),r=>r.fulfill({json:{view}}));
     await page.reload();
     await page.locator("#messages").waitFor();
-    assert.equal(await page.locator("#clarification-reply").isVisible(),false);
+    assert.equal(await page.locator("#clarification-reply").innerText(),"Dinner in Tokyo");
+    assert.equal(await page.locator("#messages").innerText(),view.restaurant.clarificationQuestion);
+    assert.doesNotMatch(await page.locator("#case-workspace").innerText(),/historical answer/i);
+    await captureRound8(page,"clarification-first");
     const reply="Around 7pm, please";
     await page.route("**/api/conversations/*/messages",async r=>{
       assert.equal(r.request().postDataJSON().message,reply);
