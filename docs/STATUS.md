@@ -1362,3 +1362,5 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G
 2026-11-19 — Unified Round 10，draft / not integrated。冻结 `9933ad36eece414f2d37e85710ad825f52dfa16a` 完成工作区九项修复。五门禁全绿，正式视觉 16/16、Style 1 6/6、状态 17/17。 [报告](../.eval-artifacts/3c-unified-20261117/round-10/REPORT.md)
 
 2026-11-19 — Unified Round 11，draft / not integrated。冻结 `3e2d54a4d069fa1c82be55d83a50a53a321c2de6` 验证显式时段重选、错误提示可见性、409 最新版本恢复、合格后续批次、迟到草稿及独立来源页。五门禁通过。默认 1772/1772、G2 5/5、Chromium 437/437、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 22/22。 [报告](../.eval-artifacts/3c-unified-20261117/round-11/REPORT.md)
+
+2026-11-19 — Unified Round 12，draft / not integrated。冻结 `0d354f1e85cb95992dc63cbe05241960b78ea2b5`，换批耗尽及刷新均保持空态，检索中和 Stop 排除已交付餐厅与别名。五门禁通过。默认 1775/1775、G2 5/5、Chromium 438/438、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 23/23。 [报告](../.eval-artifacts/3c-unified-20261117/round-12/REPORT.md)

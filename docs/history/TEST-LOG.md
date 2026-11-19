@@ -7131,3 +7131,7 @@ ddd9eda8d04b304f09b3629bb0d64828645c5789, clean before/after each gate: typechec
 ### 2026-11-19 — Unified Round 11 离线收尾
 
 净树 `3e2d54a4d069fa1c82be55d83a50a53a321c2de6`。Typecheck、Arch 和 Build 通过。默认 1772/1772、G2 5/5、Chromium 437/437、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 22/22。 两个入口的时段重选提示和 409 提示无需手动滚动即完整可读。 [报告](../../.eval-artifacts/3c-unified-20261117/round-11/REPORT.md)
+
+### 2026-11-19 — Unified Round 12 离线验收
+
+净树 `0d354f1e85cb95992dc63cbe05241960b78ea2b5`。Typecheck、Arch、Build 通过。默认 1775/1775、G2 5/5、Chromium 438/438、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 23/23。 两批交付后第三批结束、HTTP B1 清空、reload、Saved 和 Stop 去重均通过。 [报告](../../.eval-artifacts/3c-unified-20261117/round-12/REPORT.md)
