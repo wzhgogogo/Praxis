@@ -1,0 +1,129 @@
+✔ Workspace source failure copy requires explicit failed attempts, never unknown, unavailable or unread candidates (0.729708ms)
+✔ Workspace interpretation copy uses the recorded model status, not failure prose (0.17725ms)
+✔ Workspace first delivery after NEEDS_INPUT has no revision diff; real empty prior revision remains the baseline (0.546166ms)
+✔ Workspace equivalent area patch cannot remove retained presented restaurants (0.086042ms)
+✔ Workspace equivalent date patch cannot remove retained presented restaurants (0.066875ms)
+✔ Workspace equivalent time patch cannot remove retained presented restaurants (0.050084ms)
+✔ Workspace equivalent guests patch cannot remove retained presented restaurants (0.046083ms)
+✔ Workspace equivalent collection patch cannot remove retained presented restaurants (0.040875ms)
+✔ Workspace reaffirmation retains the last real revision diff instead of opening an empty group (0.349458ms)
+✔ Workspace real changed requirements with no results still remove the prior batch (0.673625ms)
+✔ Workspace value equality includes party provenance: same count with a new source is a real revision (0.096083ms)
+✔ Workspace replays an authoritative location binding before comparing a patch: retain=true (0.089958ms)
+✔ Workspace replays an authoritative location binding before comparing a patch: retain=false (0.062666ms)
+✔ Saved uses the supplied visible candidate set even after inventory expiry (0.072291ms)
+✔ Incomplete revision never invents removal: SEARCHING cancelled=true (0.408875ms)
+✔ Incomplete revision never invents removal: SEARCHING cancelled=false (0.037541ms)
+✔ Incomplete revision never invents removal: FAILED cancelled=true (0.033875ms)
+✔ Incomplete revision never invents removal: FAILED cancelled=false (0.033792ms)
+✔ Incomplete revision never invents removal: NO_VERIFIED_RESULT cancelled=true (0.061209ms)
+✔ Incomplete revision never invents removal: NO_VERIFIED_RESULT cancelled=false (0.040042ms)
+✔ Saved omits mismatch reasons for a qualified later-batch outlet after requirements change (0.07775ms)
+✔ Round10 UI: Handoff refresh asks for a new choice when 19:30 is gone (1705.307167ms)
+✔ Round10 UI: Handoff refresh retains a verified 19:30 (958.4845ms)
+✔ Round10 UI: a delayed shortlist response stays with the earlier plan (1236.727666ms)
+✖ Round10 UI: a delayed questions response stays with the earlier plan (9092.218583ms)
+✔ Round10 UI: plan creation uses an RFC 4122 request ID without crypto.randomUUID (1037.819375ms)
+✖ Round10 UI: nearby accepts device coordinates (8836.672166ms)
+✔ Round10 UI: nearby recovers from denied location with a typed area (932.337417ms)
+✔ Round10 UI: unsent drafts stay with their plans and a sent draft clears only its own field (1647.125209ms)
+✔ Round10 UI: a saved later-batch outlet still qualified under the new party size has no mismatch label (1608.668958ms)
+✔ Round10 UI: a background case updates My plans at Home and polling stops when it is ready (1105.61775ms)
+✖ Round10 UI: actual 409 recovers the deferred SSE snapshot (1084.491208ms)
+✖ Round10 UI: actual 409 recovers the latest Case when SSE is unavailable (1097.732ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 29
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30940.937834
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:6593
+✖ Round10 UI: a delayed questions response stays with the earlier plan (9092.218583ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#new-case')
+      - locator resolved to <button id="new-case">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <div id="answer-backdrop"></div> intercepts pointer events
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <div id="answer-backdrop"></div> intercepts pointer events
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is visible, enabled and stable
+         - scrolling into view if needed
+         - done scrolling
+         - <div id="answer-backdrop"></div> intercepts pointer events
+       - retrying click action
+         - waiting 500ms
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:177:41)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:25:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:156:5) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#new-case')", '    - locator resolved to <button id="new-case">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is visible, enabled and stable', '      - scrolling into view if needed', '      - done scrolling', '      - <div id="answer-backdrop"></div> intercepts pointer events', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is visible, enabled and stable', '      - scrolling into view if needed', '      - done scrolling', '      - <div id="answer-backdrop"></div> intercepts pointer events', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is visible, enabled and stable', '       - scrolling into view if needed', '       - done scrolling', '       - <div id="answer-backdrop"></div> intercepts pointer events', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:9436
+✖ Round10 UI: nearby accepts device coordinates (8836.672166ms)
+  page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:241:29)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:25:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:220:5) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:15816
+✖ Round10 UI: actual 409 recovers the deferred SSE snapshot (1084.491208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 409
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:403:16)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:25:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:356:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 409,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:15816
+✖ Round10 UI: actual 409 recovers the latest Case when SSE is unavailable (1097.732ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 409
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:403:16)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:25:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:356:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 409,
+    operator: 'strictEqual'
+  }

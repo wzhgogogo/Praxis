@@ -1,0 +1,25 @@
+✔ Round10 UI: Handoff refresh asks for a new choice when 19:30 is gone (1558.653708ms)
+✔ Round10 UI: Handoff refresh retains a verified 19:30 (1133.919375ms)
+✔ Round10 UI: a delayed shortlist response stays with the earlier plan (1364.383166ms)
+✔ Round10 UI: a delayed questions response stays with the earlier plan (1416.407542ms)
+✔ Round10 UI: plan creation uses an RFC 4122 request ID without crypto.randomUUID (1133.241042ms)
+✔ Round10 UI: nearby accepts device coordinates (959.775291ms)
+✔ Round10 UI: nearby recovers from denied location with a typed area (952.923792ms)
+✔ Round10 UI: unsent drafts stay with their plans and a sent draft clears only its own field (1621.951542ms)
+✔ Round10 UI: a saved later-batch outlet still qualified under the new party size has no mismatch label (1637.222916ms)
+✔ Round10 UI: a background case updates My plans at Home and polling stops when it is ready (1172.953583ms)
+✔ Round10 UI: actual 409 recovers the deferred SSE snapshot (1135.900334ms)
+✔ Round10 UI: actual 409 recovers the latest Case when SSE is unavailable (1224.04925ms)
+✔ Round8 UI: real Stop retains About and never offers an unavailable refresh (1543.210458ms)
+✔ Round8 UI: SSE switches the idle card to the eligible outlet and removes stale cards on empty results (1017.145292ms)
+✔ Round8 UI: the original request and later reply appear beside the current clarification and hide in other states (1167.791666ms)
+✔ Round8 UI: case list orders initial, new, and SSE-updated cases without replacing the focused row (1458.483041ms)
+✔ Round8 UI: a blocked booking popup cannot persist a departure or mark a return (1001.559042ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15805.983542

@@ -1,0 +1,144 @@
+✔ Workspace navigation 390: responsive single-node controls, sidebar and full-height Case (2991.77275ms)
+✔ Workspace navigation 960: responsive single-node controls, sidebar and full-height Case (2399.193708ms)
+✔ Workspace navigation 1440: responsive single-node controls, sidebar and full-height Case (2229.918375ms)
+✔ Workspace geometry 390: shared grid, typography, pointer and keyboard invariants in every view (3762.108209ms)
+✔ Workspace geometry 960: shared grid, typography, pointer and keyboard invariants in every view (3565.158833ms)
+✔ Workspace geometry 1440: shared grid, typography, pointer and keyboard invariants in every view (3574.890792ms)
+✔ Round5 390: failed existing-Case submit restores card controls, current clarification and an emptied draft (1927.415417ms)
+✔ Round5 1280: failed existing-Case submit restores card controls, current clarification and an emptied draft (1469.168875ms)
+✔ Round4 390: expired Saved opens the exact presented card and refreshes before booking (1528.41425ms)
+✔ Round4 390: interrupted revision hides old answers, syncs title and never infers Saved removal (1523.353417ms)
+✖ Round4 390: About keeps timed condition evidence and one Source for all answer citations (11276.849875ms)
+✔ Round4 390: exhausted empty state has a full-width Adjust with transient focus guidance (948.289334ms)
+✔ Round4 1280: expired Saved opens the exact presented card and refreshes before booking (1638.688917ms)
+✔ Round4 1280: interrupted revision hides old answers, syncs title and never infers Saved removal (1575.840208ms)
+✖ Round4 1280: About keeps timed condition evidence and one Source for all answer citations (11341.583542ms)
+✔ Round4 1280: exhausted empty state has a full-width Adjust with transient focus guidance (1223.673417ms)
+✔ Round4 390: current state alone selects clarification/retry messages and suppresses historical answers (1112.065583ms)
+✔ Round4 1280: current state alone selects clarification/retry messages and suppresses historical answers (1389.237167ms)
+✔ Round6 390: Details and Handoff retain active reads, then leave failed or removed results (1565.512667ms)
+✔ Round6 1440: Details and Handoff retain active reads, then leave failed or removed results (1617.613916ms)
+✔ Round6: refresh labels use the whole presented batch, retry and goal rather than only the current outlet (1437.270333ms)
+✔ Round6 Style1 390x844 available: aligned condition rows and clean availability (939.739708ms)
+✔ Round6 Style1 390x844 not-checked: aligned condition rows and clean availability (914.857292ms)
+✔ Round6 Style1 768x1024 available: aligned condition rows and clean availability (933.742709ms)
+✔ Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability (898.955458ms)
+✔ Round6 Style1 1440x900 available: aligned condition rows and clean availability (1392.309334ms)
+✔ Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability (1396.905583ms)
+✔ Round8 UI: real Stop retains About and never offers an unavailable refresh (994.117084ms)
+✔ Round8 UI: SSE switches the idle card to the eligible outlet and removes stale cards on empty results (866.14325ms)
+✔ Round8 UI: the original request and later reply appear beside the current clarification and hide in other states (935.338958ms)
+✔ Round8 UI: case list orders initial, new, and SSE-updated cases without replacing the focused row (1316.047041ms)
+✔ Round8 UI: a blocked booking popup cannot persist a departure or mark a return (1025.38125ms)
+✔ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2510.002916ms)
+✔ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (4264.746709ms)
+✔ Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2388.795375ms)
+✔ Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh (4492.895875ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons structured (1218.722458ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons missing (1172.403416ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons structured (1453.698417ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons missing (1416.853708ms)
+✔ Workspace slice2 mobile: empty result copy is honest empty (923.307083ms)
+✔ Workspace slice2 mobile: empty result copy is honest all-sources-failed (957.446875ms)
+✔ Workspace slice2 mobile: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing (1123.494459ms)
+✔ Workspace slice2 mobile: partial source failure keeps qualified results and places the notice at the batch end (867.293666ms)
+✔ Workspace slice2 desktop: empty result copy is honest empty (1071.892417ms)
+✔ Workspace slice2 desktop: empty result copy is honest all-sources-failed (1114.61375ms)
+✔ Workspace slice2 desktop: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing (1348.602166ms)
+✔ Workspace slice2 desktop: partial source failure keeps qualified results and places the notice at the batch end (1115.353209ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (874.814125ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (857.903625ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (1139.284292ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (1104.134125ms)
+✔ Workspace slice2 mobile: Stop during empty continuation discards the late source card (924.67575ms)
+✔ Workspace slice2 desktop: Stop during empty continuation discards the late source card (1136.121417ms)
+✔ Workspace 3c mobile: each observed booking slot retains its own departure link (1108.656333ms)
+✔ Workspace 3c desktop: each observed booking slot retains its own departure link (1789.531084ms)
+✔ Workspace inline condition mobile: capped local edit survives SSE and routes changes without touching composer (1815.474875ms)
+✔ Workspace inline condition desktop: capped local edit survives SSE and routes changes without touching composer (2000.766708ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-ZxiqQk","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-ZxiqQk/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-ZxiqQk/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b9f45063671836f3af6bf899","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:8af2474edb5e0ae0b825e2bf","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:c4f14c2938739bfecb505c1f"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b1a7815e7a82ed62929f049b","evidence:restaurant:tablecheck-entity-match:d7ef008ac0a7c4545fd2736a","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:f9114897ac421f05445b24ce","evidence:restaurant:tablecheck-entity-match:8972f34b9b1d2ba2533cfaeb","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:aae692f66fe0df73f161348a","evidence:restaurant:tablecheck-entity-match:b2e515f9dc54bc2144d96e9a"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace booking refresh mobile: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1062.86275ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-YbVI2a","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-YbVI2a/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-YbVI2a/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b9f45063671836f3af6bf899","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:8af2474edb5e0ae0b825e2bf","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:c4f14c2938739bfecb505c1f"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b1a7815e7a82ed62929f049b","evidence:restaurant:tablecheck-entity-match:d7ef008ac0a7c4545fd2736a","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:f9114897ac421f05445b24ce","evidence:restaurant:tablecheck-entity-match:8972f34b9b1d2ba2533cfaeb","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:aae692f66fe0df73f161348a","evidence:restaurant:tablecheck-entity-match:b2e515f9dc54bc2144d96e9a"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace booking refresh desktop: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1350.260875ms)
+✔ Workspace selected slot mobile: missing handoff and a refreshed different time never silently switch the choice (1103.131375ms)
+✔ Workspace selected slot desktop: missing handoff and a refreshed different time never silently switch the choice (1552.74825ms)
+✔ Workspace equivalent intent mobile: reaffirmation retains the batch without a phantom revision diff (1015.315792ms)
+✔ Workspace equivalent intent desktop: reaffirmation retains the batch without a phantom revision diff (1260.88625ms)
+✔ Workspace unchanged Save mobile area: equivalent native value cancels without a message (884.949209ms)
+✔ Workspace unchanged Save mobile date: equivalent native value cancels without a message (883.064542ms)
+✔ Workspace unchanged Save mobile time: equivalent native value cancels without a message (942.96075ms)
+✔ Workspace unchanged Save mobile guests: equivalent native value cancels without a message (1085.734667ms)
+✔ Workspace unchanged Save desktop area: equivalent native value cancels without a message (1361.919959ms)
+✔ Workspace unchanged Save desktop date: equivalent native value cancels without a message (1438.489875ms)
+✔ Workspace unchanged Save desktop time: equivalent native value cancels without a message (1429.695333ms)
+✔ Workspace unchanged Save desktop guests: equivalent native value cancels without a message (1398.40925ms)
+✔ Workspace inline Save end to end mobile: area date time and guests reach the reducer, fresh sources and chips (1836.995917ms)
+✔ Workspace inline Save end to end desktop: area date time and guests reach the reducer, fresh sources and chips (2293.825833ms)
+✔ Workspace composer keyboard mobile: Enter sends, IME and Shift+Enter do not, workspace height resets (1316.957333ms)
+✔ Workspace composer keyboard desktop: Enter sends, IME and Shift+Enter do not, workspace height resets (1275.231709ms)
+✔ Workspace profile dismissal mobile: one account label, outside/Escape close and Saved hides its own entry (1406.935833ms)
+✔ Workspace profile dismissal desktop: one account label, outside/Escape close and Saved hides its own entry (1709.913958ms)
+✔ Workspace card keyboard mobile: arrows use pagination and respect editors, input, overlays, modifiers and batch end (1414.80725ms)
+✔ Workspace card keyboard desktop: arrows use pagination and respect editors, input, overlays, modifiers and batch end (1428.036209ms)
+ℹ tests 80
+ℹ suites 0
+ℹ pass 76
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 106086.586125
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round4.test.ts:1:9699
+✖ Round4 390: About keeps timed condition evidence and one Source for all answer citations (11276.849875ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at ready (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts:8:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts:70:270) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round4.test.ts:1:9699
+✖ Round4 1280: About keeps timed condition evidence and one Source for all answer citations (11341.583542ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at ready (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts:8:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts:70:270) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:44782
+✖ Workspace booking refresh mobile: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1062.86275ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /start_time=19%3A30/. Input:
+  
+  'https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A00&num_people=2'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:428:94)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A00&num_people=2',
+    expected: /start_time=19%3A30/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:44782
+✖ Workspace booking refresh desktop: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1350.260875ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /start_time=19%3A30/. Input:
+  
+  'https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A00&num_people=2'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:428:94)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A00&num_people=2',
+    expected: /start_time=19%3A30/,
+    operator: 'match'
+  }
