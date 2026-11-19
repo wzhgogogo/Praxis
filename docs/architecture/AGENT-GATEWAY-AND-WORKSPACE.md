@@ -173,3 +173,9 @@ Draft / not integrated. One persistent Case read owns an AsyncLocalStorage scope
 Refresh, next-batch and location validate idempotency, pending G1, expected version and business prerequisites before cancelling only their Case. Preparation covers cancellation, fresh snapshot/rechecks, event persistence and asynchronous read registration; concurrent projection cannot classify that gap as an interrupted process. Preparing UNDERSTANDING/SEARCHING/SELECTION_REQUIRED counts as active. Details/Handoff and open galleries remain during active work, then return to candidates if the terminal projection has no current presented candidate.
 
 The shared previous-revision selector is unchanged. revisionDiff additionally requires an actual earlier delivered batch; initial delivery after a clarification has no diff. A completed empty revision remains the immediately preceding baseline for a later diff and Saved validation.
+
+### 2026-11-19 — Round 7 read mutation preflight
+
+A durable request ID returns the current projection before the version check. Cancellation targets the ActiveRead instance seen by preflight. After it ends, the application rechecks the request ID, intervening user events, the requested target and read ownership before dispatching at the current snapshot version. An ordinary background completion on the same target can advance the version. Runtime duplicate delivery stops before appending another message or launching another read.
+
+While the displayed batch has a pending fact refresh, the context and Validator allow fact investigation of its original targets and withhold discovery, availability and presentation. An availability refresh also withholds presentation until its pending targets are observed.

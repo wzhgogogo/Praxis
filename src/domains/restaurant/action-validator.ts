@@ -183,6 +183,7 @@ export function validateRestaurantAction(
     return rejected(action.type === "CHECK_AVAILABILITY" ? "AVAILABILITY_ALREADY_CHECKED" : "FACTS_ALREADY_CHECKED", "Empty-result continuation cannot reinvestigate an already investigated outlet");
 
   if (action.type === "SEARCH_RESTAURANTS") {
+    if (state.factRefreshRequestedCandidateIds?.length) return rejected("REFRESH_TARGET_REQUIRED", "Complete the pending fact refresh for the displayed restaurants first");
     if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");
     const nativeBlock = discoveryPlanSearchBlockReason(state, now);
     if (nativeBlock) return rejected("DISCOVERY_UNAVAILABLE", nativeBlock);
@@ -225,6 +226,7 @@ export function validateRestaurantAction(
   }
 
   if (action.type === "CHECK_AVAILABILITY") {
+    if (state.factRefreshRequestedCandidateIds?.length) return rejected("REFRESH_TARGET_REQUIRED", "Complete the pending fact refresh for the displayed restaurants first");
     if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");
     const intent = requireCompleteIntent(state);
     if (!intent.valid) return intent.verdict;

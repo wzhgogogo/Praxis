@@ -19,17 +19,23 @@ const broadCategories = new Set(["restaurant", "food", "dining", "cuisine", "poi
 const beerServiceCategories = new Set(["brewpub", "beer bar", "beer hall", "beer garden", "beer restaurant",
   "craft beer bar", "craft beer hall", "craft beer garden", "craft beer restaurant"]);
 const supply = (criterion: string) => /^(?:serves?|offers?|provides?|has|with) (.+)$/.exec(normalize(criterion))?.[1];
+const ordinaryBeer = new Set(["beer", "beers", "ビール", "啤酒"]);
 const concreteSupply = (criterion: string) => /\bbeers?\b|ビール|啤酒/.test(normalize(criterion))
   || Boolean(supply(criterion) && !["food", "drinks", "dining", "cuisine"].includes(supply(criterion)!));
 
 /** A category is not a menu. Retail and generic types cannot prove a specific serving claim. */
 function categorySupports(criterion: string, label: string): boolean {
+  const normalizedCriterion = normalize(criterion);
+  const serving = supply(criterion);
+  const target = serving ?? normalizedCriterion;
+  const requiresBeer = /\bbeers?\b|ビール|啤酒/.test(normalizedCriterion);
   return label.split(/[,、;|]/).some(part => {
     const type = normalize(part);
     if (!type || broadCategories.has(type) || /\b(?:stores?|retail|wholesalers?|service)\b/.test(type)
       || /^(?:liquor|beer|wine|food|grocery) shop$/.test(type)) return false;
-    if (/\bbeers?\b|ビール|啤酒/.test(normalize(criterion))) return beerServiceCategories.has(type);
-    const serving = supply(criterion);
+    if (requiresBeer) {
+      return ordinaryBeer.has(target) ? beerServiceCategories.has(type) : outletNameSupportsHardCriterion(type, target);
+    }
     return !concreteSupply(criterion) || Boolean(serving && outletNameSupportsHardCriterion(type, serving));
   });
 }

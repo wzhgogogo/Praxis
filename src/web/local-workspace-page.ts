@@ -159,7 +159,7 @@ body.sidebar-collapsed #workspace-composer{left:24px}
 #candidate-panel #availability[data-status=unknown]{font-size:13px;font-weight:500;color:#5F6275}
 #candidate-panel #delivery-slots{margin-top:8px}
 #candidate-panel #delivery-slots:empty,#candidate-panel #recommendation:empty,#delivery-conditions:empty{display:none}
-#delivery-conditions{margin-top:8px;display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.45}
+#delivery-conditions{margin-top:8px;margin-bottom:12px;display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.45}
 .condition-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:13px;line-height:1.45}
 .condition-name{min-width:0;color:#15172B}.condition-status{flex:none;color:#5F6275;font-weight:500}
 #revision-changes.only-added summary{cursor:default;pointer-events:none}

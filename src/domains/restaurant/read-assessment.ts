@@ -243,17 +243,19 @@ export function immediateSourcesClosed(state: Readonly<RestaurantTaskState>): bo
 export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: string): RestaurantReadAssessment {
   const intent = completeRestaurantSearchIntent(state.intentDraft);
   if (!intent) return { presentation: [], factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded: false, canEndRead: false, endReadBlockReason: "The current request is incomplete", unresolvedCandidateIds: [] };
+  const factRefreshTargets = state.factRefreshRequestedCandidateIds ?? [];
   const presentation = state.candidates.map((candidate) => {
     const candidateId = candidate.restaurant.id;
     const userRequestedRefresh = state.refreshRequestedCandidateIds?.includes(candidateId) ?? false;
     if (userRequestedRefresh) return { candidateId, eligible: false, missingReason: "A user-requested read-only refresh is pending", recheckReason: "USER_REQUESTED_REFRESH" as const };
+    if (factRefreshTargets.includes(candidateId)) return { candidateId, eligible: false, missingReason: "A user-requested fact refresh is pending" };
     const evidence = presentationEvidenceIds(state, candidateId, intent, now);
     if (evidence.valid) return { candidateId, eligible: true };
     const check = state.availabilityChecks[candidateId];
     const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
     return { candidateId, eligible: false, missingReason: evidence.reason, ...(hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}) };
   });
-  if(state.candidates.length&&!state.candidates.some(c=>namedOutletCandidateResolved(state,c.restaurant.id))){
+  if(!factRefreshTargets.length&&state.candidates.length&&!state.candidates.some(c=>namedOutletCandidateResolved(state,c.restaurant.id))){
     const possible=state.candidates.filter(c=>namedOutletCandidateCanInvestigate(state,c.restaurant.id)).map(c=>c.restaurant.id);
     const identityOnly=namedOutletIdentityPrefix(state).length>0;
     return {presentation,
@@ -272,7 +274,6 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
         : { endReadReason: "IMMEDIATE_REQUEST_EXPIRED: The requested thirty-minute window has elapsed. Offer to search the nearest bookable time with a new user-approved window." }),
       unresolvedCandidateIds: state.candidates.map(candidate => candidate.restaurant.id) };
   }
-  const factRefreshTargets = state.factRefreshRequestedCandidateIds ?? [];
   // A pending next batch is a continuation of the same request, not a reason
   // to reopen or count an already delivered restaurant again.
   const excludedFromPendingBatch = new Set(state.pendingResultBatchTarget === undefined
@@ -298,11 +299,10 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
       || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri)
       || Boolean(candidate?.restaurant.sourceIds.discoveryDetailUri);
   }).map((item) => item.candidateId);
-  const eligibleCheckableIds = completeBookingIntent ? presentation.filter((item) =>
+  const checkableCandidateIds = !factRefreshTargets.length && completeBookingIntent ? presentation.filter((item) =>
     namedOutletCandidateResolved(state,item.candidateId)&&!excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
       && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
   ).map((item) => item.candidateId) : [];
-  const checkableCandidateIds = eligibleCheckableIds;
   const investigationRecorded = state.searchRevision > 0 || Object.keys(state.factChecks ?? {}).length > 0 || Object.keys(state.availabilityChecks).length > 0;
   const relevantPresentation = presentation.filter((item) => !excludedFromPendingBatch.has(item.candidateId));
   const unresolvedCandidateIds = relevantPresentation.filter((item) => !item.eligible).map((item) => item.candidateId);

@@ -6393,3 +6393,7 @@ Draft / not integrated. Fix screenshot findings2/3/4 through ALS ownership of th
 ### 2026-11-18 — Unified round-6 offline closure
 
 Final frozen source/tests/orchestration ddd9eda8d04b304f09b3629bb0d64828645c5789 passes complete clean offline acceptance after two explicitly retained new-test oracle corrections. All product code matches implementation313af33e8; later freezes correct fact-route/source-call and native-summary interaction checks. Existing user Live7/35 archived with55/55 combined hashes, original first-batch index retained. Prior evidence and main/env/closeout remain unchanged; Prompt15 bytes/version preserved. No new Live or real PostgreSQL, no4312 restart. Final followup changes only documentation/artifacts.
+
+### 2026-11-19 — Unified Round 7 implementation
+
+Draft / not integrated. Require observations for the original fact refresh targets before presenting results. Bind cancellation to the preflight ActiveRead and reconcile durable request IDs, new user events and target changes before writing. A duplicate dispatch does not enqueue another read. Preserve qualifiers on beer evidence, and give the condition list a 12px gap above the booking button. The Round 7 report corrects the Round 6 fact refresh explanation.

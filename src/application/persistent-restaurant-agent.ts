@@ -509,17 +509,14 @@ export class PersistentRestaurantAgentApplication {
     record: ConversationRecord,
     input: { userId: string; conversationId: string; message: string; requestId: string; expectedVersion: number; viewContext?: WorkspaceViewContext },
   ): Promise<RestaurantCaseView> {
+    const priorActive = this.activeReads.get(record.rootTaskId);
     const beforeCancellation = await this.runtime.snapshot(record.rootTaskId);
-    const viewingContext = input.viewContext ? this.resolveViewingContext(beforeCancellation.domainState, input.viewContext) : undefined;
-    if (beforeCancellation.version < input.expectedVersion) {
+    const events = await this.runtime.listEvents(record.rootTaskId);
+    if (events.some(event => event.id === this.userEventId(record.rootTaskId, input.requestId))) return this.project(record);
+    if (beforeCancellation.version < input.expectedVersion || events.slice(input.expectedVersion).some(event => event.trace.actor === "USER")) {
       throw new StaleTaskVersionError(input.expectedVersion, beforeCancellation.version);
     }
-    if (beforeCancellation.version > input.expectedVersion) {
-      const eventsSinceClientView = (await this.runtime.listEvents(record.rootTaskId)).slice(input.expectedVersion);
-      if (eventsSinceClientView.some((event) => event.trace.actor === "USER")) {
-        throw new StaleTaskVersionError(input.expectedVersion, beforeCancellation.version);
-      }
-    }
+    const viewingContext = input.viewContext ? this.resolveViewingContext(beforeCancellation.domainState, input.viewContext) : undefined;
     if (beforeCancellation.domainState.phase === "PRESENT_RESULTS" && isBrowseNextMessage(input.message)) {
       return this.browseNextResult({
         userId: input.userId,
@@ -548,10 +545,12 @@ export class PersistentRestaurantAgentApplication {
         feedback,
       });
     }
-    await this.cancelActiveRead(record, "The user changed the request, so the earlier read-only investigation was cancelled.");
-    const afterCancellation = await this.runtime.snapshot(record.rootTaskId);
-    await this.applyMessage(record, input.message, input.requestId, afterCancellation.version, viewingContext);
-    return this.project(record);
+    return this.withPreparingRead(record.rootTaskId, async () => {
+      const validated = await this.cancelAndRecheck(record, input, priorActive,
+        "The user changed the request, so the earlier read-only investigation was cancelled.");
+      if (validated) await this.applyMessage(record, input.message, input.requestId, validated.version, viewingContext);
+      return this.project(record);
+    });
   }
 
   /** Explicit card follow-up: persistent identity, independently bounded work. */
@@ -562,23 +561,26 @@ export class PersistentRestaurantAgentApplication {
     const prior = this.applyingUserMessages.get(key);
     if (prior) { await prior; return this.project(record); }
     const work = async () => {
-      let snapshot = await this.runtime.snapshot(record.rootTaskId);
-      const eventId = this.userEvent(snapshot,input.requestId,{type:"RESULT_VIEWED",candidateId:input.candidateId}).id;
-      if ((await this.runtime.listEvents(record.rootTaskId)).some(e=>e.id===eventId)) return;
-      if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion,snapshot.version);
-      if (snapshot.domainState.phase !== "PRESENT_RESULTS" || !snapshot.domainState.presentedResults?.candidateIds.includes(input.candidateId)
-        || !input.question.trim() || input.question.length > 2000) throw new Error("Question requires a displayed restaurant and 1–2000 characters");
-      await this.cancelActiveRead(record,"A newer displayed-restaurant question superseded the previous read");
-      snapshot = await this.runtime.snapshot(record.rootTaskId);
-      const events = await this.runtime.listEvents(record.rootTaskId);
-      if (events.some(e=>e.id===eventId)) return;
-      if (events.filter(e=>e.event.type==="PAGE_QUESTION_REQUESTED").length >= this.pageQuestionLimits.maxQuestionsPerConversation)
+      const priorActive = this.activeReads.get(record.rootTaskId);
+      const before = await this.runtime.snapshot(record.rootTaskId);
+      const priorEvents = await this.runtime.listEvents(record.rootTaskId);
+      if (priorEvents.some(event => event.id === this.userEventId(record.rootTaskId, input.requestId))) return;
+      const scope = (state: RestaurantTaskState) =>
+        state.phase === "PRESENT_RESULTS" && Boolean(state.presentedResults?.candidateIds.includes(input.candidateId));
+      if (before.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, before.version);
+      if (!scope(before.domainState) || !input.question.trim() || input.question.length > 2000)
+        throw new Error("Question requires a displayed restaurant and 1–2000 characters");
+      if (priorEvents.filter(event => event.event.type === "PAGE_QUESTION_REQUESTED").length >= this.pageQuestionLimits.maxQuestionsPerConversation)
         throw new Error("Restaurant question limit reached. Please start a new search.");
+      const snapshot = await this.cancelAndRecheck(record, input, priorActive,
+        "A newer displayed-restaurant question superseded the previous read", scope);
+      if (!snapshot) return;
       const deadline = new Date(submittedAt.valueOf()+this.pageQuestionLimits.maxElapsedMs);
       const question = {requestId:input.requestId,question:input.question.trim(),candidateId:input.candidateId,
         readRunId:snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0),
         readStartedAt:snapshot.createdAt,deadlineAt:deadline.toISOString(),requestedAt:submittedAt.toISOString()};
-      await this.runtime.dispatch(this.userEvent(snapshot,input.requestId,{type:"PAGE_QUESTION_REQUESTED",question}),snapshot.version);
+      const result = await this.runtime.dispatch(this.userEvent(snapshot,input.requestId,{type:"PAGE_QUESTION_REQUESTED",question}),snapshot.version);
+      if (result.duplicateEvent) return;
       await this.store.appendMessage({id:"message:0:"+hash(record.id+":"+input.requestId).slice(0,24),conversationId:record.id,
         role:"USER",content:input.question,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString()});
       await this.runAfterUserInput(record,input.requestId,undefined,deadline);
@@ -622,6 +624,7 @@ export class PersistentRestaurantAgentApplication {
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if ((await this.runtime.listEvents(record.rootTaskId)).some(event => event.id === this.userEventId(record.rootTaskId, input.requestId))) return this.project(record);
     if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
     const presented = snapshot.domainState.presentedResults?.candidateIds;
     if (snapshot.domainState.phase !== "PRESENT_RESULTS" || !presented?.length) {
@@ -630,7 +633,8 @@ export class PersistentRestaurantAgentApplication {
     const viewed = new Set(snapshot.domainState.selectionSession?.viewedCandidateIds ?? []);
     const candidateId = presented.find((id) => !viewed.has(id));
     if (!candidateId) throw new Error("Every result in the current batch has already been viewed");
-    await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "RESULT_VIEWED", candidateId }), input.expectedVersion);
+    const result = await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "RESULT_VIEWED", candidateId }), input.expectedVersion);
+    if (result.duplicateEvent) return this.project(record);
     await this.store.appendMessage({
       id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
       conversationId: record.id,
@@ -669,8 +673,10 @@ export class PersistentRestaurantAgentApplication {
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if ((await this.runtime.listEvents(record.rootTaskId)).some(event => event.id === this.userEventId(record.rootTaskId, input.requestId))) return this.project(record);
     if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
-    await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "SELECTION_FEEDBACK_RECORDED", feedback: input.feedback }), input.expectedVersion);
+    const result = await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "SELECTION_FEEDBACK_RECORDED", feedback: input.feedback }), input.expectedVersion);
+    if (result.duplicateEvent) return this.project(record);
     await this.store.appendMessage({
       id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
       conversationId: record.id,
@@ -694,27 +700,33 @@ export class PersistentRestaurantAgentApplication {
     userId: string; caseId: string; requestId: string; expectedVersion: number; message?: string;
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
-    let snapshot = await this.runtime.snapshot(record.rootTaskId);
-    const eventId = `event:user:${hash(`${snapshot.id}:${input.requestId}`).slice(0, 32)}`;
-    if ((await this.runtime.listEvents(record.rootTaskId)).some(item => item.id === eventId && (item.event.type === "NEXT_BATCH_REPLENISHMENT_REQUESTED" || item.event.type === "RESULTS_PRESENTED"))) return this.project(record);
+    const priorActive = this.activeReads.get(record.rootTaskId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    const eventId = this.userEventId(record.rootTaskId, input.requestId);
+    if ((await this.runtime.listEvents(record.rootTaskId)).some(event => event.id === eventId)) return this.project(record);
     if (snapshot.domainState.pageQuestion && !snapshot.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
     if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
     const empty = snapshot.domainState.phase === "NO_VERIFIED_RESULT";
     if (empty ? !canContinueRestaurantRead(snapshot.domainState, this.clock.now().toISOString()) : snapshot.domainState.phase !== "PRESENT_RESULTS") throw new Error("Another batch requires presented results or proven unread work");
+    const scope = (state: RestaurantTaskState) => JSON.stringify([
+      state.phase, state.presentedResults?.candidateIds, state.selectionSession?.deliveredCandidateIds,
+    ]);
+    const originalScope = scope(snapshot.domainState);
     return this.withPreparingRead(record.rootTaskId, async () => {
-      await this.cancelActiveRead(record, "A new result batch superseded the earlier read for this Case.");
-      snapshot = await this.runtime.snapshot(record.rootTaskId);
-      if ((await this.runtime.listEvents(record.rootTaskId)).some(item => item.id === eventId && (item.event.type === "NEXT_BATCH_REPLENISHMENT_REQUESTED" || item.event.type === "RESULTS_PRESENTED"))) return this.project(record);
-      if (snapshot.domainState.pageQuestion && !snapshot.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
-      if (snapshot.domainState.phase === "NO_VERIFIED_RESULT" ? !canContinueRestaurantRead(snapshot.domainState, this.clock.now().toISOString()) : snapshot.domainState.phase !== "PRESENT_RESULTS") throw new Error("Another batch requires presented results or proven unread work");
-      const delivered = new Set(snapshot.domainState.selectionSession?.deliveredCandidateIds ?? snapshot.domainState.presentedResults?.candidateIds ?? []);
-      const candidates = snapshot.domainState.candidates
+      const validated = await this.cancelAndRecheck(record, input, priorActive, "A new result batch superseded the earlier read for this Case.",
+        state => scope(state) === originalScope
+          && (state.phase !== "NO_VERIFIED_RESULT" || canContinueRestaurantRead(state, this.clock.now().toISOString())));
+      if (!validated) return this.project(record);
+      if (validated.domainState.pageQuestion && !validated.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
+      const delivered = new Set(validated.domainState.selectionSession?.deliveredCandidateIds ?? validated.domainState.presentedResults?.candidateIds ?? []);
+      const candidates = validated.domainState.candidates
         .map((candidate) => candidate.restaurant.id)
         .filter((candidateId) => !delivered.has(candidateId))
-        .filter((candidateId) => restaurantPresentationEvidenceIds(snapshot.domainState, candidateId, this.clock.now().toISOString()) !== undefined)
+        .filter((candidateId) => restaurantPresentationEvidenceIds(validated.domainState, candidateId, this.clock.now().toISOString()) !== undefined)
         .slice(0, 3);
       if (candidates.length < 3) {
-        await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "NEXT_BATCH_REPLENISHMENT_REQUESTED", targetCandidateCount: 3 }), snapshot.version);
+        const result = await this.runtime.dispatch(this.userEvent(validated, input.requestId, { type: "NEXT_BATCH_REPLENISHMENT_REQUESTED", targetCandidateCount: 3 }), validated.version);
+        if (result.duplicateEvent) return this.project(record);
         await this.store.appendMessage({
           id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
           conversationId: record.id,
@@ -726,8 +738,9 @@ export class PersistentRestaurantAgentApplication {
         await this.runUserInitiatedRead(record, input.requestId);
         return this.project(record);
       }
-      const evidenceIds = candidates.flatMap((candidateId) => restaurantPresentationEvidenceIds(snapshot.domainState, candidateId, this.clock.now().toISOString()) ?? []);
-      await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, { type: "RESULTS_PRESENTED", candidateIds: candidates, evidenceIds }), snapshot.version);
+      const evidenceIds = candidates.flatMap((candidateId) => restaurantPresentationEvidenceIds(validated.domainState, candidateId, this.clock.now().toISOString()) ?? []);
+      const result = await this.runtime.dispatch(this.userEvent(validated, input.requestId, { type: "RESULTS_PRESENTED", candidateIds: candidates, evidenceIds }), validated.version);
+      if (result.duplicateEvent) return this.project(record);
       await this.store.appendMessage({
         id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
         conversationId: record.id,
@@ -749,36 +762,41 @@ export class PersistentRestaurantAgentApplication {
     expectedVersion: number;
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
-    let snapshot = await this.runtime.snapshot(record.rootTaskId);
-    const eventId = `event:user:${hash(`${snapshot.id}:${input.requestId}`).slice(0, 32)}`;
-    if ((await this.runtime.listEvents(record.rootTaskId)).some(item => item.id === eventId && (item.event.type === "AVAILABILITY_REFRESH_REQUESTED" || item.event.type === "CANDIDATE_FACTS_REFRESH_REQUESTED"))) return this.project(record);
+    const priorActive = this.activeReads.get(record.rootTaskId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    const eventId = this.userEventId(record.rootTaskId, input.requestId);
+    if ((await this.runtime.listEvents(record.rootTaskId)).some(event => event.id === eventId)) return this.project(record);
     if (snapshot.domainState.pageQuestion && !snapshot.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
     if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
-    if (snapshot.domainState.phase !== "PRESENT_RESULTS" && !failedSourceRetryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length) throw new Error("Refresh requires currently presented read-only results");
-    if (!snapshot.domainState.presentedResults?.candidateIds.length && !failedSourceRetryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length) throw new Error("Refresh requires currently presented read-only results");
+    const target = (state: RestaurantTaskState) => {
+      const retry = failedSourceRetryCandidateIds(state, this.clock.now().toISOString());
+      const presented = state.phase === "PRESENT_RESULTS" ? state.presentedResults?.candidateIds : undefined;
+      return { retry, presented };
+    };
+    const originalTarget = target(snapshot.domainState);
+    const { retry, presented } = originalTarget;
+    if (!retry.length && !presented?.length) throw new Error("Refresh requires currently presented read-only results");
     return this.withPreparingRead(record.rootTaskId, async () => {
-      await this.cancelActiveRead(record, "A refresh superseded the earlier read for this Case.");
-      snapshot = await this.runtime.snapshot(record.rootTaskId);
-      if ((await this.runtime.listEvents(record.rootTaskId)).some(item => item.id === eventId && (item.event.type === "AVAILABILITY_REFRESH_REQUESTED" || item.event.type === "CANDIDATE_FACTS_REFRESH_REQUESTED"))) return this.project(record);
-      if (snapshot.domainState.pageQuestion && !snapshot.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
-      if (snapshot.domainState.phase !== "PRESENT_RESULTS" && !failedSourceRetryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length) throw new Error("Refresh requires currently presented read-only results");
-      const retryIds = failedSourceRetryCandidateIds(snapshot.domainState, this.clock.now().toISOString());
-      const candidateIds = retryIds.length ? retryIds : snapshot.domainState.presentedResults?.candidateIds;
-      if (!candidateIds?.length) throw new Error("Refresh requires currently presented read-only results");
+      const validated = await this.cancelAndRecheck(record, input, priorActive, "A refresh superseded the earlier read for this Case.",
+        state => JSON.stringify(target(state)) === JSON.stringify(originalTarget));
+      if (!validated) return this.project(record);
+      if (validated.domainState.pageQuestion && !validated.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
+      const candidateIds = retry.length ? retry : presented!;
       const candidateIdsWithDisplayedSlots = candidateIds.filter((candidateId) =>
-        (snapshot.domainState.availability[candidateId]?.length ?? 0) > 0 || snapshot.domainState.availabilityChecks[candidateId]?.status === "AVAILABLE",
+        (validated.domainState.availability[candidateId]?.length ?? 0) > 0 || validated.domainState.availabilityChecks[candidateId]?.status === "AVAILABLE",
       );
       // A recommendation is normally fact-only, but a previously displayed
       // live slot is an inventory claim and must be refreshed as inventory.
       // Other shown recommendation candidates retain their ordinary bounded fact
       // refresh rather than forcing an availability read without visit inputs.
-      const refreshSlots = retryIds.length > 0 || candidateIdsWithDisplayedSlots.length > 0 || snapshot.domainState.intentDraft?.target?.goal === "AVAILABILITY";
-      await this.runtime.dispatch(
-        this.userEvent(snapshot, input.requestId, refreshSlots
-          ? { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: retryIds.length ? retryIds : candidateIdsWithDisplayedSlots.length ? candidateIdsWithDisplayedSlots : candidateIds }
+      const refreshSlots = retry.length > 0 || candidateIdsWithDisplayedSlots.length > 0 || validated.domainState.intentDraft?.target?.goal === "AVAILABILITY";
+      const result = await this.runtime.dispatch(
+        this.userEvent(validated, input.requestId, refreshSlots
+          ? { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: retry.length ? retry : candidateIdsWithDisplayedSlots.length ? candidateIdsWithDisplayedSlots : candidateIds }
           : { type: "CANDIDATE_FACTS_REFRESH_REQUESTED", candidateIds: [...candidateIds] }),
-        snapshot.version,
+        validated.version,
       );
+      if (result.duplicateEvent) return this.project(record);
       await this.store.appendMessage({
         id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
         conversationId: record.id,
@@ -798,30 +816,33 @@ export class PersistentRestaurantAgentApplication {
     latitude: number; longitude: number; accuracyMeters?: number;
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
-    let snapshot = await this.runtime.snapshot(record.rootTaskId);
-    const eventId = `event:user:${hash(`${snapshot.id}:${input.requestId}`).slice(0, 32)}`;
-    if ((await this.runtime.listEvents(record.rootTaskId)).some(item => item.id === eventId && item.event.type === "SEMANTIC_PROPOSAL_COMPILED")) return this.project(record);
+    const priorActive = this.activeReads.get(record.rootTaskId);
+    const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    const eventId = this.userEventId(record.rootTaskId, input.requestId);
+    if ((await this.runtime.listEvents(record.rootTaskId)).some(event => event.id === eventId)) return this.project(record);
     if (snapshot.domainState.pageQuestion && !snapshot.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
     if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
     if (!Number.isFinite(input.latitude) || Math.abs(input.latitude) > 90 || !Number.isFinite(input.longitude) || Math.abs(input.longitude) > 180
       || input.accuracyMeters !== undefined && (!Number.isFinite(input.accuracyMeters) || input.accuracyMeters < 0)) throw new Error("Location requires valid coordinates");
-    let area = snapshot.domainState.intentDraft?.area;
-    if (!area) throw new Error("Location can be recorded after a location request is understood");
-    if (area.query.trim().toLocaleLowerCase("en-US") !== "nearby") {
+    const originalArea = snapshot.domainState.intentDraft?.area;
+    if (!originalArea) throw new Error("Location can be recorded after a location request is understood");
+    if (originalArea.query.trim().toLocaleLowerCase("en-US") !== "nearby") {
       throw new Error("Device location is accepted only for a nearby request; enter a place name to change an explicit area");
     }
+    const originalScope = JSON.stringify(originalArea);
     return this.withPreparingRead(record.rootTaskId, async () => {
-      await this.cancelActiveRead(record, "New device location superseded the earlier read for this Case.");
-      snapshot = await this.runtime.snapshot(record.rootTaskId);
-      if ((await this.runtime.listEvents(record.rootTaskId)).some(item => item.id === eventId && item.event.type === "SEMANTIC_PROPOSAL_COMPILED")) return this.project(record);
-      if (snapshot.domainState.pageQuestion && !snapshot.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
-      area = snapshot.domainState.intentDraft?.area;
+      const validated = await this.cancelAndRecheck(record, input, priorActive, "New device location superseded the earlier read for this Case.",
+        state => JSON.stringify(state.intentDraft?.area) === originalScope);
+      if (!validated) return this.project(record);
+      if (validated.domainState.pageQuestion && !validated.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
+      const area = validated.domainState.intentDraft?.area;
       if (!area || area.query.trim().toLocaleLowerCase("en-US") !== "nearby") throw new Error("Device location is accepted only for a nearby request");
       const now = this.clock.now().toISOString();
-      await this.runtime.dispatch(this.userEvent(snapshot, input.requestId, {
+      const result = await this.runtime.dispatch(this.userEvent(validated, input.requestId, {
         type: "SEMANTIC_PROPOSAL_COMPILED",
         patch: { schemaVersion: "3", area: { ...area, coordinates: { latitude: input.latitude, longitude: input.longitude, ...(input.accuracyMeters !== undefined ? { accuracyMeters: input.accuracyMeters } : {}), observedAt: now, source: "DEVICE" } } },
-      }), snapshot.version);
+      }), validated.version);
+      if (result.duplicateEvent) return this.project(record);
       await this.store.appendMessage({ id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`, conversationId: record.id, role: "USER", content: "Device location shared for this search", requestId: `user:${input.requestId}`, createdAt: now });
       await this.runUserInitiatedRead(record, input.requestId);
       return this.project(record);
@@ -972,7 +993,7 @@ export class PersistentRestaurantAgentApplication {
     viewingContext?: import("../domains/restaurant/semantic-interpreter.js").RestaurantSemanticViewingContext,
   ): Promise<void> {
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
-    const userEventId = `event:user:${hash(`${snapshot.id}:${requestId}`).slice(0, 32)}`;
+    const userEventId = this.userEventId(snapshot.id, requestId);
     // A retried HTTP request must not repeat an untrusted resolver call before
     // the runtime's ordinary event-id idempotency can take effect.
     const priorEvents = await this.runtime.listEvents(record.rootTaskId);
@@ -993,10 +1014,8 @@ export class PersistentRestaurantAgentApplication {
       ? { ...event, partySizeSourceMessageRequestId: `user:${requestId}` }
       : event;
     const envelope = this.userEvent(snapshot, requestId, eventWithPartySource);
-    await this.runtime.dispatch(
-      envelope,
-      expectedVersion,
-    );
+    const result = await this.runtime.dispatch(envelope, expectedVersion);
+    if (result.duplicateEvent) return;
     await this.store.appendMessage({
       id: `message:0:${hash(`${record.id}:${requestId}`).slice(0, 24)}`,
       conversationId: record.id,
@@ -1065,11 +1084,38 @@ export class PersistentRestaurantAgentApplication {
     })();
   }
 
-  private async cancelActiveRead(record: ConversationRecord, reason: string): Promise<void> {
-    const active = this.activeReads.get(record.rootTaskId);
-    if (!active) return;
-    active.controller.abort(new Error(reason));
-    await active.completion;
+  private async cancelAndRecheck(
+    record: ConversationRecord,
+    input: { requestId: string; expectedVersion: number },
+    priorActive: ActiveRead | undefined,
+    reason: string,
+    sameTarget?: (state: RestaurantTaskState) => boolean,
+  ) {
+    const taskId = record.rootTaskId;
+    const replacement = () => {
+      const active = this.activeReads.get(taskId);
+      return active !== undefined && active !== priorActive;
+    };
+    const replaced = await this.cancelActiveRead(record, priorActive, reason) || replacement();
+    const snapshot = await this.runtime.snapshot(taskId);
+    const events = await this.runtime.listEvents(taskId);
+    if (events.some(event => event.id === this.userEventId(taskId, input.requestId))) return;
+    if (replaced || replacement() || events.slice(input.expectedVersion).some(event => event.trace.actor === "USER")
+      || (sameTarget && !sameTarget(snapshot.domainState))) {
+      throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
+    }
+    return snapshot;
+  }
+
+  /** Cancel only the ActiveRead selected by preflight. Return true if it was replaced. */
+  private async cancelActiveRead(record: ConversationRecord, priorActive: ActiveRead | undefined, reason: string): Promise<boolean> {
+    const current = this.activeReads.get(record.rootTaskId);
+    if (current && current !== priorActive) return true;
+    if (current) {
+      current.controller.abort(new Error(reason));
+      await current.completion;
+    }
+    return false;
   }
 
   private async recordUnexpectedRunFailure(record: ConversationRecord, error: unknown): Promise<void> {
@@ -1112,12 +1158,16 @@ export class PersistentRestaurantAgentApplication {
     });
   }
 
+  private userEventId(taskId: string, requestId: string): string {
+    return `event:user:${hash(`${taskId}:${requestId}`).slice(0, 32)}`;
+  }
+
   private userEvent(
     snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
     requestId: string,
     event: RestaurantEvent,
   ) {
-    const id = `event:user:${hash(`${snapshot.id}:${requestId}`).slice(0, 32)}`;
+    const id = this.userEventId(snapshot.id, requestId);
     return {
       id,
       taskId: snapshot.id,
