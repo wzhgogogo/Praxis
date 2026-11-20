@@ -7165,3 +7165,9 @@ Frozen 1e8fbfb7051204a77b14c273f120bf41f7d8e5e2: typecheck0.626s, arch0 violatio
 ## 2026-11-20 — Round 17 red/green preflight
 
 Baseline reproduction: first/edit semantic dispatch windows both reject Stop409; desktop/mobile old Handoff survives revised conditions (four failures), concurrent loser returns200 (two failures); same-revision slot isolation passes twice. Post-fix preparation18/18, new browser8/8 and retained Round14–17 browser24/24 pass. A controlled same-handle preparation-to-active re-read failure is retained and fixed. Strict typecheck and web contracts3/3 pass. Outputs are unfrozen development diagnostics in round-17; frozen acceptance follows.
+
+<a id="unified-round17-final-20261120"></a>
+
+## 2026-11-20 — Unified Round17 frozen acceptance
+
+Frozen 256415a046ed948955b235bfe6b8805c607236bb: typecheck0.630s, arch0.198s (0 forbidden), default1792/1792 in69.137s, G2 5/5 + Chromium467/467 + G6 159/159 in412.455s, build0.654s. Clean before/after every gate. Formal16/16 in32.784s, Style1 6/6 in7.993s, states52/52 in65.399s;79 screenshots inspected, including6 new dual-size revision/conflict frames.16 singleton SCCs,strict:true,0 cycles;17 source/build assets identical. Red/green preflight preparation18, new browser8, controls24 and pure3 retained separately.4694 prior Unified +70 walkthrough hashes unchanged; main/env/closeout protected. Actual loopback HTTP/SSE/PGlite/Chromium only; no Live/real PG/4312 and no independent real-source S0 score. [Report](../../.eval-artifacts/3c-unified-20261117/round-17/REPORT.md).

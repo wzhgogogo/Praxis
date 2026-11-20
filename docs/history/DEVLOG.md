@@ -6449,3 +6449,9 @@ Backend d4c847ea247e9caa12958485c7b788f46ad9112c closes request-owned preparatio
 ## 2026-11-20 — Round 17 revision and preparation ownership
 
 Single-tab slot choices remain isolated, while shared plan-condition changes close old Handoff immediately and on position restoration. Position storage carries requirementRevision without an old-format compatibility path. Preparation cancellation validates the exact owner and either request-owned or just-persisted read identity; the same handle remains cancellable across its activation during the re-read. Semantic cancellation is checked immediately after dispatch. Displaced uncommitted preparation throws StaleTaskVersionError; persisted requests remain idempotent. Only persistent application preparation, browser transport/position/state metadata and corresponding regressions change.
+
+<a id="unified-round17-final-20261120"></a>
+
+## 2026-11-20 — Unified Round17 final offline closure
+
+Frozen 256415a046ed948955b235bfe6b8805c607236bb retains tab-local explicit slots while shared requirement revisions exit old Handoff immediately and during position restoration. Semantic preparation accepts the just-persisted read identity and the same owner’s activation transition; aborted dispatch returns before message/source work. Nonaborted, uncommitted ownership loss now returns409; recorded requests remain idempotent. USER-FLOWS0.36 and the new interaction contract lock this boundary. No source changes after freeze, no new dependency, no Domain/AgentLoop/eval changes. [Report](../../.eval-artifacts/3c-unified-20261117/round-17/REPORT.md). No Live/real PG/4312/main merge/push.
