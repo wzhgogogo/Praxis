@@ -1,0 +1,26 @@
+✔ Round14 loop: main presentation dispatch shares the validated instant at a one-millisecond boundary (5.907ms)
+✔ Round14 loop: whole-read deadline blocks fallback after expiry without an open read-end window (0.38025ms)
+✔ Round14 loop: whole-read deadline blocks fallback after expiry with an open read-end window (0.173667ms)
+✔ Round14 loop: fallback before the whole-read deadline cannot extend its delivery window (0.443ms)
+✔ Round14 loop: aliases from a delivered batch leave the four closing calls protected (4.471541ms)
+✔ Round10 UI: handoff refresh requires a new choice when 19:30 is gone (1367.735708ms)
+✔ Round10 UI: card refresh requires a new choice when 19:30 is gone (1049.404ms)
+✔ Round10 UI: renewed refresh retains a verified 19:30 (981.020584ms)
+✔ Round14 UI: About refresh requires explicit slot reselection (1051.13575ms)
+✔ Round14 UI: Handoff Back refresh requires explicit slot reselection (1082.729291ms)
+✔ Round14 UI: other tab refresh requires explicit slot reselection (1846.95475ms)
+✔ Round14 UI: renewal refresh rebinds the same time (1507.646167ms)
+✔ Round14 UI: delayed Stop is harmless after delivery (1042.750792ms)
+✔ Round14 UI: delayed Stop does not stop the replacement read (1070.431292ms)
+✔ Round14 UI: late About acceptance clears only the sent draft (1415.607833ms)
+✔ Round14 UI: late About acceptance preserves a replacement draft (1376.832667ms)
+✔ Round14 UI: an exhausted revised batch hides stale additions after reload (1535.248833ms)
+✔ Round14 UI: a claimed return prompt survives switching plans and is answered once (1535.787666ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17337.823667

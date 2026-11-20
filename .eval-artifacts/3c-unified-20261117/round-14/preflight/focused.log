@@ -1,0 +1,117 @@
+✔ Round14 loop: main presentation dispatch shares the validated instant at a one-millisecond boundary (5.759667ms)
+✔ Round14 loop: whole-read deadline blocks fallback after expiry without an open read-end window (0.355875ms)
+✔ Round14 loop: whole-read deadline blocks fallback after expiry with an open read-end window (0.17775ms)
+✔ Round14 loop: fallback before the whole-read deadline cannot extend its delivery window (0.446375ms)
+✔ Round14 loop: aliases from a delivered batch leave the four closing calls protected (4.195667ms)
+✔ Round14 UI: About refresh requires explicit slot reselection (1839.236875ms)
+✔ Round14 UI: Handoff Back refresh requires explicit slot reselection (1111.833583ms)
+✔ Round14 UI: other tab refresh requires explicit slot reselection (1826.344459ms)
+✔ Round14 UI: renewal refresh rebinds the same time (1523.985166ms)
+✔ Round14 UI: delayed Stop is harmless after delivery (1025.365584ms)
+✔ Round14 UI: delayed Stop does not stop the replacement read (1090.927125ms)
+✖ Round14 UI: late About acceptance clears only the sent draft (9288.746167ms)
+✖ Round14 UI: late About acceptance preserves a replacement draft (9279.077292ms)
+✔ Round14 UI: an exhausted revised batch hides stale additions after reload (1558.744542ms)
+✖ Round14 UI: a claimed return prompt survives switching plans and is answered once (1526.842708ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 12
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30552.598833
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:43298
+✖ Round14 UI: late About acceptance clears only the sent draft (9288.746167ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:f3034b7a57b5a29e2d12d856"]')
+      - locator resolved to <button class="case-link" title="Second dinner" data-case-id="restaurant:f3034b7a57b5a29e2d12d856">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <div id="answer-backdrop"></div> intercepts pointer events
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <div id="answer-backdrop"></div> intercepts pointer events
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is visible, enabled and stable
+         - scrolling into view if needed
+         - done scrolling
+         - <div id="answer-backdrop"></div> intercepts pointer events
+       - retrying click action
+         - waiting 500ms
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:988:43)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:968:5) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:f3034b7a57b5a29e2d12d856"]')`, '    - locator resolved to <button class="case-link" title="Second dinner" data-case-id="restaurant:f3034b7a57b5a29e2d12d856">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is visible, enabled and stable', '      - scrolling into view if needed', '      - done scrolling', '      - <div id="answer-backdrop"></div> intercepts pointer events', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is visible, enabled and stable', '      - scrolling into view if needed', '      - done scrolling', '      - <div id="answer-backdrop"></div> intercepts pointer events', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is visible, enabled and stable', '       - scrolling into view if needed', '       - done scrolling', '       - <div id="answer-backdrop"></div> intercepts pointer events', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:43298
+✖ Round14 UI: late About acceptance preserves a replacement draft (9279.077292ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:5ed0c4a3916c1580f262747e"]')
+      - locator resolved to <button class="case-link" title="Second dinner" data-case-id="restaurant:5ed0c4a3916c1580f262747e">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <div id="answer-backdrop"></div> intercepts pointer events
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <div id="answer-backdrop"></div> intercepts pointer events
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is visible, enabled and stable
+         - scrolling into view if needed
+         - done scrolling
+         - <div id="answer-backdrop"></div> intercepts pointer events
+       - retrying click action
+         - waiting 500ms
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:988:43)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:968:5) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:5ed0c4a3916c1580f262747e"]')`, '    - locator resolved to <button class="case-link" title="Second dinner" data-case-id="restaurant:5ed0c4a3916c1580f262747e">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is visible, enabled and stable', '      - scrolling into view if needed', '      - done scrolling', '      - <div id="answer-backdrop"></div> intercepts pointer events', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is visible, enabled and stable', '      - scrolling into view if needed', '      - done scrolling', '      - <div id="answer-backdrop"></div> intercepts pointer events', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is visible, enabled and stable', '       - scrolling into view if needed', '       - done scrolling', '       - <div id="answer-backdrop"></div> intercepts pointer events', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:46278
+✖ Round14 UI: a claimed return prompt survives switching plans and is answered once (1526.842708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + false
+  - undefined
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1074:14)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1028:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: undefined,
+    operator: 'strictEqual'
+  }
