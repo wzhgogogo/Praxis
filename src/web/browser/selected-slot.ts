@@ -11,6 +11,10 @@ export function offerFor(id){
  return state.ui.selectedSlot?fresh.find(o=>o.id===state.ui.offerId):fresh[0];
 }
 export function clearSlotSelection(){state.ui.offerId=null;state.ui.reselectSlot=false;delete state.ui.selectedSlot;}
+export function forgetSlotSelection(){
+ if(state.view&&state.user&&state.ui.candidateId)localStorage.removeItem(selectionKey(selectionScope()));
+ clearSlotSelection();
+}
 export function selectionScope(){
  return {userId:state.user.id,caseId:state.view.case.caseId,revision:state.view.restaurant.requirementRevision,candidateId:state.ui.candidateId};
 }

@@ -1,4 +1,4 @@
-import { availabilityExpired, clearSlotSelection, currentHandoff, freshOffers, handoffs, needsSlotReselection, offerFor, reconcileSlot, selectSlot } from "./selected-slot.js";
+import { availabilityExpired, clearSlotSelection, currentHandoff, freshOffers, forgetSlotSelection, handoffs, needsSlotReselection, offerFor, reconcileSlot, selectSlot } from "./selected-slot.js";
 import { closePhotos, renderPhotos } from "./photos.js";
 import { key, savePosition, setView } from "./navigation.js";
 import { canRefresh, canShortlist, candidate, closeAnswer, editCondition, ids, questionPending, resizeMessage, sourceFor, updateComposerClearance } from "./entry.js";
@@ -151,7 +151,7 @@ export function renderSaved(){
   const saved=state.view.restaurant.savedCandidates;show('saved-empty',!saved.length);$('saved-list').replaceChildren();
   for(const item of saved){const button=element('button',undefined,'saved-row'),description=element('div');description.append(element('span',item.outletName));
     if(item.reasonCode)description.append(element('p',changeReason(item.reasonCode),'muted'));button.append(description);button.dataset.candidateId=item.candidateId;button.disabled=!item.current;
-    if(item.current){button.append(element('span','→'));button.onclick=()=>{state.ui.atEnd=false;if(state.ui.candidateId!==item.candidateId)clearSlotSelection();state.ui.candidateId=item.candidateId;setView('CANDIDATES');};}
+    if(item.current){button.append(element('span','→'));button.onclick=()=>{state.ui.atEnd=false;if(state.ui.candidateId!==item.candidateId)forgetSlotSelection();state.ui.candidateId=item.candidateId;setView('CANDIDATES');};}
     $('saved-list').append(button);
   }
 }

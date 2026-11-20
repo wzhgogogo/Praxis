@@ -1,5 +1,5 @@
 import { render } from "./views.js";
-import { clearSlotSelection } from "./selected-slot.js";
+import { clearSlotSelection, forgetSlotSelection } from "./selected-slot.js";
 import { closePhotos } from "./photos.js";
 import { cancelPreparation, clearEntryPreview, clearEntryTransition, closeAnswer, ids } from "./entry.js";
 import { $, clearError, desktopLayout, report, show, state } from "./runtime.js";
@@ -50,6 +50,6 @@ export function moveCard(delta){
   clearEntryPreview();cancelPreparation();const list=ids(),i=list.indexOf(state.ui.candidateId);
   if(state.ui.atEnd&&delta<0){state.ui.atEnd=false;savePosition();render();return;}
   const id=list[i+delta];
-  if(id){closeAnswer();clearSlotSelection();state.ui.candidateId=id;state.ui.atEnd=false;state.detailKey='';state.handoffKey='';savePosition();render();}
+  if(id){closeAnswer();forgetSlotSelection();state.ui.candidateId=id;state.ui.atEnd=false;state.detailKey='';state.handoffKey='';savePosition();render();}
   else if(delta>0&&i===list.length-1&&state.view.case.phase==='PRESENT_RESULTS'&&!state.view.restaurant.progress.active){state.ui.atEnd=true;savePosition();render();}
 }
