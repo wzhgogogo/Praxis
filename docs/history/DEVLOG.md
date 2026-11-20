@@ -6419,3 +6419,7 @@ Draft / not integrated. Require explicit time reselection after refresh and scro
 ### 2026-11-19 — Unified Round 12 implementation
 
 Draft / not integrated. The workspace keeps full Case qualification for Saved and revision differences. Its display-ready set represents the current batch, filters delivered outlets and cross-source aliases during replenishment, and stays empty after a no-result conclusion.
+
+### 2026-11-20 — Unified Round 13 implementation
+
+Draft / not integrated. Card conditions stay beside their statuses, slots use an equal-width grid, and revision changes appear above the card. The card shows short source classifications and user-facing recommendations. About keeps the original excerpts and shows the pending question followed by newest-first answers with collapsed sources and Tokyo timestamps. The inline editor can remove optional conditions through the existing message endpoint.

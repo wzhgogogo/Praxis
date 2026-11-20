@@ -649,3 +649,195 @@ test("Round12 UI: an exhausted next batch stays empty after reload and keeps the
     assert.equal(await saved.innerText(), "Fixture Sushi");
   }, true);
 });
+
+test("Round13 UI: optional condition chips can be removed without touching the draft", { timeout: 30_000 }, async () => {
+  await fixture({ revisionScenario: "structured", revisionCuisine: true }, async (page, host) => {
+    await signin(page);
+    const { view } = await createPlan(page, "Dinner in Tokyo");
+    await updateRequirement(page, "For three people at 20:00 show two options under 10000 JPY");
+    const chips = page.locator("#request-conditions");
+    const chip = (name: string) => chips.getByRole("button", { name, exact: true });
+    for (const label of ["Tokyo", "Mon, Nov 2", "20:00–20:30", "3 guests"]) {
+      await chip(label).click();
+      assert.equal(await chips.getByRole("button", { name: /^Remove / }).count(), 0, label);
+      await chips.getByRole("button", { name: "Cancel condition change" }).click();
+    }
+
+    const before = await host.application.getCase(userId, view.case.caseId);
+    assert.ok(before.restaurant.intentDraft);
+    assert.ok(before.restaurant.intentDraft.criteria.some(item => item.text === "tempura"));
+    assert.equal(before.restaurant.intentDraft.budgetPerPerson?.max, 10_000);
+    await page.locator("#message").fill("Keep this unsent note");
+    for (const label of ["tempura", "¥10,000 per guest"]) {
+      await chip(label).click();
+      const remove = chips.getByRole("button", { name: "Remove " + label, exact: true });
+      if (label === "tempura") await screenshot(page, "round13-optional-chip-remove");
+      const posted = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/messages"));
+      await remove.click();
+      const response = await posted;
+      assert.equal(response.status(), 200);
+      assert.equal(response.request().postDataJSON().message, "Remove " + label);
+      await remove.waitFor({ state: "detached" });
+      assert.equal(await chip(label).count(), 0);
+      assert.equal(await page.locator("#message").inputValue(), "Keep this unsent note");
+      const stored = await host.application.getCase(userId, view.case.caseId);
+      assert.ok(stored.restaurant.intentDraft);
+      assert.equal(stored.restaurant.intentDraft.criteria.some(item => item.text === "tempura"), false);
+      assert.equal(stored.restaurant.intentDraft.budgetPerPerson?.max, label === "tempura" ? 10_000 : undefined);
+    }
+  });
+});
+
+test("Round13 UI: the card shows short source labels and About keeps the original excerpt", { timeout: 30_000 }, async () => {
+  const sourceText = "Chinese, ＣＨＩＮＥＳＥ, Casual\nlunch, Book a table!, Private dining rooms for your next company celebration, Dumpling, Izakaya, Bistro";
+  const matchReasons = [
+    "Address explicitly matches requested area: Tokyo",
+    "Source coordinates within 1000 m of Tokyo",
+    "Fixture match for the requested area",
+  ];
+  await fixture({ provider: "TABELOG", cuisineDisagreement: sourceText, matchReasons }, async (page, host) => {
+    await signin(page);
+    const { view } = await createPlan(page, "Dinner in Tokyo");
+    const persisted = await host.application.getCase(userId, view.case.caseId);
+    const id = persisted.restaurant.presentedCandidateIds![0];
+    assert.deepEqual(persisted.restaurant.candidates.find(c => c.restaurant.id === id)?.matchReasons, matchReasons);
+    assert.equal(await page.locator("#recommendation").innerText(), matchReasons[2]);
+    const labels = page.locator("#source-categories p");
+    assert.deepEqual(await labels.allTextContents(), [
+      "Google Maps: cantonese restaurant, dim sum restaurant Source",
+      "Tabelog: Chinese, Dumpling, Izakaya Source",
+    ]);
+    await labels.last().scrollIntoViewIfNeeded();
+    await screenshot(page, "round13-compact-source-categories");
+
+    await page.locator("#details-button").click();
+    assert.ok((await page.locator("#details-content blockquote").allTextContents()).includes("Source category: " + sourceText));
+  });
+});
+
+test("Round13 UI: selected slot keeps its place in the two-row mobile grid", { timeout: 30_000 }, async () => {
+  const slots = ["19:00", "19:05", "19:10", "19:15", "19:20", "19:30"];
+  await fixture({ multiSlot: slots }, async (page) => {
+    await signin(page);
+    await createPlan(page, "Dinner in Tokyo");
+    const options = page.locator(".slot-options .slot-time");
+    assert.deepEqual(await options.allTextContents(), slots);
+    const measure = () => options.evaluateAll(nodes => nodes.map(node => {
+      const { x, y, width } = node.getBoundingClientRect();
+      return { x, y, width, weight: getComputedStyle(node).fontWeight, align: getComputedStyle(node).textAlign };
+    }));
+    await options.last().scrollIntoViewIfNeeded();
+    const before = await measure();
+    assert.equal(new Set(before.map(slot => slot.y)).size, 2);
+    assert.ok(before.every(slot => slot.width === 72 && slot.weight === "500" && slot.align === "center"), JSON.stringify(before));
+    assert.equal(before[0]?.x, before[4]?.x);
+    assert.equal(before[1]?.x, before[5]?.x);
+    await options.last().click();
+    assert.equal(await options.last().getAttribute("aria-pressed"), "true");
+    assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(), 1);
+    assert.deepEqual(await measure(), before);
+    await screenshot(page, "round13-two-row-slot-grid");
+  }, true);
+});
+
+test("Round13 UI: the revision summary expands above the result card", { timeout: 30_000 }, async () => {
+  await fixture({ revisionScenario: "structured" }, async (page) => {
+    await signin(page);
+    await createPlan(page, "Dinner in Tokyo");
+    await updateRequirement(page, "For three people at 20:00 show two options under 10000 JPY");
+    const changes = page.locator("#revision-changes");
+    await changes.waitFor();
+    await changes.locator("summary").click();
+    await page.locator("#removed-list").waitFor();
+    assert.equal(await changes.evaluate(node => {
+      const progress = document.getElementById("progress")!;
+      const card = document.getElementById("candidate-panel")!;
+      return !!(progress.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING)
+        && node.getBoundingClientRect().bottom < card.getBoundingClientRect().top;
+    }), true);
+    await screenshot(page, "round13-revision-above-card");
+  });
+});
+
+test("Round13 UI: About shows pending and newest-first answers and keeps rejected questions", { timeout: 30_000 }, async () => {
+  const first = "Does this place require a card?";
+  const followUp = "What does the page say about card acceptance?";
+  const captured = latch(), answer = latch();
+  await fixture({
+    questions: { async beforeAnswer(input) { if (input.question === followUp) { captured.release(); await answer.ready; } } },
+    questionCitations: true,
+    cuisineDisagreement: true,
+  }, async (page, host) => {
+    try {
+      await signin(page);
+      const { view } = await createPlan(page, "Dinner in Tokyo");
+      await page.locator("#details-button").click();
+      const composer = page.locator("#message");
+      const send = page.locator("#send");
+      const refresh = page.locator("#refresh");
+      const submit = async (question: string) => {
+        const response = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/questions"));
+        await composer.fill(question);
+        await send.click();
+        assert.equal((await response).status(), 200);
+      };
+      await submit(first);
+      await page.locator("#answer-sheet").waitFor();
+      await page.locator("#answer-dismiss").click();
+      assert.equal(await composer.inputValue(), "");
+
+      await submit(followUp);
+      await captured.ready;
+      const pending = page.locator("#asked-pending");
+      await pending.waitFor();
+      await page.waitForFunction(() => (document.querySelector("#message") as HTMLTextAreaElement).value === "");
+      assert.equal(await pending.locator("p").first().innerText(), followUp);
+      assert.equal(await pending.getByRole("status").innerText(), "Checking the page…");
+      assert.equal(await send.getAttribute("aria-busy"), "true");
+      assert.equal(await send.isDisabled(), true);
+      assert.equal(await refresh.isDisabled(), true);
+      assert.equal(await refresh.getAttribute("aria-busy"), null);
+      assert.equal(await refresh.innerText(), "Refresh availability");
+      assert.equal(await page.locator("#asked-question").innerText(), first);
+      assert.equal(await page.locator("#asked-history .asked-item:visible").first().getAttribute("id"), "asked-pending");
+      await pending.scrollIntoViewIfNeeded();
+      await screenshot(page, "round13-question-pending");
+
+      await composer.fill("Keep this unsent follow-up");
+      await composer.press("Enter");
+      assert.equal(host.questionRequests.length, 2);
+      answer.release();
+      await page.locator("#answer-sheet").waitFor();
+      await page.locator("#answer-dismiss").click();
+      await pending.waitFor({ state: "hidden" });
+      assert.equal(await composer.inputValue(), "Keep this unsent follow-up");
+      assert.equal(await send.isEnabled(), true);
+      assert.equal(await refresh.isEnabled(), true);
+      const history = page.locator("#asked-history .asked-item:visible");
+      assert.deepEqual(await history.locator(":scope > p:first-child").allTextContents(), [followUp, first]);
+      assert.equal(await history.locator("details").count(), 2);
+      assert.equal(await history.locator("details[open]").count(), 0);
+      assert.deepEqual(await history.evaluateAll(items => items.map(item => [
+        getComputedStyle(item).backgroundColor,
+        getComputedStyle(item).borderRadius,
+        getComputedStyle(item.firstElementChild!).fontWeight,
+      ])), [["rgb(245, 246, 249)", "14px", "600"], ["rgb(245, 246, 249)", "14px", "600"]]);
+      await history.last().scrollIntoViewIfNeeded();
+      await screenshot(page, "round13-question-history");
+      await history.first().locator("summary").click();
+      assert.match(await history.first().innerText(), /Read at: Thu, Oct 29 · 19:00 JST/);
+      assert.match(await page.locator("#details-content").innerText(), /Read at: Thu, Oct 29 · 19:00 JST/);
+
+      await page.route("**" + pathFor(view) + "/questions", route => route.fulfill({
+        status: 503, json: { error: "Fixture question unavailable" },
+      }));
+      await send.click();
+      await page.getByText("Fixture question unavailable", { exact: true }).waitFor();
+      assert.equal(await composer.inputValue(), "Keep this unsent follow-up");
+      assert.equal(await send.isEnabled(), true);
+      assert.equal(host.questionRequests.length, 2);
+    } finally {
+      answer.release();
+    }
+  });
+});

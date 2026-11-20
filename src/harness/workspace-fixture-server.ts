@@ -41,7 +41,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;staged?:boolean;multiSlot?:boolean;cuisineDisagreement?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean|{newCandidates:number;beforeDecision?:()=>Promise<void>};sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;matchReasons?:string[];staged?:boolean;multiSlot?:boolean|string[];cuisineDisagreement?:boolean|string;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean|{beforeAnswer:(input:RestaurantPageQuestionRequest)=>Promise<void>};inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean|{newCandidates:number;beforeDecision?:()=>Promise<void>};sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -69,8 +69,15 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       const edit=Object.keys(semanticContext).some(key=>key!=="viewingContext")&&(/three|3 guests/i.test(text)||!!inlineParty);
       const editedParty=inlineParty?Number(inlineParty[1]):3;
       const refer=/this one/i.test(text),inline=text.match(/^Change (.+) to (.+)$/);
+      const removed=text.startsWith("Remove ")?text.slice("Remove ".length):undefined;
+      const criterion=removed&&semanticContext.criteria?.find((item:{text:string})=>item.text===removed);
+      const budget=semanticContext.budgetPerPerson;
       let inlineFacts:RestaurantSemanticProposal["facts"]|undefined;
-      if(/^(Keep the same dinner conditions|Same dinner, please)$/i.test(text)&&semanticContext.partySize){
+      if(criterion){
+        inlineFacts=[{field:"CRITERION",operation:"NEGATE",value:{kind:"CRITERION",...criterion}}];
+      }else if(budget&&removed==="¥"+Number(budget.max).toLocaleString("en-US")+" per guest"){
+        inlineFacts=[{field:"BUDGET_PER_PERSON",operation:"NEGATE"}];
+      }else if(/^(Keep the same dinner conditions|Same dinner, please)$/i.test(text)&&semanticContext.partySize){
         inlineFacts=[{field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:semanticContext.partySize,source:semanticContext.partySizeSource??"EXPLICIT"}}];
       }else if(text==="Higashi-Ginza"&&semanticContext.area?.query==="nearby"){
         inlineFacts=[{field:"AREA",operation:"CORRECT",value:{kind:"AREA",query:text}}];
@@ -141,6 +148,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       }
       if(options.laterBatchFirstOnRevision&&request.intent.partySize===3)candidates.push(...candidates.splice(0,3));
       const found=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?candidates.filter(c=>c.restaurant.outletName===request.intent.target!.query):candidates;
+      if(options.matchReasons)for(const candidate of found)candidate.matchReasons=[...options.matchReasons];
       if(options.naturalRecommendation)for(const candidate of found)candidate.matchReasons=["A good fit for your dinner plans in this area."];
       return {candidates:found,evidence:found.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:request.intent.area?.query??"Tokyo",areaMatch:true,...(options.photoLongAddress?{distanceMeters:450,areaMatchBasis:"TASK_LOCATION_RADIUS"}:{})}})),...(options.continuation==="search"?{continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:searches.length===1?[]:["workspace-next"],pagesRead:searches.length,exhausted:searches.length>1,...(searches.length===1?{nextPageToken:"workspace-next"}:{})}}:batchPool?{continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:[],pagesRead:1,exhausted:true}}:{}),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
     },
@@ -159,13 +167,13 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       const failed=!failuresRecovered&&(options.outcome==="all-sources-failed"||(options.outcome==="partial"&&index===1)||(reserve&&options.continuation==="pool"));
       const noSlot=reserve||options.outcome==="empty"||(changed&&id==="fixture-restaurant-3");
       const amount=changed&&id==="fixture-restaurant-2"?20_000:5_000;
-      const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),...(options.sourceValidityMs?{sourceExpiresAt:new Date(clock.now().valueOf()+options.sourceValidityMs).toISOString()}:{}),requestedDate:request.date,requestedPartySize:request.partySize,visibleSlots:noSlot||failed?[]:options.multiSlot?[request.timeWindow.earliest,request.timeWindow.latest]:[request.timeWindow.earliest],pageState:failed?"BOT_CHALLENGE":noSlot?"NO_MATCHING_SLOT":"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
+      const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),...(options.sourceValidityMs?{sourceExpiresAt:new Date(clock.now().valueOf()+options.sourceValidityMs).toISOString()}:{}),requestedDate:request.date,requestedPartySize:request.partySize,visibleSlots:noSlot||failed?[]:options.multiSlot===true?[request.timeWindow.earliest,request.timeWindow.latest]:options.multiSlot||[request.timeWindow.earliest],pageState:failed?"BOT_CHALLENGE":noSlot?"NO_MATCHING_SLOT":"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
         ...(options.revisionScenario||options.photoLongAddress?{priceFacts:{schemaVersion:"restaurant-price-facts@1" as const,listedCoursePricesYen:[{amount,kind:"MEAL" as const,meal:"DINNER" as const,tax:"INCLUDED" as const,quote:"Dinner course ¥"+amount,sourceUrl}]}}:{})},clock.now().toISOString());
       if(options.cuisineDisagreement){
         const at=clock.now().toISOString(),placeId='fixture-place:'+id;
         result.evidence.push({evidenceId:'google-identity:'+id,kind:'ENTITY_MATCH',provider:'GOOGLE_PLACES',candidateId:id,sourceEntityId:placeId,observedAt:at,requestFingerprint:'fixture',claims:{},entityMatch:{confidence:'HIGH',matchedBy:['SYNTHETIC_SAME_OUTLET']}},
           {evidenceId:'google-category:'+id,kind:'RESTAURANT_FACT',provider:'GOOGLE_PLACES',candidateId:id,sourceEntityId:placeId,sourceUrl:'https://maps.google.com/?cid=123',observedAt:at,requestFingerprint:'fixture',claims:{restaurantTypeFacts:['cantonese restaurant','dim sum restaurant']}},
-          {evidenceId:'source-category:'+id,kind:'RESTAURANT_FACT',provider,candidateId:id,sourceEntityId,sourceUrl,observedAt:at,requestFingerprint:'fixture',claims:{},sourceFieldQuotes:[{field:'CATEGORY',quote:'Chinese, Dumpling, Izakaya',sourceUrl}]});
+          {evidenceId:'source-category:'+id,kind:'RESTAURANT_FACT',provider,candidateId:id,sourceEntityId,sourceUrl,observedAt:at,requestFingerprint:'fixture',claims:{},sourceFieldQuotes:[{field:'CATEGORY',quote:typeof options.cuisineDisagreement==='string'?options.cuisineDisagreement:'Chinese, Dumpling, Izakaya',sourceUrl}]});
       }
       const check={...result.check,sourceProvider:provider,requestFingerprint:restaurantAvailabilityRequestFingerprint(request),...(failed?{sourceAttempts:[{source:provider,outcome:"FAILED" as const,reasonCode:"BOT_CHALLENGE"}]}:{})};
       if(!result.offers.length){if(reserve){reserveUsed=true;clock.advance(readLimits.maxAutomaticBrowserMs-19_000);}call.completed=true;return {...result,availabilityChecks:{[id]:check},metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};}
@@ -210,7 +218,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
     async inspectFacts(){throw new Error("No fixture fact read was planned");},
   };
   const application=new PersistentRestaurantAgentApplication({database,clock,semanticInterpreter:new RestaurantSemanticInterpreter(model),agentDecision:new RestaurantAgentDecision(model),restaurantSearch:restaurant,restaurantAvailability:restaurant,restaurantFacts:restaurant,
-    ...(options.questions?{restaurantQuestions:{executionRoute:"STRUCTURED_ADAPTER" as const,async answerQuestion(input:RestaurantPageQuestionRequest):Promise<RestaurantPageAnswer>{questionRequests.push(structuredClone(input));return structuredClone(answers.get(input.candidate.restaurant.id)??{status:"UNVERIFIED",candidateId:input.candidate.restaurant.id,reason:"NO_BOUND_PAGE",checkedPages:[]});}}}:{}),
+    ...(options.questions?{restaurantQuestions:{executionRoute:"STRUCTURED_ADAPTER" as const,async answerQuestion(input:RestaurantPageQuestionRequest):Promise<RestaurantPageAnswer>{questionRequests.push(structuredClone(input));if(typeof options.questions==="object")await options.questions.beforeAnswer(input);return structuredClone(answers.get(input.candidate.restaurant.id)??{status:"UNVERIFIED",candidateId:input.candidate.restaurant.id,reason:"NO_BOUND_PAGE",checkedPages:[]});}}}:{}),
     workspaceMode:"LIVE_READ",executionRouterOptions:{structuredReadTimeoutMs:readLimits.maxStructuredReadMs,browserReadTimeoutMs:readLimits.maxAutomaticBrowserMs},agentLoopOptions:{maxSteps:readLimits.maxAgentSteps,maxRejectedActions:readLimits.maxRejectedActions,timeoutMs:readLimits.maxAutomaticBrowserMs}});
   const sessions=new PilotSessionService(application.store,[{accessToken:"workspace-fixture",id:"workspace-user",displayName:"Fixture account"},{accessToken:"workspace-other",id:"other-user",displayName:"Other account"}],clock);
   const readAssembly=options.photoHttp||options.photoGoogle?createLiveReadAssembly(readLimits,{model,clock,google:new GooglePlacesClient({apiKey:'fixture-not-a-secret',fetchImplementation:async()=>{throw new Error('Photo fixture must not call Google');}}),browser:{async openSession(){throw new Error('Photo fixture must not launch a model browser');}},...(options.photoHttp?{photoHttp:options.photoHttp}:{}),...(options.photoGoogle?{googlePhotos:options.photoGoogle}:{})}):undefined;

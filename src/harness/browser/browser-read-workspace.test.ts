@@ -103,7 +103,7 @@ test("G1 Web asks only for the displayed outlet and renders quotes, absence and 
     const ask=async(text:string)=>{
       await page.locator("#message").fill(text);
       await page.getByRole("button",{name:"Send",exact:true}).click();await page.locator("#answer-sheet").waitFor({state:"visible"});
-      assert.equal(await page.locator("#message").inputValue(),text);
+      assert.equal(await page.locator("#message").inputValue(),"");
       assert.equal(await page.locator("#asked-question").innerText(),text);
       assert.equal(await page.locator("#answer-place").innerText(),"Merchant Cafe");
     };
@@ -113,11 +113,12 @@ test("G1 Web asks only for the displayed outlet and renders quotes, absence and 
     assert.equal(await page.locator("#question-result blockquote").innerText(),"カード可（VISA、Master）");
     assert.equal(await page.locator("#answer-sheet").getByRole("link",{name:"Source page",exact:true}).getAttribute("href"),"https://merchant.example/a");
     assert.match(await page.locator("#question-result").innerText(),/They accept Visa and MasterCard/);
-    assert.match(await page.locator("#question-result").innerText(),/Read at: 2026-10-27T16:00:00\+01:00/);
+    assert.match(await page.locator("#question-result").innerText(),/Read at: Wed, Oct 28 · 00:00 JST/);
     assert.doesNotMatch(await page.locator("#question-result").innerText(),/Please confirm/);
     await page.locator("#answer-dismiss").click();
     variant="absence";await ask("Does the page list a taxi service?");
     assert.match(await page.locator("#question-result").innerText(),/Not stated on the page/);
+    await page.locator("#question-result summary").click();
     assert.equal(await page.locator("#answer-sheet").getByRole("link",{name:"Checked page",exact:true}).getAttribute("href"),"https://merchant.example/a");
     await page.locator("#answer-dismiss").click();
     variant="sensitive";await page.setViewportSize({width:390,height:844});await ask("What does the page say about wheelchair access?");

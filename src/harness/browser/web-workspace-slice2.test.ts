@@ -63,7 +63,7 @@ for(const size of sizes){
       assert.equal(await page.locator("#app input:visible, #app textarea:visible").count(),1);
       assert.equal(await page.locator("#question-form, #question-send").count(),0);
       const titleBefore=await page.locator("#details-name").boundingBox(),modelCalls=host.requests.length;
-      const ask=async(question:string)=>{await page.locator("#message").fill(question);await page.getByRole("button",{name:"Send",exact:true}).click();await page.locator("#answer-sheet").waitFor({state:"visible"});assert.equal(await page.locator("#message").inputValue(),question);};
+      const ask=async(question:string)=>{await page.locator("#message").fill(question);await page.getByRole("button",{name:"Send",exact:true}).click();await page.locator("#answer-sheet").waitFor({state:"visible"});assert.equal(await page.locator("#message").inputValue(),"");};
       await ask("Does this place require a card?");
       assert.equal(await page.locator("#answer-place").innerText(),first);
       assert.equal(host.questionRequests.length,1);assert.equal(host.requests.length,modelCalls,"routing to G1 cannot add semantic/Agent model work");
@@ -73,7 +73,7 @@ for(const size of sizes){
       assert.deepEqual(Object.keys(posts.find(p=>p.path.endsWith("/questions"))!.body).sort(),["candidateId","question","requestId","taskVersion"]);
       await capture(page,size.name+"-slice2-answer");
       await page.locator("#answer-backdrop").click({position:{x:8,y:8}});await page.locator("#answer-sheet").waitFor({state:"hidden"});
-      assert.equal(await page.locator("#message").inputValue(),"Does this place require a card?");
+      assert.equal(await page.locator("#message").inputValue(),"");
       assert.equal(await page.locator("#asked-question").innerText(),"Does this place require a card?");
       await capture(page,size.name+"-slice2-you-asked");
       await page.locator("#details-back").click();assert.equal(await page.locator("#restaurant-name").innerText(),first);
@@ -326,7 +326,7 @@ for(const size of sizes)test("Workspace 3c "+size.name+": each observed booking 
   assert.equal(await laterTime.getAttribute('aria-pressed'),'true');assert.equal(await laterTime.evaluate(n=>n.matches(':focus-visible')),false);assert.equal(await page.locator('.slot-time[aria-pressed=true]').count(),1);
   const style=await laterTime.evaluate(n=>{const s=getComputedStyle(n);return {background:s.backgroundColor,color:s.color,radius:s.borderRadius,weight:s.fontWeight,shadow:s.boxShadow};});
   const selectedBackground=await page.evaluate(()=>{const probe=document.createElement('span');probe.style.background='color-mix(in srgb,#3D5AFE 16%,#fff)';document.body.append(probe);const value=getComputedStyle(probe).backgroundColor;probe.remove();return value;});
-  assert.equal(style.background,selectedBackground);assert.equal(style.color,'rgb(21, 23, 43)');assert.equal(style.radius,'8px');assert.equal(style.weight,'600');assert.equal(style.shadow,'none');
+  assert.equal(style.background,selectedBackground);assert.equal(style.color,'rgb(21, 23, 43)');assert.equal(style.radius,'8px');assert.equal(style.weight,await page.locator('.slot-time[aria-pressed=false]').evaluate(n=>getComputedStyle(n).fontWeight));assert.equal(style.shadow,'none');
   await page.reload();await page.locator('#candidate-panel').waitFor();assert.equal(await laterTime.getAttribute('aria-pressed'),'true');
   await capture(page,size.name+'-card-slot-summary');
   await page.locator('#choose').click();const selector=page.getByLabel('Booking time',{exact:true});
@@ -555,7 +555,7 @@ for(const size of sizes)test('Workspace composer keyboard '+size.name+': Enter s
   const posted=page.waitForRequest(r=>r.method()==='POST'&&new URL(r.url()).pathname.endsWith('/messages'));await message.press('Enter');assert.equal((await posted).postDataJSON().message,'Same dinner, please');await page.waitForFunction(()=>document.querySelector('#send')?.getAttribute('aria-busy')==='true');
   await message.press('Enter');assert.equal(posts,1,'repeated Enter cannot duplicate the pending request');
   const updated=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname.endsWith('/messages'));release();assert.equal((await updated).status(),200);await page.waitForFunction(()=>document.querySelector<HTMLTextAreaElement>('#message')?.value==='');assert.ok(Math.abs(await height()-oneLine)<1);await page.unroute('**/api/conversations/*/messages');
-  await page.locator('#details-button').click();await message.fill('Is a credit card required?');const question=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname.endsWith('/questions'));await message.press('Enter');assert.equal((await question).status(),200);await page.locator('#answer-sheet').waitFor();assert.equal(host.questionRequests.length,1);assert.equal(await message.inputValue(),'Is a credit card required?');await page.keyboard.press('Escape');await page.locator('#answer-sheet').waitFor({state:'hidden'});
+  await page.locator('#details-button').click();await message.fill('Is a credit card required?');const question=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname.endsWith('/questions'));await message.press('Enter');assert.equal((await question).status(),200);await page.locator('#answer-sheet').waitFor();assert.equal(host.questionRequests.length,1);assert.equal(await message.inputValue(),'');await page.keyboard.press('Escape');await page.locator('#answer-sheet').waitFor({state:'hidden'});
   await message.fill('Line\n'.repeat(20));assert.equal(await height(),140);await page.locator('#new-case').click();await page.locator('#home').waitFor();assert.equal(await message.inputValue(),'');assert.equal(await height(),64);assert.equal(await message.evaluate(e=>(e as HTMLElement).style.height),'');
  }catch(error){await failureDiagnostic(page,host);throw error;}finally{release();await context.close();await browser.close();await host.close();}
 });
