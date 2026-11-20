@@ -543,7 +543,11 @@ test("Stage 2B serves the fixture workspace and rejects unauthenticated case acc
       const response = await fetch(running.baseUrl);
       assert.equal(response.status, 200);
       const page = await response.text();
-      assert.match(page, /Fixture only/i);
+      assert.match(page, /type="module" src="\/assets\/workspace\/entry.js"/);
+      const module = await fetch(running.baseUrl + "/assets/workspace/views.js");
+      assert.equal(module.status, 200);
+      assert.match(module.headers.get("content-type")!, /javascript/);
+      assert.match(await module.text(), /Fixture only/i);
       const unauthorized = await fetch(`${running.baseUrl}/api/cases`);
       assert.equal(unauthorized.status, 401);
     } finally {
