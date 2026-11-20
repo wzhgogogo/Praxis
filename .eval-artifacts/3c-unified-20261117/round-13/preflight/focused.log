@@ -1,0 +1,79 @@
+✔ Round13 UI: optional condition chips can be removed without touching the draft (2807.194875ms)
+✖ Round13 UI: the card shows short source labels and About keeps the original excerpt (1234.497791ms)
+✖ Round13 UI: selected slot keeps its place in the two-row mobile grid (1272.521875ms)
+✔ Round13 UI: the revision summary expands above the result card (1346.640458ms)
+✖ Round13 UI: About shows pending and newest-first answers and keeps rejected questions (1501.220625ms)
+✔ Round6 Style1 390x844 available: aligned condition rows and clean availability (1957.587083ms)
+✔ Round6 Style1 390x844 not-checked: aligned condition rows and clean availability (1253.370042ms)
+✔ Round6 Style1 768x1024 available: aligned condition rows and clean availability (1083.99525ms)
+✔ Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability (1068.13275ms)
+✔ Round6 Style1 1440x900 available: aligned condition rows and clean availability (1565.599292ms)
+✔ Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability (1593.749667ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 8
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9143.809625
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:30660
+✖ Round13 UI: the card shows short source labels and About keeps the original excerpt (1234.497791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Source coordinates within 1000 m of Tokyo'
+  - 'Fixture match for the requested area'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:702:12)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:696:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Source coordinates within 1000 m of Tokyo',
+    expected: 'Fixture match for the requested area',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:32083
+✖ Round13 UI: selected slot keeps its place in the two-row mobile grid (1272.521875ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    page.getByRole("button", { name: "Saved 1", exact: true })
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:730:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:718:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:34096
+✖ Round13 UI: About shows pending and newest-first answers and keeps rejected questions (1501.220625ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Read at: Thu, Oct 29 · 19:00 JST/. Input:
+  
+  '1-2-3 Tokyo (synthetic)'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:827:14)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:764:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '1-2-3 Tokyo (synthetic)',
+    expected: /Read at: Thu, Oct 29 · 19:00 JST/,
+    operator: 'match'
+  }
