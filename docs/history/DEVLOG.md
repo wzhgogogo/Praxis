@@ -6439,3 +6439,9 @@ Registered semantic preparation cancellation before model work and passed each r
 ## 2026-11-20 — Round 16 typed browser DAG and tab isolation
 
 Entry alone assembles callback contracts and events. Queries, formatting, composer and navigation storage move below views/transport/navigation; public browser DTOs are structurally checked against the application view. Strict DOM TypeScript contains no any or suppression directives, and all 16 static-import components are singletons. Explicit slots now use sessionStorage; the obsolete shared-selection storage listener is removed. Back, next, Saved and Find more in another tab cannot delete this tab’s stored slot intent; refreshed inventory still controls offer eligibility.
+
+<a id="unified-round16-final-20261120"></a>
+
+## 2026-11-20 — Unified Round 16 final offline closeout
+
+Backend d4c847ea247e9caa12958485c7b788f46ad9112c closes request-owned preparation, same-read stale-write cancellation retry and About cancellation. Frozen 1e8fbfb7051204a77b14c273f120bf41f7d8e5e2 moves explicit slots to tab-local sessionStorage and completes a strict16-module browser DAG, without new dependencies or client execution paths. Entry is sole callback/event assembly; browser DTOs align structurally with the public application view. Removed obsolete cross-tab selection storage listener/test expectation. Same-time offer replacement and missing-time lock remain. [Contract and full evidence](../../.eval-artifacts/3c-unified-20261117/round-16/REPORT.md). No source changes after freeze, no Live/real PG/4312/main merge/push.
