@@ -630,7 +630,9 @@ export class RestaurantAgentLoopCoordinator {
       const completed = await this.terminate(snapshot, deadlineAt, base, "TIMEOUT", cancellationReason(signal));
       return { status: completed ? "TERMINAL" : "TIMEOUT", steps };
     }
-    await this.terminate(snapshot, deadlineAt, base, "CANCELLED", cancellationReason(signal));
+    const latest = await this.runtime.snapshot(snapshot.id);
+    if (latest.runId !== snapshot.runId || latest.domainState.investigationRevision !== snapshot.domainState.investigationRevision || terminal(latest.domainState)) return {status:"CANCELLED",steps};
+    await this.terminate(latest, deadlineAt, base, "CANCELLED", cancellationReason(signal));
     return { status: "CANCELLED", steps };
   }
 

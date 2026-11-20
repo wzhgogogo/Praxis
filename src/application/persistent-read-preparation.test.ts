@@ -213,3 +213,33 @@ test("Searching and stopped next batch keep new verified outlets while excluding
     assert.deepEqual(stopped.restaurant.readyCandidateIds, during.restaurant.readyCandidateIds);
   } finally { release.release(); await host.close(); }
 });
+
+test("Round15 Stop during preparation cancels before any new source call",async()=>{
+ const host=await startWorkspaceFixture(),entered=latch(),release=latch();
+ const append=host.application.store.appendMessage.bind(host.application.store);
+ let pending:Promise<unknown>|undefined;
+ try{
+  const first=await create(host),view=await settled(host,first.case.caseId),calls=host.providerCalls.length;
+  host.application.store.appendMessage=async input=>{if(input.requestId==="user:stop-preparing"){entered.release();await release.promise;}return append(input);};
+  pending=host.application.refreshAvailability({userId,caseId:view.case.caseId,expectedVersion:view.case.taskVersion,requestId:"stop-preparing"});
+  await entered.promise;
+  const current=await host.application.getCase(userId,view.case.caseId);
+  const stopped=await host.application.cancelCase(userId,view.case.caseId,{readRunId:current.restaurant.sourceReadContext!.runId,expectedVersion:current.case.taskVersion});
+  assert.equal(stopped.restaurant.progress.stopped,true);
+  release.release();await pending;
+  assert.equal(host.providerCalls.length,calls);
+  assert.equal((await settled(host,view.case.caseId)).restaurant.progress.stopped,true);
+ }finally{release.release();await pending;await host.close();}
+});
+
+test("Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version",async()=>{
+ const host=await startWorkspaceFixture({staged:true});
+ try{
+  const first=await create(host);await host.waitForCheck();
+  const view=await host.application.getCase(userId,first.case.caseId);
+  await host.application.setShortlist({userId,caseId:view.case.caseId,candidateId:view.restaurant.candidates[0]!.restaurant.id,shortlisted:true,expectedVersion:view.case.taskVersion,requestId:"save-before-stop"});
+  const stopped=await host.application.cancelCase(userId,view.case.caseId,{readRunId:view.restaurant.sourceReadContext!.runId,expectedVersion:view.case.taskVersion});
+  assert.equal(stopped.restaurant.progress.stopped,true);
+  assert.equal(stopped.case.stopped,true);
+ }finally{host.release();await host.close();}
+});
