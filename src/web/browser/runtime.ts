@@ -1,7 +1,7 @@
 import type { FeedbackPrompt, WorkspaceUser, WorkspaceView } from './view-contracts.js';
 import type { WorkspaceViewName } from './actions.js';
 import type { Slot } from './slot-selection.js';
-export interface WorkspaceUi {view:WorkspaceViewName;candidateId:string|null;reselectSlot:boolean;offerId?:string|null;selectedSlot?:Slot;atEnd?:boolean}
+export interface WorkspaceUi {readonly revision?:number;view:WorkspaceViewName;candidateId:string|null;reselectSlot:boolean;offerId?:string|null;selectedSlot?:Slot;atEnd?:boolean}
 export interface EntryPreview {caseId:string;startedAt:number;phase:string;timer:number}
 export interface WorkspaceState {
  sidebarCollapsed:boolean;user:WorkspaceUser|null;cases:Map<string,WorkspaceView['case']>;drafts:Map<string,string>;view:WorkspaceView|null;nav:number;

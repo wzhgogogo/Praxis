@@ -7161,3 +7161,7 @@ Typecheck and architecture pass; web unit contracts3/3 and Round14–16 Chromium
 ## 2026-11-20 — Unified Round 16 frozen acceptance
 
 Frozen 1e8fbfb7051204a77b14c273f120bf41f7d8e5e2: typecheck0.626s, arch0 violations0.196s, npm test1789/1789 in69.902s, G2 5/5 + Chromium459/459 + G6 159/159 in419.016s, build0.590s. Clean before/after every gate. Formal16/16 in32.912s (390/960/1440), Style1 6/6 in8.165s, states44/44 in54.497s;73 images inspected. Strict browser16 singleton SCCs,0 cycles;17 source/build assets identical. Intentional red controls and early setup/environment diagnostics retained separately.3358 prior Unified+70 walkthrough SHA256 unchanged, main/env/closeout protected. Actual local HTTP/SSE/PGlite/Chromium only; Live/real PG/4312 not run, no new independent Live S0 score. [Report](../../.eval-artifacts/3c-unified-20261117/round-16/REPORT.md).
+
+## 2026-11-20 — Round 17 red/green preflight
+
+Baseline reproduction: first/edit semantic dispatch windows both reject Stop409; desktop/mobile old Handoff survives revised conditions (four failures), concurrent loser returns200 (two failures); same-revision slot isolation passes twice. Post-fix preparation18/18, new browser8/8 and retained Round14–17 browser24/24 pass. A controlled same-handle preparation-to-active re-read failure is retained and fixed. Strict typecheck and web contracts3/3 pass. Outputs are unfrozen development diagnostics in round-17; frozen acceptance follows.

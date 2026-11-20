@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.35
-- Last updated: 2026-11-11
+- Document revision: 0.36
+- Last updated: 2026-11-20
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Visual Direction](VISUAL-DIRECTION.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -265,3 +265,12 @@ For the same restaurant and plan revision, availability updates from the card, A
 ### 2026-11-19 — Round 11 workspace closure
 
 If a refreshed booking time disappears and new times are available, the card requires an explicit time selection before booking can continue. The workspace brings its error notice above the fixed composer. After a confirmed departure, its source tab can finish opening while the user switches plans. A claimed booking feedback prompt stays with its original plan while the page is open. It can still be answered after switching back to that plan. Reloading or reopening the page never repeats a claimed prompt. A delayed Stop affects only the read shown when it was pressed. If that read has already finished, the latest Case remains visible.
+
+
+## 2026-11-20 — Tab-local time choices and changed plan conditions
+
+User decision; work-branch implementation and offline evidence are recorded in STATUS. An explicit time choice belongs to one browser tab, authenticated user, plan, requirement revision and restaurant. sessionStorage stores the chosen date/time/party separately from page position. Another tab choosing a different slot, browsing, Back, Saved or Find more does not overwrite that choice. If B merely chooses 19:00 under the same plan revision, A remains on its own 19:30 Handoff. Shared localStorage choice synchronization is not used.
+
+Authoritative plan conditions remain shared. A new requirementRevision (guests, date, time, area or other plan conditions) cancels pending Handoff preparation and clears this tab's old selected-slot projection. An already open Handoff immediately returns to Candidates with “Plan conditions changed. Confirm the time again.” The user must explicitly confirm the new conditions/time before opening another Handoff; the old page cannot silently become a departure for the new first offer. Saved page position carries its requirement revision: reload or plan restoration rejects an old-revision Handoff too. Same-revision refresh and offer-ID replacement preserve this tab's still-valid explicit time; a disappeared time keeps the existing reselection lock.
+
+Concurrent uncommitted message edits are not acknowledged as accepted. The displaced request returns 409 with the current task version; the workspace synchronizes the latest plan, keeps that tab's rejected message text and shows the conflict. Explicit Stop remains cancellation, with zero subsequent source work after a stopped preparation. A current Stop may reference the newly persisted read identity before preparation has received that identity back; a genuinely obsolete Stop still cannot cancel a replacement read.

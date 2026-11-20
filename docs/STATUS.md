@@ -1378,3 +1378,5 @@ Round 16 frontend slice (local / not integrated): browser strict:true, 16-module
 <a id="unified-round16-final-20261120"></a>
 
 2026-11-20 — Unified Round 16, draft / not integrated. Stop slice d4c847ea2; strict DAG + tab-local slots frozen `1e8fbfb7051204a77b14c273f120bf41f7d8e5e2`. All clean-tree gates PASS: default1789, G2 5, Chromium459, G6 159, build; formal16, Style1 6, states44 and73 inspected images PASS. browserStrict:true,16 singleton SCCs,0 cycles,17 tsx/build assets identical. Protection hashes unchanged;0 Live/real PG/4312. [Full report](../.eval-artifacts/3c-unified-20261117/round-16/REPORT.md).
+
+Round 17 (draft / not integrated): tab-local slots remain sessionStorage; changed requirement revisions now exit open/restored Handoff with a confirmation hint. Current persisted preparation identities may be stopped before handle handback; superseded uncommitted messages now conflict instead of acknowledging dropped input. Pre-freeze preparation18/18, browser controls24/24 and strict web contracts3/3 pass. Frozen five gates/visuals pending.

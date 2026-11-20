@@ -1143,3 +1143,87 @@ for(const action of ["next","Back","Saved","Find more"] as const)test("Round16 U
   assert.deepEqual(errors,[]);await other.close();
  });
 });
+
+
+for(const mobile of [false,true])for(const boundary of ["SSE","reload","same-revision choice"] as const)test(`Round17 UI: ${mobile?"mobile":"desktop"} Handoff ${boundary} distinguishes changed conditions from another tab's slot`,{timeout:30_000},async()=>{
+ await fixture({multiSlot:true,sourceValidityMs:60_000},async(page,host)=>{
+  await signin(page);const {view}=await createPlan(page,"Dinner in Tokyo");
+  const initial=await host.application.getCase(userId,view.case.caseId),candidateId=initial.restaurant.presentedCandidateIds![0]!;
+  const chosen=initial.restaurant.availability[candidateId]!.find(o=>o.dateTime.includes("19:30"))!;
+  await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();await page.locator("#choose").click();
+  await page.locator("#handoff").waitFor();assert.match(await page.locator("#departure").getAttribute("href")??"",/start_time=19%3A30/);
+  const departures=trackRequests(page,"POST",pathFor(initial)+"/booking-departures");
+  const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
+  try{
+   if(boundary==="same-revision choice"){
+    await other.getByRole("button",{name:"Time 19:00 on Mon, Nov 2",exact:true}).click();await frames(page);
+    assert.equal(await page.locator("#handoff").isVisible(),true);
+    assert.equal(await page.locator("#handoff-slot").inputValue(),chosen.id);
+    assert.match(await page.locator("#departure").getAttribute("href")??"",/start_time=19%3A30/);
+    await page.reload();await page.locator("#handoff").waitFor();assert.equal(await page.locator("#handoff-slot").inputValue(),chosen.id);
+    assert.equal(departures.length,0);return;
+   }
+   if(boundary==="reload")await page.evaluate(async()=>{const {state}=await import(String("/assets/workspace/runtime.js"));state.stream?.close();});
+   host.hold();
+   await other.getByRole("button",{name:"2 guests",exact:true}).click();
+   await other.getByRole("spinbutton",{name:"Edit 2 guests",exact:true}).fill("3");
+   const editing=other.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/messages"));
+   await other.getByRole("button",{name:"Save",exact:true}).click();assert.equal((await editing).status(),200);
+   await host.waitForCheck();
+   if(boundary==="SSE"){
+    await page.locator("#handoff").waitFor({state:"hidden"});
+    assert.equal(await page.locator("#progress").isVisible(),true,"exit is immediate, before the replacement source read completes");
+   }else assert.equal(await page.locator("#handoff").isVisible(),true,"the closed stream leaves the old tab unchanged until reload");
+   host.release();await ready(other);
+   const latest=await host.application.getCase(userId,view.case.caseId);
+   assert.ok(latest.restaurant.requirementRevision>initial.restaurant.requirementRevision);
+   assert.equal(latest.restaurant.intentDraft?.partySize,3);
+   assert.ok(latest.restaurant.availability[candidateId]!.some(o=>o.partySize===3&&o.dateTime.includes("19:30")));
+   assert.ok(latest.restaurant.availability[candidateId]!.some(o=>o.partySize===3&&o.dateTime.includes("19:00")));
+   if(boundary==="reload")await page.reload();
+   await page.locator("#candidate-panel").waitFor();await page.locator("#error").waitFor();
+   assert.equal(await page.locator("#handoff").isVisible(),false);assert.equal(await page.locator("#departure").isVisible(),false);
+   assert.match(await page.locator("#error").innerText(),/conditions.*changed|plan.*changed/i);
+   assert.equal(departures.length,0);
+   const before=await host.database.query<{count:number}>("SELECT count(*)::int AS count FROM restaurant_booking_departures WHERE conversation_id = $1",[view.case.conversationId]);
+   assert.equal(before.rows[0]!.count,0);
+   await screenshot(page,`round17-${mobile?"mobile":"desktop"}-${boundary.toLowerCase()}-revision-exit`);
+   await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();await page.locator("#choose").click();
+   const selected=await page.locator("#handoff-slot").inputValue();
+   assert.equal(latest.restaurant.availability[candidateId]!.find(o=>o.id===selected)?.partySize,3);
+   assert.match(await page.locator("#departure").getAttribute("href")??"",/start_time=19%3A30/);
+   const departing=page.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/booking-departures"));
+   await page.locator("#departure").click();assert.equal((await departing).status(),201);
+   const after=await host.database.query<{candidate_id:string;offer_id:string}>("SELECT candidate_id,offer_id FROM restaurant_booking_departures WHERE conversation_id = $1",[view.case.conversationId]);
+   assert.deepEqual(after.rows,[{candidate_id:candidateId,offer_id:selected}]);
+  }finally{host.release();await other.close();}
+ },mobile);
+});
+
+for(const mobile of [false,true])test(`Round17 UI: ${mobile?"mobile":"desktop"} superseded semantic edit returns 409 and keeps its draft`,{timeout:30_000},async()=>{
+ const entered=latch(),release=latch();
+ await fixture({beforeSemantic:async message=>{if(message==="Change 2 guests to 3"){entered.release();await release.ready;}}},async(page,host)=>{
+  try{
+   await signin(page);const {view}=await createPlan(page,"Dinner in Tokyo");
+   const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
+   const expected=(await host.application.getCase(userId,view.case.caseId)).case.taskVersion;
+   const rejected=page.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/messages"));
+   await page.locator("#message").fill("Change 2 guests to 3");await page.locator("#send").click();await entered.ready;
+   const accepted=other.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/messages"));
+   await other.locator("#message").fill("Change 2 guests to 4");await other.locator("#send").click();
+   const winner=await accepted;assert.equal(winner.status(),200);assert.equal(winner.request().postDataJSON().taskVersion,expected);
+   await ready(other);const latest=await host.application.getCase(userId,view.case.caseId);
+   assert.equal(latest.restaurant.intentDraft?.partySize,4);
+   release.release();const loser=await rejected;
+   assert.equal(loser.request().postDataJSON().taskVersion,expected);
+   const conflict=await loser.json();assert.equal(loser.status(),409,JSON.stringify(conflict));assert.equal(conflict.actualVersion,latest.case.taskVersion);
+   await page.getByText(conflict.error,{exact:true}).waitFor();await page.getByRole("button",{name:"4 guests",exact:true}).waitFor();
+   assert.equal(await page.locator("#message").inputValue(),"Change 2 guests to 3");assert.equal(await page.locator("#send").isEnabled(),true);
+   const persisted=await host.application.getCase(userId,view.case.caseId);
+   assert.ok(persisted.conversation.messages.some(m=>m.role==="USER"&&m.content==="Change 2 guests to 4"));
+   assert.ok(!persisted.conversation.messages.some(m=>m.role==="USER"&&m.content==="Change 2 guests to 3"));
+   await alertAboveComposer(page);await screenshot(page,`round17-${mobile?"mobile":"desktop"}-concurrent-edit-conflict`);
+   await other.close();
+  }finally{release.release();}
+ },mobile);
+});

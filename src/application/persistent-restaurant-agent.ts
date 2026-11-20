@@ -868,18 +868,30 @@ export class PersistentRestaurantAgentApplication {
     const record = await this.requireCase(userId, caseId);
     const active = this.activeReads.get(record.rootTaskId) ?? this.preparingHandles.get(record.rootTaskId);
     if (!active) return this.project(record);
-    // Refresh and batch reads can share an investigation ID. Their initiating
-    // event has a newer version even when the underlying source scope is reused.
-    if (active.readRunId !== expected.readRunId || active.startedVersion > expected.expectedVersion) {
+    // Preparation can persist a new investigation before its dispatch promise
+    // hands the new identity back to the handle. The exact owner, observed
+    // version and either request-owned or persisted identity must still match.
+    const preparing = this.preparingHandles.get(record.rootTaskId) === active;
+    const matchesPreparing = (current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>) =>
+      this.preparingHandles.get(record.rootTaskId) === active
+      && active.startedVersion <= expected.expectedVersion && expected.expectedVersion <= current.version
+      && (expected.readRunId === active.readRunId
+        || expected.readRunId === current.runId+":investigation:"+String(current.domainState.investigationRevision??0));
+    if (preparing) {
+      const current = await this.runtime.snapshot(record.rootTaskId);
+      const activated = this.activeReads.get(record.rootTaskId) === active
+        && active.readRunId === expected.readRunId && active.startedVersion <= expected.expectedVersion
+        && expected.expectedVersion <= current.version;
+      if (!matchesPreparing(current) && !activated) throw new StaleTaskVersionError(expected.expectedVersion, current.version);
+    } else if (active.readRunId !== expected.readRunId || active.startedVersion > expected.expectedVersion) {
       const current = await this.runtime.snapshot(record.rootTaskId);
       throw new StaleTaskVersionError(expected.expectedVersion, current.version);
     }
     active.controller.abort(new Error("The user cancelled this read-only investigation."));
-    if (this.preparingHandles.get(record.rootTaskId) === active) {
+    if (preparing && this.preparingHandles.get(record.rootTaskId) === active) {
       for (let attempt = 0; attempt < 4; attempt++) {
         const snapshot = await this.runtime.snapshot(record.rootTaskId);
-        if (this.preparingHandles.get(record.rootTaskId) !== active
-          || active.readRunId !== snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0))
+        if (!matchesPreparing(snapshot))
           throw new StaleTaskVersionError(expected.expectedVersion, snapshot.version);
         const q = snapshot.domainState.pageQuestion;
         const event: RestaurantEvent = snapshot.domainState.phase === "PRESENT_RESULTS" && q && !q.result
@@ -1040,7 +1052,9 @@ export class PersistentRestaurantAgentApplication {
     // the runtime's ordinary event-id idempotency can take effect.
     const priorEvents = await this.runtime.listEvents(record.rootTaskId);
     if (priorEvents.some((recorded) => recorded.id === userEventId)) return;
-    if (handle.controller.signal.aborted || this.preparingHandles.get(record.rootTaskId) !== handle) return;
+    if (handle.controller.signal.aborted) return;
+    if (this.preparingHandles.get(record.rootTaskId) !== handle)
+      return this.rejectSupersededPreparation(record, handle, requestId, expectedVersion);
     const interpretedEvent = await restaurantEventForMessage(this.interpreter, {
       taskId: record.rootTaskId,
       message,
@@ -1051,7 +1065,9 @@ export class PersistentRestaurantAgentApplication {
         ? { currentDraft: snapshot.domainState.intentDraft }
         : {}),
     }, this.partySizeSupplementResolver);
-    if (handle.controller.signal.aborted || this.preparingHandles.get(record.rootTaskId) !== handle) return;
+    if (handle.controller.signal.aborted) return;
+    if (this.preparingHandles.get(record.rootTaskId) !== handle)
+      return this.rejectSupersededPreparation(record, handle, requestId, expectedVersion);
     const event = interpretedEvent.type === "SEMANTIC_PROPOSAL_COMPILED"
       ? bindUserBookingSelection(interpretedEvent, snapshot.domainState) : interpretedEvent;
     const eventWithPartySource = event.type === "SEMANTIC_PROPOSAL_COMPILED" && event.patch.partySizeSource
@@ -1059,6 +1075,7 @@ export class PersistentRestaurantAgentApplication {
       : event;
     const envelope = this.userEvent(snapshot, requestId, eventWithPartySource);
     const result = await this.runtime.dispatch(envelope, expectedVersion);
+    if (handle.controller.signal.aborted) return;
     if (result.duplicateEvent) return;
     handle.startedVersion = result.snapshot.version;
     handle.readRunId = result.snapshot.runId+":investigation:"+String(result.snapshot.domainState.investigationRevision??0);
@@ -1081,6 +1098,15 @@ export class PersistentRestaurantAgentApplication {
       userBookingSelectionRequest([...priorEvents, envelope]));
   }
 
+  /** An already recorded request remains idempotent; an uncommitted loser is a conflict. */
+  private async rejectSupersededPreparation(record: ConversationRecord, handle: ActiveRead, requestId: string, expectedVersion: number): Promise<void> {
+    const events = await this.runtime.listEvents(record.rootTaskId);
+    if (handle.controller.signal.aborted || events.some(event => event.id === this.userEventId(record.rootTaskId, requestId))) return;
+    const current = await this.runtime.snapshot(record.rootTaskId);
+    if (handle.controller.signal.aborted) return;
+    throw new StaleTaskVersionError(expectedVersion, current.version);
+  }
+
   private prepareRead(record: ConversationRecord, snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>): ActiveRead {
     let finish!: () => void;
     const handle: ActiveRead = {
@@ -1093,7 +1119,9 @@ export class PersistentRestaurantAgentApplication {
   }
 
   private async runAfterUserInput(record: ConversationRecord, requestId: string, started: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>, handle: ActiveRead, runDeadlineSignal?: AbortSignal, questionDeadline?: Date, userSelection?: UserBookingSelectionRequest): Promise<void> {
-    if (handle.controller.signal.aborted || this.preparingHandles.get(record.rootTaskId) !== handle) return;
+    if (handle.controller.signal.aborted) return;
+    if (this.preparingHandles.get(record.rootTaskId) !== handle)
+      return this.rejectSupersededPreparation(record, handle, requestId, started.version);
     // Map the enclosing wall-clock deadline to the Runtime clock once; semantic
     // work has already consumed part of this same read, including its reserve.
     const usage = this.modelRunBudget?.usage(record.rootTaskId);

@@ -323,3 +323,61 @@ test("Round16 About question preparing Stop returns HTTP 200 and zero question s
   assert.equal(host.questionRequests.length,0);
  } finally {release.release();await pending?.catch(()=>{});await host.close();}
 });
+
+
+for(const kind of ["first","edit"] as const)test(`Round17 ${kind} semantic commit: current persisted read ID cancels before handle identity catches up`,{timeout:20_000},async()=>{
+ const host=await startWorkspaceFixture(),entered=latch(),release=latch();
+ type Runtime=import("./persistent-restaurant-agent.js").PersistentRestaurantAgentApplication["runtime"];
+ const runtime=(host.application as unknown as {runtime:Runtime}).runtime;
+ const dispatch=runtime.dispatch.bind(runtime),append=host.application.store.appendMessage.bind(host.application.store);
+ let pending:Promise<unknown>|undefined,appends=0;
+ try{
+  let existing:Awaited<ReturnType<typeof settled>>|undefined;
+  if(kind==="edit"){const first=await create(host);existing=await settled(host,first.case.caseId);}
+  const requestId=kind==="first"?"preparation-initial":"semantic-commit-stop";
+  host.application.store.appendMessage=async input=>{if(input.requestId==="user:"+requestId)appends++;return append(input);};
+  let armed=true;
+  runtime.dispatch=async(envelope,version)=>{
+   const result=await dispatch(envelope,version);
+   if(armed&&envelope.event.type==="SEMANTIC_PROPOSAL_COMPILED"){
+    armed=false;entered.release();await release.promise;
+   }
+   return result;
+  };
+  const calls=host.providerCalls.length,searches=host.searches.length;
+  pending=existing?host.application.submitMessage({userId,conversationId:existing.case.conversationId,expectedVersion:existing.case.taskVersion,requestId,message:"Change 2 guests to 3"}):create(host);
+  await entered.promise;
+  const id=existing?.case.caseId??(await host.application.listCases(userId))[0]!.caseId;
+  const current=await host.application.getCase(userId,id);
+  const handles=(host.application as unknown as {preparingHandles:Map<string,{readRunId:string;startedVersion:number}>}).preparingHandles;
+  assert.notEqual(handles.get(id)!.readRunId,current.restaurant.sourceReadContext!.runId,"the test parks before the read ID handback");
+  if(kind==="first")assert.equal(current.case.taskVersion,1);
+  const session=await fetch(host.baseUrl+"/api/session",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({accessToken:"workspace-fixture"})});
+  const response=await fetch(host.baseUrl+`/api/cases/${encodeURIComponent(id)}/run`,{method:"DELETE",headers:{cookie:session.headers.get("set-cookie")!.split(";")[0]!,"content-type":"application/json"},body:JSON.stringify({readRunId:current.restaurant.sourceReadContext!.runId,taskVersion:current.case.taskVersion})});
+  const body=await response.json() as {view?:import("./agent-workspace.js").RestaurantCaseView;error?:string};
+  assert.equal(response.status,200,JSON.stringify(body));assert.equal(body.view?.case.stopped,true);
+  release.release();await pending;
+  assert.equal(appends,0,"cancelled dispatch must not append the pending message or start source work");
+  assert.equal(host.searches.length,searches);assert.equal(host.providerCalls.length,calls);
+  assert.equal((await settled(host,id)).case.stopped,true);
+ }finally{release.release();await pending?.catch(()=>{});runtime.dispatch=dispatch;host.application.store.appendMessage=append;await host.close();}
+});
+
+test("Round17 preparation becomes active during Stop identity re-read without a false conflict",{timeout:20_000},async()=>{
+ const host=await startWorkspaceFixture({staged:true}),entered=latch(),release=latch();
+ type Runtime=import("./persistent-restaurant-agent.js").PersistentRestaurantAgentApplication["runtime"];
+ const runtime=(host.application as unknown as {runtime:Runtime}).runtime;
+ const dispatch=runtime.dispatch.bind(runtime),snapshot=runtime.snapshot.bind(runtime);
+ let pending:ReturnType<typeof create>|undefined;
+ try{
+  let commit=true;
+  runtime.dispatch=async(envelope,version)=>{const result=await dispatch(envelope,version);if(commit&&envelope.event.type==="SEMANTIC_PROPOSAL_COMPILED"){commit=false;entered.release();await release.promise;}return result;};
+  pending=create(host);await entered.promise;
+  const id=(await host.application.listCases(userId))[0]!.caseId,current=await host.application.getCase(userId,id);
+  let reading=true;
+  runtime.snapshot=async taskId=>{const value=await snapshot(taskId);if(reading){reading=false;release.release();await host.waitForCheck();}return value;};
+  const stopped=await host.application.cancelCase(userId,id,{readRunId:current.restaurant.sourceReadContext!.runId,expectedVersion:current.case.taskVersion});
+  await pending;assert.equal(stopped.case.stopped,true);assert.equal(stopped.restaurant.progress.stopped,true);
+  assert.equal(host.providerCalls.at(-1)?.aborted,true);
+ }finally{release.release();host.release();runtime.snapshot=snapshot;await pending?.catch(()=>{});runtime.dispatch=dispatch;await host.close();}
+});
