@@ -1,0 +1,78 @@
+[
+  {
+    "gate": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "sha": "06bba47017e627eb03267d2cc339b213357a2e4c",
+    "exitCode": 0,
+    "seconds": 0.6094691250000001,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "testSummaries": []
+  },
+  {
+    "gate": "arch-check",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "sha": "06bba47017e627eb03267d2cc339b213357a2e4c",
+    "exitCode": 0,
+    "seconds": 0.20565429199999996,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "testSummaries": []
+  },
+  {
+    "gate": "test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "sha": "06bba47017e627eb03267d2cc339b213357a2e4c",
+    "exitCode": 1,
+    "seconds": 67.8237895,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "test"
+    ],
+    "testSummaries": [
+      {
+        "tests": 1784,
+        "pass": 1783,
+        "fail": 1
+      }
+    ]
+  }
+]

@@ -1,0 +1,521 @@
+✖ Web refresh replaces commercial terms and cites the displayed fact source (30165.101541ms)
+✖ workspace New plan survives a late initial case-list response (30304.187875ms)
+✖ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (30156.289208ms)
+✖ Round10 UI: handoff refresh requires a new choice when 19:30 is gone (1678.275ms)
+✔ Round10 UI: card refresh requires a new choice when 19:30 is gone (1200.3465ms)
+✖ Round10 UI: renewed refresh retains a verified 19:30 (1049.615792ms)
+✔ Round10 UI: a delayed shortlist response stays with the earlier plan (1065.961083ms)
+✔ Round10 UI: a delayed questions response stays with the earlier plan (1098.877917ms)
+✔ Round10 UI: plan creation uses an RFC 4122 request ID without crypto.randomUUID (841.449083ms)
+✔ Round10 UI: nearby accepts device coordinates (1045.765875ms)
+✔ Round10 UI: nearby recovers from denied location with a typed area (1137.881709ms)
+✖ Round10 UI: unsent drafts stay with their plans and a sent draft clears only its own field (9048.093833ms)
+✔ Round10 UI: a saved later-batch outlet still qualified under the new party size has no mismatch label (1628.009583ms)
+✖ Round10 UI: a background case updates My plans at Home and polling stops when it is ready (991.28925ms)
+✔ Round10 UI: actual 409 recovers the deferred SSE snapshot (1071.891083ms)
+✔ Round10 UI: actual 409 recovers the latest Case after an intermediate SSE and disconnect (1070.7605ms)
+✔ Round11 UI: prior-batch outlets still qualified for three guests appear in Find more without a removal label (1298.612708ms)
+✖ Round11 UI: a late submission clears the sent draft from its original plan (9118.387916ms)
+✖ Round11 UI: a late submission preserves a replacement draft (8996.22175ms)
+✖ Round11 UI: a persisted departure opens its own source tab after the main tab changes plans (8978.514417ms)
+✔ Round12 UI: an exhausted next batch stays empty after reload and keeps the old Saved row read-only (1372.155125ms)
+✔ Round13 UI: optional condition chips can be removed without touching the draft (1474.664042ms)
+✔ Round13 UI: the card shows short source labels and About keeps the original excerpt (908.17625ms)
+✔ Round13 UI: selected slot keeps its place in the two-row mobile grid (951.150167ms)
+✔ Round13 UI: the revision summary expands above the result card (1079.635125ms)
+✔ Round13 UI: About shows pending and newest-first answers and keeps rejected questions (1356.185291ms)
+✔ Round14 UI: About refresh requires explicit slot reselection (1279.437125ms)
+✖ Round14 UI: Handoff Back refresh requires explicit slot reselection (1036.809958ms)
+✔ Round14 UI: other tab refresh requires explicit slot reselection (1497.310666ms)
+✔ Round14 UI: renewal refresh rebinds the same time (1599.89575ms)
+✔ Round14 UI: delayed Stop is harmless after delivery (1068.179042ms)
+✔ Round14 UI: delayed Stop does not stop the replacement read (1134.272125ms)
+✖ Round14 UI: late About acceptance clears only the sent draft (9182.013792ms)
+✖ Round14 UI: late About acceptance preserves a replacement draft (9115.146583ms)
+✔ Round14 UI: an exhausted revised batch hides stale additions after reload (1415.515084ms)
+✖ Round14 UI: a claimed return prompt survives switching plans and is answered once (8951.939375ms)
+✔ Round15 UI: explicit 19:30 survives failed refresh (1262.489667ms)
+✔ Round15 UI: explicit 19:30 survives other tab Back (1320.053334ms)
+✔ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2934.952875ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-AiOLLg","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-AiOLLg/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-AiOLLg/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":[],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (4427.511875ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-Jo203F","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-Jo203F/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-Jo203F/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":6,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (1086.871292ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-WOqurp","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-WOqurp/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-WOqurp/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":[],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh (4413.552792ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons structured (1296.773375ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons missing (1343.52525ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons structured (1505.023208ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons missing (1367.162625ms)
+✔ Workspace slice2 mobile: empty result copy is honest empty (1011.030583ms)
+✔ Workspace slice2 mobile: empty result copy is honest all-sources-failed (1028.934875ms)
+✔ Workspace slice2 mobile: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing (1312.070291ms)
+✔ Workspace slice2 mobile: partial source failure keeps qualified results and places the notice at the batch end (1004.4335ms)
+✔ Workspace slice2 desktop: empty result copy is honest empty (1000.455459ms)
+✔ Workspace slice2 desktop: empty result copy is honest all-sources-failed (1045.4235ms)
+✔ Workspace slice2 desktop: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing (1324.876875ms)
+✔ Workspace slice2 desktop: partial source failure keeps qualified results and places the notice at the batch end (989.929ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (941.206333ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (958.505667ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (991.401625ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (993.887583ms)
+✔ Workspace slice2 mobile: Stop during empty continuation discards the late source card (1011.196458ms)
+✔ Workspace slice2 desktop: Stop during empty continuation discards the late source card (993.708834ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-gKkXaC","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-gKkXaC/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-gKkXaC/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b9f45063671836f3af6bf899","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:8af2474edb5e0ae0b825e2bf","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:c4f14c2938739bfecb505c1f"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace 3c mobile: each observed booking slot retains its own departure link (11310.561ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-mOcg4y","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-mOcg4y/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-mOcg4y/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b9f45063671836f3af6bf899","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:8af2474edb5e0ae0b825e2bf","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:c4f14c2938739bfecb505c1f"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace 3c desktop: each observed booking slot retains its own departure link (11235.028917ms)
+✔ Workspace inline condition mobile: capped local edit survives SSE and routes changes without touching composer (2033.799417ms)
+✔ Workspace inline condition desktop: capped local edit survives SSE and routes changes without touching composer (2076.484292ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-aeZxsu","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-aeZxsu/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-aeZxsu/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"SEARCHING","progress":{"active":true,"stopped":false,"discoveredCount":3,"checkedCount":3},"ready":["fixture:outlet"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b9f45063671836f3af6bf899","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:8af2474edb5e0ae0b825e2bf","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:c4f14c2938739bfecb505c1f"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace booking refresh mobile: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1270.254708ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-hd1sEo","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-hd1sEo/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-hd1sEo/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"SEARCHING","progress":{"active":true,"stopped":false,"discoveredCount":3,"checkedCount":3},"ready":["fixture:outlet"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b9f45063671836f3af6bf899","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:8af2474edb5e0ae0b825e2bf","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:c4f14c2938739bfecb505c1f"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace booking refresh desktop: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1420.217958ms)
+✔ Workspace selected slot mobile: missing handoff and a refreshed different time never silently switch the choice (1593.748417ms)
+✔ Workspace selected slot desktop: missing handoff and a refreshed different time never silently switch the choice (1461.848917ms)
+✔ Workspace equivalent intent mobile: reaffirmation retains the batch without a phantom revision diff (1328.450125ms)
+✔ Workspace equivalent intent desktop: reaffirmation retains the batch without a phantom revision diff (1226.741375ms)
+✔ Workspace unchanged Save mobile area: equivalent native value cancels without a message (919.04875ms)
+✔ Workspace unchanged Save mobile date: equivalent native value cancels without a message (913.5945ms)
+✔ Workspace unchanged Save mobile time: equivalent native value cancels without a message (950.50525ms)
+✔ Workspace unchanged Save mobile guests: equivalent native value cancels without a message (917.765375ms)
+✔ Workspace unchanged Save desktop area: equivalent native value cancels without a message (935.499458ms)
+✔ Workspace unchanged Save desktop date: equivalent native value cancels without a message (949.240291ms)
+✔ Workspace unchanged Save desktop time: equivalent native value cancels without a message (947.013ms)
+✔ Workspace unchanged Save desktop guests: equivalent native value cancels without a message (997.525166ms)
+✔ Workspace inline Save end to end mobile: area date time and guests reach the reducer, fresh sources and chips (1651.083833ms)
+✔ Workspace inline Save end to end desktop: area date time and guests reach the reducer, fresh sources and chips (1565.506625ms)
+✔ Workspace composer keyboard mobile: Enter sends, IME and Shift+Enter do not, workspace height resets (1051.247125ms)
+✔ Workspace composer keyboard desktop: Enter sends, IME and Shift+Enter do not, workspace height resets (1090.69825ms)
+✔ Workspace profile dismissal mobile: one account label, outside/Escape close and Saved hides its own entry (1322.869833ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-LuKJLz","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-LuKJLz/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-LuKJLz/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace profile dismissal desktop: one account label, outside/Escape close and Saved hides its own entry (11076.74825ms)
+✔ Workspace card keyboard mobile: arrows use pagination and respect editors, input, overlays, modifiers and batch end (1182.290625ms)
+✔ Workspace card keyboard desktop: arrows use pagination and respect editors, input, overlays, modifiers and batch end (1224.943958ms)
+ℹ tests 86
+ℹ suites 0
+ℹ pass 64
+ℹ fail 22
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 98005.124583
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-workspace.test.ts:1:346
+✖ Web refresh replaces commercial terms and cites the displayed fact source (30165.101541ms)
+  locator.click: Timeout 30000ms exceeded.
+  Call log:
+    - waiting for getByRole('button', { name: /Compare restaurants/ })
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/browser-read-workspace.test.ts:37:65) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for getByRole('button', { name: /Compare restaurants/ })" ]
+  }
+
+test at src/harness/browser/browser-read-workspace.test.ts:1:4652
+✖ workspace New plan survives a late initial case-list response (30304.187875ms)
+  locator.waitFor: Timeout 30000ms exceeded.
+  Call log:
+    - waiting for locator('.case-link') to be visible
+      64 × locator resolved to hidden <button title="Old case" class="case-link" data-case-id="old-case">…</button>
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/browser-read-workspace.test.ts:75:38) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('.case-link') to be visible", '    64 × locator resolved to hidden <button title="Old case" class="case-link" data-case-id="old-case">…</button>' ]
+  }
+
+test at src/harness/browser/browser-read-workspace.test.ts:1:6067
+✖ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (30156.289208ms)
+  locator.click: Timeout 30000ms exceeded.
+  Call log:
+    - waiting for getByRole('button', { name: /Restaurant follow-up/ })
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/browser-read-workspace.test.ts:104:112) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for getByRole('button', { name: /Restaurant follow-up/ })" ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:4398
+✖ Round10 UI: handoff refresh requires a new choice when 19:30 is gone (1678.275ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Continue on TableCheck ↗'
+  - 'Check availability again'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:142:36)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:124:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Continue on TableCheck ↗',
+    expected: 'Check availability again',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:4398
+✖ Round10 UI: renewed refresh retains a verified 19:30 (1049.615792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Continue on TableCheck ↗'
+  - 'Check availability again'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:142:36)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:124:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Continue on TableCheck ↗',
+    expected: 'Check availability again',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:13091
+✖ Round10 UI: unsent drafts stay with their plans and a sent draft clears only its own field (9048.093833ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:1e362b75eb6d41aecb7328bb"]')
+      - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:1e362b75eb6d41aecb7328bb">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is not visible
+       - retrying click action
+         - waiting 500ms
+  
+      at switchTo (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:308:44)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:312:11)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:302:3) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:1e362b75eb6d41aecb7328bb"]')`, '    - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:1e362b75eb6d41aecb7328bb">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is not visible', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:16147
+✖ Round10 UI: a background case updates My plans at Home and polling stops when it is ready (991.28925ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '' !== 'In progress'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:373:12)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:368:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'In progress',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:22516
+✖ Round11 UI: a late submission clears the sent draft from its original plan (9118.387916ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:be9cedd7b40babb07b7673dc"]')
+      - locator resolved to <button class="case-link" data-case-id="restaurant:be9cedd7b40babb07b7673dc" title="Tokyo · 2026-11-02 · 19:00–19:30 · 3 guests">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is not visible
+       - retrying click action
+         - waiting 500ms
+  
+      at returnToPlan (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:511:46)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:528:33)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:498:5) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:be9cedd7b40babb07b7673dc"]')`, '    - locator resolved to <button class="case-link" data-case-id="restaurant:be9cedd7b40babb07b7673dc" title="Tokyo · 2026-11-02 · 19:00–19:30 · 3 guests">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is not visible', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:22516
+✖ Round11 UI: a late submission preserves a replacement draft (8996.22175ms)
+  page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:516:31)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:498:5) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:24172
+✖ Round11 UI: a persisted departure opens its own source tab after the main tab changes plans (8978.514417ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:55cf060848851a022c2f5f42"]')
+      - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:55cf060848851a022c2f5f42">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is not visible
+       - retrying click action
+         - waiting 500ms
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:548:39)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:543:3) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:55cf060848851a022c2f5f42"]')`, '    - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:55cf060848851a022c2f5f42">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is not visible', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:38365
+✖ Round14 UI: Handoff Back refresh requires explicit slot reselection (1036.809958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Continue on TableCheck ↗'
+  - 'Check availability again'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:868:16)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:850:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Continue on TableCheck ↗',
+    expected: 'Check availability again',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:43603
+✖ Round14 UI: late About acceptance clears only the sent draft (9182.013792ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:ea3a67b03a0b7b2a14cddd64"]')
+      - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:ea3a67b03a0b7b2a14cddd64">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is not visible
+       - retrying click action
+         - waiting 500ms
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:973:41)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:968:5) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:ea3a67b03a0b7b2a14cddd64"]')`, '    - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:ea3a67b03a0b7b2a14cddd64">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is not visible', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:43603
+✖ Round14 UI: late About acceptance preserves a replacement draft (9115.146583ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:5a26f797d09be801db977670"]')
+      - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:5a26f797d09be801db977670">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is not visible
+       - retrying click action
+         - waiting 500ms
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:973:41)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:968:5) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:5a26f797d09be801db977670"]')`, '    - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:5a26f797d09be801db977670">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is not visible', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:46532
+✖ Round14 UI: a claimed return prompt survives switching plans and is answered once (8951.939375ms)
+  locator.click: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:c7916aa01f616b25bd8e9fe7"]')
+      - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:c7916aa01f616b25bd8e9fe7">…</button>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 100ms
+      15 × waiting for element to be visible, enabled and stable
+         - element is not visible
+       - retrying click action
+         - waiting 500ms
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1032:39)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1027:3) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:c7916aa01f616b25bd8e9fe7"]')`, '    - locator resolved to <button class="case-link" title="First dinner" data-case-id="restaurant:c7916aa01f616b25bd8e9fe7">…</button>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '      - waiting 100ms', '    15 × waiting for element to be visible, enabled and stable', '       - element is not visible', '     - retrying click action', '       - waiting 500ms' ]
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:11846
+✖ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (4427.511875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Continue on TableCheck ↗'
+  - 'Check availability again'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:135:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Continue on TableCheck ↗',
+    expected: 'Check availability again',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:2550
+✖ Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (1086.871292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '' !== 'Praxis'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:44:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: 'Praxis',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:11846
+✖ Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh (4413.552792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Continue on TableCheck ↗'
+  - 'Check availability again'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:135:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Continue on TableCheck ↗',
+    expected: 'Check availability again',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:31319
+✖ Workspace 3c mobile: each observed booking slot retains its own departure link (11310.561ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+    - waiting for locator('#handoff') to be visible
+      24 × locator resolved to hidden <section hidden="" id="handoff" class="panel">…</section>
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:340:54) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#handoff') to be visible", '    24 × locator resolved to hidden <section hidden="" id="handoff" class="panel">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:31319
+✖ Workspace 3c desktop: each observed booking slot retains its own departure link (11235.028917ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+    - waiting for locator('#handoff') to be visible
+      24 × locator resolved to hidden <section hidden="" id="handoff" class="panel">…</section>
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:340:54) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#handoff') to be visible", '    24 × locator resolved to hidden <section hidden="" id="handoff" class="panel">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:44836
+✖ Workspace booking refresh mobile: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1270.254708ms)
+  page.evaluate: ReferenceError: state is not defined
+      at eval (eval at evaluate (:311:30), <anonymous>:1:25)
+      at eval (<anonymous>)
+      at UtilityScript.evaluate (<anonymous>:311:30)
+      at UtilityScript.<anonymous> (<anonymous>:1:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:427:75) {
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:44836
+✖ Workspace booking refresh desktop: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1420.217958ms)
+  page.evaluate: ReferenceError: state is not defined
+      at eval (eval at evaluate (:311:30), <anonymous>:1:25)
+      at eval (<anonymous>)
+      at UtilityScript.evaluate (<anonymous>:311:30)
+      at UtilityScript.<anonymous> (<anonymous>:1:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:427:75) {
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:65197
+✖ Workspace profile dismissal desktop: one account label, outside/Escape close and Saved hides its own entry (11076.74825ms)
+  locator.click: Timeout 10000ms exceeded.
+  Call log:
+    - waiting for locator('#profile > summary')
+      - locator resolved to <summary>…</summary>
+    - attempting click action
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+      - waiting 20ms
+      2 × waiting for element to be visible, enabled and stable
+        - element is not visible
+      - retrying click action
+        - waiting 100ms
+      19 × waiting for element to be visible, enabled and stable
+         - element is not visible
+       - retrying click action
+         - waiting 500ms
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:568:64) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#profile > summary')", '    - locator resolved to <summary>…</summary>', '  - attempting click action', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '    - waiting 20ms', '    2 × waiting for element to be visible, enabled and stable', '      - element is not visible', '    - retrying click action', '      - waiting 100ms', '    19 × waiting for element to be visible, enabled and stable', '       - element is not visible', '     - retrying click action', '       - waiting 500ms' ]
+  }

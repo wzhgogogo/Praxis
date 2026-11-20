@@ -1,0 +1,122 @@
+✔ Web refresh replaces commercial terms and cites the displayed fact source (634.037167ms)
+✔ workspace New plan survives a late initial case-list response (431.014042ms)
+✔ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (917.021542ms)
+✔ Round10 UI: handoff refresh requires a new choice when 19:30 is gone (1909.06525ms)
+✔ Round10 UI: card refresh requires a new choice when 19:30 is gone (1183.375875ms)
+✔ Round10 UI: renewed refresh retains a verified 19:30 (1113.643833ms)
+✔ Round10 UI: a delayed shortlist response stays with the earlier plan (1252.90125ms)
+✔ Round10 UI: a delayed questions response stays with the earlier plan (1279.14875ms)
+✔ Round10 UI: plan creation uses an RFC 4122 request ID without crypto.randomUUID (1065.600792ms)
+✔ Round10 UI: nearby accepts device coordinates (1141.18875ms)
+✔ Round10 UI: nearby recovers from denied location with a typed area (1098.985167ms)
+✔ Round10 UI: unsent drafts stay with their plans and a sent draft clears only its own field (1755.383625ms)
+✔ Round10 UI: a saved later-batch outlet still qualified under the new party size has no mismatch label (1670.111167ms)
+✔ Round10 UI: a background case updates My plans at Home and polling stops when it is ready (1120.749708ms)
+✔ Round10 UI: actual 409 recovers the deferred SSE snapshot (1200.460708ms)
+✔ Round10 UI: actual 409 recovers the latest Case after an intermediate SSE and disconnect (1286.017334ms)
+✔ Round11 UI: prior-batch outlets still qualified for three guests appear in Find more without a removal label (1431.961666ms)
+✔ Round11 UI: a late submission clears the sent draft from its original plan (1585.992458ms)
+✔ Round11 UI: a late submission preserves a replacement draft (1611.260833ms)
+✔ Round11 UI: a persisted departure opens its own source tab after the main tab changes plans (1606.481083ms)
+✔ Round12 UI: an exhausted next batch stays empty after reload and keeps the old Saved row read-only (1475.00525ms)
+✔ Round13 UI: optional condition chips can be removed without touching the draft (1780.398875ms)
+✔ Round13 UI: the card shows short source labels and About keeps the original excerpt (1244.581084ms)
+✔ Round13 UI: selected slot keeps its place in the two-row mobile grid (988.722917ms)
+✔ Round13 UI: the revision summary expands above the result card (1233.372833ms)
+✔ Round13 UI: About shows pending and newest-first answers and keeps rejected questions (1499.488084ms)
+✔ Round14 UI: About refresh requires explicit slot reselection (1363.410791ms)
+✔ Round14 UI: Handoff Back refresh requires explicit slot reselection (1359.731792ms)
+✔ Round14 UI: other tab refresh requires explicit slot reselection (1928.494417ms)
+✔ Round14 UI: renewal refresh rebinds the same time (1735.587458ms)
+✔ Round14 UI: delayed Stop is harmless after delivery (1148.831875ms)
+✔ Round14 UI: delayed Stop does not stop the replacement read (1201.953542ms)
+✔ Round14 UI: late About acceptance clears only the sent draft (1559.728125ms)
+✔ Round14 UI: late About acceptance preserves a replacement draft (1632.99ms)
+✔ Round14 UI: an exhausted revised batch hides stale additions after reload (1701.881375ms)
+✔ Round14 UI: a claimed return prompt survives switching plans and is answered once (1699.782958ms)
+✔ Round15 UI: explicit 19:30 survives failed refresh (1406.850416ms)
+✔ Round15 UI: explicit 19:30 survives other tab Back (1913.293166ms)
+✔ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (3008.105375ms)
+✔ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (4423.979334ms)
+✔ Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2477.301083ms)
+✔ Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh (4570.315083ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons structured (1400.630792ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons missing (1349.740458ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons structured (1647.70025ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons missing (1750.935334ms)
+✔ Workspace slice2 mobile: empty result copy is honest empty (950.59525ms)
+✔ Workspace slice2 mobile: empty result copy is honest all-sources-failed (977.522208ms)
+✔ Workspace slice2 mobile: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing (1225.379708ms)
+✔ Workspace slice2 mobile: partial source failure keeps qualified results and places the notice at the batch end (990.252959ms)
+✔ Workspace slice2 desktop: empty result copy is honest empty (1217.452458ms)
+✔ Workspace slice2 desktop: empty result copy is honest all-sources-failed (1216.775791ms)
+✔ Workspace slice2 desktop: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing (1500.044416ms)
+✔ Workspace slice2 desktop: partial source failure keeps qualified results and places the notice at the batch end (1218.981792ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (962.524917ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (966.316ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (1403.017541ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (1231.136875ms)
+✔ Workspace slice2 mobile: Stop during empty continuation discards the late source card (1037.970625ms)
+✔ Workspace slice2 desktop: Stop during empty continuation discards the late source card (1226.680292ms)
+✔ Workspace 3c mobile: each observed booking slot retains its own departure link (1249.702125ms)
+✔ Workspace 3c desktop: each observed booking slot retains its own departure link (1939.396125ms)
+✔ Workspace inline condition mobile: capped local edit survives SSE and routes changes without touching composer (1927.739583ms)
+✔ Workspace inline condition desktop: capped local edit survives SSE and routes changes without touching composer (2292.459167ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-6xZuFv","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-6xZuFv/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-6xZuFv/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"SEARCHING","progress":{"active":true,"stopped":false,"discoveredCount":3,"checkedCount":3},"ready":["fixture:outlet"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b9f45063671836f3af6bf899","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:8af2474edb5e0ae0b825e2bf","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:c4f14c2938739bfecb505c1f"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace booking refresh mobile: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1224.992333ms)
+WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-eWwIAo","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-eWwIAo/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-eWwIAo/trace.zip","errors":[]}
+{"slice2Failure":{"phase":"SEARCHING","progress":{"active":true,"stopped":false,"discoveredCount":3,"checkedCount":3},"ready":["fixture:outlet"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:b9f45063671836f3af6bf899","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:8af2474edb5e0ae0b825e2bf","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:c4f14c2938739bfecb505c1f"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace booking refresh desktop: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1468.345167ms)
+✔ Workspace selected slot mobile: missing handoff and a refreshed different time never silently switch the choice (1239.97375ms)
+✔ Workspace selected slot desktop: missing handoff and a refreshed different time never silently switch the choice (1680.2655ms)
+✔ Workspace equivalent intent mobile: reaffirmation retains the batch without a phantom revision diff (1088.745625ms)
+✔ Workspace equivalent intent desktop: reaffirmation retains the batch without a phantom revision diff (1271.25475ms)
+✔ Workspace unchanged Save mobile area: equivalent native value cancels without a message (919.138542ms)
+✔ Workspace unchanged Save mobile date: equivalent native value cancels without a message (866.0545ms)
+✔ Workspace unchanged Save mobile time: equivalent native value cancels without a message (899.789375ms)
+✔ Workspace unchanged Save mobile guests: equivalent native value cancels without a message (882.938209ms)
+✔ Workspace unchanged Save desktop area: equivalent native value cancels without a message (1150.564958ms)
+✔ Workspace unchanged Save desktop date: equivalent native value cancels without a message (1133.256333ms)
+✔ Workspace unchanged Save desktop time: equivalent native value cancels without a message (1116.70075ms)
+✔ Workspace unchanged Save desktop guests: equivalent native value cancels without a message (1099.449667ms)
+✔ Workspace inline Save end to end mobile: area date time and guests reach the reducer, fresh sources and chips (1583.996875ms)
+✔ Workspace inline Save end to end desktop: area date time and guests reach the reducer, fresh sources and chips (2348.492208ms)
+✔ Workspace composer keyboard mobile: Enter sends, IME and Shift+Enter do not, workspace height resets (1352.460541ms)
+✔ Workspace composer keyboard desktop: Enter sends, IME and Shift+Enter do not, workspace height resets (1335.351167ms)
+✔ Workspace profile dismissal mobile: one account label, outside/Escape close and Saved hides its own entry (1499.837083ms)
+✔ Workspace profile dismissal desktop: one account label, outside/Escape close and Saved hides its own entry (1669.795375ms)
+✔ Workspace card keyboard mobile: arrows use pagination and respect editors, input, overlays, modifiers and batch end (1457.936583ms)
+✔ Workspace card keyboard desktop: arrows use pagination and respect editors, input, overlays, modifiers and batch end (1699.949125ms)
+ℹ tests 86
+ℹ suites 0
+ℹ pass 84
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 73860.1215
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:44836
+✖ Workspace booking refresh mobile: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1224.992333ms)
+  page.evaluate: ReferenceError: state is not defined
+      at eval (eval at evaluate (:311:30), <anonymous>:1:25)
+      at eval (<anonymous>)
+      at UtilityScript.evaluate (<anonymous>:311:30)
+      at UtilityScript.<anonymous> (<anonymous>:1:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:427:75) {
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:44836
+✖ Workspace booking refresh desktop: stale browsing stays actionable and only fresh same-candidate evidence enters handoff (1468.345167ms)
+  page.evaluate: ReferenceError: state is not defined
+      at eval (eval at evaluate (:311:30), <anonymous>:1:25)
+      at eval (<anonymous>)
+      at UtilityScript.evaluate (<anonymous>:311:30)
+      at UtilityScript.<anonymous> (<anonymous>:1:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:427:75) {
+    log: []
+  }

@@ -1,0 +1,21 @@
+✔ stale same-Case refresh, batch and location requests never cancel an active read (936.096292ms)
+✔ preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration (668.99ms)
+✔ preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration (611.376792ms)
+✔ preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration (648.875416ms)
+✔ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (651.732417ms)
+✔ old HTTP location cannot write or abort the replacement read at the cancellation boundary (650.223125ms)
+✔ cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh (687.383ms)
+✔ Exhausted third batch cannot project the six delivered outlets or their cross-source alias (642.626833ms)
+✔ Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias (555.78275ms)
+✔ Round15 Stop during preparation cancels before any new source call (503.79225ms)
+✔ Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version (482.421667ms)
+✔ Round15 explicit selection survives empty inventory and rebinds only the same time (1.019167ms)
+✔ Round15 choice storage is scoped independently of navigation and other plans (0.159334ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7655.65725

@@ -1,0 +1,144 @@
+[
+  {
+    "gate": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "sha": "8af0ec2a5991f7462ab352261e6371b1c476aaaa",
+    "exitCode": 0,
+    "seconds": 0.629473,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "testSummaries": []
+  },
+  {
+    "gate": "arch-check",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "sha": "8af0ec2a5991f7462ab352261e6371b1c476aaaa",
+    "exitCode": 0,
+    "seconds": 0.20499358299999992,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "testSummaries": []
+  },
+  {
+    "gate": "test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "sha": "8af0ec2a5991f7462ab352261e6371b1c476aaaa",
+    "exitCode": 0,
+    "seconds": 68.840730917,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "test"
+    ],
+    "testSummaries": [
+      {
+        "tests": 1784,
+        "pass": 1784,
+        "fail": 0
+      }
+    ]
+  },
+  {
+    "gate": "browser-fixture",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "sha": "8af0ec2a5991f7462ab352261e6371b1c476aaaa",
+    "exitCode": 0,
+    "seconds": 416.42404391699995,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "offline Fixture contracts; runner-replay children apply their own OS outbound denial; no outer sandbox",
+    "invocation": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "testSummaries": [
+      {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0
+      },
+      {
+        "tests": 455,
+        "pass": 455,
+        "fail": 0
+      },
+      {
+        "tests": 460,
+        "pass": 460,
+        "fail": 0
+      },
+      {
+        "tests": 159,
+        "pass": 159,
+        "fail": 0
+      }
+    ]
+  },
+  {
+    "gate": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "sha": "8af0ec2a5991f7462ab352261e6371b1c476aaaa",
+    "exitCode": 0,
+    "seconds": 0.5644940829999996,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "build"
+    ],
+    "testSummaries": []
+  }
+]
