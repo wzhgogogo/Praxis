@@ -264,7 +264,7 @@ export class RestaurantAgentLoopCoordinator {
         }, "SYSTEM", undefined, now.toISOString())).snapshot;
       }
       if (callReserve && remainingMs >= 0 && current.domainState.phase === "SEARCHING"
-        && !assessRestaurantRead(current.domainState, now.toISOString()).presentation.some(item => item.eligible)
+        && restaurantPresentableCandidateIds(current.domainState, now.toISOString()).length === 0
         && (!current.domainState.readEndWindow || Date.parse(current.domainState.readEndWindow.deadlineAt) < now.valueOf())) {
         return (await this.dispatch(current, { type: "READ_END_WINDOW_OPENED", reason: "MODEL_CALL", deadlineAt: new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000)).toISOString() }, "SYSTEM", undefined, now.toISOString())).snapshot;
       }
@@ -279,7 +279,7 @@ export class RestaurantAgentLoopCoordinator {
 
     for (let step = 0; step < this.maxSteps; step += 1) {
       let snapshot = await this.runtime.snapshot(taskId);
-      if (signal?.aborted) return this.cancel(snapshot, taskId, stepNumber, signal);
+      if (signal?.aborted) return this.cancel(snapshot, taskId, stepNumber, signal, deadlineAt);
       if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: step };
       if (waitingForUser(snapshot.domainState)) return { status: "WAITING_USER", steps: step };
       snapshot = await openDeliveryWindow(snapshot);
@@ -288,6 +288,7 @@ export class RestaurantAgentLoopCoordinator {
         stepNumber += 1;
         const completed = await this.terminate(
           snapshot,
+          deadlineAt,
           this.base(taskId, stepNumber, snapshot),
           "NO_PROGRESS",
           restaurantReadBudgetExhausted(snapshot.domainState, readBudget)
@@ -302,7 +303,7 @@ export class RestaurantAgentLoopCoordinator {
       }
       if (this.timedOut(deadlineAt)) {
         stepNumber += 1;
-        const completed = await this.terminate(snapshot, this.base(taskId, stepNumber, snapshot), "TIMEOUT", `Agent loop exceeded ${this.timeoutMs}ms`);
+        const completed = await this.terminate(snapshot, deadlineAt, this.base(taskId, stepNumber, snapshot), "TIMEOUT", `Agent loop exceeded ${this.timeoutMs}ms`);
         return { status: completed ? "TERMINAL" : "TIMEOUT", steps: step };
       }
 
@@ -329,11 +330,12 @@ export class RestaurantAgentLoopCoordinator {
       snapshot = await this.runtime.snapshot(taskId);
       let base = this.base(taskId, stepNumber, snapshot, context);
 
-      if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
+      if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal, deadlineAt);
 
       if (this.timedOut(deadlineAt)) {
         const completed = await this.terminate(
           snapshot,
+          deadlineAt,
           base,
           "TIMEOUT",
           `Agent loop exceeded ${this.timeoutMs}ms while awaiting a decision`,
@@ -354,11 +356,11 @@ export class RestaurantAgentLoopCoordinator {
 
       if (decision.status !== "PROPOSED") {
         if (snapshot.domainState.readEndWindow || snapshot.domainState.defaultBatchDeliveryWindow) {
-          const done = await this.terminate(snapshot, base, "NO_PROGRESS", "READ_TIME_RESERVE: the closing decision failed; conclude only from existing verified state");
+          const done = await this.terminate(snapshot, deadlineAt, base, "NO_PROGRESS", "READ_TIME_RESERVE: the closing decision failed; conclude only from existing verified state");
           return { status: done ? "TERMINAL" : "MODEL_FAILURE", steps: step + 1 };
         }
         if (decision.status === "MODEL_FAILURE" && decision.errorCode === "MODEL_CALL_BUDGET_EXHAUSTED") {
-          const completed = await this.terminate(snapshot, base, "STEP_LIMIT", "MODEL_CALL_BUDGET_EXHAUSTED: the bounded investigation used its shared model-call budget");
+          const completed = await this.terminate(snapshot, deadlineAt, base, "STEP_LIMIT", "MODEL_CALL_BUDGET_EXHAUSTED: the bounded investigation used its shared model-call budget");
           return { status: completed ? "TERMINAL" : "STEP_LIMIT", steps: step + 1 };
         }
         const reason = decision.status === "MODEL_FAILURE"
@@ -377,10 +379,15 @@ export class RestaurantAgentLoopCoordinator {
         return { status: "MODEL_FAILURE", steps: step + 1 };
       }
 
-      const verdict = validateRestaurantAction(snapshot.domainState, decision.action, this.clock.now().toISOString(), { ...this.router.readBudgetStatus(), remainingModelCalls: this.remainingModelCalls?.(taskId),remainingAutomaticMs: Math.max(0, deadlineAt.valueOf() - this.clock.now().valueOf()) });
+      const actionTime = this.clock.now();
+      if (actionTime.valueOf() > deadlineAt.valueOf()) {
+        const completed = await this.terminate(snapshot, deadlineAt, base, "TIMEOUT", "The read deadline passed before action execution");
+        return { status: completed ? "TERMINAL" : "TIMEOUT", steps: step + 1 };
+      }
+      const verdict = validateRestaurantAction(snapshot.domainState, decision.action, actionTime.toISOString(), { ...this.router.readBudgetStatus(), remainingModelCalls: this.remainingModelCalls?.(taskId),remainingAutomaticMs: Math.max(0, deadlineAt.valueOf() - actionTime.valueOf()) });
       if (verdict.status === "REJECTED") {
         if (verdict.code === "READ_TIME_RESERVED" && snapshot.domainState.readEndWindow) {
-          const done = await this.terminate(snapshot, base, "NO_PROGRESS", verdict.reason, {
+          const done = await this.terminate(snapshot, deadlineAt, base, "NO_PROGRESS", verdict.reason, {
             agentAction: decision.action, modelAttempt: decision.modelAttempt, actionValidation: verdict,
           });
           return { status: done ? "TERMINAL" : "NO_PROGRESS", steps: step + 1 };
@@ -405,6 +412,7 @@ export class RestaurantAgentLoopCoordinator {
           stepNumber += 1;
           const completed = await this.terminate(
             current,
+            deadlineAt,
             this.base(taskId, stepNumber, current),
             "REJECTION_LIMIT",
             repeated
@@ -442,13 +450,16 @@ export class RestaurantAgentLoopCoordinator {
         execution = await this.router.execute(
           decision.action,
           snapshot.domainState,
-          this.clock.now().toISOString(),
+          decision.action.type === "PRESENT_RESULTS" ? actionTime.toISOString() : this.clock.now().toISOString(),
           snapshot.runId + ":investigation:" + String(snapshot.domainState.investigationRevision ?? 0),
           readController?.signal ?? signal,
           readAction ? {
             remaining: () => this.remainingModelCalls?.(taskId),
-            qualified: () => defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0
-              || !assessRestaurantRead(snapshot.domainState, this.clock.now().toISOString()).presentation.some(item => item.eligible),
+            qualified: () => {
+              const now = this.clock.now().toISOString();
+              return defaultBatchDeliveryCandidateIds(snapshot.domainState, now).length > 0
+                || restaurantPresentableCandidateIds(snapshot.domainState, now).length === 0;
+            },
           } : undefined,
           snapshot.domainState.intentDraft?.target?.selectionScope==="SPECIFIC_OUTLET"
             &&snapshot.domainState.intentDraft.target.query===userSelection?.query?userSelection.reference:undefined,
@@ -458,12 +469,12 @@ export class RestaurantAgentLoopCoordinator {
           await recordDeliveryReserve(true);
           continue;
         }
-        if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
+        if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal, deadlineAt);
         const reason = error instanceof Error ? error.message : "Restaurant action execution failed";
         const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
           ? restaurantFailureCode(error.code, "AGENT_EXECUTION_FAILED") : "AGENT_EXECUTION_FAILED";
         if (code === "MODEL_CALL_BUDGET_EXHAUSTED" || code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED") {
-          const completed = await this.terminate(snapshot, base, "STEP_LIMIT", `${code}: ${reason}`, { agentAction: decision.action, modelAttempt: decision.modelAttempt, actionValidation: verdict });
+          const completed = await this.terminate(snapshot, deadlineAt, base, "STEP_LIMIT", `${code}: ${reason}`, { agentAction: decision.action, modelAttempt: decision.modelAttempt, actionValidation: verdict });
           return { status: completed ? "TERMINAL" : "STEP_LIMIT", steps: step + 1 };
         }
         const after = await this.dispatch(snapshot, { type: "AGENT_EXECUTION_FAILED", code, reason }, "SYSTEM");
@@ -493,10 +504,11 @@ export class RestaurantAgentLoopCoordinator {
         }
       }
       // A returned Router event contains checkpointed completed outlets even if the reserve fired.
-      if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal);
+      if (signal?.aborted) return this.abort(snapshot, taskId, step + 1, base, signal, deadlineAt);
 
       const after = execution.event
-        ? await this.dispatch(snapshot, execution.event, execution.route === "STRUCTURED_ADAPTER" || execution.route === "GENERIC_BROWSER" ? "ADAPTER" : "SYSTEM")
+        ? await this.dispatch(snapshot, execution.event, execution.route === "STRUCTURED_ADAPTER" || execution.route === "GENERIC_BROWSER" ? "ADAPTER" : "SYSTEM", undefined,
+          execution.event.type === "RESULTS_PRESENTED" ? actionTime.toISOString() : undefined)
         : { snapshot, causalRefs: causalRefsForState(snapshot.domainState) };
       const outcome = execution.failure
         ? "EXECUTION_FAILURE"
@@ -533,6 +545,7 @@ export class RestaurantAgentLoopCoordinator {
         stepNumber += 1;
         await this.terminate(
           after.snapshot,
+          deadlineAt,
           this.base(taskId, stepNumber, after.snapshot),
           "EXECUTION_FAILURE",
           execution.failure.reason,
@@ -543,7 +556,7 @@ export class RestaurantAgentLoopCoordinator {
         rejectedActions += 1;
         if (rejectedActions >= this.maxRejectedActions) {
           stepNumber += 1;
-          const completed = await this.terminate(after.snapshot, this.base(taskId, stepNumber, after.snapshot), "NO_PROGRESS", `No new successful observation in ${rejectedActions} steps; last failure: ${execution.failure.code}`);
+          const completed = await this.terminate(after.snapshot, deadlineAt, this.base(taskId, stepNumber, after.snapshot), "NO_PROGRESS", `No new successful observation in ${rejectedActions} steps; last failure: ${execution.failure.code}`);
           return { status: completed ? "TERMINAL" : "NO_PROGRESS", steps: step + 1 };
         }
       } else {
@@ -557,6 +570,7 @@ export class RestaurantAgentLoopCoordinator {
     stepNumber += 1;
     const completed = await this.terminate(
       snapshot,
+      deadlineAt,
       this.base(taskId, stepNumber, snapshot),
       "STEP_LIMIT",
       `Agent loop reached its ${this.maxSteps} step limit`,
@@ -597,10 +611,11 @@ export class RestaurantAgentLoopCoordinator {
     taskId: string,
     stepNumber: number,
     signal: AbortSignal,
+    deadlineAt: Date,
   ): Promise<RestaurantAgentLoopResult> {
     if (terminal(snapshot.domainState)) return { status: "TERMINAL", steps: stepNumber };
     const nextStep = stepNumber + 1;
-    return this.abort(snapshot, taskId, nextStep, this.base(taskId, nextStep, snapshot), signal);
+    return this.abort(snapshot, taskId, nextStep, this.base(taskId, nextStep, snapshot), signal, deadlineAt);
   }
 
   private async abort(
@@ -609,12 +624,13 @@ export class RestaurantAgentLoopCoordinator {
     steps: number,
     base: TrajectoryBase,
     signal: AbortSignal,
+    deadlineAt: Date,
   ): Promise<RestaurantAgentLoopResult> {
     if (isRunDeadline(signal)) {
-      const completed = await this.terminate(snapshot, base, "TIMEOUT", cancellationReason(signal));
+      const completed = await this.terminate(snapshot, deadlineAt, base, "TIMEOUT", cancellationReason(signal));
       return { status: completed ? "TERMINAL" : "TIMEOUT", steps };
     }
-    await this.terminate(snapshot, base, "CANCELLED", cancellationReason(signal));
+    await this.terminate(snapshot, deadlineAt, base, "CANCELLED", cancellationReason(signal));
     return { status: "CANCELLED", steps };
   }
 
@@ -646,6 +662,7 @@ export class RestaurantAgentLoopCoordinator {
 
   private async terminate(
     snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
+    deadlineAt: Date,
     base: TrajectoryBase,
     termination: RestaurantAgentLoopTermination,
     reason: string,
@@ -656,16 +673,16 @@ export class RestaurantAgentLoopCoordinator {
     const state = snapshot.domainState;
     let current = snapshot;
     let presentationGap = "";
-    if (!restaurantReadStopIsSystem(termination, state.failure?.code)) {
-      const windowNow = this.clock.now();
-      const windowNowMs = windowNow.valueOf();
+    const windowNow = this.clock.now();
+    const windowNowMs = windowNow.valueOf();
+    if (windowNowMs <= deadlineAt.valueOf() && !restaurantReadStopIsSystem(termination, state.failure?.code)) {
       const now = windowNow.toISOString();
       const shortBatch = defaultBatchDeliveryCandidateIds(state, now);
       const candidateIds = shortBatch.length ? shortBatch
         : restaurantPresentableCandidateIds(state, now).slice(0, state.pendingResultBatchTarget);
       if (candidateIds.length) {
         if (shortBatch.length && (!state.defaultBatchDeliveryWindow || Date.parse(state.defaultBatchDeliveryWindow.deadlineAt) < windowNowMs)) {
-          const windowDeadlineMs = Math.min(windowNowMs + 45_000, state.readEndWindow ? Date.parse(state.readEndWindow.deadlineAt) : Infinity);
+          const windowDeadlineMs = Math.min(deadlineAt.valueOf(), windowNowMs + 45_000, state.readEndWindow ? Date.parse(state.readEndWindow.deadlineAt) : Infinity);
           if (Number.isFinite(windowDeadlineMs) && windowDeadlineMs >= windowNowMs) {
             current = (await this.dispatch(current, {
               type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: new Date(windowDeadlineMs).toISOString(),
@@ -673,10 +690,11 @@ export class RestaurantAgentLoopCoordinator {
           }
         }
         // Validate against time sampled AFTER the persisted window was opened.
-        const presentationTime = this.clock.now().toISOString();
+        const presentationAt = this.clock.now();
+        const presentationTime = presentationAt.toISOString();
         const action = { type: "PRESENT_RESULTS" as const, candidateIds };
         const validation = validateRestaurantAction(current.domainState, action, presentationTime);
-        if (validation.status === "ALLOWED") {
+        if (validation.status === "ALLOWED" && presentationAt.valueOf() <= deadlineAt.valueOf()) {
           const execution = await this.router.execute(action, current.domainState, presentationTime);
           if (execution.event?.type !== "RESULTS_PRESENTED" || !execution.observation) throw new Error("Validated presentation did not produce its required event");
           const after = await this.dispatch(current, execution.event, "SYSTEM", undefined, presentationTime);
@@ -687,7 +705,7 @@ export class RestaurantAgentLoopCoordinator {
             stateVersionAfter: after.snapshot.version, stateHashAfter: stateHash(after.snapshot.domainState), stepOutcome: "TERMINAL" });
           return true;
         }
-        presentationGap = `; presentation was not permitted: ${validation.status === "REJECTED" ? validation.code : validation.status}`;
+        presentationGap = `; presentation was not permitted: ${presentationAt.valueOf() > deadlineAt.valueOf() ? "the read deadline passed" : validation.status === "REJECTED" ? validation.code : validation.status}`;
       }
     }
     const after = await this.dispatch(current, { type: "AGENT_LOOP_TERMINATED", termination, reasonCode: this.remainingModelCalls?.(snapshot.id) === 0 ? "MODEL_CALL_BUDGET_EXHAUSTED" : this.router.readBudgetStatus().browserModelBudgetExhausted ? "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" : state.failure?.code ?? `AGENT_LOOP_${termination}`, reason: reason + presentationGap }, "SYSTEM");

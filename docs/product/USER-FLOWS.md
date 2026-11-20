@@ -260,8 +260,8 @@ When the request cannot be parsed, saved restaurants remain visible and their ro
 
 My plans updates in the background while a different plan is open. The composer keeps a separate unsent draft per plan while the page is open. Nearby requests without coordinates offer device location and accept a typed station, address or district if permission is denied.
 
-When booking availability is refreshed, Handoff keeps the chosen date, time and party size if a current offer still matches. If that time disappears, the workspace returns to the card for a new selection. Saved keeps a qualified restaurant from a later batch without a mismatch label.
+For the same restaurant and plan revision, availability updates from the card, About, Handoff or another tab keep the chosen date, time and party size when a current offer matches. If fresh inventory has different times, the card requires a new choice. Handoff returns to the card in that case, even if a refresh completed after Back. Saved keeps a qualified restaurant from a later batch without a mismatch label.
 
 ### 2026-11-19 — Round 11 workspace closure
 
-If a refreshed booking time disappears and new times are available, the card requires an explicit time selection before booking can continue. The workspace brings its error notice above the fixed composer. After a confirmed departure, its source tab can finish opening while the user switches plans. Booking feedback remains associated with the original plan.
+If a refreshed booking time disappears and new times are available, the card requires an explicit time selection before booking can continue. The workspace brings its error notice above the fixed composer. After a confirmed departure, its source tab can finish opening while the user switches plans. A claimed booking feedback prompt stays with its original plan while the page is open. It can still be answered after switching back to that plan. Reloading or reopening the page never repeats a claimed prompt. A delayed Stop affects only the read shown when it was pressed. If that read has already finished, the latest Case remains visible.

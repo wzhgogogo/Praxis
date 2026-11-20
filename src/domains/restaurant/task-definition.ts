@@ -25,7 +25,7 @@ import type {
 import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
-import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentableCandidateIds, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
 import { restaurantReadStopIsSystem, restaurantUnverifiedReadSummary } from "./read-loop-termination.js";
 import { canContinueRestaurantRead, failedSourceRetryCandidateIds } from "./read-continuation.js";
@@ -344,7 +344,7 @@ function transition(
       requirePhase(state, ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       const remainingMs = Date.parse(event.deadlineAt) - Date.parse(context.now);
       if (!Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > (event.reason==='DELIVERY_TIME'?Math.max(...Object.values(RESTAURANT_READ_ADMISSION_MS)):45_000)
-        || event.reason==='MODEL_CALL' && assessRestaurantRead(state,context.now).presentation.some(item=>item.eligible)) throw new Error("Read-end reserve requires a bounded deadline and a code-owned reason");
+        || event.reason==='MODEL_CALL' && restaurantPresentableCandidateIds(state,context.now).length>0) throw new Error("Read-end reserve requires a bounded deadline and a code-owned reason");
       return { state: { ...state, readEndWindow: { openedAt: context.now, deadlineAt: event.deadlineAt, reason:event.reason } }, commands: [] };
     }
     case "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED": {

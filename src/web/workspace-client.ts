@@ -2,7 +2,7 @@ import { WORKSPACE_PHOTO_CLIENT_SCRIPT } from "./workspace-photo-client.js";
 /** Browser projection only: all source facts and actions are checked by the server. */
 export const WORKSPACE_CLIENT_SCRIPT = String.raw`'use strict';
 const $ = id => document.getElementById(id);
-const state = {user:null, cases:new Map(), drafts:new Map(), view:null, nav:0, stream:null, streamCaseId:null, caseListTimer:null, caseListSyncing:false, signingOut:false, deferredView:null, blocked:false, ui:{view:'CANDIDATES',candidateId:null,reselectSlot:false}, expiry:null, feedback:null, detailKey:'',questionKey:'',handoffKey:'',pendingQuestion:null,asking:false,askingId:null,locating:null,claiming:null,diffKey:'',pendingCase:null,preview:null,entryPace:null};
+const state = {user:null, cases:new Map(), drafts:new Map(), view:null, nav:0, stream:null, streamCaseId:null, caseListTimer:null, caseListSyncing:false, signingOut:false, deferredView:null, blocked:false, ui:{view:'CANDIDATES',candidateId:null,reselectSlot:false}, expiry:null, feedbackPrompts:new Map(), detailKey:'',questionKey:'',handoffKey:'',pendingQuestion:null,asking:false,askingId:null,locating:null,claiming:new Set(),diffKey:'',pendingCase:null,preview:null,entryPace:null};
 function requestId(){
   const crypto=globalThis.crypto;
   if(crypto?.randomUUID)return crypto.randomUUID();
@@ -66,13 +66,30 @@ function availabilityExpired(id){
  return !freshOffers(id).length&&(!!(expiry&&Date.parse(expiry)<=Date.now())||!!r.availability[id]?.length);
 }
 function offerFor(id){
- if(needsSlotReselection(id))return undefined;
  const fresh=freshOffers(id);
- return fresh.find(o=>o.id===state.ui.offerId)||fresh[0];
+ return state.ui.selectedSlot?fresh.find(o=>o.id===state.ui.offerId):fresh[0];
 }
-function clearSlotSelection(){state.ui.offerId=null;state.ui.reselectSlot=false;delete state.ui.retrySlot;}
+function clearSlotSelection(){state.ui.offerId=null;state.ui.reselectSlot=false;delete state.ui.selectedSlot;}
+function selectSlot(offer){
+ state.ui.offerId=offer.id;state.ui.reselectSlot=false;
+ state.ui.selectedSlot={candidateId:state.ui.candidateId,revision:state.view.restaurant.requirementRevision,dateTime:offer.dateTime,partySize:offer.partySize};
+}
+function reconcileSlot(){
+ const selected=state.ui.selectedSlot;
+ if(!selected)return;
+ const r=state.view.restaurant,id=state.ui.candidateId;
+ if(selected.candidateId!==id||selected.revision!==r.requirementRevision){clearSlotSelection();return;}
+ if(r.progress.active)return;
+ const fresh=freshOffers(id),match=fresh.find(o=>o.dateTime===selected.dateTime&&o.partySize===selected.partySize);
+ const changed=!state.ui.reselectSlot;
+ state.ui.offerId=match?.id??null;
+ state.ui.reselectSlot=!match&&fresh.length>0;
+ if(changed&&state.ui.reselectSlot&&state.ui.view==='HANDOFF'){
+   state.ui.view='CANDIDATES';state.handoffKey='';report(new Error("Availability couldn't be confirmed. Try again."));
+ }
+}
 function handoffs(){return (state.view.restaurant.bookingHandoffs||[]).filter(h=>h.candidateId===state.ui.candidateId&&Date.parse(h.displayExpiresAt)>Date.now());}
-function currentHandoff(){const list=handoffs();return state.ui.offerId?list.find(h=>h.offerId===state.ui.offerId):list[0];}
+function currentHandoff(){const list=handoffs();return state.ui.selectedSlot?list.find(h=>h.offerId===state.ui.offerId):list[0];}
 function sourceFor(id){const r=state.view.restaurant, check=r.availabilityChecks[id], evidence=new Set(check&&check.evidenceIds||[]);return r.readEvidence.find(e=>e.candidateId===id&&e.sourceUrl&&evidence.has(e.evidenceId))||r.currentFactEvidence.find(e=>e.candidateId===id&&e.sourceUrl);}
 function cancelPreparation(){state.preparing=null;}
 function setView(view){closePhotos();clearEntryTransition();cancelPreparation();closeAnswer();state.ui.view=view;savePosition();clearError();render();$('case-workspace').scrollTop=0;}
@@ -206,7 +223,7 @@ function accept(view){
    else if(view.case.phase==='PRESENT_RESULTS'){const startedAt=state.entryPace;state.entryPace=null;startEntryPreview(view,startedAt);}
   }
   if(state.preview&&(view.restaurant.progress.active||view.case.phase!=='PRESENT_RESULTS'))clearEntryPreview();
-  state.view=view;updateCases(view.case);finishPreparation();render();
+  state.view=view;updateCases(view.case);reconcileSlot();finishPreparation();render();
   const pending=state.pendingQuestion,q=view.restaurant.pageQuestion;
   if(pending&&pending.caseId===view.case.caseId&&q&&q.requestId===pending.requestId&&q.result){
     state.pendingQuestion=null;
@@ -217,8 +234,8 @@ function accept(view){
 }
 function resetCaseRequests(){
   clearEntryTransition();cancelPreparation();closeAnswer();closeStream();
-  state.sending=false;state.asking=false;state.askingId=null;state.locating=null;state.claiming=null;
-  state.blocked=false;state.feedback=null;state.pendingQuestion=null;
+  state.sending=false;state.asking=false;state.askingId=null;state.locating=null;
+  state.blocked=false;state.pendingQuestion=null;
   show('reconnecting',false);clearError();
 }
 async function loadCase(caseId){
@@ -266,7 +283,7 @@ function renderProgress(){
  }
  for(const node of $('stages').children)node.hidden=!rows.some(row=>row[0]===node.dataset.stage);
 }
-function citation(container,item,index){const d=element('details');d.dataset.sourceId=item.url+':'+index;d.append(element('summary','Source'));const quote=element('blockquote',item.text);d.append(quote,link('Source page',item.url),element('p','Read at: '+item.readAt,'muted'));container.append(d);}
+function citation(container,item,index){const d=element('details');d.dataset.sourceId=item.url+':'+index;d.append(element('summary','Source'));const quote=element('blockquote',item.text);d.append(quote,link('Source page',item.url),element('p',readAt(item.readAt),'muted'));container.append(d);}
 function preserveSources(target,build){const open=new Set([...target.querySelectorAll('details[open]')].map(n=>n.dataset.sourceId));target.replaceChildren();build(target);for(const d of target.querySelectorAll('details'))d.open=open.has(d.dataset.sourceId);}
 // The card shows short labels. About retains the full source excerpts.
 function renderSourceCategories(id){
@@ -297,12 +314,13 @@ function renderDelivery(){
  const r=state.view.restaurant,id=state.ui.candidateId;
  const offers=freshOffers(id);
  const groups=new Map();for(const offer of offers){const label=displayDate(offer.dateTime),key=label+':'+offer.partySize;let group=groups.get(key);if(!group){group={label,partySize:offer.partySize,offers:[]};groups.set(key,group);}group.offers.push(offer);}
- const selected=offerFor(id);$('delivery-slots').replaceChildren(...Array.from(groups.values()).map((group,index)=>{const row=element('div');if(index>0)row.append(element('p','Available '+group.label));const options=element('div',undefined,'slot-options');for(const offer of group.offers){const button=element('button',displayTime(offer.dateTime),'slot-time');button.dataset.offerId=offer.id;button.setAttribute('aria-label','Time '+displayTime(offer.dateTime)+' on '+group.label);button.setAttribute('aria-pressed',String(!!selected&&selected.id===offer.id));button.disabled=state.blocked||!!state.preparing;button.onclick=event=>{clearSlotSelection();state.ui.offerId=offer.id;clearError();savePosition();renderCard();const current=$('delivery-slots').querySelector('[data-offer-id="'+CSS.escape(offer.id)+'"]');if(current&&event.detail===0)current.focus({preventScroll:true});};options.append(button);}row.append(options);return row;}));
+ const selected=offerFor(id);$('delivery-slots').replaceChildren(...Array.from(groups.values()).map((group,index)=>{const row=element('div');if(index>0)row.append(element('p','Available '+group.label));const options=element('div',undefined,'slot-options');for(const offer of group.offers){const button=element('button',displayTime(offer.dateTime),'slot-time');button.dataset.offerId=offer.id;button.setAttribute('aria-label','Time '+displayTime(offer.dateTime)+' on '+group.label);button.setAttribute('aria-pressed',String(!!selected&&selected.id===offer.id));button.disabled=state.blocked||!!state.preparing;button.onclick=event=>{selectSlot(offer);clearError();savePosition();renderCard();const current=$('delivery-slots').querySelector('[data-offer-id="'+CSS.escape(offer.id)+'"]');if(current&&event.detail===0)current.focus({preventScroll:true});};options.append(button);}row.append(options);return row;}));
+ if(needsSlotReselection(id))$('delivery-slots').append(element('p','Choose a new time to continue.','muted'));
  $('delivery-conditions').replaceChildren(...(r.conditionStates?.[id]||[])
    .filter(item=>item.status!=='NOT_CHECKED'||item.strength==='HARD').map(conditionRow));
 }
 function canShortlist(){return ['SEARCHING','SELECTION_REQUIRED','PRESENT_RESULTS','NO_VERIFIED_RESULT'].includes(state.view?.case.phase);}
-function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), available=eligible&&freshOffers(id)[0], expired=availabilityExpired(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=available?'available':'unknown';text('availability',available?'Available '+displayDate(available.dateTime):expired?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:')&&!reason.startsWith('Source coordinates within'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible||needsSlotReselection(id)||expired&&!canRefresh();$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
+function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=state.view.restaurant,offer=offerFor(id), eligible=ids().includes(id), available=eligible&&freshOffers(id)[0], expired=availabilityExpired(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=available?'available':'unknown';text('availability',available?'Available '+displayDate(available.dateTime):expired?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:')&&!reason.startsWith('Source coordinates within'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||state.view.case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.preparing||!eligible||!!state.ui.selectedSlot&&!!available&&!offer||expired&&!canRefresh();$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
 function questionPending(){const q=state.view?.restaurant.pageQuestion;return !!q&&!q.result;}
 function renderDetails(){
  const c=candidate();if(!c)return;const r=state.view.restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];
@@ -358,7 +376,9 @@ async function askCurrentPlace(message){
     const p=await api(casePath(caseId)+'/questions',{method:'POST',body:JSON.stringify({
       candidateId:c.restaurant.id,question:message,taskVersion:old.case.taskVersion,requestId:id,
     })});
-    if(receiveCase(p.view,nav,caseId)&&$('message').value.trim()===message)setMessage('');
+    if(state.drafts.get(caseId)?.trim()===message)state.drafts.delete(caseId);
+    if(draftKey()===caseId&&$('message').value.trim()===message)setMessage('');
+    receiveCase(p.view,nav,caseId);
   }catch(error){
     if(currentCase(nav,caseId)&&state.askingId===id){state.pendingQuestion=null;await reportCaseError(error,nav,caseId);}
   }finally{
@@ -414,8 +434,10 @@ function renderConditions(){
 }
 function changeReason(code){return ({OVER_BUDGET:'Over budget',NEW_TIME_MISMATCH:"Doesn't match the new time",NO_LONGER_MATCHES:'No longer matches'})[code]||'No longer matches';}
 function renderChanges(){
-  const diff=state.view.restaurant.revisionDiff,changed=!!diff&&(diff.removed.length>0||diff.added.length>0);show('revision-changes',changed&&state.ui.view==='CANDIDATES'&&!state.ui.atEnd);if(!changed)return;
-  const onlyAdded=diff.removed.length===0,host=$('revision-changes'),summary=host.querySelector('summary');show('removed-count',!onlyAdded);show('added-count',diff.added.length>0);show('removed-list',!onlyAdded);host.classList.toggle('only-added',onlyAdded);summary.setAttribute('aria-disabled',String(onlyAdded));summary.tabIndex=onlyAdded?-1:0;summary.onclick=event=>{if(onlyAdded)event.preventDefault();};if(onlyAdded)host.open=false;
+  const r=state.view.restaurant,diff=r.revisionDiff;
+  const added=!!diff?.added.length&&r.readStatus.kind==='RESULTS'&&ids().length>0;
+  const changed=!!diff&&(diff.removed.length>0||added);show('revision-changes',changed&&state.ui.view==='CANDIDATES'&&!state.ui.atEnd);if(!changed)return;
+  const onlyAdded=diff.removed.length===0,host=$('revision-changes'),summary=host.querySelector('summary');show('removed-count',!onlyAdded);show('added-count',added);show('removed-list',!onlyAdded);host.classList.toggle('only-added',onlyAdded);summary.setAttribute('aria-disabled',String(onlyAdded));summary.tabIndex=onlyAdded?-1:0;summary.onclick=event=>{if(onlyAdded)event.preventDefault();};if(onlyAdded)host.open=false;
   text('removed-count',onlyAdded?'':diff.removed.length+(diff.removed.length===1?' place no longer matches':' places no longer match'));text('added-count',diff.added.length?diff.added.length+' new':'');
   const signature=JSON.stringify(diff);if(signature===state.diffKey)return;state.diffKey=signature;$('revision-changes').open=false;
   $('removed-list').replaceChildren(...diff.removed.map(item=>{const row=element('li');row.dataset.candidateId=item.candidateId;row.append(element('span',item.outletName),element('p',changeReason(item.reasonCode),'muted'));return row;}));
@@ -444,7 +466,7 @@ function renderHandoff(){
   selector.replaceChildren(...slots.map(slot=>{const offer=(state.view.restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===slot.offerId);const option=element('option',offer?availabilityTime(offer.dateTime)+'　'+offer.partySize+' guests':slot.continueLabel);option.value=slot.offerId;return option;}));
   if(h)selector.value=h.offerId;else{const placeholder=element('option','Choose a time');placeholder.value='';placeholder.disabled=true;placeholder.selected=true;selector.prepend(placeholder);}
   const selectedOffer=h&&(state.view.restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===h.offerId),price=selectedOffer&&selectedOffer.price;show('handoff-price',!!price);text('handoff-price',price?money(price.amount)+(price.basis==='PER_PERSON'?' per guest':price.basis==='TOTAL'?' total':''):'');
-  selector.onchange=()=>{clearSlotSelection();state.ui.offerId=selector.value;savePosition();renderHandoff();};
+  selector.onchange=()=>{const offer=freshOffers(c.restaurant.id).find(o=>o.id===selector.value);if(offer){selectSlot(offer);savePosition();renderHandoff();}};
   text('handoff-provider-name',h?sourceName(h.provider):'');show('handoff-provider',!!h);
   const refreshable=canRefresh(),refresh=refreshable&&availabilityExpired(c.restaurant.id);
   show('departure',!!h||refresh);show('departure-fields',!!h);show('handoff-unavailable',!h&&!refresh);
@@ -547,7 +569,7 @@ function render(){
   $('use-location').disabled=!!state.locating;
   if(mode!=='CANDIDATES')for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages','use-location'])show(id,false);
   show('mode-note',state.view.mode==='FIXTURE');text('mode-note','Fixture only. No real availability or reservations.');savePosition();clearTimeout(state.expiry);
-  const expiry=Object.values(r.availability).flat().map(o=>Date.parse(o.displayExpiresAt)).filter(t=>t>Date.now()).sort((a,b)=>a-b)[0];if(expiry)state.expiry=setTimeout(render,Math.min(expiry-Date.now()+10,2147483647));show('feedback',!!state.feedback);
+  const expiry=Object.values(r.availability).flat().map(o=>Date.parse(o.displayExpiresAt)).filter(t=>t>Date.now()).sort((a,b)=>a-b)[0];if(expiry)state.expiry=setTimeout(()=>{reconcileSlot();render();},Math.min(expiry-Date.now()+10,2147483647));show('feedback',state.feedbackPrompts.has(state.view.case.caseId));
 }
 function viewContext(){return {view:state.view?state.ui.view:'HOME',...(state.view&&!state.ui.atEnd&&state.ui.candidateId&&['CANDIDATES','DETAILS','HANDOFF'].includes(state.ui.view)?{candidateId:state.ui.candidateId}:{}),comparedCandidateIds:[]};}
 async function submitRequirement(message,preserveComposer=false){
@@ -590,10 +612,11 @@ async function submitRequirement(message,preserveComposer=false){
 $('composer').onsubmit=async event=>{event.preventDefault();const message=$('message').value.trim();if(!message||$('send').disabled)return;if(state.view&&state.ui.view==='DETAILS'){await askCurrentPlace(message);return;}await submitRequirement(message);};
 $('stop').onclick=async()=>{
   if(state.blocked||!state.view)return;
-  const nav=state.nav,caseId=state.view.case.caseId;
+  const nav=state.nav,{caseId,taskVersion}=state.view.case,readRunId=state.view.restaurant.sourceReadContext?.runId;
+  if(!readRunId)return;
   state.blocked=true;$('stop').disabled=true;
   try{
-    const p=await api(casePath(caseId)+'/run',{method:'DELETE'});
+    const p=await api(casePath(caseId)+'/run',{method:'DELETE',body:JSON.stringify({readRunId,taskVersion})});
     receiveCase(p.view,nav,caseId);
   }catch(error){await reportCaseError(error,nav,caseId);}
   finally{resumeCase(nav,caseId);}
@@ -636,24 +659,20 @@ function finishPreparation(){
   ||!['CANDIDATES','HANDOFF'].includes(state.ui.view)||state.view.restaurant.requirementRevision!==pending.revision){cancelPreparation();return;}
  if(state.view.restaurant.progress.active)return;
  cancelPreparation();
- const fresh=freshOffers(pending.id);
- const matched=pending.slot?fresh.find(o=>o.dateTime===pending.slot.dateTime&&o.partySize===pending.slot.partySize):!pending.offerId&&!state.ui.reselectSlot?fresh[0]:undefined;
- clearSlotSelection();
+ const matched=offerFor(pending.id);
  if(ids().includes(pending.id)&&state.view.restaurant.readyCandidateIds.includes(pending.id)&&matched){
-   state.ui.offerId=matched.id;closeAnswer();state.ui.view='HANDOFF';savePosition();clearError();
+   selectSlot(matched);closeAnswer();state.ui.view='HANDOFF';savePosition();clearError();
  }else{
-   state.ui.reselectSlot=fresh.length>0;
-   if(!fresh.length&&pending.slot)state.ui.retrySlot=pending.slot;
    if(state.ui.view==='HANDOFF'){state.ui.view='CANDIDATES';state.handoffKey='';}
    savePosition();report(new Error("Availability couldn't be confirmed. Try again."));
  }
 }
 async function refreshSelectedSlot(){
  if(!canRefresh()||state.blocked||state.preparing)return;
- const id=state.ui.candidateId,nav=state.nav,caseId=state.view.case.caseId,revision=state.view.restaurant.requirementRevision,offerId=state.ui.offerId;
- const offers=state.view.restaurant.availability[id]||[];
- const old=offerId?offers.find(o=>o.id===offerId):state.ui.retrySlot||(!state.ui.reselectSlot?offers[0]:null);
- const pending={id,nav,caseId,revision,offerId,slot:old?{dateTime:old.dateTime,partySize:old.partySize}:null};
+ const id=state.ui.candidateId,nav=state.nav,caseId=state.view.case.caseId,revision=state.view.restaurant.requirementRevision;
+ const old=(state.view.restaurant.availability[id]||[])[0];
+ if(old&&!state.ui.selectedSlot)selectSlot(old);
+ const pending={id,nav,caseId,revision};
  state.preparing=pending;clearError();
  const refreshed=await refreshCase();
  if(!refreshed&&state.preparing===pending){cancelPreparation();if(currentCase(nav,caseId))render();}
@@ -662,7 +681,7 @@ async function prepareBooking(){
  if(state.blocked||state.preparing||!candidate()||!ids().includes(state.ui.candidateId))return;
  const id=state.ui.candidateId;
  if(needsSlotReselection(id))return;
- if(!availabilityExpired(id)){const viewed=offerFor(id);if(viewed)state.ui.offerId=viewed.id;setView('HANDOFF');return;}
+ if(!availabilityExpired(id)){const viewed=offerFor(id);if(state.ui.selectedSlot&&!viewed)return;if(viewed)selectSlot(viewed);setView('HANDOFF');return;}
  await refreshSelectedSlot();
 }
 $('refresh').onclick=refreshCase;
@@ -701,14 +720,17 @@ async function depart(event){
 }
 $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};
 async function claimFeedback(){
- if(!state.view||state.feedback||state.claiming)return;
- const nav=state.nav,caseId=state.view.case.caseId,claim={};state.claiming=claim;
+ if(!state.view)return;
+ const nav=state.nav,caseId=state.view.case.caseId,returnKey=key(caseId)+':return';
+ if(state.signingOut||state.feedbackPrompts.has(caseId)||state.claiming.has(caseId))return;
+ state.claiming.add(caseId);
  try{
    const p=await api(casePath(caseId)+'/booking-feedback/claim',{method:'POST',body:'{}'});
-   if(!currentCase(nav,caseId))return;
-   localStorage.removeItem(key(caseId)+':return');state.feedback=p.prompt||null;show('feedback',!!state.feedback);
+   localStorage.removeItem(returnKey);
+   if(p.prompt)state.feedbackPrompts.set(caseId,p.prompt);
+   if(draftKey()===caseId&&!state.signingOut)show('feedback',state.feedbackPrompts.has(caseId));
  }catch(error){await reportCaseError(error,nav,caseId);}
- finally{if(state.claiming===claim)state.claiming=null;}
+ finally{state.claiming.delete(caseId);}
 }
 window.addEventListener('focus',async()=>{
  scheduleCaseListSync(true);
@@ -718,11 +740,12 @@ window.addEventListener('focus',async()=>{
  catch(error){await reportCaseError(error,nav,caseId);}
 });
 for(const button of $('feedback').querySelectorAll('[data-answer]'))button.onclick=async()=>{
- if(!state.feedback)return;
- const prompt=state.feedback,nav=state.nav,caseId=state.view.case.caseId;
+ const nav=state.nav,caseId=state.view?.case.caseId,prompt=state.feedbackPrompts.get(caseId);
+ if(!prompt)return;
  try{
    await api(casePath(caseId)+'/booking-feedback',{method:'POST',body:JSON.stringify({departureId:prompt.departure.id,answer:button.dataset.answer})});
-   if(currentCase(nav,caseId)){state.feedback=null;show('feedback',false);}
+   state.feedbackPrompts.delete(caseId);
+   if(draftKey()===caseId)show('feedback',false);
  }catch(error){await reportCaseError(error,nav,caseId);}
 };
 $('menu').onclick=event=>{
@@ -744,7 +767,7 @@ document.addEventListener('keydown',event=>{
 $('new-case').onclick=newPlan;$('brand').onclick=event=>{event.preventDefault();newPlan();};
 $('logout').onclick=async()=>{
  clearEntryTransition();++state.nav;state.signingOut=true;scheduleCaseListSync();
- try{await api('/api/session',{method:'DELETE'});location.reload();}
+ try{await api('/api/session',{method:'DELETE'});state.feedbackPrompts.clear();location.reload();}
  catch(error){
   state.signingOut=false;resetCaseRequests();render();
   if(state.view)openStream(state.view.case.caseId,state.nav);

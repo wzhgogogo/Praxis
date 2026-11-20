@@ -383,7 +383,11 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       }
       const cancelMatch = /^\/api\/cases\/([^/]+)\/run$/.exec(url.pathname);
       if (method === "DELETE" && cancelMatch) {
-        const view = await options.application.cancelCase(user.id, decodeURIComponent(cancelMatch[1]!));
+        const body = await readJson(request);
+        if (Object.keys(body).some(key => !["readRunId", "taskVersion"].includes(key))) throw new Error("Stop request has unexpected fields");
+        const view = await options.application.cancelCase(user.id, decodeURIComponent(cancelMatch[1]!), {
+          readRunId: requireString(body, "readRunId"), expectedVersion: requireVersion(body),
+        });
         hub.publish(view);
         json(response, 200, { view });
         return;

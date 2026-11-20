@@ -3,10 +3,12 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import { RestaurantAgentLoopCoordinator } from "./restaurant-agent-loop.js";
+import { DeliveryReservedModelGateway } from "./delivery-reserved-model-gateway.js";
 import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 import type { TaskSnapshot } from "../core/task-runtime/contracts.js";
 import { restaurantSearchIntentFingerprint, type RestaurantAgentLoopTermination, type RestaurantOutcome, type RestaurantTaskState, type RestaurantEvent } from "../domains/restaurant/contracts.js";
 import { ScriptedRestaurantAgentDecisionPort, type RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
+import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "../domains/restaurant/action-validator.js";
 import { assessRestaurantRead, discoveryShortBatchDeliveryReady } from "../domains/restaurant/read-assessment.js";
 import { projectRestaurantAgentContext } from "../domains/restaurant/agent-context.js";
@@ -20,7 +22,7 @@ const fixtures = JSON.parse(await readFile(new URL("./fixtures/p1-g2-h001-termin
 // A real saved state is explicitly injected for terminal-path regression only.
 // This is not an end-to-end discovery claim; the separate native composition
 // tests retain the production Guard, network policy and evidence-producing path.
-async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "EXHAUSTED_MODEL" | "FAILED_SEARCH", timing?: { now: () => Date; afterPresentation?: (presentationTime: string) => void }) {
+async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "EXHAUSTED_MODEL" | "FAILED_SEARCH", timing?: { now: () => Date; deadlineAt?: Date; afterPresentation?: (presentationTime: string) => void; decisions?: RestaurantAgentAction[]; router?: RestaurantExecutionRouter; remainingModelCalls?: () => number }) {
   let ticks = 0;
   const clock = { now: timing?.now ?? (() => new Date(Date.parse(fixture.now) + ticks++)) };
   let current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome> = {
@@ -31,8 +33,9 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
   };
   const initial = structuredClone(current);
   const events: string[] = [];
+  const emitted: RestaurantEvent[] = [];
   const trajectories = new InMemoryRestaurantAgentTrajectoryStore();
-  const router = new RestaurantExecutionRouter(
+  const router = timing?.router ?? new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { throw new Error("No network allowed"); } },
     { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("No network allowed"); } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
@@ -49,8 +52,8 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
     };
   }
   let decisionCalls = 0;
-  const decision = new ScriptedRestaurantAgentDecisionPort((runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") ? Array.from({length:12},()=>({type:"SEARCH_RESTAURANTS" as const})) : runFailure === "UNCAUGHT_EXCEPTION"
-    ? [{ type: "CHECK_AVAILABILITY", candidateIds: assessRestaurantRead(fixture.state, fixture.now).checkableCandidateIds.slice(0, 1) }] : []);
+  const decision = new ScriptedRestaurantAgentDecisionPort(timing?.decisions ?? ((runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") ? Array.from({length:12},()=>({type:"SEARCH_RESTAURANTS" as const})) : runFailure === "UNCAUGHT_EXCEPTION"
+    ? [{ type: "CHECK_AVAILABILITY", candidateIds: assessRestaurantRead(fixture.state, fixture.now).checkableCandidateIds.slice(0, 1) }] : []));
   if (runFailure === "PROVIDER_REJECTED") decision.decide = async () => ({ status: "MODEL_FAILURE", errorCode: "PROVIDER_REJECTED", retryable: false });
   if (runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") {
     const code = runFailure === "FAILED_SEARCH" ? "SEARCH_FAILED" : "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED";
@@ -70,22 +73,23 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
         taskId: current.id, runId: current.runId, now: envelope.occurredAt, createId: prefix => prefix,
       });
       events.push(envelope.event.type);
+      emitted.push(envelope.event);
       current = { ...current, domainState: result.state, version: current.version + 1,
         lifecycleState: definition.getLifecycleState(result.state), outcome: definition.evaluateOutcome(result.state), updatedAt: envelope.occurredAt };
       return { snapshot: current, commands: [], duplicateEvent: false };
     },
   }, decision, router, trajectories, clock, { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 500_000,
-    ...(runFailure === "EXHAUSTED_MODEL" ? { remainingModelCalls: () => 0 } : {}),
+    ...(runFailure === "EXHAUSTED_MODEL" ? { remainingModelCalls: () => 0 } : timing?.remainingModelCalls ? { remainingModelCalls: timing.remainingModelCalls } : {}),
   });
   // Deliberately exercise the same internal stop boundary as the recorded
   // trajectory, with a monotonically advancing clock rather than frozen time.
-  if (runFailure) await coordinator.run(current.id);
-  else await Reflect.get(coordinator, "terminate").call(coordinator, current, {
+  if (runFailure || timing?.decisions) await coordinator.run(current.id, undefined, timing?.deadlineAt);
+  else await Reflect.get(coordinator, "terminate").call(coordinator, current, timing?.deadlineAt ?? new Date(Date.parse(fixture.now)+500_000), {
     id: "stop", taskId: current.id, stepNumber: 1, occurredAt: fixture.now,
     stateVersionBefore: current.version, stateHashBefore: "saved-state",
     causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] }, capabilities: [],
   }, termination, fixture.reason);
-  return { initial, current, events, trajectories, decisionCalls };
+  return { initial, current, events, emitted, trajectories, decisionCalls };
 }
 
 for (const fixture of fixtures.states) test(`P1-G2 actual ${fixture.name} stop returns a user-facing outcome`, async () => {
@@ -371,4 +375,107 @@ test("another batch continues past a cross-source duplicate, ends when exhausted
   const delivered = reduce(withNew, presented.event!);
   assert.deepEqual(delivered.presentedResults?.candidateIds, ["3"]);
   assert.deepEqual(delivered.selectionSession?.deliveredCandidateIds, ["1", "3"]);
+});
+
+test("Round14 loop: main presentation dispatch shares the validated instant at a one-millisecond boundary", async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const edge = Date.parse(fixture.now);
+  fixture.state.defaultBatchDeliveryWindow = { openedAt: new Date(edge - 1000).toISOString(), deadlineAt: fixture.now };
+  let instant = edge;
+  let executions = 0;
+  const result = await stop(fixture, "NO_PROGRESS", undefined, {
+    now: () => new Date(instant),
+    decisions: [{ type: "PRESENT_RESULTS", candidateIds: ["1"] }],
+    afterPresentation(time) {
+      assert.equal(time, fixture.now);
+      executions++;
+      instant++;
+    },
+  });
+  assert.equal(executions, 1);
+  assert.equal(result.current.domainState.phase, "PRESENT_RESULTS");
+  assert.equal(result.current.updatedAt, fixture.now);
+  assert.deepEqual(result.events, ["RESULTS_PRESENTED"]);
+});
+
+for (const opened of [false, true]) test(`Round14 loop: whole-read deadline blocks fallback after expiry ${opened ? "with" : "without"} an open read-end window`, async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const deadline = new Date(fixture.now);
+  if (opened) fixture.state.readEndWindow = {
+    reason: "DELIVERY_TIME",
+    openedAt: new Date(deadline.valueOf() - 1000).toISOString(),
+    deadlineAt: new Date(deadline.valueOf() + 1000).toISOString(),
+  };
+  const { current, events } = await stop(fixture, "TIMEOUT", undefined, {
+    now: () => new Date(deadline.valueOf() + 1), deadlineAt: deadline,
+  });
+  assert.equal(current.domainState.phase, "NO_VERIFIED_RESULT");
+  assert.deepEqual(events, ["AGENT_LOOP_TERMINATED"]);
+  assert.equal(current.domainState.presentedResults, undefined);
+});
+
+test("Round14 loop: fallback before the whole-read deadline cannot extend its delivery window", async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const deadline = new Date(Date.parse(fixture.now) + 5000);
+  const { emitted, events } = await stop(fixture, "NO_PROGRESS", undefined, {
+    now: () => new Date(fixture.now), deadlineAt: deadline,
+  });
+  assert.deepEqual(events, ["DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", "RESULTS_PRESENTED"]);
+  const window = emitted.find(event => event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED");
+  assert.equal(window?.deadlineAt, deadline.toISOString());
+});
+
+test("Round14 loop: aliases from a delivered batch leave the four closing calls protected", async () => {
+  const fixture = qualifiedBudgetFixture(2);
+  const {state, now} = fixture;
+  const [delivered, alias] = state.candidates;
+  delivered!.restaurant.sourceIds.discoverySourceId = "tabelog";
+  alias!.restaurant.sourceIds.discoverySourceId = "tablecheck";
+  alias!.restaurant.outletName = delivered!.restaurant.outletName;
+  alias!.restaurant.address = delivered!.restaurant.address;
+  state.selectionSession = { deliveredCandidateIds: ["1"], viewedCandidateIds: [], shortlistCandidateIds: [] };
+  state.factChecks = Object.fromEntries(["1", "2"].map(id => [id, { status: "COMPLETED", checkedAt: now, evidenceIds: ["fact-" + id] }]));
+  state.searchContinuation = {
+    intentFingerprint: restaurantSearchIntentFingerprint(completeRestaurantSearchIntent(state.intentDraft)!),
+    usedPageTokens: [], pagesRead: 2, exhausted: false,
+    discoveryPlan: {
+      entries: ["tabelog", "tablecheck", "google-places"].map(sourceId => ({
+        sourceId, query: { positiveCriteria: [], category: "restaurant", location: {
+          latitude: 35.69, longitude: 139.7, radiusMeters: 1000, label: "Shinjuku", areaMatchBasis: "TASK_LOCATION_RADIUS",
+        } },
+      })),
+      cursor: 2,
+    },
+    currentDiscoveryBatch: { sourceId: "tablecheck", candidateIds: ["2"] },
+  };
+  assert.equal(assessRestaurantRead(state, now).presentation.find(item => item.candidateId === "2")?.eligible, true);
+  assert.equal(projectRestaurantAgentContext(state, now).legalActions.search, true);
+  assert.deepEqual(projectRestaurantAgentContext(state, now).legalActions.presentResults, []);
+  let remaining = 5, delegated = 0, sourceAttempts = 0;
+  const reserve = new DeliveryReservedModelGateway({
+    async complete() { delegated++; throw new Error("Unexpected nested model call"); },
+  });
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() {
+      sourceAttempts++;
+      remaining = 4;
+      await reserve.complete({
+        taskId: "fixture", purpose: "fixture-nested-read", promptVersion: "fixture", messages: [],
+        responseFormat: "TEXT", outputSchema: { name: "fixture", version: "1" }, timeoutMs: 1000, fallback: "FAIL_CLOSED",
+      });
+      throw new Error("The reserved call must be rejected");
+    } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("Unexpected availability check"); } },
+    { structuredReadTimeoutMs: 8000, browserReadTimeoutMs: 20_000, modelReadReserve: reserve },
+  );
+  const { current, events } = await stop(fixture, "NO_PROGRESS", undefined, {
+    now: () => new Date(now), router, remainingModelCalls: () => remaining,
+    decisions: [{ type: "SEARCH_RESTAURANTS" }, { type: "END_READ" }],
+  });
+  assert.equal(sourceAttempts, 1);
+  assert.equal(delegated, 0);
+  assert.ok(events.includes("READ_END_WINDOW_OPENED"), events.join(", "));
+  assert.equal(current.domainState.readEndWindow?.reason, "MODEL_CALL");
+  assert.equal(current.domainState.phase, "NO_VERIFIED_RESULT");
+  assert.equal(current.domainState.presentedResults, undefined);
 });

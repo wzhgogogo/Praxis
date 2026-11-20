@@ -207,7 +207,7 @@ test("Searching and stopped next batch keep new verified outlets while excluding
     assert.equal(during.case.phase, "SEARCHING");
     assert.equal(during.restaurant.progress.active, true);
     assert.deepEqual(during.restaurant.readyCandidateIds, ["fixture-cache-0", "fixture-cache-1"]);
-    const stopped = await host.application.cancelCase(userId, first.case.caseId);
+    const stopped = await host.application.cancelCase(userId, first.case.caseId, {readRunId:during.restaurant.sourceReadContext!.runId,expectedVersion:during.case.taskVersion});
     assert.equal(stopped.case.phase, "FAILED");
     assert.equal(stopped.restaurant.progress.stopped, true);
     assert.deepEqual(stopped.restaurant.readyCandidateIds, during.restaurant.readyCandidateIds);

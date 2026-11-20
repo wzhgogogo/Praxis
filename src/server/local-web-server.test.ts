@@ -1078,7 +1078,7 @@ test("W06 Live read creates a recoverable active Case and cancellation reaches t
         running.baseUrl,
         cookie,
         `/api/cases/${encodeURIComponent(created.case.caseId)}/run`,
-        { method: "DELETE" },
+        { method: "DELETE", body: JSON.stringify({readRunId:created.restaurant.sourceReadContext!.runId,taskVersion:created.case.taskVersion}) },
       );
       assert.equal(stopped.response.status, 200);
       const view = stopped.payload.view as RestaurantCaseView;
@@ -1118,7 +1118,7 @@ test("W08 ordinary Web cancellation writes an immutable execution artifact and i
         running.baseUrl,
         cookie,
         `/api/cases/${encodeURIComponent(created.case.caseId)}/run`,
-        { method: "DELETE" },
+        { method: "DELETE", body: JSON.stringify({readRunId:created.restaurant.sourceReadContext!.runId,taskVersion:created.case.taskVersion}) },
       );
       assert.equal(stopped.response.status, 200);
       const files = await readdir(artifactDirectory);
@@ -1858,7 +1858,8 @@ test("G1 async cancellation and newer question discard a late model answer", asy
       assert.equal(old?.status,"UNVERIFIED");assert.equal(old?.reason,"CANCELLED","a late answer cannot restore old success after supersession");
       blockAnswer();await ask("question-cancel",view);
       await withinTestTimeout(modelStarted,"second fixture model answer to block");
-      const cancelled=await server.application.cancelCase("user-a",view.case.caseId);
+      const active=await server.application.getCase("user-a",view.case.caseId);
+      const cancelled=await server.application.cancelCase("user-a",view.case.caseId,{readRunId:active.restaurant.sourceReadContext!.runId,expectedVersion:active.case.taskVersion});
       const result=cancelled.restaurant.pageQuestion!.result!;
       assert.ok(result.status==="UNVERIFIED"&&result.reason==="CANCELLED");
       assert.equal(cancelled.case.phase,"PRESENT_RESULTS","question cancellation does not destroy the displayed batch");

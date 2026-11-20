@@ -841,3 +841,236 @@ test("Round13 UI: About shows pending and newest-first answers and keeps rejecte
     }
   });
 });
+
+for (const entry of ["About", "Handoff Back", "other tab", "renewal"] as const) {
+  const mobile = entry === "Handoff Back" || entry === "About";
+  const retains = entry === "renewal";
+  test(`Round14 UI: ${entry} refresh ${retains ? "rebinds the same time" : "requires explicit slot reselection"}`, { timeout: 30_000 }, async () => {
+    const options: Options = { multiSlot: true, sourceValidityMs: 60_000 };
+    await fixture(options, async (page, host) => {
+      await signin(page);
+      const { view } = await createPlan(page, "Dinner in Tokyo");
+      const before = await host.application.getCase(userId, view.case.caseId);
+      const id = before.restaurant.presentedCandidateIds![0]!;
+      const former = before.restaurant.availability[id]!.find(slot => slot.dateTime.includes("19:30"))!;
+      const title = (time: string) => `Time ${time} on Mon, Nov 2`;
+      await page.getByRole("button", { name: title("19:30") }).click();
+
+      const tab = entry === "other tab" || retains ? await page.context().newPage() : page;
+      if (tab !== page) {
+        await tab.clock.install({ time: host.clock.now() });
+        await tab.goto("/");
+        await ready(tab);
+      }
+      if (entry === "Handoff Back") {
+        await page.locator("#choose").click();
+        await expire(page, host, before, id);
+        assert.equal(await page.locator("#departure-title").innerText(), "Check availability again");
+        host.hold();
+      } else await tab.locator("#details-button").click();
+      options.multiSlot = retains;
+      options.offerRevision = "reissued";
+      const response = tab.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/refresh"));
+      await tab.locator(entry === "Handoff Back" ? "#departure" : "#refresh").click();
+      assert.equal((await response).status(), 200);
+      if (entry === "Handoff Back") {
+        await host.waitForCheck();
+        await page.locator("#handoff-back").click();
+        host.release();
+      } else if (tab === page) await tab.locator("#details-back").click();
+      const activeTime = page.getByRole("button", { name: title(retains ? "19:30" : "19:00") });
+      await page.waitForFunction(offerId =>
+        document.querySelector(`[data-offer-id="${CSS.escape(offerId)}"]`) !== null
+        && document.querySelector("#card-counter")?.textContent === "1 of 3",
+      (retains ? former.id : before.restaurant.availability[id]![0]!.id) + ":reissued");
+      const summary = await host.application.getCase(userId, view.case.caseId);
+      assert.equal(summary.restaurant.requirementRevision, before.restaurant.requirementRevision);
+      assert.equal(summary.restaurant.presentedCandidateIds?.[0], id);
+      assert.equal(await activeTime.getAttribute("aria-pressed"), String(retains));
+      assert.equal(await page.locator("#choose").isEnabled(), retains);
+      if (!retains) {
+        assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(), 0);
+        await page.getByText("Choose a new time to continue.", { exact: true }).waitFor();
+        if (tab !== page) await tab.close();
+        await page.reload();
+        await page.getByText("Choose a new time to continue.", { exact: true }).waitFor();
+        assert.equal(await page.locator("#choose").isDisabled(), true);
+        if (entry === "About") await screenshot(page, "round14-about-slot-reselect");
+        await activeTime.click();
+      }
+      await page.locator("#choose").click();
+      assert.match(await page.locator("#departure").getAttribute("href") ?? "", retains ? /19%3A30/ : /19%3A00/);
+      assert.match(await page.locator("#handoff-slot").inputValue(), /:reissued$/);
+    }, mobile);
+  });
+}
+
+for (const replacement of [false, true]) {
+  test(`Round14 UI: delayed Stop ${replacement ? "does not stop the replacement read" : "is harmless after delivery"}`, { timeout: 30_000 }, async () => {
+    await fixture({ staged: true }, async (page, host) => {
+      await signin(page);
+      const { view } = await createPlan(page, "Dinner in Tokyo", false);
+      await host.waitForCheck();
+      const started = await host.application.getCase(userId, view.case.caseId);
+      const captured = latch(), releaseStop = latch();
+      await page.route("**" + pathFor(view) + "/run", async route => {
+        captured.release();
+        await releaseStop.ready;
+        await route.continue();
+      });
+      const response = page.waitForResponse(r => r.request().method() === "DELETE" && r.url().endsWith("/run"));
+      try {
+        await page.locator("#stop").click();
+        await captured.ready;
+        const finished = latch();
+        const unsubscribe = host.application.subscribeCaseUpdates(current => {
+          if (current.case.caseId === view.case.caseId && !current.restaurant.progress.active && current.case.phase === "PRESENT_RESULTS") finished.release();
+        });
+        host.release();
+        await finished.ready;
+        unsubscribe();
+        const delivered = await host.application.getCase(userId, view.case.caseId);
+        if (replacement) {
+          host.hold();
+          const refresh = await page.request.post(pathFor(view) + "/refresh", {
+            data: { taskVersion: delivered.case.taskVersion, requestId: "round14-replacement" },
+          });
+          assert.equal(refresh.status(), 200);
+          await host.waitForCheck();
+          const active = await host.application.getCase(userId, view.case.caseId);
+          assert.equal(active.restaurant.sourceReadContext?.runId, started.restaurant.sourceReadContext?.runId, "refresh reuses the investigation scope");
+          assert.equal(active.restaurant.progress.active, true);
+          releaseStop.release();
+          const stopped = await response;
+          assert.equal(stopped.status(), 409);
+          const payload = await stopped.json();
+          assert.equal(payload.actualVersion, active.case.taskVersion);
+          assert.equal(host.providerCalls.at(-1)?.aborted, false);
+          host.release();
+          await ready(page);
+          assert.ok(host.providerCalls.at(-1)?.completed);
+        } else {
+          releaseStop.release();
+          const stopped = await response;
+          assert.equal(stopped.status(), 200);
+          assert.equal((await stopped.json()).view.case.phase, "PRESENT_RESULTS");
+          await ready(page);
+          assert.equal(await page.locator("#error").isVisible(), false);
+        }
+        assert.equal((await response).request().postDataJSON().readRunId, started.restaurant.sourceReadContext?.runId);
+      } finally { releaseStop.release();host.release(); }
+    });
+  });
+}
+
+for (const replacement of ["", "A different unsent question"]) {
+  test(`Round14 UI: late About acceptance ${replacement ? "preserves a replacement draft" : "clears only the sent draft"}`, { timeout: 30_000 }, async () => {
+    await fixture({ questions: true }, async page => {
+      await signin(page);
+      const { view: a } = await createPlan(page, "First dinner");
+      await page.locator("#new-case").click();
+      const { view: b } = await createPlan(page, "Second dinner");
+      await byCase(page, a.case.caseId).click();
+      await byCase(page, a.case.caseId).and(page.locator(".active")).waitFor();await ready(page);
+      await page.locator("#details-button").click();
+      const question = "Does this place require a card?";
+      const captured = latch(), deliver = latch();
+      await page.route("**" + pathFor(a) + "/questions", async route => {
+        captured.release();
+        await deliver.ready;
+        await route.continue();
+      });
+      const message = page.locator("#message");
+      try {
+        await message.fill(question);await page.locator("#send").click();await captured.ready;
+        if (replacement) await message.fill(replacement);
+        await byCase(page, b.case.caseId).click();
+        await byCase(page, b.case.caseId).and(page.locator(".active")).waitFor();await ready(page);
+        await message.fill("Keep Plan B's independent draft");
+        const posted = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/questions"));
+        deliver.release();assert.equal((await posted).status(), 200);await frames(page);
+        assert.equal(await message.inputValue(), "Keep Plan B's independent draft");
+        await byCase(page, a.case.caseId).click();await page.locator("#details").waitFor();
+        assert.equal(await message.inputValue(), replacement);
+        await page.getByText(question, { exact: true }).and(page.locator("#asked-question")).waitFor();
+        assert.equal(await page.locator("#answer-sheet").isVisible(), false);
+      } finally { deliver.release(); }
+    });
+  });
+}
+
+test("Round14 UI: an exhausted revised batch hides stale additions after reload", { timeout: 30_000 }, async () => {
+  await fixture({ extraCandidates: true, checkWholePool: true, laterBatchFirstOnRevision: true }, async (page, host) => {
+    await signin(page);
+    const { view } = await createPlan(page, "Dinner in Tokyo");
+    await updateRequirement(page, "Make it three people");
+    await ready(page);
+    await page.getByText("3 new", { exact: true }).waitFor();
+    await nextBatch(page);
+    for (let i = 0; i < 3; i++) await page.locator("#next").click();
+    const requested = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/another-batch"));
+    await page.locator("#find-more").click();
+    assert.equal((await requested).status(), 200);
+    await page.locator("#empty-state").waitFor();
+    const exhausted = await host.application.getCase(userId, view.case.caseId);
+    assert.equal(exhausted.restaurant.readStatus.kind, "NO_QUALIFIED_RESULTS");
+    assert.equal(exhausted.restaurant.revisionDiff?.added.length, 3, "the archived revision difference remains authoritative");
+    assert.equal(await page.locator("#added-count").isVisible(), false);
+    await page.reload();
+    await page.locator("#empty-state").waitFor();
+    assert.equal(await page.locator("#revision-changes").isVisible(), false);
+    await screenshot(page, "round14-exhausted-revision");
+  });
+});
+
+test("Round14 UI: a claimed return prompt survives switching plans and is answered once", { timeout: 30_000 }, async () => {
+  await fixture({}, async (page, host) => {
+    await signin(page);
+    const { view: a } = await createPlan(page, "First dinner");
+    await page.locator("#new-case").click();
+    const { view: b } = await createPlan(page, "Second dinner");
+    await byCase(page, a.case.caseId).click();
+    await byCase(page, a.case.caseId).and(page.locator(".active")).waitFor();await ready(page);
+    await page.locator("#choose").click();
+    const href = await page.locator("#departure").getAttribute("href");
+    assert.ok(href);
+    await page.context().route(href, route => route.fulfill({ status: 200, body: "Fixture source tab" }));
+    const captured = latch(), deliver = latch();
+    let claims = 0;
+    await page.route("**" + pathFor(a) + "/booking-feedback/claim", async route => {
+      claims++;
+      const upstream = await route.fetch({ maxRedirects: 0 });
+      assert.equal(upstream.status(), 200);
+      assert.ok((await upstream.json()).prompt);
+      captured.release();await deliver.ready;
+      await route.fulfill({ response: upstream });
+    });
+    try {
+      const popup = page.waitForEvent("popup");
+      await page.locator("#departure").click();
+      const source = await popup;
+      await source.waitForURL(href);
+      await source.close();
+      await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+      await captured.ready;
+      await byCase(page, b.case.caseId).click();
+      await byCase(page, b.case.caseId).and(page.locator(".active")).waitFor();await ready(page);
+      const claim = page.waitForResponse(r => r.url().endsWith("/booking-feedback/claim"));
+      deliver.release();assert.equal((await claim).status(), 200);await frames(page);
+      assert.equal(await page.locator("#feedback").isVisible(), false);
+      const returnKey = "praxis:workspace:" + userId + ":" + a.case.caseId + ":return";
+      assert.equal(await page.evaluate(key => localStorage.getItem(key), returnKey), null);
+      await byCase(page, a.case.caseId).click();await page.locator("#feedback").waitFor();
+      await screenshot(page, "round14-feedback-after-return");
+      const answered = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/booking-feedback"));
+      await page.getByRole("button", { name: "Not yet", exact: true }).click();
+      assert.equal((await answered).status(), 200);
+      await page.locator("#feedback").waitFor({ state: "hidden" });
+      await page.reload();await page.locator("#handoff").waitFor();
+      await page.evaluate(() => window.dispatchEvent(new Event("focus")));await frames(page);
+      assert.equal(claims, 1);
+      assert.equal(await page.locator("#feedback").isVisible(), false);
+      assert.equal((await host.application.getCase(userId, a.case.caseId)).restaurant.bookingFeedbackAvailable, false);
+    } finally { deliver.release(); }
+  });
+});

@@ -113,6 +113,7 @@ for(const size of sizes){
       assert.equal(await page.locator("#verification-hint").isVisible(),false);
       assert.doesNotMatch(departureText+" "+await page.locator("#selection-hint").innerText()+" "+await page.locator("#verification-hint").innerText(),/\bselected\b|\bbooked\b/i);
       const quote=page.locator("#handoff-terms details").first();await quote.locator("summary").click();
+      assert.match(await quote.innerText(),/Read at: Thu, Oct 29 · 19:00 JST/);
       // A real persisted shortlist update emits SSE while the current source disclosure stays open.
       const latest=await current(page,plan.case.caseId);
       const saveReply=await page.request.post("/api/cases/"+encodeURIComponent(plan.case.caseId)+"/shortlist",{data:{candidateId:second,shortlisted:true,taskVersion:latest.case.taskVersion,requestId:"expand-"+size.name}});

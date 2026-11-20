@@ -334,6 +334,8 @@ export type RestaurantCaseUpdateListener = (view: RestaurantCaseView) => void | 
 export type RestaurantReadFinishedListener = (caseId: string) => void | Promise<void>;
 
 interface ActiveRead {
+  readRunId: string;
+  startedVersion: number;
   controller: AbortController;
   completion: Promise<void>;
   record: ConversationRecord;
@@ -583,7 +585,7 @@ export class PersistentRestaurantAgentApplication {
       if (result.duplicateEvent) return;
       await this.store.appendMessage({id:"message:0:"+hash(record.id+":"+input.requestId).slice(0,24),conversationId:record.id,
         role:"USER",content:input.question,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString()});
-      await this.runAfterUserInput(record,input.requestId,undefined,deadline);
+      await this.runAfterUserInput(record,input.requestId,result.snapshot,undefined,deadline);
     };
     const pending = this.withPreparingRead(record.rootTaskId,work); this.applyingUserMessages.set(key,pending);
     try { await pending; } finally { this.applyingUserMessages.delete(key); }
@@ -734,7 +736,7 @@ export class PersistentRestaurantAgentApplication {
           requestId: `user:${input.requestId}`,
           createdAt: this.clock.now().toISOString(),
         });
-        await this.runUserInitiatedRead(record, input.requestId);
+        await this.runUserInitiatedRead(record, input.requestId, result.snapshot);
         return this.project(record);
       }
       const evidenceIds = candidates.flatMap((candidateId) => restaurantPresentationEvidenceIds(validated.domainState, candidateId, this.clock.now().toISOString()) ?? []);
@@ -804,7 +806,7 @@ export class PersistentRestaurantAgentApplication {
         requestId: `user:${input.requestId}`,
         createdAt: this.clock.now().toISOString(),
       });
-      await this.runUserInitiatedRead(record, input.requestId);
+      await this.runUserInitiatedRead(record, input.requestId, result.snapshot);
       return this.project(record);
     });
   }
@@ -843,7 +845,7 @@ export class PersistentRestaurantAgentApplication {
       }), validated.version);
       if (result.duplicateEvent) return this.project(record);
       await this.store.appendMessage({ id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`, conversationId: record.id, role: "USER", content: "Device location shared for this search", requestId: `user:${input.requestId}`, createdAt: now });
-      await this.runUserInitiatedRead(record, input.requestId);
+      await this.runUserInitiatedRead(record, input.requestId, result.snapshot);
       return this.project(record);
     });
   }
@@ -855,10 +857,16 @@ export class PersistentRestaurantAgentApplication {
   }
 
   /** Cancels only the active read owned by this Case; it never touches an external booking flow. */
-  async cancelCase(userId: string, caseId: string): Promise<RestaurantCaseView> {
+  async cancelCase(userId: string, caseId: string, expected: {readRunId: string; expectedVersion: number}): Promise<RestaurantCaseView> {
     const record = await this.requireCase(userId, caseId);
     const active = this.activeReads.get(record.rootTaskId);
-    if (!active) throw new Error("No active read-only investigation is running for this case");
+    if (!active) return this.project(record);
+    // Refresh and batch reads can share an investigation ID. Their initiating
+    // event has a newer version even when the underlying source scope is reused.
+    if (active.readRunId !== expected.readRunId || active.startedVersion > expected.expectedVersion) {
+      const current = await this.runtime.snapshot(record.rootTaskId);
+      throw new StaleTaskVersionError(expected.expectedVersion, current.version);
+    }
     active.controller.abort(new Error("The user cancelled this read-only investigation."));
     await active.completion;
     return this.project(record);
@@ -974,13 +982,13 @@ export class PersistentRestaurantAgentApplication {
    * semantic wrapper already carrying the whole-read deadline, so create one
    * here before launching the asynchronous Agent loop.
    */
-  private async runUserInitiatedRead(record: ConversationRecord, requestId: string): Promise<void> {
+  private async runUserInitiatedRead(record: ConversationRecord, requestId: string, started: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>): Promise<void> {
     await this.withPreparingRead(record.rootTaskId, async () => {
       if (!this.modelRunBudget || this.activeReads.has(record.rootTaskId)) {
-        await this.runAfterUserInput(record, requestId);
+        await this.runAfterUserInput(record, requestId, started);
         return;
       }
-      await this.modelRunBudget.run(record.rootTaskId, (signal) => this.runAfterUserInput(record, requestId, signal));
+      await this.modelRunBudget.run(record.rootTaskId, (signal) => this.runAfterUserInput(record, requestId, started, signal));
     });
   }
 
@@ -1031,11 +1039,11 @@ export class PersistentRestaurantAgentApplication {
       await this.notifyCaseUpdate(record);
       return;
     }
-    await this.runAfterUserInput(record, requestId, runDeadlineSignal, undefined,
+    await this.runAfterUserInput(record, requestId, result.snapshot, runDeadlineSignal, undefined,
       userBookingSelectionRequest([...priorEvents, envelope]));
   }
 
-  private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal, questionDeadline?: Date, userSelection?: UserBookingSelectionRequest): Promise<void> {
+  private async runAfterUserInput(record: ConversationRecord, requestId: string, started: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>, runDeadlineSignal?: AbortSignal, questionDeadline?: Date, userSelection?: UserBookingSelectionRequest): Promise<void> {
     // Map the enclosing wall-clock deadline to the Runtime clock once; semantic
     // work has already consumed part of this same read, including its reserve.
     const usage = this.modelRunBudget?.usage(record.rootTaskId);
@@ -1059,7 +1067,10 @@ export class PersistentRestaurantAgentApplication {
     const controller = new AbortController();
     let finish: (() => void) | undefined;
     const completion = new Promise<void>((resolve) => { finish = resolve; });
-    this.activeReads.set(record.rootTaskId, { controller, completion, record });
+    this.activeReads.set(record.rootTaskId, {
+      controller, completion, record, startedVersion: started.version,
+      readRunId: started.runId + ":investigation:" + String(started.domainState.investigationRevision ?? 0),
+    });
     void (async () => {
       try {
         const signal = runDeadlineSignal ? AbortSignal.any([controller.signal, runDeadlineSignal]) : controller.signal;

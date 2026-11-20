@@ -341,7 +341,7 @@ if(options.namedWithoutArea){
     async party(){if(continuity)clock.advance(1000);turn="ADD_PARTY";await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"party:"+version,expectedVersion:version,message:continuity?continuity.messages[2]:source.partyReply}));return project();},
     async others(){assert.ok(continuity);clock.advance(1000);turn="OTHERS";await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"others:"+version,expectedVersion:version,message:"Please show me two other nearby restaurants for the same date and guests."}));return project();},
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
-    project,omitTerms(){omit=true;},async cancel(){return app.cancelCase("terms-user",caseId);},
+    project,omitTerms(){omit=true;},async cancel(){const view=await project();return app.cancelCase("terms-user",caseId,{readRunId:view.restaurant.sourceReadContext!.runId,expectedVersion:view.case.taskVersion});},
     async close(){await app.stopActiveReads();await db.close();if(folder)await rm(folder,{recursive:true,force:true});},
     artifact:async()=>{const raw=await app.getCase("terms-user",caseId),prepared=assembly.bookingHandoffs.readPrepared(raw);return {requests,sourceCalls,sourcePages,googleWires,browserDiagnostics,
       view:withBookingHandoffs(raw,prepared,clock.now().toISOString()),prepared,timeline,run:counted.usage(caseId),execution:await app.exportReadArtifact(caseId),realCalls:0};},
