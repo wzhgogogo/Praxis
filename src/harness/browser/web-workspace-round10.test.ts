@@ -1096,13 +1096,50 @@ for(const scenario of ["failed refresh","other tab Back"] as const)test("Round15
    const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
    await page.locator("#choose").click();
    await other.getByRole("button",{name:"Time 19:00 on Mon, Nov 2",exact:true}).click();
-   await page.locator("#handoff").waitFor({state:"hidden"});
-   assert.equal(await page.locator("#candidate-panel").isVisible(),true);
+   await frames(page);
+   assert.equal(await page.locator("#handoff").isVisible(),true,"other tab's explicit choice is isolated");
+   assert.match(await page.locator("#departure").getAttribute("href")??"",/start_time=19%3A30/);
    await other.close();
   }else{
    assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(),0);
    assert.equal(await page.locator("#choose").isDisabled(),true);
   }
   assert.equal((await host.application.getCase(userId,view.case.caseId)).case.phase,"PRESENT_RESULTS");
+ });
+});
+
+
+for(const action of ["next","Back","Saved","Find more"] as const)test("Round16 UI: other tab "+action+" preserves this tab's missing 19:30 choice",{timeout:30_000},async()=>{
+ const options:Options={multiSlot:true,sourceValidityMs:60000};
+ await fixture(options,async(page,host)=>{
+  const errors:string[]=[];page.on("pageerror",error=>errors.push(error.message));
+  await signin(page);const {view}=await createPlan(page,"Dinner in Tokyo");
+  const current=await host.application.getCase(userId,view.case.caseId);
+  const id=current.restaurant.presentedCandidateIds![0]!;
+  await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();
+  const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
+  options.multiSlot=false;await other.locator("#details-button").click();
+  await other.locator("#refresh").click();
+  await page.waitForFunction(()=>document.querySelectorAll('.slot-time').length===1&&document.querySelector<HTMLButtonElement>("#choose")?.disabled===true);
+  const scope=JSON.stringify([userId,view.case.caseId,current.restaurant.requirementRevision,id]),selectionKey="praxis:slot:"+scope;
+  await other.locator("#details-back").click();
+  if(action==="next")await other.locator("#next").click();
+  if(action==="Back"){await other.locator("#choose").click();await other.locator("#handoff-back").click();}
+  if(action==="Saved"){await other.locator("#saved").click();await other.locator("#saved-back").click();}
+  if(action==="Find more"){
+   await other.locator("#next").click();await other.locator("#next").click();await other.locator("#next").click();
+   await other.locator("#find-more").click();await other.locator("#empty-state").waitFor();
+  }
+  await page.reload();
+  if(action==="Find more"){
+   await page.locator("#empty-state").waitFor();assert.equal(await page.locator("#handoff").isVisible(),false);assert.equal(await page.locator("#choose").isVisible(),false);
+  }else{
+   await page.locator("#candidate-panel").waitFor();assert.equal(await page.locator("#choose").isDisabled(),true);
+   assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(),0);
+   await page.locator("#choose").dispatchEvent("click");assert.equal(await page.locator("#handoff").isVisible(),false);
+  }
+  assert.match(await page.evaluate(key=>sessionStorage.getItem(key),selectionKey)??"",/19:30/);
+  if(action==="next")await screenshot(page,"round16-tab-next-reselect");
+  assert.deepEqual(errors,[]);await other.close();
  });
 });

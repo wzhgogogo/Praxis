@@ -7151,3 +7151,7 @@ ddd9eda8d04b304f09b3629bb0d64828645c5789, clean before/after each gate: typechec
 ## 2026-11-20 — Round 16 backend Stop regressions
 
 Offline PGlite + loopback: preparation 15/15, Agent Loop 33/33; typecheck and architecture 0 forbidden dependencies. Four new counterexamples fail on baseline (ownership test setup corrected from illegal second refresh to a legal replacement message); first restricted run failed EPERM before assertions. Raw diagnostics in round-16; full frozen gates pending.
+
+## 2026-11-20 — Round 16 frontend pre-freeze checks
+
+Typecheck and architecture pass; web unit contracts3/3 and Round14–16 Chromium controls16/16 pass. Controlled shared-storage mutation reproduces the next-tab/reload unlock failure; sessionStorage passes. Four early new UI tests used the initial creation response before terminal results; their setup now explicitly reads the settled server view. Historical failed logs remain. Full frozen acceptance follows.

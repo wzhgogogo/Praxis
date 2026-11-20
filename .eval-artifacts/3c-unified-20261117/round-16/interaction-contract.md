@@ -9,3 +9,7 @@ Explicit time selection belongs to one tab, user, plan, requirement revision and
 Navigation remains per tab; drafts and B1 claimed feedback remain per Case in this page session. Optional conditions still submit through messages, displayed-place questions through questions. Saved is not booking selection; exhausted batches stay empty. Google photos remain demand-loaded. Handoff requires fresh server-projected B1 and explicit departure; feedback remains USER_REPORTED only. Historical Mikkeller snapshots remain unmodified.
 
 Acceptance: five new reported counterexamples plus existing controls; strict browser TypeScript with no any or suppressions; a static import DAG; five clean frozen offline gates, formal 16, Style 1 six and state regressions. Offline Fixture evidence makes no Live, real PostgreSQL, real model/source quality or device claim.
+
+## Browser module layering
+
+entry alone assembles callbacks and registers events. actions and view-contracts define data-only contracts. runtime owns strictly typed page-session state and typed DOM access. slot-selection stays pure; selected-slot projects tab-local intent over current inventory. queries, format, position and composer supply lower-level helpers. photos and session use injected API callbacks. preview uses injected render/sidebar callbacks. navigation and transport cannot import each other or views; they invoke entry-wired callbacks. views reads these lower-level modules and invokes injected edit/navigation actions. Static imports, including type edges, must form a DAG.

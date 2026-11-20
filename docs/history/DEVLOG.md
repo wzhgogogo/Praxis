@@ -6435,3 +6435,7 @@ Draft / not integrated. Browser ES modules now separate position, request/SSE ow
 ## 2026-11-20 — Round 16 backend Stop ownership
 
 Registered semantic preparation cancellation before model work and passed each request handle explicitly through activation. Same-read cancellation retries stale versions (maximum four attempts), rechecking run/revision and newer user read-start events. Pending About preparation cancels via PAGE_QUESTION_COMPLETED. Existing layout and Domain rules unchanged; frontend slice pending.
+
+## 2026-11-20 — Round 16 typed browser DAG and tab isolation
+
+Entry alone assembles callback contracts and events. Queries, formatting, composer and navigation storage move below views/transport/navigation; public browser DTOs are structurally checked against the application view. Strict DOM TypeScript contains no any or suppression directives, and all 16 static-import components are singletons. Explicit slots now use sessionStorage; the obsolete shared-selection storage listener is removed. Back, next, Saved and Find more in another tab cannot delete this tab’s stored slot intent; refreshed inventory still controls offer eligibility.
