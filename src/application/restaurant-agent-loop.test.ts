@@ -66,6 +66,7 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
   };
   if (runFailure === "UNCAUGHT_EXCEPTION") router.execute = async () => { throw new Error("Uncaught router exception"); };
   const coordinator = new RestaurantAgentLoopCoordinator({
+    listEvents: async () => [],
     async snapshot() { return current; },
     async dispatch(envelope, expectedVersion) {
       assert.equal(expectedVersion, current.version);
@@ -201,7 +202,7 @@ test('F6 slot3 26.596 seconds blocks the original availability action and ends h
   {executionRoute:'STRUCTURED_ADAPTER',async check(request){sourceCalls++;return {offers:[],evidence:[],availabilityChecks:Object.fromEntries(request.candidateIds.map(id=>[id,{status:'UNKNOWN' as const,checkedAt:localClock.now().toISOString(),evidenceIds:[]}])),metadata:{provider:'FIXTURE',route:'STRUCTURED_ADAPTER',latencyMs:0}};}},{structuredReadTimeoutMs:8000,browserReadTimeoutMs:500000});
  const scripted=new ScriptedRestaurantAgentDecisionPort([f.action,f.action,f.action]);
  const decision:RestaurantAgentDecisionPort={decide:async input=>{observedContexts.push(input.context);return scripted.decide(input);}};
- const coordinator=new RestaurantAgentLoopCoordinator({snapshot:async()=>current,dispatch:async(envelope,version)=>{
+ const coordinator=new RestaurantAgentLoopCoordinator({listEvents:async()=>[],snapshot:async()=>current,dispatch:async(envelope,version)=>{
   assert.equal(version,current.version);const changed=definition.transition(current.domainState,envelope.event,{taskId:current.id,runId:current.runId,now:envelope.occurredAt,createId:p=>p});events.push(envelope.event);
   current={...current,domainState:changed.state,version:current.version+1,lifecycleState:definition.getLifecycleState(changed.state),outcome:definition.evaluateOutcome(changed.state),updatedAt:envelope.occurredAt};return {snapshot:current,commands:[],duplicateEvent:false};
  }},decision,router,trajectories,localClock,{maxSteps:4,maxRejectedActions:3,timeoutMs:f.maxAutomaticMs,remainingModelCalls:()=>f.remainingModelCalls});

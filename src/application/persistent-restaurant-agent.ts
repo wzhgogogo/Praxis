@@ -389,6 +389,7 @@ export class PersistentRestaurantAgentApplication {
     this.agentLoop = new RestaurantAgentLoopCoordinator(
       {
         snapshot: taskId => this.runtime.snapshot(taskId),
+        listEvents: async taskId => this.runtime.listEvents(taskId),
         dispatch: async (envelope, expectedVersion) => {
           try { return await this.runtime.dispatch(envelope, expectedVersion); }
           catch (error) {
@@ -585,10 +586,10 @@ export class PersistentRestaurantAgentApplication {
         readStartedAt:snapshot.createdAt,deadlineAt:deadline.toISOString(),requestedAt:submittedAt.toISOString()};
       const result = await this.runtime.dispatch(this.userEvent(snapshot,input.requestId,{type:"PAGE_QUESTION_REQUESTED",question}),snapshot.version);
       if (result.duplicateEvent) return;
-      this.prepareRead(record, result.snapshot);
+      const handle = this.prepareRead(record, result.snapshot);
       await this.store.appendMessage({id:"message:0:"+hash(record.id+":"+input.requestId).slice(0,24),conversationId:record.id,
         role:"USER",content:input.question,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString()});
-      await this.runAfterUserInput(record,input.requestId,result.snapshot,undefined,deadline);
+      await this.runAfterUserInput(record,input.requestId,result.snapshot,handle,undefined,deadline);
     };
     const pending = this.withPreparingRead(record.rootTaskId,work); this.applyingUserMessages.set(key,pending);
     try { await pending; } finally { this.applyingUserMessages.delete(key); }
@@ -731,7 +732,7 @@ export class PersistentRestaurantAgentApplication {
       if (candidates.length < 3) {
         const result = await this.runtime.dispatch(this.userEvent(validated, input.requestId, { type: "NEXT_BATCH_REPLENISHMENT_REQUESTED", targetCandidateCount: 3 }), validated.version);
         if (result.duplicateEvent) return this.project(record);
-        this.prepareRead(record, result.snapshot);
+        const handle = this.prepareRead(record, result.snapshot);
         await this.store.appendMessage({
           id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
           conversationId: record.id,
@@ -740,7 +741,7 @@ export class PersistentRestaurantAgentApplication {
           requestId: `user:${input.requestId}`,
           createdAt: this.clock.now().toISOString(),
         });
-        await this.runUserInitiatedRead(record, input.requestId, result.snapshot);
+        await this.runUserInitiatedRead(record, input.requestId, result.snapshot, handle);
         return this.project(record);
       }
       const evidenceIds = candidates.flatMap((candidateId) => restaurantPresentationEvidenceIds(validated.domainState, candidateId, this.clock.now().toISOString()) ?? []);
@@ -802,7 +803,7 @@ export class PersistentRestaurantAgentApplication {
         validated.version,
       );
       if (result.duplicateEvent) return this.project(record);
-      this.prepareRead(record, result.snapshot);
+      const handle = this.prepareRead(record, result.snapshot);
       await this.store.appendMessage({
         id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
         conversationId: record.id,
@@ -811,7 +812,7 @@ export class PersistentRestaurantAgentApplication {
         requestId: `user:${input.requestId}`,
         createdAt: this.clock.now().toISOString(),
       });
-      await this.runUserInitiatedRead(record, input.requestId, result.snapshot);
+      await this.runUserInitiatedRead(record, input.requestId, result.snapshot, handle);
       return this.project(record);
     });
   }
@@ -849,9 +850,9 @@ export class PersistentRestaurantAgentApplication {
         patch: { schemaVersion: "3", area: { ...area, coordinates: { latitude: input.latitude, longitude: input.longitude, ...(input.accuracyMeters !== undefined ? { accuracyMeters: input.accuracyMeters } : {}), observedAt: now, source: "DEVICE" } } },
       }), validated.version);
       if (result.duplicateEvent) return this.project(record);
-      this.prepareRead(record, result.snapshot);
+      const handle = this.prepareRead(record, result.snapshot);
       await this.store.appendMessage({ id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`, conversationId: record.id, role: "USER", content: "Device location shared for this search", requestId: `user:${input.requestId}`, createdAt: now });
-      await this.runUserInitiatedRead(record, input.requestId, result.snapshot);
+      await this.runUserInitiatedRead(record, input.requestId, result.snapshot, handle);
       return this.project(record);
     });
   }
@@ -875,11 +876,23 @@ export class PersistentRestaurantAgentApplication {
     }
     active.controller.abort(new Error("The user cancelled this read-only investigation."));
     if (this.preparingHandles.get(record.rootTaskId) === active) {
-      const snapshot = await this.runtime.snapshot(record.rootTaskId);
-      if (this.preparingHandles.get(record.rootTaskId) !== active) throw new StaleTaskVersionError(expected.expectedVersion, snapshot.version);
-      await this.runtime.dispatch(this.userEvent(snapshot, this.createId("stop"), {
-        type:"AGENT_LOOP_TERMINATED", termination:"CANCELLED", reason:"The user cancelled this read-only investigation.",
-      }), snapshot.version);
+      for (let attempt = 0; attempt < 4; attempt++) {
+        const snapshot = await this.runtime.snapshot(record.rootTaskId);
+        if (this.preparingHandles.get(record.rootTaskId) !== active
+          || active.readRunId !== snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0))
+          throw new StaleTaskVersionError(expected.expectedVersion, snapshot.version);
+        const q = snapshot.domainState.pageQuestion;
+        const event: RestaurantEvent = snapshot.domainState.phase === "PRESENT_RESULTS" && q && !q.result
+          ? {type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,
+              result:{status:"UNVERIFIED",candidateId:q.candidateId,reason:"CANCELLED",checkedPages:[]}}
+          : {type:"AGENT_LOOP_TERMINATED",termination:"CANCELLED",reason:"The user cancelled this read-only investigation."};
+        try {
+          await this.runtime.dispatch(this.userEvent(snapshot, this.createId("stop"), event), snapshot.version);
+          break;
+        } catch (error) {
+          if (!(error instanceof StaleTaskVersionError) || attempt === 3) throw error;
+        }
+      }
     } else await active.completion;
     return this.project(record);
   }
@@ -971,7 +984,8 @@ export class PersistentRestaurantAgentApplication {
     viewingContext?: import("../domains/restaurant/semantic-interpreter.js").RestaurantSemanticViewingContext,
   ): Promise<void> {
     await this.withPreparingRead(record.rootTaskId, async () => {
-      const work = (signal?: AbortSignal) => this.applyMessageOnce(record, message, requestId, expectedVersion, signal, viewingContext);
+      const handle = this.prepareRead(record, await this.runtime.snapshot(record.rootTaskId));
+      const work = (signal?: AbortSignal) => this.applyMessageOnce(record, message, requestId, expectedVersion, handle, signal, viewingContext);
       if (this.modelRunBudget) await this.modelRunBudget.run(record.rootTaskId, (signal) => work(signal));
       else await work();
     });
@@ -1001,13 +1015,13 @@ export class PersistentRestaurantAgentApplication {
    * semantic wrapper already carrying the whole-read deadline, so create one
    * here before launching the asynchronous Agent loop.
    */
-  private async runUserInitiatedRead(record: ConversationRecord, requestId: string, started: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>): Promise<void> {
+  private async runUserInitiatedRead(record: ConversationRecord, requestId: string, started: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>, handle: ActiveRead): Promise<void> {
     await this.withPreparingRead(record.rootTaskId, async () => {
       if (!this.modelRunBudget || this.activeReads.has(record.rootTaskId)) {
-        await this.runAfterUserInput(record, requestId, started);
+        await this.runAfterUserInput(record, requestId, started, handle);
         return;
       }
-      await this.modelRunBudget.run(record.rootTaskId, (signal) => this.runAfterUserInput(record, requestId, started, signal));
+      await this.modelRunBudget.run(record.rootTaskId, (signal) => this.runAfterUserInput(record, requestId, started, handle, signal));
     });
   }
 
@@ -1016,6 +1030,7 @@ export class PersistentRestaurantAgentApplication {
     message: string,
     requestId: string,
     expectedVersion: number,
+    handle: ActiveRead,
     runDeadlineSignal?: AbortSignal,
     viewingContext?: import("../domains/restaurant/semantic-interpreter.js").RestaurantSemanticViewingContext,
   ): Promise<void> {
@@ -1025,6 +1040,7 @@ export class PersistentRestaurantAgentApplication {
     // the runtime's ordinary event-id idempotency can take effect.
     const priorEvents = await this.runtime.listEvents(record.rootTaskId);
     if (priorEvents.some((recorded) => recorded.id === userEventId)) return;
+    if (handle.controller.signal.aborted || this.preparingHandles.get(record.rootTaskId) !== handle) return;
     const interpretedEvent = await restaurantEventForMessage(this.interpreter, {
       taskId: record.rootTaskId,
       message,
@@ -1035,6 +1051,7 @@ export class PersistentRestaurantAgentApplication {
         ? { currentDraft: snapshot.domainState.intentDraft }
         : {}),
     }, this.partySizeSupplementResolver);
+    if (handle.controller.signal.aborted || this.preparingHandles.get(record.rootTaskId) !== handle) return;
     const event = interpretedEvent.type === "SEMANTIC_PROPOSAL_COMPILED"
       ? bindUserBookingSelection(interpretedEvent, snapshot.domainState) : interpretedEvent;
     const eventWithPartySource = event.type === "SEMANTIC_PROPOSAL_COMPILED" && event.patch.partySizeSource
@@ -1043,7 +1060,8 @@ export class PersistentRestaurantAgentApplication {
     const envelope = this.userEvent(snapshot, requestId, eventWithPartySource);
     const result = await this.runtime.dispatch(envelope, expectedVersion);
     if (result.duplicateEvent) return;
-    this.prepareRead(record, result.snapshot);
+    handle.startedVersion = result.snapshot.version;
+    handle.readRunId = result.snapshot.runId+":investigation:"+String(result.snapshot.domainState.investigationRevision??0);
     await this.store.appendMessage({
       id: `message:0:${hash(`${record.id}:${requestId}`).slice(0, 24)}`,
       conversationId: record.id,
@@ -1059,7 +1077,7 @@ export class PersistentRestaurantAgentApplication {
       await this.notifyCaseUpdate(record);
       return;
     }
-    await this.runAfterUserInput(record, requestId, result.snapshot, runDeadlineSignal, undefined,
+    await this.runAfterUserInput(record, requestId, result.snapshot, handle, runDeadlineSignal, undefined,
       userBookingSelectionRequest([...priorEvents, envelope]));
   }
 
@@ -1074,7 +1092,8 @@ export class PersistentRestaurantAgentApplication {
     return handle;
   }
 
-  private async runAfterUserInput(record: ConversationRecord, requestId: string, started: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>, runDeadlineSignal?: AbortSignal, questionDeadline?: Date, userSelection?: UserBookingSelectionRequest): Promise<void> {
+  private async runAfterUserInput(record: ConversationRecord, requestId: string, started: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>, handle: ActiveRead, runDeadlineSignal?: AbortSignal, questionDeadline?: Date, userSelection?: UserBookingSelectionRequest): Promise<void> {
+    if (handle.controller.signal.aborted || this.preparingHandles.get(record.rootTaskId) !== handle) return;
     // Map the enclosing wall-clock deadline to the Runtime clock once; semantic
     // work has already consumed part of this same read, including its reserve.
     const usage = this.modelRunBudget?.usage(record.rootTaskId);
@@ -1095,7 +1114,6 @@ export class PersistentRestaurantAgentApplication {
     // The web mutation returns before the live loop. Retain the enclosing
     // whole-read budget so semantic time and this asynchronous loop share one deadline.
     const releaseBudget = questionDeadline ? undefined : this.modelRunBudget?.hold?.();
-    const handle = this.preparingHandles.get(record.rootTaskId) ?? this.prepareRead(record, started);
     this.preparingHandles.delete(record.rootTaskId);
     const {controller, completion} = handle;
     if (controller.signal.aborted) { handle.finish(); releaseBudget?.(); return; }
@@ -1112,7 +1130,7 @@ export class PersistentRestaurantAgentApplication {
       } catch (error) {
         await this.recordUnexpectedRunFailure(record, error);
       } finally {
-        this.activeReads.delete(record.rootTaskId);
+        if (this.activeReads.get(record.rootTaskId) === handle) this.activeReads.delete(record.rootTaskId);
         try {
           await this.notifyReadFinished(record.rootTaskId);
           await this.appendAssistant(record, requestId);

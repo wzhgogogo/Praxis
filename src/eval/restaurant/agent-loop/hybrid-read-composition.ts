@@ -66,6 +66,7 @@ export function createHybridReadComposition(options: HybridReadCompositionOption
   const coordinator = new RestaurantAgentLoopCoordinator(
     {
       snapshot: async (taskId) => runtime.snapshot(taskId),
+        listEvents: async taskId => runtime.eventLog.filter(event => event.taskId === taskId),
       dispatch: async (envelope, expectedVersion) => runtime.dispatch(envelope, expectedVersion),
     },
     new RestaurantAgentDecision(options.model),

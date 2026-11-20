@@ -1370,3 +1370,5 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G
 2026-11-20 — Unified Round 14，draft / not integrated。净树 `ca2e0cd1ee3028982e149a3361635c7788df1268`。Typecheck、Arch Guard 和 Build 通过。默认 1780/1780、G2 5/5、Chromium 453/453、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 38/38。 [报告](../.eval-artifacts/3c-unified-20261117/round-14/REPORT.md)
 
 2026-11-20 — Round 15，draft / not integrated。冻结 `8af0ec2a5991f7462ab352261e6371b1c476aaaa`。五门禁通过，默认 1784，G2 5、Chromium 455、G6 159 全通过。正式视觉 16/16、Style 1 6/6、状态 40/40。 客户端模块已接入 DOM 类型检查。迁移接线仍保留宽松参数推断。 [报告](../.eval-artifacts/3c-unified-20261117/round-15/REPORT.md)
+
+Round 16 backend slice (local work branch): request-owned preparation handles and bounded same-read Stop retries implemented; 15/15 PGlite preparation and 33/33 Agent Loop regressions pass. Frontend strict DAG and tab-local selection are pending; no Live or real PostgreSQL.

@@ -1,3 +1,4 @@
+import { StaleTaskVersionError } from "../core/task-runtime/errors.js";
 import type { RestaurantPageAnswer } from "../domains/restaurant/page-question.js";
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import { RESTAURANT_READ_CONCLUSION_RESERVE_MS, RESTAURANT_READ_FINALIZE_ALLOWANCE_MS } from "../domains/restaurant/read-time-reserve.js";
@@ -37,6 +38,7 @@ import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 import { userBookingCandidate, type UserBookingSelectionRequest } from "./restaurant-user-booking-selection.js";
 
 export interface RestaurantAgentLoopRuntime {
+  listEvents(taskId: string): Promise<readonly EventEnvelope<RestaurantEvent>[]>;
   snapshot(taskId: string): Promise<TaskSnapshot<RestaurantTaskState, RestaurantOutcome>>;
   dispatch(
     envelope: EventEnvelope<RestaurantEvent>,
@@ -630,9 +632,23 @@ export class RestaurantAgentLoopCoordinator {
       const completed = await this.terminate(snapshot, deadlineAt, base, "TIMEOUT", cancellationReason(signal));
       return { status: completed ? "TERMINAL" : "TIMEOUT", steps };
     }
-    const latest = await this.runtime.snapshot(snapshot.id);
-    if (latest.runId !== snapshot.runId || latest.domainState.investigationRevision !== snapshot.domainState.investigationRevision || terminal(latest.domainState)) return {status:"CANCELLED",steps};
-    await this.terminate(latest, deadlineAt, base, "CANCELLED", cancellationReason(signal));
+    // A shortlist may race each re-read. Bound retries, but never transfer an
+    // old cancellation to a new user-started read with the same investigation ID.
+    for (let attempt = 0; attempt < 4; attempt++) {
+      const latest = await this.runtime.snapshot(snapshot.id);
+      const events = await this.runtime.listEvents(snapshot.id);
+      const replaced = events.slice(snapshot.version, latest.version).some(item => item.trace.actor === "USER"
+        && ["SEMANTIC_PROPOSAL_COMPILED", "SEMANTIC_CONFLICT_RECORDED", "AVAILABILITY_REFRESH_REQUESTED",
+          "CANDIDATE_FACTS_REFRESH_REQUESTED", "NEXT_BATCH_REPLENISHMENT_REQUESTED", "PAGE_QUESTION_REQUESTED"].includes(item.event.type));
+      if (latest.runId !== snapshot.runId || latest.domainState.investigationRevision !== snapshot.domainState.investigationRevision
+        || terminal(latest.domainState) || replaced) return {status:"CANCELLED",steps};
+      try {
+        await this.terminate(latest, deadlineAt, base, "CANCELLED", cancellationReason(signal));
+        break;
+      } catch (error) {
+        if (!(error instanceof StaleTaskVersionError) || attempt === 3) throw error;
+      }
+    }
     return { status: "CANCELLED", steps };
   }
 

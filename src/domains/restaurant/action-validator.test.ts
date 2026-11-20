@@ -568,6 +568,7 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
     domainState: defaultBatch, outcome: null, version: 1, createdAt: now, updatedAt: now,
   };
   const coordinator = new RestaurantAgentLoopCoordinator({
+    listEvents: async () => [],
     async snapshot() { return current; },
     async dispatch(envelope, expectedVersion) {
       assert.equal(expectedVersion, current.version);

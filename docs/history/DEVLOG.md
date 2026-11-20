@@ -6431,3 +6431,7 @@ Draft / not integrated. Reconcile selected times through every accepted inventor
 ### 2026-11-20 — Unified Round 15 client modules
 
 Draft / not integrated. Browser ES modules now separate position, request/SSE ownership, page-session drafts/feedback, selected slots, photos, views and event wiring. Tab position uses sessionStorage. Explicit slot intent uses a user/Case/revision/candidate localStorage key and storage events. The independent DOM tsconfig is checked by typecheck and emitted by build. Direct tsx entry points compile those same modules with the repository TypeScript compiler. Stop preparation and execution share cancellation ownership.
+
+## 2026-11-20 — Round 16 backend Stop ownership
+
+Registered semantic preparation cancellation before model work and passed each request handle explicitly through activation. Same-read cancellation retries stale versions (maximum four attempts), rechecking run/revision and newer user read-start events. Pending About preparation cancels via PAGE_QUESTION_COMPLETED. Existing layout and Domain rules unchanged; frontend slice pending.

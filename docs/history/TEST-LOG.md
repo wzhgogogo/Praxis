@@ -7147,3 +7147,7 @@ ddd9eda8d04b304f09b3629bb0d64828645c5789, clean before/after each gate: typechec
 ### 2026-11-20 — Round 15 offline closure
 
 冻结 `8af0ec2a5991f7462ab352261e6371b1c476aaaa`。五门禁通过，默认 1784，G2 5、Chromium 455、G6 159 全通过。正式视觉 16/16、Style 1 6/6、状态 40/40。 [报告](../../.eval-artifacts/3c-unified-20261117/round-15/REPORT.md)
+
+## 2026-11-20 — Round 16 backend Stop regressions
+
+Offline PGlite + loopback: preparation 15/15, Agent Loop 33/33; typecheck and architecture 0 forbidden dependencies. Four new counterexamples fail on baseline (ownership test setup corrected from illegal second refresh to a legal replacement message); first restricted run failed EPERM before assertions. Raw diagnostics in round-16; full frozen gates pending.

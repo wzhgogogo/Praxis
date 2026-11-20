@@ -243,3 +243,83 @@ test("Round15 Stop keeps CANCELLED after a concurrent shortlist advances the ver
   assert.equal(stopped.case.stopped,true);
  }finally{host.release();await host.close();}
 });
+
+
+test("Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch", {timeout:20_000}, async()=>{
+ const host=await startWorkspaceFixture({staged:true});
+ try {
+  const first=await create(host);await host.waitForCheck();
+  const v=await host.application.getCase(userId,first.case.caseId);
+  type Runtime=import("./persistent-restaurant-agent.js").PersistentRestaurantAgentApplication["runtime"];
+  const runtime=(host.application as unknown as {runtime:Runtime}).runtime;
+  const dispatch=runtime.dispatch.bind(runtime);let races=0;
+  runtime.dispatch=async(envelope,version)=>{
+   if(envelope.event.type==="AGENT_LOOP_TERMINATED"&&envelope.event.termination==="CANCELLED"&&races<2){
+    races++;
+    const current=await host.application.getCase(userId,v.case.caseId);
+    await host.application.setShortlist({userId,caseId:v.case.caseId,candidateId:v.restaurant.candidates[0]!.restaurant.id,shortlisted:races===1,expectedVersion:current.case.taskVersion,requestId:"stop-race-"+races});
+   }
+   return dispatch(envelope,version);
+  };
+  const stopped=await host.application.cancelCase(userId,v.case.caseId,{readRunId:v.restaurant.sourceReadContext!.runId,expectedVersion:v.case.taskVersion});
+  assert.equal(races,2);assert.equal(stopped.case.stopped,true);assert.equal(stopped.restaurant.progress.stopped,true);
+
+ } finally {host.release();await host.close();}
+});
+
+test("Round16 first semantic preparation Stop cancels with zero source calls", {timeout:20_000}, async()=>{
+ const entered=latch(),release=latch();
+ const host=await startWorkspaceFixture({beforeSemantic:async()=>{entered.release();await release.promise;}});
+ let pending:ReturnType<typeof create>|undefined;
+ try {
+  pending=create(host);await entered.promise;
+  const cases=await host.application.listCases(userId);const id=cases[0]!.caseId;
+  const v=await host.application.getCase(userId,id);
+  const stopped=await host.application.cancelCase(userId,id,{readRunId:v.restaurant.sourceReadContext!.runId,expectedVersion:v.case.taskVersion});
+  assert.equal(stopped.case.stopped,true);
+  release.release();await pending;
+  assert.equal(host.searches.length,0);assert.equal(host.providerCalls.length,0);
+  const after=await settled(host,id);assert.equal(after.case.phase,"FAILED");assert.equal(after.case.stopped,true);
+ } finally {release.release();await pending?.catch(()=>{});await host.close();}
+});
+
+test("Round16 old prepared refresh never claims replacement preparation handle", {timeout:20_000}, async()=>{
+ const host=await startWorkspaceFixture(),oldEntered=latch(),newEntered=latch(),oldRelease=latch(),newRelease=latch();
+ const append=host.application.store.appendMessage.bind(host.application.store);
+ let old:Promise<unknown>|undefined,replacement:Promise<unknown>|undefined;
+ try {
+  const first=await create(host),v=await settled(host,first.case.caseId),calls=host.providerCalls.length;
+  host.application.store.appendMessage=async input=>{
+   if(input.requestId==="user:old-owner"){oldEntered.release();await oldRelease.promise;}
+   if(input.requestId==="user:new-owner"){newEntered.release();await newRelease.promise;}
+   return append(input);
+  };
+  old=host.application.refreshAvailability({userId,caseId:v.case.caseId,expectedVersion:v.case.taskVersion,requestId:"old-owner"});await oldEntered.promise;
+  const during=await host.application.getCase(userId,v.case.caseId);
+  replacement=host.application.submitMessage({userId,conversationId:v.case.conversationId,message:"Make it three guests",expectedVersion:during.case.taskVersion,requestId:"new-owner"});await newEntered.promise;
+  oldRelease.release();await old;await delay(50);
+  assert.equal(host.providerCalls.length,calls,"old request cannot start the replacement's sources");
+  const latest=await host.application.getCase(userId,v.case.caseId);
+  await host.application.cancelCase(userId,v.case.caseId,{readRunId:latest.restaurant.sourceReadContext!.runId,expectedVersion:latest.case.taskVersion});
+  newRelease.release();await replacement;
+  assert.equal(host.providerCalls.length,calls);assert.equal((await settled(host,v.case.caseId)).case.stopped,true);
+ } finally {oldRelease.release();newRelease.release();await Promise.allSettled([old,replacement]);await host.close();}
+});
+
+test("Round16 About question preparing Stop returns HTTP 200 and zero question sources", {timeout:20_000}, async()=>{
+ const host=await startWorkspaceFixture({questions:true}),entered=latch(),release=latch();
+ const append=host.application.store.appendMessage.bind(host.application.store);let pending:Promise<unknown>|undefined;
+ try {
+  const first=await create(host),v=await settled(host,first.case.caseId);
+  host.application.store.appendMessage=async input=>{if(input.requestId==="user:question-stop"){entered.release();await release.promise;}return append(input);};
+  pending=host.application.askRestaurantQuestion({userId,caseId:v.case.caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,expectedVersion:v.case.taskVersion,requestId:"question-stop",question:"Is there a private room?"});await entered.promise;
+  const session=await fetch(host.baseUrl+"/api/session",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({accessToken:"workspace-fixture"})});
+  const current=await host.application.getCase(userId,v.case.caseId);
+  const response=await fetch(host.baseUrl+`/api/cases/${encodeURIComponent(v.case.caseId)}/run`,{method:"DELETE",headers:{cookie:session.headers.get("set-cookie")!.split(";")[0]!,"content-type":"application/json"},body:JSON.stringify({readRunId:current.restaurant.sourceReadContext!.runId,taskVersion:current.case.taskVersion})});
+  assert.equal(response.status,200,await response.text());
+  release.release();await pending;
+  const after=await settled(host,v.case.caseId);assert.equal(after.case.phase,"PRESENT_RESULTS");assert.equal(after.restaurant.pageQuestion?.result?.status,"UNVERIFIED");
+  assert.equal(after.restaurant.pageQuestion?.result&&"reason" in after.restaurant.pageQuestion.result?after.restaurant.pageQuestion.result.reason:undefined,"CANCELLED");
+  assert.equal(host.questionRequests.length,0);
+ } finally {release.release();await pending?.catch(()=>{});await host.close();}
+});

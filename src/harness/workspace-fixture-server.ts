@@ -41,7 +41,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;matchReasons?:string[];staged?:boolean;multiSlot?:boolean|string[];offerRevision?:string;cuisineDisagreement?:boolean|string;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean|{beforeAnswer:(input:RestaurantPageQuestionRequest)=>Promise<void>};inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean|{newCandidates:number;beforeDecision?:()=>Promise<void>};sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;matchReasons?:string[];staged?:boolean;multiSlot?:boolean|string[];offerRevision?:string;cuisineDisagreement?:boolean|string;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean|{beforeAnswer:(input:RestaurantPageQuestionRequest)=>Promise<void>};inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean|{newCandidates:number;beforeDecision?:()=>Promise<void>};sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";beforeSemantic?:(message:string)=>Promise<void>;semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -62,6 +62,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
     let body:unknown;
     if(request.purpose==="restaurant_semantic_interpret"){
       const text=JSON.parse(request.messages.find(m=>m.role==="user")!.content.slice("User restaurant message as JSON string: ".length)) as string;
+      await options.beforeSemantic?.(text);
       if(text===options.semanticFailureMessage)throw new ModelGatewayError("Fixture semantic transport failure","NETWORK",false);
       const lines=request.messages[0]!.content.split("\n"),contextLine=lines[lines.findIndex(line=>line.startsWith("Current authoritative context"))+1];
       const semanticContext=contextLine?JSON.parse(contextLine):{},viewed=semanticContext.viewingContext?.candidate;
