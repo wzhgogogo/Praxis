@@ -1364,3 +1364,5 @@ Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G
 2026-11-19 — Unified Round 11，draft / not integrated。冻结 `3e2d54a4d069fa1c82be55d83a50a53a321c2de6` 验证显式时段重选、错误提示可见性、409 最新版本恢复、合格后续批次、迟到草稿及独立来源页。五门禁通过。默认 1772/1772、G2 5/5、Chromium 437/437、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 22/22。 [报告](../.eval-artifacts/3c-unified-20261117/round-11/REPORT.md)
 
 2026-11-19 — Unified Round 12，draft / not integrated。冻结 `0d354f1e85cb95992dc63cbe05241960b78ea2b5`，换批耗尽及刷新均保持空态，检索中和 Stop 排除已交付餐厅与别名。五门禁通过。默认 1775/1775、G2 5/5、Chromium 438/438、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 23/23。 [报告](../.eval-artifacts/3c-unified-20261117/round-12/REPORT.md)
+
+2026-11-20 — Unified Round 13，draft / not integrated。净树 `312d53531eaac915e15d4b32437a9158d36f1e70`。Typecheck、Arch Guard 和 Build 通过。默认 1775/1775、G2 5/5、Chromium 443/443、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 28/28。 [报告](../.eval-artifacts/3c-unified-20261117/round-13/REPORT.md)
