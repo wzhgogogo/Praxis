@@ -7143,3 +7143,7 @@ ddd9eda8d04b304f09b3629bb0d64828645c5789, clean before/after each gate: typechec
 ### 2026-11-20 — Unified Round 14 离线验收
 
 净树 `ca2e0cd1ee3028982e149a3361635c7788df1268`。Typecheck、Arch Guard 和 Build 通过。默认 1780/1780、G2 5/5、Chromium 453/453、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 38/38。 新增 10 条 Chromium 与 5 条引擎回归。 [报告](../../.eval-artifacts/3c-unified-20261117/round-14/REPORT.md)
+
+### 2026-11-20 — Round 15 offline closure
+
+冻结 `8af0ec2a5991f7462ab352261e6371b1c476aaaa`。五门禁通过，默认 1784，G2 5、Chromium 455、G6 159 全通过。正式视觉 16/16、Style 1 6/6、状态 40/40。 [报告](../../.eval-artifacts/3c-unified-20261117/round-15/REPORT.md)
