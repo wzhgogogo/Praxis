@@ -1,0 +1,150 @@
+TAP version 13
+# Subtest: Round14 UI: About refresh requires explicit slot reselection
+ok 1 - Round14 UI: About refresh requires explicit slot reselection
+  ---
+  duration_ms: 1679.828208
+  type: 'test'
+  ...
+# Subtest: Round14 UI: Handoff Back refresh requires explicit slot reselection
+ok 2 - Round14 UI: Handoff Back refresh requires explicit slot reselection
+  ---
+  duration_ms: 1113.692459
+  type: 'test'
+  ...
+# Subtest: Round14 UI: other tab refresh requires explicit slot reselection
+ok 3 - Round14 UI: other tab refresh requires explicit slot reselection
+  ---
+  duration_ms: 1874.146375
+  type: 'test'
+  ...
+# Subtest: Round14 UI: renewal refresh rebinds the same time
+ok 4 - Round14 UI: renewal refresh rebinds the same time
+  ---
+  duration_ms: 1577.397166
+  type: 'test'
+  ...
+# Subtest: Round14 UI: delayed Stop is harmless after delivery
+ok 5 - Round14 UI: delayed Stop is harmless after delivery
+  ---
+  duration_ms: 1079.219291
+  type: 'test'
+  ...
+# Subtest: Round14 UI: delayed Stop does not stop the replacement read
+ok 6 - Round14 UI: delayed Stop does not stop the replacement read
+  ---
+  duration_ms: 1104.931292
+  type: 'test'
+  ...
+# Subtest: Round14 UI: late About acceptance clears only the sent draft
+ok 7 - Round14 UI: late About acceptance clears only the sent draft
+  ---
+  duration_ms: 1407.033209
+  type: 'test'
+  ...
+# Subtest: Round14 UI: late About acceptance preserves a replacement draft
+ok 8 - Round14 UI: late About acceptance preserves a replacement draft
+  ---
+  duration_ms: 1384.0065
+  type: 'test'
+  ...
+# Subtest: Round14 UI: an exhausted revised batch hides stale additions after reload
+ok 9 - Round14 UI: an exhausted revised batch hides stale additions after reload
+  ---
+  duration_ms: 1521.103375
+  type: 'test'
+  ...
+# Subtest: Round14 UI: a claimed return prompt survives switching plans and is answered once
+ok 10 - Round14 UI: a claimed return prompt survives switching plans and is answered once
+  ---
+  duration_ms: 1544.364125
+  type: 'test'
+  ...
+# Subtest: Round15 UI: explicit 19:30 survives failed refresh
+ok 11 - Round15 UI: explicit 19:30 survives failed refresh
+  ---
+  duration_ms: 1358.042083
+  type: 'test'
+  ...
+# Subtest: Round15 UI: explicit 19:30 survives other tab Back
+ok 12 - Round15 UI: explicit 19:30 survives other tab Back
+  ---
+  duration_ms: 1787.761292
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab next preserves this tab's missing 19:30 choice
+not ok 13 - Round16 UI: other tab next preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1038.637708
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:51115'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading '0')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1117:28)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1114:2)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+# Subtest: Round16 UI: other tab Back preserves this tab's missing 19:30 choice
+not ok 14 - Round16 UI: other tab Back preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1007.941333
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:51115'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading '0')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1117:28)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1114:2)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+# Subtest: Round16 UI: other tab Saved preserves this tab's missing 19:30 choice
+not ok 15 - Round16 UI: other tab Saved preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1030.447042
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:51115'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading '0')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1117:28)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1114:2)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+# Subtest: Round16 UI: other tab Find more preserves this tab's missing 19:30 choice
+not ok 16 - Round16 UI: other tab Find more preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1017.482709
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:51115'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading '0')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1117:28)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1114:2)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 12
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 22084.520625

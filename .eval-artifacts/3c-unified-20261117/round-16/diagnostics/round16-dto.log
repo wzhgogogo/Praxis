@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/web/browser-architecture.test.ts(8,63): error TS2322: Type 'RestaurantCaseView' is not assignable to type 'WorkspaceView'.
+  The types of 'restaurant.searchLocation' are incompatible between these types.
+    Type '{ latitude: number; longitude: number; radiusMeters: number; label: string; queryLabel?: string; areaMatchBasis: "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS" | "TASK_LOCATION_RADIUS"; addressComponents?: { ...; }[]; addressObservation?: LocationAddressObservation; } | undefined' is not assignable to type '{ label: string; }'.
+      Type 'undefined' is not assignable to type '{ label: string; }'.
