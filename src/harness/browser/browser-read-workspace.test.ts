@@ -1,3 +1,4 @@
+import { workspaceAsset } from "../../web/workspace-assets.js";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { chromium } from "playwright-core";
@@ -26,6 +27,7 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
   try{
     await page.route("**/*",async route=>{
       const path=new URL(route.request().url()).pathname;
+      const script=workspaceAsset(path);if(script!==undefined)return route.fulfill({contentType:"text/javascript",body:script});
       if(path==="/")return route.fulfill({contentType:"text/html",body:LOCAL_WORKSPACE_PAGE});
       if(path.endsWith("/events")||path.startsWith("/assets/"))return route.abort();
       if(path.endsWith("/refresh"))refreshed=true;
@@ -60,6 +62,7 @@ test("workspace New plan survives a late initial case-list response",async()=>{
     const page=await browser.newPage();
     await page.route("https://workspace.test/**",async route=>{
       const path=new URL(route.request().url()).pathname;
+      const script=workspaceAsset(path);if(script!==undefined)return route.fulfill({contentType:"text/javascript",body:script});
       if(path==="/")return route.fulfill({contentType:"text/html",body:LOCAL_WORKSPACE_PAGE});
       if(path.startsWith("/assets/"))return route.abort();
       if(path==="/api/cases"){await pending;return route.fulfill({json:{cases:[{caseId:"old-case",title:"Old case",status:"COMPLETED",phase:"PRESENT_RESULTS"}]}});}
@@ -87,6 +90,7 @@ test("G1 Web asks only for the displayed outlet and renders quotes, absence and 
   try{
     await page.route("**/*",async route=>{
       const path=new URL(route.request().url()).pathname;
+      const script=workspaceAsset(path);if(script!==undefined)return route.fulfill({contentType:"text/javascript",body:script});
       if(path==="/")return route.fulfill({contentType:"text/html",body:LOCAL_WORKSPACE_PAGE});
       if(path.endsWith("/events")||path.startsWith("/assets/"))return route.abort();
       if(path==="/api/cases/case/questions"){

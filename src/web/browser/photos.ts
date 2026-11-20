@@ -1,13 +1,16 @@
-/** Runs in the workspace's existing script; consumes only authenticated photo DTOs. */
-export const WORKSPACE_PHOTO_CLIENT_SCRIPT = String.raw`
-const photoCache=new Map(),photoPositions=new Map();
-let activePhotoKey='';
-function photoKey(){const c=candidate();return state.view&&state.user&&c?JSON.stringify([state.user.id,state.view.case.caseId,c.restaurant.id,c.restaurant.outletName,c.restaurant.address,c.restaurant.sourceIds]):'';}
-function photoGeneration(){const c=candidate();return c?JSON.stringify(state.view.restaurant.readEvidence.filter(e=>e.candidateId===c.restaurant.id&&e.kind==='ENTITY_MATCH').map(e=>[e.evidenceId,e.observedAt,e.sourceUrl])):'';}
-function closePhotos(){if($('photo-viewer').open)$('photo-viewer').close();}
-function photoPosition(key,photos){if(!photoPositions.has(key)){let index=0;try{index=Number(localStorage.getItem(key+':photo'))||0;}catch{}photoPositions.set(key,index);}return Math.max(0,Math.min(photoPositions.get(key)||0,photos.length-1));}
-function photoList(entry){return (entry&&entry.result&&entry.result.photos||[]).filter(p=>!entry.failed.has(p.id));}
-function setPhotoImage(id,photo,key,loaded,failed){
+import { link } from "./views.js";
+import { key } from "./navigation.js";
+import { candidate } from "./entry.js";
+import { $, element, show, state, text } from "./runtime.js";
+import { api } from "./transport.js";
+export const photoCache=new Map(),photoPositions=new Map();
+export let activePhotoKey='';
+export function photoKey(){const c=candidate();return state.view&&state.user&&c?JSON.stringify([state.user.id,state.view.case.caseId,c.restaurant.id,c.restaurant.outletName,c.restaurant.address,c.restaurant.sourceIds]):'';}
+export function photoGeneration(){const c=candidate();return c?JSON.stringify(state.view.restaurant.readEvidence.filter(e=>e.candidateId===c.restaurant.id&&e.kind==='ENTITY_MATCH').map(e=>[e.evidenceId,e.observedAt,e.sourceUrl])):'';}
+export function closePhotos(){if($('photo-viewer').open)$('photo-viewer').close();}
+export function photoPosition(key,photos){if(!photoPositions.has(key)){let index=0;try{index=Number(localStorage.getItem(key+':photo'))||0;}catch{}photoPositions.set(key,index);}return Math.max(0,Math.min(photoPositions.get(key)||0,photos.length-1));}
+export function photoList(entry){return (entry&&entry.result&&entry.result.photos||[]).filter(p=>!entry.failed.has(p.id));}
+export function setPhotoImage(id,photo,key,loaded,failed){
   const image=$(id),signature=key+':'+(photo&&photo.id||'');
   if(!photo){image.onload=null;image.onerror=null;image.removeAttribute('src');delete image.dataset.photo;return;}
   if(image.dataset.photo===signature){if(image.complete&&image.naturalWidth>0)loaded();return;}
@@ -17,7 +20,7 @@ function setPhotoImage(id,photo,key,loaded,failed){
   image.onerror=()=>{if(photoKey()===key&&image.dataset.photo===signature)failed();};
   image.src=url.href;
 }
-function warmNextWebsitePhoto(key,entry,photo){
+export function warmNextWebsitePhoto(key,entry,photo){
   if(photoKey()!==key||photoCache.get(key)!==entry||!(state.ui.view==='DETAILS'||$('photo-viewer').open))return;
   const photos=photoList(entry),index=photoPosition(key,photos);
   if(photos[index]?.id!==photo.id)return;
@@ -31,7 +34,7 @@ function warmNextWebsitePhoto(key,entry,photo){
   image.onload=image.onerror=()=>{image.onload=null;image.onerror=null;};
   image.src=url.href;
 }
-function renderPhotoImages(key,entry){
+export function renderPhotoImages(key,entry){
   const photos=photoList(entry),index=photoPosition(key,photos),cover=photos[0],current=photos[index];
   const fail=photo=>{if(photo===cover&&photo.provider==='GOOGLE_PLACES'&&!entry.coverRetried){entry.coverRetried=true;entry.failedCoverId=photo.id;entry.scope=null;entry.result=null;}else entry.failed.add(photo.id);renderPhotos();};
   renderPhotoSource('cover-photo-source',cover);
@@ -54,12 +57,12 @@ function renderPhotoImages(key,entry){
     show('photo-controls',photos.length>1);renderPhotoSource('photo-source',current);
   }
 }
-function fitPhotoCredit(host){
+export function fitPhotoCredit(host){
  const content=host.querySelector('.credit-text');if(!content||host.id==='photo-source')return;
  const width=host.parentElement.clientWidth-20;content.style.whiteSpace='nowrap';content.style.display='inline-block';
  const long=content.getBoundingClientRect().width>width;host.classList.toggle('long',long);content.style.whiteSpace='';content.style.display='';
 }
-function renderPhotoSource(id,photo){
+export function renderPhotoSource(id,photo){
  const host=$(id);host.replaceChildren();if(!photo){host.hidden=true;return;}
  host.hidden=false;const content=element('span',undefined,'credit-text');
  if(photo.provider==='GOOGLE_PLACES'){
@@ -68,9 +71,9 @@ function renderPhotoSource(id,photo){
  }else content.append(photo.attribution?document.createTextNode(photo.attribution):link('Source: '+photo.sourceLabel,photo.sourcePageUrl));
  host.append(content);requestAnimationFrame(()=>fitPhotoCredit(host));
 }
-const photoCreditObserver=new ResizeObserver(()=>{for(const id of ['cover-photo-source','detail-photo-source'])fitPhotoCredit($(id));});
+export const photoCreditObserver=new ResizeObserver(()=>{for(const id of ['cover-photo-source','detail-photo-source'])fitPhotoCredit($(id));});
 for(const host of document.querySelectorAll('.photo-frame'))photoCreditObserver.observe(host);
-function renderPhotos(){
+export function renderPhotos(){
   const key=photoKey(),visible=state.view&&['CANDIDATES','DETAILS'].includes(state.ui.view)&&!state.ui.atEnd;
   if(activePhotoKey!==key){closePhotos();activePhotoKey=key;show('cover-photo-source',false);show('cover-open',false);show('restaurant-initial',true);show('no-photo',true);}
   if(!visible||!key){show('place-photos',false);closePhotos();return;}
@@ -86,9 +89,5 @@ function renderPhotos(){
   }).catch(()=>{target.result={photos:[],expiresAt:new Date(Date.now()+600000).toISOString()};target.scope=scope;})
     .finally(()=>{target.loading=false;if(photoKey()===key)renderPhotos();});
 }
-function movePhoto(delta){const key=photoKey(),entry=photoCache.get(key),photos=photoList(entry);if(!photos.length)return;const index=Math.max(0,Math.min(photoPosition(key,photos)+delta,photos.length-1));photoPositions.set(key,index);try{localStorage.setItem(key+':photo',String(index));}catch{}renderPhotoImages(key,entry);}
-function openPhotos(){const entry=photoCache.get(photoKey());if(!photoList(entry).length)return;$('photo-viewer').showModal();renderPhotos();}
-$('cover-open').onclick=openPhotos;$('detail-photo-open').onclick=openPhotos;$('photo-close').onclick=closePhotos;
-$('detail-photo-previous').onclick=()=>movePhoto(-1);$('detail-photo-next').onclick=()=>movePhoto(1);$('photo-previous').onclick=()=>movePhoto(-1);$('photo-next').onclick=()=>movePhoto(1);
-$('photo-viewer').addEventListener('keydown',event=>{if(event.key==='ArrowLeft'){event.preventDefault();movePhoto(-1);}if(event.key==='ArrowRight'){event.preventDefault();movePhoto(1);}});
-`;
+export function movePhoto(delta){const key=photoKey(),entry=photoCache.get(key),photos=photoList(entry);if(!photos.length)return;const index=Math.max(0,Math.min(photoPosition(key,photos)+delta,photos.length-1));photoPositions.set(key,index);try{localStorage.setItem(key+':photo',String(index));}catch{}renderPhotoImages(key,entry);}
+export function openPhotos(){const entry=photoCache.get(photoKey());if(!photoList(entry).length)return;$('photo-viewer').showModal();renderPhotos();}

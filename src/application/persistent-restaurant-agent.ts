@@ -746,7 +746,6 @@ export class PersistentRestaurantAgentApplication {
       const evidenceIds = candidates.flatMap((candidateId) => restaurantPresentationEvidenceIds(validated.domainState, candidateId, this.clock.now().toISOString()) ?? []);
       const result = await this.runtime.dispatch(this.userEvent(validated, input.requestId, { type: "RESULTS_PRESENTED", candidateIds: candidates, evidenceIds }), validated.version);
       if (result.duplicateEvent) return this.project(record);
-      this.prepareRead(record, result.snapshot);
       await this.store.appendMessage({
         id: `message:0:${hash(`${record.id}:${input.requestId}`).slice(0, 24)}`,
         conversationId: record.id,
@@ -984,7 +983,14 @@ export class PersistentRestaurantAgentApplication {
       return await work();
     } finally {
       const remaining = this.preparingReads.get(taskId)! - 1;
-      if (remaining === 0) this.preparingReads.delete(taskId);
+      if (remaining === 0) {
+        this.preparingReads.delete(taskId);
+        const pending = this.preparingHandles.get(taskId);
+        if (pending && !this.activeReads.has(taskId)) {
+          this.preparingHandles.delete(taskId);
+          pending.finish();
+        }
+      }
       else this.preparingReads.set(taskId, remaining);
     }
   }

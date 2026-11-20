@@ -7,9 +7,9 @@
     "node": ">=24"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && tsc -p tsconfig.web.json --noEmit false --outDir dist/web/browser",
     "arch:check": "node --import tsx scripts/arch-check.ts",
-    "test": "node --import ./scripts/test-filesystem-guard.mjs --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/application/*.test.ts src/infrastructure/*/*.test.ts src/integrations/*/*.test.ts src/server/*.test.ts src/eval/restaurant/semantic/*.test.ts src/eval/restaurant/search-fixture/*.test.ts src/eval/restaurant/agent-loop/*.test.ts src/eval/shared/*.test.ts src/eval/restaurant/diagnosis/*.test.ts",
+    "test": "node --import ./scripts/test-filesystem-guard.mjs --import tsx --test src/harness/*.test.ts src/core/*/*.test.ts src/domains/*/*.test.ts src/application/*.test.ts src/infrastructure/*/*.test.ts src/integrations/*/*.test.ts src/server/*.test.ts src/eval/restaurant/semantic/*.test.ts src/eval/restaurant/search-fixture/*.test.ts src/eval/restaurant/agent-loop/*.test.ts src/eval/shared/*.test.ts src/eval/restaurant/diagnosis/*.test.ts src/web/*.test.ts",
     "test:probes": "PRAXIS_RUN_FROZEN_PROBES=1 node --import tsx --test src/infrastructure/postgres/postgres-runtime.test.ts",
     "dev": "node --env-file-if-exists=.env --import tsx src/server/local-web-server.ts",
     "eval:restaurant:semantic:deepseek": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/semantic/runners/run-deepseek-regression.ts",
@@ -26,7 +26,7 @@
     "eval:restaurant:agent-loop:artifact": "node --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-artifact-evaluation.ts",
     "test:postgres:live": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/postgres-live-smoke.ts",
     "reset:dev:restaurant-state": "node --env-file-if-exists=.env --import tsx src/infrastructure/postgres/reset-restaurant-dev-data.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json",
     "probe:restaurant:browser:read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-browser-read-probe.ts",
     "probe:restaurant:source-stage": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
     "test:browser:fixture": "node scripts/run-browser-fixtures.mjs && npm run test:g6:assembly",

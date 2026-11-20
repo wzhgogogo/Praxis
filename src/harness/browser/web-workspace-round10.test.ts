@@ -430,8 +430,8 @@ for (const bufferSse of [true, false]) {
           candidateId: active.restaurant.readyCandidateIds[0]!, shortlisted: true,
         });
         assert.equal(intermediate.case.phase, "SEARCHING");
-        await page.waitForFunction(version => state.deferredView?.view.case.taskVersion === version, intermediate.case.taskVersion);
-        if (!bufferSse) await page.evaluate(() => state.stream.close());
+        await page.waitForFunction(async version => (await import(String("/assets/workspace/runtime.js"))).state.deferredView?.view.case.taskVersion === version, intermediate.case.taskVersion);
+        if (!bufferSse) await page.evaluate(async () => (await import(String("/assets/workspace/runtime.js"))).state.stream.close());
         host.release();
         const latest = await terminal;
         assert.ok(latest.case.taskVersion > intermediate.case.taskVersion);
@@ -1073,4 +1073,36 @@ test("Round14 UI: a claimed return prompt survives switching plans and is answer
       assert.equal((await host.application.getCase(userId, a.case.caseId)).restaurant.bookingFeedbackAvailable, false);
     } finally { deliver.release(); }
   });
+});
+
+for(const scenario of ["failed refresh","other tab Back"] as const)test("Round15 UI: explicit 19:30 survives "+scenario,{timeout:30000},async()=>{
+ const options:Options={multiSlot:true,sourceValidityMs:60000};
+ await fixture(options,async(page,host)=>{
+  await signin(page);const {view}=await createPlan(page,"Dinner in Tokyo");
+  await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();
+  if(scenario==="other tab Back"){
+   const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
+   await other.locator("#choose").click();await other.locator("#handoff-back").click();await other.close();
+  }else{
+   options.outcome="all-sources-failed";
+   await page.locator("#details-button").click();await page.locator("#refresh").click();await page.locator("#empty-state").waitFor();
+   host.recoverSources();options.multiSlot=false;
+   await page.locator("#empty-retry").click();
+   await page.waitForFunction(()=>document.querySelector("#card-counter")?.textContent==="1 of 3");
+  }
+  await page.reload();await page.locator("#candidate-panel").waitFor();
+  if(scenario==="other tab Back"){
+   assert.equal(await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).getAttribute("aria-pressed"),"true");
+   const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
+   await page.locator("#choose").click();
+   await other.getByRole("button",{name:"Time 19:00 on Mon, Nov 2",exact:true}).click();
+   await page.locator("#handoff").waitFor({state:"hidden"});
+   assert.equal(await page.locator("#candidate-panel").isVisible(),true);
+   await other.close();
+  }else{
+   assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(),0);
+   assert.equal(await page.locator("#choose").isDisabled(),true);
+  }
+  assert.equal((await host.application.getCase(userId,view.case.caseId)).case.phase,"PRESENT_RESULTS");
+ });
 });

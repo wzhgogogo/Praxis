@@ -1,5 +1,3 @@
-import { LANDING_BACKGROUND_SCRIPT } from "./landing-background.js";
-import { WORKSPACE_CLIENT_SCRIPT } from "./workspace-client.js";
 
 // Inline geometry from https://lucide.dev/icons/panel-left; no runtime icon dependency.
 const SIDEBAR_ICON = '<svg class="sidebar-open-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="4"/><path d="M9 3v18"/></svg>';
@@ -289,6 +287,5 @@ SOFTWARE.
 <form id="composer" novalidate><textarea id="message" aria-label="Plan message" rows="1"></textarea><button id="send" aria-label="Send"><svg viewBox="0 0 24 24"><path d="m6 11 6-6 6 6M12 5v15"/></svg></button></form>
 </main><div id="answer-backdrop" hidden></div><section id="answer-sheet" role="dialog" aria-modal="true" aria-labelledby="answer-place" tabindex="-1" hidden><button id="answer-dismiss" aria-label="Close answer"></button><h2 id="answer-place"></h2><div id="question-result"></div></section></div>
 <dialog id="photo-viewer" aria-labelledby="photo-place"><header><h2 id="photo-place"></h2><button id="photo-close" aria-label="Close photos">Close</button></header><div class="viewer-image-frame"><img id="large-photo" alt="" decoding="async"><p id="photo-source" class="photo-credit"></p></div><div id="photo-controls" class="photo-controls"><button id="photo-previous" aria-label="Previous photo">←</button><span id="photo-counter"></span><button id="photo-next" aria-label="Next photo">→</button></div></dialog>
-<script>${LANDING_BACKGROUND_SCRIPT}
-${WORKSPACE_CLIENT_SCRIPT}</script>
+<script src="/assets/landing.js"></script><script type="module" src="/assets/workspace/entry.js"></script>
 </body></html>`;

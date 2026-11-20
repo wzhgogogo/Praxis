@@ -1,3 +1,4 @@
+import { workspaceAsset } from "../web/workspace-assets.js";
 import { GooglePlacesPhotos } from "../integrations/restaurant-photos/google-photos.js";
 import { withBookingHandoffs } from "../application/restaurant-booking-handoff.js";
 import { workspaceViewContext } from "../application/agent-workspace.js";
@@ -215,6 +216,11 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
     try {
       const method = request.method ?? "GET";
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
+      const script = workspaceAsset(url.pathname);
+      if(method === "GET" && script !== undefined){
+        response.writeHead(200,{"content-type":"text/javascript; charset=utf-8","x-content-type-options":"nosniff","cache-control":"no-store"});
+        response.end(script);return;
+      }
       const fontFiles: Record<string,string> = {
         "/assets/dm-sans.woff2":"dm-sans/files/dm-sans-latin-wght-normal.woff2",
       };
@@ -225,7 +231,7 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       if (method === "GET" && url.pathname === "/") {
         response.writeHead(200, {
           "content-type": "text/html; charset=utf-8",
-          "content-security-policy": "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'self'",
           "x-content-type-options": "nosniff",
         });
         response.end(LOCAL_WORKSPACE_PAGE);

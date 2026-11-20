@@ -6427,3 +6427,7 @@ Draft / not integrated. Card conditions stay beside their statuses, slots use an
 ### 2026-11-20 — Unified Round 14 implementation
 
 Draft / not integrated. Reconcile selected times through every accepted inventory projection and bind Stop to the original investigation and read start. Preserve per-plan drafts and once-claimed feedback across navigation. Hide stale addition counts in empty states and use Tokyo timestamps in Handoff citations. The read loop shares the presentation timestamp through dispatch, caps fallback at the whole-read deadline, and protects closing calls using the distinct deliverable set for the current batch.
+
+### 2026-11-20 — Unified Round 15 client modules
+
+Draft / not integrated. Browser ES modules now separate position, request/SSE ownership, page-session drafts/feedback, selected slots, photos, views and event wiring. Tab position uses sessionStorage. Explicit slot intent uses a user/Case/revision/candidate localStorage key and storage events. The independent DOM tsconfig is checked by typecheck and emitted by build. Direct tsx entry points compile those same modules with the repository TypeScript compiler. Stop preparation and execution share cancellation ownership.

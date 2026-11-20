@@ -210,9 +210,8 @@ test("Round8 UI: SSE switches the idle card to the eligible outlet and removes s
     await emit(page,view);
     assert.equal(await page.locator("#candidate-card").getAttribute("data-candidate-id"),b);
     assert.equal(await page.locator("#choose").isEnabled(),true);
-    const offer=await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.startsWith("praxis:workspace:"))
-      .map(k=>JSON.parse(localStorage.getItem(k)!)).find(v=>v.candidateId)?.offerId);
-    assert.equal(offer,null,"slot selection belongs to the previous card");
+    const offer=await page.evaluate(async()=>{const {state}=await import(String("/assets/workspace/runtime.js"));return state.ui.selectedSlot;});
+    assert.equal(offer,undefined,"the previous restaurant selection cannot select a time on the new card");
     for(const [phase,kind] of [["NO_VERIFIED_RESULT","NO_QUALIFIED_RESULTS"],["FAILED","OTHER_FAILURE"]]){
       view.case.taskVersion++;
       view.case.phase=phase;view.restaurant.readStatus.kind=kind;view.restaurant.readyCandidateIds=[];
