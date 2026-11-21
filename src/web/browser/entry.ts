@@ -6,7 +6,7 @@ import { closePhotos, movePhoto, observePhotoCredits, openPhotos } from "./photo
 import { accept, api, casePath, currentCase, openStream, receiveCase, refreshCaseLinks, reportCaseError, resetCaseRequests, resumeCase, scheduleCaseListSync, updateCases } from "./transport.js";
 import { $, clearError, desktopLayout, element, report, requestId, requireView, show, state, text } from "./runtime.js";
 import { render, renderAnswer, renderConditions } from "./views.js";
-import { availabilityExpired, clearSlotSelection, currentHandoff, needsSlotReselection, offerFor, selectSlot } from "./selected-slot.js";
+import { availabilityExpired, clearSlotSelection, currentHandoff, forgetSlotSelection, needsSlotReselection, offerFor, selectSlot } from "./selected-slot.js";
 import { closePlans, loadCase, moveCard, newPlan, setView, syncBrand, syncSidebar } from "./navigation.js";
 import { canRefresh, canShortlist, candidate, ids } from "./queries.js";
 import { key, savePosition } from "./position.js";
@@ -109,6 +109,7 @@ export async function submitRequirement(message:string,preserveComposer=false){
   }
   if(!currentCase(nav,caseId)){updateCases(p.view.case);return false;}
   state.pendingCase=null;state.blocked=false;state.sending=false;
+  if(!modelFailed&&old&&context.view==='CANDIDATES'&&p.view.restaurant.requirementRevision!==old.restaurant.requirementRevision)forgetSlotSelection();
   if(!modelFailed||!old)state.ui={view:'CANDIDATES',candidateId:null,reselectSlot:false};
   state.detailKey='';state.handoffKey='';
   if(!old&&modelFailed&&!$('message').value)setMessage(draft);
@@ -130,11 +131,11 @@ export async function submitRequirement(message:string,preserveComposer=false){
 $('composer').onsubmit=async event=>{event.preventDefault();const message=$('message').value.trim();if(!message||$('send').disabled)return;if(state.view&&state.ui.view==='DETAILS'){await askCurrentPlace(message);return;}await submitRequirement(message);};
 $('stop').onclick=async()=>{
   if(state.blocked||!state.view)return;
-  const nav=state.nav,{caseId,taskVersion}=requireView().case,readRunId=requireView().restaurant.sourceReadContext?.runId;
+  const nav=state.nav,{caseId,taskVersion}=requireView().case,readRunId=requireView().restaurant.sourceReadContext?.runId,handleId=requireView().restaurant.sourceReadContext?.handleId;
   if(!readRunId)return;
   state.blocked=true;$('stop').disabled=true;
   try{
-    const p=await api<{view:WorkspaceView}>(casePath(caseId)+'/run',{method:'DELETE',body:JSON.stringify({readRunId,taskVersion})});
+    const p=await api<{view:WorkspaceView}>(casePath(caseId)+'/run',{method:'DELETE',body:JSON.stringify({readRunId,taskVersion,...(handleId?{handleId}:{})})});
     receiveCase(p.view,nav,caseId);
   }catch(error){await reportCaseError(error,nav,caseId);}
   finally{resumeCase(nav,caseId);}
@@ -179,7 +180,7 @@ export function finishPreparation(){
  }
 }
 export async function refreshSelectedSlot(){
- if(!canRefresh()||state.blocked||state.preparing)return;
+ if(!canRefresh()||state.blocked||state.preparing||state.ui.reconfirmSlot)return;
  const id=state.ui.candidateId;if(!id)return;
  const nav=state.nav,caseId=requireView().case.caseId,revision=requireView().restaurant.requirementRevision;
  const old=(requireView().restaurant.availability[id]||[])[0];
@@ -192,7 +193,7 @@ export async function refreshSelectedSlot(){
 export async function prepareBooking(){
  if(state.blocked||state.preparing||!candidate()||!ids().includes(state.ui.candidateId??''))return;
  const id=state.ui.candidateId;
- if(needsSlotReselection(id))return;
+ if(state.ui.reconfirmSlot||needsSlotReselection(id))return;
  if(!availabilityExpired(id)){const viewed=offerFor(id);if(state.ui.selectedSlot&&!viewed)return;if(viewed)selectSlot(viewed);setView('HANDOFF');return;}
  await refreshSelectedSlot();
 }
@@ -215,7 +216,7 @@ export async function findMore(){
 $('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=focusAdjustment;
 export async function depart(event:MouseEvent){
  event.preventDefault();
- if(!state.view||state.blocked||state.preparing)return;
+ if(!state.view||state.blocked||state.preparing||state.ui.reconfirmSlot)return;
  const nav=state.nav,caseId=requireView().case.caseId,h=currentHandoff();
  if(!h){await refreshSelectedSlot();return;}
  const returnKey=key(caseId)+':return';

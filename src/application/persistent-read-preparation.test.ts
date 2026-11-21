@@ -381,3 +381,73 @@ test("Round17 preparation becomes active during Stop identity re-read without a 
   assert.equal(host.providerCalls.at(-1)?.aborted,true);
  }finally{release.release();host.release();runtime.snapshot=snapshot;await pending?.catch(()=>{});runtime.dispatch=dispatch;await host.close();}
 });
+
+
+test("Round18 preparation publication gap never advertises an unowned Stop",{timeout:20_000},async()=>{
+ const published=latch(),publish=latch(),semantic=latch(),understand=latch();
+ const host=await startWorkspaceFixture({beforeSemantic:async()=>{semantic.release();await understand.promise;}});
+ const createConversation=host.application.store.createConversation.bind(host.application.store);let pending:ReturnType<typeof create>|undefined;
+ try{
+  host.application.store.createConversation=async input=>{const record=await createConversation(input);published.release();await publish.promise;return record;};
+  pending=create(host);await published.promise;
+  const id=(await host.application.listCases(userId))[0]!.caseId;
+  const gap=await host.application.getCase(userId,id);
+  assert.equal(gap.restaurant.progress.active,false,"a published Case without a handle cannot expose Stop");
+  publish.release();await semantic.promise;
+  const owned=await host.application.getCase(userId,id);
+  assert.equal(owned.restaurant.progress.active,true);
+  assert.equal(typeof (owned.restaurant.sourceReadContext as {handleId?:string}).handleId,"string");
+  await host.application.cancelCase(userId,id,{readRunId:owned.restaurant.sourceReadContext!.runId,expectedVersion:owned.case.taskVersion});
+  understand.release();await pending;assert.equal(host.searches.length,0);assert.equal(host.providerCalls.length,0);
+ }finally{publish.release();understand.release();await pending?.catch(()=>{});await host.close();}
+});
+
+test("Round18 persisted semantic winner regains preparation from an uncommitted contender",{timeout:20_000},async()=>{
+ const dispatching=latch(),write=latch(),contending=latch(),interpret=latch();
+ const host=await startWorkspaceFixture({beforeSemantic:async text=>{if(text==="Change 2 guests to 4"){contending.release();await interpret.promise;}}});
+ type Runtime=import("./persistent-restaurant-agent.js").PersistentRestaurantAgentApplication["runtime"];
+ const runtime=(host.application as unknown as {runtime:Runtime}).runtime,dispatch=runtime.dispatch.bind(runtime);
+ let winner:Promise<unknown>|undefined,loser:Promise<unknown>|undefined;
+ try{
+  const first=await create(host),v=await settled(host,first.case.caseId),calls=host.providerCalls.length;let hold=true;
+  runtime.dispatch=async(envelope,version)=>{if(hold&&envelope.event.type==="SEMANTIC_PROPOSAL_COMPILED"){hold=false;dispatching.release();await write.promise;}return dispatch(envelope,version);};
+  const input={userId,conversationId:v.case.conversationId,expectedVersion:v.case.taskVersion};
+  winner=host.application.submitMessage({...input,requestId:"db-winner",message:"Change 2 guests to 3"});await dispatching.promise;
+  loser=host.application.submitMessage({...input,requestId:"prepare-loser",message:"Change 2 guests to 4"});const loss=loser.then(()=>undefined,e=>e);
+  await contending.promise;write.release();await winner;
+  for(let i=0;i<100&&host.providerCalls.length===calls;i++)await delay(10);
+  assert.ok(host.providerCalls.length>calls,"the committed winner must launch source work instead of becoming an orphan");
+  interpret.release();assert.ok(await loss instanceof StaleTaskVersionError);
+  const final=await settled(host,v.case.caseId);assert.equal(final.case.phase,"PRESENT_RESULTS");assert.equal(final.restaurant.intentDraft?.partySize,3);
+ }finally{write.release();interpret.release();await Promise.allSettled([winner,loser]);runtime.dispatch=dispatch;await host.close();}
+});
+
+test("Round18 Stop wins semantic dispatch CAS without rejecting the cancelled input",{timeout:20_000},async()=>{
+ const entered=latch(),write=latch(),host=await startWorkspaceFixture();
+ type Runtime=import("./persistent-restaurant-agent.js").PersistentRestaurantAgentApplication["runtime"];
+ const runtime=(host.application as unknown as {runtime:Runtime}).runtime,dispatch=runtime.dispatch.bind(runtime);let pending:ReturnType<typeof create>|undefined;
+ try{
+  let hold=true;runtime.dispatch=async(envelope,version)=>{if(hold&&envelope.event.type==="SEMANTIC_PROPOSAL_COMPILED"){hold=false;entered.release();await write.promise;}return dispatch(envelope,version);};
+  pending=create(host);const outcome=pending.then(value=>({ok:true,value}),error=>({ok:false,error}));await entered.promise;
+  const id=(await host.application.listCases(userId))[0]!.caseId,v=await host.application.getCase(userId,id);
+  const stopped=await host.application.cancelCase(userId,id,{readRunId:v.restaurant.sourceReadContext!.runId,expectedVersion:v.case.taskVersion});assert.equal(stopped.case.stopped,true);
+  write.release();const result=await outcome;assert.equal(result.ok,true,JSON.stringify(result));
+  assert.equal(host.searches.length,0);assert.equal(host.providerCalls.length,0);assert.equal((await settled(host,id)).case.stopped,true);
+ }finally{write.release();await pending?.catch(()=>{});runtime.dispatch=dispatch;await host.close();}
+});
+
+test("Round18 immutable handle cancels its active read after run ID and version advance",{timeout:20_000},async()=>{
+ const entered=latch(),release=latch(),host=await startWorkspaceFixture({staged:true,beforeSemantic:async()=>{entered.release();await release.promise;}});
+ let pending:ReturnType<typeof create>|undefined;
+ try{
+  pending=create(host);await entered.promise;
+  const id=(await host.application.listCases(userId))[0]!.caseId,before=await host.application.getCase(userId,id);
+  const handleId=before.restaurant.sourceReadContext!.handleId;assert.equal(typeof handleId,"string");
+  release.release();await pending;await host.waitForCheck();
+  const running=await host.application.getCase(userId,id);
+  assert.equal(running.restaurant.sourceReadContext!.handleId,handleId);assert.notEqual(running.restaurant.sourceReadContext!.runId,before.restaurant.sourceReadContext!.runId);assert.ok(running.case.taskVersion>before.case.taskVersion);
+  const session=await fetch(host.baseUrl+"/api/session",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({accessToken:"workspace-fixture"})});
+  const response=await fetch(host.baseUrl+`/api/cases/${encodeURIComponent(id)}/run`,{method:"DELETE",headers:{cookie:session.headers.get("set-cookie")!.split(";")[0]!,"content-type":"application/json"},body:JSON.stringify({readRunId:before.restaurant.sourceReadContext!.runId,taskVersion:before.case.taskVersion,handleId})});
+  assert.equal(response.status,200,await response.text());assert.equal((await settled(host,id)).case.stopped,true);assert.equal(host.providerCalls.at(-1)?.aborted,true);
+ }finally{release.release();host.release();await pending?.catch(()=>{});await host.close();}
+});

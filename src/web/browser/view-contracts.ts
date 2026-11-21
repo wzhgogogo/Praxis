@@ -25,7 +25,7 @@ export interface WorkspaceView {
  savedCandidates:{candidateId:string;outletName:string;current:boolean;reasonCode?:string}[];
  revisionDiff?:{removed:{candidateId:string;outletName:string;reasonCode:string}[];added:{candidateId:string;outletName:string}[]};
  shortlistCandidateIds?:string[];questionHistory:PageQuestion[];pageQuestion?:PageQuestion;bookingHandoffs?:Handoff[];bookingFeedbackAvailable?:boolean;
- sourceReadContext?:{runId:string;startedAt:string};clarificationQuestion?:string;missingRequiredFields:string[];
+ sourceReadContext?:{runId:string;startedAt:string;handleId?:string};clarificationQuestion?:string;missingRequiredFields:string[];
  }
 }
 export interface Photo { id:string;contentUrl:string;provider?:string;sourcePageUrl:string;sourceLabel:string;attribution?:string;authors?:{displayName:string;uri?:string}[] }

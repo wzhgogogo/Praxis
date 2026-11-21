@@ -1188,6 +1188,12 @@ for(const mobile of [false,true])for(const boundary of ["SSE","reload","same-rev
    const before=await host.database.query<{count:number}>("SELECT count(*)::int AS count FROM restaurant_booking_departures WHERE conversation_id = $1",[view.case.conversationId]);
    assert.equal(before.rows[0]!.count,0);
    await screenshot(page,`round17-${mobile?"mobile":"desktop"}-${boundary.toLowerCase()}-revision-exit`);
+   await assertReconfirmation(page);
+   await screenshot(page,`round18-${mobile?"mobile":"desktop"}-${boundary.toLowerCase()}-reconfirm`);
+   if(boundary==="SSE"){
+    await page.reload();await page.locator("#candidate-panel").waitFor();await assertReconfirmation(page);
+    await screenshot(page,`round18-${mobile?"mobile":"desktop"}-reconfirm-after-f5`);
+   }
    await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();await page.locator("#choose").click();
    const selected=await page.locator("#handoff-slot").inputValue();
    assert.equal(latest.restaurant.availability[candidateId]!.find(o=>o.id===selected)?.partySize,3);
@@ -1225,5 +1231,67 @@ for(const mobile of [false,true])test(`Round17 UI: ${mobile?"mobile":"desktop"} 
    await alertAboveComposer(page);await screenshot(page,`round17-${mobile?"mobile":"desktop"}-concurrent-edit-conflict`);
    await other.close();
   }finally{release.release();}
+ },mobile);
+});
+
+
+async function assertReconfirmation(page:Page){
+ await page.locator("#delivery-slots").getByText("Plan conditions changed. Confirm the time again.",{exact:true}).waitFor();
+ assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(),0);
+ assert.equal(await page.locator("#choose").isDisabled(),true);
+ await page.locator("#choose").dispatchEvent("click");assert.equal(await page.locator("#handoff").isVisible(),false);
+}
+
+for(const mobile of [false,true])for(const navigation of ["next","Saved","own edit"] as const)test(`Round18 UI: ${mobile?"mobile":"desktop"} explicit ${navigation} restaurant change clears reconfirmation and own card edit stays ordinary`,{timeout:30_000},async()=>{
+ await fixture({multiSlot:true},async(page,host)=>{
+  await signin(page);const {view}=await createPlan(page,"Dinner in Tokyo");
+  if(navigation==="Saved"){
+   await page.locator("#next").click();await page.locator("#bookmark").click();await page.locator("#previous").click();
+  }
+  await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();await page.locator("#choose").click();
+  const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
+  try{
+   await updateRequirement(other,"Change 2 guests to 3");await ready(other);
+   await page.locator("#candidate-panel").waitFor();await assertReconfirmation(page);
+   if(navigation!=="own edit"){
+    if(navigation==="next")await page.locator("#next").click();else{await page.locator("#saved").click();await page.locator("#saved-list .saved-row").click();}
+    assert.equal(await page.locator("#choose").isEnabled(),true);assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(),1);
+   }
+   await updateRequirement(page,"Change 3 guests to 4");await ready(page);
+   assert.equal(await page.locator("#choose").isEnabled(),true);assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(),1);
+   assert.equal(await page.locator("#delivery-slots").getByText("Plan conditions changed. Confirm the time again.",{exact:true}).isVisible(),false);
+   assert.equal((await host.application.getCase(userId,view.case.caseId)).restaurant.intentDraft?.partySize,4);
+  }finally{await other.close();}
+ },mobile);
+});
+
+for(const mobile of [false,true])test(`Round18 UI: ${mobile?"mobile":"desktop"} delayed version0 Stop cannot cancel a replacement version0 preparation`,{timeout:30_000},async()=>{
+ const first=latch(),firstRelease=latch(),replacement=latch(),replacementRelease=latch(),stop=latch(),stopRelease=latch();
+ await fixture({beforeSemantic:async text=>{if(text==="Dinner in Tokyo"){first.release();await firstRelease.ready;}if(text==="Replacement dinner in Tokyo"){replacement.release();await replacementRelease.ready;}}},async(page,host)=>{
+  let b:Page|undefined,c:Page|undefined;
+  try{
+   await signin(page);const initialResponse=page.waitForResponse(r=>r.request().method()==="POST"&&new URL(r.url()).pathname==="/api/cases",{timeout:25000});void initialResponse.catch(()=>{});
+   await page.locator("#message").fill("Dinner in Tokyo");await page.locator("#send").click();await first.ready;
+   const initial=(await host.application.listCases(userId))[0]!;
+   b=await page.context().newPage();await b.clock.install({time:host.clock.now()});await b.goto("/");if(mobile)await b.locator("#menu").click();await byCase(b,initial.caseId).click();await b.locator("#stop").waitFor();
+   const before=await host.application.getCase(userId,initial.caseId);assert.equal(before.case.taskVersion,0);
+   let body:{readRunId:string;taskVersion:number;handleId?:string}|undefined;
+   await b.route("**/api/cases/*/run",async route=>{body=route.request().postDataJSON();stop.release();await stopRelease.ready;await route.continue();});
+   const cancelled=b.waitForResponse(r=>r.request().method()==="DELETE"&&r.url().endsWith("/run"));await b.locator("#stop").click();await stop.ready;
+   c=await page.context().newPage();await c.clock.install({time:host.clock.now()});await c.goto("/");await c.locator("#stop").waitFor();
+   const accepted=c.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/messages"),{timeout:25000});void accepted.catch(()=>{});
+   await c.locator("#message").fill("Replacement dinner in Tokyo");await c.locator("#send").click();await replacement.ready;
+   const pending=await host.application.getCase(userId,initial.caseId);assert.equal(pending.case.taskVersion,0);assert.equal(pending.restaurant.sourceReadContext!.runId,before.restaurant.sourceReadContext!.runId);
+   stopRelease.release();const rejected=await cancelled;assert.equal(rejected.status(),409,JSON.stringify(await rejected.json()));
+   const oldHandle=(before.restaurant.sourceReadContext as {handleId?:string}).handleId,newHandle=(pending.restaurant.sourceReadContext as {handleId?:string}).handleId;
+   assert.equal(typeof oldHandle,"string");assert.equal(body?.handleId,oldHandle);assert.notEqual(oldHandle,newHandle);
+   host.hold();replacementRelease.release();assert.equal((await accepted).status(),200);await host.waitForCheck();
+   const running=await host.application.getCase(userId,initial.caseId);
+   assert.equal((running.restaurant.sourceReadContext as {handleId?:string}).handleId,newHandle);
+   assert.notEqual(running.restaurant.sourceReadContext!.runId,before.restaurant.sourceReadContext!.runId);
+   host.release();await ready(c);
+   firstRelease.release();assert.equal((await initialResponse).status(),409);
+   const final=await host.application.getCase(userId,initial.caseId);assert.equal(final.case.phase,"PRESENT_RESULTS");assert.equal(final.case.stopped,undefined);assert.ok(host.providerCalls.length>0);assert.ok(host.providerCalls.every(call=>!call.aborted));
+  }finally{firstRelease.release();replacementRelease.release();stopRelease.release();await b?.close();await c?.close();}
  },mobile);
 });

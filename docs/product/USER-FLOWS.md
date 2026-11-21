@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.36
-- Last updated: 2026-11-20
+- Document revision: 0.37
+- Last updated: 2026-11-21
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Visual Direction](VISUAL-DIRECTION.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -274,3 +274,10 @@ User decision; work-branch implementation and offline evidence are recorded in S
 Authoritative plan conditions remain shared. A new requirementRevision (guests, date, time, area or other plan conditions) cancels pending Handoff preparation and clears this tab's old selected-slot projection. An already open Handoff immediately returns to Candidates with “Plan conditions changed. Confirm the time again.” The user must explicitly confirm the new conditions/time before opening another Handoff; the old page cannot silently become a departure for the new first offer. Saved page position carries its requirement revision: reload or plan restoration rejects an old-revision Handoff too. Same-revision refresh and offer-ID replacement preserve this tab's still-valid explicit time; a disappeared time keeps the existing reselection lock.
 
 Concurrent uncommitted message edits are not acknowledged as accepted. The displaced request returns 409 with the current task version; the workspace synchronizes the latest plan, keeps that tab's rejected message text and shows the conflict. Explicit Stop remains cancellation, with zero subsequent source work after a stopped preparation. A current Stop may reference the newly persisted read identity before preparation has received that identity back; a genuinely obsolete Stop still cannot cancel a replacement read.
+
+
+## 2026-11-21 — Persistent reconfirmation and exact Stop ownership
+
+Time intent is tab-local and has three states: ordinary browsing with no explicit choice, SELECTED date/time/party, and RECONFIRM. Exiting an old Handoff because plan conditions changed writes RECONFIRM under user / plan / new requirement revision in sessionStorage. Searching/result frames and any reload keep it. No time is highlighted, Let's book is disabled and “Plan conditions changed. Confirm the time again.” stays inside the slot area. A transient error notice or page position is not the authority for this lock. Explicitly clicking a time records SELECTED and removes the lock; deliberately choosing another restaurant via paging or Saved clears it. A successful condition edit submitted from this tab's Candidates page starts ordinary browsing under the new revision. Another tab's choice in the same revision still cannot change this tab's selected time or Handoff.
+
+Each cancellable read has a globally unique immutable handleId through semantic preparation, persistence and execution. Stop carries it beside the existing readRunId and taskVersion. A stale handle cannot cancel a replacement, even if both uncommitted preparations share version0 and the same readRunId. Without a registered cancellable owner, progress does not expose Stop. A committed semantic winner retains read ownership over an uncommitted contender. If Stop writes cancellation before that semantic dispatch, the cancelled request ends quietly with no source work; genuine competing input still conflicts instead of being silently dropped. This remains a read-only cancellation, never a cancellation of a real reservation.

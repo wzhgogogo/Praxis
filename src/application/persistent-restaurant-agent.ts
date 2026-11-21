@@ -334,6 +334,7 @@ export type RestaurantCaseUpdateListener = (view: RestaurantCaseView) => void | 
 export type RestaurantReadFinishedListener = (caseId: string) => void | Promise<void>;
 
 interface ActiveRead {
+  readonly handleId: string;
   readRunId: string;
   startedVersion: number;
   controller: AbortController;
@@ -864,7 +865,7 @@ export class PersistentRestaurantAgentApplication {
   }
 
   /** Cancels only the active read owned by this Case; it never touches an external booking flow. */
-  async cancelCase(userId: string, caseId: string, expected: {readRunId: string; expectedVersion: number}): Promise<RestaurantCaseView> {
+  async cancelCase(userId: string, caseId: string, expected: {readRunId: string; expectedVersion: number; handleId?: string}): Promise<RestaurantCaseView> {
     const record = await this.requireCase(userId, caseId);
     const active = this.activeReads.get(record.rootTaskId) ?? this.preparingHandles.get(record.rootTaskId);
     if (!active) return this.project(record);
@@ -874,10 +875,12 @@ export class PersistentRestaurantAgentApplication {
     const preparing = this.preparingHandles.get(record.rootTaskId) === active;
     const matchesPreparing = (current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>) =>
       this.preparingHandles.get(record.rootTaskId) === active
-      && active.startedVersion <= expected.expectedVersion && expected.expectedVersion <= current.version
-      && (expected.readRunId === active.readRunId
-        || expected.readRunId === current.runId+":investigation:"+String(current.domainState.investigationRevision??0));
-    if (preparing) {
+      && (expected.handleId!==undefined ? active.handleId===expected.handleId
+        : active.startedVersion<=expected.expectedVersion && expected.expectedVersion<=current.version
+          && (expected.readRunId===active.readRunId || expected.readRunId===current.runId+":investigation:"+String(current.domainState.investigationRevision??0)));
+    if(expected.handleId!==undefined){
+      if(active.handleId!==expected.handleId){const current=await this.runtime.snapshot(record.rootTaskId);throw new StaleTaskVersionError(expected.expectedVersion,current.version);}
+    } else if (preparing) {
       const current = await this.runtime.snapshot(record.rootTaskId);
       const activated = this.activeReads.get(record.rootTaskId) === active
         && active.readRunId === expected.readRunId && active.startedVersion <= expected.expectedVersion
@@ -1074,11 +1077,17 @@ export class PersistentRestaurantAgentApplication {
       ? { ...event, partySizeSourceMessageRequestId: `user:${requestId}` }
       : event;
     const envelope = this.userEvent(snapshot, requestId, eventWithPartySource);
-    const result = await this.runtime.dispatch(envelope, expectedVersion);
+    let result: Awaited<ReturnType<RestaurantRuntime['dispatch']>>;
+    try {result=await this.runtime.dispatch(envelope,expectedVersion);}
+    catch(error){if(error instanceof StaleTaskVersionError&&handle.controller.signal.aborted)return;throw error;}
     if (handle.controller.signal.aborted) return;
     if (result.duplicateEvent) return;
     handle.startedVersion = result.snapshot.version;
     handle.readRunId = result.snapshot.runId+":investigation:"+String(result.snapshot.domainState.investigationRevision??0);
+    // A committed winner owns the read ahead of an uncommitted contender;
+    // a genuinely newer committed owner must remain untouched.
+    const owner=this.activeReads.get(record.rootTaskId)??this.preparingHandles.get(record.rootTaskId);
+    if(!owner||owner.startedVersion<=handle.startedVersion)this.preparingHandles.set(record.rootTaskId,handle);
     await this.store.appendMessage({
       id: `message:0:${hash(`${record.id}:${requestId}`).slice(0, 24)}`,
       conversationId: record.id,
@@ -1110,7 +1119,7 @@ export class PersistentRestaurantAgentApplication {
   private prepareRead(record: ConversationRecord, snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>): ActiveRead {
     let finish!: () => void;
     const handle: ActiveRead = {
-      record, controller:new AbortController(), completion:new Promise<void>(resolve=>{finish=resolve;}),
+      handleId:this.createId("read-handle"), record, controller:new AbortController(), completion:new Promise<void>(resolve=>{finish=resolve;}),
       finish:()=>finish(), startedVersion:snapshot.version,
       readRunId:snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0),
     };
@@ -1300,7 +1309,8 @@ export class PersistentRestaurantAgentApplication {
       : state.pendingResultBatchTarget === undefined ? qualifiedCandidateIds
       : distinctDiscoveryResultCandidateIds(state, qualifiedCandidateIds, state.selectionSession?.deliveredCandidateIds ?? []);
     const presentedCandidateIds=state.presentedResults?.candidateIds.filter(id=>namedOutletCandidateResolved(state,id));
-    const reading = this.activeReads.has(record.rootTaskId) || this.preparingReads.has(record.rootTaskId) && ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"].includes(state.phase);
+    const readHandle=this.activeReads.get(record.rootTaskId)??this.preparingHandles.get(record.rootTaskId);
+    const reading = this.activeReads.has(record.rootTaskId) || this.preparingHandles.has(record.rootTaskId) && ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"].includes(state.phase);
     const workspaceRead = projectWorkspaceRead({ state, events, qualifiedCandidateIds, readyCandidateIds,
       openableCandidateIds: state.phase === "PRESENT_RESULTS" ? presentedCandidateIds ?? [] : readyCandidateIds,
       active: reading, now: this.clock.now().toISOString() });
@@ -1392,7 +1402,8 @@ export class PersistentRestaurantAgentApplication {
           ...(state.selectionSession.resultBatchTarget ? { resultBatchTarget: structuredClone(state.selectionSession.resultBatchTarget) } : {}),
         } : {}),
         ...(state.pageQuestion ? { pageQuestion: structuredClone(state.pageQuestion) } : {}),
-        sourceReadContext: {runId:snapshot.runId+":investigation:"+String(state.investigationRevision??0),startedAt:snapshot.createdAt},
+        sourceReadContext: {runId:snapshot.runId+":investigation:"+String(state.investigationRevision??0),startedAt:snapshot.createdAt,
+          ...(readHandle?{handleId:readHandle.handleId}:{})},
         ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
       },
       artifacts,

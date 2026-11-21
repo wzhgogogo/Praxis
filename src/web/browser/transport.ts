@@ -1,7 +1,7 @@
 import { savePosition } from "./position.js";
 import type { CaseSummary, WorkspaceView } from './view-contracts.js';
 import { $, clearError, element, report, requireView, show, state } from "./runtime.js";
-import { clearSlotSelection, reconcileSlot } from "./selected-slot.js";
+import { clearSlotSelection, reconfirmationRequired, reconcileSlot, requireReconfirmation } from "./selected-slot.js";
 import { caseLabel, displayTitle } from "./format.js";
 import { claimFeedback } from "./session.js";
 import { cancelPreparation, clearEntryPreview, clearEntryTransition, fixturePresentation, startEntryPreview } from "./preview.js";
@@ -124,6 +124,7 @@ export function accept(view:WorkspaceView){
   }
   if(state.preview&&(view.restaurant.progress.active||view.case.phase!=='PRESENT_RESULTS'))clearEntryPreview();
   const priorRevision=state.view?.restaurant.requirementRevision;
+  const retainReconfirmation=!!state.view&&reconfirmationRequired();
   const changedRevision=priorRevision!==undefined&&view.restaurant.requirementRevision!==priorRevision;
   const staleRestoredHandoff=priorRevision===undefined&&state.ui.view==='HANDOFF'&&state.ui.revision!==view.restaurant.requirementRevision;
   const exitHandoff=(changedRevision||staleRestoredHandoff)&&state.ui.view==='HANDOFF';
@@ -131,7 +132,9 @@ export function accept(view:WorkspaceView){
     cancelPreparation();clearSlotSelection();
     if(exitHandoff){state.ui.view='CANDIDATES';state.handoffKey='';}
   }
-  state.view=view;updateCases(view.case);reconcileSlot();actions.finishPreparation();actions.render();
+  state.view=view;
+  if(exitHandoff||changedRevision&&retainReconfirmation)requireReconfirmation();
+  updateCases(view.case);reconcileSlot();actions.finishPreparation();actions.render();
   if(exitHandoff){savePosition();report(new Error('Plan conditions changed. Confirm the time again.'));}
   const pending=state.pendingQuestion,q=view.restaurant.pageQuestion;
   if(pending&&pending.caseId===view.case.caseId&&q&&q.requestId===pending.requestId&&q.result){

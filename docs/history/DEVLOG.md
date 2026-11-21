@@ -6455,3 +6455,7 @@ Single-tab slot choices remain isolated, while shared plan-condition changes clo
 ## 2026-11-20 — Unified Round17 final offline closure
 
 Frozen 256415a046ed948955b235bfe6b8805c607236bb retains tab-local explicit slots while shared requirement revisions exit old Handoff immediately and during position restoration. Semantic preparation accepts the just-persisted read identity and the same owner’s activation transition; aborted dispatch returns before message/source work. Nonaborted, uncommitted ownership loss now returns409; recorded requests remain idempotent. USER-FLOWS0.36 and the new interaction contract lock this boundary. No source changes after freeze, no new dependency, no Domain/AgentLoop/eval changes. [Report](../../.eval-artifacts/3c-unified-20261117/round-17/REPORT.md). No Live/real PG/4312/main merge/push.
+
+## 2026-11-21 — Round18 reconfirmation and immutable read ownership
+
+Added tab-local undefined/SELECTED/RECONFIRM intent, with the revision lock independent of restaurant position and source frames. Only explicit time selection, deliberate restaurant change or a successful own Candidates revision starts confirmed/ordinary intent as specified. Stop now binds an immutable per-read handle across preparation and execution; existing runId format remains. Without a handle, preparation progress does not expose Stop. A semantic DB winner reclaims ownership over uncommitted work; aborted CAS conflicts return quietly, while true competing requests retain409. No dependency/Domain/AgentLoop/score changes.
