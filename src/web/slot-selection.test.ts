@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { projectSelection, readSelection, selectionKey } from "./browser/slot-selection.js";
+import { projectSelection, readSelection, reconfirmationKey, selectionKey } from "./browser/slot-selection.js";
 
 test("Round15 explicit selection survives empty inventory and rebinds only the same time",()=>{
  const selected={kind:"SELECTED" as const,dateTime:"2026-11-02T19:30:00+09:00",partySize:2};
@@ -19,16 +19,25 @@ test("Round15 choice storage is scoped independently of navigation and other pla
  }
 });
 
-test("Round18 RECONFIRM is revision-scoped, survives empty inventory and never picks a default",async()=>{
- const {reconfirmationKey}=await import('./browser/slot-selection.js');
+test("Round19 RECONFIRM spans revisions and candidates until its Case key is consumed",()=>{
  const scope={userId:'a',caseId:'dinner',revision:3,candidateId:'venue'};
- const offers=[{id:'first',dateTime:'2026-11-02T19:00:00+09:00',partySize:3}];
+ const offers=[{id:'first',dateTime:'2026-11-02T19:00:00+09:00',partySize:4}];
  const values=new Map([[reconfirmationKey(scope),JSON.stringify({kind:'RECONFIRM'})]]);
- const intent=readSelection({getItem:key=>values.get(key)??null},scope);
- assert.deepEqual(intent,{kind:'RECONFIRM'});
- assert.deepEqual(projectSelection(intent,offers),{offerId:undefined,reselect:true});
- assert.deepEqual(projectSelection(intent,[]),{offerId:undefined,reselect:false});
- assert.deepEqual(projectSelection(undefined,offers),{offerId:'first',reselect:false});
- assert.equal(readSelection({getItem:key=>values.get(key)??null},{...scope,revision:4}),undefined);
- assert.deepEqual(readSelection({getItem:key=>values.get(key)??null},{...scope,candidateId:'other'}),{kind:'RECONFIRM'});
+ const storage={getItem:(key:string)=>values.get(key)??null};
+ for(const changed of [{},{revision:4},{candidateId:'other'},{revision:4,candidateId:'other'}]){
+  const intent=readSelection(storage,{...scope,...changed});
+  assert.deepEqual(intent,{kind:'RECONFIRM'});
+  assert.deepEqual(projectSelection(intent,offers),{offerId:undefined,reselect:true});
+  assert.deepEqual(projectSelection(intent,[]),{offerId:undefined,reselect:false});
+ }
+ for(const changed of [{userId:'b'},{caseId:'other'}])assert.equal(readSelection(storage,{...scope,...changed}),undefined);
+ assert.equal(values.size,1);assert.equal(reconfirmationKey(scope),'praxis:slot-reconfirm:'+JSON.stringify(['a','dinner']));
+ const revised={...scope,revision:4};values.delete(reconfirmationKey(revised));assert.equal(values.size,0);
+ for(const revision of [3,4,5]){
+  const intent=readSelection(storage,{...scope,revision});assert.equal(intent,undefined);
+  assert.deepEqual(projectSelection(intent,offers),{offerId:'first',reselect:false});
+ }
+ for(const raw of ['{','null','"RECONFIRM"','{"kind":"SELECTED"}']){
+  values.set(reconfirmationKey(scope),raw);assert.equal(readSelection(storage,scope),undefined);
+ }
 });

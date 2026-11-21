@@ -13,11 +13,10 @@ export function offerFor(id:string|null){
  return state.ui.selectedSlot||state.ui.reconfirmSlot?fresh.find(o=>o.id===state.ui.offerId):fresh[0];
 }
 export function clearSlotSelection(){state.ui.offerId=null;state.ui.reselectSlot=false;state.ui.reconfirmSlot=false;delete state.ui.selectedSlot;}
-export function revisionScope(){return {userId:requireUser().id,caseId:requireView().case.caseId,revision:requireView().restaurant.requirementRevision};}
-export function reconfirmationRequired(){return !!sessionStorage.getItem(reconfirmationKey(revisionScope()));}
-export function requireReconfirmation(){sessionStorage.setItem(reconfirmationKey(revisionScope()),JSON.stringify({kind:'RECONFIRM'}));}
+export function caseScope(){return {userId:requireUser().id,caseId:requireView().case.caseId};}
+export function requireReconfirmation(){sessionStorage.setItem(reconfirmationKey(caseScope()),JSON.stringify({kind:'RECONFIRM'}));}
 export function forgetSlotSelection(){
- if(state.view&&state.user)sessionStorage.removeItem(reconfirmationKey(revisionScope()));
+ if(state.view&&state.user)sessionStorage.removeItem(reconfirmationKey(caseScope()));
  if(state.view&&state.user&&state.ui.candidateId)sessionStorage.removeItem(selectionKey(selectionScope()));
  clearSlotSelection();
 }
@@ -27,14 +26,15 @@ export function selectionScope(){
 }
 export function selectSlot(offer:Offer){
  sessionStorage.setItem(selectionKey(selectionScope()),JSON.stringify({kind:'SELECTED',dateTime:offer.dateTime,partySize:offer.partySize}));
- sessionStorage.removeItem(reconfirmationKey(revisionScope()));
+ sessionStorage.removeItem(reconfirmationKey(caseScope()));
  reconcileSlot();
 }
 export function reconcileSlot(){
- if(!state.view||!state.user||!state.ui.candidateId)return;
- const selected=readSelection(sessionStorage,selectionScope());
- state.ui.selectedSlot=selected?.kind==='SELECTED'?{dateTime:selected.dateTime,partySize:selected.partySize}:undefined;
+ if(!state.view||!state.user)return;
+ const selected=readSelection(sessionStorage,{...caseScope(),revision:requireView().restaurant.requirementRevision,candidateId:state.ui.candidateId??''});
  state.ui.reconfirmSlot=selected?.kind==='RECONFIRM';
+ if(!state.ui.candidateId)return;
+ state.ui.selectedSlot=selected?.kind==='SELECTED'?{dateTime:selected.dateTime,partySize:selected.partySize}:undefined;
  if(requireView().restaurant.progress.active&&!state.ui.reconfirmSlot)return;
  const choice=projectSelection(selected,freshOffers(state.ui.candidateId));
  state.ui.offerId=choice.offerId??null;

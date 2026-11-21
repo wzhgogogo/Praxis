@@ -7181,3 +7181,7 @@ Three backend red cases reproduced publication gap, orphaned DB winner and stopp
 ## 2026-11-21 — Unified Round18 frozen offline acceptance
 
 Frozen 77f5b9bc2e242f1fbcd6e8f508fff140c88d732c: five gates all PASS, default1797/1797, G2 5/5 + Chromium475/475 + G6 159/159. Each gate clean before/after; exact durations in [report](../../.eval-artifacts/3c-unified-20261117/round-18/REPORT.md) and raw manifest. Formal16/16, Style1 6/6, states60/60;85 screenshots reviewed, including6 new SSE/reload/F5 reconfirmation frames. strict:true,16 singleton SCCs,0 cycles;17 tsx/build assets identical. Preflight22 preparation,16 Round17/18 browser,32 retained/new controls and4 web contracts separately retained.6176 previous Unified +70 walkthrough hashes unchanged, main/env protected; closeout Git unavailable at start, registry/residual unchanged. No Live/real PG/4312 or real-source S0 score.
+
+## 2026-11-21 — Unified Round19 pre-freeze diagnostics
+
+Baseline source6a54ff083; changed test inputs expose cross-revision missing lock and unconsumed revision keys. Pure red2 pass/1 fail, browser red0/10 (one mobile plan-restore setup required a separate corrected red). The corrected mobile red fails on the missing slot-area hint. Early green setup errors (initial async response candidate lookup and hidden phone sidebar) are preserved, not gate results. Strict typecheck also caught an excess-property test literal before correction. Frozen five gates and three visual suites follow only after source/config commit.

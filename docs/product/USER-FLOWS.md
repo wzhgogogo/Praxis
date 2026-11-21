@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.37
+- Document revision: 0.38
 - Last updated: 2026-11-21
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -278,6 +278,11 @@ Concurrent uncommitted message edits are not acknowledged as accepted. The displ
 
 ## 2026-11-21 — Persistent reconfirmation and exact Stop ownership
 
-Time intent is tab-local and has three states: ordinary browsing with no explicit choice, SELECTED date/time/party, and RECONFIRM. Exiting an old Handoff because plan conditions changed writes RECONFIRM under user / plan / new requirement revision in sessionStorage. Searching/result frames and any reload keep it. No time is highlighted, Let's book is disabled and “Plan conditions changed. Confirm the time again.” stays inside the slot area. A transient error notice or page position is not the authority for this lock. Explicitly clicking a time records SELECTED and removes the lock; deliberately choosing another restaurant via paging or Saved clears it. A successful condition edit submitted from this tab's Candidates page starts ordinary browsing under the new revision. Another tab's choice in the same revision still cannot change this tab's selected time or Handoff.
+Time intent is tab-local and has three states: ordinary browsing with no explicit choice, SELECTED date/time/party, and RECONFIRM. Exiting an old Handoff because plan conditions changed writes RECONFIRM under one user / plan key in sessionStorage. Searching/result frames, passive navigation, missed later condition revisions and any reload keep it until explicitly resolved. SELECTED remains scoped by user / plan / revision / restaurant. No time is highlighted, Let's book is disabled and “Plan conditions changed. Confirm the time again.” stays inside the slot area. A transient error notice or page position is not the authority for this lock. Explicitly clicking a time records SELECTED and removes the lock; deliberately choosing another restaurant via paging or Saved clears it. A successful condition edit submitted from this tab's Candidates page starts ordinary browsing under the new revision. Another tab's choice in the same revision still cannot change this tab's selected time or Handoff.
 
 Each cancellable read has a globally unique immutable handleId through semantic preparation, persistence and execution. Stop carries it beside the existing readRunId and taskVersion. A stale handle cannot cancel a replacement, even if both uncommitted preparations share version0 and the same readRunId. Without a registered cancellable owner, progress does not expose Stop. A committed semantic winner retains read ownership over an uncommitted contender. If Stop writes cancellation before that semantic dispatch, the cancelled request ends quietly with no source work; genuine competing input still conflicts instead of being silently dropped. This remains a read-only cancellation, never a cancellation of a real reservation.
+
+
+## 2026-11-21 — Unresolved Case reconfirmation across missed revisions (Round 19)
+
+RECONFIRM uses one tab-local user / plan key, independent of requirement revision and restaurant. It survives Candidates, About and Saved restoration, returning from another plan, missed remote condition edits and reload. The slot-area hint and booking lock remain until an explicit time click, a deliberate change to another restaurant, or a successful condition edit submitted from this tab's Candidates page advances the revision. Choosing the same Saved restaurant, About/Back, Find more, cancelled reads/questions, model failure, conflicts and logout/login do not resolve it. Other accounts/plans are isolated. Resolving the single key leaves no older revision lock to revive; normal browsing in a later revision can again use the first current time. No old revision-key compatibility path is used.

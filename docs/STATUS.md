@@ -1390,3 +1390,5 @@ Round18 (draft / not integrated): persisted revision-scoped RECONFIRM blocks imp
 <a id="unified-round18-final-20261121"></a>
 
 2026-11-21 — Unified Round18, draft / not integrated. Frozen `77f5b9bc2e242f1fbcd6e8f508fff140c88d732c` closes persistent tab-local RECONFIRM (SSE/reload/F5), version0 stale Stop via immutable handleId, preparation publication/CAS ownership/Stop races. Clean five gates: default1797, G2 5, Chromium475, G6 159, build PASS. Formal16, Style1 6, states60;85 screenshots inspected. strict:true,16 singleton SCCs,0 cycles,17 identical assets. Main/env and6176 prior files protected; closeout already missing.git, unchanged registry/residual audit only.0 Live/real PG/4312. [Report](../.eval-artifacts/3c-unified-20261117/round-18/REPORT.md).
+
+Round19 (draft / not integrated): RECONFIRM now uses a tab-local user/Case key across missed revisions and passive restores; SELECTED stays revision/restaurant scoped. Transport no longer copies revision-local lock state. Backend and protected sources unchanged. Targeted and frozen acceptance are recorded in the new round-19 directory; full gates pending.

@@ -1295,3 +1295,65 @@ for(const mobile of [false,true])test(`Round18 UI: ${mobile?"mobile":"desktop"} 
   }finally{firstRelease.release();replacementRelease.release();stopRelease.release();await b?.close();await c?.close();}
  },mobile);
 });
+
+// A Case lock outlives passive navigation and missed revision events; explicit consumption is final.
+async function openPlan(page:Page,caseId:string,mobile:boolean){
+ if(mobile&&await page.locator("#menu").getAttribute("aria-expanded")!=="true")await page.locator("#menu").click();
+ await byCase(page,caseId).click();await byCase(page,caseId).and(page.locator(".active")).waitFor({state:"attached"});await ready(page);
+}
+async function confirmDeparture(page:Page,host:Host,view:RestaurantCaseView,partySize:number,explicit:boolean){
+ if(explicit)await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();
+ await page.locator("#choose").click();await page.locator("#handoff").waitFor();
+ const candidateId=view.restaurant.presentedCandidateIds![0]!,offerId=await page.locator("#handoff-slot").inputValue();
+ const offer=view.restaurant.availability[candidateId]!.find(o=>o.id===offerId)!;
+ assert.equal(offer.partySize,partySize);assert.ok(offer.dateTime.includes(explicit?"19:30":"19:00"));
+ const response=page.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/booking-departures"));
+ await page.locator("#departure").click();assert.equal((await response).status(),201);
+ const rows=await host.database.query<{candidate_id:string;offer_id:string}>("SELECT candidate_id,offer_id FROM restaurant_booking_departures WHERE conversation_id = $1",[view.case.conversationId]);
+ assert.deepEqual(rows.rows,[{candidate_id:candidateId,offer_id:offerId}]);
+}
+for(const mobile of [false,true])for(const entry of ["candidates","About","Saved","other-plan","resolved-old-lock-after-away-revision"] as const)test(`Round19 UI: ${mobile?"mobile":"desktop"} ${entry} restores only unresolved Case reconfirmation`,{timeout:40_000},async()=>{
+ await fixture({multiSlot:true,sourceValidityMs:60_000},async(page,host)=>{
+  await signin(page);const {view}=await createPlan(page,"Dinner in Tokyo");
+  const initial=await host.application.getCase(userId,view.case.caseId);
+  await page.locator("#bookmark").click();await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();await page.locator("#choose").click();
+  const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
+  try{
+   await updateRequirement(other,"Change 2 guests to 3");await ready(other);await page.locator("#candidate-panel").waitFor();await assertReconfirmation(page);
+   if(entry==="About"){await page.locator("#details-button").click();await page.locator("#details").waitFor();}
+   if(entry==="Saved"){await page.locator("#saved").click();await page.locator("#saved-panel").waitFor();}
+   if(entry==="other-plan"){
+    await page.locator("#new-case").click();await createPlan(page,"Another dinner in Tokyo");
+   }else if(entry!=="resolved-old-lock-after-away-revision")await page.evaluate(async()=>{const {state}=await import(String("/assets/workspace/runtime.js"));state.stream?.close();});
+   await updateRequirement(other,"Change 3 guests to 4");await ready(other);
+   if(entry==="other-plan")await openPlan(page,view.case.caseId,mobile);
+   else if(entry==="resolved-old-lock-after-away-revision")await page.getByRole("button",{name:"4 guests",exact:true}).waitFor();
+   else{
+    await page.reload();
+    if(entry==="About"){await page.locator("#details").waitFor();await page.locator("#details-back").click();}
+    if(entry==="Saved"){await page.locator("#saved-panel").waitFor();await page.locator("#saved-back").click();}
+    await page.locator("#candidate-panel").waitFor();
+   }
+   if(entry==="resolved-old-lock-after-away-revision"){
+    // Consume under revision4; no older key may survive to resurrect the resolved lock.
+    await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();await page.locator("#choose").click();await page.locator("#handoff").waitFor();await page.locator("#handoff-back").click();
+    const keys=await page.evaluate(()=>Object.keys(sessionStorage).filter(key=>key.startsWith('praxis:slot-reconfirm:')));assert.deepEqual(keys,[],"consumption must leave no revision orphan");
+    await page.locator("#new-case").click();await createPlan(page,"Another dinner in Tokyo");
+    await updateRequirement(other,"Change 4 guests to 5");await ready(other);await openPlan(page,view.case.caseId,mobile);
+    assert.equal(await page.locator("#choose").isEnabled(),true);
+    assert.equal(await page.locator("#delivery-slots").getByText("Plan conditions changed. Confirm the time again.",{exact:true}).count(),0);
+    assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(),1);
+    await screenshot(page,`round19-${mobile?"mobile":"desktop"}-${entry}`);
+    await confirmDeparture(page,host,await host.application.getCase(userId,view.case.caseId),5,false);return;
+   }
+   await assertReconfirmation(page);
+   if(entry==="Saved"){
+    await page.locator("#saved").click();await page.locator(`#saved-list .saved-row[data-candidate-id="${initial.restaurant.presentedCandidateIds![0]}"]`).click();await assertReconfirmation(page);
+   }
+   const latest=await host.application.getCase(userId,view.case.caseId);assert.equal(latest.restaurant.intentDraft?.partySize,4);
+   const before=await host.database.query<{count:number}>("SELECT count(*)::int AS count FROM restaurant_booking_departures WHERE conversation_id = $1",[view.case.conversationId]);assert.equal(before.rows[0]!.count,0);
+   await screenshot(page,`round19-${mobile?"mobile":"desktop"}-${entry}`);
+   await confirmDeparture(page,host,latest,4,true);
+  }finally{await other.close();}
+ },mobile);
+});
