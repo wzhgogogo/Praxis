@@ -1,0 +1,54 @@
+✖ Round20 UI: desktop stopped About supports preparation Stop, execution Stop, answer and reload (10000.621ms)
+✖ Round20 UI: mobile stopped About supports preparation Stop, execution Stop, answer and reload (9042.785708ms)
+✖ Round20 UI: desktop semantic and discovery barriers project real progress through reconnect and Stop (9085.5185ms)
+✖ Round20 UI: mobile semantic and discovery barriers project real progress through reconnect and Stop (8803.002125ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38075.523833
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:71582
+✖ Round20 UI: desktop stopped About supports preparation Stop, execution Stop, answer and reload (10000.621ms)
+  page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1380:27)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1363:2) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:71582
+✖ Round20 UI: mobile stopped About supports preparation Stop, execution Stop, answer and reload (9042.785708ms)
+  page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1380:27)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1363:2) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:76160
+✖ Round20 UI: desktop semantic and discovery barriers project real progress through reconnect and Stop (9085.5185ms)
+  page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1398:24)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1395:2) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:76160
+✖ Round20 UI: mobile semantic and discovery barriers project real progress through reconnect and Stop (8803.002125ms)
+  page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1398:24)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1395:2) {
+    name: 'TimeoutError',
+    log: []
+  }

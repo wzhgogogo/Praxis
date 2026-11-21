@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/harness/browser/web-workspace-round6.test.ts(367,3): error TS2322: Type '{ [x: string]: { text: string; strength: "HARD"; polarity: "POSITIVE"; status: "MET"; explanation: string; evidenceIds: never[]; }[]; }' is not assignable to type 'Record<string, RestaurantConditionState[]>'.
+  'string' index signatures are incompatible.
+    Type '{ text: string; strength: "HARD"; polarity: "POSITIVE"; status: "MET"; explanation: string; evidenceIds: never[]; }[]' is not assignable to type 'RestaurantConditionState[]'.
+      Type '{ text: string; strength: "HARD"; polarity: "POSITIVE"; status: "MET"; explanation: string; evidenceIds: never[]; }' is missing the following properties from type 'RestaurantConditionState': criterionRef, sources

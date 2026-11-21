@@ -1,0 +1,10 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/domains/restaurant/page-question-eligibility.test.ts(10,36): error TS2379: Argument of type '{ schemaVersion: "25"; intentDraft?: RestaurantIntentDraft; intent?: RestaurantSearchIntent; semanticConflict?: RestaurantSemanticConflict; candidates: RestaurantCandidate[]; availability: Record<string, AvailabilityOffer[]>; ... 26 more ...; failure: { ...; }; }' is not assignable to parameter of type 'Readonly<RestaurantTaskState>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  The types of 'failure.code' are incompatible between these types.
+    Type 'string' is not assignable to type 'RestaurantFailureCode'.
+src/domains/restaurant/page-question-eligibility.test.ts(11,36): error TS2379: Argument of type '{ schemaVersion: "25"; intentDraft?: RestaurantIntentDraft; intent?: RestaurantSearchIntent; semanticConflict?: RestaurantSemanticConflict; candidates: RestaurantCandidate[]; availability: Record<string, AvailabilityOffer[]>; ... 26 more ...; failure: { ...; }; }' is not assignable to parameter of type 'Readonly<RestaurantTaskState>' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  The types of 'failure.code' are incompatible between these types.
+    Type 'string' is not assignable to type 'RestaurantFailureCode'.

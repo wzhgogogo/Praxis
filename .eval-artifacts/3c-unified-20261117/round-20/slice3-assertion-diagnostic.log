@@ -1,0 +1,574 @@
+TAP version 13
+# Subtest: Round6 390: Details and Handoff retain active reads, then leave failed or removed results
+ok 1 - Round6 390: Details and Handoff retain active reads, then leave failed or removed results
+  ---
+  duration_ms: 4092.475041
+  type: 'test'
+  ...
+# Subtest: Round6 1440: Details and Handoff retain active reads, then leave failed or removed results
+ok 2 - Round6 1440: Details and Handoff retain active reads, then leave failed or removed results
+  ---
+  duration_ms: 2677.333666
+  type: 'test'
+  ...
+# Subtest: Round6: refresh labels use the whole presented batch, retry and goal rather than only the current outlet
+ok 3 - Round6: refresh labels use the whole presented batch, retry and goal rather than only the current outlet
+  ---
+  duration_ms: 2461.56925
+  type: 'test'
+  ...
+# Subtest: Round6 Style1 390x844 available: aligned condition rows and clean availability
+ok 4 - Round6 Style1 390x844 available: aligned condition rows and clean availability
+  ---
+  duration_ms: 1823.707417
+  type: 'test'
+  ...
+# Subtest: Round6 Style1 390x844 not-checked: aligned condition rows and clean availability
+ok 5 - Round6 Style1 390x844 not-checked: aligned condition rows and clean availability
+  ---
+  duration_ms: 1820.0625
+  type: 'test'
+  ...
+# Subtest: Round6 Style1 768x1024 available: aligned condition rows and clean availability
+ok 6 - Round6 Style1 768x1024 available: aligned condition rows and clean availability
+  ---
+  duration_ms: 1900.253542
+  type: 'test'
+  ...
+# Subtest: Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability
+ok 7 - Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability
+  ---
+  duration_ms: 1910.139458
+  type: 'test'
+  ...
+# Subtest: Round6 Style1 1440x900 available: aligned condition rows and clean availability
+ok 8 - Round6 Style1 1440x900 available: aligned condition rows and clean availability
+  ---
+  duration_ms: 2038.036917
+  type: 'test'
+  ...
+# Subtest: Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability
+ok 9 - Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability
+  ---
+  duration_ms: 1816.39775
+  type: 'test'
+  ...
+# Subtest: Round8 UI: real Stop retains About and never offers an unavailable refresh
+ok 10 - Round8 UI: real Stop retains About and never offers an unavailable refresh
+  ---
+  duration_ms: 1562.792583
+  type: 'test'
+  ...
+# Subtest: Round8 UI: SSE switches the idle card to the eligible outlet and removes stale cards on empty results
+ok 11 - Round8 UI: SSE switches the idle card to the eligible outlet and removes stale cards on empty results
+  ---
+  duration_ms: 1477.777167
+  type: 'test'
+  ...
+# Subtest: Round8 UI: the original request and later reply appear beside the current clarification and hide in other states
+ok 12 - Round8 UI: the original request and later reply appear beside the current clarification and hide in other states
+  ---
+  duration_ms: 1681.266
+  type: 'test'
+  ...
+# Subtest: Round8 UI: case list orders initial, new, and SSE-updated cases without replacing the focused row
+ok 13 - Round8 UI: case list orders initial, new, and SSE-updated cases without replacing the focused row
+  ---
+  duration_ms: 2128.510042
+  type: 'test'
+  ...
+# Subtest: Round8 UI: a blocked booking popup cannot persist a departure or mark a return
+ok 14 - Round8 UI: a blocked booking popup cannot persist a departure or mark a return
+  ---
+  duration_ms: 1441.211916
+  type: 'test'
+  ...
+# Subtest: Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries
+ok 15 - Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries
+  ---
+  duration_ms: 1769.090167
+  type: 'test'
+  ...
+# Subtest: Round20 UI: 1440 design rows, source equivalence, batch actions and revision summaries
+ok 16 - Round20 UI: 1440 design rows, source equivalence, batch actions and revision summaries
+  ---
+  duration_ms: 2284.68025
+  type: 'test'
+  ...
+# Subtest: Round20 UI: 390 citation reading groups, About provenance and bilingual Handoff
+ok 17 - Round20 UI: 390 citation reading groups, About provenance and bilingual Handoff
+  ---
+  duration_ms: 2428.617583
+  type: 'test'
+  ...
+# Subtest: Round20 UI: 1440 citation reading groups, About provenance and bilingual Handoff
+ok 18 - Round20 UI: 1440 citation reading groups, About provenance and bilingual Handoff
+  ---
+  duration_ms: 3223.358083
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch
+ok 19 - Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch
+  ---
+  duration_ms: 5793.082791
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh
+ok 20 - Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh
+  ---
+  duration_ms: 5492.521458
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch
+ok 21 - Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch
+  ---
+  duration_ms: 3668.241542
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh
+ok 22 - Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh
+  ---
+  duration_ms: 5421.99225
+  type: 'test'
+  ...
+# WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-AL9v63","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-AL9v63/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-AL9v63/trace.zip","errors":[]}
+# {"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":4,"checkedCount":4},"presented":["fixture:outlet","fixture-revision-added"],"ready":["fixture:outlet","fixture-revision-added"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"UNAVAILABLE","reason":"NO_MATCHING_SLOT"},{"id":"fixture-revision-added","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-hard-criteria:67a1b1aa1ffcce568651b328","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5","evidence:restaurant:tablecheck-hard-criteria:df99ff0c0dfe09de60ca49dc"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:98f227a7208ab085473f309b","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:74b421a1ae73aea7fb3c3b9f","area:fixture-revision-added","evidence:restaurant:tablecheck-availability:2d343d610f46d056caa182fe","evidence:restaurant:tablecheck-hard-criteria:4b203af27e9504ba50b2eb9e"],"candidateIds":["fixture:outlet","fixture-revision-added"]}]}}
+# Subtest: Workspace slice2 mobile: server revision differences and saved reasons structured
+not ok 23 - Workspace slice2 mobile: server revision differences and saved reasons structured
+  ---
+  duration_ms: 1767.778583
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:1:16069'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '1 new, '
+    - '1 new,'
+             ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '1 new,'
+  actual: '1 new, '
+  operator: 'strictEqual'
+  ...
+# WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-dEEXnO","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-dEEXnO/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-dEEXnO/trace.zip","errors":[]}
+# {"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":2,"checkedCount":2},"presented":["fixture:outlet","fixture-revision-added"],"ready":["fixture:outlet","fixture-revision-added"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-revision-added","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-hard-criteria:67a1b1aa1ffcce568651b328","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5","evidence:restaurant:tablecheck-hard-criteria:df99ff0c0dfe09de60ca49dc"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:98f227a7208ab085473f309b","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:74b421a1ae73aea7fb3c3b9f","area:fixture-revision-added","evidence:restaurant:tablecheck-availability:2d343d610f46d056caa182fe","evidence:restaurant:tablecheck-hard-criteria:4b203af27e9504ba50b2eb9e"],"candidateIds":["fixture:outlet","fixture-revision-added"]}]}}
+# Subtest: Workspace slice2 mobile: server revision differences and saved reasons missing
+not ok 24 - Workspace slice2 mobile: server revision differences and saved reasons missing
+  ---
+  duration_ms: 1794.813833
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:1:16069'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '1 new, '
+    - '1 new,'
+             ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '1 new,'
+  actual: '1 new, '
+  operator: 'strictEqual'
+  ...
+# WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-GgFoK2","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-GgFoK2/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-GgFoK2/trace.zip","errors":[]}
+# {"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":4,"checkedCount":4},"presented":["fixture:outlet","fixture-revision-added"],"ready":["fixture:outlet","fixture-revision-added"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"UNAVAILABLE","reason":"NO_MATCHING_SLOT"},{"id":"fixture-revision-added","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-hard-criteria:67a1b1aa1ffcce568651b328","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5","evidence:restaurant:tablecheck-hard-criteria:df99ff0c0dfe09de60ca49dc"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:98f227a7208ab085473f309b","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:74b421a1ae73aea7fb3c3b9f","area:fixture-revision-added","evidence:restaurant:tablecheck-availability:2d343d610f46d056caa182fe","evidence:restaurant:tablecheck-hard-criteria:4b203af27e9504ba50b2eb9e"],"candidateIds":["fixture:outlet","fixture-revision-added"]}]}}
+# Subtest: Workspace slice2 desktop: server revision differences and saved reasons structured
+not ok 25 - Workspace slice2 desktop: server revision differences and saved reasons structured
+  ---
+  duration_ms: 2236.724584
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:1:16069'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '1 new, '
+    - '1 new,'
+             ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '1 new,'
+  actual: '1 new, '
+  operator: 'strictEqual'
+  ...
+# WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-K6HzBK","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-K6HzBK/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-K6HzBK/trace.zip","errors":[]}
+# {"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":2,"checkedCount":2},"presented":["fixture:outlet","fixture-revision-added"],"ready":["fixture:outlet","fixture-revision-added"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-revision-added","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-hard-criteria:67a1b1aa1ffcce568651b328","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5","evidence:restaurant:tablecheck-hard-criteria:df99ff0c0dfe09de60ca49dc"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:98f227a7208ab085473f309b","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:74b421a1ae73aea7fb3c3b9f","area:fixture-revision-added","evidence:restaurant:tablecheck-availability:2d343d610f46d056caa182fe","evidence:restaurant:tablecheck-hard-criteria:4b203af27e9504ba50b2eb9e"],"candidateIds":["fixture:outlet","fixture-revision-added"]}]}}
+# Subtest: Workspace slice2 desktop: server revision differences and saved reasons missing
+not ok 26 - Workspace slice2 desktop: server revision differences and saved reasons missing
+  ---
+  duration_ms: 2200.838958
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:1:16069'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + '1 new, '
+    - '1 new,'
+             ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '1 new,'
+  actual: '1 new, '
+  operator: 'strictEqual'
+  ...
+# Subtest: Workspace slice2 mobile: empty result copy is honest empty
+ok 27 - Workspace slice2 mobile: empty result copy is honest empty
+  ---
+  duration_ms: 1337.539417
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 mobile: empty result copy is honest all-sources-failed
+ok 28 - Workspace slice2 mobile: empty result copy is honest all-sources-failed
+  ---
+  duration_ms: 1469.624042
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 mobile: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing
+ok 29 - Workspace slice2 mobile: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing
+  ---
+  duration_ms: 1945.95
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 mobile: partial source failure keeps qualified results and places the notice at the batch end
+ok 30 - Workspace slice2 mobile: partial source failure keeps qualified results and places the notice at the batch end
+  ---
+  duration_ms: 1850.595084
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: empty result copy is honest empty
+ok 31 - Workspace slice2 desktop: empty result copy is honest empty
+  ---
+  duration_ms: 2309.157584
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: empty result copy is honest all-sources-failed
+ok 32 - Workspace slice2 desktop: empty result copy is honest all-sources-failed
+  ---
+  duration_ms: 2073.108
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing
+ok 33 - Workspace slice2 desktop: semantic model failure keeps the submitted text and hides the stale card, then accepts rephrasing
+  ---
+  duration_ms: 2197.478959
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: partial source failure keeps qualified results and places the notice at the batch end
+ok 34 - Workspace slice2 desktop: partial source failure keeps qualified results and places the notice at the batch end
+  ---
+  duration_ms: 1684.533542
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 mobile: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets
+ok 35 - Workspace slice2 mobile: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets
+  ---
+  duration_ms: 1614.400084
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 mobile: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets
+ok 36 - Workspace slice2 mobile: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets
+  ---
+  duration_ms: 1948.834375
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets
+ok 37 - Workspace slice2 desktop: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets
+  ---
+  duration_ms: 1985.246375
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets
+ok 38 - Workspace slice2 desktop: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets
+  ---
+  duration_ms: 2362.546
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 mobile: Stop during empty continuation discards the late source card
+ok 39 - Workspace slice2 mobile: Stop during empty continuation discards the late source card
+  ---
+  duration_ms: 1555.025625
+  type: 'test'
+  ...
+# Subtest: Workspace slice2 desktop: Stop during empty continuation discards the late source card
+ok 40 - Workspace slice2 desktop: Stop during empty continuation discards the late source card
+  ---
+  duration_ms: 2055.499792
+  type: 'test'
+  ...
+# Subtest: Workspace 3c mobile: each observed booking slot retains its own departure link
+ok 41 - Workspace 3c mobile: each observed booking slot retains its own departure link
+  ---
+  duration_ms: 1954.042709
+  type: 'test'
+  ...
+# Subtest: Workspace 3c desktop: each observed booking slot retains its own departure link
+ok 42 - Workspace 3c desktop: each observed booking slot retains its own departure link
+  ---
+  duration_ms: 2583.502917
+  type: 'test'
+  ...
+# WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-7P5YKB","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-7P5YKB/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-7P5YKB/trace.zip","errors":[]}
+# {"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+# Subtest: Workspace inline condition mobile: capped local edit survives SSE and routes changes without touching composer
+not ok 43 - Workspace inline condition mobile: capped local edit survives SSE and routes changes without touching composer
+  ---
+  duration_ms: 1557.911625
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:1:36280'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /TableCheck, checked/. Input:
+    
+    'TableCheck · Checked 19:00'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'TableCheck · Checked 19:00'
+  operator: 'match'
+  ...
+# WORKSPACE_SLICE2_FAILURE_ARTIFACTS {"directory":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-32IeIX","screenshot":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-32IeIX/failure.png","trace":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-workspace-slice2-32IeIX/trace.zip","errors":[]}
+# {"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+# Subtest: Workspace inline condition desktop: capped local edit survives SSE and routes changes without touching composer
+not ok 44 - Workspace inline condition desktop: capped local edit survives SSE and routes changes without touching composer
+  ---
+  duration_ms: 1946.922625
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-slice2.test.ts:1:36280'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /TableCheck, checked/. Input:
+    
+    'TableCheck · Checked 19:00'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'TableCheck · Checked 19:00'
+  operator: 'match'
+  ...
+# Subtest: Workspace booking refresh mobile: stale browsing stays actionable and only fresh same-candidate evidence enters handoff
+ok 45 - Workspace booking refresh mobile: stale browsing stays actionable and only fresh same-candidate evidence enters handoff
+  ---
+  duration_ms: 1951.299875
+  type: 'test'
+  ...
+# Subtest: Workspace booking refresh desktop: stale browsing stays actionable and only fresh same-candidate evidence enters handoff
+ok 46 - Workspace booking refresh desktop: stale browsing stays actionable and only fresh same-candidate evidence enters handoff
+  ---
+  duration_ms: 2161.732375
+  type: 'test'
+  ...
+# Subtest: Workspace selected slot mobile: missing handoff and a refreshed different time never silently switch the choice
+ok 47 - Workspace selected slot mobile: missing handoff and a refreshed different time never silently switch the choice
+  ---
+  duration_ms: 1925.45325
+  type: 'test'
+  ...
+# Subtest: Workspace selected slot desktop: missing handoff and a refreshed different time never silently switch the choice
+ok 48 - Workspace selected slot desktop: missing handoff and a refreshed different time never silently switch the choice
+  ---
+  duration_ms: 2413.328042
+  type: 'test'
+  ...
+# Subtest: Workspace equivalent intent mobile: reaffirmation retains the batch without a phantom revision diff
+ok 49 - Workspace equivalent intent mobile: reaffirmation retains the batch without a phantom revision diff
+  ---
+  duration_ms: 1809.018375
+  type: 'test'
+  ...
+# Subtest: Workspace equivalent intent desktop: reaffirmation retains the batch without a phantom revision diff
+ok 50 - Workspace equivalent intent desktop: reaffirmation retains the batch without a phantom revision diff
+  ---
+  duration_ms: 2015.484083
+  type: 'test'
+  ...
+# Subtest: Workspace unchanged Save mobile area: equivalent native value cancels without a message
+ok 51 - Workspace unchanged Save mobile area: equivalent native value cancels without a message
+  ---
+  duration_ms: 1568.353083
+  type: 'test'
+  ...
+# Subtest: Workspace unchanged Save mobile date: equivalent native value cancels without a message
+ok 52 - Workspace unchanged Save mobile date: equivalent native value cancels without a message
+  ---
+  duration_ms: 1451.470959
+  type: 'test'
+  ...
+# Subtest: Workspace unchanged Save mobile time: equivalent native value cancels without a message
+ok 53 - Workspace unchanged Save mobile time: equivalent native value cancels without a message
+  ---
+  duration_ms: 1519.257917
+  type: 'test'
+  ...
+# Subtest: Workspace unchanged Save mobile guests: equivalent native value cancels without a message
+ok 54 - Workspace unchanged Save mobile guests: equivalent native value cancels without a message
+  ---
+  duration_ms: 1628.613
+  type: 'test'
+  ...
+# Subtest: Workspace unchanged Save desktop area: equivalent native value cancels without a message
+ok 55 - Workspace unchanged Save desktop area: equivalent native value cancels without a message
+  ---
+  duration_ms: 1848.424875
+  type: 'test'
+  ...
+# Subtest: Workspace unchanged Save desktop date: equivalent native value cancels without a message
+ok 56 - Workspace unchanged Save desktop date: equivalent native value cancels without a message
+  ---
+  duration_ms: 1737.90175
+  type: 'test'
+  ...
+# Subtest: Workspace unchanged Save desktop time: equivalent native value cancels without a message
+ok 57 - Workspace unchanged Save desktop time: equivalent native value cancels without a message
+  ---
+  duration_ms: 1851.461417
+  type: 'test'
+  ...
+# Subtest: Workspace unchanged Save desktop guests: equivalent native value cancels without a message
+ok 58 - Workspace unchanged Save desktop guests: equivalent native value cancels without a message
+  ---
+  duration_ms: 1776.002375
+  type: 'test'
+  ...
+# Subtest: Workspace inline Save end to end mobile: area date time and guests reach the reducer, fresh sources and chips
+ok 59 - Workspace inline Save end to end mobile: area date time and guests reach the reducer, fresh sources and chips
+  ---
+  duration_ms: 2572.027291
+  type: 'test'
+  ...
+# Subtest: Workspace inline Save end to end desktop: area date time and guests reach the reducer, fresh sources and chips
+ok 60 - Workspace inline Save end to end desktop: area date time and guests reach the reducer, fresh sources and chips
+  ---
+  duration_ms: 2706.973291
+  type: 'test'
+  ...
+# Subtest: Workspace composer keyboard mobile: Enter sends, IME and Shift+Enter do not, workspace height resets
+ok 61 - Workspace composer keyboard mobile: Enter sends, IME and Shift+Enter do not, workspace height resets
+  ---
+  duration_ms: 1827.684166
+  type: 'test'
+  ...
+# Subtest: Workspace composer keyboard desktop: Enter sends, IME and Shift+Enter do not, workspace height resets
+ok 62 - Workspace composer keyboard desktop: Enter sends, IME and Shift+Enter do not, workspace height resets
+  ---
+  duration_ms: 1728.522916
+  type: 'test'
+  ...
+# Subtest: Workspace profile dismissal mobile: one account label, outside/Escape close and Saved hides its own entry
+ok 63 - Workspace profile dismissal mobile: one account label, outside/Escape close and Saved hides its own entry
+  ---
+  duration_ms: 1834.792
+  type: 'test'
+  ...
+# Subtest: Workspace profile dismissal desktop: one account label, outside/Escape close and Saved hides its own entry
+ok 64 - Workspace profile dismissal desktop: one account label, outside/Escape close and Saved hides its own entry
+  ---
+  duration_ms: 2121.305625
+  type: 'test'
+  ...
+# Subtest: Workspace card keyboard mobile: arrows use pagination and respect editors, input, overlays, modifiers and batch end
+ok 65 - Workspace card keyboard mobile: arrows use pagination and respect editors, input, overlays, modifiers and batch end
+  ---
+  duration_ms: 1811.503958
+  type: 'test'
+  ...
+# Subtest: Workspace card keyboard desktop: arrows use pagination and respect editors, input, overlays, modifiers and batch end
+ok 66 - Workspace card keyboard desktop: arrows use pagination and respect editors, input, overlays, modifiers and batch end
+  ---
+  duration_ms: 2043.822708
+  type: 'test'
+  ...
+# Subtest: Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return
+not ok 67 - Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return
+  ---
+  duration_ms: 3464.063917
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace.test.ts:1:3381'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    '1 of 1' !== ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '1 of 1'
+  operator: 'strictEqual'
+  ...
+# Subtest: Workspace mobile: stop and request revision discard late source responses
+ok 68 - Workspace mobile: stop and request revision discard late source responses
+  ---
+  duration_ms: 2400.621375
+  type: 'test'
+  ...
+# Subtest: Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return
+not ok 69 - Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return
+  ---
+  duration_ms: 2208.706416
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace.test.ts:1:3381'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    '1 of 1' !== ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: ''
+  actual: '1 of 1'
+  operator: 'strictEqual'
+  ...
+# Subtest: Workspace desktop: stop and request revision discard late source responses
+ok 70 - Workspace desktop: stop and request revision discard late source responses
+  ---
+  duration_ms: 2227.069292
+  type: 'test'
+  ...
+# Subtest: Workspace B1 mobile: long conflict terms keep the departure visible without a duplicate source action
+ok 71 - Workspace B1 mobile: long conflict terms keep the departure visible without a duplicate source action
+  ---
+  duration_ms: 1830.393083
+  type: 'test'
+  ...
+# Subtest: Workspace B1 desktop: long conflict terms keep the departure visible without a duplicate source action
+ok 72 - Workspace B1 desktop: long conflict terms keep the departure visible without a duplicate source action
+  ---
+  duration_ms: 2211.311167
+  type: 'test'
+  ...
+# Subtest: Workspace mobile: cuisine source disagreement remains visible without changing qualification
+ok 73 - Workspace mobile: cuisine source disagreement remains visible without changing qualification
+  ---
+  duration_ms: 1599.729
+  type: 'test'
+  ...
+# Subtest: Workspace desktop: cuisine source disagreement remains visible without changing qualification
+ok 74 - Workspace desktop: cuisine source disagreement remains visible without changing qualification
+  ---
+  duration_ms: 1926.730209
+  type: 'test'
+  ...
+1..74
+# tests 74
+# suites 0
+# pass 66
+# fail 8
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 106457.208167

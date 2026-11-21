@@ -1,0 +1,32 @@
+✔ stale same-Case refresh, batch and location requests never cancel an active read (980.049958ms)
+✔ preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration (626.818417ms)
+✔ preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration (636.828917ms)
+✔ preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration (691.747166ms)
+✔ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (629.748041ms)
+✔ old HTTP location cannot write or abort the replacement read at the cancellation boundary (650.390416ms)
+✔ cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh (717.3105ms)
+✔ Exhausted third batch cannot project the six delivered outlets or their cross-source alias (674.340042ms)
+✔ Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias (636.051584ms)
+✔ Round15 Stop during preparation cancels before any new source call (612.810375ms)
+✔ Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version (570.552042ms)
+✔ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (553.521ms)
+✔ Round16 first semantic preparation Stop cancels with zero source calls (535.159916ms)
+✔ Round16 old prepared refresh never claims replacement preparation handle (653.384ms)
+✔ Round16 About question preparing Stop returns HTTP 200 and zero question sources (588.169ms)
+✔ Round17 first semantic commit: current persisted read ID cancels before handle identity catches up (555.961375ms)
+✔ Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up (597.227542ms)
+✔ Round17 preparation becomes active during Stop identity re-read without a false conflict (571.167042ms)
+✔ Round18 preparation publication gap never advertises an unowned Stop (530.36225ms)
+✔ Round18 persisted semantic winner regains preparation from an uncommitted contender (600.240292ms)
+✔ Round18 Stop wins semantic dispatch CAS without rejecting the cancelled input (524.3645ms)
+✔ Round18 immutable handle cancels its active read after run ID and version advance (574.580209ms)
+✔ Round20 illegal terminal Cases reject page questions without source calls (1084.533625ms)
+✔ Round20 page questions permit only presented or explicitly stopped openable outlets (0.334917ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15449.166833

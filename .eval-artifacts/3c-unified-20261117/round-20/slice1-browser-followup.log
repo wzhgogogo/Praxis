@@ -1,0 +1,67 @@
+✖ Round20 UI: desktop stopped About supports preparation Stop, execution Stop, answer and reload (40002.238834ms)
+✖ Round20 UI: mobile stopped About supports preparation Stop, execution Stop, answer and reload (40003.672666ms)
+✖ Round20 UI: desktop semantic and discovery barriers project real progress through reconnect and Stop (1246.459375ms)
+✖ Round20 UI: mobile semantic and discovery barriers project real progress through reconnect and Stop (916.618208ms)
+✖ src/harness/browser/web-workspace-round10.test.ts (109169.109583ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 3
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 109170.711792
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:71582
+✖ Round20 UI: desktop stopped About supports preparation Stop, execution Stop, answer and reload (40002.238834ms)
+  'test timed out after 40000ms'
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:71582
+✖ Round20 UI: mobile stopped About supports preparation Stop, execution Stop, answer and reload (40003.672666ms)
+  'test timed out after 40000ms'
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:76347
+✖ Round20 UI: desktop semantic and discovery barriers project real progress through reconnect and Stop (1246.459375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CHECKING'
+  - 'FINDING'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1402:11)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1395:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CHECKING',
+    expected: 'FINDING',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:76347
+✖ Round20 UI: mobile semantic and discovery barriers project real progress through reconnect and Stop (916.618208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CHECKING'
+  - 'FINDING'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1402:11)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1395:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CHECKING',
+    expected: 'FINDING',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:1
+✖ src/harness/browser/web-workspace-round10.test.ts (109169.109583ms)
+  'Promise resolution is still pending but the event loop has already resolved'

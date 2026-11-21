@@ -1,0 +1,54 @@
+✔ Round20 UI: desktop stopped About supports preparation Stop, execution Stop, answer and reload (2358.43775ms)
+✔ Round20 UI: mobile stopped About supports preparation Stop, execution Stop, answer and reload (1330.841625ms)
+✔ Round20 UI: desktop semantic and discovery barriers project real progress through reconnect and Stop (1618.119042ms)
+✔ Round20 UI: mobile semantic and discovery barriers project real progress through reconnect and Stop (1065.871708ms)
+✖ Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries (11669.658167ms)
+✖ Round20 UI: 1440 design rows, source equivalence, batch actions and revision summaries (11056.834833ms)
+✖ Round20 UI: 390 citation reading groups, About provenance and bilingual Handoff (10787.382167ms)
+✖ Round20 UI: 1440 citation reading groups, About provenance and bilingual Handoff (10982.665625ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 4
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 45088.42175
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:27841
+✖ Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries (11669.658167ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at open (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:14:14)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:365:18) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:27841
+✖ Round20 UI: 1440 design rows, source equivalence, batch actions and revision summaries (11056.834833ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at open (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:14:14)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:365:18) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:34887
+✖ Round20 UI: 390 citation reading groups, About provenance and bilingual Handoff (10787.382167ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at open (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:14:14)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:401:18) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:34887
+✖ Round20 UI: 1440 citation reading groups, About provenance and bilingual Handoff (10982.665625ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at open (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:14:14)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:401:18) {
+    name: 'TimeoutError',
+    log: []
+  }
