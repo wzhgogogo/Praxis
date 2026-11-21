@@ -6469,3 +6469,9 @@ Frozen 77f5b9bc2e242f1fbcd6e8f508fff140c88d732c: sessionStorage separates ordina
 ## 2026-11-21 — Unified Round19 unresolved Case lock implementation
 
 Replace revision-scoped RECONFIRM with one user/Case sessionStorage key, strict safe JSON recognition, and reconciliation before the no-candidate return. Retire revision memory copying and the unused reconfirmationRequired export. Keep explicit time/restaurant/own-edit resolution paths unchanged. Four missed-update restore entrances and a resolved-lock control are driven on desktop/mobile with real local HTTP/SSE, PGlite SQL and blocked nonlocal navigation. Baseline browser red and setup diagnostics preserved separately; frozen acceptance pending. No backend/Domain/scoring/Live/real PG/4312 changes.
+
+<a id="unified-round19-final-20261121"></a>
+
+## 2026-11-21 — Unified Round19 Case-scoped reconfirmation closure
+
+Frozen 9542dacca067849d00312ee5d346e95d759ebcf9: only slot-selection, selected-slot and transport production modules change. RECONFIRM is one tab-local user/Case key; SELECTED remains revision/restaurant scoped. Reconciliation reads the unresolved lock even without a candidate; transport creates it only when exiting Handoff. Existing explicit choice/restaurant/own-edit consumption stays unchanged, with no old-key fallback or revision orphan. USER-FLOWS0.38 records the contract. Backend and protected sources untouched. All required offline acceptance passes; no src edits after freeze, no Live/real PG/4312/push/main merge. [Report](../../.eval-artifacts/3c-unified-20261117/round-19/REPORT.md).

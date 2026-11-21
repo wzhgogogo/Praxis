@@ -7185,3 +7185,9 @@ Frozen 77f5b9bc2e242f1fbcd6e8f508fff140c88d732c: five gates all PASS, default179
 ## 2026-11-21 — Unified Round19 pre-freeze diagnostics
 
 Baseline source6a54ff083; changed test inputs expose cross-revision missing lock and unconsumed revision keys. Pure red2 pass/1 fail, browser red0/10 (one mobile plan-restore setup required a separate corrected red). The corrected mobile red fails on the missing slot-area hint. Early green setup errors (initial async response candidate lookup and hidden phone sidebar) are preserved, not gate results. Strict typecheck also caught an excess-property test literal before correction. Frozen five gates and three visual suites follow only after source/config commit.
+
+<a id="unified-round19-final-20261121"></a>
+
+## 2026-11-21 — Unified Round19 frozen offline acceptance
+
+Frozen 9542dacca067849d00312ee5d346e95d759ebcf9: all five gates PASS, default1797, G2 5, Chromium485, G6 159; formal16, Style1 6, states70;95 images inspected. Every gate/suite clean before/after; exact durations/raw logs in [report](../../.eval-artifacts/3c-unified-20261117/round-19/REPORT.md). Strict TS,16 singleton SCCs,0 cycles,17 identical tsx/build assets. Targeted26/26 includes10 new SQL-backed Candidates/About/Saved/plan-return/resolved-lock desktop/mobile journeys; pure4/4. Baseline red/setup diagnostics remain separate from frozen runs. All7706 opening Unified and70 walkthrough hashes unchanged; main/env protected, closeout pre-existing absent.git audited without repair. No Live/real PG/4312 or real-source S0 score.
