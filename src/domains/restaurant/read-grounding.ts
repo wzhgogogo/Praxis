@@ -82,6 +82,9 @@ export interface GoogleDiscoveryGroundingInput {
     label: string;
     areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
   };
+  selectionScope?: "SPECIFIC_OUTLET" | "OPEN_ENDED";
+  targetQuery?: string;
+  criteria?: RestaurantSearchIntent["criteria"];
   requiredTypeCriteria?: string[];
   negativeCriteria?: string[];
   requestedDate?: string;
@@ -115,11 +118,36 @@ const DINING_PRIMARY_TYPES = new Set([
   "donut_shop", "juice_shop", "acai_shop", "meal_takeaway", "meal_delivery", "pizza_delivery", "izakaya",
 ]);
 
-function usableRestaurant(place: UntrustedGooglePlaceObservation): boolean {
-  const normalizeType = (type: string) => type.trim().toLowerCase().replace(/[\s-]+/g, "_");
-  const isDining = (type: string) => type === "restaurant" || type.endsWith("_restaurant") || DINING_PRIMARY_TYPES.has(type);
-  if (place.primaryType !== undefined) return isDining(normalizeType(place.primaryType));
-  return (place.types ?? []).map(normalizeType).some(type => type === "food" || isDining(type));
+const LIGHT_FOOD_TYPES:Record<string,RegExp>={
+ sandwich_shop:/sandwich|サンド/iu,dessert_shop:/dessert|sweet|デザート|スイーツ/iu,dessert_restaurant:/dessert|sweet|デザート|スイーツ/iu,
+ snack_bar:/snack|light meal|軽食/iu,ice_cream_shop:/ice.?cream|gelato|アイス/iu,bagel_shop:/bagel|ベーグル/iu,
+ donut_shop:/donut|doughnut|ドーナツ/iu,juice_shop:/juice|ジュース/iu,acai_shop:/acai|açaí|アサイー/iu,
+ meal_takeaway:/take.?away|take.?out|to go|持ち帰り|テイクアウト/iu,meal_delivery:/delivery|配達|デリバリー/iu,pizza_delivery:/delivery|配達|デリバリー/iu,
+};
+function usableRestaurant(place:UntrustedGooglePlaceObservation,input:GoogleDiscoveryGroundingInput):boolean{
+ const normalizeType=(type:string)=>type.trim().toLowerCase().replace(/[\s-]+/g,'_');
+ const primary=place.primaryType===undefined?undefined:normalizeType(place.primaryType),types=[...new Set([...(primary?[primary]:[]),...(place.types??[]).map(normalizeType)])];
+ const isDining=(type:string)=>type==='restaurant'||type.endsWith('_restaurant')||DINING_PRIMARY_TYPES.has(type);
+ const negative=[...(input.negativeCriteria??[]),...(input.criteria??[]).filter(c=>c.polarity==='NEGATIVE').map(c=>c.text)].join(' ');
+ const target=(input.targetQuery??'').replace(/(?:no|not|without|avoid)\s+(?:desserts?|sweets?|sandwich(?:es)?|caf[eé]s?|bakeries|bakery|takeaway|delivery)/giu,'');
+ const positive=[target,...(input.requiredTypeCriteria??[]),...(input.criteria??[]).filter(c=>c.polarity==='POSITIVE').map(c=>c.text)].join(' ');
+ const requested=(pattern:RegExp)=>pattern.test(positive)&&!pattern.test(negative);
+ const specific=input.selectionScope==='SPECIFIC_OUTLET';
+ const restricted=types.filter(t=>LIGHT_FOOD_TYPES[t]);
+ if(primary&&LIGHT_FOOD_TYPES[primary])return !LIGHT_FOOD_TYPES[primary]!.test(negative)&&(specific||requested(LIGHT_FOOD_TYPES[primary]!));
+ const lightIntent=/caf[eé]|coffee|dessert|sweet|sandwich|baker|pastr|カフェ|喫茶|デザート|サンド|パン/iu;
+ const evening=/(?:EVENING|DINNER)/i.test(input.requestedTimeWindowBasis??'')||!!input.requestedTimeWindow&&input.requestedTimeWindow.earliest>='17:00';
+ const cafe=(primary==='cafe'||primary==='coffee_shop'||!primary&&types.some(t=>t==='cafe'||t==='coffee_shop'));
+ if(cafe&&restricted.length&&evening&&!specific){
+  if(restricted.some(t=>LIGHT_FOOD_TYPES[t]!.test(negative))||!requested(lightIntent))return false;
+ }
+ if(primary!==undefined)return isDining(primary);
+ const substantial=types.some(t=>isDining(t)&&!['restaurant','cafe','coffee_shop','bakery','tea_house'].includes(t)&&!LIGHT_FOOD_TYPES[t]);
+ if(restricted.length&&!substantial&&!specific){
+  if(restricted.some(t=>LIGHT_FOOD_TYPES[t]!.test(negative)))return false;
+  if(!restricted.some(t=>requested(LIGHT_FOOD_TYPES[t]!))&&!(cafe&&requested(lightIntent)))return false;
+ }
+ return types.some(type=>type==='food'||isDining(type));
 }
 
 function normalized(value: string): string {
@@ -362,7 +390,7 @@ export function groundGoogleDiscovery(
   if (!observation.placeId?.trim()) return { accepted: false, reasonCode: "GOOGLE_PLACE_ID_MISSING" };
   if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };
   if (!observation.formattedAddress?.trim()) return { accepted: false, reasonCode: "GOOGLE_ADDRESS_MISSING" };
-  if (!usableRestaurant(observation)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
+  if (!usableRestaurant(observation,input)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
   const areaComponent = matchingAddressComponent(observation, input.areaQuery);
   const geo = googleDiscoveryGeoDiagnostics(observation, input);
   const rawDistanceMeters = geo.distanceMeters;

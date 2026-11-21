@@ -44,11 +44,14 @@ function history(events: RestaurantEvent[]):RecordedEventEnvelope<RestaurantEven
 }
 const presented=(candidateIds:string[]):RestaurantEvent=>({type:'RESULTS_PRESENTED',candidateIds,evidenceIds:[]});
 const compiled=(patch:typeof initialPatch):RestaurantEvent=>({type:'SEMANTIC_PROPOSAL_COMPILED',patch});
+const emptySearch:RestaurantEvent={type:'SEARCH_COMPLETED',request:{intent:initialDraft},candidates:[],evidence:[],metadata:{provider:'FIXTURE',route:'STRUCTURED_ADAPTER',latencyMs:0}};
+const emptyEnd:RestaurantEvent={type:'READ_ENDED_NO_VERIFIED_RESULT',investigatedCandidateIds:[],unresolvedCandidateIds:[],remainingGaps:[]};
+
 test('Workspace first delivery after NEEDS_INPUT has no revision diff; real empty prior revision remains the baseline',()=>{
   const first=history([compiled({schemaVersion:'3',replaceCriteria:[]}),{type:'AGENT_ASKED_USER',question:'Which area?',relatedFields:['area']},compiled(initialPatch),presented(['a','b'])]);
   const input={state:{...state({}),candidates:['a','b','c','d','e'].map(candidate),phase:'PRESENT_RESULTS' as const,intentDraft:initialDraft},events:first,readyCandidateIds:['a','b'],openableCandidateIds:['a','b'],active:false,now};
   assert.equal(projectWorkspaceRead(input).revisionDiff,undefined,'no earlier delivered batch exists');
-  const realEmpty=history([compiled(initialPatch),presented(['a','b']),compiled({schemaVersion:'3',partySize:3}),compiled({schemaVersion:'3',partySize:4}),presented(['c'])]);
+  const realEmpty=history([compiled(initialPatch),presented(['a','b']),compiled({schemaVersion:'3',partySize:3}),emptySearch,emptyEnd,compiled({schemaVersion:'3',partySize:4}),presented(['c'])]);
   const later=projectWorkspaceRead({...input,state:{...input.state,intentDraft:{...initialDraft,partySize:4}},events:realEmpty,readyCandidateIds:['c'],openableCandidateIds:['c']});
   assert.deepEqual(later.revisionDiff,{fromRevision:2,toRevision:3,removed:[],added:[{candidateId:'c',outletName:'c'}]},'the immediate real empty revision is not skipped');
   const added=projectWorkspaceRead({...input,events:history([compiled(initialPatch),presented(['a','b']),compiled({schemaVersion:'3',partySize:3}),presented(['a','b','c','d','e'])]),readyCandidateIds:['a','b','c','d','e'],openableCandidateIds:['a','b','c','d','e']});
@@ -141,4 +144,12 @@ test("An exhausted batch projects an empty status even with stale readiness, whi
     assert.equal(stale.readStatus.kind, "NO_QUALIFIED_RESULTS");
     assert.equal(stale.readStatus.partialSourceFailure, false);
   }
+});
+
+for(const turns of [1,2])test('Round20 result diff skips '+turns+' unsearched clarification revisions',()=>{
+ const events:RestaurantEvent[]=[compiled(initialPatch),presented(['a','b'])];
+ for(let i=0;i<turns;i++)events.push(compiled({schemaVersion:'3',partySize:3+i}),{type:'AGENT_ASKED_USER',question:'Which area?',relatedFields:['area']});
+ events.push(compiled({schemaVersion:'3',partySize:5}),presented(['b','c']));
+ const result=projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:5}},events:history(events),readyCandidateIds:['b','c'],openableCandidateIds:['b','c'],active:false,now});
+ assert.equal(result.revisionDiff?.fromRevision,1);assert.deepEqual(result.revisionDiff?.removed.map(item=>item.candidateId),['a']);assert.deepEqual(result.revisionDiff?.added.map(item=>item.candidateId),['c']);
 });

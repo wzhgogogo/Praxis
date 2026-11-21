@@ -614,3 +614,16 @@ test("saved successful geographic observations retain their source coordinates a
     assert.equal(result.location?.longitude, previous.longitude, previous.query);
   }
 });
+
+test('Round20 Google ordinary, named and detail entries carry the same intent/type gate',async()=>{
+ const place={id:'age3-test',displayName:{text:'Age.3 GINZA'},formattedAddress:'Ginza, Tokyo',location:{latitude:35.6,longitude:139.7},primaryType:'cafe',types:['cafe','dessert_restaurant','snack_bar','sandwich_shop','meal_takeaway','restaurant']};
+ const client=new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async(_url,init)=>new Response(JSON.stringify(init?.method==='POST'?{places:[place]}:place))});
+ const adapter=new GooglePlacesRestaurantSearch(client,()=> '2026-11-21T08:00:00Z',10,{maxRequests:12});
+ const generic={...fixtureIntent,criteria:[],timeWindow:{earliest:'19:00',latest:'20:00'},target:{goal:'RECOMMENDATION' as const,selectionScope:'OPEN_ENDED' as const,query:'restaurant in Ginza'}};
+ const signal=new AbortController().signal;
+ assert.equal((await adapter.search({intent:generic,readRunId:'round20-generic'},signal)).candidates.length,0);
+ const named=await adapter.search({intent:{...generic,target:{...generic.target,selectionScope:'SPECIFIC_OUTLET',query:'Age.3 GINZA'}},readRunId:'round20-named'},signal);assert.equal(named.candidates.length,1);
+ const detail=await adapter.inspectFacts({intent:generic,candidateIds:[named.candidates[0]!.restaurant.id],candidates:named.candidates,readRunId:'round20-details'},signal);
+ assert.equal(detail.factChecks[named.candidates[0]!.restaurant.id]!.reasonCode,'GOOGLE_PLACE_TYPE_UNUSABLE');
+ assert.equal((await adapter.search({intent:{...generic,target:{...generic.target,query:'dessert cafe'}},readRunId:'round20-cafe'},signal)).candidates.length,1);
+});

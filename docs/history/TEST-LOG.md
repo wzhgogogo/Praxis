@@ -7195,3 +7195,7 @@ Frozen 9542dacca067849d00312ee5d346e95d759ebcf9: all five gates PASS, default179
 ## 2026-11-21 — Round20 slice1 targeted acceptance
 
 24/24 domain/preparation tests,35/35 Round8/17–20 browser controls, typecheck and Arch Guard0 forbidden pass. New dual-size flows cover stopped question preparation/active Stop, zero preparation source calls, normal answer/modal/history/F5, semantic/discovery barriers, reconnect, Stop, clarification and model failure. Initial diagnostics preserved separately. Frozen full gates/visuals pending after three slices.
+
+## 2026-11-21 — Round20 slice2 targeted acceptance
+
+147/147 targeted domain, semantic/compiler/validator, Google adapter and read-projection regressions pass. Includes removed criteria, area/cafe retention, explicit/cleared/named target protection, missing fields, literal punctuation; all restricted Google types in primary and no-primary paths, Age.3 generic dinner rejection and explicit/negative controls; normal/named/detail entry context; first/single/multiple clarification and real empty prior revisions. Original realEmpty fixture now includes SEARCH_COMPLETED + READ_ENDED_NO_VERIFIED_RESULT; its business assertion stays intact. Initial donut spelling failure preserved; typecheck/Arch0 pass.

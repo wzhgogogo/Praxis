@@ -60,7 +60,7 @@ export function projectWorkspaceRead(input: {
     }
   }
   for (const candidate of state.candidates) known.set(candidate.restaurant.id, candidate);
-  const previous = groups.findLast(item => item.revision > 0 && item.events.some(event => event.type === "SEMANTIC_PROPOSAL_COMPILED"));
+  const previous = groups.findLast(item => item.revision > 0 && item.events.some(event => event.type === "SEARCH_COMPLETED" || event.type === "RESULTS_PRESENTED" || event.type === "READ_ENDED_NO_VERIFIED_RESULT"));
   const ready = new Set(readyCandidateIds);
   const qualified = new Set(input.qualifiedCandidateIds ?? readyCandidateIds);
   const openable = new Set(input.openableCandidateIds);

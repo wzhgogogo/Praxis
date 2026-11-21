@@ -6479,3 +6479,7 @@ Frozen 9542dacca067849d00312ee5d346e95d759ebcf9: only slot-selection, selected-s
 ## 2026-11-21 — Round20 slice1 stopped questions and progress
 
 Reuse one domain eligibility predicate and ready-candidate boundary across reducer, validator, application and the additional execution-router guard discovered by the source-call barrier. Add current-question Stop and event-bound semantic/finding/checking projection; retain deferred full-Case acceptance while rendering its authoritative progress.24 targeted unit,35 related Chromium controls and type/architecture pass. Diagnostic setup failures and the uncovered router guard are retained in round-20 logs. No broader terminal permissions or schema change.
+
+## 2026-11-21 — Round20 slice2 intent maintenance and admission
+
+Add deterministic inherited OPEN_ENDED query maintenance; preserve explicit target/clear, named outlets, goal/scope/count and valid cafe intent. Apply through the authorized intent-state exception only (one import + one call); record whole-file before/after hashes and exact diff, with all other text equal. Share Google intent context across ordinary/named/detail paths; gate restricted food types and generic evening mixed cafes before every structural allow route. Compare revision changes to the last actually searched/presented/empty revision.147 targeted regressions and type/architecture pass. Capability Matrix updated; no extraction/scoring/real calls.

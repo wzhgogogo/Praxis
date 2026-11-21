@@ -381,3 +381,22 @@ test("Google primary dining types admit standalone food and drink venues and rej
     assert.equal(groundGoogleDiscovery({...place,types:[type,"establishment"]},context).accepted,true,type);
   }
 });
+
+const age3={placeId:'age3-policy-observation',displayName:'Age.3 GINZA',formattedAddress:'Ginza, Tokyo',primaryType:'cafe',types:['cafe','dessert_restaurant','snack_bar','sandwich_shop','meal_takeaway','restaurant']};
+const ageInput={timezone:'Asia/Tokyo' as const,requestFingerprint:'round20',observedAt:now,areaQuery:'Ginza',targetQuery:'restaurant in Ginza',selectionScope:'OPEN_ENDED' as const,requestedTimeWindow:{earliest:'19:00',latest:'20:00'},requestedTimeWindowBasis:'DAYPART:EVENING'};
+test('Round20 observed Age.3 mixed cafe is not generic dinner; explicit outlet/cafe/dessert remain admissible',()=>{
+ assert.deepEqual(groundGoogleDiscovery(age3,ageInput),{accepted:false,reasonCode:'GOOGLE_PLACE_TYPE_UNUSABLE'});
+ for(const input of [{...ageInput,targetQuery:'Age.3 GINZA',selectionScope:'SPECIFIC_OUTLET' as const},{...ageInput,targetQuery:'café in Ginza'},{...ageInput,criteria:[{text:'dessert',polarity:'POSITIVE' as const,strength:'SOFT' as const}]}])assert.equal(groundGoogleDiscovery(age3,input).accepted,true);
+ assert.equal(groundGoogleDiscovery(age3,{...ageInput,targetQuery:'cafe',criteria:[{text:'dessert',polarity:'NEGATIVE',strength:'HARD'}]}).accepted,false);
+ const {primaryType:_primary,...withoutPrimary}=age3;
+ assert.equal(groundGoogleDiscovery(withoutPrimary,ageInput).accepted,false);
+ assert.equal(groundGoogleDiscovery(withoutPrimary,{...ageInput,targetQuery:'cafe'}).accepted,true);
+});
+for(const [type,query] of Object.entries({sandwich_shop:'sandwich',dessert_shop:'dessert',dessert_restaurant:'dessert',snack_bar:'snack',ice_cream_shop:'ice cream',bagel_shop:'bagel',donut_shop:'donut',juice_shop:'juice',acai_shop:'acai',meal_takeaway:'takeaway',meal_delivery:'delivery',pizza_delivery:'pizza delivery'}))test('Round20 restricted '+type+' requires intent in primary and fallback paths',()=>{
+ for(const primary of [true,false]){
+  const place={...age3,...(primary?{primaryType:type}:{primaryType:undefined}),types:[type,'restaurant','food']};
+  const {primaryType,...rest}=place;const observation=primary?{...rest,primaryType:primaryType!}:rest;
+  assert.equal(groundGoogleDiscovery(observation,ageInput).accepted,false);
+  assert.equal(groundGoogleDiscovery(observation,{...ageInput,targetQuery:query}).accepted,true);
+ }
+});

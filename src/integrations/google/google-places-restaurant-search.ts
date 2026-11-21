@@ -11,6 +11,12 @@ import { GooglePlacesClient } from "./google-places-client.js";
 import { GooglePlacesError, type GooglePlacesRawPlace, type GooglePlacesSourceName,type GooglePlacesTextSearchPage } from "./google-places-contracts.js";
 import {outletNameKey,type NamedOutletReference} from "../../domains/restaurant/named-outlet-resolution.js";
 
+function groundingIntent(intent:RestaurantSearchRequest['intent']):Pick<GoogleDiscoveryGroundingInput,'selectionScope'|'targetQuery'|'criteria'|'requiredTypeCriteria'|'negativeCriteria'|'requestedDate'|'requestedTimeWindow'|'requestedTimeWindowBasis'>{
+ return {...(intent.target?.selectionScope?{selectionScope:intent.target.selectionScope}:{}),...(intent.target?{targetQuery:intent.target.query}:{}),criteria:intent.criteria,
+  requiredTypeCriteria:intent.criteria.filter(c=>c.polarity==='POSITIVE'&&c.strength==='HARD').map(c=>c.text),negativeCriteria:intent.criteria.filter(c=>c.polarity==='NEGATIVE'&&c.strength==='HARD').map(c=>c.text),
+  ...(intent.date?{requestedDate:intent.date}:{}),...(intent.timeWindow?{requestedTimeWindow:intent.timeWindow}:{}),...(intent.timeWindowBasis?{requestedTimeWindowBasis:intent.timeWindowBasis}:{})};
+}
+
 function string(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
@@ -424,7 +430,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const candidates=[...new Map(pages.flatMap(page=>page.places).map(place=>[place.id,place])).values()].flatMap(place=>{
       const o=rawObservation(place);
       if(!inTokyo(o)||!selectedId&&!possibleNamedOutlet(query,o.displayName??"")&&outletNameKey(japanese.get(o.placeId??"")??"")!==key)return [];
-      const result=groundGoogleDiscovery(o,{timezone:request.intent.timezone,observedAt,requestFingerprint:restaurantSearchIntentFingerprint(request.intent),areaQuery:area?.query??"",...(locationContext?{evaluationLocation:locationContext}:{})});
+      const result=groundGoogleDiscovery(o,{...groundingIntent(request.intent),timezone:request.intent.timezone,observedAt,requestFingerprint:restaurantSearchIntentFingerprint(request.intent),areaQuery:area?.query??"",...(locationContext?{evaluationLocation:locationContext}:{})});
       return result.accepted?[{...result,evidence:{...result.evidence,claims:{...result.evidence.claims,
         namedOutletLocalities:addressLocalities(o)}}}]:[];
     });
@@ -519,19 +525,11 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const observedAt = this.now();
     const requestFingerprint = createHash("sha256").update(JSON.stringify({ textQuery, nearbyCategory, area: request.intent.area })).digest("hex");
     const groundingInput: GoogleDiscoveryGroundingInput = {
+      ...groundingIntent(request.intent),
       timezone: request.intent.timezone,
       requestFingerprint,
       observedAt,
       areaQuery: request.intent.area?.query??"",
-      requiredTypeCriteria: request.intent.criteria
-        .filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD")
-        .map((criterion) => criterion.text),
-      negativeCriteria: request.intent.criteria
-        .filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD")
-        .map((criterion) => criterion.text),
-      ...(request.intent.date ? { requestedDate: request.intent.date } : {}),
-      ...(request.intent.timeWindow ? { requestedTimeWindow: request.intent.timeWindow } : {}),
-      ...(request.intent.timeWindowBasis ? { requestedTimeWindowBasis: request.intent.timeWindowBasis } : {}),
       ...(locationContext ? { evaluationLocation: locationContext } : {}),
     };
     const groundPage = (places: typeof first.places) => places.map((place) => {
@@ -645,18 +643,14 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       }
       const requestFingerprint = createHash("sha256").update(JSON.stringify({ factRead: placeId, intent: request.intent })).digest("hex");
       const grounded = groundGoogleDiscovery(rawObservation(matching), {
+        ...groundingIntent(request.intent),
         timezone: request.intent.timezone,
         requestFingerprint,
         observedAt: checkedAt,
         areaQuery: request.intent.area?.query??"",
-        requiredTypeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
-        negativeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
-        ...(request.intent.date ? { requestedDate: request.intent.date } : {}),
-        ...(request.intent.timeWindow ? { requestedTimeWindow: request.intent.timeWindow } : {}),
-      ...(request.intent.timeWindowBasis ? { requestedTimeWindowBasis: request.intent.timeWindowBasis } : {}),
       });
       if (!grounded.accepted || grounded.candidate.restaurant.id !== candidate.restaurant.id) {
-        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "GOOGLE_CANDIDATE_MISMATCH" };
+        factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: !grounded.accepted&&grounded.reasonCode==="GOOGLE_PLACE_TYPE_UNUSABLE"?grounded.reasonCode:"GOOGLE_CANDIDATE_MISMATCH" };
         continue;
       }
       const candidateEvidence = grounded.additionalEvidence.filter((item) => item.candidateId === candidate.restaurant.id);

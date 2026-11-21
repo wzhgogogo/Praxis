@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.39
+- Document revision: 0.40
 - Last updated: 2026-11-21
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -291,3 +291,8 @@ RECONFIRM uses one tab-local user / plan key, independent of requirement revisio
 ## 2026-11-21 — Round20 stopped About and real progress
 
 About may ask a page question for a currently presented restaurant or an openable verified restaurant from an explicitly stopped search. Other failure/no-result/unknown-outcome states cannot ask. The same About page shows pending question text and Stop for its exact read handle. Preparation/active cancellation records a cancelled question without restarting the stopped search; answers and history survive reload. Saving after Stop remains disabled; unavailable refresh stays hidden. Search progress follows authoritative semantic/search events: Understanding before semantic commit, Request understood + Finding places before the first completed search, then Checking.
+
+
+## 2026-11-21 — Round20 revised search intent and result differences
+
+Removing/replacing criteria or changing area maintains an inherited OPEN_ENDED query deterministically: revoked terms/old area leave it, valid general intent remains, and the query stays nonempty. Explicit targets and named outlets are unchanged. General dinner discovery excludes dessert/takeaway light-food types unless the current request calls for them; named-outlet lookup retains its explicit exception. Google normal, named and detail admission use the same intent context. Change summaries compare with the last revision that actually searched/presented/ended empty, skipping clarification-only revisions but keeping a real empty search.

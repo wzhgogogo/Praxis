@@ -733,3 +733,8 @@ Actual Saigyo DOM/HAR Chromium component stops at the observed disabled requeste
 ### 2026-11-18 — Shared live-read assembly ownership (offline verified)
 
 Draft / not integrated. The same production factory now isolates each Case read with AsyncLocalStorage: Native discovery/retrieval/facts, source availability and post-loop B1 share one run budget; availability executor/ledger/named queries belong to that run. Explicit G1 remains independent and distinct factory instances remain isolated. Same-assembly fixed-transport concurrency and actual persistent B1 composition pass in Round6. This is offline assembly evidence, not new platform Live capability; no new external model/Google/site call or real PostgreSQL connection. [Report](../../.eval-artifacts/3c-unified-20261117/round-6/REPORT.md).
+
+
+### Round20 — Google type admission context (work branch, offline verified)
+
+Normal search, named-outlet lookup and details recheck share selection scope, target query, positive/negative criteria and requested time/basis. Open-ended generic discovery rejects the specified dessert/takeaway/snack/drink-only types without matching intent, including primary/suffix/fallback paths. Mixed dessert/sandwich/takeaway cafes are not generic evening dinners; explicit cafe/dessert requests and specific-outlet lookup remain available. Negative dessert intent is tested separately. Source extraction, request fields/budgets and credentials are unchanged. Harness: read-grounding restricted-type table and observed Age.3 type combination, plus Google adapter normal/named/detail fixture test; no Live claim.

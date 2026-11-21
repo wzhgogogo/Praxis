@@ -1,3 +1,4 @@
+import {maintainOpenEndedTargetQuery} from './open-ended-target.js';
 import type {
   RestaurantBookingIntent,
   RestaurantBlockingField,
@@ -162,6 +163,7 @@ export function applyRestaurantIntentPatch(
     patch.replaceCriteria,
   );
 
+  maintainOpenEndedTargetQuery(current,next,patch);
   return next;
 }
 

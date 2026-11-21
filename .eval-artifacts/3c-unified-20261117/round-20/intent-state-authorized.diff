@@ -1,0 +1,17 @@
+diff --git a/src/domains/restaurant/intent-state.ts b/src/domains/restaurant/intent-state.ts
+index 5bb6b6f43..b3a0b7700 100644
+--- a/src/domains/restaurant/intent-state.ts
++++ b/src/domains/restaurant/intent-state.ts
+@@ -1,3 +1,4 @@
++import {maintainOpenEndedTargetQuery} from './open-ended-target.js';
+ import type {
+   RestaurantBookingIntent,
+   RestaurantBlockingField,
+@@ -162,6 +163,7 @@ export function applyRestaurantIntentPatch(
+     patch.replaceCriteria,
+   );
+ 
++  maintainOpenEndedTargetQuery(current,next,patch);
+   return next;
+ }
+ 
