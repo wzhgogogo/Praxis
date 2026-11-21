@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.40
+- Document revision: 0.41
 - Last updated: 2026-11-21
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -296,3 +296,10 @@ About may ask a page question for a currently presented restaurant or an openabl
 ## 2026-11-21 — Round20 revised search intent and result differences
 
 Removing/replacing criteria or changing area maintains an inherited OPEN_ENDED query deterministically: revoked terms/old area leave it, valid general intent remains, and the query stays nonempty. Explicit targets and named outlets are unchanged. General dinner discovery excludes dessert/takeaway light-food types unless the current request calls for them; named-outlet lookup retains its explicit exception. Google normal, named and detail admission use the same intent context. Change summaries compare with the last revision that actually searched/presented/ended empty, skipping clarification-only revisions but keeping a real empty search.
+
+
+## 2026-11-21 — Source reading groups and card hierarchy (Round20)
+
+Card sources show clean names/domains and only genuine category disagreements; About keeps original category wording and complete addresses. Availability and condition statuses form right-aligned columns; the batch end offers equal Adjust / Find more actions, with Saved in the header. Change summaries put new places before removals and clear obsolete disclosure contents.
+
+About, question history, answer sheet and Handoff group citations only when both URL and reading timestamp match. Each reading keeps its own Checked Tokyo date/time; originals and Handoff bilingual/context labels remain associated. About separates address, conditions, commercial text, categories and source footnotes. The answer sheet repeats the submitted question under the place header, has a close button plus retained mobile drag dismissal, and uses the same collapsible source groups. This is presentation of received evidence, not additional verification or new source access.

@@ -52,6 +52,7 @@ interface WorkspaceElements {
   'question-stop': HTMLButtonElement;
   'revision-changes': HTMLDetailsElement;
   'removed-count': HTMLElement;
+  'revision-chevron': HTMLElement;
   'added-count': HTMLElement;
   'removed-list': HTMLElement;
   'feedback': HTMLElement;
@@ -68,6 +69,7 @@ interface WorkspaceElements {
   'details-button': HTMLButtonElement;
   'key-facts': HTMLElement;
   'availability': HTMLElement;
+  'availability-status': HTMLElement;
   'delivery-slots': HTMLElement;
   'delivery-conditions': HTMLElement;
   'recommendation': HTMLElement;
@@ -125,8 +127,6 @@ interface WorkspaceElements {
   'batch-end': HTMLElement;
   'batch-back': HTMLButtonElement;
   'end-options': HTMLElement;
-  'end-saved': HTMLButtonElement;
-  'end-saved-count': HTMLElement;
   'end-adjust': HTMLButtonElement;
   'find-more': HTMLButtonElement;
   'empty-state': HTMLElement;
@@ -148,6 +148,8 @@ interface WorkspaceElements {
   'answer-sheet': HTMLElement;
   'answer-dismiss': HTMLButtonElement;
   'answer-place': HTMLElement;
+  'answer-question': HTMLElement;
+  'answer-close': HTMLButtonElement;
   'question-result': HTMLElement;
   'photo-viewer': HTMLDialogElement;
   'photo-place': HTMLElement;

@@ -188,10 +188,10 @@ The dated rows below are retrospective checkpoints; superseded shortcut/URL beha
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.130
+- Document revision: 1.131
 
 
-- Last updated: 2026-11-04
+- Last updated: 2026-11-21
 - Source of truth for: 外部平台可用能力、证据和限制
 
 2026-11-06 CET — draft / not integrated query-evidence repair: named searches bind their current guarded GET receipt to the result document and normalized query, including script-populated hidden fields; visible-input names are not authority. The observation loop stops at lists. TableCheck identity retrieval receives accepted full target wording and may advance only its existing single fragment alternative; source/identity/detail/time limits unchanged. G1 refreshes pending caches within its original question budget. Real recorded-observation component red/green passes; full result HTML is absent, broader replays have recording gaps and the first actual model validation failed NETWORK. No new Live capability claim. [Candidate report](../../.eval-artifacts/phase3b/d8-query-receipts-20261106/report.md).

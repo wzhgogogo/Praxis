@@ -158,7 +158,7 @@ for (const entry of ["handoff", "card", "renewed"] as const) {
         await page.getByText("Availability couldn't be confirmed. Try again.", { exact: true }).waitFor();
         assert.equal(await page.locator("#handoff").isVisible(), false);
         assert.doesNotMatch(await departure.getAttribute("href") ?? "", /start_time=19%3A00/);
-        assert.equal(await page.locator("#availability").innerText(), "Available Mon, Nov 2");
+        assert.equal(await page.locator("#availability-status").innerText(), "Mon, Nov 2");
         assert.equal(await time.getAttribute("aria-pressed"), "false");
         assert.equal(await choose.isDisabled(), true);
         await choose.dispatchEvent("click");
@@ -424,6 +424,7 @@ for (const bufferSse of [true, false]) {
         const rejected = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/messages"));
         await page.locator("#send").click();
         await entered.ready;
+        const pendingVersion=await page.evaluate(async()=>(await import(String("/assets/workspace/runtime.js"))).state.view.case.taskVersion);
         const active = await host.application.getCase(userId, view.case.caseId);
         const intermediate = await host.application.setShortlist({
           userId, caseId: active.case.caseId, requestId: "concurrent-shortlist", expectedVersion: active.case.taskVersion,
@@ -437,7 +438,8 @@ for (const bufferSse of [true, false]) {
         assert.ok(latest.case.taskVersion > intermediate.case.taskVersion);
         if (bufferSse) await page.waitForFunction(() => document.querySelector(".case-link.active small")?.textContent === "Ready");
         else assert.ok(!deliveredVersions.includes(latest.case.taskVersion));
-        assert.equal(await page.locator("#progress.has-card").isVisible(), true, "the pending edit keeps the main projection frozen");
+        assert.equal(await page.evaluate(async()=>(await import(String("/assets/workspace/runtime.js"))).state.view.case.taskVersion),pendingVersion,"the pending edit keeps the main Case projection frozen");
+        assert.equal(await page.locator("#progress.has-card").isVisible(),!bufferSse,"progress reflects the authoritative deferred SSE while the Case stays frozen");
         deliver.release();
         const response = await rejected;
         assert.equal(response.status(), 409);
@@ -704,14 +706,14 @@ test("Round13 UI: the card shows short source labels and About keeps the origina
     assert.equal(await page.locator("#recommendation").innerText(), matchReasons[2]);
     const labels = page.locator("#source-categories p");
     assert.deepEqual(await labels.allTextContents(), [
-      "Google Maps: cantonese restaurant, dim sum restaurant Source",
-      "Tabelog: Chinese, Dumpling, Izakaya Source",
+      "Google Maps ↗ cantonese restaurant, dim sum restaurant",
+      "Tabelog ↗ Chinese, Dumpling, Izakaya",
     ]);
     await labels.last().scrollIntoViewIfNeeded();
     await screenshot(page, "round13-compact-source-categories");
 
     await page.locator("#details-button").click();
-    assert.ok((await page.locator("#details-content blockquote").allTextContents()).includes("Source category: " + sourceText));
+    assert.ok((await page.locator("#details-content .about-categories").textContent())?.includes(sourceText));
   });
 });
 
@@ -825,8 +827,8 @@ test("Round13 UI: About shows pending and newest-first answers and keeps rejecte
       await history.last().scrollIntoViewIfNeeded();
       await screenshot(page, "round13-question-history");
       await history.first().locator("summary").click();
-      assert.match(await history.first().innerText(), /Read at: Thu, Oct 29 · 19:00 JST/);
-      assert.match(await page.locator("#details-content").innerText(), /Read at: Thu, Oct 29 · 19:00 JST/);
+      assert.match(await history.first().innerText(), /Checked Thu, Oct 29 · 19:00 JST/);
+      assert.match(await page.locator("#details-content").innerText(), /Checked Thu, Oct 29 · 19:00 JST/);
 
       await page.route("**" + pathFor(view) + "/questions", route => route.fulfill({
         status: 503, json: { error: "Fixture question unavailable" },
@@ -1005,7 +1007,7 @@ test("Round14 UI: an exhausted revised batch hides stale additions after reload"
     const { view } = await createPlan(page, "Dinner in Tokyo");
     await updateRequirement(page, "Make it three people");
     await ready(page);
-    await page.getByText("3 new", { exact: true }).waitFor();
+    await page.getByText("3 new places", { exact: true }).waitFor();
     await nextBatch(page);
     for (let i = 0; i < 3; i++) await page.locator("#next").click();
     const requested = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/another-batch"));

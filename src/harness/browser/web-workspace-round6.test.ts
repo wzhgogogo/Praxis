@@ -80,13 +80,13 @@ for(const size of [{width:390,height:844},{width:768,height:1024},{width:1440,he
     await page.route("**/api/cases/*",r=>r.request().method()==="GET"&&!r.request().url().endsWith("/events")?r.fulfill({json:{view:projected}}):r.continue());await page.reload();await page.locator("#candidate-panel").waitFor({state:"visible"});
     assert.deepEqual(await page.locator("#delivery-conditions .condition-name").allTextContents(),["Serves beer","Outdoor seats"]);assert.deepEqual(await page.locator("#delivery-conditions .condition-status").allTextContents(),["Confirmed","Not a match"]);
     assert.doesNotMatch(await page.locator("#delivery-conditions").innerText(),/—|not checked|not met|·/);
-    const metrics=await page.locator("#delivery-conditions").evaluate(node=>{const style=getComputedStyle(node);const buttonGap=document.getElementById("choose")!.getBoundingClientRect().top-node.getBoundingClientRect().bottom;return{buttonGap,font:style.fontSize,line:style.lineHeight,margin:style.marginTop,gap:style.rowGap,rows:[...node.querySelectorAll(".condition-row")].map(row=>{const style=getComputedStyle(row),name=row.querySelector(".condition-name")!,status=row.querySelector(".condition-status")!,a=name.getBoundingClientRect(),b=status.getBoundingClientRect();return{display:style.display,align:style.alignItems,justify:style.justifyContent,gap:style.columnGap,color:getComputedStyle(name).color,status:getComputedStyle(status).color,distance:b.left-a.right};})};});
+    const metrics=await page.locator("#delivery-conditions").evaluate(node=>{const style=getComputedStyle(node);const buttonGap=document.getElementById("choose")!.getBoundingClientRect().top-node.getBoundingClientRect().bottom;return{buttonGap,font:style.fontSize,line:style.lineHeight,margin:style.marginTop,gap:style.rowGap,rows:[...node.querySelectorAll(".condition-row")].map(row=>{const style=getComputedStyle(row),name=row.querySelector(".condition-name")!,status=row.querySelector(".condition-status")!,a=name.getBoundingClientRect(),b=status.getBoundingClientRect();return{display:style.display,align:style.alignItems,justify:style.justifyContent,gap:style.columnGap,color:getComputedStyle(name).color,status:getComputedStyle(status).color,distance:b.left-a.right,rightGap:node.getBoundingClientRect().right-b.right};})};});
     assert.ok(metrics.buttonGap>=12, `Expected 12px between conditions and booking, got ${metrics.buttonGap}px`);
-    assert.equal(metrics.font,"13px");assert.equal(metrics.margin,"8px");assert.equal(metrics.gap,"6px");assert.ok(Math.abs(parseFloat(metrics.line)-18.85)<0.1);for(const row of metrics.rows){assert.equal(row.display,"flex");assert.equal(row.align,"baseline");assert.equal(row.justify,"flex-start");assert.equal(row.gap,"12px");assert.equal(row.color,"rgb(21, 23, 43)");assert.equal(row.status,"rgb(95, 98, 117)");assert.ok(Math.abs(row.distance-12)<1);}
+    assert.equal(metrics.font,"13px");assert.equal(metrics.margin,"10px");assert.equal(metrics.gap,"6px");assert.ok(Math.abs(parseFloat(metrics.line)-18.85)<0.1);for(const row of metrics.rows){assert.equal(row.display,"flex");assert.equal(row.align,"baseline");assert.equal(row.justify,"space-between");assert.equal(row.gap,"12px");assert.equal(row.color,"rgb(21, 23, 43)");assert.equal(row.status,"rgb(95, 98, 117)");assert.ok(row.distance>=12);assert.ok(Math.abs(row.rightGap)<1);}
     assert.equal(await page.locator("#recommendation").isVisible(),false);
-    const availability=await page.locator("#availability").evaluate(n=>{const s=getComputedStyle(n),before=getComputedStyle(n,"::before");return{text:n.textContent,font:s.fontSize,weight:s.fontWeight,color:s.color,before:before.content};});
-    if(available){assert.match(availability.text!,/^Available Mon, Nov 2$/);assert.equal(availability.font,"15px");assert.equal(availability.weight,"600");assert.equal(availability.color,"rgb(21, 23, 43)");assert.equal(await page.locator(".slot-time").first().evaluate(n=>getComputedStyle(n).borderRadius),"8px");}
-    else{assert.equal(availability.text,"Availability not checked");assert.equal(availability.font,"13px");assert.equal(availability.weight,"500");assert.equal(availability.color,"rgb(95, 98, 117)");assert.ok(["none","normal"].includes(availability.before));assert.equal(await page.locator("#delivery-slots").isVisible(),false);}
+    const availability=await page.locator("#availability-status").evaluate(n=>{const s=getComputedStyle(n),before=getComputedStyle(n,"::before");return{text:n.textContent,font:s.fontSize,weight:s.fontWeight,color:s.color,before:before.content};});
+    if(available){assert.match(availability.text!,/^Mon, Nov 2$/);assert.equal(availability.font,"13px");assert.equal(availability.weight,"600");assert.equal(availability.color,"rgb(21, 23, 43)");assert.equal(await page.locator(".slot-time").first().evaluate(n=>getComputedStyle(n).borderRadius),"8px");}
+    else{assert.equal(availability.text,"Not checked");assert.equal(availability.font,"13px");assert.equal(availability.weight,"500");assert.equal(availability.color,"rgb(95, 98, 117)");assert.ok(["none","normal"].includes(availability.before));assert.equal(await page.locator("#delivery-slots").isVisible(),false);}
     const output=process.env.PRAXIS_ROUND6_VISUAL_OUTPUT;
     const name=`style1-${size.width}x${size.height}-${available?"available":"not-checked"}`;
     const cardConditions=await page.locator("#delivery-conditions .condition-status").allTextContents();
@@ -180,7 +180,7 @@ test("Round8 UI: real Stop retains About and never offers an unavailable refresh
       "No current booking handoff is available. You can check the source website.");
     await page.locator("#departure").evaluate(node=>node.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true})));
     await page.locator("#handoff-back").click();
-    assert.equal(await page.locator("#availability").innerText(),"Availability expired");
+    assert.equal(await page.locator("#availability-status").innerText(),"Expired");
     assert.equal(await page.locator("#choose").isDisabled(),true);
     await page.locator("#choose").evaluate(node=>node.dispatchEvent(new MouseEvent("click",{bubbles:true})));
     assert.equal(await page.locator("#handoff").isVisible(),false);
@@ -356,4 +356,75 @@ test("Round8 UI: a blocked booking popup cannot persist a departure or mark a re
     const rows=await host.database.query<{total:number}>("select count(*)::int as total from restaurant_booking_departures");
     assert.equal(rows.rows[0]?.total,0);
   }finally{await context.close();await browser.close();await host.close();}
+});
+
+async function round20Projection(page:Page,host:Host,view:import('../../application/agent-workspace.js').RestaurantCaseView){
+ host.disconnectStreams();await projectionStream(page);
+ await page.route('**/api/cases/*',route=>route.request().method()==='GET'&&new URL(route.request().url()).pathname==='/api/cases/'+encodeURIComponent(view.case.caseId)?route.fulfill({json:{view}}):route.continue());
+ await page.reload();await page.locator('#candidate-panel').waitFor();
+}
+for(const size of [{width:390,height:844},{width:1440,height:900}])test(`Round20 UI: ${size.width} design rows, source equivalence, batch actions and revision summaries`,{timeout:35_000},async()=>{
+ const host=await startWorkspaceFixture({multiSlot:true}),browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:size,baseURL:host.baseUrl});
+ await context.route('**/*',r=>new URL(r.request().url()).origin===host.baseUrl?r.continue():r.abort());const page=await context.newPage();
+ try{
+  const original=await open(page,host) as import('../../application/agent-workspace.js').RestaurantCaseView,projected=structuredClone(original),id=projected.restaurant.presentedCandidateIds![0]!,c=projected.restaurant.candidates.find(c=>c.restaurant.id===id)!;
+  await round20Projection(page,host,projected);
+  c.restaurant.address='1000001 Tokyo, Chiyoda 1-2-3';c.matchReasons=[];
+  projected.restaurant.conditionStates={[id]:[{text:'Serves beer',strength:'HARD',polarity:'POSITIVE',status:'MET',criterionRef:'criterion:0',sources:[],explanation:'Fixture',evidenceIds:[]}]};
+  const base=original.restaurant.readEvidence[0]!;
+  const google={...base,candidateId:id,kind:'RESTAURANT_FACT' as const,provider:'GOOGLE_PLACES' as const,sourceUrl:'https://maps.google.com/?q=fixture',claims:{restaurantTypeFacts:['izakaya','japanese_restaurant']}};
+  const tabelog={...base,candidateId:id,kind:'RESTAURANT_FACT' as const,provider:'TABELOG' as const,sourceUrl:'https://tabelog.com/fixture',claims:{},sourceFieldQuotes:[{field:'CATEGORY' as const,quote:'Izakaya (Japanese style tavern)',sourceUrl:'https://tabelog.com/fixture'}]};
+  projected.restaurant.currentFactEvidence=[google,tabelog];
+  const update=async()=>{projected.case.taskVersion++;await emit(page,projected);};await update();
+  assert.equal(await page.locator('#source-categories').isVisible(),false,'equivalent source categories are not a conflict');
+  assert.equal(await page.locator('#key-facts .address-line').innerText(),'Tokyo, Chiyoda 1-2-3');
+  assert.equal(await page.locator('#availability-status').innerText(),'Mon, Nov 2');
+  const geometry=await page.evaluate(()=>{
+   const availability=document.getElementById('availability')!,condition=document.querySelector('#delivery-conditions .condition-row')!,button=document.getElementById('choose')!,about=document.getElementById('details-button')!;
+   return {availabilityJustify:getComputedStyle(availability).justifyContent,conditionJustify:getComputedStyle(condition).justifyContent,availabilityRight:availability.lastElementChild!.getBoundingClientRect().right,conditionRight:condition.lastElementChild!.getBoundingClientRect().right,aboutRight:about.getBoundingClientRect().right,gap:button.getBoundingClientRect().top-document.getElementById('delivery-conditions')!.getBoundingClientRect().bottom,margin:getComputedStyle(button).marginTop,bottom:getComputedStyle(button).marginBottom};
+  });
+  assert.equal(geometry.availabilityJustify,'space-between');assert.equal(geometry.conditionJustify,'space-between');assert.ok(Math.abs(geometry.availabilityRight-geometry.aboutRight)<1);assert.ok(Math.abs(geometry.conditionRight-geometry.aboutRight)<1);assert.equal(geometry.margin,'16px');assert.equal(geometry.bottom,'2px');assert.ok(geometry.gap>=16);
+  await captureRound8(page,`round20-${size.width}-aligned-card`);
+  projected.restaurant.progress={active:true,stopped:false,stage:'CHECKING'};await update();assert.equal(await page.locator('#card-counter').evaluate(n=>getComputedStyle(n).visibility),'hidden');assert.ok((await page.locator('#card-counter').boundingBox())!.width>=44);projected.restaurant.progress={active:false,stopped:false};
+  projected.restaurant.currentFactEvidence=[google,{...tabelog,provider:'RESTAURANT_WEBSITE',sourceUrl:'https://www.k-daia.com/menu',sourceFieldQuotes:[{field:'CATEGORY',quote:'French house',sourceUrl:'https://www.k-daia.com/menu'}]}];await update();
+  assert.deepEqual(await page.locator('#source-categories a').allTextContents(),['Google Maps ↗','k-daia.com ↗']);assert.doesNotMatch(await page.locator('#source-categories').innerText(),/RESTAURANT_WEBSITE|Source$/);
+  const names=await page.evaluate(async()=>{const {sourceName}=await import(String('/assets/workspace/format.js'));return [sourceName('RESTAURANT_WEBSITE'),sourceName('RESTAURANT_WEBSITE','https://www.ginzano.jp/menu'),sourceName('NEW_PROVIDER'),sourceName('OTHER','https://www.tabelog.com/a'),sourceName('OTHER','https://tablecheck.com/a')];});assert.deepEqual(names,['Source page','ginzano.jp','New provider','Tabelog','TableCheck']);
+  await captureRound8(page,`round20-${size.width}-source-domains`);await page.locator('#details-button').click();assert.equal(await page.locator('#details-content .about-address').innerText(),c.restaurant.address);assert.match(await page.locator('#evidence').innerText(),/ · Checked \d{2}:\d{2}$/);await captureRound8(page,`round20-${size.width}-about-layers`);await page.locator('#details-back').click();
+  await page.locator('#next').click();await page.locator('#next').click();await page.locator('#next').click();await page.locator('#batch-end').waitFor();assert.equal(await page.locator('#end-saved').count(),0);
+  const buttons=await page.locator('#end-options>button').evaluateAll(items=>items.map(n=>({width:n.getBoundingClientRect().width,height:n.getBoundingClientRect().height})));assert.equal(buttons.length,2);assert.ok(Math.abs(buttons[0]!.width-buttons[1]!.width)<1);assert.ok(buttons.every(b=>b.height>=48));assert.equal(await page.locator('#end-options').evaluate(n=>getComputedStyle(n).gap),'12px');await captureRound8(page,`round20-${size.width}-batch-actions`);
+  await page.locator('#batch-back').click();
+  const added=[1,2,3].map(i=>({candidateId:'new'+i,outletName:'New '+i})),removed=[1,2,3].map(i=>({candidateId:'old'+i,outletName:'Old '+i,reasonCode:'NO_LONGER_MATCHES' as const}));
+  projected.restaurant.revisionDiff={fromRevision:1,toRevision:2,added,removed};await update();assert.match(await page.locator('#revision-changes summary').textContent()??'',/^3 new, 3 no longer match▾$/);await page.locator('#revision-changes summary').click();assert.equal(await page.locator('#removed-list li').count(),3);await captureRound8(page,`round20-${size.width}-revision-mixed`);
+  projected.restaurant.revisionDiff={fromRevision:2,toRevision:3,added:[],removed:removed.slice(0,1)};await update();assert.equal(await page.locator('#revision-changes summary').textContent(),'1 no longer match▾');
+  for(const count of [2,1]){projected.restaurant.revisionDiff={fromRevision:3,toRevision:4,added:added.slice(0,count),removed:[]};await update();assert.equal(await page.locator('#revision-changes summary').textContent(),count===1?'1 new place':'2 new places');await page.locator('#revision-changes summary').dispatchEvent('click');assert.equal(await page.locator('#revision-changes').evaluate(n=>(n as HTMLDetailsElement).open),false);}
+  delete projected.restaurant.revisionDiff;await update();assert.equal(await page.locator('#revision-changes').textContent(),'');assert.equal(await page.locator('#removed-list li').count(),0);
+ }finally{await context.close();await browser.close();await host.close();}
+});
+for(const size of [{width:390,height:844},{width:1440,height:900}])test(`Round20 UI: ${size.width} citation reading groups, About provenance and bilingual Handoff`,{timeout:35_000},async()=>{
+ const host=await startWorkspaceFixture({questions:true,provider:"TABELOG",cancellationConflict:true}),browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:size,baseURL:host.baseUrl});
+ await context.route('**/*',r=>new URL(r.request().url()).origin===host.baseUrl?r.continue():r.abort());const page=await context.newPage();
+ try{
+  const original=await open(page,host) as import('../../application/agent-workspace.js').RestaurantCaseView,projected=structuredClone(original),id=projected.restaurant.presentedCandidateIds![0]!,time='2026-11-21T08:04:00Z',later='2026-11-21T08:05:00Z',url='https://www.k-daia.com/terms';
+  await round20Projection(page,host,projected);
+  const base=original.restaurant.readEvidence[0]!;projected.restaurant.conditionStates={[id]:[]};
+  projected.restaurant.currentFactEvidence=[0,1].map(i=>({...base,evidenceId:'reading-'+i,candidateId:id,kind:'RESTAURANT_FACT',provider:'RESTAURANT_WEBSITE',sourceUrl:url,observedAt:time,claims:{listedCourseDetails:['Original terms '+i]}}));
+  projected.case.taskVersion++;await emit(page,projected);await page.locator('#details-button').click();assert.equal(await page.locator('#details-content .citation-footer').count(),1);
+  projected.restaurant.currentFactEvidence[1]!.observedAt=later;projected.case.taskVersion++;await emit(page,projected);assert.equal(await page.locator('#details-content .citation-footer').count(),2);assert.match(await page.locator('#details-content').innerText(),/17:04 JST/);assert.match(await page.locator('#details-content').innerText(),/17:05 JST/);
+  let split=false;
+  await page.route('**/api/cases/*/questions',async route=>{
+   const input=route.request().postDataJSON() as {requestId:string;question:string};
+   const q={requestId:input.requestId,question:input.question,candidateId:id,readRunId:projected.restaurant.sourceReadContext!.runId,readStartedAt:time,deadlineAt:'2026-11-21T08:10:00Z',requestedAt:time,result:{status:'ANSWERED' as const,candidateId:id,answer:'Fixture answer retains the original quotations.',sensitiveCategory:'NONE' as const,confirmationRequired:false,citations:[0,1,2].map(i=>({url,readAt:split&&i===2?later:time,text:'Original excerpt '+i,identityEvidenceId:base.evidenceId})),checkedPages:[]}};
+   projected.restaurant.pageQuestion=q;projected.restaurant.questionHistory.unshift(q);projected.case.taskVersion++;await route.fulfill({json:{view:projected}});
+  });
+  for(const different of [false,true]){
+   split=different;const question=different?'Compare the two reading times?':'What was read in this page visit?';await page.locator('#message').fill(question);await page.locator('#send').click();await page.locator('#answer-sheet').waitFor();assert.equal(await page.locator('#answer-question').innerText(),question);assert.equal(await page.locator('#answer-close').innerText(),'×');
+   for(const selector of ['#question-result','#asked-result']){assert.equal(await page.locator(selector+' .citation-group').count(),different?2:1);assert.equal(await page.locator(selector+' blockquote').count(),3);assert.equal(await page.locator(selector+' .citation-footer').count(),different?2:1);assert.equal((await page.locator(selector).textContent()??'').match(/Checked/g)?.length,different?2:1);}
+   await page.locator('#question-result summary').click();assert.equal(await page.locator('#answer-sheet').evaluate(n=>getComputedStyle(n).paddingBottom),'28px');assert.match(await page.locator('#question-result').innerText(),/Source page ↗ · Checked Sat, Nov 21 · 17:04 JST/);if(different)assert.match(await page.locator('#question-result').innerText(),/17:05 JST/);
+   await captureRound8(page,`round20-${size.width}-${different?'different':'same'}-reading`);await page.locator('#answer-close').click();
+  }
+  await page.locator('#details-back').click();await page.locator('#choose').click();await page.locator('#handoff').waitFor();
+  const h=projected.restaurant.bookingHandoffs!.find(h=>h.candidateId===id)!;assert.ok(h.cancellationNotice,"Tabelog bilingual conflict Fixture is required");for(const term of h.terms)for(const quote of term.citations){assert.ok((await page.locator('#handoff-terms').textContent())!.includes(quote.text));assert.ok((await page.locator('#handoff-terms').textContent())!.includes(term.label));}
+  const conflict=page.locator('[data-kind="cancellation-conflict"]');assert.match(await conflict.innerText(),/English page:[\s\S]*Confirm cancellation terms on the website/);
+  const expected=new Set(h.terms.flatMap(t=>t.citations.map(c=>JSON.stringify([c.url,c.readAt]))));assert.equal(await page.locator('#handoff-terms .citation-footer').count(),expected.size);await page.locator('#handoff-terms summary').click();await captureRound8(page,`round20-${size.width}-handoff-reading-groups`);
+ }finally{await context.close();await browser.close();await host.close();}
 });

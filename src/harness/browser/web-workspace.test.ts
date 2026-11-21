@@ -70,7 +70,8 @@ for(const size of sizes){
       await host.waitForCheck();
       await page.getByRole("heading",{name:"Fixture Sushi",exact:true}).waitFor();
       assert.equal(await page.locator("#card-counter").isVisible(),false,"candidate totals are hidden until the investigation finishes");
-      assert.equal(await page.locator("#card-counter").textContent(),"");
+      assert.equal(await page.locator("#card-counter").evaluate(n=>getComputedStyle(n).visibility),"hidden");
+      assert.ok((await page.locator("#card-counter").boundingBox())!.width>0,"hidden counter retains pagination spacing");
       assert.match(await page.locator("#stages").innerText(),/Looking for more options\s*·\s*1 checked/);
       assert.equal((await current(page,plan.case.caseId)).restaurant.progress.discoveredCount,3);
       assert.equal(host.providerCalls[1]?.completed,false);
@@ -113,7 +114,7 @@ for(const size of sizes){
       assert.equal(await page.locator("#verification-hint").isVisible(),false);
       assert.doesNotMatch(departureText+" "+await page.locator("#selection-hint").innerText()+" "+await page.locator("#verification-hint").innerText(),/\bselected\b|\bbooked\b/i);
       const quote=page.locator("#handoff-terms details").first();await quote.locator("summary").click();
-      assert.match(await quote.innerText(),/Read at: Thu, Oct 29 · 19:00 JST/);
+      assert.match(await quote.innerText(),/Checked Thu, Oct 29 · 19:00 JST/);
       // A real persisted shortlist update emits SSE while the current source disclosure stays open.
       const latest=await current(page,plan.case.caseId);
       const saveReply=await page.request.post("/api/cases/"+encodeURIComponent(plan.case.caseId)+"/shortlist",{data:{candidateId:second,shortlisted:true,taskVersion:latest.case.taskVersion,requestId:"expand-"+size.name}});
@@ -259,8 +260,8 @@ for(const size of sizes)test('Workspace '+size.name+': cuisine source disagreeme
   const context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:size.width,height:size.height}});const page=await context.newPage();
   try{await signIn(page,host.baseUrl,host.clock.now());const plan=await createPlan(page,'Dinner with friends');await ready(page);
     const statements=page.locator('#source-categories');await statements.waitFor({state:'visible'});
-    assert.match(await statements.innerText(),/Google Maps: cantonese restaurant, dim sum restaurant/);
-    assert.match(await statements.innerText(),/Tabelog: Chinese, Dumpling, Izakaya/);
+    assert.match(await statements.innerText(),/Google Maps ↗\s*cantonese restaurant, dim sum restaurant/);
+    assert.match(await statements.innerText(),/Tabelog ↗\s*Chinese, Dumpling, Izakaya/);
     assert.equal(await statements.locator('a').count(),2);
     assert.equal((await current(page,plan.case.caseId)).case.phase,'PRESENT_RESULTS');
     await capture(page,size.name+'-source-categories');

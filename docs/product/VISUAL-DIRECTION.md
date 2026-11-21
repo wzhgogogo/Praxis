@@ -1,8 +1,8 @@
 # Praxis visual direction
 
 - Status: Accepted
-- Document revision: 0.16
-- Last updated: 2026-11-17
+- Document revision: 0.17
+- Last updated: 2026-11-21
 - Source of truth for: current English Web presentation; product behavior and safety remain governed by accepted PRD and ADRs
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [User flows](USER-FLOWS.md), [Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [integration plan](../WEB-PHOTOS-UNIFIED-PLAN.md)
@@ -35,6 +35,15 @@ The backend address and About text remain complete. Only the address item in key
 
 ## 2026-11-18 — Style 1 condition rows
 
-User-approved / implementation in Round 6, draft / not integrated. Availability not checked / Availability expired uses 13px 500 #5F6275 without a dot. Available <Date> remains 15px 600 #15172B with 8px time controls. Empty slots/recommendation occupy no space. Conditions have 8px top margin, 6px row gap, 13px/1.45 text. Each row aligns baselines with space-between and 12px gap: capitalized name (#15172B, min-width:0), nonshrinking status (#5F6275,500). Status words are Confirmed / Not a match / Unverified, without dash or internal enum terms; About uses the same words. Added-only change summaries are static and hide zero counts.
+User-approved / implementation in Round 6, draft / not integrated. Round20 supersedes the availability row: left Availability is 13px #15172B; right date is 13px 600 #15172B, Not checked / Expired is 13px 500 #5F6275, without a dot. Time controls retain 8px gaps. Empty slots/recommendation occupy no space. Conditions have 10px top margin, 6px row gap, 13px/1.45 text. Each row aligns baselines with space-between and 12px gap: capitalized name (#15172B, min-width:0), nonshrinking status (#5F6275,500). Status words are Confirmed / Not a match / Unverified, without dash or internal enum terms; About uses the same words. Added-only change summaries are static and hide zero counts.
 
 Round 7 places at least 12px between the bottom of the condition list and the booking button, including cards with an empty recommendation.
+
+
+## 2026-11-21 — Round20 card and source presentation
+
+User-approved / work-branch implementation, draft / not integrated. Availability and conditions use baseline-aligned space-between columns with 12px minimum gap, right-aligned with About. Let’s book has 16px top / 2px bottom margin; slots and conditions own 10px top margin, source categories 12px. Empty recommendation blocks reserve no height; text still clamps to two lines. A hidden progress counter keeps its layout width. Card addresses remove optional Japanese postal prefixes; About retains the complete source address. Batch-end Adjust and Find more are equal-width adjacent 48px-minimum buttons; Saved remains in the workspace header.
+
+Source labels use Google Maps, Tabelog, TableCheck or the observed website hostname, with no raw provider enums. Short source categories compare normalized meaning (parenthetical glosses and generic modifiers removed); overlapping categories are not a conflict. Genuine disagreement uses light source/domain links. About retains original categories. Revision changes show added count first, followed by removed count and a disclosure arrow; added-only summaries are static “N new place(s)”. No-change hidden content is cleared.
+
+Q&A, About and Handoff share citation grouping by exact (URL, readAt). Same-reading excerpts share a white bordered block with individual left rules and one source/Checked date/time JST footer. Different readings retain separate timestamps; unknown time is not promoted to another reading. Handoff preserves each bilingual term’s label/original association and cancellation conflict notice. About layers source/time, full address divider, conditions, commercial terms, original categories and source footnotes, then quiet Refresh. Answer sheet retains its mobile drag handle, adds place/close header and the question above the answer, and reserves 28px plus safe-area inset at the bottom. Existing tokens, responsive widths, keyboard and touch controls remain.

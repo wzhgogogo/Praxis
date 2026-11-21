@@ -1,11 +1,13 @@
-import type { Answer, Citation, Condition, IntentDraft, Offer } from './view-contracts.js';
+import {renderCitations} from './citations.js';
+import type {SourceExcerpt} from './citation-groups.js';
+import type { Answer, Condition, IntentDraft, Offer } from './view-contracts.js';
 import type { ConditionKind, ConditionValue } from './actions.js';
 import { $, clearError, element, requireView, show, state, text } from "./runtime.js";
 import { availabilityExpired, clearSlotSelection, currentHandoff, forgetSlotSelection, freshOffers, handoffs, needsSlotReselection, offerFor, reconcileSlot, selectSlot } from "./selected-slot.js";
 import { closePhotos, renderPhotos } from "./photos.js";
 import { canAskCurrentPlace, canRefresh, canShortlist, candidate, ids, questionPending, sourceFor } from "./queries.js";
 import { savePosition } from "./position.js";
-import { availabilityTime, displayDate, displayTime, displayTitle, link, money, readAt, safeLink, sourceName } from "./format.js";
+import { availabilityTime, displayDate, displayTime, displayTitle, link, money, safeLink, sourceName } from "./format.js";
 import { resizeMessage, updateComposerClearance } from "./composer.js";
 import { actions } from "./actions.js";
 const caseScroller=$("case-workspace");
@@ -35,29 +37,25 @@ export function renderProgress(){
  }
  for(const node of $('stages').querySelectorAll<HTMLElement>(':scope > *'))node.hidden=!rows.some(row=>row[0]===node.dataset.stage);
 }
-export function citation(container:HTMLElement,item:Citation,index:number){const d=element('details');d.dataset.sourceId=item.url+':'+index;d.append(element('summary','Source'));const quote=element('blockquote',item.text);d.append(quote,link('Source page',item.url),element('p',readAt(item.readAt),'muted'));container.append(d);}
 export function preserveSources(target:HTMLElement,build:(target:HTMLElement)=>void){const open=new Set([...target.querySelectorAll<HTMLDetailsElement>('details[open]')].map(n=>n.dataset.sourceId));target.replaceChildren();build(target);for(const d of target.querySelectorAll('details'))d.open=open.has(d.dataset.sourceId);}
 export function renderSourceCategories(id:string){
- const target=$('source-categories'),facts=requireView().restaurant.currentFactEvidence.filter(f=>f.candidateId===id),sources=new Map<string,Map<string,{quote:string;url:string}>>();target.replaceChildren();
- const generic=new Set(['restaurant','food','point of interest','establishment','store','food store']);
+ const target=$('source-categories'),facts=requireView().restaurant.currentFactEvidence.filter(f=>f.candidateId===id),sources=new Map<string,{url:string;terms:Map<string,string>}>();target.replaceChildren();
+ const generic=new Set(['','restaurant','food','point of interest','establishment','store','food store']);
  for(const fact of facts){
   if(!fact.sourceUrl)continue;
   const raw=fact.provider==='GOOGLE_PLACES'&&Array.isArray(fact.claims.restaurantTypeFacts)?fact.claims.restaurantTypeFacts.filter(q=>typeof q==='string'):(fact.sourceFieldQuotes||[]).filter(q=>q.field==='CATEGORY').map(q=>q.quote);
+  const label=sourceName(fact.provider,fact.sourceUrl);
   for(const piece of raw.flatMap(q=>q.split(/[,，]/))){
    const quote=piece.trim(),normalized=quote.normalize('NFKC').toLowerCase().replace(/_/g,' ');
-   if(!quote||/[\r\n\u2028\u2029]/.test(piece)||/[。.!?]$/.test(normalized)||Array.from(quote).length>40||generic.has(normalized))continue;
-   let terms=sources.get(fact.provider);if(!terms){terms=new Map();sources.set(fact.provider,terms);}
-   const key=normalized.replace(/ restaurant$/,'');
-   if(!terms.has(key))terms.set(key,{quote,url:fact.sourceUrl});
+   if(!quote||/[\r\n\u2028\u2029]/.test(piece)||/[。.!?]$/.test(normalized)||Array.from(quote).length>40)continue;
+   const key=normalized.replace(/\([^)]*\)/g,'').replace(/\b(?:japanese|restaurant|dishes|house)\b/g,' ').replace(/\s+/g,' ').trim();
+   if(generic.has(key))continue;
+   let source=sources.get(label);if(!source){source={url:fact.sourceUrl,terms:new Map()};sources.set(label,source);}
+   if(!source.terms.has(key))source.terms.set(key,quote);
   }
  }
- const disagreement=new Set([...sources.values()].map(terms=>JSON.stringify([...terms.keys()].sort()))).size>1;
- if(disagreement)for(const [provider,terms]of sources){
-  const labels=[...terms.values()].slice(0,3),row=element('p',sourceName(provider)+': ','muted'),links=new Set<string>();
-  row.append(document.createTextNode(labels.map(term=>term.quote).join(', ')));
-  for(const {url}of labels)if(!links.has(url)){links.add(url);row.append(document.createTextNode(' '),link('Source',url));}
-  target.append(row);
- }
+ const rows=[...sources.values()],disagreement=rows.some((row,i)=>rows.slice(i+1).some(other=>![...row.terms.keys()].some(key=>other.terms.has(key))));
+ if(disagreement)for(const [label,source]of sources){const row=element('p',undefined,'source-category-row');row.append(link(label+' ↗',source.url),document.createTextNode(' '),element('span',[...source.terms.values()].slice(0,3).join(', ')));target.append(row);}
  target.hidden=!disagreement;
 }
 export function conditionRow(item:Condition){const row=element('div',undefined,'condition-row');row.append(element('span',displayTitle(item.text),'condition-name'),document.createTextNode(' '),element('span',({MET:'Confirmed',NOT_MET:'Not a match',NOT_CHECKED:'Unverified'})[item.status],'condition-status'));return row;}
@@ -71,34 +69,35 @@ export function renderDelivery(){
  $('delivery-conditions').replaceChildren(...(id?r.conditionStates?.[id]||[]:[])
    .filter(item=>item.status!=='NOT_CHECKED'||item.strength==='HARD').map(conditionRow));
 }
-export function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=requireView().restaurant,offer=offerFor(id), eligible=ids().includes(id), available=eligible&&freshOffers(id)[0], expired=availabilityExpired(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^〒\d{3}-\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=available?'available':'unknown';text('availability',available?'Available '+displayDate(available.dateTime):expired?'Availability expired':'Availability not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:')&&!reason.startsWith('Source coordinates within'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0&&!r.progress.active&&!state.preview?(n+1)+' of '+ids().length:'');show('card-counter',!r.progress.active&&!state.preview);$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||requireView().case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.ui.reconfirmSlot||needsSlotReselection(id)||!!state.preparing||!eligible||!!state.ui.selectedSlot&&!!available&&!offer||expired&&!canRefresh();$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
+export function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=requireView().restaurant,offer=offerFor(id), eligible=ids().includes(id), available=eligible&&freshOffers(id)[0], expired=availabilityExpired(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^(?:〒\s*)?\d{3}-?\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=available?'available':'unknown';text('availability-status',available?displayDate(available.dateTime):expired?'Expired':'Not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:')&&!reason.startsWith('Source coordinates within'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0?(n+1)+' of '+ids().length:'');show('card-counter',true);$('card-counter').style.visibility=!r.progress.active&&!state.preview?'visible':'hidden';$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||requireView().case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.ui.reconfirmSlot||needsSlotReselection(id)||!!state.preparing||!eligible||!!state.ui.selectedSlot&&!!available&&!offer||expired&&!canRefresh();$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
 export function renderDetails(){
- const c=candidate();if(!c)return;const r=requireView().restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates&&r.conditionStates[id]||[];
+ const c=candidate();if(!c)return;const r=requireView().restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates?.[id]||[];
  const asking=state.asking||questionPending(),refreshBusy=!asking&&(r.progress.active||state.blocked),refreshSlots=r.readStatus.canRetry||ids().some(cid=>(r.availability[cid]||[]).length||r.availabilityChecks[cid]?.status==='AVAILABLE')||r.intentDraft?.target?.goal==='AVAILABILITY';
  show('refresh',requireView().case.phase==='PRESENT_RESULTS');$('refresh').disabled=refreshBusy||asking;if(asking)$('refresh').removeAttribute('aria-busy');else $('refresh').setAttribute('aria-busy',String(refreshBusy));text('refresh',refreshBusy?'Refreshing…':refreshSlots?'Refresh availability':'Refresh details');show('details-refresh-status',refreshBusy&&requireView().case.phase!=='PRESENT_RESULTS');
- text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source&&!!source.observedAt);if(source)text('evidence',sourceName(source.provider)+', checked '+displayTime(source.observedAt));
+ text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source?.observedAt);if(source)text('evidence',sourceName(source.provider,source.sourceUrl)+' · Checked '+displayTime(source.observedAt));
  const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{
-  target.append(element('p',c.restaurant.address,'muted'));const sources=new Map<string,{quotes:Set<string>;times:Set<string>;commercial?:boolean}>();
-  const addSource=(url:string|undefined,quote:string|null,readAt:string|undefined)=>{if(!url)return;let row=sources.get(url);if(!row){row={quotes:new Set(),times:new Set()};sources.set(url,row);}if(quote)row.quotes.add(quote);if(readAt)row.times.add(readAt);};
-  for(const fact of facts){const values:string[]=[],claims=fact.claims||{};if(Array.isArray(claims.listedCourseDetails))values.push(...claims.listedCourseDetails);if(typeof claims.coursePriceYen==='number')values.push('Course '+money(claims.coursePriceYen));for(const k of ['cancellationTerms','noShowTerms'])if(typeof claims[k]==='string')values.push(claims[k]);for(const value of values){target.append(element('p',value));addSource(fact.sourceUrl,null,fact.observedAt);if(fact.sourceUrl)sources.get(fact.sourceUrl)!.commercial=true;}}
+  target.append(element('p',c.restaurant.address,'about-address'));const citations:SourceExcerpt[]=[],categories=new Set<string>();
+  const addSource=(url:string|undefined,text:string|undefined,at:string|undefined)=>{if(url)citations.push({url,...(text?{text}:{}),...(at?{readAt:at}:{})});};
   for(const item of conditions){const row=element('div',undefined,'fact');row.append(conditionRow(item));
-   for(const source of item.sources||[]){const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===source.sourceUrl);addSource(source.sourceUrl,(source.field==='PRICE'?'Observed price: ':source.field==='NAME'?'Based on outlet name: ':source.field==='GOOGLE_TYPE'?'Google category: ':source.field==='CATEGORY'?'Source category: ':'Observed ')+source.quote,evidence&&evidence.observedAt);}
+   for(const q of item.sources||[]){const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl);addSource(q.sourceUrl,(q.field==='PRICE'?'Observed price: ':'')+q.quote,evidence?.observedAt);}
    if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
   }
-  for(const fact of facts)for(const quote of fact.sourceFieldQuotes||[])if(quote.field==='CATEGORY')addSource(quote.sourceUrl||fact.sourceUrl,'Source category: '+quote.quote,fact.observedAt);
-  for(const [url,row]of sources){const d=element('div',undefined,'fact');d.dataset.sourceId=url;for(const quote of row.quotes)d.append(element('blockquote',quote));d.append(link(row.commercial?'Terms source':'Source',url));for(const at of row.times)d.append(element('p',readAt(at),'muted'));target.append(d);}
+  for(const fact of facts){
+   const values:string[]=[],claims=fact.claims||{};if(Array.isArray(claims.listedCourseDetails))values.push(...claims.listedCourseDetails);if(typeof claims.coursePriceYen==='number')values.push('Course '+money(claims.coursePriceYen));for(const k of ['cancellationTerms','noShowTerms'])if(typeof claims[k]==='string')values.push(claims[k]);
+   for(const value of values){target.append(element('p',value,'about-term'));addSource(fact.sourceUrl,undefined,fact.observedAt);}
+   const raw=fact.provider==='GOOGLE_PLACES'&&Array.isArray(claims.restaurantTypeFacts)?claims.restaurantTypeFacts.filter(t=>typeof t==='string'):[];
+   for(const category of raw)categories.add(category.replace(/_/g,' '));if(raw.length)addSource(fact.sourceUrl,undefined,fact.observedAt);
+   for(const quote of fact.sourceFieldQuotes||[])if(quote.field==='CATEGORY'){categories.add(quote.quote);addSource(quote.sourceUrl||fact.sourceUrl,undefined,fact.observedAt);}
+  }
+  if(categories.size)target.append(element('p','Categories: '+[...categories].join(', '),'about-categories'));
+  renderCitations(target,citations,false);
  });}renderAsked(id);
 }
 export function renderAnswer(target:HTMLElement,result:Answer){
   target.replaceChildren();
   target.append(element('p',result.status==='ANSWERED'?result.answer:result.status==='NOT_STATED'?'Not stated on the page':'This answer could not be verified.'));
   const citations=result.citations||[],checkedPages=result.checkedPages||[];
-  if(citations.length||checkedPages.length){
-    const d=element('details');d.append(element('summary','Source'));
-    if(citations.length){const urls=new Set<string>();for(const item of citations){d.append(element('blockquote',item.text),element('p',readAt(item.readAt),'muted'));if(!urls.has(item.url)){urls.add(item.url);d.append(link('Source page',item.url));}}}
-    else for(const item of checkedPages)d.append(link('Checked page',item.url),element('p',readAt(item.readAt),'muted'));
-    target.append(d);
-  }
+  renderCitations(target,citations.length?citations:checkedPages);
   if(result.confirmationRequired)target.append(element('p','Please confirm with the restaurant.'));
 }
 export function renderAsked(id:string){
@@ -129,13 +128,13 @@ export function renderConditions(){
 }
 export function changeReason(code:string){return (new Map(Object.entries({OVER_BUDGET:'Over budget',NEW_TIME_MISMATCH:"Doesn't match the new time",NO_LONGER_MATCHES:'No longer matches'}))).get(code)||'No longer matches';}
 export function renderChanges(){
-  const r=requireView().restaurant,diff=r.revisionDiff;
-  const added=!!diff?.added.length&&r.readStatus.kind==='RESULTS'&&ids().length>0;
-  const changed=!!diff&&(diff.removed.length>0||added);show('revision-changes',changed&&state.ui.view==='CANDIDATES'&&!state.ui.atEnd);if(!changed)return;
-  const onlyAdded=diff.removed.length===0,host=$('revision-changes'),summary=host.querySelector('summary')!;show('removed-count',!onlyAdded);show('added-count',added);show('removed-list',!onlyAdded);host.classList.toggle('only-added',onlyAdded);summary.setAttribute('aria-disabled',String(onlyAdded));summary.tabIndex=onlyAdded?-1:0;summary.onclick=event=>{if(onlyAdded)event.preventDefault();};if(onlyAdded)host.open=false;
-  text('removed-count',onlyAdded?'':diff.removed.length+(diff.removed.length===1?' place no longer matches':' places no longer match'));text('added-count',diff.added.length?diff.added.length+' new':'');
-  const signature=JSON.stringify(diff);if(signature===state.diffKey)return;state.diffKey=signature;$('revision-changes').open=false;
-  $('removed-list').replaceChildren(...diff.removed.map(item=>{const row=element('li');row.dataset.candidateId=item.candidateId;row.append(element('span',item.outletName),element('p',changeReason(item.reasonCode),'muted'));return row;}));
+ const r=requireView().restaurant,diff=r.revisionDiff,added=diff?.added.length&&r.readStatus.kind==='RESULTS'&&ids().length>0?diff.added.length:0;
+ const host=$('revision-changes'),changed=!!diff&&(diff.removed.length>0||added>0);show('revision-changes',changed&&state.ui.view==='CANDIDATES'&&!state.ui.atEnd);
+ if(!changed||!diff){for(const id of ['added-count','removed-count','revision-chevron'])text(id,'');$('removed-list').replaceChildren();state.diffKey='';host.open=false;return;}
+ const onlyAdded=diff.removed.length===0,summary=host.querySelector('summary')!;show('removed-count',!onlyAdded);show('added-count',added>0);show('revision-chevron',!onlyAdded);show('removed-list',!onlyAdded);host.classList.toggle('only-added',onlyAdded);summary.setAttribute('aria-disabled',String(onlyAdded));summary.tabIndex=onlyAdded?-1:0;summary.onclick=event=>{if(onlyAdded)event.preventDefault();};
+ text('added-count',added?added+(onlyAdded?(added===1?' new place':' new places'):' new, '):'');text('removed-count',onlyAdded?'':diff.removed.length+' no longer match');text('revision-chevron',onlyAdded?'':'▾');
+ const signature=JSON.stringify([diff,added]);if(signature===state.diffKey)return;state.diffKey=signature;host.open=false;
+ $('removed-list').replaceChildren(...diff.removed.map(item=>{const row=element('li');row.dataset.candidateId=item.candidateId;row.append(element('span',item.outletName),element('p',changeReason(item.reasonCode),'muted'));return row;}));
 }
 export function renderSaved(){
   const saved=requireView().restaurant.savedCandidates;show('saved-empty',!saved.length);$('saved-list').replaceChildren();
@@ -162,7 +161,7 @@ export function renderHandoff(){
   if(h)selector.value=h.offerId;else{const placeholder=element('option','Choose a time');placeholder.value='';placeholder.disabled=true;placeholder.selected=true;selector.prepend(placeholder);}
   const selectedOffer=h&&(requireView().restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===h.offerId),price=selectedOffer&&selectedOffer.price;show('handoff-price',!!price);text('handoff-price',price?money(price.amount)+(price.basis==='PER_PERSON'?' per guest':price.basis==='TOTAL'?' total':''):'');
   selector.onchange=()=>{const offer=freshOffers(c.restaurant.id).find(o=>o.id===selector.value);if(offer){selectSlot(offer);savePosition();renderHandoff();}};
-  text('handoff-provider-name',h?sourceName(h.provider):'');show('handoff-provider',!!h);
+  text('handoff-provider-name',h?sourceName(h.provider,h.url):'');show('handoff-provider',!!h);
   const refreshable=canRefresh(),refresh=refreshable&&availabilityExpired(c.restaurant.id);
   show('departure',!!h||refresh);show('departure-fields',!!h);show('handoff-unavailable',!h&&!refresh);
   if(!h&&refresh){text('departure-title','Check availability again');$('departure').href='#';}
@@ -178,16 +177,18 @@ export function renderHandoff(){
     preserveSources($('handoff-terms'),target=>{
       if(!h)return;
       if(h.selectionHint)target.append(element('h3',h.selectionHint.replace(/^Pick /,'')));
+      const citations:SourceExcerpt[]=[];
       for(const [index,term]of h.terms.entries()){
         const row=element('div',undefined,'fact');
         row.append(element('p',term.label));
-        for(const [i,quote]of term.citations.entries())citation(row,quote,i);
+        for(const quote of term.citations)citations.push({...quote,label:term.label});
         if(h.cancellationNotice&&index===1){
           row.dataset.kind='cancellation-conflict';
           row.append(element('p',h.cancellationConfirmation,'muted'));
         }
         target.append(row);
       }
+      renderCitations(target,citations);
       if(h.platformFee)target.append(element('p',h.platformFee.label,'muted'));
     });
   }
@@ -235,7 +236,7 @@ export function render(){
   text('case-title',displayTitle(requireView().case.title));$('case-title').title=requireView().case.title;const savedCount=(r.shortlistCandidateIds||[]).length;text('saved-count',savedCount);show('saved-count',savedCount>0);$('saved').setAttribute('aria-label',savedCount>0?'Saved '+savedCount:'Saved');
   renderConditions();renderChanges();renderProgress();const end=mode==='CANDIDATES'&&state.ui.atEnd&&!r.progress.active&&requireView().case.phase==='PRESENT_RESULTS';
   show('candidate-panel',mode==='CANDIDATES'&&!!candidate()&&!end&&(!state.preview||state.preview.phase==='card'));show('batch-end',!!end);show('details',mode==='DETAILS'&&!!candidate());show('saved-panel',mode==='SAVED');show('saved',mode!=='SAVED');conditionRow.hidden=['SAVED','HANDOFF'].includes(mode);conditionRow.style.visibility=mode==='CANDIDATES'&&(state.preview&&state.preview.phase==='understanding'||!candidate()&&!$('request-conditions').childElementCount&&(r.progress.active||requireView().case.phase==='UNDERSTANDING'))?'hidden':'';show('handoff',mode==='HANDOFF'&&!!candidate());
-  show('end-saved',savedCount>0);text('end-saved-count',savedCount);$('end-saved').setAttribute('aria-label','Saved '+savedCount);$('find-more').disabled=state.blocked;
+  $('find-more').disabled=state.blocked;
   if(mode==='CANDIDATES'&&!end)renderCard();if(mode==='DETAILS')renderDetails();if(mode==='SAVED')renderSaved();if(mode==='HANDOFF')renderHandoff();renderPhotos();
   renderReadState(!!end);const busy=!!(pending||state.preview||state.sending||state.blocked||r.progress.active||['UNDERSTANDING','SEARCHING'].includes(requireView().case.phase));
   const clarifying=!busy&&mode==='CANDIDATES'&&requireView().case.phase==='NEEDS_INPUT';

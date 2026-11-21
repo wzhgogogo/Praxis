@@ -6483,3 +6483,8 @@ Reuse one domain eligibility predicate and ready-candidate boundary across reduc
 ## 2026-11-21 — Round20 slice2 intent maintenance and admission
 
 Add deterministic inherited OPEN_ENDED query maintenance; preserve explicit target/clear, named outlets, goal/scope/count and valid cafe intent. Apply through the authorized intent-state exception only (one import + one call); record whole-file before/after hashes and exact diff, with all other text equal. Share Google intent context across ordinary/named/detail paths; gate restricted food types and generic evening mixed cafes before every structural allow route. Compare revision changes to the last actually searched/presented/empty revision.147 targeted regressions and type/architecture pass. Capability Matrix updated; no extraction/scoring/real calls.
+
+
+## 2026-11-21 — Round20 slice3 presentation and reading groups
+
+Reuse two strict DAG modules for pure citation grouping and DOM presentation. Preserve exact reading timestamps and bilingual/context labels; unify About, Q&A, Handoff and answer sheet. Restore two-column card/condition alignment, domain source links, semantic category overlap, compact spacing, static added-only summaries and equal batch actions. Existing layout/text assertions follow the requested contract; pending-edit main Case stays frozen while authoritative deferred SSE progress can complete. No dependency/CSP change. Targeted new UI8, pure5 and affected controls pass; full acceptance pending.

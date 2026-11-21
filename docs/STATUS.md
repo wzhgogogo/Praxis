@@ -1400,3 +1400,6 @@ Round19 (draft / not integrated): RECONFIRM now uses a tab-local user/Case key a
 Round20 slice1 (draft / not integrated): stopped About eligibility is shared through reducer/validation/execution/application, with exact-handle inline Stop and persistent answer history. Event-bound server progress replaces stale semantic-stage display; busy requests render authoritative SSE progress. Targeted24 unit +35 browser controls pass, including Round19. Full unified acceptance pending.
 
 Round20 slice2 (draft / not integrated): inherited OPEN_ENDED query cleanup, contextual Google type admission in all three entries and clarification-skipping result differences pass147 targeted regressions plus type/architecture. intent-state.ts has an explicitly authorized import + applyRestaurantIntentPatch call; all remaining text including missingBlockingFields is identical. Full unified acceptance pending.
+
+
+Round20 slice3 (draft / not integrated): clean source/domain labels, aligned availability/conditions, compact card spacing, equal batch actions, revised changes, shared exact URL/time citation groups and layered About/answer sheet. New dual-size UI8/8 and pure contracts5/5 pass; related workspace controls56/56 and corrected focused controls4/4 pass; full unified frozen acceptance follows. No Live/real PG/4312.

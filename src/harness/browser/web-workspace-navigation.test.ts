@@ -211,7 +211,7 @@ async function proseTypography(page: Page) {
   for(const node of await page.locator('h1:visible,h2:visible,h3:visible').all()) {const ratio=await node.evaluate(e=>{const s=getComputedStyle(e);return parseFloat(s.lineHeight)/parseFloat(s.fontSize);});assert.ok(ratio>=1.24&&ratio<=1.31,'heading leading');}
 }
 async function controlTypography(page: Page) {
-  for (const selector of ['#new-case', '.view-back', '#end-saved', '#end-adjust', '#empty-adjust', '#saved', '#details-button']) {
+  for (const selector of ['#new-case', '.view-back', '#end-adjust', '#empty-adjust', '#saved', '#details-button']) {
     for (const node of await page.locator(selector).all()) if (await node.isVisible()) {
       const style = await node.evaluate(e => {const s = getComputedStyle(e);return {size:s.fontSize,weight:s.fontWeight,line:parseFloat(s.lineHeight)/parseFloat(s.fontSize)};});
       assert.equal(style.size, '13px', selector);assert.equal(style.weight, '500', selector);assert.ok(Math.abs(style.line - 1.4) < .02, selector + ' control leading');

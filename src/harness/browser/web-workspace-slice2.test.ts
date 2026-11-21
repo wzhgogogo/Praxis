@@ -105,14 +105,14 @@ for(const size of sizes){
       assert.doesNotMatch(await page.locator("body").innerText(),/0 removed|0 added/);await capture(page,size.name+"-slice2-zero-changes");
       await page.locator("#next").click();await page.locator("#next").click();const last=await page.locator("#restaurant-name").innerText();
       await page.locator("#next").click();await page.getByRole("heading",{name:"Any of these work?",exact:true}).waitFor();
-      assert.equal(await page.locator("#candidate-panel").isVisible(),false);assert.equal(await page.locator("#end-saved").getAttribute("aria-label"),"Saved 1");
-      await page.locator("#end-saved").click();await page.locator("#saved-back").click();await page.locator("#batch-back").click();assert.equal(await page.locator("#restaurant-name").innerText(),last);
+      assert.equal(await page.locator("#candidate-panel").isVisible(),false);assert.equal(await page.locator("#saved").getAttribute("aria-label"),"Saved 1");
+      await page.locator("#saved").click();await page.locator("#saved-back").click();await page.locator("#batch-back").click();assert.equal(await page.locator("#restaurant-name").innerText(),last);
       await page.locator("#next").click();await page.locator("#end-adjust").click();assert.equal(await page.locator("#message").evaluate(n=>n===document.activeElement),true);
       await page.locator("#message").fill("Keep this draft while finding more");await capture(page,size.name+"-slice2-batch-end");
       const response=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith("/another-batch"));await page.locator("#find-more").click();assert.equal((await response).status(),200);
       await ready(page);assert.match(await page.locator("#restaurant-name").innerText(),/Fixture later restaurant/);
       assert.equal(await page.locator("#revision-changes").isVisible(),true,"a nonzero addition still shows the changes row");
-      assert.equal(await page.locator("#removed-count").isVisible(),false);assert.equal(await page.locator("#added-count").innerText(),"3 new");assert.equal(await page.locator("#removed-list").isVisible(),false);assert.equal(await page.locator("#revision-changes summary").getAttribute("aria-disabled"),"true");assert.equal(await page.locator("#revision-changes summary").getAttribute("tabindex"),"-1");await page.locator("#revision-changes summary").evaluate(node=>(node as HTMLElement).click());assert.equal(await page.locator("#revision-changes").evaluate(node=>(node as HTMLDetailsElement).open),false);
+      assert.equal(await page.locator("#removed-count").isVisible(),false);assert.equal(await page.locator("#added-count").innerText(),"3 new places");assert.equal(await page.locator("#removed-list").isVisible(),false);assert.equal(await page.locator("#revision-changes summary").getAttribute("aria-disabled"),"true");assert.equal(await page.locator("#revision-changes summary").getAttribute("tabindex"),"-1");await page.locator("#revision-changes summary").evaluate(node=>(node as HTMLElement).click());assert.equal(await page.locator("#revision-changes").evaluate(node=>(node as HTMLDetailsElement).open),false);
       assert.equal(await page.locator("#message").inputValue(),"Keep this draft while finding more");
       assert.equal(posts.filter(p=>p.path.endsWith("/another-batch")).length,1);
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}
@@ -174,7 +174,7 @@ for(const size of sizes)for(const scenario of ["structured","missing"] as const)
       assert.deepEqual(view.restaurant.revisionDiff.removed.map((r:{outletName:string;reasonCode:string})=>[r.outletName,r.reasonCode]),[[oldBudget,expected[0]],[oldTime,expected[1]]]);
       assert.equal(view.restaurant.revisionDiff.added.length,1);assert.equal(view.restaurant.revisionDiff.added[0].outletName,"Fixture new option");
       assert.deepEqual(view.restaurant.savedCandidates.map((r:{outletName:string;reasonCode:string;current:boolean})=>[r.outletName,r.reasonCode,r.current]),[[oldBudget,expected[0],false],[oldTime,expected[1],false]]);
-      assert.equal(await page.locator("#removed-count").innerText(),"2 places no longer match");assert.equal(await page.locator("#added-count").innerText(),"1 new");
+      assert.equal(await page.locator("#removed-count").innerText(),"2 no longer match");assert.equal(await page.locator("#added-count").innerText(),"1 new, ");
       await page.locator("#revision-changes summary").click();
       const reasons=await page.locator("#removed-list").innerText();assert.match(reasons,new RegExp(oldBudget));assert.match(reasons,new RegExp(oldTime));
       if(scenario==="structured"){assert.match(reasons,/Over budget/);assert.match(reasons,/Doesn't match the new time/);}else{assert.equal(await page.getByText("No longer matches",{exact:true}).count(),2);}
@@ -314,7 +314,7 @@ for(const size of sizes)test("Workspace 3c "+size.name+": each observed booking 
    assert.match(family,/^["']?DM Sans["']?,/,'all UI text and brand use DM Sans: '+selector);assert.doesNotMatch(family,/Geist/);
   }
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
-  assert.equal(await page.locator('#availability').innerText(),'Available Mon, Nov 2');
+  assert.equal(await page.locator('#availability-status').innerText(),'Mon, Nov 2');
   assert.deepEqual(await page.locator('.slot-options .slot-time').allTextContents(),['19:00','19:30']);
   assert.equal(await page.locator('.slot-options .muted').count(),0);
   for(const item of ['#new-case','#saved','#details-button'])assert.equal(await page.locator(item).evaluate(n=>getComputedStyle(n).backgroundColor),'rgba(0, 0, 0, 0)');
@@ -360,7 +360,7 @@ for(const size of sizes)test('Workspace inline condition '+size.name+': capped l
   assert.equal(await page.locator('#saved-count').isVisible(),false);assert.equal(await page.locator('#saved-count').textContent(),'0');assert.equal(await page.locator('#saved').innerText(),'Saved');
   assert.equal(await page.locator('#saved-count').evaluate(n=>getComputedStyle(n).color),'rgb(95, 98, 117)');
   assert.equal(await page.locator('#choose').innerText(),"Let's book");assert.equal(await page.locator('#details-button').innerText(),'About ›');assert.equal(await page.locator('#evidence').isVisible(),false);
-  await page.locator('#details-button').click();assert.match(await page.locator('#evidence').innerText(),/TableCheck, checked/);await page.locator('#details-back').click();
+  await page.locator('#details-button').click();assert.match(await page.locator('#evidence').innerText(),/TableCheck · Checked \d{2}:\d{2}/);await page.locator('#details-back').click();
   const avatar=await page.locator('#profile-avatar').boundingBox();if(size.name==='desktop'){assert.ok(avatar);assert.equal(avatar.width,28);assert.equal(avatar.height,28);}assert.equal(await page.locator('#profile-label').textContent(),'Fixture account');
   // Dedicated HTTP error-path coverage keeps the editor open. The positive
   // four-field Save test below uses real HTTP/SSE and fixture transports, without routes.

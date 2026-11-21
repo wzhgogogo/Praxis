@@ -24,7 +24,7 @@ $('collapse-plans').onclick=event=>{if(desktopLayout.matches){state.sidebarColla
 export function closeAnswer(){show('answer-sheet',false);show('answer-backdrop',false);}
 export function openAnswer(q:PageQuestion){
   const c=candidate();if(!c||q.candidateId!==c.restaurant.id)return;
-  text('answer-place',c.restaurant.outletName);if(q.result)renderAnswer($('question-result'),q.result);
+  text('answer-place',c.restaurant.outletName);text('answer-question',q.question);if(q.result)renderAnswer($('question-result'),q.result);
   show('answer-sheet',true);show('answer-backdrop',true);$('answer-sheet').focus({preventScroll:true});
 }
 export async function askCurrentPlace(message:string){
@@ -199,10 +199,10 @@ export async function prepareBooking(){
  await refreshSelectedSlot();
 }
 $('refresh').onclick=refreshCase;
-$('answer-backdrop').onclick=closeAnswer;$('answer-dismiss').onclick=closeAnswer;
+$('answer-close').onclick=closeAnswer;$('answer-backdrop').onclick=closeAnswer;$('answer-dismiss').onclick=closeAnswer;
 let answerDragY:number|null=null;$('answer-dismiss').onpointerdown=event=>{answerDragY=event.clientY;$('answer-dismiss').setPointerCapture(event.pointerId);};
 $('answer-dismiss').onpointerup=event=>{if(answerDragY!==null&&event.clientY-answerDragY>40)closeAnswer();answerDragY=null;};
-$('batch-back').onclick=()=>moveCard(-1);$('end-saved').onclick=()=>setView('SAVED');$('end-adjust').onclick=focusAdjustment;
+$('batch-back').onclick=()=>moveCard(-1);$('end-adjust').onclick=focusAdjustment;
 export async function findMore(){
   if(state.blocked||!state.view)return;
   const nav=state.nav,caseId=requireView().case.caseId;
