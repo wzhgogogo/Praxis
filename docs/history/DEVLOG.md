@@ -6488,3 +6488,12 @@ Add deterministic inherited OPEN_ENDED query maintenance; preserve explicit targ
 ## 2026-11-21 — Round20 slice3 presentation and reading groups
 
 Reuse two strict DAG modules for pure citation grouping and DOM presentation. Preserve exact reading timestamps and bilingual/context labels; unify About, Q&A, Handoff and answer sheet. Restore two-column card/condition alignment, domain source links, semantic category overlap, compact spacing, static added-only summaries and equal batch actions. Existing layout/text assertions follow the requested contract; pending-edit main Case stays frozen while authoritative deferred SSE progress can complete. No dependency/CSP change. Targeted new UI8, pure5 and affected controls pass; full acceptance pending.
+
+
+<a id="unified-round20-final-20261121"></a>
+
+## 2026-11-21 — Unified Round20 frozen offline closure and visual gap
+
+Source/config freeze `5af7970180a92214b9eb210d95e0752b0ac7aa82` follows three separately tested functional commits. One authority admits stopped/CANCELLED openable About questions through reducer, validator, router, application and browser; pending questions have exact-handle Stop, active lifecycle and persistent history. Progress follows the semantic event rather than preparing-map heuristics, with deferred SSE progress separate from frozen pending-edit Case state. Deterministic inherited OPEN_ENDED query maintenance preserves explicit/named targets and required goal/scope/count; Google ordinary/named/detail type admission shares intent; revisions skip clarification-only intermediates. Source domains, category equivalence, aligned card rows, batch/revision hierarchy and shared URL/readAt citations preserve bilingual Handoff context.
+
+All five gates and three visual automated suites pass. Human inspection leaves one presentation difference open:390px question-sheet source/time footer naturally wraps to two physical lines. No source was changed after freeze to hide that difference. intent-state whole-file hashes and limited import/function-call diff record the authorized exception; its other bytes, including missingBlockingFields, remain identical. Raw diagnostics (including Node assertion formatting/orphan cleanup), all121 images/contact sheets and SHA256 are retained. No external calls, real PostgreSQL,4312,push/main merge. [Report](../../.eval-artifacts/3c-unified-20261117/round-20/REPORT.md).

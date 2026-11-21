@@ -7204,3 +7204,14 @@ Frozen 9542dacca067849d00312ee5d346e95d759ebcf9: all five gates PASS, default179
 ## 2026-11-21 — Round20 slice3 targeted acceptance
 
 New Round20 UI8/8 at390/1440, pure selection/citation/architecture5/5 and Style1/Round4 controls16/16 pass. Four corrected source-wording/deferred-progress/exhaustion controls pass. Initial setup, button-width and Node assertion diagnostic hangs remain separate raw logs. Full five gates and all visual runs will use one final clean source/config commit; no source changes after that freeze.
+
+
+<a id="unified-round20-final-20261121"></a>
+
+## 2026-11-21 — Unified Round20 complete offline acceptance
+
+Frozen `5af7970180a92214b9eb210d95e0752b0ac7aa82`: Typecheck1.094s, Arch0 violations0.372s, npm test1820/1820 in100.869s, Browser Fixture G2 5/5 + Chromium493/493 (aggregate498) + G6 159/159 in424.698s, Build0.573s. All exit0, clean before/after, minimal environment/no dotenv. Browser gate has no outer sandbox; Replay children keep OS isolation. One frozen full run, source unchanged thereafter. All10 Round19 and8 Round20 browser journeys pass. Strict18-module DAG0 cycles/any/suppressions,19 JS assets plus HTML/CSS identical between tsx/build.
+
+Formal16/16 (41 images,31.996s), Style1 6/6 (6 images,7.791s), states78/78 (74 images,99.554s); all121 images inspected via15 contact sheets,26 new key frames opened individually. **Human visual review: ONE_DISPLAY_DEVIATION_OPEN** for390px citation footer physical wrapping; footer count/time grouping pass, no physical-line-count assertion was present. Long content remains scrollable; some error frames retain prior scroll positions. Real-source answer quality/S0 remain NOT_EVALUATED.
+
+Preflight24 unit/35 browser,147 slice2, UI8/pure5/Style1-Round4 16/focused4/workspace56 pass; initial presentation/progress assertion failures and bounded Node diagnostics remain original.9208 prior evidence +110 walkthrough files unchanged. intent-state authorized change explicitly audited, no whole-file-unchanged claim. Main/env unchanged; closeout absent.git pre-existed, only registry/residual proof. [Report](../../.eval-artifacts/3c-unified-20261117/round-20/REPORT.md) · [Raw gate manifest](../../.eval-artifacts/3c-unified-20261117/round-20/gates/manifest.json).

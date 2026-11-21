@@ -1403,3 +1403,8 @@ Round20 slice2 (draft / not integrated): inherited OPEN_ENDED query cleanup, con
 
 
 Round20 slice3 (draft / not integrated): clean source/domain labels, aligned availability/conditions, compact card spacing, equal batch actions, revised changes, shared exact URL/time citation groups and layered About/answer sheet. New dual-size UI8/8 and pure contracts5/5 pass; related workspace controls56/56 and corrected focused controls4/4 pass; full unified frozen acceptance follows. No Live/real PG/4312.
+
+
+<a id="unified-round20-final-20261121"></a>
+
+2026-11-21 — Unified Round20, draft / not integrated. Three slices commit stopped About eligibility/execution/Stop/history + event-bound progress, inherited OPEN_ENDED query / three-entry Google admission / clarification-aware diff, and shared exact-reading citation/card/About presentation. Frozen `5af7970180a92214b9eb210d95e0752b0ac7aa82` passes one clean five-gate run: default1820, G2 5, Chromium493, G6 159, build PASS. Round19 ten restore controls retained. Formal16, Style1 6, states78;121 images inspected plus26 new frames individually. strict:true,18 singleton SCCs,0 cycles,19 identical JS assets and identical HTML/CSS. intent-state.ts has an explicitly authorized one-import/one-call change; missingBlockingFields and all other text identical.9208 prior evidence +110 walkthrough hashes and main/env preserved; closeout already missing.git audited by registry/residuals. **One visual gap remains:**390px answer-source footer wraps to two physical lines; one footer/read time per group is correct, literal physical single-line requirement remains open. No src changes after freeze;0 Live/real PG/4312/push/main merge. [Report](../.eval-artifacts/3c-unified-20261117/round-20/REPORT.md).
