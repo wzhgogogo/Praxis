@@ -1,0 +1,74 @@
+TAP version 13
+# Subtest: Round18 preparation publication gap never advertises an unowned Stop
+not ok 1 - Round18 preparation publication gap never advertises an unowned Stop
+  ---
+  duration_ms: 812.415666
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:23934'
+  failureType: 'testCodeFailure'
+  error: |-
+    a published Case without a handle cannot expose Stop
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:395:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+  ...
+# Subtest: Round18 persisted semantic winner regains preparation from an uncommitted contender
+not ok 2 - Round18 persisted semantic winner regains preparation from an uncommitted contender
+  ---
+  duration_ms: 1644.433084
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:25352'
+  failureType: 'testCodeFailure'
+  error: 'the committed winner must launch source work instead of becoming an orphan'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:419:10)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+# Subtest: Round18 Stop wins semantic dispatch CAS without rejecting the cancelled input
+not ok 3 - Round18 Stop wins semantic dispatch CAS without rejecting the cancelled input
+  ---
+  duration_ms: 511.347125
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:27102'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"ok":false,"error":{"expectedVersion":0,"actualVersion":1,"name":"StaleTaskVersionError"}}
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:434:53)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 0
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3618.862375

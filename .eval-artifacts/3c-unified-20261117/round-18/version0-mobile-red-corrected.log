@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: Round18 UI: mobile delayed version0 Stop cannot cancel a replacement version0 preparation
+not ok 1 - Round18 UI: mobile delayed version0 Stop cannot cancel a replacement version0 preparation
+  ---
+  duration_ms: 1424.248291
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:62964'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"view":{"mode":"LIVE_READ","case":{"caseId":"restaurant:0a715d6aa78e382f4702c282","conversationId":"conversation:0a715d6aa78e382f4702c282","rootTaskId":"restaurant:0a715d6aa78e382f4702c282","title":"Dinner in Tokyo","status":"COMPLETED","phase":"FAILED","taskVersion":1,"stopped":true,"pendingUserAction":"REVIEW_ATTENTION","updatedAt":"2026-10-29T10:00:00.000Z"},"conversation":{"id":"conversation:0a715d6aa78e382f4702c282","messages":[]},"restaurant":{"requirementRevision":0,"questionHistory":[],"savedCandidates":[],"readStatus":{"kind":"OTHER_FAILURE","partialSourceFailure":false,"canContinue":false,"canRetry":false},"missingRequiredFields":["date","timeWindow","partySize","area"],"searchRevision":0,"readyCandidateIds":[],"progress":{"active":false,"stopped":true},"bookingFeedbackAvailable":false,"candidates":[],"availability":{},"availabilityChecks":{},"readEvidence":[],"currentFactEvidence":[],"sourceReadContext":{"runId":"run:restaurant:0a715d6aa78e382f4702c282:investigation:0","startedAt":"2026-10-29T10:00:00.000Z"},"bookingHandoffs":[]},"artifacts":[{"artifactId":"artifact:outcome:restaurant:0a715d6aa78e382f4702c282:1","caseId":"restaurant:0a715d6aa78e382f4702c282","domain":"restaurant","type":"OUTCOME","sourceVersion":1,"data":{"outcome":{"reason":"The user cancelled this read-only investigation.","status":"FAILED"}}}],"activities":[{"activityId":"activity:event:user:ce04f9ee8378daa9b39a3a64b5a12be9","caseId":"restaurant:0a715d6aa78e382f4702c282","sourceRef":{"kind":"EVENT","id":"event:user:ce04f9ee8378daa9b39a3a64b5a12be9"},"type":"AGENT_LOOP_TERMINATED","display":{"title":"Agent loop stopped","detail":"CANCELLED: The user cancelled this read-only investigation."},"occurredAt":"2026-10-29T10:00:00.000Z"}],"note":"Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."}}
+    
+    200 !== 409
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 409
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1283:64)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1268:2)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2045.097917
