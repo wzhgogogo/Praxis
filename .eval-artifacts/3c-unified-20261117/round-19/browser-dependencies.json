@@ -1,0 +1,170 @@
+{
+  "sha": "9542dacca067849d00312ee5d346e95d759ebcf9",
+  "browserStrict": true,
+  "graph": {
+    "actions": [
+      "view-contracts"
+    ],
+    "composer": [
+      "runtime"
+    ],
+    "entry": [
+      "actions",
+      "composer",
+      "navigation",
+      "photos",
+      "position",
+      "preview",
+      "queries",
+      "runtime",
+      "selected-slot",
+      "session",
+      "transport",
+      "view-contracts",
+      "views"
+    ],
+    "format": [
+      "runtime",
+      "view-contracts"
+    ],
+    "navigation": [
+      "actions",
+      "photos",
+      "position",
+      "preview",
+      "queries",
+      "runtime",
+      "selected-slot",
+      "session",
+      "view-contracts"
+    ],
+    "photos": [
+      "actions",
+      "format",
+      "queries",
+      "runtime",
+      "view-contracts"
+    ],
+    "position": [
+      "runtime"
+    ],
+    "preview": [
+      "actions",
+      "runtime",
+      "view-contracts"
+    ],
+    "queries": [
+      "runtime"
+    ],
+    "runtime": [
+      "actions",
+      "slot-selection",
+      "view-contracts"
+    ],
+    "selected-slot": [
+      "runtime",
+      "slot-selection",
+      "view-contracts"
+    ],
+    "session": [
+      "actions",
+      "composer",
+      "position",
+      "runtime",
+      "view-contracts"
+    ],
+    "slot-selection": [],
+    "transport": [
+      "actions",
+      "format",
+      "position",
+      "preview",
+      "runtime",
+      "selected-slot",
+      "session",
+      "view-contracts"
+    ],
+    "view-contracts": [],
+    "views": [
+      "actions",
+      "composer",
+      "format",
+      "photos",
+      "position",
+      "queries",
+      "runtime",
+      "selected-slot",
+      "view-contracts"
+    ]
+  },
+  "stronglyConnectedComponents": [
+    [
+      "view-contracts"
+    ],
+    [
+      "actions"
+    ],
+    [
+      "slot-selection"
+    ],
+    [
+      "runtime"
+    ],
+    [
+      "composer"
+    ],
+    [
+      "format"
+    ],
+    [
+      "queries"
+    ],
+    [
+      "photos"
+    ],
+    [
+      "position"
+    ],
+    [
+      "preview"
+    ],
+    [
+      "selected-slot"
+    ],
+    [
+      "session"
+    ],
+    [
+      "navigation"
+    ],
+    [
+      "transport"
+    ],
+    [
+      "views"
+    ],
+    [
+      "entry"
+    ]
+  ],
+  "cycleCount": 0,
+  "sourceSHA256": {
+    "actions": "816613b0dcce09d42db42f29707e5e12b005be45ff80ce6bd493312897cbc093",
+    "composer": "84adc9cf96d9a855aed5b773f0295b78932cc274a177b5113759e43659e3e0af",
+    "entry": "9771ba88e8f842064d164be586121028a2b1157c52b006124bcb802a35f95668",
+    "format": "d742cae00606fdbcb42b0b6d43af3f74d115d594c53a8c08f08085af020095ce",
+    "navigation": "436f504f137849da0c85d098a03aedbaa80f1a1ba76b7d4bd30a2fd0b698cfe6",
+    "photos": "290e6d37bf7a63c5bd627de1d97bb00caf7460ff2ff585bc61e9ce314c17a1ce",
+    "position": "83e3a876756e1055fba6261b504e59b8dcee532b1f975e63ee2017093a06147f",
+    "preview": "7cd7e8fd9dbed6c3be7e9e285fbf85a81667a2fe49153a9c7a358ce12fb2f5f3",
+    "queries": "8d0955edace9fca2b9a33401c2682b13e1c423481a98512bba74dc200681224a",
+    "runtime": "a5bbe07df54c6b4431480b0484e1238f5e0cc9df6c017f6a588588d354c10de4",
+    "selected-slot": "1d7a70fecc2063ff197f519b7b49cd246dbcb842bbfb31745289469b914e1e65",
+    "session": "f30c5cbd8d193e58852a5bbc54fcafd8d4f2563bcd89f341e4b744898f88e234",
+    "slot-selection": "10e6226f0b507c08afc7a7838134e281dfdbae79bde781ecf537a2867e876ae7",
+    "transport": "20a643e248e3d276b6a787203c9efe08c8b8109d21814006153de1e90d0efc5f",
+    "view-contracts": "ef3153ccc119fb7b3e59e5c5003742dc3a736346f6c4176476e09611191ed1e8",
+    "views": "ffd279e6f64366b907b12d07cdcec480e2ca7a8f7c450ab592271f78a3b63acf"
+  },
+  "notes": "Includes type-only imports. Request/renderer/navigation callbacks wired only by entry; no module imports entry."
+}
