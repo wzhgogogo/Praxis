@@ -1,26 +1,75 @@
-import type {RestaurantIntentDraft,RestaurantIntentPatch} from './contracts.js';
-const normalize=(value:string)=>value.normalize('NFKC').trim().toLocaleLowerCase('en-US');
-const escape=(value:string)=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-function removeTerm(query:string,term:string,negative=false){
- const word=escape(term.normalize('NFKC').trim()).replace(/\s+/g,'\\s+');if(!word)return query;
- const boundary=/^[\x00-\x7F]+$/.test(term)?['(?<![\\p{L}\\p{N}])','(?![\\p{L}\\p{N}])']:['',''];
- return query.replace(new RegExp(boundary[0]+(negative?'(?:(?:no|not|without|avoid)\\s+)?':'')+word+boundary[1],'giu'),' ');
+import type { RestaurantIntentDraft, RestaurantIntentPatch } from "./contracts.js";
+
+const fold = (value: string) => value.normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase();
+const normalize = (value: string) => fold(value).trim().replace(/\s+/g, " ");
+const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+function criterionPhrase(text: string): string {
+  const literal = escape(normalize(text)).replace(/\s+/g, "\\s+");
+  const served = normalize(text).match(/^(?:serves|serving|offers|offering) (.+)$/);
+  if (!served) return literal;
+  const object = escape(served[1]!).replace(/\s+/g, "\\s+");
+  return `(?:with|that\\s+serves|serves|serving|that\\s+offers|offers|offering)\\s+${object}`;
 }
-/** Pure maintenance of the inherited open-ended query; no model or name rewriting. */
-export function maintainOpenEndedTargetQuery(current:RestaurantIntentDraft|undefined,next:RestaurantIntentDraft,patch:RestaurantIntentPatch):void{
- if(Object.hasOwn(patch,'target')||!current?.target||next.target?.selectionScope!=='OPEN_ENDED')return;
- if(!['area','removeCriteria','replaceCriteria','addCriteria'].some(key=>Object.hasOwn(patch,key)))return;
- const key=(item:RestaurantIntentDraft['criteria'][number])=>normalize(item.text)+'\0'+item.polarity;
- if(current.area?.query===next.area?.query&&JSON.stringify(current.criteria.map(key))===JSON.stringify(next.criteria.map(key)))return;
- let query=current.target.query.normalize('NFKC');
- const retained=new Set(next.criteria.map(key));
- for(const item of current.criteria)if(!retained.has(key(item)))query=removeTerm(query,item.text,item.polarity==='NEGATIVE');
- for(const item of next.criteria)if(item.polarity==='NEGATIVE')query=removeTerm(query,item.text,true);
- if(current.area?.query)query=removeTerm(query,current.area.query);
- query=query.replace(/\s+/g,' ').replace(/^\s*(?:find|show|recommend|look for|search for)\s+/i,'')
-  .replace(/(?:\s+(?:in|near|around|at)|[,;:])\s*$/gi,'').trim();
- if(!query)query='restaurant';
- for(const item of next.criteria)if(item.polarity==='POSITIVE'&&!normalize(query).includes(normalize(item.text)))query+=' '+item.text.trim();
- if(next.area?.query)query+=' in '+next.area.query.trim();
- next.target={...next.target,query:query.trim()};
+
+function phrase(pattern: string): string {
+  return `(?<![\\p{L}\\p{N}])(?:${pattern})(?![\\p{L}\\p{N}])`;
+}
+
+/** Match folded text but remove only the matching span from the original spelling. */
+function removePhrase(query: string, pattern: string, joiners = false): string {
+  let folded = "";
+  const original: Array<{ start: number; end: number }> = [];
+  for (const match of query.matchAll(/\P{M}\p{M}*|\p{M}+/gu)) {
+    const text = fold(match[0]);
+    folded += text;
+    for (let i = 0; i < text.length; i++) original.push({ start: match.index, end: match.index + match[0].length });
+  }
+  const matches = [...folded.matchAll(new RegExp(phrase((joiners ? "(?:and\\s+)?" : "") + pattern), "gu"))];
+  for (const match of matches.reverse()) {
+    const start = original[match.index]!.start;
+    const end = original[match.index + match[0].length - 1]!.end;
+    const tail = query.slice(end);
+    const nextConjunction = joiners && !/^and\s/u.test(match[0]) && tail.match(/^\s+and\s+/iu);
+    query = query.slice(0, start) + (nextConjunction && /^with\s/u.test(match[0]) ? " with " : " ")
+      + (nextConjunction ? tail.slice(nextConjunction[0].length) : tail);
+  }
+  return query;
+}
+
+/** Edit the inherited query in place, preserving wording outside the changed conditions. */
+export function maintainOpenEndedTargetQuery(
+  current: RestaurantIntentDraft | undefined, next: RestaurantIntentDraft, patch: RestaurantIntentPatch,
+): void {
+  if (Object.hasOwn(patch, "target") || !current?.target || next.target?.selectionScope !== "OPEN_ENDED") return;
+  if (!["area", "removeCriteria", "replaceCriteria", "addCriteria"].some(key => Object.hasOwn(patch, key))) return;
+
+  const key = (item: RestaurantIntentDraft["criteria"][number]) => normalize(item.text) + "\0" + item.polarity;
+  const previous = new Set(current.criteria.map(key));
+  const retained = new Set(next.criteria.map(key));
+  if (current.area?.query === next.area?.query && previous.size === retained.size
+    && [...previous].every(item => retained.has(item))) return;
+
+  let query = current.target.query;
+  const revoked = current.criteria.filter(item => !retained.has(key(item)));
+  const added = next.criteria.filter(item => !previous.has(key(item)));
+  for (const item of [...revoked, ...added.filter(item => item.polarity === "NEGATIVE")]) {
+    const term = criterionPhrase(item.text);
+    if (!term) continue;
+    const prefix = item.polarity === "NEGATIVE" ? "(?:(?:no|not|without|avoid)\\s+)?" : "";
+    query = removePhrase(query, prefix + term, true);
+  }
+
+  const oldArea = current.area?.query;
+  const newArea = next.area?.query;
+  if (oldArea) query = removePhrase(query, "(?:(?:in|near|around|at)\\s+)?" + escape(normalize(oldArea)).replace(/\s+/g, "\\s+"));
+  query = query.replace(/\s+/g, " ").trim().replace(/(?:\s+(?:in|near|around|at|with|and|that)|[,;:])+$/giu, "").trim();
+  if (!query) query = "restaurant";
+  for (const item of added) {
+    if (item.polarity === "POSITIVE" && !new RegExp(phrase(criterionPhrase(item.text)), "u").test(normalize(query))) {
+      query += " " + item.text.trim();
+    }
+  }
+  if (newArea) query += " in " + newArea.trim();
+  next.target = { ...next.target, query };
 }

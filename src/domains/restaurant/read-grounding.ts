@@ -124,27 +124,55 @@ const LIGHT_FOOD_TYPES:Record<string,RegExp>={
  donut_shop:/donut|doughnut|ドーナツ/iu,juice_shop:/juice|ジュース/iu,acai_shop:/acai|açaí|アサイー/iu,
  meal_takeaway:/take.?away|take.?out|to go|持ち帰り|テイクアウト/iu,meal_delivery:/delivery|配達|デリバリー/iu,pizza_delivery:/delivery|配達|デリバリー/iu,
 };
+const LIGHT_FOOD_CATEGORY_LABELS: Record<string, readonly string[]> = {
+  sandwich_shop: ["sandwich", "サンドイッチ"],
+  dessert_shop: ["dessert", "sweets", "sweet", "デザート", "スイーツ"],
+  dessert_restaurant: ["dessert", "sweets", "sweet", "デザート", "スイーツ"],
+  snack_bar: ["snack", "snack bar", "light meal", "軽食"],
+  ice_cream_shop: ["ice cream", "gelato", "アイス"],
+  bagel_shop: ["bagel", "ベーグル"],
+  donut_shop: ["donut", "doughnut", "ドーナツ"],
+  juice_shop: ["juice", "ジュース"],
+  acai_shop: ["acai", "アサイー"],
+  meal_takeaway: ["meal takeaway", "takeaway", "takeout", "take away", "take out", "to go", "持ち帰り", "テイクアウト"],
+  meal_delivery: ["meal delivery", "delivery", "配達", "デリバリー"],
+  pizza_delivery: ["pizza delivery", "delivery", "配達", "デリバリー"],
+};
+
+function categoryLabel(value: string): string {
+  return normalized(value.normalize("NFKD").replace(/\p{M}/gu, "").replace(/[_-]+/g, " "))
+    .replace(/^(?:no|not|without|avoid)\s+/, "")
+    .replace(/\s+(?:restaurants?|cuisines?|shops?|dining type)$/, "")
+    .replace(/\b(\w{3,})s\b/g, "$1");
+}
+
+/** Match whole category labels, never a shared word in a quality/degree condition. */
+function excludesCategory(criterion: string, type: string): boolean {
+  const labels = [type, ...(LIGHT_FOOD_CATEGORY_LABELS[type] ?? [])].map(categoryLabel);
+  return criterion.split("/").some(value => labels.includes(categoryLabel(value)));
+}
+
 function usableRestaurant(place:UntrustedGooglePlaceObservation,input:GoogleDiscoveryGroundingInput):boolean{
  const normalizeType=(type:string)=>type.trim().toLowerCase().replace(/[\s-]+/g,'_');
  const primary=place.primaryType===undefined?undefined:normalizeType(place.primaryType),types=[...new Set([...(primary?[primary]:[]),...(place.types??[]).map(normalizeType)])];
  const isDining=(type:string)=>type==='restaurant'||type.endsWith('_restaurant')||DINING_PRIMARY_TYPES.has(type);
- const negative=[...(input.negativeCriteria??[]),...(input.criteria??[]).filter(c=>c.polarity==='NEGATIVE').map(c=>c.text)].join(' ');
+ const negative = [...(input.negativeCriteria ?? []), ...(input.criteria ?? []).filter(c => c.polarity === 'NEGATIVE' && c.strength === 'HARD').map(c => c.text)];
  const target=(input.targetQuery??'').replace(/(?:no|not|without|avoid)\s+(?:desserts?|sweets?|sandwich(?:es)?|caf[eé]s?|bakeries|bakery|takeaway|delivery)/giu,'');
  const positive=[target,...(input.requiredTypeCriteria??[]),...(input.criteria??[]).filter(c=>c.polarity==='POSITIVE').map(c=>c.text)].join(' ');
- const requested=(pattern:RegExp)=>pattern.test(positive)&&!pattern.test(negative);
+ const requested=(pattern:RegExp)=>pattern.test(positive);
  const specific=input.selectionScope==='SPECIFIC_OUTLET';
  const restricted=types.filter(t=>LIGHT_FOOD_TYPES[t]);
- if(primary&&LIGHT_FOOD_TYPES[primary])return !LIGHT_FOOD_TYPES[primary]!.test(negative)&&(specific||requested(LIGHT_FOOD_TYPES[primary]!));
+ if (restricted.some(type => negative.some(criterion => excludesCategory(criterion, type)))) return false;
+ if(primary&&LIGHT_FOOD_TYPES[primary])return specific||requested(LIGHT_FOOD_TYPES[primary]!);
  const lightIntent=/caf[eé]|coffee|dessert|sweet|sandwich|baker|pastr|カフェ|喫茶|デザート|サンド|パン/iu;
  const evening=/(?:EVENING|DINNER)/i.test(input.requestedTimeWindowBasis??'')||!!input.requestedTimeWindow&&input.requestedTimeWindow.earliest>='17:00';
  const cafe=(primary==='cafe'||primary==='coffee_shop'||!primary&&types.some(t=>t==='cafe'||t==='coffee_shop'));
  if(cafe&&restricted.length&&evening&&!specific){
-  if(restricted.some(t=>LIGHT_FOOD_TYPES[t]!.test(negative))||!requested(lightIntent))return false;
+  if(!requested(lightIntent))return false;
  }
  if(primary!==undefined)return isDining(primary);
  const substantial=types.some(t=>isDining(t)&&!['restaurant','cafe','coffee_shop','bakery','tea_house'].includes(t)&&!LIGHT_FOOD_TYPES[t]);
  if(restricted.length&&!substantial&&!specific){
-  if(restricted.some(t=>LIGHT_FOOD_TYPES[t]!.test(negative)))return false;
   if(!restricted.some(t=>requested(LIGHT_FOOD_TYPES[t]!))&&!(cafe&&requested(lightIntent)))return false;
  }
  return types.some(type=>type==='food'||isDining(type));
@@ -221,15 +249,11 @@ function negativeTypeConflicts(
   const sourceTypes = [...new Set([...(types ?? []), ...(primaryType ? [primaryType] : [])]
     .map((value) => normalized(value.replace(/_/g, " ")))
     .filter((value) => value && !["restaurant", "cafe", "food"].includes(value)))];
-  const typeScoped = (criteria ?? []).filter((criterion) => /\b(restaurants?|cuisines?|dining type)\b/i.test(criterion));
   const result = { verified: [] as string[], violated: [] as string[], judgments: [] as string[] };
-  for (const criterion of typeScoped) {
-    const criterionTerms = normalized(criterion).split(/[^\p{L}\p{N}]+/u).filter((term) => term.length > 2 && !["restaurant", "cuisine", "dining", "type"].includes(term));
-    if (criterionTerms.length === 0) continue;
-    const matchingType = sourceTypes.find((sourceType) => {
-      const terms = new Set(sourceType.split(/[^\p{L}\p{N}]+/u).filter(Boolean));
-      return criterionTerms.some((term) => terms.has(term));
-    });
+  for (const criterion of criteria ?? []) {
+    const matchingType = sourceTypes.find(type =>
+      (/\b(?:restaurants?|cuisines?|dining type)\b/i.test(criterion) || LIGHT_FOOD_TYPES[type.replace(/ /g, "_")])
+        && excludesCategory(criterion, type.replace(/ /g, "_")));
     if (matchingType) {
       result.violated.push(criterion);
       result.judgments.push(`${criterion}<=${matchingType === normalizedPrimary ? "primaryType" : "types"}:${matchingType}`);

@@ -3,6 +3,7 @@ import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } fr
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
 import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate,namedOutletIdentityPrefix} from "./named-outlet-resolution.js";
+import type { RestaurantPageQuestionState } from "./page-question.js";
 import { acceptedPositiveHardEvidence } from "./positive-hard-evidence.js";
 
 /**
@@ -461,4 +462,25 @@ export function restaurantReadyCandidateIds(state:Readonly<RestaurantTaskState>,
 export function canAskPageQuestion(state:Readonly<RestaurantTaskState>,candidateId:string,openableCandidateIds:readonly string[]):boolean{
  return state.phase==='PRESENT_RESULTS'?!!state.presentedResults?.candidateIds.includes(candidateId)
   :state.phase==='FAILED'&&state.failure?.code==='AGENT_LOOP_CANCELLED'&&openableCandidateIds.includes(candidateId);
+}
+
+/** Bind accepted question work to the current task run and investigation. */
+export function restaurantInvestigationReadRunId(state: Readonly<RestaurantTaskState>, taskRunId: string): string {
+  return taskRunId + ":investigation:" + String(state.investigationRevision ?? 0);
+}
+
+/** Inventory freshness gates admission. An accepted question has its own read scope and deadline. */
+export function canSettlePageQuestion(
+  state: Readonly<RestaurantTaskState>,
+  question: Readonly<RestaurantPageQuestionState>,
+  currentReadRunId: string,
+): boolean {
+  const pending = state.pageQuestion;
+  return !!pending && !pending.result && !question.result
+    && pending.requestId === question.requestId && pending.candidateId === question.candidateId
+    && pending.readRunId === question.readRunId && question.readRunId === currentReadRunId
+    && currentReadRunId.endsWith(":investigation:" + String(state.investigationRevision ?? 0))
+    && state.candidates.some(candidate => candidate.restaurant.id === question.candidateId)
+    && (state.phase === "PRESENT_RESULTS" && !!state.presentedResults?.candidateIds.includes(question.candidateId)
+      || state.phase === "FAILED" && state.failure?.code === "AGENT_LOOP_CANCELLED");
 }

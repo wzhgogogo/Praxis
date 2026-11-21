@@ -9,7 +9,7 @@ export interface Evidence { evidenceId:string;candidateId?:string;kind:string;pr
 export interface Condition {text:string;status:'MET'|'NOT_MET'|'NOT_CHECKED';strength:string;explanation?:string;evidenceIds:string[];sources:SourceQuote[]}
 export interface Citation {text:string;url:string;readAt:string}
 export interface Answer {status:'ANSWERED'|'NOT_STATED'|'UNVERIFIED';answer?:string|null;confirmationRequired?:boolean;citations?:Citation[];checkedPages:{url:string;readAt:string}[]}
-export interface PageQuestion {requestId:string;question:string;candidateId:string;result?:Answer}
+export interface PageQuestion {requestId:string;question:string;candidateId:string;readRunId?:string;result?:Answer}
 export interface Handoff {candidateId:string;offerId:string;provider:string;url:string;continueLabel:string;selectionHint?:string;verificationHint?:string;displayExpiresAt:string;terms:{label:string;citations:Citation[]}[];cancellationNotice?:string;cancellationConfirmation?:string;platformFee?:{label:string}}
 export interface FeedbackPrompt {departure:{id:string}}
 export interface IntentDraft {area?:{query:string;coordinates?:{latitude:number;longitude:number}};date?:string;timeWindow?:{earliest:string;latest:string};partySize?:number;partySizeSource?:string;budgetPerPerson?:{max:number};criteria:{text:string}[];target?:{goal:string}}

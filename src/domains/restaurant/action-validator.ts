@@ -1,4 +1,4 @@
-import {canAskPageQuestion,restaurantReadyCandidateIds} from './read-assessment.js';
+import {canSettlePageQuestion} from './read-assessment.js';
 import {restaurantReadActionFits,restaurantReadClosing} from "./read-time-reserve.js";
 import type { RestaurantAgentAction } from "./agent-action.js";
 import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js";
@@ -141,6 +141,7 @@ export function validateRestaurantAction(
   action: RestaurantAgentAction,
   now: string,
   budget: RestaurantReadBudgetStatus = {},
+  currentReadRunId?: string,
 ): RestaurantActionValidation {
   if (state.phase === "OUTCOME_UNKNOWN") {
     return rejected("OUTCOME_UNKNOWN", "An unknown booking outcome must be verified before any new action");
@@ -148,7 +149,7 @@ export function validateRestaurantAction(
   if (state.pageQuestion && !state.pageQuestion.result) {
     const q = state.pageQuestion;
     if (action.type !== "ANSWER_PAGE_QUESTION") return rejected("PRESENTATION_READY", "Only the pending displayed-outlet question may be answered");
-    if (!canAskPageQuestion(state,q.candidateId,restaurantReadyCandidateIds(state,now)) || !candidate(state, q.candidateId)) return rejected("CANDIDATE_UNKNOWN", "Question outlet must belong to the currently presented batch");
+    if (!currentReadRunId || !canSettlePageQuestion(state, q, currentReadRunId)) return rejected("CANDIDATE_UNKNOWN", "Question outlet must belong to the currently presented batch");
     if (budget.remainingModelCalls !== undefined && budget.remainingModelCalls <= 0 || budget.browserModelBudgetExhausted) return rejected("READ_BUDGET_EXHAUSTED", "The question model budget is exhausted");
     if (Date.parse(q.deadlineAt) <= Date.parse(now)) return rejected("READ_TIME_RESERVED", "The question deadline expired");
     return { status: "ALLOWED" };

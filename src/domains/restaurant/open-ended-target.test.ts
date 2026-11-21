@@ -27,3 +27,23 @@ test('Round20 inherited query removal treats criterion punctuation literally',()
  const item={...omakase,text:'a+b'};const current={...draft,target:{...draft.target!,query:'a+b restaurant in Ginza'},criteria:[item]};
  assert.equal(applyRestaurantIntentPatch(current,{schemaVersion:'3',removeCriteria:[item]}).target?.query,'restaurant in Ginza');
 });
+
+test("Round21 local predicate edits preserve other conditions, outlet type and original spelling", () => {
+  const beer = {...omakase, text:"serves beer"};
+  for (const [query, expected] of [
+    ["Find me a restaurant that serves beer", "Find me a restaurant in Shibuya"],
+    ["sushi bar for lunch with beer in Ginza", "sushi bar for lunch in Shibuya"],
+    ["café with outdoor seating and serving beer in Ginza", "café with outdoor seating in Shibuya"],
+    ["café with beer and outdoor seating in Ginza", "café with outdoor seating in Shibuya"],
+  ]) {
+    const current = {...draft,target:{...draft.target!,query:query!},criteria:[beer]};
+    const revised = applyRestaurantIntentPatch(current,{schemaVersion:"3",removeCriteria:[beer],area:{query:"Shibuya"}});
+    assert.deepEqual(revised.target,{...draft.target,query:expected});
+  }
+  const beerQuery = {...draft,target:{...draft.target!,query:"Restaurants with beer in Ginza"},criteria:[beer]};
+  assert.equal(applyRestaurantIntentPatch(beerQuery,{schemaVersion:"3",area:{query:"Shibuya"}}).target?.query,"Restaurants with beer in Shibuya");
+  const quiet={...omakase,text:"quiet"},cafe={...omakase,text:"cafe"};
+  const accented={...draft,target:{...draft.target!,query:"quiet café in Ginza"},criteria:[quiet,cafe]};
+  assert.equal(applyRestaurantIntentPatch(accented,{schemaVersion:"3",removeCriteria:[quiet]}).target?.query,"café in Ginza");
+  assert.equal(applyRestaurantIntentPatch(accented,{schemaVersion:"3",removeCriteria:[cafe]}).target?.query,"quiet in Ginza");
+});

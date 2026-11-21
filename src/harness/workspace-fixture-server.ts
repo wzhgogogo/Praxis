@@ -41,7 +41,7 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;matchReasons?:string[];staged?:boolean;multiSlot?:boolean|string[];offerRevision?:string;cuisineDisagreement?:boolean|string;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean|{beforeAnswer:(input:RestaurantPageQuestionRequest,signal:AbortSignal)=>Promise<void>};inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean|{newCandidates:number;beforeDecision?:()=>Promise<void>};sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";beforeSemantic?:(message:string)=>Promise<void>;beforeSearch?:(signal:AbortSignal)=>Promise<void>;semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;matchReasons?:string[];staged?:boolean;multiSlot?:boolean|string[];offerRevision?:string;cuisineDisagreement?:boolean|string;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean|{beforeAnswer:(input:RestaurantPageQuestionRequest,signal:AbortSignal)=>Promise<void>};inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean|{newCandidates:number;beforeDecision?:()=>Promise<void>};sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";beerDiscoveryQuery?:string;beforeSemantic?:(message:string)=>Promise<void>;beforeSearch?:(signal:AbortSignal)=>Promise<void>;semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
@@ -74,7 +74,17 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       const criterion=removed&&semanticContext.criteria?.find((item:{text:string})=>item.text===removed);
       const budget=semanticContext.budgetPerPerson;
       let inlineFacts:RestaurantSemanticProposal["facts"]|undefined;
-      if(criterion){
+      if (options.beerDiscoveryQuery && text === "Find me a restaurant that serves beer") {
+        inlineFacts = [
+          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: options.beerDiscoveryQuery, selectionScope: "OPEN_ENDED", goalBasis: {type:"JUDGMENT",reason:"Fixture discovery",quotes:[text]} } },
+          { field: "DATE", operation: "ASSERT", value: {kind:"DATE",value:"2026-11-02",raw:"2026-11-02"} },
+          { field: "TIME_WINDOW", operation: "ASSERT", value: {kind:"TIME_WINDOW",earliest:"19:00",latest:"19:30",raw:"19:00"} },
+          { field: "PARTY_SIZE", operation: "ASSERT", value: {kind:"PARTY_SIZE",value:2,source:"EXPLICIT"} },
+          { field: "CRITERION", operation: "ASSERT", value: {kind:"CRITERION",text:"serves beer",polarity:"POSITIVE",strength:"SOFT"} },
+        ];
+      } else if (options.beerDiscoveryQuery && /^(Shibuya|Ginza)$/.test(text)) {
+        inlineFacts = [{field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:text}}];
+      } else if(criterion){
         inlineFacts=[{field:"CRITERION",operation:"NEGATE",value:{kind:"CRITERION",...criterion}}];
       }else if(budget&&removed==="¥"+Number(budget.max).toLocaleString("en-US")+" per guest"){
         inlineFacts=[{field:"BUDGET_PER_PERSON",operation:"NEGATE"}];
@@ -109,10 +119,12 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
       ]);
       body={schemaVersion:"4",facts};
     } else if(request.purpose==="restaurant_agent_decide"){
-      const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{candidates?:Array<{id:string}>;checkableCandidateIds?:string[];legalActions?:{search:boolean;presentResults:string[]};searchAvailability?:{available:boolean};presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
+      const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{missingBlockingFields?:string[];candidates?:Array<{id:string}>;checkableCandidateIds?:string[];legalActions?:{search:boolean;presentResults:string[]};searchAvailability?:{available:boolean};presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
       await batchPool?.beforeDecision?.();
       const ready=batchPool?context.legalActions?.presentResults??[]:context.presentation?.filter(item=>item.eligible&&!context.resultBatchTarget?.excludeCandidateIds.includes(item.candidateId)).map(item=>item.candidateId)??[];
-      body=(options.checkWholePool||options.cachedCrossSourceDuplicate)&&context.checkableCandidateIds?.length
+      body=options.beerDiscoveryQuery && context.missingBlockingFields?.includes("area")
+        ? {...strictAction("ASK_USER"),question:"Which area works for you?",relatedFields:["area"]}
+        : (options.checkWholePool||options.cachedCrossSourceDuplicate)&&context.checkableCandidateIds?.length
         ?strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length>=3?strictAction("PRESENT_RESULTS",ready.slice(0,3)):!context.candidates?.length?strictAction("SEARCH_RESTAURANTS"):context.checkableCandidateIds?.length?
         strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length?strictAction("PRESENT_RESULTS",ready):options.continuation==="search"&&context.legalActions?.search?strictAction("SEARCH_RESTAURANTS"):strictAction("END_READ");
     } else throw new Error("No external model or unsupported fixture purpose: "+request.purpose);

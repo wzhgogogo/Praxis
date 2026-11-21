@@ -199,7 +199,14 @@ export function renderHandoff(){
     : href?'No current booking handoff is available. You can check the source website.':'No current booking handoff is available.');
 }
 export function render(){
-  if(state.view&&!state.pendingCase&&!requireView().restaurant.progress.active&&['DETAILS','HANDOFF'].includes(state.ui.view)){
+  const view = state.view;
+  const question = view?.restaurant.pageQuestion;
+  // An accepted question can retain its About page after booking inventory expires.
+  const retainQuestionDetails = state.ui.view === 'DETAILS' && view?.case.stopped
+    && question && question.candidateId === state.ui.candidateId
+    && !!question.readRunId && question.readRunId === view.restaurant.sourceReadContext?.runId
+    && !!candidate();
+  if(!retainQuestionDetails&&state.view&&!state.pendingCase&&!requireView().restaurant.progress.active&&['DETAILS','HANDOFF'].includes(state.ui.view)){
    const currentIds=ids();if(requireView().restaurant.readStatus.kind!=='RESULTS'||!currentIds.length||!currentIds.includes(state.ui.candidateId??'')){
     actions.closeAnswer();closePhotos();state.ui.view='CANDIDATES';state.ui.atEnd=false;
    }
@@ -223,7 +230,7 @@ export function render(){
   }
   const r=requireView().restaurant,candidateIds=ids();
   let currentId=state.ui.candidateId;
-  if(!r.progress.active){
+  if(!r.progress.active&&!retainQuestionDetails){
     if(r.readStatus.kind!=='RESULTS'||!candidateIds.length)currentId=null;
     else if(!candidateIds.includes(currentId??''))currentId=candidateIds[0];
   }else if(!currentId||!r.candidates.some(c=>c.restaurant.id===currentId)){

@@ -226,6 +226,14 @@ for (const action of ["shortlist", "questions"] as const) {
         assert.notEqual(b.case.caseId, a.case.caseId);
         const readA = await host.application.getCase(userId, a.case.caseId);
         assert.ok(!readA.conversation.messages.some(message => message.content === newText));
+        if (action === "questions") {
+          const questionId = (await delayed).request().postDataJSON().requestId;
+          await page.waitForFunction(async ({path,questionId}) => {
+            const response = await fetch(path);
+            return response.ok && (await response.json()).view.restaurant.questionHistory.some((q: {requestId:string}) => q.requestId === questionId);
+          },{path:pathFor(a),questionId});
+          assert.equal(await page.locator("#answer-sheet").isVisible(),false,"the original answer stays in its plan history");
+        }
         assert.ok((await host.application.getCase(userId, b.case.caseId)).conversation.messages.some(message => message.content === newText));
       } finally {
         deliver.release();
@@ -1413,3 +1421,143 @@ for(const mobile of [false,true])test(`Round20 UI: ${mobile?'mobile':'desktop'} 
   }finally{semRelease.release();}
  },mobile);
 });
+
+for (const outcome of ["answer","preparation-stop","execution-stop","interrupted"] as const) {
+  test(`Round21 UI: expired stopped inventory preserves accepted question ${outcome}`, {timeout:40_000}, async () => {
+    const executing = latch();
+    await fixture({staged:true, sourceValidityMs:60_000, questions:{beforeAnswer:async (_input, signal) => {
+      if (outcome !== "execution-stop") return;
+      executing.release();
+      if (!signal.aborted) await new Promise<void>(resolve => signal.addEventListener("abort", () => resolve(), {once:true}));
+    }}}, async (page, host) => {
+      await signin(page);
+      const {view} = await createPlan(page,"Dinner in Tokyo",false);
+      await host.waitForCheck();
+      await page.locator("#progress.has-card").waitFor();
+      const stopSearch = page.waitForResponse(r => r.request().method() === "DELETE" && r.url().endsWith("/run"));
+      await page.locator("#stop").click();
+      assert.equal((await stopSearch).status(),200);
+      await page.locator("#progress").waitFor({state:"hidden"});
+      const path = pathFor(view);
+      const read = async () => {
+        const response = await page.request.get(path);
+        assert.equal(response.status(),200);
+        const payload: {view:RestaurantCaseView} = await response.json();
+        return payload.view;
+      };
+      const stopped = await read();
+      const candidateId = stopped.restaurant.readyCandidateIds[0]!;
+      const expiresAt = Date.parse(stopped.restaurant.availability[candidateId]![0]!.displayExpiresAt!);
+      const nearExpiry = expiresAt - host.clock.now().valueOf() - 1000;
+      assert.ok(nearExpiry > 0,"the stopped card initially has fresh inventory");
+      host.clock.advance(nearExpiry);
+      await page.locator("#details-button").click();
+      const append = host.application.store.appendMessage.bind(host.application.store);
+      const prepared = latch(), release = latch();
+      const question = "Does this place require a card?";
+      let requestId = "interrupted-round21";
+      try {
+        if (outcome === "interrupted") {
+          // Persist the exact post-admission snapshot a stopped process leaves behind.
+          type Runtime = Host["application"]["runtime"];
+          const runtime = (host.application as unknown as {runtime:Runtime}).runtime;
+          const snapshot = await runtime.snapshot(view.case.caseId);
+          const now = host.clock.now();
+          await runtime.dispatch({
+            id: requestId, taskId: snapshot.id, occurredAt: now.toISOString(),
+            trace: {schemaVersion:"1",runId:snapshot.runId,correlationId:requestId,actor:"USER"},
+            event: {type:"PAGE_QUESTION_REQUESTED",question:{requestId,question,candidateId,
+              readRunId:stopped.restaurant.sourceReadContext!.runId,readStartedAt:snapshot.createdAt,
+              deadlineAt:new Date(now.valueOf()+30_000).toISOString(),requestedAt:now.toISOString()}},
+          },snapshot.version);
+          host.clock.advance(2000);
+        } else {
+          if (outcome !== "execution-stop") {
+            host.application.store.appendMessage = async input => {
+              if (input.content === question) { prepared.release(); await release.ready; }
+              return append(input);
+            };
+          }
+          const submitted = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/questions"));
+          void submitted.catch(() => {});
+          await page.locator("#message").fill(question);
+          await page.locator("#send").click();
+          await round20Barrier(outcome === "execution-stop" ? executing.ready : prepared.ready,outcome);
+          await page.locator("#asked-pending").waitFor();
+          const accepted = await read();
+          requestId = accepted.restaurant.pageQuestion!.requestId;
+          assert.equal(accepted.restaurant.pageQuestion!.result,undefined);
+          if (outcome !== "execution-stop") assert.equal(host.questionRequests.length,0);
+          host.clock.advance(2000);
+          if (outcome !== "answer") {
+            const stopping = page.waitForResponse(r => r.request().method() === "DELETE" && r.url().endsWith("/run"));
+            await page.locator("#question-stop").click();
+            assert.equal((await stopping).status(),200);
+          }
+          release.release();
+          assert.equal((await submitted).status(),200);
+          await page.locator("#answer-sheet").waitFor();
+          assert.equal(await page.locator("#details").isVisible(),true);
+          if (outcome === "answer") assert.match(await page.locator("#question-result").innerText(),/card/i);
+          else assert.match(await page.locator("#question-result").innerText(),/could not be verified/i);
+          await page.locator("#answer-close").click();
+        }
+        const verify = async () => {
+          const final = await read();
+          assert.equal(final.case.stopped,true);
+          assert.equal(final.restaurant.readyCandidateIds.length,0);
+          assert.equal(final.restaurant.bookingHandoffs?.length ?? 0,0);
+          const questionHistory = final.restaurant.questionHistory.filter(q => q.requestId === requestId);
+          assert.equal(questionHistory.length,1);
+          const result = questionHistory[0]!.result!;
+          if (outcome === "answer") assert.equal(result.status,"ANSWERED");
+          else {
+            assert.equal(result.status,"UNVERIFIED");
+            assert.equal(result.reason,"CANCELLED");
+          }
+        };
+        await verify();
+        assert.equal(host.questionRequests.length,outcome === "answer" || outcome === "execution-stop" ? 1 : 0);
+        await page.reload();
+        await page.locator("#details").waitFor();
+        assert.equal(await page.locator("#asked-question").innerText(),question);
+        assert.equal(await page.locator("#send").isDisabled(),true,"expired inventory cannot admit a new stopped question");
+        assert.equal(await page.locator("#refresh").isVisible(),false);
+        assert.equal(await page.locator("#choose").isVisible(),false);
+        await verify();
+      } finally {
+        release.release();
+        host.application.store.appendMessage = append;
+      }
+    });
+  });
+}
+
+for (const mobile of [true,false]) {
+  test(`Round21 UI: ${mobile ? "390" : "1440"} removing beer only changes its phrase in actual search requests`, {timeout:40_000}, async () => {
+    for (const [query,area,preserved] of [
+      ["Find me a restaurant that serves beer","Shibuya","Find me a restaurant"],
+      ["sushi bar for lunch with beer in Ginza","Ginza","sushi bar for lunch"],
+      ["café with outdoor seating and serving beer in Ginza","Ginza","café with outdoor seating"],
+    ]) {
+      await fixture({beerDiscoveryQuery:query!},async (page,host) => {
+        await signin(page);
+        await createPlan(page,"Find me a restaurant that serves beer",false);
+        await page.locator("#messages").waitFor();
+        assert.equal(host.searches.length,0);
+        await updateRequirement(page,area!);
+        await ready(page);
+        assert.match(host.searches.at(-1)!.intent.target!.query,/beer/i);
+        const before = host.searches.length;
+        await page.locator("#request-conditions").getByRole("button",{name:"serves beer",exact:true}).click();
+        const response = page.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/messages"));
+        await page.getByRole("button",{name:"Remove serves beer",exact:true}).click();
+        assert.equal((await response).status(),200);
+        await ready(page);
+        assert.ok(host.searches.length > before,"the edited case issued another discovery request");
+        assert.equal(host.searches[before]!.intent.target!.query,`${preserved} in ${area}`);
+        assert.doesNotMatch(host.searches[before]!.intent.target!.query,/beer/i);
+      },mobile);
+    }
+  });
+}

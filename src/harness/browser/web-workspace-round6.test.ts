@@ -420,6 +420,29 @@ for(const size of [{width:390,height:844},{width:1440,height:900}])test(`Round20
    split=different;const question=different?'Compare the two reading times?':'What was read in this page visit?';await page.locator('#message').fill(question);await page.locator('#send').click();await page.locator('#answer-sheet').waitFor();assert.equal(await page.locator('#answer-question').innerText(),question);assert.equal(await page.locator('#answer-close').innerText(),'×');
    for(const selector of ['#question-result','#asked-result']){assert.equal(await page.locator(selector+' .citation-group').count(),different?2:1);assert.equal(await page.locator(selector+' blockquote').count(),3);assert.equal(await page.locator(selector+' .citation-footer').count(),different?2:1);assert.equal((await page.locator(selector).textContent()??'').match(/Checked/g)?.length,different?2:1);}
    await page.locator('#question-result summary').click();assert.equal(await page.locator('#answer-sheet').evaluate(n=>getComputedStyle(n).paddingBottom),'28px');assert.match(await page.locator('#question-result').innerText(),/Source page ↗ · Checked Sat, Nov 21 · 17:04 JST/);if(different)assert.match(await page.locator('#question-result').innerText(),/17:05 JST/);
+   if (size.width === 390) {
+    await page.evaluate(() => document.fonts.ready.then(() => undefined));
+    const footers = await page.locator('#question-result .citation-footer').evaluateAll(nodes => {
+      const sheet = document.querySelector<HTMLElement>('#answer-sheet')!;
+      const bounds = sheet.getBoundingClientRect();
+      return nodes.map(node => {
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        const rects = [...range.getClientRects()].filter(rect => rect.width > 0);
+        const lines: number[] = [];
+        for (const rect of rects) if (!lines.some(top => Math.abs(top - rect.top) < 2)) lines.push(rect.top);
+        return {
+          text: node.textContent, lines: lines.length,
+          inBounds: rects.every(rect => rect.left >= bounds.left && rect.right <= bounds.right),
+          noOverflow: sheet.scrollWidth <= sheet.clientWidth && node.scrollWidth <= node.clientWidth,
+        };
+      });
+    });
+    assert.deepEqual(footers, (different ? ['04','05'] : ['04']).map(minute => ({
+      text: 'Source page ↗ · Checked Sat, Nov 21 · 17:' + minute + ' JST',
+      lines: 1, inBounds: true, noOverflow: true,
+    })));
+   }
    await captureRound8(page,`round20-${size.width}-${different?'different':'same'}-reading`);await page.locator('#answer-close').click();
   }
   await page.locator('#details-back').click();await page.locator('#choose').click();await page.locator('#handoff').waitFor();

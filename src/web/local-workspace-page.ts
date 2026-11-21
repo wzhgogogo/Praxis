@@ -217,6 +217,11 @@ a:hover{text-decoration:underline}.brand:hover,.primary:hover{text-decoration:no
 .source-category-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:13px}.source-category-row>a{flex:none}.source-category-row>span{text-align:right;min-width:0}
 .about-address{padding-bottom:16px;border-bottom:1px solid #E3E5EC;color:#5F6275}.about-categories{font-size:13px;color:#5F6275}
 .citation-sources{font-size:13px;color:#5F6275;margin-top:10px}.citation-sources>summary{text-decoration:underline;text-underline-offset:3px}.citation-group{background:#fff;border:1px solid #E3E5EC;border-radius:12px;padding:10px 12px;margin-top:8px}.citation-group blockquote{margin:6px 0!important;padding-left:10px;border-left:2px solid #E3E5EC;white-space:pre-wrap;font-size:13px;color:#15172B}.citation-context{font-size:13px;font-weight:500}.citation-footer{font-size:12px;color:#5F6275;line-height:1.5}.citation-footer a{color:#5F6275;text-decoration:underline}
+@media(max-width:480px){
+ #answer-sheet{padding-inline:16px}
+ #answer-sheet .citation-sources[open],#answer-sheet .citation-group{padding-inline:8px}
+ #answer-sheet .citation-footer{text-wrap:wrap}
+}
 #details-content .citation-group:not(:has(blockquote)){border:0;padding:0;border-radius:0;background:transparent}
 .answer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}#answer-place{margin:0}#answer-close{flex:none;width:36px;height:36px;padding:4px;background:transparent;font-size:24px;color:#5F6275}#answer-question{font-size:13px;font-weight:600;color:#5F6275;margin-bottom:10px}
 </style></head>

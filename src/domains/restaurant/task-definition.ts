@@ -1,4 +1,4 @@
-import {canAskPageQuestion,restaurantReadyCandidateIds} from './read-assessment.js';
+import {canAskPageQuestion,canSettlePageQuestion,restaurantInvestigationReadRunId,restaurantReadyCandidateIds} from './read-assessment.js';
 import {RESTAURANT_READ_ADMISSION_MS} from "./read-time-reserve.js";
 import { assessRestaurantConditions } from "./condition-states.js";
 import { createHash } from "node:crypto";
@@ -266,7 +266,7 @@ function transition(
     case "PAGE_QUESTION_COMPLETED": {
       const q = state.pageQuestion;
       if (!q || q.result || q.requestId !== event.requestId || q.readRunId !== event.readRunId
-        || event.result.candidateId !== q.candidateId || !canAskPageQuestion(state,q.candidateId,restaurantReadyCandidateIds(state,context.now))) throw new Error("Stale or mismatched restaurant question result");
+        || event.result.candidateId !== q.candidateId || !canSettlePageQuestion(state, q, restaurantInvestigationReadRunId(state, context.runId))) throw new Error("Stale or mismatched restaurant question result");
       return { state: { ...state, pageQuestion: { ...q, result: structuredClone(event.result) } }, commands: [] };
     }
 

@@ -21,7 +21,7 @@ export function syncSidebar(){
  if(desktop)closePlans();else syncBrand();
  $('menu').setAttribute('aria-label',desktop?'Expand sidebar':'My plans');$('collapse-plans').setAttribute('aria-label',desktop?'Collapse sidebar':'Close sidebar');
 }
-export function setView(view:WorkspaceViewName){closePhotos();clearEntryTransition();cancelPreparation();actions.closeAnswer();state.ui.view=view;savePosition();clearError();actions.render();$('case-workspace').scrollTop=0;}
+export function setView(view:WorkspaceViewName){if(state.ui.view==='DETAILS'&&view!=='DETAILS')state.pendingQuestion=null;closePhotos();clearEntryTransition();cancelPreparation();actions.closeAnswer();state.ui.view=view;savePosition();clearError();actions.render();$('case-workspace').scrollTop=0;}
 // Fixture pacing changes presentation only; state.view remains the accepted server projection.
 export async function loadCase(caseId:string){
   saveDraft();

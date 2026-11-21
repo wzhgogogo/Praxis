@@ -1,4 +1,4 @@
-import {canAskPageQuestion,restaurantReadyCandidateIds} from '../domains/restaurant/read-assessment.js';
+import {canAskPageQuestion,canSettlePageQuestion,restaurantInvestigationReadRunId,restaurantReadyCandidateIds} from '../domains/restaurant/read-assessment.js';
 import type { BookingHandoffView } from "../domains/restaurant/booking-handoff.js";
 import type { BookingFeedbackAnswer, BookingFeedbackPrompt } from "../domains/restaurant/booking-feedback.js";
 import { projectWorkspaceRead } from "./workspace-read-projection.js";
@@ -585,7 +585,7 @@ export class PersistentRestaurantAgentApplication {
       if (!snapshot) return;
       const deadline = new Date(submittedAt.valueOf()+this.pageQuestionLimits.maxElapsedMs);
       const question = {requestId:input.requestId,question:input.question.trim(),candidateId:input.candidateId,
-        readRunId:snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0),
+        readRunId:restaurantInvestigationReadRunId(snapshot.domainState, snapshot.runId),
         readStartedAt:snapshot.createdAt,deadlineAt:deadline.toISOString(),requestedAt:submittedAt.toISOString()};
       const result = await this.runtime.dispatch(this.userEvent(snapshot,input.requestId,{type:"PAGE_QUESTION_REQUESTED",question}),snapshot.version);
       if (result.duplicateEvent) return;
@@ -900,7 +900,7 @@ export class PersistentRestaurantAgentApplication {
         if (!matchesPreparing(snapshot))
           throw new StaleTaskVersionError(expected.expectedVersion, snapshot.version);
         const q = snapshot.domainState.pageQuestion;
-        const event: RestaurantEvent = q && !q.result && canAskPageQuestion(snapshot.domainState,q.candidateId,restaurantReadyCandidateIds(snapshot.domainState,this.clock.now().toISOString()))
+        const event: RestaurantEvent = q && canSettlePageQuestion(snapshot.domainState, q, restaurantInvestigationReadRunId(snapshot.domainState, snapshot.runId))
           ? {type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,
               result:{status:"UNVERIFIED",candidateId:q.candidateId,reason:"CANCELLED",checkedPages:[]}}
           : {type:"AGENT_LOOP_TERMINATED",termination:"CANCELLED",reason:"The user cancelled this read-only investigation."};
@@ -1429,11 +1429,15 @@ export class PersistentRestaurantAgentApplication {
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
     if (this.preparingReads.has(record.rootTaskId) || this.activeReads.has(record.rootTaskId)) return;
     const q = snapshot.domainState.pageQuestion;
-    if (q && !q.result) {
+    if (q && canSettlePageQuestion(snapshot.domainState, q, restaurantInvestigationReadRunId(snapshot.domainState, snapshot.runId))) {
       const id = this.createId("event:restaurant-question-interrupted");
-      await this.runtime.dispatch({id,taskId:snapshot.id,event:{type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,
-        result:{status:"UNVERIFIED",candidateId:q.candidateId,reason:"CANCELLED",checkedPages:[]}},occurredAt:this.clock.now().toISOString(),
-        trace:{schemaVersion:"1",runId:snapshot.runId,correlationId:id,actor:"SYSTEM"}},snapshot.version);
+      try {
+        await this.runtime.dispatch({id,taskId:snapshot.id,event:{type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,
+          result:{status:"UNVERIFIED",candidateId:q.candidateId,reason:"CANCELLED",checkedPages:[]}},occurredAt:this.clock.now().toISOString(),
+          trace:{schemaVersion:"1",runId:snapshot.runId,correlationId:id,actor:"SYSTEM"}},snapshot.version);
+      } catch (error) {
+        if (!(error instanceof StaleTaskVersionError)) throw error;
+      }
       return;
     }
     if (!["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"].includes(snapshot.domainState.phase)) return;

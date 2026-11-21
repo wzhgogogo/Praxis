@@ -19,7 +19,7 @@ import {
   type RestaurantAgentContext,
 } from "../domains/restaurant/agent-context.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "../domains/restaurant/action-validator.js";
-import { assessRestaurantRead, restaurantPresentableCandidateIds } from "../domains/restaurant/read-assessment.js";
+import { assessRestaurantRead, canSettlePageQuestion, restaurantInvestigationReadRunId, restaurantPresentableCandidateIds } from "../domains/restaurant/read-assessment.js";
 import { restaurantReadStopIsSystem } from "../domains/restaurant/read-loop-termination.js";
 import type {
   RestaurantAgentLoopTermination,
@@ -199,12 +199,13 @@ export class RestaurantAgentLoopCoordinator {
     try {
       if (controller.signal.aborted || deadline.valueOf() <= this.clock.now().valueOf()) throw controller.signal.reason ?? Object.assign(new Error("Question deadline expired"), {code:"RUN_DEADLINE_EXCEEDED"});
       const current = await this.runtime.snapshot(initial.id);
-      if (current.domainState.pageQuestion?.requestId !== q.requestId) return {status:"CANCELLED",steps:1};
+      const readRunId = restaurantInvestigationReadRunId(current.domainState, current.runId);
+      if (!canSettlePageQuestion(current.domainState, q, readRunId)) return {status:"CANCELLED",steps:1};
       if (soleQuestionAction) {
-        validation = validateRestaurantAction(current.domainState,action,this.clock.now().toISOString());
+        validation = validateRestaurantAction(current.domainState,action,this.clock.now().toISOString(),{},readRunId);
         if (validation.status === "REJECTED" && (validation.code === "READ_BUDGET_EXHAUSTED" || validation.code === "READ_TIME_RESERVED")) result = {...result,reason:"BUDGET_EXHAUSTED"};
         if (validation.status === "ALLOWED") {
-          const execution = await this.router.execute(action,current.domainState,this.clock.now().toISOString(),q.readRunId,controller.signal);
+          const execution = await this.router.execute(action,current.domainState,this.clock.now().toISOString(),readRunId,controller.signal);
           if (execution.event?.type === "PAGE_QUESTION_COMPLETED") result = execution.event.result;
         }
       }
@@ -219,7 +220,7 @@ export class RestaurantAgentLoopCoordinator {
     }
     if (controller.signal.aborted) result = {status:"UNVERIFIED",candidateId:q.candidateId,checkedPages:[],reason:isRunDeadline(controller.signal)?"BUDGET_EXHAUSTED":"CANCELLED"};
     const current = await this.runtime.snapshot(initial.id);
-    if (current.domainState.pageQuestion?.requestId !== q.requestId || current.domainState.pageQuestion.result) return {status:"CANCELLED",steps:1};
+    if (!canSettlePageQuestion(current.domainState, q, restaurantInvestigationReadRunId(current.domainState, current.runId))) return {status:"CANCELLED",steps:1};
     const after = await this.dispatch(current,{type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,result},"SYSTEM");
     await this.trajectories.append({...base,agentAction:action,decisionSummary:"Explicit card question: sole legal action selected by code; no Agent model call.",
       ...(validation ? {actionValidation:validation} : {}),stateVersionAfter:after.snapshot.version,stateHashAfter:stateHash(after.snapshot.domainState),
