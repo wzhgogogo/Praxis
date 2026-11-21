@@ -1,3 +1,4 @@
+import {canAskPageQuestion,restaurantReadyCandidateIds} from './read-assessment.js';
 import {RESTAURANT_READ_ADMISSION_MS} from "./read-time-reserve.js";
 import { assessRestaurantConditions } from "./condition-states.js";
 import { createHash } from "node:crypto";
@@ -254,10 +255,9 @@ function transition(
 ): TransitionResult<RestaurantTaskState, RestaurantCommand> {
   switch (event.type) {
     case "PAGE_QUESTION_REQUESTED": {
-      requirePhase(state, ["PRESENT_RESULTS"], event.type);
       const q = event.question;
       if (q.result || !q.requestId || !q.question.trim() || q.question.length > 2000
-        || !state.presentedResults?.candidateIds.includes(q.candidateId)
+        || !canAskPageQuestion(state,q.candidateId,restaurantReadyCandidateIds(state,context.now))
         || !state.candidates.some(c => c.restaurant.id === q.candidateId)
         || !q.readRunId
         || !Number.isFinite(Date.parse(q.readStartedAt)) || !Number.isFinite(Date.parse(q.deadlineAt))) throw new Error("Question must bind an explicitly displayed outlet and the current read run");
@@ -266,7 +266,7 @@ function transition(
     case "PAGE_QUESTION_COMPLETED": {
       const q = state.pageQuestion;
       if (!q || q.result || q.requestId !== event.requestId || q.readRunId !== event.readRunId
-        || event.result.candidateId !== q.candidateId || state.phase !== "PRESENT_RESULTS") throw new Error("Stale or mismatched restaurant question result");
+        || event.result.candidateId !== q.candidateId || !canAskPageQuestion(state,q.candidateId,restaurantReadyCandidateIds(state,context.now))) throw new Error("Stale or mismatched restaurant question result");
       return { state: { ...state, pageQuestion: { ...q, result: structuredClone(event.result) } }, commands: [] };
     }
 

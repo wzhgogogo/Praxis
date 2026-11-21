@@ -147,7 +147,7 @@ export interface RestaurantCaseView {
     searchRevision: number;
     /** Qualified from the current state, including results ready before the batch ends. */
     readyCandidateIds: string[];
-    progress: { active: boolean; stopped: boolean; discoveredCount?: number; checkedCount?: number };
+    progress: { stage?: 'UNDERSTANDING' | 'FINDING' | 'CHECKING'; active: boolean; stopped: boolean; discoveredCount?: number; checkedCount?: number };
     candidates: Array<RestaurantCandidate & { distanceObservation?: CandidateDistanceObservation }>;
     availability: Record<string, AvailabilityOffer[]>;
     availabilityChecks: Record<string, RestaurantAvailabilityCheck>;

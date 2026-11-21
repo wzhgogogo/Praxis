@@ -1,3 +1,4 @@
+import {canAskPageQuestion,restaurantReadyCandidateIds} from '../domains/restaurant/read-assessment.js';
 import { AsyncLocalStorage } from "node:async_hooks";
 import type { RestaurantPageQuestionPort } from "../domains/restaurant/page-question.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../domains/restaurant/failure-codes.js";
@@ -264,7 +265,7 @@ export class RestaurantExecutionRouter {
         if (!q || q.result || q.readRunId !== readRunId) throw new Error("Question run does not match the authoritative task read");
         const candidate = state.candidates.find(c => c.restaurant.id === q.candidateId);
         const intent = completeRestaurantSearchIntent(state.intentDraft);
-        if (!candidate || !intent || !state.presentedResults?.candidateIds.includes(q.candidateId)) throw new Error("Question outlet is not in the presented batch");
+        if (!candidate || !intent || !canAskPageQuestion(state,q.candidateId,restaurantReadyCandidateIds(state,now))) throw new Error("Question outlet is not in the presented batch");
         const result = this.questions ? await this.withProviderReadDeadline("Restaurant page question", this.browserReadTimeoutMs,
           signal => this.questions!.answerQuestion({requestId:q.requestId,question:q.question,candidate:structuredClone(candidate),intent,
             readContext:{runId:q.readRunId,startedAt:q.readStartedAt,deadlineAt:q.deadlineAt}},signal),true,parentSignal)

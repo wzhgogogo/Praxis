@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.38
+- Document revision: 0.39
 - Last updated: 2026-11-21
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -286,3 +286,8 @@ Each cancellable read has a globally unique immutable handleId through semantic 
 ## 2026-11-21 — Unresolved Case reconfirmation across missed revisions (Round 19)
 
 RECONFIRM uses one tab-local user / plan key, independent of requirement revision and restaurant. It survives Candidates, About and Saved restoration, returning from another plan, missed remote condition edits and reload. The slot-area hint and booking lock remain until an explicit time click, a deliberate change to another restaurant, or a successful condition edit submitted from this tab's Candidates page advances the revision. Choosing the same Saved restaurant, About/Back, Find more, cancelled reads/questions, model failure, conflicts and logout/login do not resolve it. Other accounts/plans are isolated. Resolving the single key leaves no older revision lock to revive; normal browsing in a later revision can again use the first current time. No old revision-key compatibility path is used.
+
+
+## 2026-11-21 — Round20 stopped About and real progress
+
+About may ask a page question for a currently presented restaurant or an openable verified restaurant from an explicitly stopped search. Other failure/no-result/unknown-outcome states cannot ask. The same About page shows pending question text and Stop for its exact read handle. Preparation/active cancellation records a cancelled question without restarting the stopped search; answers and history survive reload. Saving after Stop remains disabled; unavailable refresh stays hidden. Search progress follows authoritative semantic/search events: Understanding before semantic commit, Request understood + Finding places before the first completed search, then Checking.

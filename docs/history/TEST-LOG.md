@@ -7191,3 +7191,7 @@ Baseline source6a54ff083; changed test inputs expose cross-revision missing lock
 ## 2026-11-21 — Unified Round19 frozen offline acceptance
 
 Frozen 9542dacca067849d00312ee5d346e95d759ebcf9: all five gates PASS, default1797, G2 5, Chromium485, G6 159; formal16, Style1 6, states70;95 images inspected. Every gate/suite clean before/after; exact durations/raw logs in [report](../../.eval-artifacts/3c-unified-20261117/round-19/REPORT.md). Strict TS,16 singleton SCCs,0 cycles,17 identical tsx/build assets. Targeted26/26 includes10 new SQL-backed Candidates/About/Saved/plan-return/resolved-lock desktop/mobile journeys; pure4/4. Baseline red/setup diagnostics remain separate from frozen runs. All7706 opening Unified and70 walkthrough hashes unchanged; main/env protected, closeout pre-existing absent.git audited without repair. No Live/real PG/4312 or real-source S0 score.
+
+## 2026-11-21 — Round20 slice1 targeted acceptance
+
+24/24 domain/preparation tests,35/35 Round8/17–20 browser controls, typecheck and Arch Guard0 forbidden pass. New dual-size flows cover stopped question preparation/active Stop, zero preparation source calls, normal answer/modal/history/F5, semantic/discovery barriers, reconnect, Stop, clarification and model failure. Initial diagnostics preserved separately. Frozen full gates/visuals pending after three slices.

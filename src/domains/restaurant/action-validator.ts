@@ -1,3 +1,4 @@
+import {canAskPageQuestion,restaurantReadyCandidateIds} from './read-assessment.js';
 import {restaurantReadActionFits,restaurantReadClosing} from "./read-time-reserve.js";
 import type { RestaurantAgentAction } from "./agent-action.js";
 import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js";
@@ -147,7 +148,7 @@ export function validateRestaurantAction(
   if (state.pageQuestion && !state.pageQuestion.result) {
     const q = state.pageQuestion;
     if (action.type !== "ANSWER_PAGE_QUESTION") return rejected("PRESENTATION_READY", "Only the pending displayed-outlet question may be answered");
-    if (state.phase !== "PRESENT_RESULTS" || !state.presentedResults?.candidateIds.includes(q.candidateId) || !candidate(state, q.candidateId)) return rejected("CANDIDATE_UNKNOWN", "Question outlet must belong to the currently presented batch");
+    if (!canAskPageQuestion(state,q.candidateId,restaurantReadyCandidateIds(state,now)) || !candidate(state, q.candidateId)) return rejected("CANDIDATE_UNKNOWN", "Question outlet must belong to the currently presented batch");
     if (budget.remainingModelCalls !== undefined && budget.remainingModelCalls <= 0 || budget.browserModelBudgetExhausted) return rejected("READ_BUDGET_EXHAUSTED", "The question model budget is exhausted");
     if (Date.parse(q.deadlineAt) <= Date.parse(now)) return rejected("READ_TIME_RESERVED", "The question deadline expired");
     return { status: "ALLOWED" };

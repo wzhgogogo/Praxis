@@ -3,7 +3,7 @@ import type { ConditionKind, ConditionValue } from './actions.js';
 import { $, clearError, element, requireView, show, state, text } from "./runtime.js";
 import { availabilityExpired, clearSlotSelection, currentHandoff, forgetSlotSelection, freshOffers, handoffs, needsSlotReselection, offerFor, reconcileSlot, selectSlot } from "./selected-slot.js";
 import { closePhotos, renderPhotos } from "./photos.js";
-import { canRefresh, canShortlist, candidate, ids, questionPending, sourceFor } from "./queries.js";
+import { canAskCurrentPlace, canRefresh, canShortlist, candidate, ids, questionPending, sourceFor } from "./queries.js";
 import { savePosition } from "./position.js";
 import { availabilityTime, displayDate, displayTime, displayTitle, link, money, readAt, safeLink, sourceName } from "./format.js";
 import { resizeMessage, updateComposerClearance } from "./composer.js";
@@ -11,10 +11,11 @@ import { actions } from "./actions.js";
 const caseScroller=$("case-workspace");
 
 export function renderProgress(){
- const pending=state.pendingCase,preview=state.preview,r=state.view?.restaurant,p=r?.progress??{active:false,stopped:false};
- const understanding=!!state.view&&requireView().case.phase==='UNDERSTANDING';
+ const view=state.deferredView?.view??state.view;
+ const pending=state.pendingCase,preview=state.preview,r=view?.restaurant,p=r?.progress??{active:false,stopped:false};
+ const understanding=p.stage==='UNDERSTANDING'||!p.stage&&view?.case.phase==='UNDERSTANDING';
  const active=!!pending||!!preview||understanding||!!(p.active&&!p.stopped&&!['MODEL_FAILURE','NO_QUALIFIED_RESULTS','ALL_SOURCES_FAILED','OTHER_FAILURE'].includes(r?.readStatus.kind??'PENDING'));
- const hasCard=!pending&&state.ui.view==='CANDIDATES'&&(!preview||preview.phase==='card')&&!!candidate();
+ const hasCard=p.stage!=='FINDING'&&!understanding&&!pending&&state.ui.view==='CANDIDATES'&&(!preview||preview.phase==='card')&&!!candidate();
  show('progress',active);$('progress').classList.toggle('has-card',hasCard);$('brand').classList.toggle('working',active);show('stop',!pending&&!preview&&!!p.active&&active);$('stop').disabled=state.blocked;
  text('stop',hasCard?'Stop searching':'Stop');
  if(!active)return;
@@ -104,6 +105,7 @@ export function renderAsked(id:string){
   const r=requireView().restaurant,history=r.questionHistory.filter(q=>q.candidateId===id&&q.result),q=history[0];
   const pending=questionPending()&&r.pageQuestion?.candidateId===id;
   show('asked-history',!!q||pending);show('asked-pending',pending);show('asked-latest',!!q);
+  show('question-stop',pending&&r.progress.active&&!!r.sourceReadContext?.handleId);$('question-stop').disabled=state.blocked;
   if(pending)text('asked-pending-question',r.pageQuestion!.question);
   const signature=JSON.stringify([id,history]);if(state.questionKey===signature)return;state.questionKey=signature;
   if(!q){$('asked-question').textContent='';$('asked-result').replaceChildren();$('asked-earlier').replaceChildren();return;}
@@ -209,7 +211,7 @@ export function render(){
   const asking=real&&state.ui.view==='DETAILS';$('message').setAttribute('aria-label',asking?'Restaurant question':'Plan message');
   const waiting=state.asking||questionPending();
   $('send').setAttribute('aria-busy',String(Boolean(state.sending||waiting)));
-  $('send').disabled=state.blocked||waiting||(asking&&requireView().case.phase!=='PRESENT_RESULTS');
+  $('send').disabled=state.blocked||waiting||(asking&&!canAskCurrentPlace());
   if(!has){$('brand').classList.remove('working');show('progress',false);show('feedback',false);renderPhotos();return;}
   if(pending){
    caseScroller.scrollTop=0;delete caseScroller.dataset.caseId;

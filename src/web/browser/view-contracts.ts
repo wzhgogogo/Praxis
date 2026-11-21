@@ -17,7 +17,7 @@ export interface WorkspaceView {
  mode:'FIXTURE'|'LIVE_READ';case:CaseSummary;conversation:{id:string;messages:{role:string;content:string}[]};
  restaurant:{
  requirementRevision:number;searchRevision:number;intentDraft?:IntentDraft;searchLocation?:{label:string}|undefined;
- progress:{active:boolean;stopped:boolean;discoveredCount?:number;checkedCount?:number};
+ progress:{stage?:'UNDERSTANDING'|'FINDING'|'CHECKING';active:boolean;stopped:boolean;discoveredCount?:number;checkedCount?:number};
  readStatus:{kind:'PENDING'|'RESULTS'|'NO_QUALIFIED_RESULTS'|'ALL_SOURCES_FAILED'|'MODEL_FAILURE'|'OTHER_FAILURE';partialSourceFailure:boolean;canContinue:boolean;canRetry:boolean};
  readyCandidateIds:string[];presentedCandidateIds?:string[];candidates:Candidate[];
  availability:Record<string,Offer[]>;availabilityChecks:Record<string,{status:string;displayExpiresAt?:string;evidenceIds:string[]}>;

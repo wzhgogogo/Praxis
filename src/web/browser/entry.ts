@@ -8,7 +8,7 @@ import { $, clearError, desktopLayout, element, report, requestId, requireView, 
 import { render, renderAnswer, renderConditions } from "./views.js";
 import { availabilityExpired, clearSlotSelection, currentHandoff, forgetSlotSelection, needsSlotReselection, offerFor, selectSlot } from "./selected-slot.js";
 import { closePlans, loadCase, moveCard, newPlan, setView, syncBrand, syncSidebar } from "./navigation.js";
-import { canRefresh, canShortlist, candidate, ids } from "./queries.js";
+import { canAskCurrentPlace, canRefresh, canShortlist, candidate, ids } from "./queries.js";
 import { key, savePosition } from "./position.js";
 import { draftKey } from "./session.js";
 import { focusAdjustment, resizeMessage, setMessage, updateComposerClearance } from "./composer.js";
@@ -29,7 +29,7 @@ export function openAnswer(q:PageQuestion){
 }
 export async function askCurrentPlace(message:string){
   const old=state.view,c=candidate(),nav=state.nav,caseId=old?.case.caseId;
-  if(!old||!c||!caseId||old.case.phase!=='PRESENT_RESULTS')return;
+  if(!old||!c||!caseId||!canAskCurrentPlace())return;
   const id=requestId();state.pendingQuestion={requestId:id,caseId,candidateId:c.restaurant.id};
   state.asking=true;state.askingId=id;render();clearError();
   try{
@@ -129,17 +129,18 @@ export async function submitRequirement(message:string,preserveComposer=false){
  }finally{resumeCase(nav,caseId);}
 }
 $('composer').onsubmit=async event=>{event.preventDefault();const message=$('message').value.trim();if(!message||$('send').disabled)return;if(state.view&&state.ui.view==='DETAILS'){await askCurrentPlace(message);return;}await submitRequirement(message);};
-$('stop').onclick=async()=>{
+export async function stopCurrentRead(){
   if(state.blocked||!state.view)return;
   const nav=state.nav,{caseId,taskVersion}=requireView().case,readRunId=requireView().restaurant.sourceReadContext?.runId,handleId=requireView().restaurant.sourceReadContext?.handleId;
   if(!readRunId)return;
-  state.blocked=true;$('stop').disabled=true;
+  state.blocked=true;$('stop').disabled=true;$('question-stop').disabled=true;
   try{
     const p=await api<{view:WorkspaceView}>(casePath(caseId)+'/run',{method:'DELETE',body:JSON.stringify({readRunId,taskVersion,...(handleId?{handleId}:{})})});
     receiveCase(p.view,nav,caseId);
   }catch(error){await reportCaseError(error,nav,caseId);}
   finally{resumeCase(nav,caseId);}
 };
+$('stop').onclick=stopCurrentRead;$('question-stop').onclick=stopCurrentRead;
 $('bookmark').onclick=async()=>{
   const c=candidate();if(state.blocked||!c||!canShortlist())return;
   const nav=state.nav,caseId=requireView().case.caseId;

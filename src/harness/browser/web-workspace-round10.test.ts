@@ -1357,3 +1357,57 @@ for(const mobile of [false,true])for(const entry of ["candidates","About","Saved
   }finally{await other.close();}
  },mobile);
 });
+
+async function round20Barrier(promise:Promise<void>,label:string){
+ let timer:ReturnType<typeof setTimeout>|undefined;
+ try{await Promise.race([promise,new Promise<never>((_resolve,reject)=>{timer=setTimeout(()=>reject(new Error('Round20 barrier not reached: '+label)),8000);})]);}finally{clearTimeout(timer);}
+}
+for(const mobile of [false,true])test(`Round20 UI: ${mobile?'mobile':'desktop'} stopped About supports preparation Stop, execution Stop, answer and reload`,{timeout:40_000},async()=>{
+ const executing=latch();let holdQuestion=true;
+ await fixture({staged:true,questions:{beforeAnswer:async(_input,signal)=>{if(holdQuestion){executing.release();await new Promise<void>((_resolve,reject)=>signal.addEventListener('abort',()=>reject(signal.reason),{once:true}));}}}},async(page,host)=>{
+  await signin(page);const {view}=await createPlan(page,'Dinner in Tokyo',false);await host.waitForCheck();await page.locator('#progress.has-card').waitFor();
+  const stopped=page.waitForResponse(r=>r.request().method()==='DELETE'&&r.url().endsWith('/run'));await page.locator('#stop').click();assert.equal((await stopped).status(),200);
+  assert.equal(await page.locator('#bookmark').isDisabled(),true);await page.locator('#details-button').click();assert.equal(await page.locator('#refresh').isVisible(),false);assert.equal(await page.locator('#send').isEnabled(),true);
+  const append=host.application.store.appendMessage.bind(host.application.store),prepared=latch(),release=latch();
+  host.application.store.appendMessage=async input=>{if(input.content==='Question during preparation?'){prepared.release();await release.ready;}return append(input);};
+  const prepResponse=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/questions'));
+  await page.locator('#message').fill('Question during preparation?');await page.locator('#send').click();await round20Barrier(prepared.ready,'prepared');
+  try{
+   await page.locator('#question-stop').waitFor();assert.equal(await page.locator('#send').isDisabled(),true);assert.equal(await page.locator('#send').getAttribute('aria-busy'),'true');
+   const preparing=await host.application.getCase(userId,view.case.caseId);assert.equal(preparing.restaurant.progress.active,true);assert.equal(preparing.restaurant.progress.stage,'CHECKING');assert.equal(preparing.case.status,'ACTIVE');
+   const handleId=preparing.restaurant.sourceReadContext!.handleId;
+   await screenshot(page,`round20-${mobile?'mobile':'desktop'}-stopped-question-preparing`);
+   const stop=page.waitForResponse(r=>r.request().method()==='DELETE'&&r.url().endsWith('/run'));await page.locator('#question-stop').click();const receipt=await stop;assert.equal(receipt.status(),200);assert.equal(receipt.request().postDataJSON().handleId,handleId);
+   assert.equal(host.questionRequests.length,0);
+  }finally{release.release();host.application.store.appendMessage=append;}
+  assert.equal((await prepResponse).status(),200);await page.waitForFunction(()=>!document.querySelector('#send')?.hasAttribute('disabled'));await page.locator('#answer-sheet').waitFor();await page.locator('#answer-dismiss').click();
+  const execResponse=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/questions'));
+  await page.locator('#message').fill('Question during execution?');await page.locator('#send').click();assert.equal((await execResponse).status(),200);await round20Barrier(executing.ready,'executing');await page.locator('#question-stop').waitFor();
+  await screenshot(page,`round20-${mobile?'mobile':'desktop'}-stopped-question-executing`);
+  const cancel=page.waitForResponse(r=>r.request().method()==='DELETE'&&r.url().endsWith('/run'));await page.locator('#question-stop').click();assert.equal((await cancel).status(),200);
+  await page.waitForFunction(()=>!document.querySelector('#send')?.hasAttribute('disabled'));await page.locator('#answer-sheet').waitFor();await page.locator('#answer-dismiss').click();holdQuestion=false;
+  const answer=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/questions'));await page.locator('#message').fill('Does the page require a card?');await page.locator('#send').click();assert.equal((await answer).status(),200);
+  await page.locator('#answer-sheet').waitFor();assert.match(await page.locator('#question-result').innerText(),/card/i);await page.locator('#answer-dismiss').click();
+  const answered=await host.application.getCase(userId,view.case.caseId);assert.equal(answered.case.stopped,true);assert.equal(answered.restaurant.progress.active,false);assert.equal(answered.restaurant.questionHistory.length,3);assert.equal(answered.restaurant.questionHistory[0]!.result!.status,'ANSWERED');
+  assert.ok(answered.restaurant.questionHistory.slice(1).every(q=>q.result?.status==='UNVERIFIED'&&q.result.reason==='CANCELLED'));
+  await page.reload();await page.locator('#details').waitFor();assert.equal(await page.locator('#asked-question').innerText(),'Does the page require a card?');assert.equal(await page.locator('#send').isEnabled(),true);assert.equal(await page.locator('#refresh').isVisible(),false);
+  await screenshot(page,`round20-${mobile?'mobile':'desktop'}-stopped-question-reloaded`);
+ },mobile);
+});
+for(const mobile of [false,true])test(`Round20 UI: ${mobile?'mobile':'desktop'} semantic and discovery barriers project real progress through reconnect and Stop`,{timeout:35_000},async()=>{
+ const semantic=latch(),semRelease=latch(),search=latch();let holdSearch=false;
+ await fixture({beforeSemantic:async text=>{if(text==='Change 2 guests to 3'){semantic.release();await semRelease.ready;}},beforeSearch:async signal=>{if(holdSearch){search.release();await new Promise<void>((_resolve,reject)=>signal.addEventListener('abort',()=>reject(signal.reason),{once:true}));}},semanticFailureMessage:'Fail progress'},async(page,host)=>{
+  try{
+   await signin(page);const {view}=await createPlan(page,'Dinner in Tokyo');holdSearch=true;
+   const updating=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/messages'),{timeout:25000});void updating.catch(()=>{});await page.locator('#message').fill('Change 2 guests to 3');await page.locator('#send').click();await round20Barrier(semantic.ready,'semantic');
+   await page.locator('#stages').getByText('Understanding your request',{exact:true}).waitFor();assert.equal((await host.application.getCase(userId,view.case.caseId)).restaurant.progress.stage,'UNDERSTANDING');
+   await screenshot(page,`round20-${mobile?'mobile':'desktop'}-semantic-progress`);semRelease.release();assert.equal((await updating).status(),200);await round20Barrier(search.ready,'search');
+   await page.locator('#stages').getByText('Finding places',{exact:true}).waitFor();await page.locator('#stages .done').getByText('Request understood',{exact:true}).waitFor();
+   assert.equal((await host.application.getCase(userId,view.case.caseId)).restaurant.progress.stage,'FINDING');
+   await page.reload();await page.locator('#stages').getByText('Finding places',{exact:true}).waitFor();await screenshot(page,`round20-${mobile?'mobile':'desktop'}-finding-reconnected`);
+   const stop=page.waitForResponse(r=>r.request().method()==='DELETE'&&r.url().endsWith('/run'));await page.locator('#stop').click();assert.equal((await stop).status(),200);await page.locator('#progress').waitFor({state:'hidden'});holdSearch=false;
+   await updateRequirement(page,'Change Tokyo to nearby');await page.locator('#use-location').waitFor();assert.equal(await page.locator('#progress').isVisible(),false);
+   await updateRequirement(page,'Fail progress');await page.locator('#understanding-error').waitFor();assert.equal(await page.locator('#progress').isVisible(),false);
+  }finally{semRelease.release();}
+ },mobile);
+});

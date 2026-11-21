@@ -49,6 +49,7 @@ interface WorkspaceElements {
   'progress': HTMLElement;
   'stages': HTMLElement;
   'stop': HTMLButtonElement;
+  'question-stop': HTMLButtonElement;
   'revision-changes': HTMLDetailsElement;
   'removed-count': HTMLElement;
   'added-count': HTMLElement;

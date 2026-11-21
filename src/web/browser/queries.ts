@@ -5,3 +5,9 @@ export function canRefresh(){return !!state.view&&(requireView().case.phase==='P
 export function sourceFor(id:string){const r=requireView().restaurant, check=r.availabilityChecks[id], evidence=new Set(check&&check.evidenceIds||[]);return r.readEvidence.find(e=>e.candidateId===id&&e.sourceUrl&&evidence.has(e.evidenceId))||r.currentFactEvidence.find(e=>e.candidateId===id&&e.sourceUrl);}
 export function canShortlist(){return ['SEARCHING','SELECTION_REQUIRED','PRESENT_RESULTS','NO_VERIFIED_RESULT'].includes(state.view?.case.phase??'');}
 export function questionPending(){const q=state.view?.restaurant.pageQuestion;return !!q&&!q.result;}
+
+export function canAskCurrentPlace(){
+ if(!state.view||!state.ui.candidateId)return false;
+ const v=requireView();return v.case.phase==='PRESENT_RESULTS'?!!v.restaurant.presentedCandidateIds?.includes(state.ui.candidateId)
+  :v.case.phase==='FAILED'&&!!v.case.stopped&&ids().includes(state.ui.candidateId);
+}

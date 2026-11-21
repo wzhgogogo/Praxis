@@ -6475,3 +6475,7 @@ Replace revision-scoped RECONFIRM with one user/Case sessionStorage key, strict 
 ## 2026-11-21 — Unified Round19 Case-scoped reconfirmation closure
 
 Frozen 9542dacca067849d00312ee5d346e95d759ebcf9: only slot-selection, selected-slot and transport production modules change. RECONFIRM is one tab-local user/Case key; SELECTED remains revision/restaurant scoped. Reconciliation reads the unresolved lock even without a candidate; transport creates it only when exiting Handoff. Existing explicit choice/restaurant/own-edit consumption stays unchanged, with no old-key fallback or revision orphan. USER-FLOWS0.38 records the contract. Backend and protected sources untouched. All required offline acceptance passes; no src edits after freeze, no Live/real PG/4312/push/main merge. [Report](../../.eval-artifacts/3c-unified-20261117/round-19/REPORT.md).
+
+## 2026-11-21 — Round20 slice1 stopped questions and progress
+
+Reuse one domain eligibility predicate and ready-candidate boundary across reducer, validator, application and the additional execution-router guard discovered by the source-call barrier. Add current-question Stop and event-bound semantic/finding/checking projection; retain deferred full-Case acceptance while rendering its authoritative progress.24 targeted unit,35 related Chromium controls and type/architecture pass. Diagnostic setup failures and the uncovered router guard are retained in round-20 logs. No broader terminal permissions or schema change.

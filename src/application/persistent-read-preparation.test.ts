@@ -451,3 +451,15 @@ test("Round18 immutable handle cancels its active read after run ID and version 
   assert.equal(response.status,200,await response.text());assert.equal((await settled(host,id)).case.stopped,true);assert.equal(host.providerCalls.at(-1)?.aborted,true);
  }finally{release.release();host.release();await pending?.catch(()=>{});await host.close();}
 });
+
+
+test('Round20 illegal terminal Cases reject page questions without source calls',async()=>{
+ for(const options of [{outcome:'empty' as const},{semanticFailureMessage:'Dinner for two in Tokyo'}]){
+  const host=await startWorkspaceFixture({...options,questions:true});
+  try{const first=await create(host),v=await settled(host,first.case.caseId);
+   assert.ok(['NO_VERIFIED_RESULT','FAILED'].includes(v.case.phase));
+   await assert.rejects(host.application.askRestaurantQuestion({userId,caseId:v.case.caseId,candidateId:v.restaurant.candidates[0]?.restaurant.id??'not-visible',requestId:'illegal-question',expectedVersion:v.case.taskVersion,question:'Is there a card requirement?'}),/displayed restaurant/);
+   assert.equal(host.questionRequests.length,0);
+  }finally{await host.close();}
+ }
+});

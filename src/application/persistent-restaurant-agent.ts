@@ -1,3 +1,4 @@
+import {canAskPageQuestion,restaurantReadyCandidateIds} from '../domains/restaurant/read-assessment.js';
 import type { BookingHandoffView } from "../domains/restaurant/booking-handoff.js";
 import type { BookingFeedbackAnswer, BookingFeedbackPrompt } from "../domains/restaurant/booking-feedback.js";
 import { projectWorkspaceRead } from "./workspace-read-projection.js";
@@ -335,6 +336,7 @@ export type RestaurantReadFinishedListener = (caseId: string) => void | Promise<
 
 interface ActiveRead {
   readonly handleId: string;
+  readonly semanticRequestId?: string;
   readRunId: string;
   startedVersion: number;
   controller: AbortController;
@@ -572,7 +574,7 @@ export class PersistentRestaurantAgentApplication {
       const priorEvents = await this.runtime.listEvents(record.rootTaskId);
       if (priorEvents.some(event => event.id === this.userEventId(record.rootTaskId, input.requestId))) return;
       const scope = (state: RestaurantTaskState) =>
-        state.phase === "PRESENT_RESULTS" && Boolean(state.presentedResults?.candidateIds.includes(input.candidateId));
+        canAskPageQuestion(state,input.candidateId,restaurantReadyCandidateIds(state,this.clock.now().toISOString()));
       if (before.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, before.version);
       if (!scope(before.domainState) || !input.question.trim() || input.question.length > 2000)
         throw new Error("Question requires a displayed restaurant and 1–2000 characters");
@@ -588,6 +590,7 @@ export class PersistentRestaurantAgentApplication {
       const result = await this.runtime.dispatch(this.userEvent(snapshot,input.requestId,{type:"PAGE_QUESTION_REQUESTED",question}),snapshot.version);
       if (result.duplicateEvent) return;
       const handle = this.prepareRead(record, result.snapshot);
+      await this.notifyCaseUpdate(record);
       await this.store.appendMessage({id:"message:0:"+hash(record.id+":"+input.requestId).slice(0,24),conversationId:record.id,
         role:"USER",content:input.question,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString()});
       await this.runAfterUserInput(record,input.requestId,result.snapshot,handle,undefined,deadline);
@@ -897,7 +900,7 @@ export class PersistentRestaurantAgentApplication {
         if (!matchesPreparing(snapshot))
           throw new StaleTaskVersionError(expected.expectedVersion, snapshot.version);
         const q = snapshot.domainState.pageQuestion;
-        const event: RestaurantEvent = snapshot.domainState.phase === "PRESENT_RESULTS" && q && !q.result
+        const event: RestaurantEvent = q && !q.result && canAskPageQuestion(snapshot.domainState,q.candidateId,restaurantReadyCandidateIds(snapshot.domainState,this.clock.now().toISOString()))
           ? {type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,
               result:{status:"UNVERIFIED",candidateId:q.candidateId,reason:"CANCELLED",checkedPages:[]}}
           : {type:"AGENT_LOOP_TERMINATED",termination:"CANCELLED",reason:"The user cancelled this read-only investigation."};
@@ -999,7 +1002,8 @@ export class PersistentRestaurantAgentApplication {
     viewingContext?: import("../domains/restaurant/semantic-interpreter.js").RestaurantSemanticViewingContext,
   ): Promise<void> {
     await this.withPreparingRead(record.rootTaskId, async () => {
-      const handle = this.prepareRead(record, await this.runtime.snapshot(record.rootTaskId));
+      const handle = this.prepareRead(record, await this.runtime.snapshot(record.rootTaskId),requestId);
+      await this.notifyCaseUpdate(record);
       const work = (signal?: AbortSignal) => this.applyMessageOnce(record, message, requestId, expectedVersion, handle, signal, viewingContext);
       if (this.modelRunBudget) await this.modelRunBudget.run(record.rootTaskId, (signal) => work(signal));
       else await work();
@@ -1088,6 +1092,8 @@ export class PersistentRestaurantAgentApplication {
     // a genuinely newer committed owner must remain untouched.
     const owner=this.activeReads.get(record.rootTaskId)??this.preparingHandles.get(record.rootTaskId);
     if(!owner||owner.startedVersion<=handle.startedVersion)this.preparingHandles.set(record.rootTaskId,handle);
+    await this.notifyCaseUpdate(record);
+    if(handle.controller.signal.aborted)return;
     await this.store.appendMessage({
       id: `message:0:${hash(`${record.id}:${requestId}`).slice(0, 24)}`,
       conversationId: record.id,
@@ -1116,10 +1122,10 @@ export class PersistentRestaurantAgentApplication {
     throw new StaleTaskVersionError(expectedVersion, current.version);
   }
 
-  private prepareRead(record: ConversationRecord, snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>): ActiveRead {
+  private prepareRead(record: ConversationRecord, snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,semanticRequestId?:string): ActiveRead {
     let finish!: () => void;
     const handle: ActiveRead = {
-      handleId:this.createId("read-handle"), record, controller:new AbortController(), completion:new Promise<void>(resolve=>{finish=resolve;}),
+      handleId:this.createId("read-handle"),...(semanticRequestId?{semanticRequestId}:{}), record, controller:new AbortController(), completion:new Promise<void>(resolve=>{finish=resolve;}),
       finish:()=>finish(), startedVersion:snapshot.version,
       readRunId:snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0),
     };
@@ -1305,12 +1311,15 @@ export class PersistentRestaurantAgentApplication {
     const requestEvents = events.slice(Math.max(0, requestStart));
     const checked = new Set(requestEvents.flatMap(item => item.event.type === "AVAILABILITY_CHECKED" ? item.event.request.candidateIds : []));
     const qualifiedCandidateIds = state.candidates.filter(candidate => restaurantPresentationEvidenceIds(state, candidate.restaurant.id, this.clock.now().toISOString()) !== undefined).map(candidate => candidate.restaurant.id);
-    const readyCandidateIds = state.phase === "NO_VERIFIED_RESULT" ? []
-      : state.pendingResultBatchTarget === undefined ? qualifiedCandidateIds
-      : distinctDiscoveryResultCandidateIds(state, qualifiedCandidateIds, state.selectionSession?.deliveredCandidateIds ?? []);
+    const readyCandidateIds=restaurantReadyCandidateIds(state,this.clock.now().toISOString(),qualifiedCandidateIds);
     const presentedCandidateIds=state.presentedResults?.candidateIds.filter(id=>namedOutletCandidateResolved(state,id));
     const readHandle=this.activeReads.get(record.rootTaskId)??this.preparingHandles.get(record.rootTaskId);
-    const reading = this.activeReads.has(record.rootTaskId) || this.preparingHandles.has(record.rootTaskId) && ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"].includes(state.phase);
+    const semanticStart=readHandle?.semanticRequestId?events.findIndex(e=>e.id===this.userEventId(record.rootTaskId,readHandle.semanticRequestId!)):-1;
+    const semanticPending=!!readHandle?.semanticRequestId&&semanticStart<0;
+    const pendingQuestion=!!state.pageQuestion&&!state.pageQuestion.result;
+    const reading=!!readHandle&&!readHandle.controller.signal.aborted&&(semanticPending||state.phase!=="NEEDS_INPUT"&&(this.activeReads.has(record.rootTaskId)||pendingQuestion||["UNDERSTANDING","SEARCHING","SELECTION_REQUIRED"].includes(state.phase)));
+    const stage:RestaurantCaseView['restaurant']['progress']['stage']=!reading?undefined:semanticPending?'UNDERSTANDING'
+      :readHandle?.semanticRequestId&&events[semanticStart]?.event.type==='SEMANTIC_PROPOSAL_COMPILED'&&!events.slice(semanticStart).some(e=>e.event.type==='SEARCH_COMPLETED')?'FINDING':'CHECKING';
     const workspaceRead = projectWorkspaceRead({ state, events, qualifiedCandidateIds, readyCandidateIds,
       openableCandidateIds: state.phase === "PRESENT_RESULTS" ? presentedCandidateIds ?? [] : readyCandidateIds,
       active: reading, now: this.clock.now().toISOString() });
@@ -1385,7 +1394,7 @@ export class PersistentRestaurantAgentApplication {
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
         searchRevision: state.searchRevision,
         readyCandidateIds,
-        progress: {active:reading, stopped:requestEvents.some(item => item.event.type === "AGENT_LOOP_TERMINATED" && item.event.termination === "CANCELLED"),
+        progress: {active:reading,...(stage?{stage}:{}), stopped:!pendingQuestion&&requestEvents.some(item => item.event.type === "AGENT_LOOP_TERMINATED" && item.event.termination === "CANCELLED"),
           ...(requestEvents.some(item => item.event.type === "SEARCH_COMPLETED") ? {discoveredCount:state.candidates.length} : {}),
           ...(checked.size ? {checkedCount:checked.size} : {})},
         bookingFeedbackAvailable,

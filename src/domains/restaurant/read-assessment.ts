@@ -451,3 +451,14 @@ export function distinctDiscoveryResultCandidateIds(
   }
   return selected;
 }
+
+/** Same current qualification/batch boundary used by stopped cards and page questions. */
+export function restaurantReadyCandidateIds(state:Readonly<RestaurantTaskState>,now:string,qualified?:readonly string[]):string[]{
+ if(state.phase==='NO_VERIFIED_RESULT')return [];
+ const ids=qualified??state.candidates.filter(c=>restaurantPresentationEvidenceIds(state,c.restaurant.id,now)!==undefined).map(c=>c.restaurant.id);
+ return state.pendingResultBatchTarget===undefined?[...ids]:distinctDiscoveryResultCandidateIds(state,ids,state.selectionSession?.deliveredCandidateIds??[]);
+}
+export function canAskPageQuestion(state:Readonly<RestaurantTaskState>,candidateId:string,openableCandidateIds:readonly string[]):boolean{
+ return state.phase==='PRESENT_RESULTS'?!!state.presentedResults?.candidateIds.includes(candidateId)
+  :state.phase==='FAILED'&&state.failure?.code==='AGENT_LOOP_CANCELLED'&&openableCandidateIds.includes(candidateId);
+}

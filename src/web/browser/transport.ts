@@ -84,7 +84,7 @@ export function receiveCase(view:WorkspaceView,nav:number,caseId:string){
   if(state.blocked){
     const version=view.case.taskVersion;
     if(version>=requireView().case.taskVersion&&(!state.deferredView||version>=state.deferredView.view.case.taskVersion)){
-      state.deferredView={nav,caseId,view};updateCases(view.case);
+      state.deferredView={nav,caseId,view};updateCases(view.case);actions.render();
     }
   }else accept(view);
   return true;

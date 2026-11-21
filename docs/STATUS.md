@@ -1396,3 +1396,5 @@ Round19 (draft / not integrated): RECONFIRM now uses a tab-local user/Case key a
 <a id="unified-round19-final-20261121"></a>
 
 2026-11-21 — Unified Round19, draft / not integrated. Frozen `9542dacca067849d00312ee5d346e95d759ebcf9` closes the missed-revision RECONFIRM restore P1 using one user/Case sessionStorage key, safe recognition and no revision copying. Four restore entrances plus resolved-lock controls pass at desktop/mobile. Five gates all PASS: default1797, G2 5, Chromium485, G6 159; formal16, Style1 6, states70;95 images inspected. strict:true,16 singleton SCCs,0 cycles,17 identical assets. Backend/protection hashes unchanged;0 Live/real PG/4312. [Report](../.eval-artifacts/3c-unified-20261117/round-19/REPORT.md).
+
+Round20 slice1 (draft / not integrated): stopped About eligibility is shared through reducer/validation/execution/application, with exact-handle inline Stop and persistent answer history. Event-bound server progress replaces stale semantic-stage display; busy requests render authoritative SSE progress. Targeted24 unit +35 browser controls pass, including Round19. Full unified acceptance pending.
