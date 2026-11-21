@@ -6459,3 +6459,9 @@ Frozen 256415a046ed948955b235bfe6b8805c607236bb retains tab-local explicit slots
 ## 2026-11-21 — Round18 reconfirmation and immutable read ownership
 
 Added tab-local undefined/SELECTED/RECONFIRM intent, with the revision lock independent of restaurant position and source frames. Only explicit time selection, deliberate restaurant change or a successful own Candidates revision starts confirmed/ordinary intent as specified. Stop now binds an immutable per-read handle across preparation and execution; existing runId format remains. Without a handle, preparation progress does not expose Stop. A semantic DB winner reclaims ownership over uncommitted work; aborted CAS conflicts return quietly, while true competing requests retain409. No dependency/Domain/AgentLoop/score changes.
+
+<a id="unified-round18-final-20261121"></a>
+
+## 2026-11-21 — Unified Round18 persistent intent and read ownership
+
+Frozen 77f5b9bc2e242f1fbcd6e8f508fff140c88d732c: sessionStorage separates ordinary browsing, SELECTED and revision-scoped RECONFIRM; explicit choice or deliberate restaurant navigation clears the old-Handoff lock. Immutable read-handle identity prevents delayed version0 Stop from claiming a replacement. Registered handles govern active progress; semantic CAS winners retain ownership over uncommitted contenders; a CAS loss to explicit cancellation finishes quietly. USER-FLOWS0.37 and Round18 interaction contract record this. No src edits after freeze, new dependencies, Domain/AgentLoop/eval changes or Live/real PG/4312/push/main merge. Pre-existing broken closeout registration remains untouched. [Report](../../.eval-artifacts/3c-unified-20261117/round-18/REPORT.md).
