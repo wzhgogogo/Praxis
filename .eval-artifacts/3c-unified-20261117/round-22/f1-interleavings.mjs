@@ -27,7 +27,7 @@ await walk('f1-interleavings',[390,1440].flatMap(width=>['second-question','mode
      let once=true;runtime.dispatch=async(envelope,v)=>{if(once&&envelope.event.type==='SEMANTIC_PROPOSAL_COMPILED'){once=false;receipt.shortlist=await post(other.page,'/shortlist',{candidateId,shortlisted:true,requestId:'save-winner',taskVersion:version});assert.equal(receipt.shortlist.http,200);}return dispatch(envelope,v);};
     }
     // The captured accepted version deliberately survives only SYSTEM progress.
-    receipt.edit=await post(other.page,'/messages',{message:kind==='model-failure'?'Change Tokyo to Failure':'Change Tokyo to Osaka',requestId:'edit-b',taskVersion:version});
+    receipt.edit=await post(other.page,'/messages',{message:kind==='model-failure'?'Change Tokyo to Failure':'Change Tokyo to Osaka',requestId:'edit-b',taskVersion:version,viewContext:{view:'CANDIDATES',candidateId,comparedCandidateIds:[]}});
     assert.equal(receipt.edit.http,kind==='shortlist-wins'?409:200);
    }
    host.questionRelease.release();assert.equal((await first).status(),200);
