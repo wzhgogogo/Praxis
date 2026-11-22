@@ -4,7 +4,7 @@ import { walk,control,until,apiCase,responseOf } from './walkthrough-tools.mjs';
 const question='Does this place require a card?';
 await walk('f1-interleavings',[390,1440].flatMap(width=>['second-question','model-failure','shortlist-wins','system-answer-first'].map(kind=>({
  name:'f1-'+kind,width,
- start:async()=>{const host=await startWorkspaceFixture({questions:true,semanticFailureMessage:'Change Tokyo to Failure'});return {...host,gate:control(),release:control()};},
+ start:async()=>{const host=await startWorkspaceFixture({questions:true,semanticFailureMessage:'Change Tokyo to Failure'});return {...host,gate:control(),questionRelease:control()};},
  scenario:async({main,secondary,host,receipt})=>{
   const id=await main.create('Dinner in Tokyo');const other=await secondary();await other.select(id);await main.click('#details-button');
   const append=host.application.store.appendMessage.bind(host.application.store),runtime=host.application.runtime,dispatch=runtime.dispatch.bind(runtime);
@@ -12,7 +12,7 @@ await walk('f1-interleavings',[390,1440].flatMap(width=>['second-question','mode
   const post=async(page,suffix,body)=>{const r=await page.request.post(host.baseUrl+(suffix==='/messages'?'/api/conversations/'+encodeURIComponent((await read()).case.conversationId)+suffix:apiCase(id)+suffix),{data:body});return {http:r.status(),body:await r.json()};};
   let first;
   try{
-   host.application.store.appendMessage=async input=>{if(input.content===question){host.gate.release();await host.release.ready;}return append(input);};
+   host.application.store.appendMessage=async input=>{if(input.content===question){host.gate.release();await host.questionRelease.ready;}return append(input);};
    first=main.page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/questions'));
    await main.field.fill(question);await main.click('#send');await host.gate.ready;
    const accepted=await read(),q=accepted.restaurant.pageQuestion,candidateId=q.candidateId,version=accepted.case.taskVersion;
@@ -30,7 +30,7 @@ await walk('f1-interleavings',[390,1440].flatMap(width=>['second-question','mode
     receipt.edit=await post(other.page,'/messages',{message:kind==='model-failure'?'Change Tokyo to Failure':'Change Tokyo to Osaka',requestId:'edit-b',taskVersion:version});
     assert.equal(receipt.edit.http,kind==='shortlist-wins'?409:200);
    }
-   host.release.release();assert.equal((await first).status(),200);
+   host.questionRelease.release();assert.equal((await first).status(),200);
    await until(async()=>!(await read()).restaurant.progress.active,'question lifecycle finish');
    const view=await read(),events=await runtime.listEvents(id),completions=events.filter(e=>e.event.type==='PAGE_QUESTION_COMPLETED'&&e.event.requestId===q.requestId);
    assert.equal(completions.length,1);assert.equal(completions[0].taskId,id);assert.equal(completions[0].event.readRunId,q.readRunId);assert.equal(completions[0].event.result.candidateId,candidateId);const answerFirst=kind==='shortlist-wins'||kind==='system-answer-first';assert.equal(completions[0].event.result.status,answerFirst?'ANSWERED':'UNVERIFIED');
@@ -49,6 +49,6 @@ await walk('f1-interleavings',[390,1440].flatMap(width=>['second-question','mode
     assert.equal(await tab.page.locator('#question-stop').isVisible(),false);
    }
    receipt.events=events;receipt.view=view;await main.image('settled');await other.image('second-tab');return {phase:view.case.phase,history:view.restaurant.questionHistory.map(h=>({id:h.requestId,result:h.result})),completionCount:completions.length};
-  }finally{host.release.release();await first?.catch(()=>{});runtime.dispatch=dispatch;host.application.store.appendMessage=append;}
+  }finally{host.questionRelease.release();await first?.catch(()=>{});runtime.dispatch=dispatch;host.application.store.appendMessage=append;}
  }
 }))));
