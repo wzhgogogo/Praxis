@@ -585,7 +585,7 @@ test('Round22 accepted successor keeps preparation while the prior question fini
   const active=await host.application.getCase(userId,view.case.caseId);
   host.application.store.appendMessage=async input=>{if(input.requestId==='user:gap-edit'){atMessage.release();await release.promise;}return append(input);};
   editing=host.application.submitMessage({userId,conversationId:view.case.conversationId,requestId:'gap-edit',expectedVersion:active.case.taskVersion,message:'Change Tokyo to Osaka'});await atMessage.promise;
-  const during=await host.application.getCase(userId,view.case.caseId);assert.equal(during.case.phase,'SEARCHING','committed successor must not look like an interrupted process before handle registration');
+  const during=await host.application.getCase(userId,view.case.caseId);assert.equal(during.case.phase,'UNDERSTANDING','committed successor must not look like an interrupted process before handle registration');
   release.release();await editing;assert.equal((await settled(host,view.case.caseId)).case.phase,'PRESENT_RESULTS');
  }finally{release.release();await editing?.catch(()=>{});host.application.store.appendMessage=append;await host.close();}
 });
