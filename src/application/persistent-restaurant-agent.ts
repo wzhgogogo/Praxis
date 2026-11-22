@@ -338,6 +338,7 @@ export type RestaurantReadFinishedListener = (caseId: string) => void | Promise<
 interface ActiveRead {
   readonly handleId: string;
   readonly semanticRequestId?: string;
+  readonly questionRequestId?: string;
   readRunId: string;
   startedVersion: number;
   controller: AbortController;
@@ -395,7 +396,8 @@ export class PersistentRestaurantAgentApplication {
         && ["PAGE_QUESTION_REQUESTED", "SEMANTIC_PROPOSAL_COMPILED",
         "SEMANTIC_CONFLICT_RECORDED", "SEMANTIC_INTERPRETATION_FAILED"].includes(envelope.event.type);
       if (!replacing) return dispatch(envelope, expectedVersion);
-      let replacedQuestionRun: string | undefined;
+      let replacedQuestionRequest: string | undefined;
+      const priorHandle = this.activeReads.get(envelope.taskId) ?? this.preparingHandles.get(envelope.taskId);
       const result = await options.database.transaction(async transaction => {
         await transaction.query("SELECT id FROM tasks WHERE id = $1 FOR UPDATE", [envelope.taskId]);
         const database: SqlDatabase = {
@@ -406,15 +408,15 @@ export class PersistentRestaurantAgentApplication {
         const current = await runtime.snapshot(envelope.taskId);
         const events = await runtime.listEvents(envelope.taskId);
         if (events.some(event => event.id === envelope.id)) return runtime.dispatch(envelope, current.version);
-        const semantic = envelope.event.type.startsWith("SEMANTIC_");
+        const acceptsSystemProgress = envelope.event.type.startsWith("SEMANTIC_") || envelope.event.type === "PAGE_QUESTION_REQUESTED";
         if (expectedVersion !== undefined && (expectedVersion > current.version
-          || expectedVersion !== current.version && (!semantic
+          || expectedVersion !== current.version && (!acceptsSystemProgress
             || events.slice(expectedVersion).some(event => event.trace.actor === "USER")))) {
           throw new StaleTaskVersionError(expectedVersion, current.version);
         }
         const question = current.domainState.pageQuestion;
         let version = current.version;
-        if (question) replacedQuestionRun = question.readRunId;
+        if (question) replacedQuestionRequest = question.requestId;
         if (question && !question.result) {
           const completion = this.userEvent(current, "superseded-question:" + question.requestId, {
             type: "PAGE_QUESTION_COMPLETED", requestId: question.requestId, readRunId: question.readRunId,
@@ -426,9 +428,9 @@ export class PersistentRestaurantAgentApplication {
         }
         return runtime.dispatch(envelope, version);
       });
-      if (replacedQuestionRun) {
+      if (replacedQuestionRequest) {
         const handle = this.activeReads.get(envelope.taskId) ?? this.preparingHandles.get(envelope.taskId);
-        if (handle?.readRunId === replacedQuestionRun) {
+        if (handle && handle === priorHandle && handle.questionRequestId === replacedQuestionRequest) {
           handle.controller.abort(new Error("The accepted question was superseded by a committed user operation."));
           if (this.preparingHandles.get(envelope.taskId) === handle) this.preparingHandles.delete(envelope.taskId);
           else await handle.completion;
@@ -659,7 +661,7 @@ export class PersistentRestaurantAgentApplication {
         readStartedAt:snapshot.createdAt,deadlineAt:deadline.toISOString(),requestedAt:submittedAt.toISOString()};
       const result = await this.runtime.dispatch(this.userEvent(snapshot,input.requestId,{type:"PAGE_QUESTION_REQUESTED",question}),snapshot.version);
       if (result.duplicateEvent) return;
-      const handle = this.prepareRead(record, result.snapshot);
+      const handle = this.prepareRead(record, result.snapshot, undefined, input.requestId);
       await this.notifyCaseUpdate(record);
       await this.store.appendMessage({id:"message:0:"+hash(record.id+":"+input.requestId).slice(0,24),conversationId:record.id,
         role:"USER",content:input.question,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString()});
@@ -1192,10 +1194,10 @@ export class PersistentRestaurantAgentApplication {
     throw new StaleTaskVersionError(expectedVersion, current.version);
   }
 
-  private prepareRead(record: ConversationRecord, snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,semanticRequestId?:string): ActiveRead {
+  private prepareRead(record: ConversationRecord, snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,semanticRequestId?:string, questionRequestId?:string): ActiveRead {
     let finish!: () => void;
     const handle: ActiveRead = {
-      handleId:this.createId("read-handle"),...(semanticRequestId?{semanticRequestId}:{}), record, controller:new AbortController(), completion:new Promise<void>(resolve=>{finish=resolve;}),
+      handleId:this.createId("read-handle"),...(semanticRequestId?{semanticRequestId}:{}), ...(questionRequestId?{questionRequestId}:{}), record, controller:new AbortController(), completion:new Promise<void>(resolve=>{finish=resolve;}),
       finish:()=>finish(), startedVersion:snapshot.version,
       readRunId:snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0),
     };

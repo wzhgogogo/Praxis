@@ -2268,11 +2268,13 @@ for (const finishNaturally of [true,false]) test(`HTTP next G1 question continue
       await withinTestTimeout(readStarted.reached,"first G1 reader");
       const active = await running.application.getCase("user-a",initial.case.caseId);
       const boundary = mutationTestBoundary(running.application);
-      const cancel = boundary.cancelActiveRead.bind(boundary);
-      boundary.cancelActiveRead = async (...args) => {
-        atCancel.resume();
-        if (finishNaturally) await resumeCancel.reached;
-        return cancel(...args);
+      const dispatch = boundary.runtime.dispatch.bind(boundary.runtime);
+      boundary.runtime.dispatch = async (...args) => {
+        if (args[0].event.type === "PAGE_QUESTION_REQUESTED" && args[0].event.question.requestId === "next-g1") {
+          atCancel.resume();
+          if (finishNaturally) await resumeCancel.reached;
+        }
+        return dispatch(...args);
       };
       next = post(active.case.taskVersion,"next-g1","Is there an indoor table?");
       await withinTestTimeout(atCancel.reached,"following question past preflight");
