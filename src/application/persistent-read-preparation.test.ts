@@ -540,3 +540,37 @@ for (const kind of ["equivalent","area","model-failure","second-question","short
     }finally{release.release();await pending?.catch(()=>{});runtime.dispatch=dispatch;host.application.store.appendMessage=append;await host.close();}
   });
 }
+
+for(const boundary of ["before-handle-registration","non-replacing-edit"] as const)test(`Round22 accepted question ownership: ${boundary}`,{timeout:25_000},async()=>{
+ const host=await startWorkspaceFixture({questions:true}),accepted=latch(),releaseFirst=latch(),secondPrepared=latch(),releaseSecond=latch();
+ const app=host.application;
+ const privateApp=app as unknown as {runtime:Host["application"]["runtime"];agentLoop:{run(...args:unknown[]):Promise<unknown>};interpreter:import('../domains/restaurant/semantic-interpreter.js').RestaurantSemanticInterpreterPort};
+ const runtime=privateApp.runtime,dispatch=runtime.dispatch.bind(runtime),loop=privateApp.agentLoop,run=loop.run.bind(loop),append=app.store.appendMessage.bind(app.store),interpret=privateApp.interpreter.interpret.bind(privateApp.interpreter);
+ let first:Promise<unknown>|undefined,second:Promise<unknown>|undefined;
+ try{
+  const initial=await create(host),view=await settled(host,initial.case.caseId),candidateId=view.restaurant.presentedCandidateIds![0]!;
+  let loopRuns=0;loop.run=async(...args)=>{loopRuns++;return run(...args);};
+  runtime.dispatch=async(envelope,version)=>{const result=await dispatch(envelope,version);if(boundary==="before-handle-registration"&&envelope.event.type==="PAGE_QUESTION_REQUESTED"&&envelope.event.question.requestId==="early-question"){accepted.release();await releaseFirst.promise;}return result;};
+  app.store.appendMessage=async input=>{
+   if(boundary==="non-replacing-edit"&&input.requestId==="user:early-question"){accepted.release();await releaseFirst.promise;}
+   if(input.requestId==="user:following-question"){secondPrepared.release();await releaseSecond.promise;}
+   return append(input);
+  };
+  first=app.askRestaurantQuestion({userId,caseId:view.case.caseId,candidateId,question:"Card required?",requestId:"early-question",expectedVersion:view.case.taskVersion});await accepted.promise;
+  const current=await app.getCase(userId,view.case.caseId);
+  if(boundary==="before-handle-registration"){
+   second=app.askRestaurantQuestion({userId,caseId:view.case.caseId,candidateId,question:"Another card question?",requestId:"following-question",expectedVersion:current.case.taskVersion});await secondPrepared.promise;
+   releaseFirst.release();await first;
+  }else{
+   privateApp.interpreter.interpret=async()=>({status:"PROPOSED",proposal:{schemaVersion:"4",facts:[]},attempts:[]});
+   await app.submitMessage({userId,conversationId:view.case.conversationId,requestId:"no-op",expectedVersion:current.case.taskVersion,message:"Keep this unchanged"});
+  }
+  assert.equal(loopRuns,0,"a superseded or non-replacing request cannot start the accepted question's worker");
+  assert.equal(host.questionRequests.length,0);
+  releaseFirst.release();releaseSecond.release();await Promise.all([first,second]);
+  const done=await settled(host,view.case.caseId);assert.equal(loopRuns,1);assert.equal(done.restaurant.pageQuestion?.result?.status,"ANSWERED");
+  const events=await runtime.listEvents(view.case.caseId),completions=events.filter(e=>e.event.type==="PAGE_QUESTION_COMPLETED"&&e.event.requestId==="early-question");assert.equal(completions.length,1);
+  assert.equal(done.restaurant.questionHistory.length,boundary==="before-handle-registration"?2:1);
+  if(boundary==="before-handle-registration")assert.equal(completions[0]!.event.type==="PAGE_QUESTION_COMPLETED"&&completions[0]!.event.result.status==="UNVERIFIED"&&completions[0]!.event.result.reason,"CANCELLED");
+ }finally{releaseFirst.release();releaseSecond.release();await Promise.allSettled([first,second].filter(Boolean));runtime.dispatch=dispatch;loop.run=run;privateApp.interpreter.interpret=interpret;app.store.appendMessage=append;await host.close();}
+});
