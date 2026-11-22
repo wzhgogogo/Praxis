@@ -574,3 +574,18 @@ for(const boundary of ["before-handle-registration","non-replacing-edit"] as con
   if(boundary==="before-handle-registration")assert.equal(completions[0]!.event.type==="PAGE_QUESTION_COMPLETED"&&completions[0]!.event.result.status==="UNVERIFIED"&&completions[0]!.event.result.reason,"CANCELLED");
  }finally{releaseFirst.release();releaseSecond.release();await Promise.allSettled([first,second].filter(Boolean));runtime.dispatch=dispatch;loop.run=run;privateApp.interpreter.interpret=interpret;app.store.appendMessage=append;await host.close();}
 });
+
+test('Round22 accepted successor keeps preparation while the prior question finishes',{timeout:25_000},async()=>{
+ const started=latch(),atMessage=latch(),release=latch();
+ const host=await startWorkspaceFixture({questions:{beforeAnswer:async(_input,signal)=>{started.release();if(!signal.aborted)await new Promise<void>(resolve=>signal.addEventListener('abort',()=>resolve(),{once:true}));}}});
+ const append=host.application.store.appendMessage.bind(host.application.store);let editing:Promise<unknown>|undefined;
+ try{
+  const first=await create(host),view=await settled(host,first.case.caseId);
+  await host.application.askRestaurantQuestion({userId,caseId:view.case.caseId,candidateId:view.restaurant.presentedCandidateIds![0]!,question:'Card required?',requestId:'active-question',expectedVersion:view.case.taskVersion});await started.promise;
+  const active=await host.application.getCase(userId,view.case.caseId);
+  host.application.store.appendMessage=async input=>{if(input.requestId==='user:gap-edit'){atMessage.release();await release.promise;}return append(input);};
+  editing=host.application.submitMessage({userId,conversationId:view.case.conversationId,requestId:'gap-edit',expectedVersion:active.case.taskVersion,message:'Change Tokyo to Osaka'});await atMessage.promise;
+  const during=await host.application.getCase(userId,view.case.caseId);assert.equal(during.case.phase,'SEARCHING','committed successor must not look like an interrupted process before handle registration');
+  release.release();await editing;assert.equal((await settled(host,view.case.caseId)).case.phase,'PRESENT_RESULTS');
+ }finally{release.release();await editing?.catch(()=>{});host.application.store.appendMessage=append;await host.close();}
+});
