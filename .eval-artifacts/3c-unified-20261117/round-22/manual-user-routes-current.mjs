@@ -9,7 +9,7 @@ const here = (name) => fileURLToPath(new URL(name, import.meta.url));
 const git = (...args) => execFileSync("git", ["--no-optional-locks", ...args], { encoding: "utf8" }).trim();
 const head = git("rev-parse", "HEAD");
 const sourceTree = git("rev-parse", "HEAD:src");
-assert.equal(sourceTree, "cc7e22ce8065698cfcca6ede2a95acb1f781349d");
+assert.equal(sourceTree, process.env.PRAXIS_REVIEW_EXPECT_SOURCE);
 assert.equal(git("status", "--porcelain", "--", "src"), "");
 
 const browser = await chromium.launch({ headless: true, args: [

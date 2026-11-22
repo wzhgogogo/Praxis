@@ -50,7 +50,7 @@ for(const [name,place,query,criterion,expectOrdinary,expectNamed] of scenarios){
  const candidateIds=seed.candidates.map(c=>c.restaurant.id);
  const ordinary=await adapter.search({intent:baseIntent,readRunId:'ordinary'},signal);
  const named=await adapter.search({intent:namedIntent,readRunId:'named'},signal);
- const detail=async(intent,readRunId)=>{const facts=await adapter.inspectFacts({intent,candidateIds,candidates:seed.candidates,readRunId},signal);const f=facts.factChecks[candidateIds[0]];return {status:f.status,reason:f.reasonCode??null,violations:facts.evidence.flatMap(e=>e.claims.violatedNegativeCriteria??[])};};
+ const detail=async(intent,readRunId)=>{const facts=await adapter.inspectFacts({intent,candidateIds,candidates:seed.candidates,readRunId},signal);const f=facts.factChecks[candidateIds[0]];return {status:f.status,reason:f.reasonCode??null,facts:facts.evidence.filter(e=>e.kind==='RESTAURANT_FACT').length,violations:facts.evidence.flatMap(e=>e.claims.violatedNegativeCriteria??[])};};
  const ordinaryDetail=await detail(baseIntent,'ordinary-details'),namedDetail=await detail(namedIntent,'named-details');
  for(const [result,allowed] of [[ordinary,expectOrdinary],[named,expectNamed]]){
   if(allowed){
@@ -60,7 +60,7 @@ for(const [name,place,query,criterion,expectOrdinary,expectNamed] of scenarios){
  }
  for(const [details,allowed] of [[ordinaryDetail,expectOrdinary],[namedDetail,expectNamed]]){
   if(!allowed)assert.equal(details.reason,'GOOGLE_PLACE_TYPE_UNUSABLE');
-  else assert.equal(details.violations.length,0);
+  else {assert.ok(details.facts>0);assert.equal(details.violations.length,0);}
  }
  const observed={ordinary:ordinary.candidates.length,named:named.candidates.length,ordinaryDetail,namedDetail};
  const passed=observed.ordinary===Number(expectOrdinary)&&observed.named===Number(expectNamed)&&(ordinaryDetail.status==='COMPLETED')===expectOrdinary&&(namedDetail.status==='COMPLETED')===expectNamed;

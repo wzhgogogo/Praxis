@@ -27,6 +27,7 @@ import type {
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { distinctDiscoveryResultCandidateIds, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
+import { restaurantIntentPatchHasChanges } from "../domains/restaurant/semantic-compiler.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import { applyRestaurantIntentPatch, missingBlockingFields, missingSearchFields } from "../domains/restaurant/intent-state.js";
 import {namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
@@ -390,7 +391,8 @@ export class PersistentRestaurantAgentApplication {
     // A task row lock makes cancellation and the successor one persisted decision.
     const dispatch = this.runtime.dispatch.bind(this.runtime);
     this.runtime.dispatch = async (envelope, expectedVersion) => {
-      const replacing = ["PAGE_QUESTION_REQUESTED", "SEMANTIC_PROPOSAL_COMPILED",
+      const replacing = (envelope.event.type !== "SEMANTIC_PROPOSAL_COMPILED" || restaurantIntentPatchHasChanges(envelope.event.patch))
+        && ["PAGE_QUESTION_REQUESTED", "SEMANTIC_PROPOSAL_COMPILED",
         "SEMANTIC_CONFLICT_RECORDED", "SEMANTIC_INTERPRETATION_FAILED"].includes(envelope.event.type);
       if (!replacing) return dispatch(envelope, expectedVersion);
       let replacedQuestionRun: string | undefined;
