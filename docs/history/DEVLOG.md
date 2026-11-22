@@ -6502,3 +6502,8 @@ All five gates and three visual automated suites pass. Human inspection leaves o
 ## 2026-11-22 — Unified Round 21
 
 The stopped question admission gate remains freshness-bound. Settling accepted work uses the persisted question identity and the current runtime investigation. About stays open for the accepted question after inventory expiry. Query edits match local phrases with accent folding and preserve untouched source spelling. Google fact claims and light-food admission require evidence of a hard category exclusion. Reduced nested padding closes the 390px citation footer gap. The original sparse tree was restored from 1,793 exact HEAD blobs after confirmed macOS cleanup, and missing dependencies were installed offline from the lockfile. [Round 21 report](../../.eval-artifacts/3c-unified-20261117/round-21/REPORT.md).
+
+
+### Round 22 — 2026-11-22（draft / not integrated）
+
+已受理问答的原子结算/合法取代与查询、Google 店型过滤五项收口；三条生命周期交错与系统版本对照保留。冻结 `a3d8412bade34c7018fcdfeb8768fdc974395515`：默认1835/1835，G2 5/5、Chromium501/501、G6 159/159，typecheck/arch/build PASS；正式16/16、Style1 6/6、状态86/86，原人工顺序10/10。首次默认测试3项失败日志保留，修复后全套重跑。仅离线 Fixture / PGlite / Chromium；保护面比对通过，0 Live/真实 PostgreSQL/4312，不推送不合main。[Round 22报告](../../.eval-artifacts/3c-unified-20261117/round-22/REPORT.md)。

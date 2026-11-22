@@ -1,0 +1,42 @@
+✔ Round22 accepted question handover: equivalent (1147.475541ms)
+✔ Round22 accepted question handover: area (606.728125ms)
+✔ Round22 accepted question handover: model-failure (522.803625ms)
+✔ Round22 accepted question handover: second-question (539.040625ms)
+✔ Round22 accepted question handover: shortlist-wins (527.628917ms)
+✔ Round22 accepted question handover: system-answer-first (549.791917ms)
+✔ Round22 accepted question handover: conflict (509.178875ms)
+✔ Round22 accepted question handover: invalid-successor (535.351916ms)
+✔ Round22 accepted question ownership: before-handle-registration (536.275375ms)
+✔ Round22 accepted question ownership: non-replacing-edit (531.461125ms)
+✖ Round22 accepted successor keeps preparation while the prior question finishes (526.827583ms)
+✔ B1 reuses the actual admitted G1 cancellation answer without another model call, before or after selection (1718.39975ms)
+✔ HTTP next G1 question continues after prior G1 normal completion (1078.605875ms)
+✔ HTTP next G1 question continues after prior G1 cancellation (597.835625ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 13
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10654.600709
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:39388
+✖ Round22 accepted successor keeps preparation while the prior question finishes (526.827583ms)
+  AssertionError [ERR_ASSERTION]: committed successor must not look like an interrupted process before handle registration
+  + actual - expected
+  
+  + 'UNDERSTANDING'
+  - 'SEARCHING'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:588:79)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNDERSTANDING',
+    expected: 'SEARCHING',
+    operator: 'strictEqual'
+  }

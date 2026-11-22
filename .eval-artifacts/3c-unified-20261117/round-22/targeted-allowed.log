@@ -1,0 +1,43 @@
+✔ stale same-Case refresh, batch and location requests never cancel an active read (838.072459ms)
+✔ preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration (577.273541ms)
+✔ preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration (532.721458ms)
+✔ preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration (572.664375ms)
+✔ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (561.094542ms)
+✔ old HTTP location cannot write or abort the replacement read at the cancellation boundary (586.138458ms)
+✔ cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh (654.195416ms)
+✔ Exhausted third batch cannot project the six delivered outlets or their cross-source alias (631.427542ms)
+✔ Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias (576.922708ms)
+✔ Round15 Stop during preparation cancels before any new source call (573.125042ms)
+✔ Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version (493.288833ms)
+✔ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (508.744875ms)
+✔ Round16 first semantic preparation Stop cancels with zero source calls (464.374916ms)
+✔ Round16 old prepared refresh never claims replacement preparation handle (582.621708ms)
+✔ Round16 About question preparing Stop returns HTTP 200 and zero question sources (622.430791ms)
+✔ Round17 first semantic commit: current persisted read ID cancels before handle identity catches up (499.544375ms)
+✔ Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up (530.761542ms)
+✔ Round17 preparation becomes active during Stop identity re-read without a false conflict (483.472666ms)
+✔ Round18 preparation publication gap never advertises an unowned Stop (464.922375ms)
+✔ Round18 persisted semantic winner regains preparation from an uncommitted contender (540.908125ms)
+✔ Round18 Stop wins semantic dispatch CAS without rejecting the cancelled input (463.632541ms)
+✔ Round18 immutable handle cancels its active read after run ID and version advance (494.816625ms)
+✔ Round20 illegal terminal Cases reject page questions without source calls (969.239125ms)
+✔ Round22 accepted question handover: equivalent (523.93275ms)
+✔ Round22 accepted question handover: area (541.071625ms)
+✔ Round22 accepted question handover: model-failure (504.587167ms)
+✔ Round22 accepted question handover: second-question (545.296208ms)
+✔ Round22 accepted question handover: shortlist-wins (555.194541ms)
+✔ Round22 accepted question handover: system-answer-first (604.653291ms)
+✔ Round20 removing a criterion cleans inherited query and preserves the target contract (2.339ms)
+✔ Round20 area and criterion replacement retain unrevoked cafe intent (0.994333ms)
+✔ Round20 target overrides, explicit clear and named outlets never get query maintenance (0.13475ms)
+✔ Round20 inherited query removal treats criterion punctuation literally (0.307584ms)
+✔ Round21 local predicate edits preserve other conditions, outlet type and original spelling (1.228416ms)
+✔ Round22 shared predicates and Japanese independent place tokens (1.562083ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22090.321459

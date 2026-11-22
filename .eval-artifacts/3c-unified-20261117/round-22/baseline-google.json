@@ -1,0 +1,428 @@
+[
+  {
+    "name": "general-dinner",
+    "place": "Age.3 GINZA",
+    "query": "dinner in Ginza",
+    "criterion": null,
+    "expected": {
+      "ordinary": false,
+      "named": true
+    },
+    "observed": {
+      "ordinary": 0,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "UNKNOWN",
+        "reason": "GOOGLE_PLACE_TYPE_UNUSABLE",
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "negative-in-criteria-only",
+    "place": "Age.3 GINZA",
+    "query": "dinner in Ginza",
+    "criterion": [
+      "overly sweet desserts",
+      "SOFT"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": true
+    },
+    "observed": {
+      "ordinary": 0,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "UNKNOWN",
+        "reason": "GOOGLE_PLACE_TYPE_UNUSABLE",
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "negative-also-in-query",
+    "place": "Age.3 GINZA",
+    "query": "dinner in Ginza, preferably without overly sweet desserts",
+    "criterion": [
+      "overly sweet desserts",
+      "SOFT"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": true
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": false,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "explicit-dessert-with-preference",
+    "place": "Age.3 GINZA",
+    "query": "dessert café in Ginza, preferably without overly sweet desserts",
+    "criterion": [
+      "overly sweet desserts",
+      "SOFT"
+    ],
+    "expected": {
+      "ordinary": true,
+      "named": true
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "hard-shops",
+    "place": "Fixture Dessert Shop",
+    "query": "dessert shop in Ginza",
+    "criterion": [
+      "no dessert shops",
+      "HARD"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": false
+    },
+    "observed": {
+      "ordinary": 0,
+      "named": 0,
+      "ordinaryDetail": {
+        "status": "UNKNOWN",
+        "reason": "GOOGLE_PLACE_TYPE_UNUSABLE",
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "UNKNOWN",
+        "reason": "GOOGLE_PLACE_TYPE_UNUSABLE",
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "hard-places",
+    "place": "Fixture Dessert Shop",
+    "query": "dessert shop in Ginza",
+    "criterion": [
+      "no dessert places",
+      "HARD"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": false
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": false,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "hard-stores",
+    "place": "Fixture Dessert Shop",
+    "query": "dessert shop in Ginza",
+    "criterion": [
+      "no dessert stores",
+      "HARD"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": false
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": false,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "soft-places",
+    "place": "Fixture Dessert Shop",
+    "query": "dessert shop in Ginza",
+    "criterion": [
+      "no dessert places",
+      "SOFT"
+    ],
+    "expected": {
+      "ordinary": true,
+      "named": true
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "hard-sandwich-shops",
+    "place": "Fixture Sandwich Shop",
+    "query": "sandwich shop in Ginza",
+    "criterion": [
+      "no sandwich shops",
+      "HARD"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": false
+    },
+    "observed": {
+      "ordinary": 0,
+      "named": 0,
+      "ordinaryDetail": {
+        "status": "UNKNOWN",
+        "reason": "GOOGLE_PLACE_TYPE_UNUSABLE",
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "UNKNOWN",
+        "reason": "GOOGLE_PLACE_TYPE_UNUSABLE",
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "hard-sandwiches",
+    "place": "Fixture Sandwich Shop",
+    "query": "sandwich shop in Ginza",
+    "criterion": [
+      "no sandwiches",
+      "HARD"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": false
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": false,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "mixed-general-control",
+    "place": "Mixed Restaurant",
+    "query": "restaurant in Ginza",
+    "criterion": null,
+    "expected": {
+      "ordinary": true,
+      "named": true
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "mixed-hard-shops",
+    "place": "Mixed Restaurant",
+    "query": "restaurant in Ginza",
+    "criterion": [
+      "no dessert shops",
+      "HARD"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": false
+    },
+    "observed": {
+      "ordinary": 0,
+      "named": 0,
+      "ordinaryDetail": {
+        "status": "UNKNOWN",
+        "reason": "GOOGLE_PLACE_TYPE_UNUSABLE",
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "UNKNOWN",
+        "reason": "GOOGLE_PLACE_TYPE_UNUSABLE",
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "mixed-hard-places",
+    "place": "Mixed Restaurant",
+    "query": "restaurant in Ginza",
+    "criterion": [
+      "no dessert places",
+      "HARD"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": false
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": false,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "pure-cafe-control",
+    "place": "Fixture Café",
+    "query": "restaurant in Ginza",
+    "criterion": null,
+    "expected": {
+      "ordinary": true,
+      "named": true
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": true,
+    "injectedTransportCalls": 5
+  },
+  {
+    "name": "pure-cafe-hard",
+    "place": "Fixture Café",
+    "query": "restaurant in Ginza",
+    "criterion": [
+      "no cafés",
+      "HARD"
+    ],
+    "expected": {
+      "ordinary": false,
+      "named": false
+    },
+    "observed": {
+      "ordinary": 1,
+      "named": 1,
+      "ordinaryDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      },
+      "namedDetail": {
+        "status": "COMPLETED",
+        "reason": null,
+        "violations": []
+      }
+    },
+    "passed": false,
+    "injectedTransportCalls": 5
+  }
+]

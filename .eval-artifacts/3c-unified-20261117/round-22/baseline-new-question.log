@@ -1,0 +1,116 @@
+✖ Round22 accepted question handover: equivalent (837.112959ms)
+✖ Round22 accepted question handover: area (587.854584ms)
+✖ Round22 accepted question handover: model-failure (537.139083ms)
+✖ Round22 accepted question handover: second-question (542.359584ms)
+✖ Round22 accepted question handover: shortlist-wins (525.609583ms)
+✔ Round22 accepted question handover: system-answer-first (558.737875ms)
+✖ Round22 accepted question handover: conflict (519.358458ms)
+✔ Round22 accepted question handover: invalid-successor (544.470417ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 2
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10227.242292
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:30876
+✖ Round22 accepted question handover: equivalent (837.112959ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:523:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30876
+✖ Round22 accepted question handover: area (587.854584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:523:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30876
+✖ Round22 accepted question handover: model-failure (537.139083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:523:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30876
+✖ Round22 accepted question handover: second-question (542.359584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:523:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30876
+✖ Round22 accepted question handover: shortlist-wins (525.609583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:527:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30876
+✖ Round22 accepted question handover: conflict (519.358458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:523:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

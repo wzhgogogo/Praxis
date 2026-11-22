@@ -1,0 +1,361 @@
+{
+  "group": "f2-clean-inputs",
+  "head": "6e6116b8f7f1c4541b996148aaffbf536d434003",
+  "source": "cc7e22ce8065698cfcca6ede2a95acb1f781349d",
+  "receipts": [
+    {
+      "name": "f2-clean-input-supported",
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Find me a restaurant that serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Remove serves beer"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "caseId": "restaurant:b2a1ff522bd6abf15cb4e25c",
+        "expected": "café with outdoor seating in Ginza",
+        "before": "café with outdoor seating and serving beer in Ginza",
+        "after": "café with outdoor seating in Ginza",
+        "criteria": [],
+        "visible": "Ginza\nMon, Nov 2\n19:00–19:30\n2 guests",
+        "newSearches": 1
+      },
+      "outcome": {
+        "caseId": "restaurant:b2a1ff522bd6abf15cb4e25c",
+        "expected": "café with outdoor seating in Ginza",
+        "before": "café with outdoor seating and serving beer in Ginza",
+        "after": "café with outdoor seating in Ginza",
+        "criteria": [],
+        "visible": "Ginza\nMon, Nov 2\n19:00–19:30\n2 guests",
+        "newSearches": 1
+      },
+      "completed": true
+    },
+    {
+      "name": "f2-clean-input-coordinated",
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Find me a restaurant that serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Remove serves beer"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "caseId": "restaurant:3320893d93874fda88522f7c",
+        "expected": "café with outdoor seating in Ginza",
+        "before": "café with outdoor seating and beer in Ginza",
+        "after": "café with outdoor seating and beer in Ginza",
+        "criteria": [],
+        "visible": "Ginza\nMon, Nov 2\n19:00–19:30\n2 guests",
+        "newSearches": 1
+      },
+      "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'café with outdoor seating and beer in Ginza'\n- 'café with outdoor seating in Ginza'\n\n    at scenario (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs:30:12)\n    at async walk (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/walkthrough-tools.mjs:121:27)\n    at async file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs:34:1"
+    },
+    {
+      "name": "f2-clean-input-has",
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Find me a restaurant that serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Remove serves beer"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "caseId": "restaurant:36b502a8ff6e3265c51dee2c",
+        "expected": "restaurant in Ginza",
+        "before": "restaurant that has beer in Ginza",
+        "after": "restaurant that has beer in Ginza",
+        "criteria": [],
+        "visible": "Ginza\nMon, Nov 2\n19:00–19:30\n2 guests",
+        "newSearches": 1
+      },
+      "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'restaurant that has beer in Ginza'\n- 'restaurant in Ginza'\n              ^\n\n    at scenario (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs:30:12)\n    at async walk (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/walkthrough-tools.mjs:121:27)\n    at async file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs:34:1"
+    },
+    {
+      "name": "f2-clean-input-supported",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Find me a restaurant that serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Remove serves beer"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "caseId": "restaurant:3c26310ffeeb5b0a8184c493",
+        "expected": "café with outdoor seating in Ginza",
+        "before": "café with outdoor seating and serving beer in Ginza",
+        "after": "café with outdoor seating in Ginza",
+        "criteria": [],
+        "visible": "Ginza\nMon, Nov 2\n19:00–19:30\n2 guests",
+        "newSearches": 1
+      },
+      "outcome": {
+        "caseId": "restaurant:3c26310ffeeb5b0a8184c493",
+        "expected": "café with outdoor seating in Ginza",
+        "before": "café with outdoor seating and serving beer in Ginza",
+        "after": "café with outdoor seating in Ginza",
+        "criteria": [],
+        "visible": "Ginza\nMon, Nov 2\n19:00–19:30\n2 guests",
+        "newSearches": 1
+      },
+      "completed": true
+    },
+    {
+      "name": "f2-clean-input-coordinated",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Find me a restaurant that serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Remove serves beer"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "caseId": "restaurant:e1b7ec3802e8bd922542dcfb",
+        "expected": "café with outdoor seating in Ginza",
+        "before": "café with outdoor seating and beer in Ginza",
+        "after": "café with outdoor seating and beer in Ginza",
+        "criteria": [],
+        "visible": "Ginza\nMon, Nov 2\n19:00–19:30\n2 guests",
+        "newSearches": 1
+      },
+      "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'café with outdoor seating and beer in Ginza'\n- 'café with outdoor seating in Ginza'\n\n    at scenario (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs:30:12)\n    at async walk (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/walkthrough-tools.mjs:121:27)\n    at async file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs:34:1"
+    },
+    {
+      "name": "f2-clean-input-has",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Find me a restaurant that serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "serves beer"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Remove serves beer"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "caseId": "restaurant:0d6046e22e77016c18859321",
+        "expected": "restaurant in Ginza",
+        "before": "restaurant that has beer in Ginza",
+        "after": "restaurant that has beer in Ginza",
+        "criteria": [],
+        "visible": "Ginza\nMon, Nov 2\n19:00–19:30\n2 guests",
+        "newSearches": 1
+      },
+      "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'restaurant that has beer in Ginza'\n- 'restaurant in Ginza'\n              ^\n\n    at scenario (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs:30:12)\n    at async walk (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/walkthrough-tools.mjs:121:27)\n    at async file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs:34:1"
+    }
+  ]
+}

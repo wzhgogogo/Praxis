@@ -1,0 +1,570 @@
+{
+  "group": "f1-ui-overlap",
+  "head": "6e6116b8f7f1c4541b996148aaffbf536d434003",
+  "source": "cc7e22ce8065698cfcca6ede2a95acb1f781349d",
+  "receipts": [
+    {
+      "name": "f1-preparation-equivalent",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner in Tokyo"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Dinner in Tokyo\nReady"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "About ›"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Tokyo"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Save"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "before": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 7,
+          "active": true,
+          "area": "Tokyo",
+          "run": "run:restaurant:f5abf455f120a607946c2cd1:investigation:1",
+          "question": {
+            "requestId": "4a821da2-1c33-4d81-b662-31edf674e9e5",
+            "run": "run:restaurant:f5abf455f120a607946c2cd1:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "stage": "preparation",
+        "modelFixture": "Tokyo and 東京 normalize to the same area",
+        "edit": {
+          "http": 200,
+          "message": "Change Tokyo to 東京"
+        },
+        "questionHttp": 200,
+        "after": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 8,
+          "active": false,
+          "area": "Tokyo",
+          "run": "run:restaurant:f5abf455f120a607946c2cd1:investigation:2",
+          "question": {
+            "requestId": "4a821da2-1c33-4d81-b662-31edf674e9e5",
+            "run": "run:restaurant:f5abf455f120a607946c2cd1:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "reload": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 8,
+          "active": false,
+          "area": "Tokyo",
+          "run": "run:restaurant:f5abf455f120a607946c2cd1:investigation:2",
+          "question": {
+            "requestId": "4a821da2-1c33-4d81-b662-31edf674e9e5",
+            "run": "run:restaurant:f5abf455f120a607946c2cd1:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "controls": {
+          "sendDisabled": true,
+          "stop": false,
+          "pending": true,
+          "pendingText": "Does this place require a card?\n\nChecking the page…"
+        }
+      },
+      "failure": "AssertionError [ERR_ASSERTION]: no pending question without a worker after both responses and reload\n    at scenario (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f1-ui-overlap.mjs:52:40)\n    at async walk (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/walkthrough-tools.mjs:121:27)\n    at async file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f1-ui-overlap.mjs:57:1"
+    },
+    {
+      "name": "f1-execution-equivalent",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner in Tokyo"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Dinner in Tokyo\nReady"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "About ›"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Tokyo"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Save"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "before": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 7,
+          "active": true,
+          "area": "Tokyo",
+          "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:1",
+          "question": {
+            "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+            "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "stage": "execution",
+        "modelFixture": "Tokyo and 東京 normalize to the same area",
+        "edit": {
+          "http": 200,
+          "message": "Change Tokyo to 東京"
+        },
+        "questionHttp": 200,
+        "after": {
+          "phase": "PRESENT_RESULTS",
+          "status": "NEEDS_YOU",
+          "version": 9,
+          "active": false,
+          "area": "Tokyo",
+          "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:2",
+          "question": {
+            "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+            "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:1",
+            "result": "UNVERIFIED"
+          },
+          "history": [
+            {
+              "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+              "status": "UNVERIFIED",
+              "reason": "CANCELLED"
+            }
+          ]
+        },
+        "reload": {
+          "phase": "PRESENT_RESULTS",
+          "status": "NEEDS_YOU",
+          "version": 9,
+          "active": false,
+          "area": "Tokyo",
+          "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:2",
+          "question": {
+            "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+            "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:1",
+            "result": "UNVERIFIED"
+          },
+          "history": [
+            {
+              "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+              "status": "UNVERIFIED",
+              "reason": "CANCELLED"
+            }
+          ]
+        },
+        "controls": {
+          "sendDisabled": false,
+          "stop": false,
+          "pending": false,
+          "pendingText": "Checking the page…Stop"
+        }
+      },
+      "outcome": {
+        "before": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 7,
+          "active": true,
+          "area": "Tokyo",
+          "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:1",
+          "question": {
+            "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+            "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "stage": "execution",
+        "modelFixture": "Tokyo and 東京 normalize to the same area",
+        "edit": {
+          "http": 200,
+          "message": "Change Tokyo to 東京"
+        },
+        "questionHttp": 200,
+        "after": {
+          "phase": "PRESENT_RESULTS",
+          "status": "NEEDS_YOU",
+          "version": 9,
+          "active": false,
+          "area": "Tokyo",
+          "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:2",
+          "question": {
+            "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+            "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:1",
+            "result": "UNVERIFIED"
+          },
+          "history": [
+            {
+              "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+              "status": "UNVERIFIED",
+              "reason": "CANCELLED"
+            }
+          ]
+        },
+        "reload": {
+          "phase": "PRESENT_RESULTS",
+          "status": "NEEDS_YOU",
+          "version": 9,
+          "active": false,
+          "area": "Tokyo",
+          "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:2",
+          "question": {
+            "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+            "run": "run:restaurant:e719dd91e2c0027665bbdbf4:investigation:1",
+            "result": "UNVERIFIED"
+          },
+          "history": [
+            {
+              "requestId": "6df87def-de3f-49d2-8b49-8f402c0e63a1",
+              "status": "UNVERIFIED",
+              "reason": "CANCELLED"
+            }
+          ]
+        },
+        "controls": {
+          "sendDisabled": false,
+          "stop": false,
+          "pending": false,
+          "pendingText": "Checking the page…Stop"
+        }
+      },
+      "completed": true
+    },
+    {
+      "name": "f1-preparation-changed",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner in Tokyo"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Dinner in Tokyo\nReady"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "About ›"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Tokyo"
+        },
+        {
+          "tab": "second",
+          "action": "click",
+          "label": "Save"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "before": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 7,
+          "active": true,
+          "area": "Tokyo",
+          "run": "run:restaurant:f2694b243bf8463c9685d391:investigation:1",
+          "question": {
+            "requestId": "7d4b2f25-2c78-4fea-8701-beb5ee38fed0",
+            "run": "run:restaurant:f2694b243bf8463c9685d391:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "stage": "preparation",
+        "modelFixture": "Tokyo and Osaka are distinct",
+        "edit": {
+          "http": 200,
+          "message": "Change Tokyo to Osaka"
+        },
+        "questionHttp": 200,
+        "after": {
+          "phase": "PRESENT_RESULTS",
+          "status": "NEEDS_YOU",
+          "version": 13,
+          "active": false,
+          "area": "Osaka",
+          "run": "run:restaurant:f2694b243bf8463c9685d391:investigation:2",
+          "question": null,
+          "history": []
+        },
+        "reload": {
+          "phase": "PRESENT_RESULTS",
+          "status": "NEEDS_YOU",
+          "version": 13,
+          "active": false,
+          "area": "Osaka",
+          "run": "run:restaurant:f2694b243bf8463c9685d391:investigation:2",
+          "question": null,
+          "history": []
+        },
+        "controls": {
+          "sendDisabled": false,
+          "stop": false,
+          "pending": false,
+          "pendingText": "Checking the page…Stop"
+        }
+      },
+      "outcome": {
+        "before": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 7,
+          "active": true,
+          "area": "Tokyo",
+          "run": "run:restaurant:f2694b243bf8463c9685d391:investigation:1",
+          "question": {
+            "requestId": "7d4b2f25-2c78-4fea-8701-beb5ee38fed0",
+            "run": "run:restaurant:f2694b243bf8463c9685d391:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "stage": "preparation",
+        "modelFixture": "Tokyo and Osaka are distinct",
+        "edit": {
+          "http": 200,
+          "message": "Change Tokyo to Osaka"
+        },
+        "questionHttp": 200,
+        "after": {
+          "phase": "PRESENT_RESULTS",
+          "status": "NEEDS_YOU",
+          "version": 13,
+          "active": false,
+          "area": "Osaka",
+          "run": "run:restaurant:f2694b243bf8463c9685d391:investigation:2",
+          "question": null,
+          "history": []
+        },
+        "reload": {
+          "phase": "PRESENT_RESULTS",
+          "status": "NEEDS_YOU",
+          "version": 13,
+          "active": false,
+          "area": "Osaka",
+          "run": "run:restaurant:f2694b243bf8463c9685d391:investigation:2",
+          "question": null,
+          "history": []
+        },
+        "controls": {
+          "sendDisabled": false,
+          "stop": false,
+          "pending": false,
+          "pendingText": "Checking the page…Stop"
+        }
+      },
+      "completed": true
+    },
+    {
+      "name": "f1-preparation-equivalent",
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner in Tokyo"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "second",
+          "action": "tap",
+          "label": "My plans"
+        },
+        {
+          "tab": "second",
+          "action": "tap",
+          "label": "Dinner in Tokyo\nReady"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "About ›"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "second",
+          "action": "tap",
+          "label": "Tokyo"
+        },
+        {
+          "tab": "second",
+          "action": "tap",
+          "label": "Save"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "observed": {
+        "before": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 7,
+          "active": true,
+          "area": "Tokyo",
+          "run": "run:restaurant:89c347d05357042c0362f99c:investigation:1",
+          "question": {
+            "requestId": "6dbf9b66-8e9f-401f-9faf-8db29b980480",
+            "run": "run:restaurant:89c347d05357042c0362f99c:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "stage": "preparation",
+        "modelFixture": "Tokyo and 東京 normalize to the same area",
+        "edit": {
+          "http": 200,
+          "message": "Change Tokyo to 東京"
+        },
+        "questionHttp": 200,
+        "after": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 8,
+          "active": false,
+          "area": "Tokyo",
+          "run": "run:restaurant:89c347d05357042c0362f99c:investigation:2",
+          "question": {
+            "requestId": "6dbf9b66-8e9f-401f-9faf-8db29b980480",
+            "run": "run:restaurant:89c347d05357042c0362f99c:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "reload": {
+          "phase": "PRESENT_RESULTS",
+          "status": "ACTIVE",
+          "version": 8,
+          "active": false,
+          "area": "Tokyo",
+          "run": "run:restaurant:89c347d05357042c0362f99c:investigation:2",
+          "question": {
+            "requestId": "6dbf9b66-8e9f-401f-9faf-8db29b980480",
+            "run": "run:restaurant:89c347d05357042c0362f99c:investigation:1",
+            "result": null
+          },
+          "history": []
+        },
+        "controls": {
+          "sendDisabled": true,
+          "stop": false,
+          "pending": true,
+          "pendingText": "Does this place require a card?\n\nChecking the page…"
+        }
+      },
+      "failure": "AssertionError [ERR_ASSERTION]: no pending question without a worker after both responses and reload\n    at scenario (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f1-ui-overlap.mjs:52:40)\n    at async walk (file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/walkthrough-tools.mjs:121:27)\n    at async file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f1-ui-overlap.mjs:57:1"
+    }
+  ]
+}

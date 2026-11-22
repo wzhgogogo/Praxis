@@ -1,0 +1,182 @@
+[
+  {
+    "name": "gates",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "python3",
+      ".eval-artifacts/3c-unified-20261117/run-gates.py"
+    ],
+    "extraEnvironment": {
+      "PRAXIS_GATES_SUBDIR": "round-22/closure/gates"
+    },
+    "exitCode": 0,
+    "seconds": 530.823761583,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "graph",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/inspect-browser-graph.py"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 0.047801250000020445,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "assets",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/verify-build-assets.mjs"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 0.19065162499998678,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "f1-ui-overlap",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f1-ui-overlap.mjs"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 10.005788208000013,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "f1-interleavings",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f1-interleavings.mjs"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 9.738848957999949,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "f2-clean-inputs",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f2-clean-inputs.mjs"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 6.5279855830000315,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "f3-adapter-extended",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/f3-adapter-extended.mjs"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 0.1431041669999331,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "manual-user-routes",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/manual-user-routes-current.mjs"
+    ],
+    "extraEnvironment": {
+      "PRAXIS_REVIEW_EXPECT_SOURCE": "e6e981fe5b9bedb52e8ae6ec334856565344cc46"
+    },
+    "exitCode": 0,
+    "seconds": 4.6199615420000555,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "reported-front-end-paths",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/reported-front-end-paths.mjs"
+    ],
+    "extraEnvironment": {
+      "PRAXIS_REVIEW_EXPECT_SOURCE": "e6e981fe5b9bedb52e8ae6ec334856565344cc46"
+    },
+    "exitCode": 0,
+    "seconds": 8.43588837499999,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  },
+  {
+    "name": "visual",
+    "sha": "d58a70fecfa78f38a9447d1bab69dbbccd07c85c",
+    "sourceTree": "e6e981fe5b9bedb52e8ae6ec334856565344cc46",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-22/run-visual.py"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 171.186494166,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; gates runner leaves Replay to its own OS isolation"
+  }
+]

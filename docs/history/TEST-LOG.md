@@ -7220,3 +7220,8 @@ Preflight24 unit/35 browser,147 slice2, UI8/pure5/Style1-Round4 16/focused4/work
 ## 2026-11-22 — Unified Round 21 offline verification
 
 Frozen `0d269703b3251b35039fe33c07076b222d87e716` passed Typecheck, Arch check, default 1,823/1,823, Browser Fixture G2 5/5, Chromium 499/499 and G6 159/159, and Build. Chromium includes all 10 Round 19 controls, all 8 Round 20 cases and 6 new Round 21 cases. The targeted 70 component and 9 browser checks passed. Formal visual 16/16, Style 1 6/6 and states 84/84 produced 121 screenshots. Both 390px key frames were inspected individually and their source stamps stay on one line. Strict TypeScript, 18 browser modules with zero cycles and 19 byte-identical JavaScript assets plus HTML/CSS were verified. [Round 21 report and raw receipts](../../.eval-artifacts/3c-unified-20261117/round-21/REPORT.md).
+
+
+### Round 22 — 2026-11-22（draft / not integrated）
+
+已受理问答的原子结算/合法取代与查询、Google 店型过滤五项收口；三条生命周期交错与系统版本对照保留。冻结 `a3d8412bade34c7018fcdfeb8768fdc974395515`：默认1835/1835，G2 5/5、Chromium501/501、G6 159/159，typecheck/arch/build PASS；正式16/16、Style1 6/6、状态86/86，原人工顺序10/10。首次默认测试3项失败日志保留，修复后全套重跑。仅离线 Fixture / PGlite / Chromium；保护面比对通过，0 Live/真实 PostgreSQL/4312，不推送不合main。[Round 22报告](../../.eval-artifacts/3c-unified-20261117/round-22/REPORT.md)。

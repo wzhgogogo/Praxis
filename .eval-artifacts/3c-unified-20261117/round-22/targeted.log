@@ -1,0 +1,445 @@
+✖ stale same-Case refresh, batch and location requests never cancel an active read (711.392833ms)
+✖ preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration (488.133833ms)
+✖ preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration (476.557416ms)
+✖ preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration (465.739166ms)
+✖ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (469.946417ms)
+✖ old HTTP location cannot write or abort the replacement read at the cancellation boundary (476.495291ms)
+✖ cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh (473.9925ms)
+✖ Exhausted third batch cannot project the six delivered outlets or their cross-source alias (514.655916ms)
+✖ Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias (501.381625ms)
+✖ Round15 Stop during preparation cancels before any new source call (502.151667ms)
+✖ Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version (484.547458ms)
+✖ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (491.862417ms)
+✖ Round16 first semantic preparation Stop cancels with zero source calls (491.730292ms)
+✖ Round16 old prepared refresh never claims replacement preparation handle (493.630625ms)
+✖ Round16 About question preparing Stop returns HTTP 200 and zero question sources (502.991959ms)
+✖ Round17 first semantic commit: current persisted read ID cancels before handle identity catches up (542.302292ms)
+✖ Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up (541.770292ms)
+✖ Round17 preparation becomes active during Stop identity re-read without a false conflict (516.234334ms)
+✖ Round18 preparation publication gap never advertises an unowned Stop (538.860459ms)
+✖ Round18 persisted semantic winner regains preparation from an uncommitted contender (528.210709ms)
+✖ Round18 Stop wins semantic dispatch CAS without rejecting the cancelled input (601.185875ms)
+✖ Round18 immutable handle cancels its active read after run ID and version advance (544.113708ms)
+✖ Round20 illegal terminal Cases reject page questions without source calls (676.77225ms)
+✖ Round22 accepted question handover: equivalent (486.051959ms)
+✖ Round22 accepted question handover: area (481.036625ms)
+✖ Round22 accepted question handover: model-failure (473.777917ms)
+✖ Round22 accepted question handover: second-question (479.282666ms)
+✖ Round22 accepted question handover: shortlist-wins (495.166875ms)
+✖ Round22 accepted question handover: system-answer-first (510.884041ms)
+✔ Round20 removing a criterion cleans inherited query and preserves the target contract (3.812417ms)
+✔ Round20 area and criterion replacement retain unrevoked cafe intent (1.350833ms)
+✔ Round20 target overrides, explicit clear and named outlets never get query maintenance (0.163125ms)
+✔ Round20 inherited query removal treats criterion punctuation literally (0.332375ms)
+✔ Round21 local predicate edits preserve other conditions, outlet type and original spelling (1.334542ms)
+✖ Round22 shared predicates and Japanese independent place tokens (1.068667ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 5
+ℹ fail 30
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25581.544958
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:1058
+✖ stale same-Case refresh, batch and location requests never cancel an active read (711.392833ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration (488.133833ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration (476.557416ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration (465.739166ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:4321
+✖ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (469.946417ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:4321
+✖ old HTTP location cannot write or abort the replacement read at the cancellation boundary (476.495291ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:7478
+✖ cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh (473.9925ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:8909
+✖ Exhausted third batch cannot project the six delivered outlets or their cross-source alias (514.655916ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:10771
+✖ Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias (501.381625ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:12181
+✖ Round15 Stop during preparation cancels before any new source call (502.151667ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:13382
+✖ Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version (484.547458ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:14174
+✖ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (491.862417ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:15346
+✖ Round16 first semantic preparation Stop cancels with zero source calls (491.730292ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:16290
+✖ Round16 old prepared refresh never claims replacement preparation handle (493.630625ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:18019
+✖ Round16 About question preparing Stop returns HTTP 200 and zero question sources (502.991959ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:19927
+✖ Round17 first semantic commit: current persisted read ID cancels before handle identity catches up (542.302292ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:19927
+✖ Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up (541.770292ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:22566
+✖ Round17 preparation becomes active during Stop identity re-read without a false conflict (516.234334ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:23934
+✖ Round18 preparation publication gap never advertises an unowned Stop (538.860459ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:25352
+✖ Round18 persisted semantic winner regains preparation from an uncommitted contender (528.210709ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:27102
+✖ Round18 Stop wins semantic dispatch CAS without rejecting the cancelled input (601.185875ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:28322
+✖ Round18 immutable handle cancels its active read after run ID and version advance (544.113708ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:29976
+✖ Round20 illegal terminal Cases reject page questions without source calls (676.77225ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30845
+✖ Round22 accepted question handover: equivalent (486.051959ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30845
+✖ Round22 accepted question handover: area (481.036625ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30845
+✖ Round22 accepted question handover: model-failure (473.777917ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30845
+✖ Round22 accepted question handover: second-question (479.282666ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30845
+✖ Round22 accepted question handover: shortlist-wins (495.166875ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:30845
+✖ Round22 accepted question handover: system-answer-first (510.884041ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/domains/restaurant/open-ended-target.test.ts:1:4229
+✖ Round22 shared predicates and Japanese independent place tokens (1.068667ms)
+  AssertionError [ERR_ASSERTION]: café that has beer and outdoor seating in Ginza
+  + actual - expected
+  
+  + 'café outdoor seating in Ginza'
+  - 'café with outdoor seating in Ginza'
+          ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/open-ended-target.test.ts:57:11)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'café outdoor seating in Ginza',
+    expected: 'café with outdoor seating in Ginza',
+    operator: 'strictEqual'
+  }
