@@ -1,6 +1,6 @@
 import os, subprocess, pathlib, json, time
 root=pathlib.Path.cwd()
-out=root/'.eval-artifacts/3c-unified-20261117/round-22/closure'
+out=root/'.eval-artifacts/3c-unified-20261117/round-22/final'
 out.mkdir(exist_ok=True)
 sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
 clean=lambda: not subprocess.check_output(['git','--no-optional-locks','status','--porcelain'],text=True)
@@ -9,7 +9,7 @@ env={k:os.environ[k] for k in ['PATH','HOME','TMPDIR'] if k in os.environ}
 assert all(not (out/p).exists() for p in ('formal','style1','states','visual-driver.json'))
 results=[]
 for label,selection,command in (
- ('formal',{'PRAXIS_VISUAL_SUBDIR':'round-22/closure/formal'},['node','--import','tsx','.eval-artifacts/3c-unified-20261117/visual-smoke.mjs']),
+ ('formal',{'PRAXIS_VISUAL_SUBDIR':'round-22/final/formal'},['node','--import','tsx','.eval-artifacts/3c-unified-20261117/visual-smoke.mjs']),
  ('style1',{'PRAXIS_ROUND6_VISUAL_OUTPUT':str(out/'style1')},['node','--import','tsx','--test','--test-name-pattern=^Round6 Style1','src/harness/browser/web-workspace-round6.test.ts']),
  ('states',{'PRAXIS_ROUND8_VISUAL_OUTPUT':str(out/'states')},['node','--import','tsx','--test','--test-name-pattern=^Round(8|10|11|12|13|14|15|16|17|18|19|20|21|22) UI:','src/harness/browser/web-workspace-round6.test.ts','src/harness/browser/web-workspace-round10.test.ts']),
 ):

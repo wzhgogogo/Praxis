@@ -607,25 +607,27 @@ export class PersistentRestaurantAgentApplication {
     }
     const pendingQuestion = beforeCancellation.domainState.pageQuestion;
     if (pendingQuestion && !pendingQuestion.result) {
-      const event = await restaurantEventForMessage(this.interpreter, {
-        taskId: record.rootTaskId, message: input.message, referenceTime: this.clock.now().toISOString(),
-        timezone: "Asia/Tokyo", ...(beforeCancellation.domainState.intentDraft ? {currentDraft:beforeCancellation.domainState.intentDraft} : {}),
-        ...(viewingContext ? {viewingContext} : {}),
-      }, this.partySizeSupplementResolver);
-      const result = await this.runtime.dispatch(this.userEvent(beforeCancellation, input.requestId, event), input.expectedVersion);
-      if (!result.duplicateEvent) {
-        await this.store.appendMessage({
-          id: "message:0:" + hash(record.id + ":" + input.requestId).slice(0,24), conversationId:record.id,
-          role:"USER",content:input.message,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString(),
-        });
-        if (!["FAILED","NEEDS_INPUT"].includes(result.snapshot.domainState.phase)
-          && !(event.type === "SEMANTIC_PROPOSAL_COMPILED" && !restaurantIntentPatchHasChanges(event.patch))) {
-          const handle = this.prepareRead(record, result.snapshot, input.requestId);
-          await this.runUserInitiatedRead(record, input.requestId, result.snapshot, handle);
+      return this.withPreparingRead(record.rootTaskId, async () => {
+        const event = await restaurantEventForMessage(this.interpreter, {
+          taskId: record.rootTaskId, message: input.message, referenceTime: this.clock.now().toISOString(),
+          timezone: "Asia/Tokyo", ...(beforeCancellation.domainState.intentDraft ? {currentDraft:beforeCancellation.domainState.intentDraft} : {}),
+          ...(viewingContext ? {viewingContext} : {}),
+        }, this.partySizeSupplementResolver);
+        const result = await this.runtime.dispatch(this.userEvent(beforeCancellation, input.requestId, event), input.expectedVersion);
+        if (!result.duplicateEvent) {
+          await this.store.appendMessage({
+            id: "message:0:" + hash(record.id + ":" + input.requestId).slice(0,24), conversationId:record.id,
+            role:"USER",content:input.message,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString(),
+          });
+          if (!["FAILED","NEEDS_INPUT"].includes(result.snapshot.domainState.phase)
+            && !(event.type === "SEMANTIC_PROPOSAL_COMPILED" && !restaurantIntentPatchHasChanges(event.patch))) {
+            const handle = this.prepareRead(record, result.snapshot, input.requestId);
+            await this.runUserInitiatedRead(record, input.requestId, result.snapshot, handle);
+          }
+          await this.notifyCaseUpdate(record);
         }
-        await this.notifyCaseUpdate(record);
-      }
-      return this.project(record);
+        return this.project(record);
+      });
     }
     return this.withPreparingRead(record.rootTaskId, async () => {
       const validated = await this.cancelAndRecheck(record, input, priorActive,
