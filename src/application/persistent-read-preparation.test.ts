@@ -463,3 +463,72 @@ test('Round20 illegal terminal Cases reject page questions without source calls'
   }finally{await host.close();}
  }
 });
+
+for (const kind of ["equivalent","area","model-failure","second-question","shortlist-wins","system-answer-first"] as const) {
+  test(`Round22 accepted question handover: ${kind}`,{timeout:25_000},async()=>{
+    const entered=latch(),release=latch();
+    const host=await startWorkspaceFixture({questions:true,semanticFailureMessage:"Fail pending question"});
+    const append=host.application.store.appendMessage.bind(host.application.store);
+    type Runtime=Host["application"]["runtime"];
+    const runtime=(host.application as unknown as {runtime:Runtime}).runtime;
+    const dispatch=runtime.dispatch.bind(runtime);
+    let pending:Promise<unknown>|undefined;
+    try{
+      const initial=await create(host);
+      let view=await settled(host,initial.case.caseId);
+      const candidateId=view.restaurant.presentedCandidateIds![0]!;
+      host.application.store.appendMessage=async input=>{
+        if(input.requestId==="user:question-a"){entered.release();await release.promise;}
+        return append(input);
+      };
+      pending=host.application.askRestaurantQuestion({userId,caseId:view.case.caseId,candidateId,question:"Card required?",requestId:"question-a",expectedVersion:view.case.taskVersion});
+      await Promise.race([entered.promise,delay(5000).then(()=>{throw new Error("Question not admitted");})]);
+      view=await host.application.getCase(userId,view.case.caseId);
+      const acceptedVersion=view.case.taskVersion,q=view.restaurant.pageQuestion!;
+      if(kind==="second-question"){
+        await host.application.askRestaurantQuestion({userId,caseId:view.case.caseId,candidateId,question:"Another card question?",requestId:"question-b",expectedVersion:acceptedVersion});
+      }else{
+        if(kind==="system-answer-first"){
+          const current=await runtime.snapshot(view.case.caseId);
+          await dispatch({id:"answer-first",taskId:current.id,event:{type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,result:{status:"ANSWERED",candidateId,answer:"Original answer",citations:[],checkedPages:[],sensitiveCategory:"NONE",confirmationRequired:false}},occurredAt:host.clock.now().toISOString(),trace:{schemaVersion:"1",runId:current.runId,correlationId:"answer-first",actor:"SYSTEM"}},current.version);
+        }
+        if(kind==="shortlist-wins"){
+          let once=true;
+          runtime.dispatch=async(envelope,version)=>{
+            if(once&&envelope.event.type==="SEMANTIC_PROPOSAL_COMPILED"){
+              once=false;
+              await host.application.setShortlist({userId,caseId:view.case.caseId,candidateId,shortlisted:true,requestId:"save-winner",expectedVersion:acceptedVersion});
+            }
+            return dispatch(envelope,version);
+          };
+        }
+        const editing=host.application.submitMessage({userId,conversationId:view.case.conversationId,requestId:"edit-b",expectedVersion:acceptedVersion,message:kind==="model-failure"?"Fail pending question":kind==="equivalent"?"Keep the same dinner conditions":"Change Tokyo to Osaka"});
+        if(kind==="shortlist-wins") await assert.rejects(editing,StaleTaskVersionError);
+        else await editing;
+      }
+      release.release();await pending;
+      view=await settled(host,view.case.caseId);
+      if(kind==="second-question")await settled(host,view.case.caseId);
+      view=await host.application.getCase(userId,view.case.caseId);
+      const events=await runtime.listEvents(view.case.caseId);
+      const completions=events.filter(e=>e.event.type==="PAGE_QUESTION_COMPLETED"&&e.event.requestId===q.requestId);
+      assert.equal(completions.length,1);
+      const history=view.restaurant.questionHistory.find(item=>item.requestId===q.requestId)!;
+      assert.ok(history,"accepted question retained in event projection");
+      const answered=["system-answer-first","shortlist-wins"].includes(kind);
+      assert.equal(history.result!.status,answered?"ANSWERED":"UNVERIFIED");
+      if(!answered){assert.equal(history.result!.status,"UNVERIFIED");if(history.result!.status==="UNVERIFIED")assert.equal(history.result!.reason,"CANCELLED");}
+      if(kind==="shortlist-wins")assert.ok(view.restaurant.shortlistCandidateIds?.includes(candidateId));
+      if(kind==="second-question"){
+        assert.equal(view.restaurant.questionHistory.length,2);
+        assert.equal(view.restaurant.questionHistory[0]!.result!.status,"ANSWERED");
+        const admitted=events.find(e=>e.event.type==="PAGE_QUESTION_REQUESTED"&&e.event.question.requestId==="question-b")!;
+        assert.ok(events.indexOf(completions[0]!)<events.indexOf(admitted),"first settlement precedes second admission");
+        const retried=await host.application.askRestaurantQuestion({userId,caseId:view.case.caseId,candidateId,question:"Another card question?",requestId:"question-b",expectedVersion:acceptedVersion});
+        assert.equal(retried.restaurant.questionHistory.length,2);
+      }
+      if(kind==="model-failure")assert.equal(view.case.phase,"FAILED");
+      assert.equal(view.restaurant.pageQuestion?.result===undefined && !!view.restaurant.pageQuestion,false,"no workerless pending question");
+    }finally{release.release();await pending?.catch(()=>{});runtime.dispatch=dispatch;host.application.store.appendMessage=append;await host.close();}
+  });
+}

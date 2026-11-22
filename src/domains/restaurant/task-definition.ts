@@ -261,6 +261,7 @@ function transition(
         || !state.candidates.some(c => c.restaurant.id === q.candidateId)
         || !q.readRunId
         || !Number.isFinite(Date.parse(q.readStartedAt)) || !Number.isFinite(Date.parse(q.deadlineAt))) throw new Error("Question must bind an explicitly displayed outlet and the current read run");
+      if (state.pageQuestion && !state.pageQuestion.result) throw new Error("Settle the accepted question before replacing it");
       return { state: { ...state, pageQuestion: structuredClone(q) }, commands: [] };
     }
     case "PAGE_QUESTION_COMPLETED": {
@@ -273,6 +274,7 @@ function transition(
     case "SEMANTIC_PROPOSAL_COMPILED": {
       requireSemanticMutablePhase(state, event.type);
       if (!restaurantIntentPatchHasChanges(event.patch)) return { state: structuredClone(state), commands: [] };
+      if (state.pageQuestion && !state.pageQuestion.result) throw new Error("Settle the accepted question before revising the intent");
       const intentDraft = applyRestaurantIntentPatch(state.intentDraft, event.patch);
       // Reaffirming identical conditions does not refresh or erase source
       // evidence. Actual value/provenance changes still invalidate the read.
@@ -316,6 +318,7 @@ function transition(
     }
     case "SEMANTIC_CONFLICT_RECORDED":
       requireSemanticMutablePhase(state, event.type);
+      if (state.pageQuestion && !state.pageQuestion.result) throw new Error("Settle the accepted question before ending its investigation");
       return {
         state: {
           ...resetForSemanticUpdate(state, state.intentDraft ? structuredClone(state.intentDraft) : undefined),
@@ -326,6 +329,7 @@ function transition(
       };
     case "SEMANTIC_INTERPRETATION_FAILED":
       requireSemanticMutablePhase(state, event.type);
+      if (state.pageQuestion && !state.pageQuestion.result) throw new Error("Settle the accepted question before ending its investigation");
       return {
         state: {
           ...state,

@@ -137,12 +137,14 @@ const LIGHT_FOOD_CATEGORY_LABELS: Record<string, readonly string[]> = {
   meal_takeaway: ["meal takeaway", "takeaway", "takeout", "take away", "take out", "to go", "持ち帰り", "テイクアウト"],
   meal_delivery: ["meal delivery", "delivery", "配達", "デリバリー"],
   pizza_delivery: ["pizza delivery", "delivery", "配達", "デリバリー"],
+  cafe: ["cafe","カフェ"], coffee_shop:["coffee","coffee shop","コーヒー"], bakery:["bakery","パン屋"], tea_house:["tea house","tea","茶館"],
 };
 
 function categoryLabel(value: string): string {
   return normalized(value.normalize("NFKD").replace(/\p{M}/gu, "").replace(/[_-]+/g, " "))
     .replace(/^(?:no|not|without|avoid)\s+/, "")
-    .replace(/\s+(?:restaurants?|cuisines?|shops?|dining type)$/, "")
+    .replace(/\s+(?:restaurants?|cuisines?|shops?|places?|stores?|dining type)$/, "")
+    .replace(/\bsandwiches\b/g, "sandwich").replace(/\bbakeries\b/g, "bakery")
     .replace(/\b(\w{3,})s\b/g, "$1");
 }
 
@@ -157,11 +159,12 @@ function usableRestaurant(place:UntrustedGooglePlaceObservation,input:GoogleDisc
  const primary=place.primaryType===undefined?undefined:normalizeType(place.primaryType),types=[...new Set([...(primary?[primary]:[]),...(place.types??[]).map(normalizeType)])];
  const isDining=(type:string)=>type==='restaurant'||type.endsWith('_restaurant')||DINING_PRIMARY_TYPES.has(type);
  const negative = [...(input.negativeCriteria ?? []), ...(input.criteria ?? []).filter(c => c.polarity === 'NEGATIVE' && c.strength === 'HARD').map(c => c.text)];
- const target=(input.targetQuery??'').replace(/(?:no|not|without|avoid)\s+(?:desserts?|sweets?|sandwich(?:es)?|caf[eé]s?|bakeries|bakery|takeaway|delivery)/giu,'');
+ const target = (input.targetQuery ?? '').replace(/\b(?:no|not|without|avoid)\b[^,;.!?]*?(?=,|;|\bbut\b|\bspecifically\b|$)/giu, ' ');
  const positive=[target,...(input.requiredTypeCriteria??[]),...(input.criteria??[]).filter(c=>c.polarity==='POSITIVE').map(c=>c.text)].join(' ');
  const requested=(pattern:RegExp)=>pattern.test(positive);
  const specific=input.selectionScope==='SPECIFIC_OUTLET';
  const restricted=types.filter(t=>LIGHT_FOOD_TYPES[t]);
+ if(types.some(type => LIGHT_FOOD_CATEGORY_LABELS[type] && negative.some(criterion => excludesCategory(criterion,type))))return false;
  if (restricted.some(type => negative.some(criterion => excludesCategory(criterion, type)))) return false;
  if(primary&&LIGHT_FOOD_TYPES[primary])return specific||requested(LIGHT_FOOD_TYPES[primary]!);
  const lightIntent=/caf[eé]|coffee|dessert|sweet|sandwich|baker|pastr|カフェ|喫茶|デザート|サンド|パン/iu;

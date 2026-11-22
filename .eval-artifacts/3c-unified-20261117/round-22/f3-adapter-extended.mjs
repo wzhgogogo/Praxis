@@ -29,6 +29,15 @@ const scenarios=[
   ['pure-cafe-control',cafe,'restaurant in Ginza',null,true,true],
   ['pure-cafe-hard',cafe,'restaurant in Ginza',['no cafés','HARD'],false,false],
 ];
+const originalScenarioCount=scenarios.length;
+scenarios.push(
+ ['no-primary-dessert-places',{...dessert,primaryType:undefined},'dessert shop in Ginza',['no dessert places','HARD'],false,false],
+ ['coffee-shops',{...cafe,primaryType:'coffee_shop',types:['coffee_shop','food']},'coffee shop in Ginza',['no coffee shops','HARD'],false,false],
+ ['bakeries',{...cafe,primaryType:'bakery',types:['bakery','food']},'bakery in Ginza',['no bakeries','HARD'],false,false],
+ ['tea-houses',{...cafe,primaryType:'tea_house',types:['tea_house','food']},'tea house in Ginza',['no tea houses','HARD'],false,false],
+ ['negative-then-explicit',age,'not too sweet, but specifically looking for a dessert café',['too sweet','HARD'],true,true],
+ ['hard-degree',age,'dessert café with no overly sweet desserts',['overly sweet desserts','HARD'],true,true],
+);
 for(const [name,place,query,criterion,expectOrdinary,expectNamed] of scenarios){
  const signal=new AbortController().signal;
  const calls=[];
@@ -43,12 +52,23 @@ for(const [name,place,query,criterion,expectOrdinary,expectNamed] of scenarios){
  const named=await adapter.search({intent:namedIntent,readRunId:'named'},signal);
  const detail=async(intent,readRunId)=>{const facts=await adapter.inspectFacts({intent,candidateIds,candidates:seed.candidates,readRunId},signal);const f=facts.factChecks[candidateIds[0]];return {status:f.status,reason:f.reasonCode??null,violations:facts.evidence.flatMap(e=>e.claims.violatedNegativeCriteria??[])};};
  const ordinaryDetail=await detail(baseIntent,'ordinary-details'),namedDetail=await detail(namedIntent,'named-details');
+ for(const [result,allowed] of [[ordinary,expectOrdinary],[named,expectNamed]]){
+  if(allowed){
+   assert.ok(result.evidence.some(e=>e.kind==='RESTAURANT_FACT'));
+   assert.ok(result.evidence.every(e=>!e.claims.violatedNegativeCriteria?.length));
+  }
+ }
+ for(const [details,allowed] of [[ordinaryDetail,expectOrdinary],[namedDetail,expectNamed]]){
+  if(!allowed)assert.equal(details.reason,'GOOGLE_PLACE_TYPE_UNUSABLE');
+  else assert.equal(details.violations.length,0);
+ }
  const observed={ordinary:ordinary.candidates.length,named:named.candidates.length,ordinaryDetail,namedDetail};
  const passed=observed.ordinary===Number(expectOrdinary)&&observed.named===Number(expectNamed)&&(ordinaryDetail.status==='COMPLETED')===expectOrdinary&&(namedDetail.status==='COMPLETED')===expectNamed;
  rows.push({name,place:place.displayName.text,query,criterion,expected:{ordinary:expectOrdinary,named:expectNamed},observed,passed,injectedTransportCalls:calls.length});
 }
 writeFileSync(new URL('f3-adapter-extended.json',import.meta.url),JSON.stringify(rows,null,2)+'\n');
 for(const r of rows) console.log(r.name,r.expected,JSON.stringify(r.observed),r.passed);
+console.log('ORIGINAL',rows.slice(0,originalScenarioCount).filter(r=>r.passed).length,'/',originalScenarioCount,'ADDITIONAL',rows.slice(originalScenarioCount).filter(r=>r.passed).length,'/',rows.length-originalScenarioCount);
 
 
 if(rows.some(r=>!r.passed))process.exitCode=1;

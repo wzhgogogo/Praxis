@@ -47,3 +47,23 @@ test("Round21 local predicate edits preserve other conditions, outlet type and o
   assert.equal(applyRestaurantIntentPatch(accented,{schemaVersion:"3",removeCriteria:[quiet]}).target?.query,"café in Ginza");
   assert.equal(applyRestaurantIntentPatch(accented,{schemaVersion:"3",removeCriteria:[cafe]}).target?.query,"quiet in Ginza");
 });
+
+test("Round22 shared predicates and Japanese independent place tokens",()=>{
+ const beer={...omakase,text:"serves beer"};
+ for(const predicate of ["that has","has","having","with","that serves","serves","serving","that offers","offers","offering","featuring"]){
+  for(const query of [`café ${predicate} beer and outdoor seating in Ginza`,`café ${predicate} outdoor seating and beer in Ginza`]){
+   const state={...draft,target:{...draft.target!,query},criteria:[beer]};
+   const result=applyRestaurantIntentPatch(state,{schemaVersion:"3",removeCriteria:[beer]});
+   assert.equal(result.target?.query,`café ${predicate} outdoor seating in Ginza`,query);
+  }
+ }
+ const sushi={...omakase,text:"寿司"};
+ const state={...draft,target:{...draft.target!,query:"銀座の寿司店 東銀座駅近く"},area:{query:"銀座"},criteria:[sushi]};
+ const changed=applyRestaurantIntentPatch(state,{schemaVersion:"3",area:{query:"渋谷"}});
+ assert.doesNotMatch(changed.target!.query,/(^|\s)銀座/);
+ assert.match(changed.target!.query,/東銀座駅近く/);
+ assert.match(changed.target!.query,/寿司店.*渋谷/);
+ const removed=applyRestaurantIntentPatch(state,{schemaVersion:"3",removeCriteria:[sushi]});
+ assert.doesNotMatch(removed.target!.query,/寿司/);
+ assert.match(removed.target!.query,/銀座/);
+});

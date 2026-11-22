@@ -387,6 +387,49 @@ export class PersistentRestaurantAgentApplication {
       this.clock,
       this.createId,
     );
+    // A task row lock makes cancellation and the successor one persisted decision.
+    const dispatch = this.runtime.dispatch.bind(this.runtime);
+    this.runtime.dispatch = async (envelope, expectedVersion) => {
+      const replacing = ["PAGE_QUESTION_REQUESTED", "SEMANTIC_PROPOSAL_COMPILED",
+        "SEMANTIC_CONFLICT_RECORDED", "SEMANTIC_INTERPRETATION_FAILED"].includes(envelope.event.type);
+      if (!replacing) return dispatch(envelope, expectedVersion);
+      let replacedQuestion = false;
+      const result = await options.database.transaction(async transaction => {
+        await transaction.query("SELECT id FROM tasks WHERE id = $1 FOR UPDATE", [envelope.taskId]);
+        const database: SqlDatabase = {
+          query: transaction.query.bind(transaction),
+          transaction: async work => work(transaction),
+        };
+        const runtime = new PostgresTaskRuntime(database, restaurantBookingTaskDefinition, this.clock, this.createId);
+        const current = await runtime.snapshot(envelope.taskId);
+        const events = await runtime.listEvents(envelope.taskId);
+        if (events.some(event => event.id === envelope.id)) return runtime.dispatch(envelope, current.version);
+        const semantic = envelope.event.type.startsWith("SEMANTIC_");
+        if (expectedVersion !== undefined && (expectedVersion > current.version
+          || expectedVersion !== current.version && (!semantic
+            || events.slice(expectedVersion).some(event => event.trace.actor === "USER")))) {
+          throw new StaleTaskVersionError(expectedVersion, current.version);
+        }
+        const question = current.domainState.pageQuestion;
+        let version = current.version;
+        if (question && !question.result) {
+          const completion = this.userEvent(current, "superseded-question:" + question.requestId, {
+            type: "PAGE_QUESTION_COMPLETED", requestId: question.requestId, readRunId: question.readRunId,
+            result: {status:"UNVERIFIED",candidateId:question.candidateId,reason:"CANCELLED",checkedPages:[]},
+          });
+          const settled = await runtime.dispatch({...completion,trace:{...completion.trace,actor:"SYSTEM"}}, version);
+          version = settled.snapshot.version;
+          replacedQuestion = true;
+        }
+        return runtime.dispatch(envelope, version);
+      });
+      if (replacedQuestion) {
+        const handle = this.activeReads.get(envelope.taskId) ?? this.preparingHandles.get(envelope.taskId);
+        handle?.controller.abort(new Error("The accepted question was superseded by a committed user operation."));
+        if (this.preparingHandles.get(envelope.taskId) === handle) this.preparingHandles.delete(envelope.taskId);
+      }
+      return result;
+    };
     this.trajectories = new PostgresRestaurantAgentTrajectoryStore(options.database);
     const suppliedStateObserver = options.agentLoopOptions?.onStateUpdated;
     this.agentLoop = new RestaurantAgentLoopCoordinator(
@@ -552,6 +595,27 @@ export class PersistentRestaurantAgentApplication {
         expectedVersion: input.expectedVersion,
         feedback,
       });
+    }
+    const pendingQuestion = beforeCancellation.domainState.pageQuestion;
+    if (pendingQuestion && !pendingQuestion.result) {
+      const event = await restaurantEventForMessage(this.interpreter, {
+        taskId: record.rootTaskId, message: input.message, referenceTime: this.clock.now().toISOString(),
+        timezone: "Asia/Tokyo", ...(beforeCancellation.domainState.intentDraft ? {currentDraft:beforeCancellation.domainState.intentDraft} : {}),
+        ...(viewingContext ? {viewingContext} : {}),
+      }, this.partySizeSupplementResolver);
+      const result = await this.runtime.dispatch(this.userEvent(beforeCancellation, input.requestId, event), input.expectedVersion);
+      if (!result.duplicateEvent) {
+        await this.store.appendMessage({
+          id: "message:0:" + hash(record.id + ":" + input.requestId).slice(0,24), conversationId:record.id,
+          role:"USER",content:input.message,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString(),
+        });
+        if (!["FAILED","NEEDS_INPUT"].includes(result.snapshot.domainState.phase)) {
+          const handle = this.prepareRead(record, result.snapshot, input.requestId);
+          await this.runUserInitiatedRead(record, input.requestId, result.snapshot, handle);
+        }
+        await this.notifyCaseUpdate(record);
+      }
+      return this.project(record);
     }
     return this.withPreparingRead(record.rootTaskId, async () => {
       const validated = await this.cancelAndRecheck(record, input, priorActive,
@@ -1197,6 +1261,15 @@ export class PersistentRestaurantAgentApplication {
       const active = this.activeReads.get(taskId);
       return active !== undefined && active !== priorActive;
     };
+    const before = await this.runtime.snapshot(taskId);
+    const priorEvents = await this.runtime.listEvents(taskId);
+    if (priorEvents.some(event => event.id === this.userEventId(taskId, input.requestId))) return;
+    if (before.version < input.expectedVersion
+      || priorEvents.slice(input.expectedVersion).some(event => event.trace.actor === "USER")
+      || sameTarget && !sameTarget(before.domainState)) {
+      throw new StaleTaskVersionError(input.expectedVersion, before.version);
+    }
+    if (before.domainState.pageQuestion && !before.domainState.pageQuestion.result) return before;
     const replaced = await this.cancelActiveRead(record, priorActive, reason) || replacement();
     const snapshot = await this.runtime.snapshot(taskId);
     const events = await this.runtime.listEvents(taskId);

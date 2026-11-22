@@ -4,7 +4,7 @@ import { response } from '../../../src/harness/restaurant-read-test-fixtures.ts'
 import { walk, control, until, responseOf } from './walkthrough-tools.mjs';
 
 const q='Does this place require a card?';
-const inputs=[['preparation',true,1440],['execution',true,1440],['preparation',false,1440],['preparation',true,390]].map(([stage,same,width])=>({
+const inputs=[['preparation',true,1440],['execution',true,1440],['preparation',false,1440],['preparation',true,390],['execution',false,1440],['preparation',false,390],['execution',true,390],['execution',false,390]].map(([stage,same,width])=>({
  name:'f1-'+stage+'-'+(same?'equivalent':'changed'),width,start:async()=>{
   const gate=control(),release=control();
   const host=await startWorkspaceFixture({questions:{beforeAnswer:async(_input,signal)=>{
@@ -49,7 +49,13 @@ const inputs=[['preparation',true,1440],['execution',true,1440],['preparation',f
    await main.page.reload();await main.visible('#app');await main.page.waitForFunction(()=>document.querySelector('.case-link.active'));
    receipt.observed.reload=state(await read());
    receipt.observed.controls={sendDisabled:await main.page.locator('#send').isDisabled(),stop:await main.page.locator('#question-stop').isVisible(),pending:await main.page.locator('#asked-pending').isVisible(),pendingText:await main.page.locator('#asked-pending').innerText()};
-   await main.image('reloaded');assert.ok(!receipt.observed.reload.question||receipt.observed.reload.question.result,'no pending question without a worker after both responses and reload');
+   const events=await host.application.runtime.listEvents(id);
+  const originalId=receipt.observed.before.question.requestId;
+  const completed=events.filter(e=>e.event.type==='PAGE_QUESTION_COMPLETED'&&e.event.requestId===originalId);
+  assert.equal(completed.length,1);
+  assert.equal(completed[0].event.result.reason,'CANCELLED');
+  receipt.questionEvents=completed;
+  await main.image('reloaded');assert.ok(!receipt.observed.reload.question||receipt.observed.reload.question.result,'no pending question without a worker after both responses and reload');
    return receipt.observed;
   }finally{release.release();gateway.complete=complete;host.application.store.appendMessage=append;}
  },

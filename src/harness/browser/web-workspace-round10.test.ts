@@ -1561,3 +1561,48 @@ for (const mobile of [true,false]) {
     }
   });
 }
+
+for(const mobile of [true,false])test(`Round22 UI: ${mobile?'390':'1440'} local phrase and Japanese query edits reach search transport`,{timeout:60_000},async()=>{
+ const cases=[
+  {query:"Restaurants with beer",criterion:"serves beer",area:"Ginza",remove:true,kept:["Restaurants","Ginza"],removed:"beer"},
+  {query:"restaurant that has beer",criterion:"serves beer",area:"Ginza",remove:true,kept:["restaurant","Ginza"],removed:"beer"},
+  {query:"café with outdoor seating and beer in Ginza",criterion:"serves beer",area:"Ginza",remove:true,kept:["café","outdoor seating","Ginza"],removed:"beer"},
+  {query:"café with beer and outdoor seating in Ginza",criterion:"serves beer",area:"Ginza",remove:true,kept:["café","outdoor seating","Ginza"],removed:"beer"},
+  {query:"sushi bar for lunch with beer in Ginza",criterion:"serves beer",area:"Ginza",remove:true,kept:["sushi bar","for lunch","Ginza"],removed:"beer"},
+  {query:"銀座の寿司店",criterion:"寿司",area:"銀座",remove:false,kept:["渋谷","寿司店"],removed:"銀座"},
+  {query:"銀座の寿司店",criterion:"寿司",area:"銀座",remove:true,kept:["銀座"],removed:"寿司"},
+  {query:"銀座の寿司店 東銀座駅近く",criterion:"寿司",area:"銀座",remove:false,kept:["東銀座駅","寿司店","渋谷"],removed:"銀座の"},
+ ];
+ for(const row of cases)await fixture({beerDiscoveryQuery:row.query,discoveryCriterion:row.criterion},async(page,host)=>{
+  await signin(page);await createPlan(page,row.query,false);
+  await page.locator("#messages").waitFor();await updateRequirement(page,row.area);await ready(page);
+  const prior=host.searches.length;
+  await page.locator("#request-conditions").getByRole("button",{name:row.remove?row.criterion:row.area,exact:true}).click();
+  if(row.remove){
+   const receipt=page.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/messages"));
+   await page.getByRole("button",{name:"Remove "+row.criterion,exact:true}).click();assert.equal((await receipt).status(),200);
+  }else{
+   await page.getByRole("textbox",{name:"Edit "+row.area,exact:true}).fill("渋谷");
+   const receipt=page.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/messages"));
+   await page.getByRole("button",{name:"Save",exact:true}).click();assert.equal((await receipt).status(),200);
+  }
+  await ready(page);
+  assert.ok(host.searches.length>prior,"new search was actually dispatched");
+  const request=host.searches[prior]!,query=request.intent.target!.query;
+  for(const kept of row.kept)assert.ok(query.includes(kept),JSON.stringify({query,kept}));
+  assert.ok(!query.includes(row.removed),JSON.stringify({query,removed:row.removed}));
+  if(!row.remove){
+   const {GooglePlacesClient}=await import("../../integrations/google/google-places-client.js");
+   const {GooglePlacesRestaurantSearch}=await import("../../integrations/google/google-places-restaurant-search.js");
+   const transported:string[]=[];
+   const adapter=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async(_url,init)=>{
+    if(init?.method==="POST")transported.push(JSON.parse(String(init.body)).textQuery);
+    return new Response(JSON.stringify({places:[]}));
+   }}),()=>host.clock.now().toISOString());
+   await adapter.search(request,new AbortController().signal);
+   assert.ok(transported.length>0);
+   assert.ok(transported[0]!.includes("渋谷"));assert.ok(transported[0]!.includes("寿司店"));
+   assert.ok(!transported[0]!.includes("銀座の"));
+  }
+ },mobile);
+});
