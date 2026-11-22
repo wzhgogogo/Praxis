@@ -393,7 +393,7 @@ export class PersistentRestaurantAgentApplication {
       const replacing = ["PAGE_QUESTION_REQUESTED", "SEMANTIC_PROPOSAL_COMPILED",
         "SEMANTIC_CONFLICT_RECORDED", "SEMANTIC_INTERPRETATION_FAILED"].includes(envelope.event.type);
       if (!replacing) return dispatch(envelope, expectedVersion);
-      let replacedQuestion = false;
+      let replacedQuestionRun: string | undefined;
       const result = await options.database.transaction(async transaction => {
         await transaction.query("SELECT id FROM tasks WHERE id = $1 FOR UPDATE", [envelope.taskId]);
         const database: SqlDatabase = {
@@ -412,6 +412,7 @@ export class PersistentRestaurantAgentApplication {
         }
         const question = current.domainState.pageQuestion;
         let version = current.version;
+        if (question) replacedQuestionRun = question.readRunId;
         if (question && !question.result) {
           const completion = this.userEvent(current, "superseded-question:" + question.requestId, {
             type: "PAGE_QUESTION_COMPLETED", requestId: question.requestId, readRunId: question.readRunId,
@@ -419,14 +420,17 @@ export class PersistentRestaurantAgentApplication {
           });
           const settled = await runtime.dispatch({...completion,trace:{...completion.trace,actor:"SYSTEM"}}, version);
           version = settled.snapshot.version;
-          replacedQuestion = true;
+
         }
         return runtime.dispatch(envelope, version);
       });
-      if (replacedQuestion) {
+      if (replacedQuestionRun) {
         const handle = this.activeReads.get(envelope.taskId) ?? this.preparingHandles.get(envelope.taskId);
-        handle?.controller.abort(new Error("The accepted question was superseded by a committed user operation."));
-        if (this.preparingHandles.get(envelope.taskId) === handle) this.preparingHandles.delete(envelope.taskId);
+        if (handle?.readRunId === replacedQuestionRun) {
+          handle.controller.abort(new Error("The accepted question was superseded by a committed user operation."));
+          if (this.preparingHandles.get(envelope.taskId) === handle) this.preparingHandles.delete(envelope.taskId);
+          else await handle.completion;
+        }
       }
       return result;
     };

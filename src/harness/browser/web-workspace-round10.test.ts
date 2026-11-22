@@ -1597,12 +1597,13 @@ for(const mobile of [true,false])test(`Round22 UI: ${mobile?'390':'1440'} local 
    const transported:string[]=[];
    const adapter=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async(_url,init)=>{
     if(init?.method==="POST")transported.push(JSON.parse(String(init.body)).textQuery);
-    return new Response(JSON.stringify({places:[]}));
+    const text=init?.method==="POST"?JSON.parse(String(init.body)).textQuery:"";
+    return new Response(JSON.stringify({places:text==="渋谷"?[{id:"fixture-shibuya",displayName:{text:"渋谷"},formattedAddress:"渋谷",types:["locality"],location:{latitude:35.66,longitude:139.7}}]:[]}));
    }}),()=>host.clock.now().toISOString());
    await adapter.search(request,new AbortController().signal);
    assert.ok(transported.length>0);
-   assert.ok(transported[0]!.includes("渋谷"));assert.ok(transported[0]!.includes("寿司店"));
-   assert.ok(!transported[0]!.includes("銀座の"));
+   const query=transported.find(q=>q.includes("寿司店"));
+   assert.ok(query?.includes("渋谷"));assert.ok(!query!.includes("銀座の"));
   }
  },mobile);
 });

@@ -464,7 +464,7 @@ test('Round20 illegal terminal Cases reject page questions without source calls'
  }
 });
 
-for (const kind of ["equivalent","area","model-failure","second-question","shortlist-wins","system-answer-first"] as const) {
+for (const kind of ["equivalent","area","model-failure","second-question","shortlist-wins","system-answer-first","conflict","invalid-successor"] as const) {
   test(`Round22 accepted question handover: ${kind}`,{timeout:25_000},async()=>{
     const entered=latch(),release=latch();
     const host=await startWorkspaceFixture({questions:true,semanticFailureMessage:"Fail pending question"});
@@ -485,7 +485,15 @@ for (const kind of ["equivalent","area","model-failure","second-question","short
       await Promise.race([entered.promise,delay(5000).then(()=>{throw new Error("Question not admitted");})]);
       view=await host.application.getCase(userId,view.case.caseId);
       const acceptedVersion=view.case.taskVersion,q=view.restaurant.pageQuestion!;
-      if(kind==="second-question"){
+      if(kind==="conflict"||kind==="invalid-successor"){
+        const current=await runtime.snapshot(view.case.caseId);
+        const event=kind==="conflict"
+          ? {type:"SEMANTIC_CONFLICT_RECORDED" as const,conflict:{code:"CONTRADICTORY_PROPOSAL" as const,affectedFields:["area"],message:"Conflicting areas"}}
+          : {type:"PAGE_QUESTION_REQUESTED" as const,question:{...q,requestId:"bad-q",candidateId:"unknown-outlet"}};
+        const write=runtime.dispatch({id:"successor",taskId:current.id,event,occurredAt:host.clock.now().toISOString(),trace:{schemaVersion:"1",runId:current.runId,correlationId:"successor",actor:"USER"}},current.version);
+        if(kind==="invalid-successor")await assert.rejects(write);
+        else await write;
+      } else if(kind==="second-question"){
         await host.application.askRestaurantQuestion({userId,caseId:view.case.caseId,candidateId,question:"Another card question?",requestId:"question-b",expectedVersion:acceptedVersion});
       }else{
         if(kind==="system-answer-first"){
@@ -515,7 +523,7 @@ for (const kind of ["equivalent","area","model-failure","second-question","short
       assert.equal(completions.length,1);
       const history=view.restaurant.questionHistory.find(item=>item.requestId===q.requestId)!;
       assert.ok(history,"accepted question retained in event projection");
-      const answered=["system-answer-first","shortlist-wins"].includes(kind);
+      const answered=["system-answer-first","shortlist-wins","invalid-successor"].includes(kind);
       assert.equal(history.result!.status,answered?"ANSWERED":"UNVERIFIED");
       if(!answered){assert.equal(history.result!.status,"UNVERIFIED");if(history.result!.status==="UNVERIFIED")assert.equal(history.result!.reason,"CANCELLED");}
       if(kind==="shortlist-wins")assert.ok(view.restaurant.shortlistCandidateIds?.includes(candidateId));
