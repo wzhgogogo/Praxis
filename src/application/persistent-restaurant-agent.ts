@@ -350,6 +350,7 @@ interface ActiveRead {
 export class PersistentRestaurantAgentApplication {
   readonly store: PostgresAgentWorkspaceStore;
   private readonly runtime: RestaurantRuntime;
+  private readonly database: SqlDatabase;
   private readonly interpreter: RestaurantSemanticInterpreterPort;
   private readonly partySizeSupplementResolver: RestaurantPartySizeSupplementResolverPort | undefined;
   private readonly agentLoop: RestaurantAgentLoopCoordinator;
@@ -382,6 +383,7 @@ export class PersistentRestaurantAgentApplication {
     this.bookingTerms = options.restaurantQuestions;
     this.interpreter = options.semanticInterpreter;
     this.partySizeSupplementResolver = options.partySizeSupplementResolver;
+    this.database = options.database;
     this.store = new PostgresAgentWorkspaceStore(options.database);
     this.runtime = new PostgresTaskRuntime(
       options.database,
@@ -396,8 +398,7 @@ export class PersistentRestaurantAgentApplication {
         && ["PAGE_QUESTION_REQUESTED", "SEMANTIC_PROPOSAL_COMPILED",
         "SEMANTIC_CONFLICT_RECORDED", "SEMANTIC_INTERPRETATION_FAILED"].includes(envelope.event.type);
       if (!replacing) return dispatch(envelope, expectedVersion);
-      let replacedQuestionRequest: string | undefined;
-      const priorHandle = this.activeReads.get(envelope.taskId) ?? this.preparingHandles.get(envelope.taskId);
+      let replacedQuestion: {requestId:string;readRunId:string} | undefined;
       const result = await options.database.transaction(async transaction => {
         await transaction.query("SELECT id FROM tasks WHERE id = $1 FOR UPDATE", [envelope.taskId]);
         const database: SqlDatabase = {
@@ -416,7 +417,7 @@ export class PersistentRestaurantAgentApplication {
         }
         const question = current.domainState.pageQuestion;
         let version = current.version;
-        if (question) replacedQuestionRequest = question.requestId;
+        if (question) replacedQuestion = question;
         if (question && !question.result) {
           const completion = this.userEvent(current, "superseded-question:" + question.requestId, {
             type: "PAGE_QUESTION_COMPLETED", requestId: question.requestId, readRunId: question.readRunId,
@@ -428,9 +429,9 @@ export class PersistentRestaurantAgentApplication {
         }
         return runtime.dispatch(envelope, version);
       });
-      if (replacedQuestionRequest) {
+      if (replacedQuestion) {
         const handle = this.activeReads.get(envelope.taskId) ?? this.preparingHandles.get(envelope.taskId);
-        if (handle && handle === priorHandle && handle.questionRequestId === replacedQuestionRequest) {
+        if (handle?.questionRequestId === replacedQuestion.requestId && handle.readRunId === replacedQuestion.readRunId) {
           handle.controller.abort(new Error("The accepted question was superseded by a committed user operation."));
           if (this.preparingHandles.get(envelope.taskId) === handle) this.preparingHandles.delete(envelope.taskId);
           else await handle.completion;
@@ -617,7 +618,8 @@ export class PersistentRestaurantAgentApplication {
           id: "message:0:" + hash(record.id + ":" + input.requestId).slice(0,24), conversationId:record.id,
           role:"USER",content:input.message,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString(),
         });
-        if (!["FAILED","NEEDS_INPUT"].includes(result.snapshot.domainState.phase)) {
+        if (!["FAILED","NEEDS_INPUT"].includes(result.snapshot.domainState.phase)
+          && !(event.type === "SEMANTIC_PROPOSAL_COMPILED" && !restaurantIntentPatchHasChanges(event.patch))) {
           const handle = this.prepareRead(record, result.snapshot, input.requestId);
           await this.runUserInitiatedRead(record, input.requestId, result.snapshot, handle);
         }
@@ -661,11 +663,23 @@ export class PersistentRestaurantAgentApplication {
         readStartedAt:snapshot.createdAt,deadlineAt:deadline.toISOString(),requestedAt:submittedAt.toISOString()};
       const result = await this.runtime.dispatch(this.userEvent(snapshot,input.requestId,{type:"PAGE_QUESTION_REQUESTED",question}),snapshot.version);
       if (result.duplicateEvent) return;
-      const handle = this.prepareRead(record, result.snapshot, undefined, input.requestId);
+      // Admission may have committed before this continuation resumed. Serialize
+      // registration with successors so an old question cannot claim their slot.
+      const handle = await this.database.transaction(async transaction => {
+        await transaction.query("SELECT id FROM tasks WHERE id = $1 FOR UPDATE", [record.rootTaskId]);
+        const runtime = new PostgresTaskRuntime({
+          query: transaction.query.bind(transaction), transaction: async work => work(transaction),
+        }, restaurantBookingTaskDefinition, this.clock, this.createId);
+        const current = await runtime.snapshot(record.rootTaskId);
+        const pending = current.domainState.pageQuestion;
+        if (!pending || pending.result || pending.requestId !== input.requestId
+          || pending.readRunId !== question.readRunId || pending.candidateId !== input.candidateId) return;
+        return this.prepareRead(record, result.snapshot, undefined, input.requestId);
+      });
       await this.notifyCaseUpdate(record);
       await this.store.appendMessage({id:"message:0:"+hash(record.id+":"+input.requestId).slice(0,24),conversationId:record.id,
         role:"USER",content:input.question,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString()});
-      await this.runAfterUserInput(record,input.requestId,result.snapshot,handle,undefined,deadline);
+      if (handle) await this.runAfterUserInput(record,input.requestId,result.snapshot,handle,undefined,deadline);
     };
     const pending = this.withPreparingRead(record.rootTaskId,work); this.applyingUserMessages.set(key,pending);
     try { await pending; } finally { this.applyingUserMessages.delete(key); }

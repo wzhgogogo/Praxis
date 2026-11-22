@@ -544,7 +544,7 @@ for (const kind of ["equivalent","area","model-failure","second-question","short
 for(const boundary of ["before-handle-registration","non-replacing-edit"] as const)test(`Round22 accepted question ownership: ${boundary}`,{timeout:25_000},async()=>{
  const host=await startWorkspaceFixture({questions:true}),accepted=latch(),releaseFirst=latch(),secondPrepared=latch(),releaseSecond=latch();
  const app=host.application;
- const privateApp=app as unknown as {runtime:Host["application"]["runtime"];agentLoop:{run(...args:unknown[]):Promise<unknown>};interpreter:import('../domains/restaurant/semantic-interpreter.js').RestaurantSemanticInterpreterPort};
+ const privateApp=app as unknown as {runtime:Host["application"]["runtime"];agentLoop:{run(...args:unknown[]):Promise<unknown>};interpreter:import('./restaurant-message-handler.js').RestaurantSemanticInterpreterPort};
  const runtime=privateApp.runtime,dispatch=runtime.dispatch.bind(runtime),loop=privateApp.agentLoop,run=loop.run.bind(loop),append=app.store.appendMessage.bind(app.store),interpret=privateApp.interpreter.interpret.bind(privateApp.interpreter);
  let first:Promise<unknown>|undefined,second:Promise<unknown>|undefined;
  try{
