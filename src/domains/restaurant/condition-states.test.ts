@@ -126,3 +126,11 @@ test("quoted budget applicability keeps request-bound party, meal, weekday/date 
  assert.equal(assessRestaurantConditions(request, [priced("For parties of 4 or more."), priced("")])[0]?.status, "MET", "an independent applicable price is retained");
  assert.equal(assessRestaurantConditions(request, [priced("For parties of 4 or more."), priced("", 9000)])[0]?.status, "NOT_MET", "the inapplicable cheap quote cannot override an applicable over-cap quote");
 });
+
+test('Round24 U1 every displayed quote carries its originating evidence ID',()=>{
+ const first={...fact([source('COURSE_TITLE','Omakase dinner course')]),evidenceId:'first'},second={...fact([source('COURSE_TITLE','Omakase tasting course')]),evidenceId:'second'};
+ const rows=assessRestaurantConditions(intent,[first,second]);assert.deepEqual(rows[0]!.sources.map(q=>Reflect.get(q,'evidenceId')),['first','second']);
+ const price={...fact([]),evidenceId:'price-evidence',priceFacts:{schemaVersion:'restaurant-price-facts@1' as const,listedCoursePricesYen:[{amount:8000,kind:'MEAL' as const,meal:'DINNER' as const,tax:'INCLUDED' as const,quote:'Dinner course JPY 8000',sourceUrl:url}]}};
+ const budget=assessRestaurantConditions({...intent,criteria:[],budgetPerPerson:{max:9000,currency:'JPY'}},[price]);assert.equal(Reflect.get(budget[0]!.sources[0]!,'evidenceId'),'price-evidence');
+ const weak=assessRestaurantConditions({...intent,criteria:[{text:'unrecorded',strength:'SOFT',polarity:'POSITIVE'}]},[{...first,claims:{verifiedHardCriteria:['unrecorded']}}]);assert.deepEqual(weak[0]!.sources.map(q=>Reflect.get(q,'evidenceId')),['first']);
+});

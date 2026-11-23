@@ -170,3 +170,16 @@ test('Round23 removed links reject API and low-confidence pages and isolate cand
  const historic=projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:3},candidates:['a','b','c'].map(candidate)},events:history([compiled(initialPatch),{...emptySearch,evidence:[source('a','https://merchant.example/historical-a','HIGH')]} as RestaurantEvent,presented(['a']),compiled({schemaVersion:'3',partySize:3}),presented(['c'])]),readyCandidateIds:['c'],openableCandidateIds:['c'],active:false,now});assert.equal(historic.revisionDiff?.removed[0]!.sourceUrl,'https://merchant.example/historical-a');
  const withoutIdentity:import('../domains/restaurant/contracts.js').RestaurantReadEvidence=source('a',fact,'HIGH','RESTAURANT_FACT');delete withoutIdentity.entityMatch;assert.equal(read([source('b','https://merchant.example/a','HIGH'),withoutIdentity])[0]!.sourceUrl,undefined);
 });
+
+test('Round24 U3 removed links require matching provider and nonempty entity IDs for borrowed identity',()=>{
+ type Evidence=import('../domains/restaurant/contracts.js').RestaurantReadEvidence;
+ const url='https://merchant.example/a',other='https://merchant.example/b',menu=url+'/menu';
+ const high:Evidence={evidenceId:'identity-a',candidateId:'a',kind:'ENTITY_MATCH',provider:'TABELOG',sourceEntityId:'a-entity',sourceUrl:url,observedAt:now,requestFingerprint:'fixture',claims:{},entityMatch:{confidence:'HIGH',matchedBy:['fixture']}};
+ const fact:Evidence={...high,evidenceId:'fact-a',kind:'RESTAURANT_FACT',sourceUrl:menu};delete fact.entityMatch;
+ const project=(evidence:Evidence[])=>projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:3},candidates:['a','c'].map(candidate),readEvidence:evidence},events:history([compiled(initialPatch),presented(['a']),compiled({schemaVersion:'3',partySize:3}),presented(['c'])]),readyCandidateIds:['c'],openableCandidateIds:['c'],active:false,now}).revisionDiff!.removed[0]!.sourceUrl;
+ assert.equal(project([high]),url,'highOnly');assert.equal(project([{...high,entityMatch:{confidence:'LOW',matchedBy:[]}}]),undefined,'lowMatchOnly');
+ assert.equal(project([high,{...fact,sourceEntityId:'b-entity',sourceUrl:other}]),url,'sameOriginOtherOutlet');assert.equal(project([high,fact]),menu,'sameOriginCorrectOutlet');
+ assert.equal(project([high,{...fact,kind:'AVAILABILITY',sourceUrl:other,entityMatch:{confidence:'LOW',matchedBy:[]}}]),url,'explicitlyLowAvailability');
+ const missingHigh={...high},missingFact={...fact};delete missingHigh.sourceEntityId;delete missingFact.sourceEntityId;assert.equal(project([missingHigh,missingFact]),url,'bothMissingSourceEntityId');
+ assert.equal(project([high,{...fact,provider:'TABLECHECK'}]),url,'provider isolation');assert.equal(project([high,{...fact,sourceEntityId:''}]),url,'empty entity ID');
+});

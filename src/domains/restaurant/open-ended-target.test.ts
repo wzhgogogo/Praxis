@@ -67,3 +67,15 @@ test("Round22 shared predicates and Japanese independent place tokens",()=>{
  assert.doesNotMatch(removed.target!.query,/寿司/);
  assert.match(removed.target!.query,/銀座/);
 });
+
+test('Round24 B4 revoking a comma-separated beer item preserves every other open-ended request',()=>{
+ const beer={...omakase,text:'serves beer'},outdoor={...omakase,text:'outdoor seating'},wine={...omakase,text:'serves wine'};
+ for(const query of ['café with outdoor seating, beer and wine in Ginza','café with outdoor seating, wine, and beer in Ginza','café with beer, outdoor seating and wine in Ginza']){
+  const result=applyRestaurantIntentPatch({...draft,target:{...draft.target!,query},criteria:[outdoor,beer,wine]},{schemaVersion:'3',removeCriteria:[beer]});
+  assert.doesNotMatch(result.target!.query,/\bbeer\b/i);for(const word of ['café','outdoor seating','wine','Ginza'])assert.ok(result.target!.query.includes(word),result.target!.query);assert.deepEqual(result.criteria,[outdoor,wine]);assert.equal(result.target!.goal,draft.target!.goal);assert.equal(result.target!.requestedResultCount,3);assert.doesNotMatch(result.target!.query,/,\s*(?:,|and\b|in\b)/i);
+ }
+});
+for(const suffix of ['にある','周辺の','付近の'])test(`Round24 B4 area replacement removes standalone Japanese ${suffix}`,()=>{
+ const next=applyRestaurantIntentPatch({...draft,target:{...draft.target!,query:'銀座'+suffix+'寿司店 東銀座駅近く'},area:{query:'銀座'}},{schemaVersion:'3',area:{query:'渋谷'}});
+ assert.doesNotMatch(next.target!.query.replace('東銀座駅',''),/銀座/);assert.match(next.target!.query,/寿司店.*渋谷/);assert.match(next.target!.query,/東銀座駅/);assert.ok(!next.target!.query.startsWith(suffix));
+});

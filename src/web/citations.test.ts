@@ -20,3 +20,11 @@ test('Round23 Q&A cleanup recognizes only smoking headers in the same URL/readAt
  const other=[...rows(['Non-smoking/smoking']),{...source,url:'https://merchant.example/b',text:'Non smoking'}];assert.deepEqual(questionCitations(other),other);
  assert.equal(groupCitations(rows(['Non-smoking/smoking','Non smoking']))[0]!.excerpts.length,2,'shared About/Handoff grouping retains both originals');
 });
+
+test('Round24 U5 Q&A smoking states retain qualifiers and remove only their own same-reading header',()=>{
+ const base={url:'https://merchant.example/a',readAt:'2026-11-21T08:04:00Z'};
+ for(const value of ['Designated smoking area (heated tobacco only)','Separate smoking (area) (outside only)','Separated smoking area (heated tobacco only)','Non-smoking (inside)','All seats non-smoking (outdoor smoking area)','Smoking allowed (outside)','Smoking permitted (separate room)','全席禁煙（屋外に喫煙所あり）','禁煙（店内）','分煙（加熱式たばこ限定）','喫煙可（専用室）']){
+  const header=value.match(/[\p{Script=Han}]/u)?'禁煙・喫煙':'Non-smoking/smoking';assert.deepEqual(questionCitations([{...base,text:header},{...base,text:value}]),[{...base,text:value}],value);
+ }
+ const unknown=[{...base,text:'Non-smoking/smoking'},{...base,text:'Smoking information unavailable'}];assert.deepEqual(questionCitations(unknown),unknown);
+});

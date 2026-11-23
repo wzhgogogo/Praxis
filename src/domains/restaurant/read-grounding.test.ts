@@ -400,3 +400,12 @@ for(const [type,query] of Object.entries({sandwich_shop:'sandwich',dessert_shop:
   assert.equal(groundGoogleDiscovery(observation,{...ageInput,targetQuery:query}).accepted,true);
  }
 });
+
+for(const punctuation of ['','.','!','?'])test(`Round24 B5 negative dessert preference has punctuation-invariant grounding ${punctuation||'none'}`,()=>{
+ const targetQuery='dinner in Ginza, preferably without overly sweet desserts'+punctuation;
+ assert.deepEqual(groundGoogleDiscovery(age3,{...ageInput,targetQuery}),{accepted:false,reasonCode:'GOOGLE_PLACE_TYPE_UNUSABLE'});
+ assert.equal(groundGoogleDiscovery(age3,{...ageInput,targetQuery:'Age.3 GINZA'+punctuation,selectionScope:'SPECIFIC_OUTLET'}).accepted,true);
+});
+for(const targetQuery of ['without outdoor seating I would like a dessert café in Ginza','no parking required and looking for a dessert café in Ginza','not too sweet, but specifically looking for a dessert café in Ginza','nothing too sweet, please find a dessert café in Ginza','a dessert café in Ginza without outdoor seating'])test('Round24 B5 local negation retains a later or earlier positive request: '+targetQuery,()=>{
+ assert.equal(groundGoogleDiscovery(age3,{...ageInput,targetQuery}).accepted,true);
+});
