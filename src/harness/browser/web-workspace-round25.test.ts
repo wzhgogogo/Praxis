@@ -37,6 +37,7 @@ for(const width of [390,1440])for(const mode of ['same-row','crossed','repeated'
 });
 for(const width of [390,1440])test(`Round25 UI: R5 V1 V2 V4 ${width} precise weak source identity and compact theme`,{timeout:35000},async()=>{
  await journey(width,{multiSlot:true},async(page,_host,view)=>{
+  if(width===390){await page.locator('#request-conditions button').first().click();assert.ok(parseFloat(await page.locator('.condition-editor input').evaluate(n=>getComputedStyle(n).fontSize))>=16);await page.locator('.editor-cancel').click();}
   const id=view.restaurant.presentedCandidateIds![0]!,url='https://www.tabelog.com/fixture/';
   for(const via of ['indirect','direct','legacy'] as const){
    const merchant:RestaurantReadEvidence={evidenceId:'weak-merchant',kind:'RESTAURANT_FACT',provider:'TABELOG',candidateId:id,sourceUrl:url,observedAt:'2026-11-21T08:05:00Z',requestFingerprint:'weak',claims:via==='direct'?{verifiedHardCriteria:['quiet']}:{},sourceFieldQuotes:[{field:'SOURCE_TEXT',quote:'Small dining room.',sourceUrl:url}]};
@@ -46,11 +47,11 @@ for(const width of [390,1440])test(`Round25 UI: R5 V1 V2 V4 ${width} precise wea
    if(via==='legacy'){for(const row of conditions){row.evidenceIds.push(earlier.evidenceId);for(const source of row.sources)delete source.evidenceId;}}
    view.restaurant.readEvidence.push(earlier,...facts);view.restaurant.currentFactEvidence=facts;view.restaurant.conditionStates={[id]:conditions};await accept(page,view);if(via==='indirect')await page.locator('#details-button').click();
    const source=page.locator('#details-content > section').filter({has:page.locator('blockquote',{hasText:'Small dining room.'})});
-   assert.deepEqual(JSON.parse((await source.getAttribute('data-source-id'))!),[url,via==='legacy'?null:merchant.observedAt]);assert.equal(await source.locator('.citation-footer').innerText(),via==='legacy'?'Tabelog ↗':'Tabelog ↗ · Checked Nov 21');await capture(page,`round25-r5-${width}-${via}`);
+   assert.deepEqual(JSON.parse((await source.getAttribute('data-source-id'))!),[url,via==='legacy'?null:merchant.observedAt]);assert.equal(await source.locator('.citation-footer').innerText(),via==='legacy'?'Tabelog ↗':'Tabelog ↗ · Checked Nov 21');assert.equal(await source.locator('blockquote').evaluate(n=>getComputedStyle(n).borderLeftWidth),'2px');assert.equal(await source.locator('blockquote').evaluate(n=>getComputedStyle(n).borderLeftColor),'rgb(61, 90, 254)');assert.equal(await source.locator('a').evaluate(n=>getComputedStyle(n).color),'rgb(61, 90, 254)');await capture(page,`round25-r5-${width}-${via}`);
   }
   const steak:RestaurantReadEvidence={...view.restaurant.currentFactEvidence[0]!,evidenceId:'steak',provider:'TABELOG',claims:{restaurantTypeFacts:['Steak']},sourceFieldQuotes:[{field:'CATEGORY',quote:'Steak',sourceUrl:url}]};view.restaurant.readEvidence.push(steak);view.restaurant.currentFactEvidence=[steak];view.restaurant.conditionStates={[id]:assessRestaurantConditions({criteria:[{text:'Steak',polarity:'POSITIVE',strength:'SOFT'}]},[steak])};await accept(page,view);
   assert.equal(await page.locator('#details-content blockquote').count(),0);assert.equal(await page.locator('#details-content > section .citation-footer').innerText(),'Tabelog ↗ · Checked Nov 21');assert.equal(await page.locator('#details-content .condition-status').evaluate(n=>getComputedStyle(n).color),'rgb(61, 90, 254)');await capture(page,`round25-v1-${width}-compact-steak`);
-  await page.locator('#details-back').click();view.restaurant.shortlistCandidateIds=[id];await accept(page,view);assert.equal(await page.locator('#bookmark svg').evaluate(n=>getComputedStyle(n).fill),'rgb(61, 90, 254)');assert.equal(await page.locator('#details-button').evaluate(n=>getComputedStyle(n).color),'rgb(61, 90, 254)');await capture(page,`round25-v4-${width}-card-blue`);
+  await page.locator('#details-back').click();view.restaurant.shortlistCandidateIds=[id];await accept(page,view);assert.equal(await page.locator('#bookmark svg').evaluate(n=>getComputedStyle(n).fill),'rgb(61, 90, 254)');assert.equal(await page.locator('#bookmark svg').evaluate(n=>getComputedStyle(n).stroke),'rgb(61, 90, 254)');assert.equal(await page.locator('#details-button').evaluate(n=>getComputedStyle(n).color),'rgb(61, 90, 254)');await capture(page,`round25-v4-${width}-card-blue`);
  });
 });
 for(const height of [500,360])test(`Round25 UI: M1 M3 390 Chinese clarification keyboard height ${height}`,{timeout:35000},async()=>{
@@ -64,8 +65,8 @@ for(const height of [500,360])test(`Round25 UI: M1 M3 390 Chinese clarification 
   await page.locator('#case-workspace').evaluate(n=>n.scrollTop=0);const gap=await page.locator('#reconnecting').evaluate(n=>({top:n.getBoundingClientRect().top-document.getElementById('topbar')!.getBoundingClientRect().bottom,bottom:document.querySelector('.workspace-head')!.getBoundingClientRect().top-n.getBoundingClientRect().bottom}));assert.ok(Math.abs(gap.top-gap.bottom)<3,JSON.stringify(gap));await capture(page,`round25-m3-390-reconnecting-${height}`);
  });
 });
-for(const mode of ['list','transient','persistent','local-interruption'] as const)test(`Round25 UI: M2 390 current album recovers through real proxy ${mode}`,{timeout:45000},async()=>{
- const google=await googlePhotoRecoveryFixture(mode==='persistent'?'persistent':mode==='transient'?'transient':mode==='local-interruption'?'normal':'404'),website=await createPhotoSourceFixture();
+for(const mode of ['list','transient','persistent','local-interruption','partial-body','corrupt-body'] as const)test(`Round25 UI: M2 390 current album recovers through real proxy ${mode}`,{timeout:45000},async()=>{
+ const google=await googlePhotoRecoveryFixture(mode==='persistent'?'persistent':mode==='transient'?'transient':['local-interruption','partial-body','corrupt-body'].includes(mode)?'normal':'404'),website=await createPhotoSourceFixture();
  await journey(390,{photoGoogle:google.transport,photoHttp:website.http},async(page,host,view)=>{
   await loaded(page,'#cover-image');let listCalls=0;
   if(mode==='list')await page.route('**/photos?scope=gallery',route=>{listCalls++;return listCalls===1?route.abort('failed'):route.continue();});
@@ -73,17 +74,20 @@ for(const mode of ['list','transient','persistent','local-interruption'] as cons
   await page.locator('#details-button').click();
   if(mode==='list'){for(let n=0;n<50&&listCalls===0;n++)await new Promise(r=>setTimeout(r,10));assert.equal(listCalls,1);}
   else {await page.waitForFunction(()=>document.getElementById('detail-photo-counter')?.textContent==='1 of 8');
-   if(mode==='local-interruption'){
+   if(['local-interruption','partial-body','corrupt-body'].includes(mode)){
     const id=view.restaurant.presentedCandidateIds![0]!,gallery=await(await page.request.get(`/api/cases/${encodeURIComponent(view.case.caseId)}/candidates/${encodeURIComponent(id)}/photos?scope=gallery`)).json();let interrupted=false;
-    await page.route('**/photos/*/content',async route=>{if(!interrupted&&route.request().method()==='GET'&&route.request().url().includes('/'+gallery.photos[1].id+'/content')){interrupted=true;const response=await route.fetch();assert.equal(response.status(),200);await route.abort('failed');}else await route.continue();});
+    if(mode==='local-interruption')await page.route('**/photos/*/content',async route=>{if(!interrupted&&route.request().method()==='GET'&&route.request().url().includes('/'+gallery.photos[1].id+'/content')){interrupted=true;const response=await route.fetch();assert.equal(response.status(),200);await route.abort('failed');}else await route.continue();});
+    else host.server.on('request',(request,response)=>{if(!interrupted&&request.method==='GET'&&request.url?.endsWith('/'+gallery.photos[1].id+'/content')){interrupted=true;
+     const end=response.end.bind(response);response.end=((body:Uint8Array)=>{if(mode==='partial-body'){response.write(body.subarray(0,64));response.flushHeaders();setTimeout(()=>response.destroy(),5);}else {end(new Uint8Array(body.byteLength));}return response;}) as typeof response.end;
+    }});
    }
-   const head=page.waitForResponse(r=>r.request().method()==='HEAD'&&r.url().includes('/content'));await page.locator('#detail-photo-next').click();assert.equal((await head).status(),mode==='local-interruption'?200:503);assert.equal(await page.locator('#detail-photo-counter').innerText(),'2 of 8');}
+   const head=page.waitForResponse(r=>r.request().method()==='HEAD'&&r.url().includes('/content'));await page.locator('#detail-photo-next').click();assert.equal((await head).status(),['local-interruption','partial-body','corrupt-body'].includes(mode)?200:503);assert.equal(await page.locator('#detail-photo-counter').innerText(),'2 of 8');}
   // Actual local SSE disconnect/reopen, not a render-only replacement.
   const reconnect=page.waitForResponse(r=>r.url().includes('/events')&&r.status()===200);host.disconnectStreams();await reconnect;
   if(mode==='list'){await page.waitForFunction(()=>document.getElementById('detail-photo-counter')?.textContent==='1 of 8');assert.equal(listCalls,2);}
-  else if(mode==='transient'||mode==='local-interruption'){await loaded(page,'#detail-photo');assert.equal(await page.locator('#detail-photo-counter').innerText(),'2 of 8');for(let n=2;n<8;n++){await page.locator('#detail-photo-next').click();await loaded(page,'#detail-photo');assert.equal(await page.locator('#detail-photo-counter').innerText(),`${n+1} of 8`);}}
+  else if(mode==='transient'||mode==='local-interruption'||mode==='partial-body'||mode==='corrupt-body'){await loaded(page,'#detail-photo');assert.equal(await page.locator('#detail-photo-counter').innerText(),'2 of 8');for(let n=2;n<8;n++){await page.locator('#detail-photo-next').click();await loaded(page,'#detail-photo');assert.equal(await page.locator('#detail-photo-counter').innerText(),`${n+1} of 8`);}}
   else {for(let n=0;n<2;n++){await page.evaluate(()=>{for(const stream of (window as unknown as {r25Streams:EventSource[]}).r25Streams)if(stream.readyState===1)stream.dispatchEvent(new Event('open'));});await new Promise(r=>setTimeout(r,100));}const calls=google.calls.length;for(let n=0;n<5;n++)await page.evaluate(()=>{for(const stream of (window as unknown as {r25Streams:EventSource[]}).r25Streams)if(stream.readyState===1)stream.dispatchEvent(new Event('open'));});await new Promise(r=>setTimeout(r,150));assert.equal(google.calls.length,calls);assert.ok(google.calls.filter(u=>u.includes('/media')||u.includes('googleusercontent')).length<=20);}
-  const id=view.restaurant.presentedCandidateIds![0]!,result=await(await page.request.get(`/api/cases/${encodeURIComponent(view.case.caseId)}/candidates/${encodeURIComponent(id)}/photos?scope=gallery`)).json();assert.equal(result.photos.length,8);assert.equal(result.requests.googleDetails,1);if(mode==='transient')assert.equal(result.requests.googleMedia,18);if(mode==='local-interruption')assert.equal(result.requests.googleMedia,16);await capture(page,`round25-m2-390-${mode}-after-reconnect`);
+  const id=view.restaurant.presentedCandidateIds![0]!,result=await(await page.request.get(`/api/cases/${encodeURIComponent(view.case.caseId)}/candidates/${encodeURIComponent(id)}/photos?scope=gallery`)).json();assert.equal(result.photos.length,8);assert.equal(result.requests.googleDetails,1);if(mode==='transient')assert.equal(result.requests.googleMedia,18);if(['local-interruption','partial-body','corrupt-body'].includes(mode))assert.equal(result.requests.googleMedia,16);await capture(page,`round25-m2-390-${mode}-after-reconnect`);
   const root=process.env.PRAXIS_ROUND25_VISUAL_OUTPUT;if(root)await writeFile(join(root,`round25-m2-${mode}.json`),JSON.stringify({statuses,calls:google.calls,result},null,2));
  });
 });

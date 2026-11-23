@@ -10,12 +10,12 @@ export function setMessage(value:string){$('message').value=value;resizeMessage(
 export function focusAdjustment(){const input=$('message');adjusting=!input.value;if(adjusting)input.placeholder='Try another area, time, or party size…';input.focus({preventScroll:true});}
 
 function revealClarification(){
- if(state.ui.view==='DETAILS'||document.activeElement!==$('message')||$('messages').hidden)return;
+ if(state.view?.case.phase!=='NEEDS_INPUT'||state.ui.view==='DETAILS'||document.activeElement!==$('message')||$('messages').hidden)return;
  updateComposerClearance();const message=$('messages'),scroller=$('case-workspace'),top=$('workspace-composer').getBoundingClientRect().top;
  const delta=message.getBoundingClientRect().bottom-top+20;if(delta>0)scroller.scrollTop+=delta;
 }
 export function focusComposer(){
- revealPending=matchMedia('(max-width:959px)').matches&&state.ui.view!=='DETAILS';focusHeight=window.visualViewport?.height??innerHeight;syncComposerViewport();
+ revealPending=matchMedia('(max-width:959px)').matches&&state.ui.view!=='DETAILS'&&state.view?.case.phase==='NEEDS_INPUT';focusHeight=window.visualViewport?.height??innerHeight;syncComposerViewport();
  if(revealPending)requestAnimationFrame(revealClarification);
 }
 export function cancelClarificationReveal(){revealPending=false;}

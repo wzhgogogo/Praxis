@@ -240,7 +240,7 @@ export async function startWorkspaceFixture(options:{photoHttp?:PhotoHttpPort;ph
   const server=createLocalWebServer({application,sessions,...(readAssembly?{readAssembly}:{}),bookingHandoffs:{readPrepared:()=>[...cache.values()],now:()=>clock.now().toISOString()}});
   const streams=new Set<ServerResponse>();server.on("request",(request,response)=>{if(request.url?.endsWith("/events")){streams.add(response);response.on("close",()=>streams.delete(response));}});
   server.listen(0,"127.0.0.1");await once(server,"listening");
-  return {database,baseUrl:"http://127.0.0.1:"+(server.address() as AddressInfo).port,application,clock,requests,providerCalls,questionRequests,searches,
+  return {database,server,baseUrl:"http://127.0.0.1:"+(server.address() as AddressInfo).port,application,clock,requests,providerCalls,questionRequests,searches,
     forgetPrepared(candidateId:string,offerId:string){return cache.delete(candidateId+":"+offerId);},
     recoverSources(){failuresRecovered=true;},
     disconnectStreams(){for(const stream of streams)stream.end();},

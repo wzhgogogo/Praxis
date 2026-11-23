@@ -360,7 +360,7 @@ for(const size of sizes)test('Workspace inline condition '+size.name+': capped l
   assert.equal(await page.locator('#saved-count').isVisible(),false);assert.equal(await page.locator('#saved-count').textContent(),'0');assert.equal(await page.locator('#saved').innerText(),'Saved');
   assert.equal(await page.locator('#saved-count').evaluate(n=>getComputedStyle(n).color),'rgb(95, 98, 117)');
   assert.equal(await page.locator('#choose').innerText(),"Let's book");assert.equal(await page.locator('#details-button').innerText(),'About ›');assert.equal(await page.locator('#evidence').isVisible(),false);
-  await page.locator('#details-button').click();assert.match(await page.locator('#evidence').innerText(),/TableCheck · Checked \d{2}:\d{2}/);await page.locator('#details-back').click();
+  await page.locator('#details-button').click();assert.match(await page.locator('#evidence').innerText(),/TableCheck · Checked Oct 29/);await page.locator('#details-back').click();
   const avatar=await page.locator('#profile-avatar').boundingBox();if(size.name==='desktop'){assert.ok(avatar);assert.equal(avatar.width,28);assert.equal(avatar.height,28);}assert.equal(await page.locator('#profile-label').textContent(),'Fixture account');
   // Dedicated HTTP error-path coverage keeps the editor open. The positive
   // four-field Save test below uses real HTTP/SSE and fixture transports, without routes.

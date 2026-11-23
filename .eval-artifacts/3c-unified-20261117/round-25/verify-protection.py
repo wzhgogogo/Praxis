@@ -1,7 +1,7 @@
 from pathlib import Path
 import hashlib,json,subprocess
 root=Path.cwd();out=Path(__file__).resolve().parent;base=json.loads((out/'protection-baseline.json').read_text());digest=lambda b:hashlib.sha256(b).hexdigest();h=lambda p:digest(Path(p).read_bytes());git=lambda *a:subprocess.check_output(['git','--no-optional-locks',*a],text=True).strip()
-helpers={'src/harness/browser/browser-read-test-fixtures.ts':'C1 shared component session fixture; original component assertions retained','src/harness/browser/fixtures/recorded-g1-query.ts':'C1 shared component session fixture','src/harness/workspace-fixture-server.ts':'V3 synthetic source table answer reaches real HTTP/PGlite question lifecycle'}
+helpers={'src/harness/browser/browser-read-test-fixtures.ts':'C1 shared component session fixture; original component assertions retained','src/harness/browser/fixtures/recorded-g1-query.ts':'C1 shared component session fixture','src/harness/workspace-fixture-server.ts':'V3 synthetic table answer lifecycle plus M2 real-response interruption hooks in the test host only'}
 checks={key:{'count':len(base[key]),'changed':[p for p,v in base[key].items() if not (root/p).is_file() or h(root/p)!=v]} for key in ['historySHA256','protectedProduction']}
 exceptions=[{'path':p,'reason':helpers[p],'beforeSHA256':base['protectedProduction'][p],'afterSHA256':h(root/p)} for p in checks['protectedProduction']['changed'] if p in helpers]
 unauthorized=[p for p in checks['protectedProduction']['changed'] if p not in helpers]

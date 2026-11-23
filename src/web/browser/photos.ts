@@ -41,12 +41,12 @@ export function renderPhotoImages(key:string,entry:PhotoEntry){
   const fail=async(photo:Photo)=>{
     if(entry.checking.has(photo.id))return;entry.checking.add(photo.id);
     try{
-      const resource=performance.getEntriesByName(new URL(photo.contentUrl,location.origin).href).filter((entry):entry is PerformanceResourceTiming=>entry instanceof PerformanceResourceTiming).at(-1);
-      if(resource&&'responseStatus' in resource&&resource.responseStatus===200){permanent(photo);return;}
       // Authenticated local metadata only: HEAD never dispatches an upstream photo request.
       const response=await fetch(photo.contentUrl,{method:'HEAD',cache:'no-store'});
       if(photoKey()!==key||photoCache.get(key)!==entry)return;
-      if(response.status===503||response.status>=500)entry.recoverable.add(photo.id);
+      // A server-side200 does not prove the bytes reached this browser.
+      // A200 means the proxy retained a validated source image; browser transfer may still fail.
+      if(response.status===200||response.status===503||response.status>=500)entry.recoverable.add(photo.id);
       else permanent(photo);
     }catch{if(photoKey()===key&&photoCache.get(key)===entry)entry.recoverable.add(photo.id);}
     finally{entry.checking.delete(photo.id);}

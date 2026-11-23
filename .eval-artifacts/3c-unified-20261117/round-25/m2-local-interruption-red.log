@@ -1,0 +1,29 @@
+✖ Round25 UI: M2 390 current album recovers through real proxy local-interruption (1194.906292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1795.057875
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round25.test.ts:1:12812
+✖ Round25 UI: M2 390 current album recovers through real proxy local-interruption (1194.906292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '2 of 7' !== '2 of 8'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:80:228)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:23:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:69:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2 of 7',
+    expected: '2 of 8',
+    operator: 'strictEqual'
+  }
