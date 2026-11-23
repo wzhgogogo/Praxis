@@ -836,7 +836,8 @@ test("Round13 UI: About shows pending and newest-first answers and keeps rejecte
       await screenshot(page, "round13-question-history");
       await history.first().locator("summary").click();
       assert.match(await history.first().innerText(), /Checked Thu, Oct 29 · 19:00 JST/);
-      assert.match(await page.locator("#details-content").innerText(), /Checked Thu, Oct 29 · 19:00 JST/);
+      assert.match(await page.locator("#details-content .about-categories").innerText(), /Chinese/);
+      assert.equal(await page.locator("#details-content .citation-footer").count(), 0, "Round23 categories alone must not create orphan source footers");
 
       await page.route("**" + pathFor(view) + "/questions", route => route.fulfill({
         status: 503, json: { error: "Fixture question unavailable" },
