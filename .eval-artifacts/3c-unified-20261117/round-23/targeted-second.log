@@ -1,0 +1,43 @@
+✔ Round23 removed links reject API and low-confidence pages and isolate candidate history (11.27875ms)
+✔ Round23 UI: R8 390 About and fullscreen native swipes preserve taps scroll and attribution (4012.880959ms)
+✔ Round23 UI: R8 1440 About and fullscreen native swipes preserve taps scroll and attribution (2987.721791ms)
+ROUND23_LANDING_PIXELS {"width":390,"light":[[236,239,255,255],[243,245,255,255],[245,246,255,255]]}
+ROUND23_STATIC_PIXELS {"width":390,"pixels":[[221,226,255],[210,216,255],[223,228,255]]}
+ROUND23_STATIC_PIXELS {"width":390,"pixels":[[221,226,255],[210,216,255],[223,228,255]]}
+✔ Round23 UI: R9 390 landing WebGL and both static fallbacks cover lower edges (3456.404042ms)
+ROUND23_LANDING_PIXELS {"width":1440,"light":[[242,244,255,255],[243,245,255,255],[235,238,255,255]]}
+ROUND23_STATIC_PIXELS {"width":1440,"pixels":[[221,226,255],[208,216,255],[223,228,255]]}
+ROUND23_STATIC_PIXELS {"width":1440,"pixels":[[221,226,255],[208,216,255],[223,228,255]]}
+✔ Round23 UI: R9 1440 landing WebGL and both static fallbacks cover lower edges (2684.103792ms)
+✔ Round23 UI: R1 390 About placeholder follows outlet and preserves Adjust focus (2462.997958ms)
+✔ Round23 UI: R1 1440 About placeholder follows outlet and preserves Adjust focus (1310.419542ms)
+✔ Round23 UI: R3 removed names use verified human links and omit generic reason lines (1083.623542ms)
+✔ Round23 UI: R4 390 About separates category labels, original quotes and structured terms (1084.775125ms)
+✔ Round23 UI: R4 1440 About separates category labels, original quotes and structured terms (990.578167ms)
+✔ Round23 UI: R5 390 Q&A-only smoking headers preserve prose and source times (1487.840709ms)
+✔ Round23 UI: R5 1440 Q&A-only smoking headers preserve prose and source times (1524.575ms)
+✔ Round23 UI: R6 360 home title stays one physical centered line (758.844833ms)
+✔ Round23 UI: R6 390 home title stays one physical centered line (699.908166ms)
+✔ Round23 UI: R6 1440 home title stays one physical centered line (707.88875ms)
+✔ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (1153.531792ms)
+✔ Round23 UI: R9 progress distinguishes undefined zero positive and preview discovery (899.152625ms)
+✖ Round23 UI: R2 native SSE debounce, replacement ownership and CLOSED sidebar sync (11723.931916ms)
+✔ Round23 Q&A cleanup recognizes only smoking headers in the same URL/readAt group (1.11825ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 18
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26716.264917
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:20606
+✖ Round23 UI: R2 native SSE debounce, replacement ownership and CLOSED sidebar sync (11723.931916ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:121:445) {
+    name: 'TimeoutError',
+    log: []
+  }

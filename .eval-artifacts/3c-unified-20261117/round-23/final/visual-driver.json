@@ -1,0 +1,68 @@
+[
+  {
+    "suite": "formal",
+    "sha": "98cdc3a8fb85c1001151a9261ab83094bf9d09b2",
+    "exitCode": 0,
+    "seconds": 32.733972042,
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      ".eval-artifacts/3c-unified-20261117/visual-smoke.mjs"
+    ],
+    "environment": {
+      "PRAXIS_VISUAL_SUBDIR": "round-23/final/formal"
+    },
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  },
+  {
+    "suite": "style1",
+    "sha": "98cdc3a8fb85c1001151a9261ab83094bf9d09b2",
+    "exitCode": 0,
+    "seconds": 7.994061875,
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=^Round6 Style1",
+      "src/harness/browser/web-workspace-round6.test.ts"
+    ],
+    "environment": {
+      "PRAXIS_ROUND6_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-23/final/style1"
+    },
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  },
+  {
+    "suite": "states",
+    "sha": "98cdc3a8fb85c1001151a9261ab83094bf9d09b2",
+    "exitCode": 0,
+    "seconds": 134.816754375,
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=^Round(8|10|11|12|13|14|15|16|17|18|19|20|21|22|23) UI:",
+      "src/harness/browser/web-workspace-round6.test.ts",
+      "src/harness/browser/web-workspace-round10.test.ts",
+      "src/harness/browser/web-workspace-round23.test.ts",
+      "src/harness/browser/restaurant-photos.test.ts",
+      "src/harness/browser/web-landing-background.test.ts"
+    ],
+    "environment": {
+      "PRAXIS_ROUND8_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-23/final/states",
+      "PRAXIS_WORKSPACE_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-23/final/states"
+    },
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  }
+]

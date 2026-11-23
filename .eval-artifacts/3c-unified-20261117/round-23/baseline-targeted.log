@@ -1,0 +1,231 @@
+✖ Round23 removed links reject API and low-confidence pages and isolate candidate history (3.578792ms)
+✖ Round23 UI: R8 390 About and fullscreen native swipes preserve taps scroll and attribution (12085.348042ms)
+✖ Round23 UI: R8 1440 About and fullscreen native swipes preserve taps scroll and attribution (11225.476959ms)
+✖ Round23 UI: R1 390 About placeholder follows outlet and preserves Adjust focus (1956.744625ms)
+✖ Round23 UI: R1 1440 About placeholder follows outlet and preserves Adjust focus (911.95ms)
+✖ Round23 UI: R3 removed names use verified human links and omit generic reason lines (10916.744042ms)
+✖ Round23 UI: R4 390 About separates category labels, original quotes and structured terms (73763.156833ms)
+✖ Round23 UI: R4 1440 About separates category labels, original quotes and structured terms (871.224792ms)
+✖ Round23 UI: R5 390 Q&A-only smoking headers preserve prose and source times (911.508041ms)
+✖ Round23 UI: R5 1440 Q&A-only smoking headers preserve prose and source times (933.123458ms)
+✖ Round23 UI: R6 360 home title stays one physical centered line (719.48375ms)
+✔ Round23 UI: R6 390 home title stays one physical centered line (695.928125ms)
+✔ Round23 UI: R6 1440 home title stays one physical centered line (711.755792ms)
+✖ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (890.424375ms)
+✖ Round23 UI: R9 progress distinguishes undefined zero positive and preview discovery (848.906583ms)
+✖ Round23 UI: R2 native SSE debounce, replacement ownership and CLOSED sidebar sync (986.874208ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 2
+ℹ fail 13
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101488.545542
+
+✖ failing tests:
+
+test at src/application/workspace-read-projection.test.ts:1:14471
+✖ Round23 removed links reject API and low-confidence pages and isolate candidate history (3.578792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'https://www.google.com/maps/place/fixture-a'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/workspace-read-projection.test.ts:165:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'https://www.google.com/maps/place/fixture-a',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/restaurant-photos.test.ts:1:21349
+✖ Round23 UI: R8 390 About and fullscreen native swipes preserve taps scroll and attribution (12085.348042ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at assertCurrentPhoto (/private/tmp/praxis-3c-unified/src/harness/browser/restaurant-photos.test.ts:118:14)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/restaurant-photos.test.ts:184:42) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/restaurant-photos.test.ts:1:21349
+✖ Round23 UI: R8 1440 About and fullscreen native swipes preserve taps scroll and attribution (11225.476959ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at assertCurrentPhoto (/private/tmp/praxis-3c-unified/src/harness/browser/restaurant-photos.test.ts:118:14)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/restaurant-photos.test.ts:184:42) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:3879
+✖ Round23 UI: R1 390 About placeholder follows outlet and preserves Adjust focus (1956.744625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + null
+  - 'Ask about Fixture Sushi'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:29:116)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:28:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 'Ask about Fixture Sushi',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:3879
+✖ Round23 UI: R1 1440 About placeholder follows outlet and preserves Adjust focus (911.95ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + null
+  - 'Ask about Fixture Sushi'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:29:116)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:28:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: 'Ask about Fixture Sushi',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:5629
+✖ Round23 UI: R3 removed names use verified human links and omit generic reason lines (10916.744042ms)
+  locator.getAttribute: Timeout 10000ms exceeded.
+  Call log:
+    - waiting for locator('li[data-candidate-id="maps"]').locator('a')
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:39:96)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:37:2) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('li[data-candidate-id="maps"]').locator('a')` ]
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:7189
+✖ Round23 UI: R4 390 About separates category labels, original quotes and structured terms (73763.156833ms)
+  'test timed out after 30000ms'
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:7189
+✖ Round23 UI: R4 1440 About separates category labels, original quotes and structured terms (871.224792ms)
+  AssertionError [ERR_ASSERTION]: undefined == true
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:46:86)
+      at projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:9)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:44:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:9829
+✖ Round23 UI: R5 390 Q&A-only smoking headers preserve prose and source times (911.508041ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'evidenceId')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:61:569)
+      at Array.map (<anonymous>)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:61:485)
+      at RouteHandler._handleInternal (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59786:11)
+      at RouteHandler._handleImpl (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59753:29)
+      at /private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59747:59
+      at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+      at _Zone.run (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:10149:40)
+      at RouteHandler.handle (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59747:38)
+      at _Page._onRoute (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:61037:46)
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:9829
+✖ Round23 UI: R5 1440 Q&A-only smoking headers preserve prose and source times (933.123458ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'evidenceId')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:61:569)
+      at Array.map (<anonymous>)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:61:485)
+      at RouteHandler._handleInternal (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59786:11)
+      at RouteHandler._handleImpl (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59753:29)
+      at /private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59747:59
+      at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+      at _Zone.run (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:10149:40)
+      at RouteHandler.handle (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59747:38)
+      at _Page._onRoute (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:61037:46)
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:13735
+✖ Round23 UI: R6 360 home title stays one physical centered line (719.48375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:77:701)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:14894
+✖ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (890.424375ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"CANDIDATES","selector":"#topbar","top":0,"bottom":64,"from":100,"to":600}
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:89:354)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:82:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:18080
+✖ Round23 UI: R9 progress distinguishes undefined zero positive and preview discovery (848.906583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Places found'
+  - 'Finding places'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:98:166)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:96:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Places found',
+    expected: 'Finding places',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:19667
+✖ Round23 UI: R2 native SSE debounce, replacement ownership and CLOSED sidebar sync (986.874208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:115:26)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

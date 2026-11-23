@@ -1,0 +1,98 @@
+✔ Round23 removed links reject API and low-confidence pages and isolate candidate history (3.321334ms)
+✔ Round23 UI: R8 390 About and fullscreen native swipes preserve taps scroll and attribution (3741.313875ms)
+✔ Round23 UI: R8 1440 About and fullscreen native swipes preserve taps scroll and attribution (2913.316833ms)
+✔ Round23 UI: R1 390 About placeholder follows outlet and preserves Adjust focus (2233.144666ms)
+✔ Round23 UI: R1 1440 About placeholder follows outlet and preserves Adjust focus (1182.591708ms)
+✔ Round23 UI: R3 removed names use verified human links and omit generic reason lines (1000.629584ms)
+✖ Round23 UI: R4 390 About separates category labels, original quotes and structured terms (76820.221584ms)
+✖ Round23 UI: R4 1440 About separates category labels, original quotes and structured terms (864.826666ms)
+✖ Round23 UI: R5 390 Q&A-only smoking headers preserve prose and source times (942.771333ms)
+✖ Round23 UI: R5 1440 Q&A-only smoking headers preserve prose and source times (916.579291ms)
+✔ Round23 UI: R6 360 home title stays one physical centered line (711.711584ms)
+✔ Round23 UI: R6 390 home title stays one physical centered line (740.698958ms)
+✔ Round23 UI: R6 1440 home title stays one physical centered line (714.916125ms)
+✖ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (1068.749208ms)
+✔ Round23 UI: R9 progress distinguishes undefined zero positive and preview discovery (1253.067167ms)
+✖ Round23 UI: R2 native SSE debounce, replacement ownership and CLOSED sidebar sync (1125.656833ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 10
+ℹ fail 5
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 94786.713584
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:7234
+✖ Round23 UI: R4 390 About separates category labels, original quotes and structured terms (76820.221584ms)
+  'test timed out after 30000ms'
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:7234
+✖ Round23 UI: R4 1440 About separates category labels, original quotes and structured terms (864.826666ms)
+  AssertionError [ERR_ASSERTION]: undefined == true
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:46:86)
+      at projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:9)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:44:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:9874
+✖ Round23 UI: R5 390 Q&A-only smoking headers preserve prose and source times (942.771333ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'evidenceId')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:61:569)
+      at Array.map (<anonymous>)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:61:485)
+      at RouteHandler._handleInternal (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59786:11)
+      at RouteHandler._handleImpl (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59753:29)
+      at /private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59747:59
+      at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+      at _Zone.run (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:10149:40)
+      at RouteHandler.handle (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59747:38)
+      at _Page._onRoute (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:61037:46)
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:9874
+✖ Round23 UI: R5 1440 Q&A-only smoking headers preserve prose and source times (916.579291ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'evidenceId')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:61:569)
+      at Array.map (<anonymous>)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:61:485)
+      at RouteHandler._handleInternal (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59786:11)
+      at RouteHandler._handleImpl (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59753:29)
+      at /private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59747:59
+      at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+      at _Zone.run (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:10149:40)
+      at RouteHandler.handle (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:59747:38)
+      at _Page._onRoute (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:61037:46)
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:14974
+✖ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (1068.749208ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'sourceUrl')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:91:263)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:82:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:19833
+✖ Round23 UI: R2 native SSE debounce, replacement ownership and CLOSED sidebar sync (1125.656833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:115:129)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
