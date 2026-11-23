@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import {GooglePlacesPhotos} from '../integrations/restaurant-photos/google-photos.js';
 /** Real adapter/decoder; only transport is synthetic. No network fallback exists. */
-export async function googlePhotoRecoveryFixture(mode:'transient'|'persistent'|'404'|'invalid'|'details'){
+export async function googlePhotoRecoveryFixture(mode:'normal'|'transient'|'persistent'|'404'|'invalid'|'details'){
  const bytes=await sharp({create:{width:800,height:600,channels:3,background:'#457b91'}}).jpeg().toBuffer();
  const calls:string[]=[];let failures=0;
  const transport=new GooglePlacesPhotos({apiKey:'offline-photo-key',fetchImplementation:async(input)=>{
