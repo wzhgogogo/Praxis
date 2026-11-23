@@ -7230,3 +7230,10 @@ Frozen `0d269703b3251b35039fe33c07076b222d87e716` passed Typecheck, Arch check, 
 ### Round 24 — 2026-11-23（frozen offline regression / draft, not integrated）
 
 冻结 `f036b7a0ea569ec41518837c4806b7b01f50578f` 完成B1–B5与六项UI/投影机制的离线收口。五门禁：默认1881/1881，G2 5/5、Chromium554/554、G6 159/159，typecheck/arch/build PASS。正式16/16、Style1 6/6、状态139/139；历史十路径、新采集后独立断言、严格TS/DAG及19资产一致性通过。截图加载等待补强后从新SHA完整重跑，首冻结全绿门禁原件保留。历史11413/保护853、主目录/env、closeout950现存材料未变。0 Live/真实PG/4312/推送/合main；真机键盘与缩放NOT_EVALUATED。 [Round24报告](../../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md)。
+
+
+## 2026-11-24 — Round 25 冻结离线验收
+
+冻结源码 `6202c1164aab14bec1a7353eadc8e5a522a3d259`（src tree `6453345249c5a2ebea1c6d5af3b2d2f14b283944`，frozen offline regression / draft, not integrated）完成C1 worker隔离、R1–R5和M1–M3/V1–V4。五门禁全绿：默认1932/1932，G2 5/5、Chromium576/576、G6 159/159；同SHA构建后C1 dist4/4（源码4/4已入正式套件）。独立观察先采集再断言353/353、Google原矩阵21/21、历史用户十路径10/10；严格TS/18模块0环、19JS及HTML/CSS一致。正式16/16、Style1 6/6、状态157/157，313PNG经37联系表及15关键原图目检。Google正常8张精确16media，短暂502恢复18；完整恢复受已有清单和剩余预算限制，Details1不重置。
+
+**整体保护签收仍阻塞**：00:00临时目录清理后，718份已跟踪文件按当前HEAD精确恢复并重新全量验收；12638份历史基线中12487匹配、151份未跟踪复核原件缺失（当前HEAD不可恢复），现存历史内容变更0，未伪造替代。保护脚本保留exit1；等待同哈希原件备份。主目录/env、closeout950现存文件、稀疏配置不变；848保护文件中845不变，3份获准测试辅助修改明确列前后哈希。失败与重冻原件均保留。0 Live/真实PG/4312/推送/合main；真实远程CDP、真机键盘与缩放NOT_EVALUATED。详见 [Round 25报告](../../.eval-artifacts/3c-unified-20261117/round-25/REPORT.md) 与 [原始五门禁清单](../../.eval-artifacts/3c-unified-20261117/round-25/gates/manifest.json)。

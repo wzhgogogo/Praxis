@@ -1,0 +1,88 @@
+{
+  "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+  "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+  "reviewedAt": "2026-11-23T16:32:34.106065+00:00",
+  "method": "human model visual inspection through view_image; all 37 contact sheets plus 15 key original PNGs opened",
+  "contactSheets": 37,
+  "imagesCovered": 313,
+  "keyOriginals": [
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-v4-390-card-blue.png",
+      "sha256": "60a062724c76ca27c5829ae0c38774fc1e03047ed0391c8f0227eef728b1334d"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-v4-1440-card-blue.png",
+      "sha256": "952f4173fd599b8ce59cc90117cc17fa473bb1c6cdc09703a0078ecf0e91df7e"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-v1-390-compact-steak.png",
+      "sha256": "36c7a636d0aa0da4aced8b1f1f69947b72c0d328149209ed5d66bcc805404106"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-v3-390-same-row-sheet.png",
+      "sha256": "78f4d5d17fb28155b26bd4ef927444c30ea56307878dc45527604b709735f71d"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-v3-1440-same-row-history.png",
+      "sha256": "c5dc11afd69654e7a0c623e110060e2564cead0f03253b3ef1716cadd43a4296"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-v3-390-crossed-sheet.png",
+      "sha256": "6a37a0ba51a35cab49cca1e70c7e773178514cccb3ae61472cb82c76a9eee5f4"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-v3-390-repeated-sheet.png",
+      "sha256": "bea2b62a3b0e1661cf2457561a93c66b7c9da3f3e63578d0b603a56dc43ad941"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-r5-390-indirect.png",
+      "sha256": "1d19af7a0463fc43714f2e1731df4be6152e6892ffab98938163955509cd7c7d"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-m1-390-keyboard-500.png",
+      "sha256": "8a3580e1437ceebbc83fe3bf4ec681c9e68d80e97821a20938b32e5c26744834"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-m1-390-keyboard-360.png",
+      "sha256": "d4a32028941ed8807d743227f500cd0d12804ec6c368a435c478372d2a8c5219"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-m1-390-review-scroll-360.png",
+      "sha256": "4dd8f809cfa1f288a1c212a1b22cb6bba809291d8d5f6448488fb4c3f940a6b8"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-m3-390-reconnecting-500.png",
+      "sha256": "cb106832b1a4c1ee581d9be3676d30b83e10aff97c2c7c4cbbf8837d388b56f2"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round24-u4-390-middle-pinch-1_8.png",
+      "sha256": "973b4639ae787a374796d1409c6111dba63f158661eead2357108e490f79d02f"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round24-u4-1440-about-mouse-drag.png",
+      "sha256": "43b77f568032232fbfe55bdfadb2f103153073a8cf3f91faa9fbb21dbe5ae6dc"
+    },
+    {
+      "path": ".eval-artifacts/3c-unified-20261117/round-25/final/states/round25-m2-390-transient-after-reconnect.png",
+      "sha256": "f6261f3d2cb4612216e8971d4d4fa8919a4b0913638fd8ee3a15e3ac89a78562"
+    }
+  ],
+  "result": "PASS within local Chromium Fixture visual scope",
+  "notes": [
+    "390/1440 card blue is limited to specified functional nodes; no new blocking layout overlap observed in inspected states.",
+    "Steak exact-match quote has compact source footer; longer quotations retain the box.",
+    "Source-table same-row proof merges Private rooms: Available; crossed rows, repeated Available and legacy data remain separate. Answer prose is unchanged.",
+    "Exact source timestamp is checked automatically before visible date-only footer; screenshot date is not treated as timestamp proof.",
+    "500/360 keyboard viewport focus frames expose clarification ending; separate manual scroll-back frames keep heading accessible without pull-back. About long-scroll control passes in the existing suite.",
+    "1.8x image is intentionally horizontally cropped due to native page zoom/pan; counter/offset assertions establish the unchanged second image. This is Chromium emulation, not a native phone result.",
+    "Persistent502 screenshot is an expected fail-closed negative control with retryable image failure; it does not demonstrate eight loaded images. Transient502 and list/client-transfer interruption controls do demonstrate eight loaded images."
+  ],
+  "notEvaluated": [
+    "remote real CDP",
+    "native iOS/Android keyboard",
+    "native two-finger zoom/pan",
+    "Live",
+    "real PostgreSQL",
+    "4312 walkthrough"
+  ]
+}
