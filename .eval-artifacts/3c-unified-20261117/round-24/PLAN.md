@@ -1,0 +1,9 @@
+# Round 24 slice contract — draft / not integrated
+
+Baseline 5bca135c88da8b3ea62dd100aed3d401dfa036a4; original sparse worktree, no cleanup/restore needed.
+
+1. B1–B3: pending-question edits keep outlet selection/terms, share a bounded but isolated model scope, and shortlist-only races preserve one ANSWERED completion under the row lock. Reuse recorded P1-0-8 and production application/HTTP/PGlite boundaries; capture baseline failures and positive controls before implementation, then targeted green. No current question handle is replaced before an edit commits.
+2. B4–B5: deterministic open-ended target edits and negative-clause masks, tested through domain, real Google adapter with fake transport, and browser chips. U1/U2: quote evidence identity and unambiguous legacy timestamps, same-reading de-duplication. U3: provider/entity/HIGH identity rules. U4: pointer-set lifetime, native pinch and mouse drag. U5: Q&A-only smoking qualifiers. Preserve old controls and real recorded source text.
+3. Freeze all source/tests/independent collectors and assertions first. New empty output directories only; collect all new observations before independent assertions. Five gates, strict DAG/assets, independent backend+UI matrices, Google21, history10, formal/style/states visual, original image/contact review, hashes and local report commit. Source diff zero after final freeze.
+
+Evaluation: reuse original independent assertions and precise literal expected outcomes, expand required controls only; no scorer/Gold changes. Unit/Fixture/recorded component results kept separate; no Live, native PostgreSQL, port4312, real phone keyboard or real phone pinch claims. Historical evidence immutable. Unrelated issues are logged, not folded into scope. Failures retain raw logs; any frozen change means a new SHA and full rerun.

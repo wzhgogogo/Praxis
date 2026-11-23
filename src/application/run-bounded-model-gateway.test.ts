@@ -96,3 +96,14 @@ test("late async work cannot start another model call after its original run clo
   await budget.run("case",async()=>{late=gate.then(()=>budget.complete(request));});
   release();await assert.rejects(late,{code:"RUN_DEADLINE_EXCEEDED"});assert.equal(calls,0);
 });
+
+test('Round24 overlapping same-task scopes retain their own reserve and the committed winner export',async()=>{
+ let now=100_000,calls=0;
+ const provider:ModelGateway={async complete(){calls++;return {invocationId:String(calls),provider:'FIXTURE',model:'fixture',outputText:'{}',finishReason:'STOP',latencyMs:0};}};
+ const latch=()=>{let resolve!:()=>void;const promise=new Promise<void>(r=>{resolve=r;});return {promise,resolve};};
+ const budget=new RunBoundedModelGateway(provider,6,5000,()=>now),winnerReady=latch(),loserReady=latch(),winnerDone=latch();
+ const winner=budget.run('case',async()=>{await budget.complete(request);winnerReady.resolve();await loserReady.promise;await budget.complete(request);assert.equal(budget.remainingCalls('case'),4,'reserve is local to this overlapping scope');assert.equal(budget.usage('case')!.calls,2);(budget as RunBoundedModelGateway&{claim?():void}).claim?.();winnerDone.resolve();});
+ await winnerReady.promise;now+=100;
+ const loser=budget.run('case',async()=>{await budget.complete(request);loserReady.resolve();await winnerDone.promise;assert.equal(budget.remainingCalls('case'),5);assert.equal(budget.usage('case')!.deadlineAt,105100);throw new Error('HTTP 409 conflict');});
+ try{await winner;await assert.rejects(loser,/HTTP 409/);assert.equal(budget.usage('case')!.calls,2);assert.equal(budget.usage('case')!.deadlineAt,105000);}finally{loserReady.resolve();winnerDone.resolve();await Promise.allSettled([winner,loser]);}
+});
