@@ -28,3 +28,31 @@ for(const query of ['café with outdoor seating, beer and wine in Ginza','café 
  if(japanese){assert.doesNotMatch(wires[0]!.replaceAll('東銀座駅',''),/銀座/);assert.match(wires[0]!,/寿司店/);assert.match(wires[0]!,/渋谷/);if(query.includes('東銀座駅'))assert.match(wires[0]!,/東銀座駅/);}
  else{assert.doesNotMatch(wires[0]!,/beer/i);assert.match(wires[0]!,/café/);assert.match(wires[0]!,/outdoor seating/);if(query.includes('wine'))assert.match(wires[0]!,/wine/);}
 });
+
+for(const strength of ['SOFT','HARD'] as const)for(const query of [
+ 'gastropub with beer, outdoor seating and wine in Ginza',
+ 'gastropub with outdoor seating, beer and wine in Ginza',
+ 'gastropub with outdoor seating, wine, and beer in Ginza',
+ 'gastropub with outdoor seating, beer-battered fish and beer in Ginza',
+ 'gastropub with outdoor seating, beer garden access and beer in Ginza',
+ 'gastropub with beer-battered fish and outdoor seating and beer in Ginza',
+ 'gastropub with beer garden access and outdoor seating and beer in Ginza',
+])test(`Round25 R3 independent beer item reaches Google wire ${strength}: ${query}`,async()=>{
+ const beer={text:'serves beer',polarity:'POSITIVE' as const,strength:'HARD' as const};
+ const kept={text:query.includes('beer-battered')?'beer-battered fish':query.includes('beer garden')?'beer garden access':'outdoor seating',polarity:'POSITIVE' as const,strength};
+ const next=applyRestaurantIntentPatch({schemaVersion:'3',timezone:'Asia/Tokyo',target:target(query),area:{query:'Ginza'},criteria:[beer,kept]},{schemaVersion:'3',removeCriteria:[beer]}),wires:string[]=[];
+ await adapter(wires).search({intent:{...fixtureIntent,target:next.target!,criteria:next.criteria,area:{...next.area!,coordinates}},readRunId:'edit'},signal());
+ const wire=wires[0]!;assert.match(wire,/gastropub/);assert.match(wire,/outdoor seating/);assert.ok(wire.includes(kept.text),wire);assert.doesNotMatch(wire,/(?:with|and)\s*,|,\s*(?:,|and|in\b)|\s{2,}/);assert.doesNotMatch(wire,/\bbeer(?=\s*(?:,|and\b|in\b|$))/i);
+ if(query.includes('wine'))assert.match(wire,/wine/);
+});
+for(const [query,want] of [
+ ...['avoid dessert cafés','avoid e.g. dessert cafés','not specifically looking for a dessert café'].flatMap(q=>['','.','!','?','/'].map(p=>['Dinner in Ginza, please '+q+p,false] as const)),
+ ...['We have no parking requirements and want a dessert café in Ginza','We have no parking requirements and we want a dessert café in Ginza','not too sweet, but specifically looking for a dessert café in Ginza','without outdoor seating I would like a dessert café in Ginza'].map(q=>[q,true] as const),
+])test('Round25 R4 affirmative dining intent across search and inspectFacts: '+query,async()=>{
+ const api=adapter([],age),intent={...fixtureIntent,target:target(query),timeWindow:{earliest:'19:00',latest:'20:00'},area:{query:'Ginza',coordinates},criteria:[{text:'dessert cafés',polarity:'NEGATIVE' as const,strength:'SOFT' as const}]};
+ const namedIntent={...intent,target:target('Age.3 GINZA','SPECIFIC_OUTLET')},named=await api.search({intent:namedIntent,readRunId:'named'},signal());assert.equal(named.candidates.length,1);
+ const candidateIds=named.candidates.map(c=>c.restaurant.id),input={candidateIds,candidates:named.candidates};
+ assert.equal((await api.search({intent,readRunId:'search'},signal())).candidates.length,want?1:0);
+ assert.equal((await api.inspectFacts({...input,intent,readRunId:'details'},signal())).factChecks[candidateIds[0]!]!.status,want?'COMPLETED':'UNKNOWN');
+ assert.equal((await api.inspectFacts({...input,intent:namedIntent,readRunId:'named-details'},signal())).factChecks[candidateIds[0]!]!.status,'COMPLETED');
+});

@@ -103,7 +103,7 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
       explanation: `Based on ${hardSupport.basis.join("; ")}. Requested-time course availability has not been verified.` };
     const weak: RestaurantSourceFieldQuote[] = fieldQuotes.length ? fieldQuotes : sourceFacts.flatMap(fact => fact.sourceUrl && Array.isArray(fact.claims.restaurantTypeFacts)
       ? (fact.claims.restaurantTypeFacts as string[]).map(quote => ({ field: "SOURCE_TEXT" as const, quote, sourceUrl: fact.sourceUrl!, evidenceId: fact.evidenceId })) : []);
-    return { ...base, evidenceIds: applicable.map(e => e.evidenceId), sources: weak.slice(0, 3).map(({ field, quote, sourceUrl, meal, evidenceId }) => ({ field, quote, sourceUrl, ...(evidenceId ? { evidenceId } : {}), ...(meal ? { meal } : {}) })),
+    return { ...base, evidenceIds: [...new Set([...applicable.map(e => e.evidenceId), ...weak.slice(0, 3).flatMap(q => q.evidenceId ? [q.evidenceId] : [])])], sources: weak.slice(0, 3).map(({ field, quote, sourceUrl, meal, evidenceId }) => ({ field, quote, sourceUrl, ...(evidenceId ? { evidenceId } : {}), ...(meal ? { meal } : {}) })),
       explanation: "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting." };
   });
 }

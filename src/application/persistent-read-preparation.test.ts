@@ -589,3 +589,31 @@ test('Round22 accepted successor keeps preparation while the prior question fini
   release.release();await editing;assert.equal((await settled(host,view.case.caseId)).case.phase,'PRESENT_RESULTS');
  }finally{release.release();await editing?.catch(()=>{});host.application.store.appendMessage=append;await host.close();}
 });
+
+for(const boundary of ['message','worker-cleanup'] as const)for(const operation of ['stop','edit'] as const)test(`Round25 R1 committed successor ${operation} across ${boundary}`,{timeout:30_000},async()=>{
+ const started=latch(),parked=latch(),release=latch();
+ const host=await startWorkspaceFixture({questions:{beforeAnswer:async(_q,signal)=>{started.release();if(!signal.aborted)await new Promise<void>(resolve=>signal.addEventListener('abort',()=>resolve(),{once:true}));}}});
+ const app=host.application,append=app.store.appendMessage.bind(app.store);let editing:Promise<unknown>|undefined;
+ let off=()=>{};
+ try{
+  const initial=await create(host),ready=await settled(host,initial.case.caseId),id=ready.case.caseId;
+  await app.askRestaurantQuestion({userId,caseId:id,candidateId:ready.restaurant.presentedCandidateIds![0]!,question:'Card required?',requestId:'round25-q',expectedVersion:ready.case.taskVersion});await started.promise;
+  const old=await app.getCase(userId,id),beforeSearch=host.searches.length,beforeCheck=host.providerCalls.length;
+  if(boundary==='message')app.store.appendMessage=async input=>{if(input.requestId==='user:round25-successor'){parked.release();await release.promise;}return append(input);};
+  else off=app.subscribeReadFinished(async()=>{parked.release();await release.promise;});
+  editing=app.submitMessage({userId,conversationId:ready.case.conversationId,requestId:'round25-successor',expectedVersion:old.case.taskVersion,message:'Change Tokyo to Osaka'});
+  await parked.promise;
+  const committed=await app.getCase(userId,id);assert.notEqual(committed.restaurant.sourceReadContext!.handleId,old.restaurant.sourceReadContext!.handleId,'publish the committed successor before any asynchronous cleanup/write');
+  await assert.rejects(app.cancelCase(userId,id,{readRunId:old.restaurant.sourceReadContext!.runId,expectedVersion:old.case.taskVersion,handleId:old.restaurant.sourceReadContext!.handleId!}),StaleTaskVersionError);
+  if(operation==='stop'){
+   const stopped=await app.cancelCase(userId,id,{readRunId:committed.restaurant.sourceReadContext!.runId,expectedVersion:committed.case.taskVersion,handleId:committed.restaurant.sourceReadContext!.handleId!});assert.equal(stopped.case.stopped,true);
+  } else {
+   const newerCommit=latch();app.store.appendMessage=async input=>{if(input.requestId==='user:round25-newer')newerCommit.release();return append(input);};
+   const newer=app.submitMessage({userId,conversationId:ready.case.conversationId,requestId:'round25-newer',expectedVersion:committed.case.taskVersion,message:'Change 2 guests to 7'});
+   await Promise.race([newerCommit.promise,newer.then(()=>{throw new Error('Newer edit missed commit boundary');})]);off();release.release();assert.equal((await newer).restaurant.intentDraft?.partySize,7);
+  }
+  off();release.release();await editing;const final=await settled(host,id);
+  if(operation==='stop'){assert.equal(final.case.stopped,true);assert.equal(host.searches.length,beforeSearch);assert.equal(host.providerCalls.length,beforeCheck);}
+  else assert.equal(final.restaurant.intentDraft?.partySize,7,'the late older continuation cannot reclaim the read');
+ }finally{off();release.release();await editing?.catch(()=>{});app.store.appendMessage=append;await host.close();}
+});

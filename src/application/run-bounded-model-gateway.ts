@@ -22,19 +22,19 @@ export class RunBoundedModelGateway implements ModelGateway {
 
   constructor(private readonly delegate: ModelGateway, private readonly maxCalls: number, private readonly timeoutMs: number, private readonly now: () => number = Date.now) {}
 
-  async run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>, deadlineAt?: number): Promise<T> {
+  async run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>, deadlineAt?: number, publish = true): Promise<T> {
     const startedAt = this.now();
-    return this.withScope(taskId, { calls: 0, startedAt, deadlineAt: Math.min(startedAt + this.timeoutMs, deadlineAt ?? Infinity) }, work);
+    return this.withScope(taskId, { calls: 0, startedAt, deadlineAt: Math.min(startedAt + this.timeoutMs, deadlineAt ?? Infinity) }, work, publish);
   }
 
-  private async withScope<T>(taskId: string, previous: Pick<ModelRunUsage, "calls" | "startedAt" | "deadlineAt">, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
+  private async withScope<T>(taskId: string, previous: Pick<ModelRunUsage, "calls" | "startedAt" | "deadlineAt">, work: (signal: AbortSignal) => Promise<T>, publish: boolean): Promise<T> {
     const controller = new AbortController();
     const scope: ModelRunScope = {
       taskId, calls: previous.calls, startedAt: previous.startedAt, deadlineAt: previous.deadlineAt, controller,
       holds: 0, finished: false,
       timer: setTimeout(() => controller.abort(Object.assign(new Error("Read-run deadline reached"), { code: "RUN_DEADLINE_EXCEEDED" })), Math.max(0, previous.deadlineAt - this.now())),
     };
-    if (!this.active.has(taskId)) this.active.set(taskId, scope);
+    if (publish && !this.active.has(taskId)) this.active.set(taskId, scope);
     try {
       return await this.scopes.run(scope, () => work(controller.signal));
     } finally {
@@ -65,6 +65,12 @@ export class RunBoundedModelGateway implements ModelGateway {
   usage(taskId: string): ModelRunUsage | undefined {
     const local = this.scopes.getStore();
     const scope = local?.taskId === taskId ? local : this.active.get(taskId);
+    return scope ? { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) } : this.completed.get(taskId);
+  }
+
+  /** Export only committed/direct read work, never a tentative semantic scope. */
+  publishedUsage(taskId: string): ModelRunUsage | undefined {
+    const scope = this.active.get(taskId);
     return scope ? { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) } : this.completed.get(taskId);
   }
 

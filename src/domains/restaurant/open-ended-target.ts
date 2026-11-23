@@ -31,7 +31,7 @@ function removePhrase(query: string, pattern: string, joiners = false): string {
     const end = original[match.index + match[0].length - 1]!.end;
     const tail = query.slice(end);
     const predicate = match[0].match(/^(?:that\s+)?(?:with|has|having|serves|serving|offers|offering|featuring)\s+/u)?.[0];
-    const nextConjunction = joiners && predicate && tail.match(/^\s+and\s+/iu);
+    const nextConjunction = joiners && predicate && tail.match(/^\s*(?:,\s*(?:and\s+)?|and\s+)/iu);
     query = query.slice(0, start) + (nextConjunction && predicate ? " " + predicate : " ")
       + (nextConjunction ? tail.slice(nextConjunction[0].length) : tail);
   }
@@ -61,7 +61,7 @@ export function maintainOpenEndedTargetQuery(
     const served = normalize(item.text).match(/^(?:serves|serving|offers|offering|has|having|featuring) (.+)$/);
     if (served) {
       const object = escape(served[1]!).replace(/\s+/g, "\\s+");
-      query = removePhrase(query, prefix + "(?:" + term + "|(?:and\\s+|(?<=,)\\s*)" + object + ")", true);
+      query = removePhrase(query, prefix + "(?:" + term + "|(?:and\\s+|(?<=,)\\s*)" + object + ")(?=\\s*(?:,|and\\b|in\\b|near\\b|around\\b|at\\b|$))", true);
     } else if (/^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]+$/u.test(item.text)) {
       query = query.replace(new RegExp("(?<![\\p{Script=Han}])" + escape(item.text) + "(?=店|[のをがで、\\s]|$)", "gu"), "");
     } else query = removePhrase(query, prefix + term, true);

@@ -84,3 +84,33 @@ for(const replacement of ['stop','edit','second-question'] as const)test(`Round2
   const rows=(await runtime.listEvents(id)).filter(e=>e.event.type==='PAGE_QUESTION_COMPLETED'&&e.event.requestId===q.requestId);assert.equal(rows.length,1);if(rows[0]!.event.type==='PAGE_QUESTION_COMPLETED')assert.equal(rows[0]!.event.result.status,'UNVERIFIED');
  }finally{pending?.release.resolve();await pending?.work.catch(()=>{});pending?.restore();await f.close();}
 });
+
+test('Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409',{timeout:30_000},async()=>{
+ const f=await bookingTermsComposition(),entered=latch(),allow=latch(),complete=f.counted.complete.bind(f.counted);let edit:Promise<unknown>|undefined;
+ try{const first=await f.initial(),id=first.case.caseId,usage=structuredClone(f.counted.usage(id)),original=(await f.app.exportReadArtifact(id)).resourceUsage;
+  f.counted.complete=async request=>{if(request.purpose==='restaurant_semantic_interpret'){entered.resolve();await allow.promise;}return complete(request);};
+  edit=f.app.submitMessage({userId:'terms-user',conversationId:first.case.conversationId,requestId:'round25-losing',expectedVersion:first.case.taskVersion,message:f.source.bookingFollowups[0]!});const rejected=assert.rejects(edit,StaleTaskVersionError);await bounded(entered.promise);
+  assert.deepEqual(f.counted.usage(id),usage);assert.deepEqual((await f.app.exportReadArtifact(id)).resourceUsage,original);
+  await f.app.setShortlist({userId:'terms-user',caseId:id,candidateId:first.restaurant.presentedCandidateIds![0]!,shortlisted:true,requestId:'round25-save',expectedVersion:first.case.taskVersion});
+  allow.resolve();await rejected;assert.deepEqual(f.counted.usage(id),usage);assert.deepEqual((await f.app.exportReadArtifact(id)).resourceUsage,original);
+ }finally{allow.resolve();await edit?.catch(()=>{});f.counted.complete=complete;await f.close();}
+});
+
+for(const entry of ['refresh','batch','location'] as const)test(`Round25 R2 direct ${entry} publishes its own usage and deadline`,{timeout:30_000},async()=>{
+ const f=await bookingTermsComposition();
+ try{let view=await f.initial();const id=view.case.caseId,prior=structuredClone(f.counted.usage(id)!);
+  if(entry==='location'){
+   const runtime=runtimeFor(f),s=await runtime.snapshot(id);
+   await runtime.dispatch({id:'round25-nearby',taskId:id,occurredAt:f.clock.now().toISOString(),trace:{schemaVersion:'1',runId:s.runId,correlationId:'round25-nearby',actor:'USER'},event:{type:'SEMANTIC_PROPOSAL_COMPILED',patch:{schemaVersion:'3',area:{query:'nearby'}}}},s.version);
+   view=await f.project();
+  }
+  await new Promise(resolve=>setTimeout(resolve,2));
+  const input={userId:'terms-user',caseId:id,requestId:'round25-direct-'+entry,expectedVersion:view.case.taskVersion};
+  if(entry==='refresh')await f.app.refreshAvailability(input);
+  else if(entry==='batch')await f.app.requestAnotherBatch(input);
+  else await f.app.recordLocation({...input,latitude:35.777,longitude:139.72});
+  const until=Date.now()+15000;while((await f.project()).restaurant.progress.active){assert.ok(Date.now()<until);await new Promise(resolve=>setTimeout(resolve,10));}
+  const usage=f.counted.usage(id)!;assert.ok(usage.startedAt>prior.startedAt);assert.ok(usage.deadlineAt>prior.deadlineAt);assert.equal(usage.deadlineAt-usage.startedAt,prior.deadlineAt-prior.startedAt);
+  assert.equal(((await f.app.exportReadArtifact(id)).resourceUsage as {modelCallsStarted:number}).modelCallsStarted,usage.calls);
+ }finally{await f.close();}
+});

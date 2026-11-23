@@ -1,0 +1,342 @@
+✖ Round25 R5 weak merchant quotes carry their actual evidence IDs through model indirection (54.276042ms)
+✔ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with beer, outdoor seating and wine in Ginza (4.8375ms)
+✔ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with outdoor seating, beer and wine in Ginza (0.378792ms)
+✔ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with outdoor seating, wine, and beer in Ginza (0.232625ms)
+✖ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with outdoor seating, beer-battered fish and beer in Ginza (1.004875ms)
+✖ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with outdoor seating, beer garden access and beer in Ginza (0.295667ms)
+✖ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with beer-battered fish and outdoor seating and beer in Ginza (0.2465ms)
+✖ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with beer garden access and outdoor seating and beer in Ginza (0.220916ms)
+✔ Round25 R3 independent beer item reaches Google wire HARD: gastropub with beer, outdoor seating and wine in Ginza (0.185666ms)
+✔ Round25 R3 independent beer item reaches Google wire HARD: gastropub with outdoor seating, beer and wine in Ginza (0.227333ms)
+✔ Round25 R3 independent beer item reaches Google wire HARD: gastropub with outdoor seating, wine, and beer in Ginza (0.289417ms)
+✖ Round25 R3 independent beer item reaches Google wire HARD: gastropub with outdoor seating, beer-battered fish and beer in Ginza (0.219458ms)
+✖ Round25 R3 independent beer item reaches Google wire HARD: gastropub with outdoor seating, beer garden access and beer in Ginza (0.184084ms)
+✖ Round25 R3 independent beer item reaches Google wire HARD: gastropub with beer-battered fish and outdoor seating and beer in Ginza (0.160833ms)
+✖ Round25 R3 independent beer item reaches Google wire HARD: gastropub with beer garden access and outdoor seating and beer in Ginza (0.143625ms)
+✔ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid dessert cafés (1.75025ms)
+✔ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid dessert cafés. (0.416333ms)
+✔ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid dessert cafés! (0.341834ms)
+✔ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid dessert cafés? (0.310042ms)
+✔ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid dessert cafés/ (0.297667ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés (0.363709ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés. (0.264333ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés! (0.234542ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés? (0.243875ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés/ (0.199417ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café (0.169833ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café. (0.194209ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café! (0.18875ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café? (0.169625ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café/ (0.196083ms)
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: We have no parking requirements and want a dessert café in Ginza (0.154958ms)
+✔ Round25 R4 affirmative dining intent across search and inspectFacts: We have no parking requirements and we want a dessert café in Ginza (0.256625ms)
+✔ Round25 R4 affirmative dining intent across search and inspectFacts: not too sweet, but specifically looking for a dessert café in Ginza (0.227542ms)
+✔ Round25 R4 affirmative dining intent across search and inspectFacts: without outdoor seating I would like a dessert café in Ginza (0.260375ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 14
+ℹ fail 20
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 159.42525
+
+✖ failing tests:
+
+test at src/domains/restaurant/condition-states.test.ts:1:12871
+✖ Round25 R5 weak merchant quotes carry their actual evidence IDs through model indirection (54.276042ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assessRestaurantConditions({...intent,criteria:[{text:'unrecorded',strength:'SOFT',polarity:'POSITIVE'}]},[{...first,claims:{verifiedHardCriteria:['unrecorded']}}])
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/condition-states.test.ts:142:160)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:5092
+✖ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with outdoor seating, beer-battered fish and beer in Ginza (1.004875ms)
+  AssertionError [ERR_ASSERTION]: gastropub with outdoor seating, -battered fish in Ginza restaurant Ginza
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:45:98)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:5092
+✖ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with outdoor seating, beer garden access and beer in Ginza (0.295667ms)
+  AssertionError [ERR_ASSERTION]: gastropub with outdoor seating, garden access in Ginza restaurant Ginza
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:45:98)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:5092
+✖ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with beer-battered fish and outdoor seating and beer in Ginza (0.2465ms)
+  AssertionError [ERR_ASSERTION]: gastropub -battered fish and outdoor seating in Ginza restaurant Ginza
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:45:98)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:5092
+✖ Round25 R3 independent beer item reaches Google wire SOFT: gastropub with beer garden access and outdoor seating and beer in Ginza (0.220916ms)
+  AssertionError [ERR_ASSERTION]: gastropub garden access and outdoor seating in Ginza restaurant Ginza
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:45:98)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:5092
+✖ Round25 R3 independent beer item reaches Google wire HARD: gastropub with outdoor seating, beer-battered fish and beer in Ginza (0.219458ms)
+  AssertionError [ERR_ASSERTION]: gastropub with outdoor seating, -battered fish in Ginza restaurant Ginza
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:45:98)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:5092
+✖ Round25 R3 independent beer item reaches Google wire HARD: gastropub with outdoor seating, beer garden access and beer in Ginza (0.184084ms)
+  AssertionError [ERR_ASSERTION]: gastropub with outdoor seating, garden access in Ginza restaurant Ginza
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:45:98)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:5092
+✖ Round25 R3 independent beer item reaches Google wire HARD: gastropub with beer-battered fish and outdoor seating and beer in Ginza (0.160833ms)
+  AssertionError [ERR_ASSERTION]: gastropub -battered fish and outdoor seating in Ginza restaurant Ginza
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:45:98)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:5092
+✖ Round25 R3 independent beer item reaches Google wire HARD: gastropub with beer garden access and outdoor seating and beer in Ginza (0.143625ms)
+  AssertionError [ERR_ASSERTION]: gastropub garden access and outdoor seating in Ginza restaurant Ginza
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:45:98)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés (0.363709ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés. (0.264333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés! (0.234542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés? (0.243875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please avoid e.g. dessert cafés/ (0.199417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café (0.169833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café. (0.194209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café! (0.18875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café? (0.169625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: Dinner in Ginza, please not specifically looking for a dessert café/ (0.196083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/google/google-places-filter-regression.test.ts:1:6606
+✖ Round25 R4 affirmative dining intent across search and inspectFacts: We have no parking requirements and want a dessert café in Ginza (0.154958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-filter-regression.test.ts:55:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

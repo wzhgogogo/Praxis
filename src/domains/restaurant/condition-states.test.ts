@@ -134,3 +134,10 @@ test('Round24 U1 every displayed quote carries its originating evidence ID',()=>
  const budget=assessRestaurantConditions({...intent,criteria:[],budgetPerPerson:{max:9000,currency:'JPY'}},[price]);assert.equal(Reflect.get(budget[0]!.sources[0]!,'evidenceId'),'price-evidence');
  const weak=assessRestaurantConditions({...intent,criteria:[{text:'unrecorded',strength:'SOFT',polarity:'POSITIVE'}]},[{...first,claims:{verifiedHardCriteria:['unrecorded']}}]);assert.deepEqual(weak[0]!.sources.map(q=>Reflect.get(q,'evidenceId')),['first']);
 });
+
+test('Round25 R5 weak merchant quotes carry their actual evidence IDs through model indirection',()=>{
+ const merchant={...fact([source('SOURCE_TEXT','Small dining room.')],'quiet'),claims:{}};
+ const model:RestaurantReadEvidence={...merchant,evidenceId:'judgment',provider:'MODEL_JUDGMENT',sourceFieldQuotes:[],claims:{verifiedHardCriteria:['quiet'],supportingEvidenceIds:[merchant.evidenceId]}};
+ const [row]=assessRestaurantConditions({criteria:[{text:'quiet',polarity:'POSITIVE',strength:'SOFT'}]},[merchant,model]);
+ assert.equal(row!.status,'NOT_CHECKED');assert.equal(row!.sources[0]!.quote,'Small dining room.');assert.equal(row!.sources[0]!.evidenceId,'merchant');assert.ok(row!.evidenceIds.includes('merchant'));assert.ok(row!.evidenceIds.includes('judgment'));
+});

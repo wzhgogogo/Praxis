@@ -1,0 +1,94 @@
+✖ Round25 R1 committed successor stop across message (827.800584ms)
+✖ Round25 R1 committed successor edit across message (479.85775ms)
+✖ Round25 R1 committed successor stop across worker-cleanup (451.6175ms)
+✖ Round25 R1 committed successor edit across worker-cleanup (450.144041ms)
+✖ Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409 (894.795916ms)
+ℹ Error: Test "Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409" at src/application/restaurant-pending-edit.test.ts:1:9465 generated asynchronous activity after the test ended. This activity created the error "AssertionError [ERR_ASSERTION]: Missing expected rejection (StaleTaskVersionError)." and would have caused the test to fail, but instead triggered an unhandledRejection event.
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12843.885542
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:41167
+✖ Round25 R1 committed successor stop across message (827.800584ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:41167
+✖ Round25 R1 committed successor edit across message (479.85775ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:41167
+✖ Round25 R1 committed successor stop across worker-cleanup (451.6175ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:41167
+✖ Round25 R1 committed successor edit across worker-cleanup (450.144041ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/restaurant-pending-edit.test.ts:1:9465
+✖ Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409 (894.795916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   calls: 0,
+  +   deadlineAt: 1795446154808,
+  +   elapsedMs: 1,
+  +   startedAt: 1795445654808
+  -   calls: 4,
+  -   deadlineAt: 1795446154739,
+  -   elapsedMs: 62,
+  -   startedAt: 1795445654739
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:93:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { calls: 0, startedAt: 1795445654808, deadlineAt: 1795446154808, elapsedMs: 1 },
+    expected: { calls: 4, startedAt: 1795445654739, deadlineAt: 1795446154739, elapsedMs: 62 },
+    operator: 'deepStrictEqual'
+  }
