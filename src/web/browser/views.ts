@@ -7,7 +7,7 @@ import { availabilityExpired, clearSlotSelection, currentHandoff, forgetSlotSele
 import { closePhotos, renderPhotos } from "./photos.js";
 import { canAskCurrentPlace, canRefresh, canShortlist, candidate, ids, questionPending, sourceFor } from "./queries.js";
 import { savePosition } from "./position.js";
-import { availabilityTime, displayDate, displayTime, displayTitle, link, money, safeLink, sourceName } from "./format.js";
+import { availabilityTime, displayDate, displayTime, displayTitle, link, money, readAt, safeLink, sourceName } from "./format.js";
 import { resizeMessage, syncComposerPlaceholder, updateComposerClearance } from "./composer.js";
 import { actions } from "./actions.js";
 const caseScroller=$("case-workspace");
@@ -58,7 +58,7 @@ export function renderSourceCategories(id:string){
  if(disagreement)for(const [label,source]of sources){const row=element('p',undefined,'source-category-row');row.append(link(label+' ↗',source.url),document.createTextNode(' '),element('span',[...source.terms.values()].slice(0,3).join(', ')));target.append(row);}
  target.hidden=!disagreement;
 }
-export function conditionRow(item:Condition){const row=element('div',undefined,'condition-row');row.append(element('span',displayTitle(item.text),'condition-name'),document.createTextNode(' '),element('span',({MET:'Confirmed',NOT_MET:'Not a match',NOT_CHECKED:'Unverified'})[item.status],'condition-status'));return row;}
+export function conditionRow(item:Condition){const row=element('div',undefined,'condition-row');row.append(element('span',displayTitle(item.text),'condition-name'),document.createTextNode(' '),element('span',({MET:'Confirmed',NOT_MET:'Not a match',NOT_CHECKED:'Unverified'})[item.status],'condition-status'+(item.status==='MET'?' confirmed':'')));return row;}
 export function renderDelivery(){
  const r=requireView().restaurant,id=state.ui.candidateId;
  const offers=freshOffers(id);
@@ -74,7 +74,7 @@ export function renderDetails(){
  const c=candidate();if(!c)return;const r=requireView().restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates?.[id]||[];
  const asking=state.asking||questionPending(),refreshBusy=!asking&&(r.progress.active||state.blocked),refreshSlots=r.readStatus.canRetry||ids().some(cid=>(r.availability[cid]||[]).length||r.availabilityChecks[cid]?.status==='AVAILABLE')||r.intentDraft?.target?.goal==='AVAILABILITY';
  show('refresh',requireView().case.phase==='PRESENT_RESULTS');$('refresh').disabled=refreshBusy||asking;if(asking)$('refresh').removeAttribute('aria-busy');else $('refresh').setAttribute('aria-busy',String(refreshBusy));text('refresh',refreshBusy?'Refreshing…':refreshSlots?'Refresh availability':'Refresh details');show('details-refresh-status',refreshBusy&&requireView().case.phase!=='PRESENT_RESULTS');
- text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source?.observedAt);if(source)text('evidence',sourceName(source.provider,source.sourceUrl)+' · Checked '+displayTime(source.observedAt));
+ text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source?.observedAt);if(source)text('evidence',sourceName(source.provider,source.sourceUrl)+' · '+readAt(source.observedAt));
  const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{
   target.append(element('p',c.restaurant.address,'about-address'));
   const groups=new Map<string,{url:string;readAt?:string;quotes:SourceExcerpt[];values:Set<string>}>(),categories=new Map<string,string>(),quotedCategories:string[]=[];
@@ -82,7 +82,7 @@ export function renderDetails(){
   const generic=new Set(['','restaurant','food','point of interest','establishment','store','food store']);
   const sourceGroup=(url:string,at:string|undefined)=>{const key=JSON.stringify([url,at??null]);let group=groups.get(key);if(!group){group={url,readAt:at,quotes:[],values:new Set()};groups.set(key,group);}return group;};
   for(const item of conditions){const row=element('div',undefined,'fact');row.append(conditionRow(item));
-   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.filter(e=>e.candidateId===id&&(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl&&(!q.evidenceId||e.evidenceId===q.evidenceId));const readings=[...new Set(evidence.map(e=>e.observedAt))],at=readings.length===1?readings[0]:undefined;sourceGroup(q.sourceUrl,at).quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(at?{readAt:at}:{})});}
+   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.filter(e=>e.candidateId===id&&(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl&&(!q.evidenceId||e.evidenceId===q.evidenceId));const readings=[...new Set(evidence.map(e=>e.observedAt))],at=readings.length===1?readings[0]:undefined;const group=sourceGroup(q.sourceUrl,at);if(q.quote.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim()!==item.text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim())group.quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(at?{readAt:at}:{})});}
    if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
   }
   for(const fact of facts){

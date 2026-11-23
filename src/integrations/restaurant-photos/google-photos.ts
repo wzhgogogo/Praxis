@@ -74,10 +74,12 @@ export class GooglePlacesPhotos implements GooglePhotoTransport {
       if(hop===3)throw new PhotoReadError('GOOGLE_PHOTO_REDIRECT_LIMIT');location=new URL(response.headers.get('location')??'',url).href;await response.body?.cancel();
     }
     const contentType=(response.headers.get('content-type')??'').split(';')[0];
-    if(response.status!==200||!['image/jpeg','image/png','image/webp'].includes(contentType!))throw new PhotoReadError('GOOGLE_PHOTO_IMAGE_REJECTED');
-    const body=await bytes(response,8_000_000),image=sharp(body,{limitInputPixels:20_000_000,failOn:'warning',animated:false}),meta=await image.metadata();
+    if(response.status!==200)throw new PhotoReadError('GOOGLE_PHOTO_HTTP_'+response.status);
+    if(!['image/jpeg','image/png','image/webp'].includes(contentType!))throw new PhotoReadError('GOOGLE_PHOTO_IMAGE_REJECTED');
+    const body=await bytes(response,8_000_000),image=sharp(body,{limitInputPixels:20_000_000,failOn:'warning',animated:false});
+    const meta=await image.metadata().catch(()=>{throw new PhotoReadError('GOOGLE_PHOTO_DECODE_FAILED');});
     if(!['jpeg','png','webp'].includes(meta.format??'')||(meta.pages??1)>1||!meta.width||!meta.height)throw new PhotoReadError('GOOGLE_PHOTO_DECODE_FAILED');
-    await image.raw().toBuffer();bounded.throwIfAborted();
+    await image.raw().toBuffer().catch(()=>{throw new PhotoReadError('GOOGLE_PHOTO_DECODE_FAILED');});bounded.throwIfAborted();
     // Validate in memory, return the original sized bytes; no Google transcoding/storage.
     return {body,contentType:contentType as 'image/jpeg'|'image/png'|'image/webp',width:meta.width,height:meta.height};
   }

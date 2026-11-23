@@ -46,7 +46,7 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
     const text=await page.locator("#details-content").innerText();
     assert.match(text,/8,000/);assert.match(text,/Around ¥10,000 per person\s*Confirmed/);assert.match(text,/Observed price:\s*Dinner course/);
     assert.doesNotMatch(text,/7,500|No-show: old rule|Discovery only/);
-    assert.equal(await page.getByRole("link",{name:"Source page",exact:true}).first().getAttribute("href"),current.sourceUrl);
+    assert.equal(await page.locator(".citation-footer a").first().getAttribute("href"),current.sourceUrl);
     await page.locator("#details-back").click();
     assert.equal(await page.locator("#card-counter").innerText(),"1 of 1","discovery-only facts cannot become a result");
     assert.match(await page.locator("#availability-status").innerText(),/Sep 18/);
@@ -115,15 +115,15 @@ test("G1 Web asks only for the displayed outlet and renders quotes, absence and 
     assert.deepEqual(Object.keys(submitted[0]!).sort(),["candidateId","question","requestId","taskVersion"]);
     assert.equal(submitted[0]!.candidateId,"a");assert.equal(submitted[0]!.taskVersion,1);
     assert.equal(await page.locator("#question-result blockquote").innerText(),"カード可（VISA、Master）");
-    assert.equal(await page.locator("#answer-sheet").getByRole("link",{name:"Source page",exact:true}).getAttribute("href"),"https://merchant.example/a");
+    assert.equal(await page.locator("#answer-sheet .citation-footer a").getAttribute("href"),"https://merchant.example/a");
     assert.match(await page.locator("#question-result").innerText(),/They accept Visa and MasterCard/);
-    assert.match(await page.locator("#question-result").innerText(),/Checked Wed, Oct 28 · 00:00 JST/);
+    assert.match(await page.locator("#question-result").innerText(),/Checked Oct 28/);
     assert.doesNotMatch(await page.locator("#question-result").innerText(),/Please confirm/);
     await page.locator("#answer-dismiss").click();
     variant="absence";await ask("Does the page list a taxi service?");
     assert.match(await page.locator("#question-result").innerText(),/Not stated on the page/);
     await page.locator("#question-result summary").click();
-    assert.equal(await page.locator("#answer-sheet").getByRole("link",{name:"Source page",exact:true}).getAttribute("href"),"https://merchant.example/a");
+    assert.equal(await page.locator("#answer-sheet .citation-footer a").getAttribute("href"),"https://merchant.example/a");
     await page.locator("#answer-dismiss").click();
     variant="sensitive";await page.setViewportSize({width:390,height:844});await ask("What does the page say about wheelchair access?");
     await page.locator("#question-result summary").click();

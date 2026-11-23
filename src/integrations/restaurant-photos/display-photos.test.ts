@@ -52,3 +52,28 @@ test('A changed candidate binding cannot reset the one-Details budget',async()=>
  const google=await createGooglePhotoFixture(),source=await createPhotoSourceFixture(),reader=new RestaurantDisplayPhotos(google.transport,source.http),v=view();await reader.read(v,'fixture:outlet','cover',signal);
  v.restaurant.candidates[0]!.restaurant.address='A different address';const changed=await reader.read(v,'fixture:outlet','cover',signal);assert.equal(changed.requests?.googleDetails,1);assert.equal(google.calls.filter(c=>c.headers['x-goog-fieldmask']).length,1);assert.notEqual(changed.status,'READY','the old photo cannot donate a changed outlet binding');
 });
+
+import {googlePhotoRecoveryFixture} from '../../harness/google-photo-recovery-fixture.js';
+for(const mode of ['transient','404','invalid','persistent'] as const)test('Round25 M2 real Google adapter '+mode+' obeys recovery and media budget',async()=>{
+ const source=await googlePhotoRecoveryFixture(mode),reader=new RestaurantDisplayPhotos(source.transport),v=view(),gallery=await reader.read(v,'fixture:outlet','gallery',signal),second=gallery.photos[1]!;
+ const successful=await reader.content(v,'fixture:outlet',gallery.photos[0]!.id,signal);assert.ok(successful?.body.length);
+ if(mode==='transient'||mode==='persistent'){
+  await assert.rejects(reader.content(v,'fixture:outlet',second.id,signal),{code:'GOOGLE_PHOTO_HTTP_502'});
+  assert.equal((await reader.read(v,'fixture:outlet','gallery',signal)).photos.length,8);
+  if(mode==='transient'){
+   for(const photo of gallery.photos)assert.ok((await reader.content(v,'fixture:outlet',photo.id,signal))?.body.length);
+   const final=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(final.photos.length,8);assert.equal(final.requests!.googleDetails,1);assert.equal(final.requests!.googleMedia,18);
+  }else{
+   for(let i=0;i<12;i++)await reader.content(v,'fixture:outlet',second.id,signal).catch(()=>{});
+   const final=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(final.requests!.googleMedia,20);assert.equal(source.calls.filter(u=>u.includes('/media')||u.includes('googleusercontent')).length,20);
+   assert.ok((await reader.content(v,'fixture:outlet',gallery.photos[0]!.id,signal))?.body.length);assert.equal(final.photos.length,7);
+  }
+ }else{
+  assert.equal(await reader.content(v,'fixture:outlet',second.id,signal),undefined);const final=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(final.photos.length,7);assert.equal(final.requests!.googleMedia,4);assert.equal(await reader.content(v,'fixture:outlet',second.id,signal),undefined);
+ }
+});
+test('Round25 M2 an interrupted sole Details allowance cannot promise a complete Google album on reconnect',async()=>{
+ const google=await googlePhotoRecoveryFixture('details'),website=await createPhotoSourceFixture(),reader=new RestaurantDisplayPhotos(google.transport,website.http),v=view();
+ for(let n=0;n<3;n++){const result=await reader.read(v,'fixture:outlet','gallery',signal);assert.equal(result.photos.length,3);assert.equal(result.photos[0]!.provider,'WEBSITE');assert.equal(result.requests!.googleDetails,1);assert.equal(result.requests!.googleMedia,0);}
+ assert.equal(google.calls.length,1,'reconnect cannot reset/re-spend Details budget');
+});

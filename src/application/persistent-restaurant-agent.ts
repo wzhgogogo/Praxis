@@ -644,7 +644,6 @@ export class PersistentRestaurantAgentApplication {
           finally { this.committingReads.delete(envelope.id); }
 
           if (!result.duplicateEvent) {
-            this.modelRunBudget?.claim?.();
             await this.store.appendMessage({
               id: "message:0:" + hash(record.id + ":" + input.requestId).slice(0,24), conversationId:record.id,
               role:"USER",content:input.message,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString(),
@@ -1263,8 +1262,10 @@ export class PersistentRestaurantAgentApplication {
     handle.startedVersion = snapshot.version;
     handle.readRunId = restaurantInvestigationReadRunId(snapshot.domainState, snapshot.runId);
     const owner = this.currentRead(snapshot.id);
-    if (!owner || owner.startedVersion <= handle.startedVersion) this.preparingHandles.set(snapshot.id, handle);
-    this.modelRunBudget?.claim?.();
+    if (!owner || owner.startedVersion <= handle.startedVersion) {
+      this.preparingHandles.set(snapshot.id, handle);
+      this.modelRunBudget?.claim?.();
+    }
   }
 
   private async runAfterUserInput(record: ConversationRecord, requestId: string, started: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>, handle: ActiveRead, runDeadlineSignal?: AbortSignal, questionDeadline?: Date, userSelection?: UserBookingSelectionRequest): Promise<void> {

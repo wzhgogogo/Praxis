@@ -1,0 +1,226 @@
+{
+  "sha": "977800a940c1dae7869b8435a7c1737cb5dd5d81",
+  "mode": "OFFLINE_OBSERVATIONS_BEFORE_SEPARATE_ORACLE",
+  "rows": [
+    {
+      "name": "Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409",
+      "checks": [
+        {
+          "method": "deepEqual",
+          "args": [
+            {
+              "calls": 4,
+              "startedAt": 1795447108702,
+              "deadlineAt": 1795447608702,
+              "elapsedMs": 51
+            },
+            {
+              "calls": 4,
+              "startedAt": 1795447108702,
+              "deadlineAt": 1795447608702,
+              "elapsedMs": 51
+            }
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            {
+              "elapsedMs": 51,
+              "agentDecisions": 3,
+              "googleRequests": {
+                "limit": 100,
+                "total": 2,
+                "discovery": 1,
+                "placeDetails": 0,
+                "namedPlaceResolution": 1,
+                "reverseAddressObservation": 0
+              },
+              "modelCallsStarted": 4
+            },
+            {
+              "elapsedMs": 51,
+              "agentDecisions": 3,
+              "googleRequests": {
+                "limit": 100,
+                "total": 2,
+                "discovery": 1,
+                "placeDetails": 0,
+                "namedPlaceResolution": 1,
+                "reverseAddressObservation": 0
+              },
+              "modelCallsStarted": 4
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "StaleTaskVersionError",
+            "StaleTaskVersionError",
+            "request rejection class"
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            {
+              "calls": 4,
+              "startedAt": 1795447108702,
+              "deadlineAt": 1795447608702,
+              "elapsedMs": 51
+            },
+            {
+              "calls": 4,
+              "startedAt": 1795447108702,
+              "deadlineAt": 1795447608702,
+              "elapsedMs": 51
+            }
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            {
+              "elapsedMs": 51,
+              "agentDecisions": 3,
+              "googleRequests": {
+                "limit": 100,
+                "total": 2,
+                "discovery": 1,
+                "placeDetails": 0,
+                "namedPlaceResolution": 1,
+                "reverseAddressObservation": 0
+              },
+              "modelCallsStarted": 4
+            },
+            {
+              "elapsedMs": 51,
+              "agentDecisions": 3,
+              "googleRequests": {
+                "limit": 100,
+                "total": 2,
+                "discovery": 1,
+                "placeDetails": 0,
+                "namedPlaceResolution": 1,
+                "reverseAddressObservation": 0
+              },
+              "modelCallsStarted": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round25 R2 direct refresh publishes its own usage and deadline",
+      "checks": [
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            500000,
+            500000
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round25 R2 direct batch publishes its own usage and deadline",
+      "checks": [
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            500000,
+            500000
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round25 R2 direct location publishes its own usage and deadline",
+      "checks": [
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            500000,
+            500000
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            3,
+            3
+          ]
+        }
+      ]
+    }
+  ]
+}

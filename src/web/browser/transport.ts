@@ -1,3 +1,4 @@
+import {resumePhotos} from './photos.js';
 import { savePosition } from "./position.js";
 import type { CaseSummary, WorkspaceView } from './view-contracts.js';
 import { $, clearError, element, report, requireView, show, state } from "./runtime.js";
@@ -76,7 +77,7 @@ export function openStream(caseId:string,nav:number){
   closeStream();show('reconnecting',false);
   const stream=new EventSource(casePath(caseId)+'/events');state.stream=stream;state.streamCaseId=caseId;
   const current=()=>currentCase(nav,caseId)&&state.stream===stream;
-  stream.addEventListener('open',()=>{if(current())clearReconnect();});
+  stream.addEventListener('open',()=>{if(current()){clearReconnect();resumePhotos();}});
   stream.addEventListener('error',()=>{if(!current())return;if(stream.readyState===EventSource.CLOSED)clearReconnect();else if(stream.readyState===EventSource.CONNECTING&&reconnectTimer===undefined&&$('reconnecting').hidden){const timer=setTimeout(()=>{if(reconnectTimer!==timer)return;reconnectTimer=undefined;if(current()&&stream.readyState===EventSource.CONNECTING)show('reconnecting',true);},5000);reconnectTimer=timer;}scheduleCaseListSync();});
   stream.addEventListener('case',event=>{if(!current())return;try{receiveCase(JSON.parse(event.data) as WorkspaceView,nav,caseId);}catch(error){report(error);}});
   scheduleCaseListSync();

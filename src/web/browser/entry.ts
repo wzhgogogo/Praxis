@@ -11,7 +11,7 @@ import { closePlans, loadCase, moveCard, newPlan, setView, syncBrand, syncSideba
 import { canAskCurrentPlace, canRefresh, canShortlist, candidate, ids } from "./queries.js";
 import { key, savePosition } from "./position.js";
 import { draftKey } from "./session.js";
-import { blurComposer, focusAdjustment, resizeMessage, setMessage, syncComposerViewport, updateComposerClearance } from "./composer.js";
+import { blurComposer, cancelClarificationReveal, focusComposer, focusAdjustment, resizeMessage, setMessage, syncComposerViewport, updateComposerClearance } from "./composer.js";
 import { cancelPreparation, clearEntryTransition, fixturePresentation } from "./preview.js";
 'use strict';
 connectWorkspace({render,accept,api,casePath,closeAnswer,currentCase,editCondition,finishPreparation,loadCase,openAnswer,openStream,refreshCaseLinks,reportCaseError,resetCaseRequests,scheduleCaseListSync,setView,updateCases});
@@ -79,13 +79,14 @@ export function editCondition(button:HTMLButtonElement,label:string,kind:Conditi
 }
 
 $('message').addEventListener('blur',blurComposer);
-$('message').addEventListener('focus',syncComposerViewport);
+$('message').addEventListener('focus',focusComposer);
 window.visualViewport?.addEventListener('resize',syncComposerViewport);
 window.visualViewport?.addEventListener('scroll',syncComposerViewport);
 $('message').addEventListener('input',resizeMessage);
 $('message').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
 new ResizeObserver(updateComposerClearance).observe($('workspace-composer'));window.addEventListener('resize',()=>{syncComposerViewport();resizeMessage();updateComposerClearance();if(state.conditionEditor)state.conditionEditor.position();});
 const caseScroller=$('case-workspace');
+caseScroller.addEventListener('wheel',cancelClarificationReveal,{passive:true});caseScroller.addEventListener('touchmove',cancelClarificationReveal,{passive:true});
 new IntersectionObserver(entries=>{$('topbar').classList.toggle('scrolled',!caseScroller.hidden&&!entries[0].isIntersecting);},{root:caseScroller,threshold:0}).observe($('topbar-sentinel'));
 
 $('cover-open').onclick=openPhotos;$('detail-photo-open').onclick=openPhotos;$('photo-close').onclick=closePhotos;

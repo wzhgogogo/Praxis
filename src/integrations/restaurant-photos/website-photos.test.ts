@@ -18,8 +18,9 @@ test('Photo cache isolates Cases, deduplicates concurrent content, expires and r
   now+=600_001;assert.equal(await reader.content(one,'fixture:outlet',cover.photos[0]!.id,signal),undefined);assert.equal((await reader.read(one,'fixture:outlet','cover',signal)).status,'READY');assert.equal(source.calls.filter(c=>c.kind==='html').length,2,'expired cache can obtain a fresh normal image');
 });
 
-test('Photo failures retain safe transport name/cause code and never expose the original message',async()=>{
+test('Photo transport interruptions remain retryable rather than cached as empty; proxy owns public redaction',async()=>{
   const error=new TypeError('Do not leak a provider URL or credential',{cause:{code:'ECONNRESET'}});
-  const reader=new RestaurantWebsitePhotos({async get(){throw error;}}),result=await reader.read(view(),'fixture:outlet','cover',new AbortController().signal);
-  assert.equal(result.status,'UNAVAILABLE');assert.equal(result.reasonCode,'TypeError:ECONNRESET');assert.equal(JSON.stringify(result).includes('Do not leak'),false);
+  let calls=0;const reader=new RestaurantWebsitePhotos({async get(){calls++;throw error;}});
+  for(let n=0;n<2;n++)await assert.rejects(reader.read(view(),'fixture:outlet','cover',new AbortController().signal),e=>e===error);
+  assert.equal(calls,2,'a recoverable list failure is not cached as a ten-minute empty album');
 });

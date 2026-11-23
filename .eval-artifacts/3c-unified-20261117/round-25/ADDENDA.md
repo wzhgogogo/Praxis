@@ -1,0 +1,5 @@
+# User addenda integrated into Round25 frozen inputs
+
+1. M2 explicitly includes integrations/restaurant-photos/google-photos.ts. Google CDN404,502 and invalid type previously collapsed into GOOGLE_PHOTO_IMAGE_REJECTED. Classify in the real adapter; full recovery requires an existing reference list and remaining media budget. Failed first Details spends the unique allowance. Real adapter/fake transport must cover temporary502 recovery, permanent404 skip and bounded persistent502.
+2. C1 two executable service-host tests load source modules through tsx and freshly compiled dist modules from the same frozen SHA, use createLocalWebServer/PGlite/loopback CDP and the production session path. Do not use CLI FIXTURE as proof (opens PostgreSQL before mode check, bypasses Cloudflare). Dist checks must run after Build.
+3. V3 type is RestaurantPageCitation in domains/restaurant/page-question.ts. Positive table source containing two rows passes through production extraction into Q&A sheet/history. Repeated Available without unique original cell location retains independent originals. Answer prose remains unchanged.

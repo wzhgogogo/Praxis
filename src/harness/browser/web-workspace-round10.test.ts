@@ -835,7 +835,7 @@ test("Round13 UI: About shows pending and newest-first answers and keeps rejecte
       await history.last().scrollIntoViewIfNeeded();
       await screenshot(page, "round13-question-history");
       await history.first().locator("summary").click();
-      assert.match(await history.first().innerText(), /Checked Thu, Oct 29 · 19:00 JST/);
+      assert.match(await history.first().innerText(), /Checked Oct 29/);
       assert.match(await page.locator("#details-content .about-categories").innerText(), /Chinese/);
       assert.equal(await page.locator("#details-content .citation-footer").count(), 0, "Round23 categories alone must not create orphan source footers");
 

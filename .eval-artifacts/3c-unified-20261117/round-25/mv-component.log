@@ -1,0 +1,155 @@
+✔ G1 answers a payment question outside the original request conditions with an exact source quotation (9.62025ms)
+✔ G1 reuses current-run bound pages without opening a new session; whitespace is the only quote normalization (1.518875ms)
+✔ G1 an asynchronous model reply cannot attach a quotation to a subsequently mutated cache page (0.556875ms)
+▶ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment
+  ✔ fabricated quotation (0.20175ms)
+  ✔ negation removed (0.127ms)
+  ✔ other document (0.139042ms)
+  ✔ uncited answer (0.356208ms)
+  ✔ URL override (0.151667ms)
+✔ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment (1.636375ms)
+✔ G1 same name is not the same outlet: existing identity reader rejects the other branch before model answering (0.502125ms)
+✔ G1 native page observer preserves the old fact result and only emits after existing same-outlet verification (6.749625ms)
+▶ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots
+  ✔ other run (0.069542ms)
+  ✔ old read (0.036542ms)
+  ✔ old identity (0.0305ms)
+  ✔ other candidate (0.037625ms)
+  ✔ weak identity (0.027875ms)
+  ✔ unbound source (0.035959ms)
+  ✔ non-page provider (0.030958ms)
+  ✔ redirect mismatch (0.031459ms)
+  ✔ loading (0.043292ms)
+  ✔ truncated line (0.061042ms)
+✔ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots (0.638583ms)
+▶ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes
+  ✔ ALLERGY (0.682542ms)
+  ✔ RELIGIOUS_DIET (0.236125ms)
+  ✔ ACCESSIBILITY (0.335875ms)
+✔ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes (1.355833ms)
+✔ G1 reception mode comes from explicit source text without inventory; time-sensitive source statements retain read time (0.601458ms)
+✔ G1 each quotation keeps its own page and read time; bounded excerpts cannot establish page silence (1.879375ms)
+✔ G1 saved merchant fragment is quoted in place with provenance; it is not a live or identity-validation claim (7.192292ms)
+✔ G1 propagates shared model-budget exhaustion and cancellation instead of inventing an answer (0.399708ms)
+✔ G1 revision returns a short English answer with Japanese table label and value quotations (0.270917ms)
+✔ G1 rejects a customer review quotation using the visible heading outline, independent of private markers (0.335667ms)
+✔ G1 returns structured absence and confirmation flags without display boilerplate (0.211833ms)
+✔ G1 source limits are independent of HARD limits and reject genuinely oversized pages (0.642583ms)
+▶ G1 rejects missing or invalid model classifications and malformed answer fields
+  ✔ missing conflict flag (0.074542ms)
+  ✔ non-boolean conflict flag (0.04375ms)
+  ✔ missing category (0.045125ms)
+  ✔ unknown category (0.040834ms)
+  ✔ non-string category (0.0485ms)
+  ✔ empty answer (0.042291ms)
+  ✔ overlong answer (0.044166ms)
+✔ G1 rejects missing or invalid model classifications and malformed answer fields (0.508625ms)
+✔ G1 preserves a model's concise conflict answer and both source quotations (0.198875ms)
+✔ G1 review exclusion follows visible headings after private markers are renamed and preserves neighbouring merchant statements (0.473083ms)
+✔ G1 preserves parent IDs for unsplit lines while split lines require complete sentence citations (0.485208ms)
+✖ Round25 V3 production table extraction proves only unique same-row cells: same-row (1.588375ms)
+✖ Round25 V3 production table extraction proves only unique same-row cells: crossed (0.109208ms)
+✖ Round25 V3 production table extraction proves only unique same-row cells: repeated (0.073333ms)
+✖ Round25 V3 production table extraction proves only unique same-row cells: legacy (0.05925ms)
+✔ Google display uses IDs-only details once, original decoded bytes and complete authors, with no credentials on CDN or DTO (107.826ms)
+✔ All eight Google gallery images load exactly once: one Details and sixteen media/CDN dispatches (56.046125ms)
+✔ Google CDN redirects consume the twenty-dispatch budget; the twenty-first send is refused while prior images stay readable (46.886334ms)
+✔ Google cover-download-fails falls back through the existing bound website source (65.877167ms)
+✔ Google cover-decode-fails falls back through the existing bound website source (61.223292ms)
+✔ Google empty falls back through the existing bound website source (56.013542ms)
+✔ Google unavailable falls back through the existing bound website source (56.470791ms)
+✔ Google no-id falls back through the existing bound website source (44.113084ms)
+✔ Individual gallery corruption is isolated, budgets include media/CDN hops and both-source failure is honest (74.445667ms)
+✔ A changed candidate binding cannot reset the one-Details budget (39.93775ms)
+✔ Round25 M2 real Google adapter transient obeys recovery and media budget (12.372958ms)
+✔ Round25 M2 real Google adapter 404 obeys recovery and media budget (3.027834ms)
+✔ Round25 M2 real Google adapter invalid obeys recovery and media budget (2.837541ms)
+✔ Round25 M2 real Google adapter persistent obeys recovery and media budget (3.252417ms)
+✔ Round25 M2 an interrupted sole Details allowance cannot promise a complete Google album on reconnect (34.23425ms)
+✔ Photo cache isolates Cases, deduplicates concurrent content, expires and refuses an old source binding (87.332083ms)
+✔ Photo failures retain safe transport name/cause code and never expose the original message (0.642042ms)
+✔ Round20 citations group only identical URL/readAt and retain bilingual excerpt association (1.119792ms)
+✔ Round23 Q&A cleanup recognizes only smoking headers in the same URL/readAt group (1.049292ms)
+✔ Round24 U5 Q&A smoking states retain qualifiers and remove only their own same-reading header (0.595625ms)
+ℹ tests 69
+ℹ suites 0
+ℹ pass 65
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 905.100125
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:6:2726
+✖ Round25 V3 production table extraction proves only unique same-row cells: same-row (1.588375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/restaurant-facts/model-page-question.test.ts:414:63)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:6:2726
+✖ Round25 V3 production table extraction proves only unique same-row cells: crossed (0.109208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/restaurant-facts/model-page-question.test.ts:414:63)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:6:2726
+✖ Round25 V3 production table extraction proves only unique same-row cells: repeated (0.073333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/restaurant-facts/model-page-question.test.ts:414:63)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:6:2726
+✖ Round25 V3 production table extraction proves only unique same-row cells: legacy (0.05925ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/restaurant-facts/model-page-question.test.ts:414:63)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }

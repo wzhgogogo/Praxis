@@ -1,0 +1,95 @@
+✖ Round24 UI: U4 390 native middle-photo pinch and multi-pointer isolation preserves gallery controls (1716.634ms)
+✖ Round24 UI: U4 1440 real mouse dragging preserves gallery controls (1235.56075ms)
+✔ Round25 UI: V3 390 source-table same-row reaches persisted Q&A sheet and history (1690.211417ms)
+✔ Round25 UI: V3 390 source-table crossed reaches persisted Q&A sheet and history (1113.516375ms)
+✔ Round25 UI: V3 390 source-table repeated reaches persisted Q&A sheet and history (983.19375ms)
+✔ Round25 UI: V3 390 source-table legacy reaches persisted Q&A sheet and history (983.795167ms)
+✔ Round25 UI: V3 1440 source-table same-row reaches persisted Q&A sheet and history (897.33725ms)
+✔ Round25 UI: V3 1440 source-table crossed reaches persisted Q&A sheet and history (917.501875ms)
+✔ Round25 UI: V3 1440 source-table repeated reaches persisted Q&A sheet and history (932.977333ms)
+✔ Round25 UI: V3 1440 source-table legacy reaches persisted Q&A sheet and history (915.406959ms)
+✔ Round25 UI: R5 V1 V2 V4 390 precise weak source identity and compact theme (828.8645ms)
+✔ Round25 UI: R5 V1 V2 V4 1440 precise weak source identity and compact theme (836.44875ms)
+✖ Round25 UI: M1 M3 390 Chinese clarification keyboard height 500 (775.707125ms)
+✖ Round25 UI: M1 M3 390 Chinese clarification keyboard height 360 (796.578ms)
+✔ Round25 UI: M2 390 current album recovers through real proxy list (3850.933416ms)
+✔ Round25 UI: M2 390 current album recovers through real proxy transient (4334.756666ms)
+✔ Round25 UI: M2 390 current album recovers through real proxy persistent (4290.66225ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 13
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24791.201333
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round24-photos.test.ts:1:1441
+✖ Round24 UI: U4 390 native middle-photo pinch and multi-pointer isolation preserves gallery controls (1716.634ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '1 of 8' !== '2 of 8'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-photos.test.ts:20:54)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '1 of 8',
+    expected: '2 of 8',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round24-photos.test.ts:1:1441
+✖ Round24 UI: U4 1440 real mouse dragging preserves gallery controls (1235.56075ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-photos.test.ts:25:68)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round25.test.ts:1:8010
+✖ Round25 UI: M1 M3 390 Chinese clarification keyboard height 500 (775.707125ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    page.mouse.wheel(0,-160)
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:61:86)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:56:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round25.test.ts:1:8010
+✖ Round25 UI: M1 M3 390 Chinese clarification keyboard height 360 (796.578ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    dispatchEvent(new Event('scroll'))
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:61:277)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:56:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

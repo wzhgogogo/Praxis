@@ -407,3 +407,13 @@ test("G1 preserves parent IDs for unsplit lines while split lines require comple
   assert.equal(sentence.status, "ANSWERED");
   assert.equal(sentence.citations[0]!.text, "Cards accepted.");
 });
+
+import {questionRowFixture} from '../../harness/question-row-fixture.js';
+import {questionCitations} from '../../web/browser/citation-groups.js';
+for(const mode of ['same-row','crossed','repeated','legacy'] as const)test('Round25 V3 production table extraction proves only unique same-row cells: '+mode,async()=>{
+ const result=await questionRowFixture(candidate,mode);assert.equal(result.status,'ANSWERED');if(result.status!=='ANSWERED')return;
+ const rendered=questionCitations(result.citations).map(row=>row.text);
+ assert.equal(result.answer,'The page lists private-room information. Please check the quoted rows.');
+ if(mode==='same-row')assert.deepEqual(rendered,['Private rooms: Available','For 2 people or more.']);
+ else {assert.ok(!rendered.some(text=>text?.startsWith('Private rooms:')));assert.equal(rendered[0],'Private rooms');}
+});

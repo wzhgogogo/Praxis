@@ -1,3 +1,4 @@
+import {recoverablePhotoFailure} from '../integrations/restaurant-photos/website-photos.js';
 import { workspaceAsset } from "../web/workspace-assets.js";
 import { GooglePlacesPhotos } from "../integrations/restaurant-photos/google-photos.js";
 import { withBookingHandoffs } from "../application/restaurant-booking-handoff.js";
@@ -193,6 +194,9 @@ export interface LocalWebServerOptions {
 
 export function createLocalWebServer(options: LocalWebServerOptions): Server {
   const photos = options.readAssembly?.photos;
+  // Local failed-img classification; HEAD never downloads from a photo source.
+  const photoStatuses = new Map<string, number>();
+  const rememberPhotoStatus = (key:string,status:number) => {photoStatuses.set(key,status);while(photoStatuses.size>128)photoStatuses.delete(photoStatuses.keys().next().value!);};
   const bookingHandoffs = options.bookingHandoffs ?? options.readAssembly?.bookingHandoffs;
   const project = (view: RestaurantCaseView): RestaurantCaseView => bookingHandoffs
     ? withBookingHandoffs(view, bookingHandoffs.readPrepared(view), bookingHandoffs.now()) : view;
@@ -274,7 +278,7 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       }
       const caseMatch = /^\/api\/cases\/([^/]+)$/.exec(url.pathname);
       const photosMatch = /^\/api\/cases\/([^/]+)\/candidates\/([^/]+)\/photos(?:\/([a-f0-9]{32})\/content)?$/.exec(url.pathname);
-      if (method === "GET" && photosMatch) {
+      if ((method === "GET" || method === "HEAD" && !!photosMatch?.[3]) && photosMatch) {
         const view = await options.application.getCase(user.id, decodeURIComponent(photosMatch[1]!));
         const candidateId = decodeURIComponent(photosMatch[2]!);
         if (!view.restaurant.candidates.some(item => item.restaurant.id === candidateId)) { json(response,404,{error:"Not found"}); return; }
@@ -285,16 +289,20 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         const controller = new AbortController();
         response.on("close", () => { if (!response.writableEnded) controller.abort(); });
         if (photosMatch[3]) {
+          const statusKey=JSON.stringify([user.id,url.pathname]);
+          if(method==='HEAD'){response.writeHead(photoStatuses.get(statusKey)??503,{'cache-control':'private, no-store'});response.end();return;}
           try {
             const image = await photos?.content(view,candidateId,photosMatch[3],controller.signal);
-            if (!image) { json(response,410,{error:"Photo unavailable"}); return; }
+            if (!image) {rememberPhotoStatus(statusKey,410);json(response,410,{error:"Photo unavailable"}); return; }
+            rememberPhotoStatus(statusKey,200);
             response.writeHead(200,{"content-type":image.contentType,"cache-control":"private, no-store","x-content-type-options":"nosniff","content-security-policy":"default-src 'none'","content-length":String(image.body.byteLength)});
             response.end(image.body);
-          } catch { if (!response.destroyed) json(response,410,{error:"Photo unavailable"}); }
+          } catch(error) {const status=recoverablePhotoFailure(error)?503:410;rememberPhotoStatus(statusKey,status);if (!response.destroyed) json(response,status,{error:status===503?"Photo temporarily unavailable":"Photo unavailable"}); }
         } else {
-          const result = photos ? await photos.read(view,candidateId,scope as "cover"|"gallery",controller.signal,typeof request.headers["x-praxis-failed-photo"]==="string"&&/^[a-f0-9]{32}$/.test(request.headers["x-praxis-failed-photo"])?request.headers["x-praxis-failed-photo"]:undefined)
+          try {const result = photos ? await photos.read(view,candidateId,scope as "cover"|"gallery",controller.signal,typeof request.headers["x-praxis-failed-photo"]==="string"&&/^[a-f0-9]{32}$/.test(request.headers["x-praxis-failed-photo"])?request.headers["x-praxis-failed-photo"]:undefined)
             : {candidateId,status:"EMPTY",photos:[],expiresAt:new Date(Date.now()+600_000).toISOString()};
           json(response,200,{...result},{"cache-control":"private, no-store"});
+          }catch(error){if(!recoverablePhotoFailure(error))throw error;json(response,503,{error:'Photo list temporarily unavailable'},{'cache-control':'private, no-store'});}
         }
         return;
       }

@@ -3,7 +3,7 @@ import { $, element, requireUser, requireView, show, state, text } from "./runti
 import { candidate } from "./queries.js";
 import { link } from "./format.js";
 import { actions } from "./actions.js";
-interface PhotoEntry {result:PhotoResult|null;scope:'cover'|'gallery'|null;loading:boolean;generation:string;failed:Set<string>;prefetched:Set<string>;coverRetried?:boolean;failedCoverId?:string}
+interface PhotoEntry {result:PhotoResult|null;scope:'cover'|'gallery'|null;loading:boolean;generation:string;failed:Set<string>;prefetched:Set<string>;coverRetried?:boolean;failedCoverId?:string;listFailed?:boolean;recoverable:Set<string>;checking:Set<string>;retries:number;lastView?:string}
 export const photoCache=new Map<string,PhotoEntry>(),photoPositions=new Map<string,number>();
 export let activePhotoKey='';
 export function photoKey(){const c=candidate();return state.view&&state.user&&c?JSON.stringify([requireUser().id,requireView().case.caseId,c.restaurant.id,c.restaurant.outletName,c.restaurant.address,c.restaurant.sourceIds]):'';}
@@ -37,7 +37,20 @@ export function warmNextWebsitePhoto(key:string,entry:PhotoEntry,photo:Photo){
 }
 export function renderPhotoImages(key:string,entry:PhotoEntry){
   const photos=photoList(entry),index=photoPosition(key,photos),cover=photos[0],current=photos[index];
-  const fail=(photo:Photo)=>{if(photo===cover&&photo.provider==='GOOGLE_PLACES'&&!entry.coverRetried){entry.coverRetried=true;entry.failedCoverId=photo.id;entry.scope=null;entry.result=null;}else entry.failed.add(photo.id);renderPhotos();};
+  const permanent=(photo:Photo)=>{if(photo===cover&&photo.provider==='GOOGLE_PLACES'&&!entry.coverRetried){entry.coverRetried=true;entry.failedCoverId=photo.id;entry.scope=null;entry.result=null;}else entry.failed.add(photo.id);renderPhotos();};
+  const fail=async(photo:Photo)=>{
+    if(entry.checking.has(photo.id))return;entry.checking.add(photo.id);
+    try{
+      const resource=performance.getEntriesByName(new URL(photo.contentUrl,location.origin).href).filter((entry):entry is PerformanceResourceTiming=>entry instanceof PerformanceResourceTiming).at(-1);
+      if(resource&&'responseStatus' in resource&&resource.responseStatus===200){permanent(photo);return;}
+      // Authenticated local metadata only: HEAD never dispatches an upstream photo request.
+      const response=await fetch(photo.contentUrl,{method:'HEAD',cache:'no-store'});
+      if(photoKey()!==key||photoCache.get(key)!==entry)return;
+      if(response.status===503||response.status>=500)entry.recoverable.add(photo.id);
+      else permanent(photo);
+    }catch{if(photoKey()===key&&photoCache.get(key)===entry)entry.recoverable.add(photo.id);}
+    finally{entry.checking.delete(photo.id);}
+  };
   renderPhotoSource('cover-photo-source',cover);
   const coverReady=()=>{show('cover-photo-source',true);show('cover-open',true);show('restaurant-initial',false);show('no-photo',false);requestAnimationFrame(()=>fitPhotoCredit($('cover-photo-source')));};
   if($('cover-image').dataset.photo!==key+':'+(cover&&cover.id||'')){show('cover-photo-source',false);show('cover-open',false);show('restaurant-initial',true);show('no-photo',true);}
@@ -80,27 +93,40 @@ export function renderPhotos(){
   const scope=state.ui.view==='DETAILS'||$('photo-viewer').open?'gallery':'cover',generation=photoGeneration();let entry=photoCache.get(key);
   if(entry&&entry.generation!==generation&&!entry.loading){if(!entry.result||entry.result.status!=='READY'){photoCache.delete(key);entry=undefined;}else entry.generation=generation;}
   if(entry&&entry.result&&Date.parse(entry.result.expiresAt)<=Date.now()&&!entry.loading){photoCache.delete(key);entry=undefined;}
-  if(!entry){entry={result:null,scope:null,loading:false,generation,failed:new Set(),prefetched:new Set()};photoCache.set(key,entry);while(photoCache.size>32)photoCache.delete(photoCache.keys().next().value!);}
+  if(!entry){entry={result:null,scope:null,loading:false,generation,failed:new Set(),prefetched:new Set(),recoverable:new Set(),checking:new Set(),retries:0,lastView:state.ui.view};photoCache.set(key,entry);while(photoCache.size>32)photoCache.delete(photoCache.keys().next().value!);}
+  if(entry.lastView!==state.ui.view){entry.lastView=state.ui.view;if(state.ui.view==='DETAILS')retryAlbum(key,entry);}
   renderPhotoImages(key,entry);
+  if(entry.listFailed)return;
   if(entry.loading||(entry.result&&(entry.scope==='gallery'||entry.scope===scope)))return;
   entry.loading=true;const target=entry,c=requireView().case.caseId,id=candidate()?.restaurant.id;if(!id)return;
   actions.api<PhotoResult>('/api/cases/'+encodeURIComponent(c)+'/candidates/'+encodeURIComponent(id)+'/photos?scope='+scope,{headers:target.failedCoverId?{'x-praxis-failed-photo':target.failedCoverId}:{}}).then(result=>{
     if(result.candidateId!==id)throw new Error('Photo response mismatch');target.result=result;target.scope=scope;
-  }).catch(()=>{target.result={photos:[],expiresAt:new Date(Date.now()+600000).toISOString()};target.scope=scope;})
+  }).catch(error=>{const status=error&&typeof error==='object'&&'status' in error?error.status:undefined;if(typeof status==='number'&&status>=400&&status<500&&![408,429].includes(status)){target.result={photos:[],expiresAt:new Date(Date.now()+600000).toISOString()};target.scope=scope;}else target.listFailed=true;})
     .finally(()=>{target.loading=false;if(photoKey()===key)renderPhotos();});
 }
+function retryAlbum(key:string,entry:PhotoEntry){
+ if(photoKey()!==key||entry.loading||entry.retries>=2||!entry.listFailed&&!entry.recoverable.size)return;
+ entry.retries++;entry.listFailed=false;
+ for(const id of ['cover-image','detail-photo','large-photo'] as const){const image=$(id);for(const photoId of entry.recoverable)if(image.dataset.photo===key+':'+photoId){delete image.dataset.photo;image.removeAttribute('src');}}
+ entry.recoverable.clear();
+}
+/** Reconnect retries only the current visible album, with no background Google warming. */
+export function resumePhotos(){if(!['CANDIDATES','DETAILS'].includes(state.ui.view))return;const key=photoKey(),entry=photoCache.get(key);if(entry){retryAlbum(key,entry);renderPhotos();}}
 export function movePhoto(delta:number){const key=photoKey(),entry=photoCache.get(key),photos=photoList(entry);if(!photos.length)return;const index=Math.max(0,Math.min(photoPosition(key,photos)+delta,photos.length-1));photoPositions.set(key,index);try{localStorage.setItem(key+':photo',String(index));}catch{}if(entry)renderPhotoImages(key,entry);}
-export function openPhotos(){const entry=photoCache.get(photoKey());if(!photoList(entry).length)return;$('photo-viewer').showModal();renderPhotos();}
+export function openPhotos(){resumePhotos();const entry=photoCache.get(photoKey());if(!photoList(entry).length)return;$('photo-viewer').showModal();renderPhotos();}
 
 /** One-pointer swipes coexist with native pinch, vertical scroll and ordinary links. */
 export function bindPhotoGestures(){
+ const zoom=()=>document.body.classList.toggle('photo-zoomed',(window.visualViewport?.scale??1)>1.02);zoom();window.visualViewport?.addEventListener('resize',zoom);window.visualViewport?.addEventListener('scroll',zoom);
  for(const frame of [document.querySelector<HTMLElement>('.detail-photo-frame'),$('photo-viewer')]){
   if(!frame)continue;
   const pointers=new Set<number>();let multiple=false;
   let start:{x:number;y:number;id:number;key:string;viewer:boolean}|undefined,suppressClick=false,timer:number|undefined;
-  frame.addEventListener('dragstart',event=>{if(!(event.target instanceof Element&&event.target.closest('a')))event.preventDefault();});
+  frame.addEventListener('dragstart',event=>{if(!(event.target instanceof Element&&event.target.closest('a'))){event.preventDefault();suppressClick=true;}});
   frame.addEventListener('pointerdown',event=>{
-   clearTimeout(timer);suppressClick=false;pointers.add(event.pointerId);
+   clearTimeout(timer);suppressClick=false;
+   if(event.pointerType!=='touch'||(window.visualViewport?.scale??1)>1.02)return;
+   pointers.add(event.pointerId);
    if(pointers.size>1){multiple=true;start=undefined;return;}
    if(multiple)return;
    start=event.button!==0||event.target instanceof Element&&event.target.closest('a')?undefined:{x:event.clientX,y:event.clientY,id:event.pointerId,key:photoKey(),viewer:$('photo-viewer').open};
@@ -108,7 +134,7 @@ export function bindPhotoGestures(){
   window.addEventListener('pointercancel',event=>{if(!pointers.delete(event.pointerId))return;start=undefined;suppressClick=false;if(!pointers.size)multiple=false;});
   window.addEventListener('pointerup',event=>{
    if(!pointers.delete(event.pointerId))return;const wasMultiple=multiple;if(!pointers.size)multiple=false;
-   const down=start;start=undefined;if(wasMultiple||!down||down.id!==event.pointerId||down.key!==photoKey()||down.viewer!==$('photo-viewer').open||!(state.ui.view==='DETAILS'||$('photo-viewer').open))return;
+   const down=start;start=undefined;if((window.visualViewport?.scale??1)>1.02||wasMultiple||!down||down.id!==event.pointerId||down.key!==photoKey()||down.viewer!==$('photo-viewer').open||!(state.ui.view==='DETAILS'||$('photo-viewer').open))return;
    const dx=event.clientX-down.x,dy=event.clientY-down.y;if(Math.abs(dx)<40||Math.abs(dx)<=Math.abs(dy))return;movePhoto(dx<0?1:-1);suppressClick=true;timer=setTimeout(()=>{suppressClick=false;},0);
   });
   frame.addEventListener('click',event=>{if(!suppressClick||event.detail===0)return;suppressClick=false;clearTimeout(timer);event.preventDefault();event.stopImmediatePropagation();},true);

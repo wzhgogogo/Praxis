@@ -24,6 +24,12 @@ function code(error:unknown):string {
   const row=error&&typeof error==='object'?error as {name?:unknown;code?:unknown;cause?:{code?:unknown}}:{};
   return [row.name,row.code,row.cause?.code].filter((v):v is string=>typeof v==='string'&&/^[A-Za-z0-9_]{1,60}$/.test(v)).join(':')||'PHOTO_READ_FAILED';
 }
+/** Only transport interruptions are retryable; invalid content/policy/budgets fail closed. */
+export function recoverablePhotoFailure(error: unknown): boolean {
+  const value = code(error);
+  return /(?:^|:)(?:AbortError|TimeoutError|TypeError|ECONNRESET|ECONNREFUSED|ETIMEDOUT|EAI_AGAIN|ENOTFOUND|ENETUNREACH|EHOSTUNREACH|EPIPE|UND_ERR_CONNECT_TIMEOUT|UND_ERR_HEADERS_TIMEOUT|UND_ERR_BODY_TIMEOUT|UND_ERR_SOCKET)(?:$|:)/.test(value)
+    || /^(?:SOURCE|GOOGLE_PHOTO)_HTTP_(?:408|429|5\d\d)$/.test(value);
+}
 const candidateSignature=(item:RestaurantCandidate)=>JSON.stringify([item.restaurant.outletName,item.restaurant.address,item.restaurant.sourceIds]);
 function candidate(view:RestaurantCaseView,id:string):RestaurantCandidate {
   const item=view.restaurant.candidates.find(c=>c.restaurant.id===id);
@@ -87,17 +93,18 @@ export class RestaurantWebsitePhotos implements RestaurantPhotosPort {
         try {
           const extracted=observed??await this.page(source,item,fillSignal);
           this.addImages(target,extracted,source);
-          // Validate a real cover before returning READY. A broken first image
-          // does not conceal a distinct valid image already in this same album.
-          for(const image of target.images.slice(0,3)){try{await this.image(target,image,fillSignal);break;}catch(error){target.error=code(error);}}
-        }catch(error){target.error=code(error);}
+        }catch(error){target.error=code(error);if(recoverablePhotoFailure(error)){this.entries.delete(key);throw error;}}
       })().finally(()=>{delete target.pending;});
     }
     if(entry.pending)await entry.pending;
+    if(!entry.images.some(image=>!!image.body))for(const image of entry.images.filter(image=>!image.failed).slice(0,3)){
+      try{await this.image(entry,image,AbortSignal.timeout(12_000));break;}
+      catch(error){entry.error=code(error);if(recoverablePhotoFailure(error))throw error;}
+    }
     if(scope==='gallery'&&!entry.galleryRead&&entry.galleryUrl&&entry.images.length<8) {
       const target=entry;target.galleryRead=true;
       const fillSignal=AbortSignal.timeout(12_000);
-      target.pending=(async()=>{try{this.addImages(target,await this.page(target.galleryUrl!,item,fillSignal),target.galleryUrl!);}catch(error){target.error=code(error);}})().finally(()=>{delete target.pending;});
+      target.pending=(async()=>{try{this.addImages(target,await this.page(target.galleryUrl!,item,fillSignal),target.galleryUrl!);}catch(error){target.error=code(error);if(recoverablePhotoFailure(error)){target.galleryRead=false;throw error;}}})().finally(()=>{delete target.pending;});
       await target.pending;
     }
     signal.throwIfAborted();
@@ -148,7 +155,7 @@ export class RestaurantWebsitePhotos implements RestaurantPhotosPort {
         this.prune();
         const age=/\bmax-age=(\d+)/i.exec(response.cacheControl);
         if(age)entry.expires=Math.min(entry.expires,Date.parse(this.now())+Number(age[1])*1000);
-      }catch(error){image.failed=true;throw error;}
+      }catch(error){if(!recoverablePhotoFailure(error))image.failed=true;throw error;}
     })().finally(()=>{delete image.pending;});
     return image.pending;
   }

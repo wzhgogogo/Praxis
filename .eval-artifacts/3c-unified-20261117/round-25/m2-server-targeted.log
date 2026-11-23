@@ -1,0 +1,40 @@
+✔ Google display uses IDs-only details once, original decoded bytes and complete authors, with no credentials on CDN or DTO (108.838791ms)
+✔ All eight Google gallery images load exactly once: one Details and sixteen media/CDN dispatches (64.246833ms)
+✔ Google CDN redirects consume the twenty-dispatch budget; the twenty-first send is refused while prior images stay readable (44.866666ms)
+✔ Google cover-download-fails falls back through the existing bound website source (70.528667ms)
+✔ Google cover-decode-fails falls back through the existing bound website source (57.480958ms)
+✔ Google empty falls back through the existing bound website source (57.224833ms)
+✔ Google unavailable falls back through the existing bound website source (43.975083ms)
+✔ Google no-id falls back through the existing bound website source (55.882625ms)
+✔ Individual gallery corruption is isolated, budgets include media/CDN hops and both-source failure is honest (76.381417ms)
+✔ A changed candidate binding cannot reset the one-Details budget (33.079667ms)
+✔ Round25 M2 real Google adapter transient obeys recovery and media budget (12.160042ms)
+✔ Round25 M2 real Google adapter 404 obeys recovery and media budget (2.829958ms)
+✔ Round25 M2 real Google adapter invalid obeys recovery and media budget (4.046292ms)
+✔ Round25 M2 real Google adapter persistent obeys recovery and media budget (3.367708ms)
+✔ Round25 M2 an interrupted sole Details allowance cannot promise a complete Google album on reconnect (34.685083ms)
+✔ Photo cache isolates Cases, deduplicates concurrent content, expires and refuses an old source binding (80.199167ms)
+✖ Photo failures retain safe transport name/cause code and never expose the original message (0.424458ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 16
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 864.028042
+
+✖ failing tests:
+
+test at src/integrations/restaurant-photos/website-photos.test.ts:1:2257
+✖ Photo failures retain safe transport name/cause code and never expose the original message (0.424458ms)
+  TypeError [Error]: Do not leak a provider URL or credential
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/integrations/restaurant-photos/website-photos.test.ts:22:15)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    [cause]: { code: 'ECONNRESET' }
+  }

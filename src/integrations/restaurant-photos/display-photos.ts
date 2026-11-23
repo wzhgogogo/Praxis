@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import type { RestaurantCaseView } from "../../application/agent-workspace.js";
 import type { RestaurantPhoto, RestaurantPhotos, RestaurantPhotosPort } from "../../application/restaurant-photos.js";
 import type { GooglePhotoReference, GooglePhotoTransport } from "./google-photos.js";
-import { RestaurantWebsitePhotos } from "./website-photos.js";
+import { RestaurantWebsitePhotos, recoverablePhotoFailure } from "./website-photos.js";
 import { PhotoReadError, PublicPhotoHttp, type PhotoHttpPort } from "./public-photo-http.js";
 type Counts=NonNullable<RestaurantPhotos['requests']>;
 type Image=Awaited<ReturnType<GooglePhotoTransport['image']>>;
@@ -38,7 +38,7 @@ export class RestaurantDisplayPhotos implements RestaurantPhotosPort {
           target.references=await this.google.list(placeId,signal,()=>this.charge(target,'googleDetails'));
           const first=target.references[0];if(!first){target.website=true;return;}
           target.images.set(digest(first.name),await this.google.image(first,signal,()=>this.charge(target,'googleMedia')));
-        }catch{target.website=true;target.images.clear();}
+        }catch(error){if(target.references.length&&recoverablePhotoFailure(error))throw error;target.website=true;target.images.clear();}
       })().finally(()=>{delete target.pending;});
     }
     if(display.pending)await display.pending;signal.throwIfAborted();
@@ -57,7 +57,7 @@ export class RestaurantDisplayPhotos implements RestaurantPhotosPort {
     let image=display.images.get(photoId);
     if(!image){const ref=display.references.find(p=>digest(p.name)===photoId);if(!ref||!this.google)return;
       let pending=display.imagePending.get(photoId);
-      if(!pending){pending=this.google.image(ref,signal,()=>this.charge(display,'googleMedia')).then(value=>{display.images.set(photoId,value);return value;}).catch(()=>{display.failed.add(photoId);return undefined;}).finally(()=>{display.imagePending.delete(photoId);});display.imagePending.set(photoId,pending);}
+      if(!pending){pending=this.google.image(ref,signal,()=>this.charge(display,'googleMedia')).then(value=>{display.images.set(photoId,value);return value;}).catch(error=>{if(recoverablePhotoFailure(error))throw error;display.failed.add(photoId);return undefined;}).finally(()=>{display.imagePending.delete(photoId);});display.imagePending.set(photoId,pending);}
       image=await pending;if(!image)return;}
     return {body:image.body,contentType:image.contentType};
   }
