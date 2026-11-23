@@ -1,0 +1,44 @@
+{
+  "sha": "f036b7a0ea569ec41518837c4806b7b01f50578f",
+  "status": "PASS",
+  "backend": {
+    "choices": 4,
+    "shortlist": 3,
+    "negative": 3,
+    "overlap": 1
+  },
+  "search": 16,
+  "google21": 21,
+  "links": 10,
+  "ui": {
+    "ui-handoff-shortlist": {
+      "journeys": 8,
+      "observations": 60
+    },
+    "ui-target-edits": {
+      "journeys": 12,
+      "observations": 98
+    },
+    "ui-provenance": {
+      "journeys": 14,
+      "observations": 96
+    },
+    "ui-photos": {
+      "journeys": 2,
+      "observations": 60
+    }
+  },
+  "assertionInputs": [
+    "backend.json",
+    "search.json",
+    "google21.json",
+    "links.json",
+    "ui-handoff-shortlist.json",
+    "ui-target-edits.json",
+    "ui-provenance.json",
+    "ui-photos.json",
+    "photo-390.json",
+    "photo-1440.json"
+  ],
+  "note": "UI journeys share frozen formal Fixture steps; raw operands/DOM collected without outcome assertions, then evaluated in this separate process. Backend/search/identity probes retain standalone entry points."
+}

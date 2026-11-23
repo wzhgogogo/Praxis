@@ -1,0 +1,475 @@
+{
+  "group": "reported-front-end-paths",
+  "head": "f036b7a0ea569ec41518837c4806b7b01f50578f",
+  "source": "e9e1f96a31928af04fbc0db00dad14902c905ba6",
+  "receipts": [
+    {
+      "name": "save-first-card-before-budget-close-1",
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Save for later"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Saved 1"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Fixture Sushi\n→"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "outcome": {
+        "savedStatus": 200,
+        "actualDelivery": [
+          "fixture:outlet"
+        ],
+        "sameRestaurant": "fixture:outlet",
+        "finalPhase": "PRESENT_RESULTS",
+        "sourceCalls": 2,
+        "savedBeforeDelivery": true,
+        "retainedAfterSavedBack": true,
+        "verdict": "pass"
+      },
+      "completed": true
+    },
+    {
+      "name": "save-first-card-before-budget-close-2",
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Save for later"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Saved 1"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Fixture Sushi\n→"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "outcome": {
+        "savedStatus": 200,
+        "actualDelivery": [
+          "fixture:outlet",
+          "fixture-restaurant-2"
+        ],
+        "sameRestaurant": "fixture:outlet",
+        "finalPhase": "PRESENT_RESULTS",
+        "sourceCalls": 2,
+        "savedBeforeDelivery": true,
+        "retainedAfterSavedBack": true,
+        "verdict": "pass"
+      },
+      "completed": true
+    },
+    {
+      "name": "about-does-not-bounce-during-real-read",
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "About ›"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "← Back"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "outcome": {
+        "enteredAboutWhileActive": true,
+        "aboutAfterDelivery": true,
+        "restaurant": "fixture:outlet",
+        "draftRetained": true,
+        "backRestoredCard": true,
+        "verdict": "pass"
+      },
+      "completed": true
+    },
+    {
+      "name": "sidebar-reorders-by-actual-plan-activity",
+      "width": 390,
+      "height": 844,
+      "touch": true,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "New plan +"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Shinjuku"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "My plans"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Dinner for two in Ginza\nReady"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Make it three people"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "tap",
+          "label": "My plans"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "outcome": {
+        "afterTwoCreates": [
+          "restaurant:4c4fc152fc3c5ebc2add1520",
+          "restaurant:ec9c3c6a1f36a1c2cb413d2c"
+        ],
+        "afterOnlyOpeningA": [
+          "restaurant:4c4fc152fc3c5ebc2add1520",
+          "restaurant:ec9c3c6a1f36a1c2cb413d2c"
+        ],
+        "afterEditingA": [
+          "restaurant:ec9c3c6a1f36a1c2cb413d2c",
+          "restaurant:4c4fc152fc3c5ebc2add1520"
+        ],
+        "sameActiveRow": true,
+        "before": "2026-10-29T10:00:00.000Z",
+        "after": "2026-10-29T10:00:02.000Z",
+        "verdict": "pass"
+      },
+      "completed": true
+    },
+    {
+      "name": "save-first-card-before-budget-close-1",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Save for later"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Saved 1"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Fixture Sushi\n→"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "outcome": {
+        "savedStatus": 200,
+        "actualDelivery": [
+          "fixture:outlet"
+        ],
+        "sameRestaurant": "fixture:outlet",
+        "finalPhase": "PRESENT_RESULTS",
+        "sourceCalls": 2,
+        "savedBeforeDelivery": true,
+        "retainedAfterSavedBack": true,
+        "verdict": "pass"
+      },
+      "completed": true
+    },
+    {
+      "name": "save-first-card-before-budget-close-2",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Save for later"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Saved 1"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Fixture Sushi\n→"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "outcome": {
+        "savedStatus": 200,
+        "actualDelivery": [
+          "fixture:outlet",
+          "fixture-restaurant-2"
+        ],
+        "sameRestaurant": "fixture:outlet",
+        "finalPhase": "PRESENT_RESULTS",
+        "sourceCalls": 2,
+        "savedBeforeDelivery": true,
+        "retainedAfterSavedBack": true,
+        "verdict": "pass"
+      },
+      "completed": true
+    },
+    {
+      "name": "about-does-not-bounce-during-real-read",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "About ›"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "← Back"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "outcome": {
+        "enteredAboutWhileActive": true,
+        "aboutAfterDelivery": true,
+        "restaurant": "fixture:outlet",
+        "draftRetained": true,
+        "backRestoredCard": true,
+        "verdict": "pass"
+      },
+      "completed": true
+    },
+    {
+      "name": "sidebar-reorders-by-actual-plan-activity",
+      "width": 1440,
+      "height": 900,
+      "touch": false,
+      "plain": false,
+      "actions": [
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Sign in"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Ginza"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "New plan +"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Dinner for two in Shinjuku"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Dinner for two in Ginza\nReady"
+        },
+        {
+          "tab": "main",
+          "action": "type",
+          "text": "Make it three people"
+        },
+        {
+          "tab": "main",
+          "action": "click",
+          "label": "Send"
+        }
+      ],
+      "errors": [],
+      "offlineDestinations": [],
+      "outcome": {
+        "afterTwoCreates": [
+          "restaurant:d77ee87e06a91489d34220f9",
+          "restaurant:b8e314c83cc4d66ddb61d424"
+        ],
+        "afterOnlyOpeningA": [
+          "restaurant:d77ee87e06a91489d34220f9",
+          "restaurant:b8e314c83cc4d66ddb61d424"
+        ],
+        "afterEditingA": [
+          "restaurant:b8e314c83cc4d66ddb61d424",
+          "restaurant:d77ee87e06a91489d34220f9"
+        ],
+        "sameActiveRow": true,
+        "before": "2026-10-29T10:00:00.000Z",
+        "after": "2026-10-29T10:00:02.000Z",
+        "verdict": "pass"
+      },
+      "completed": true
+    }
+  ]
+}

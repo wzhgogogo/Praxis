@@ -1,0 +1,459 @@
+{
+  "head": "f036b7a0ea569ec41518837c4806b7b01f50578f",
+  "mode": "OFFLINE_PRODUCTION_APPLICATION_PGLITE",
+  "choices": [
+    {
+      "pending": false,
+      "limit": null,
+      "req": "Please book G6 Development Sushi for me.",
+      "initialCandidate": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "phase": "PRESENT_RESULTS",
+      "boundChoice": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9"
+      },
+      "partySizeBinding": "user:selected:4",
+      "partySizeSource": "EXPLICIT",
+      "selected": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "decisions": [
+        {
+          "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "actor": "USER"
+        }
+      ],
+      "handoffs": [
+        {
+          "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "terms": [
+            "Same-day cancellations cost 100% of the course price.",
+            "Card required"
+          ],
+          "sourceSelection": "UNKNOWN"
+        }
+      ],
+      "resultCandidates": [
+        "praxis:restaurant:bd287442c716ac7439273cc9"
+      ],
+      "history": [],
+      "modelCalls": [
+        {
+          "purpose": "restaurant_semantic_interpret",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_page_question",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_page_question",
+          "inCaseBudget": true
+        }
+      ],
+      "countedCalls": 6,
+      "semanticCalls": [
+        {
+          "purpose": "restaurant_semantic_interpret",
+          "inCaseBudget": true
+        }
+      ],
+      "firstPhase": "PRESENT_RESULTS"
+    },
+    {
+      "pending": true,
+      "limit": null,
+      "req": "Please book G6 Development Sushi for me.",
+      "initialCandidate": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "phase": "PRESENT_RESULTS",
+      "boundChoice": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9"
+      },
+      "partySizeBinding": "user:selected:5",
+      "partySizeSource": "EXPLICIT",
+      "selected": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "decisions": [
+        {
+          "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "actor": "USER"
+        }
+      ],
+      "handoffs": [
+        {
+          "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "terms": [
+            "Same-day cancellations cost 100% of the course price.",
+            "Card required"
+          ],
+          "sourceSelection": "UNKNOWN"
+        }
+      ],
+      "resultCandidates": [
+        "praxis:restaurant:bd287442c716ac7439273cc9"
+      ],
+      "history": [
+        {
+          "id": "pending-about",
+          "status": "UNVERIFIED",
+          "reason": "CANCELLED"
+        }
+      ],
+      "modelCalls": [
+        {
+          "purpose": "restaurant_semantic_interpret",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_page_question",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_page_question",
+          "inCaseBudget": true
+        }
+      ],
+      "countedCalls": 6,
+      "semanticCalls": [
+        {
+          "purpose": "restaurant_semantic_interpret",
+          "inCaseBudget": true
+        }
+      ],
+      "firstPhase": "PRESENT_RESULTS"
+    },
+    {
+      "pending": false,
+      "limit": 6,
+      "req": "Please book G6 Development Sushi for me.",
+      "initialCandidate": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "phase": "NO_VERIFIED_RESULT",
+      "boundChoice": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9"
+      },
+      "partySizeBinding": "user:selected:4",
+      "partySizeSource": "EXPLICIT",
+      "selected": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "decisions": [
+        {
+          "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "actor": "USER"
+        }
+      ],
+      "handoffs": [],
+      "resultCandidates": [],
+      "history": [],
+      "modelCalls": [
+        {
+          "purpose": "restaurant_semantic_interpret",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        }
+      ],
+      "countedCalls": 3,
+      "semanticCalls": [
+        {
+          "purpose": "restaurant_semantic_interpret",
+          "inCaseBudget": true
+        }
+      ],
+      "firstPhase": "NO_VERIFIED_RESULT"
+    },
+    {
+      "pending": true,
+      "limit": 6,
+      "req": "Please book G6 Development Sushi for me.",
+      "initialCandidate": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "phase": "NO_VERIFIED_RESULT",
+      "boundChoice": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9"
+      },
+      "partySizeBinding": "user:selected:5",
+      "partySizeSource": "EXPLICIT",
+      "selected": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "decisions": [
+        {
+          "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "actor": "USER"
+        }
+      ],
+      "handoffs": [],
+      "resultCandidates": [],
+      "history": [
+        {
+          "id": "pending-about",
+          "status": "UNVERIFIED",
+          "reason": "CANCELLED"
+        }
+      ],
+      "modelCalls": [
+        {
+          "purpose": "restaurant_semantic_interpret",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        },
+        {
+          "purpose": "restaurant_agent_decide",
+          "inCaseBudget": true
+        }
+      ],
+      "countedCalls": 3,
+      "semanticCalls": [
+        {
+          "purpose": "restaurant_semantic_interpret",
+          "inCaseBudget": true
+        }
+      ],
+      "firstPhase": "NO_VERIFIED_RESULT"
+    }
+  ],
+  "answerSave": [
+    {
+      "changes": 0,
+      "originallyAnswered": true,
+      "save": null,
+      "returnedPhase": "PRESENT_RESULTS",
+      "phase": "PRESENT_RESULTS",
+      "savedCount": 0,
+      "results": [
+        {
+          "requestId": "question:4",
+          "result": "ANSWERED",
+          "reason": null
+        }
+      ],
+      "history": [
+        {
+          "status": "ANSWERED",
+          "reason": null
+        }
+      ]
+    },
+    {
+      "changes": 1,
+      "originallyAnswered": true,
+      "save": {
+        "before": 5,
+        "after": 6
+      },
+      "returnedPhase": "PRESENT_RESULTS",
+      "phase": "PRESENT_RESULTS",
+      "savedCount": 1,
+      "results": [
+        {
+          "requestId": "question:4",
+          "result": "ANSWERED",
+          "reason": null
+        }
+      ],
+      "history": [
+        {
+          "status": "ANSWERED",
+          "reason": null
+        }
+      ]
+    },
+    {
+      "changes": 2,
+      "originallyAnswered": true,
+      "save": {
+        "before": 5,
+        "after": 7
+      },
+      "returnedPhase": "PRESENT_RESULTS",
+      "phase": "PRESENT_RESULTS",
+      "savedCount": 0,
+      "results": [
+        {
+          "requestId": "question:4",
+          "result": "ANSWERED",
+          "reason": null
+        }
+      ],
+      "history": [
+        {
+          "status": "ANSWERED",
+          "reason": null
+        }
+      ]
+    }
+  ],
+  "negative": [
+    {
+      "kind": "stop",
+      "outcome": {
+        "status": "StaleTaskVersionError"
+      },
+      "results": [
+        {
+          "reason": "CANCELLED",
+          "status": "UNVERIFIED",
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "checkedPages": []
+        }
+      ]
+    },
+    {
+      "kind": "edit",
+      "outcome": {
+        "status": "StaleTaskVersionError"
+      },
+      "results": [
+        {
+          "reason": "CANCELLED",
+          "status": "UNVERIFIED",
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "checkedPages": []
+        }
+      ]
+    },
+    {
+      "kind": "second-question",
+      "outcome": {
+        "status": "StaleTaskVersionError"
+      },
+      "results": [
+        {
+          "reason": "CANCELLED",
+          "status": "UNVERIFIED",
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "checkedPages": []
+        }
+      ]
+    }
+  ],
+  "overlap": {
+    "before": {
+      "calls": 6,
+      "startedAt": 1795410190193,
+      "deadlineAt": 1795410690193,
+      "elapsedMs": 559
+    },
+    "after": {
+      "calls": 6,
+      "startedAt": 1795410190193,
+      "deadlineAt": 1795410690193,
+      "elapsedMs": 559
+    },
+    "exportBefore": {
+      "elapsedMs": 559,
+      "agentDecisions": 6,
+      "googleRequests": {
+        "limit": 100,
+        "total": 2,
+        "discovery": 0,
+        "placeDetails": 1,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 6
+    },
+    "exportAfter": {
+      "elapsedMs": 559,
+      "agentDecisions": 6,
+      "googleRequests": {
+        "limit": 100,
+        "total": 2,
+        "discovery": 0,
+        "placeDetails": 1,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 6
+    },
+    "conflict": {
+      "status": "StaleTaskVersionError",
+      "actualVersion": 11,
+      "expectedVersion": 5
+    },
+    "observed": [
+      {
+        "scope": 1795410190193,
+        "purpose": "restaurant_semantic_interpret",
+        "before": 50,
+        "after": 49,
+        "calls": 1,
+        "deadlineAt": 1795410690193
+      },
+      {
+        "scope": 1795410190193,
+        "purpose": "restaurant_agent_decide",
+        "before": 49,
+        "after": 48,
+        "calls": 2,
+        "deadlineAt": 1795410690193
+      },
+      {
+        "scope": 1795410190193,
+        "purpose": "restaurant_agent_decide",
+        "before": 48,
+        "after": 47,
+        "calls": 3,
+        "deadlineAt": 1795410690193
+      },
+      {
+        "scope": 1795410190193,
+        "purpose": "restaurant_agent_decide",
+        "before": 47,
+        "after": 46,
+        "calls": 4,
+        "deadlineAt": 1795410690193
+      },
+      {
+        "scope": 1795410190193,
+        "purpose": "restaurant_page_question",
+        "before": 46,
+        "after": 45,
+        "calls": 5,
+        "deadlineAt": 1795410690193
+      },
+      {
+        "scope": 1795410190193,
+        "purpose": "restaurant_page_question",
+        "before": 45,
+        "after": 44,
+        "calls": 6,
+        "deadlineAt": 1795410690193
+      },
+      {
+        "scope": 1795410190202,
+        "purpose": "restaurant_semantic_interpret",
+        "before": 50,
+        "after": 49,
+        "calls": 1,
+        "deadlineAt": 1795410690202
+      }
+    ],
+    "phase": "PRESENT_RESULTS"
+  }
+}

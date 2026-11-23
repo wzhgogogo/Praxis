@@ -1,0 +1,57 @@
+✔ saved holdout case02 events expose five structured HARD budgets through Router to Reducer with independent price agreement (93.63675ms)
+✔ c05 Kaga Router to Reducer retains the later availability-read source fact (49.287708ms)
+✔ C18 H002 current fact document carries same-page prices through judgment and Router to Reducer (115.213334ms)
+✔ C18 four split tempura statements inherit their containing merchant field through judgment and presentation (123.236083ms)
+✔ C18 selected Utou course titles remain known when the selected statement also contains the item count (120.053208ms)
+✖ Phase2c observed cuisine and approved price applicability reach Router to Reducer without changing other saved displays (4.290709ms)
+✔ equal timestamps preserve later availability facts and supersede earlier ones by reducer event order (4.365708ms)
+✔ positive HARD source role: merchant Japanese menu (0.587042ms)
+✔ positive HARD source role: observed H1 (0.38875ms)
+✔ positive HARD source role: review title (0.118583ms)
+✔ positive HARD source role: review body (0.115459ms)
+✔ positive HARD source role: name lacks requested type (0.138125ms)
+✔ party-not-selectable avoids futile fact reads only for the bound availability request: CURRENT (0.37125ms)
+✔ party-not-selectable avoids futile fact reads only for the bound availability request: CHANGED_REQUEST (0.072125ms)
+✔ party-not-selectable avoids futile fact reads only for the bound availability request: RECOMMENDATION (0.064667ms)
+✔ recorded MIRAI Friday evening facts qualify at the historical clock after DAYPART re-grounding (14.643709ms)
+✔ Round24 B5 Google search and inspectFacts agree for dinner in Ginza, preferably without overly sweet desserts (5.220375ms)
+✔ Round24 B5 Google search and inspectFacts agree for dinner in Ginza, preferably without overly sweet desserts. (0.788667ms)
+✔ Round24 B5 Google search and inspectFacts agree for dinner in Ginza, preferably without overly sweet desserts! (0.636167ms)
+✔ Round24 B5 Google search and inspectFacts agree for dinner in Ginza, preferably without overly sweet desserts? (0.428125ms)
+✔ Round24 B5 Google search and inspectFacts agree for without outdoor seating I would like a dessert café in Ginza (0.432834ms)
+✔ Round24 B5 Google search and inspectFacts agree for no parking required and looking for a dessert café in Ginza (0.296167ms)
+✔ Round24 B5 Google search and inspectFacts agree for not too sweet, but specifically looking for a dessert café in Ginza (0.459209ms)
+✔ Round24 B5 Google search and inspectFacts agree for nothing too sweet, please find a dessert café in Ginza (0.395166ms)
+✔ Round24 B5 Google search and inspectFacts agree for a dessert café in Ginza without outdoor seating (0.350625ms)
+✔ Round24 B4 revised query reaches the production Google wire: café with outdoor seating, beer and wine in Ginza (2.024041ms)
+✔ Round24 B4 revised query reaches the production Google wire: café with outdoor seating and beer in Ginza (0.160459ms)
+✔ Round24 B4 revised query reaches the production Google wire: 銀座にある寿司店 (0.390292ms)
+✔ Round24 B4 revised query reaches the production Google wire: 銀座周辺の寿司店 (0.0875ms)
+✔ Round24 B4 revised query reaches the production Google wire: 銀座付近の寿司店 (0.075625ms)
+✔ Round24 B4 revised query reaches the production Google wire: 銀座の寿司店 東銀座駅近く (0.086333ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 30
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 650.74475
+
+✖ failing tests:
+
+test at src/application/restaurant-presentation-evidence.test.ts:1:28145
+✖ Phase2c observed cuisine and approved price applicability reach Router to Reducer without changing other saved displays (4.290709ms)
+  AssertionError [ERR_ASSERTION]: archived quotation has one independently bound source
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-presentation-evidence.test.ts:398:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

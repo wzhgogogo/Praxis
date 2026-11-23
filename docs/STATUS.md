@@ -1421,3 +1421,8 @@ Round20 slice3 (draft / not integrated): clean source/domain labels, aligned ava
 ### Round 24 — 2026-11-23（draft / not integrated；待统一冻结验收）
 
 B1–B3 定向关闭待答编辑的选店/条款丢失、预算漏计与并发覆盖、收藏冲突取消已生成答案。B4–B5 与 U1–U5 定向验证查询编辑、否定分句、精确引用归属与去重、门店身份外链、原生缩放/多指与鼠标拖图、吸烟限定语。独立采集先落新观测再断言；统一离线门禁、历史十路径和视觉结果将在 [Round 24 报告](../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md) 记录。未运行 Live、真实 PostgreSQL 或4312；未推送/合main，真机软键盘/缩放未验收。
+
+
+### Round 24 — 2026-11-23（frozen offline regression / draft, not integrated）
+
+冻结 `f036b7a0ea569ec41518837c4806b7b01f50578f` 完成B1–B5与六项UI/投影机制的离线收口。五门禁：默认1881/1881，G2 5/5、Chromium554/554、G6 159/159，typecheck/arch/build PASS。正式16/16、Style1 6/6、状态139/139；历史十路径、新采集后独立断言、严格TS/DAG及19资产一致性通过。截图加载等待补强后从新SHA完整重跑，首冻结全绿门禁原件保留。历史11413/保护853、主目录/env、closeout950现存材料未变。0 Live/真实PG/4312/推送/合main；真机键盘与缩放NOT_EVALUATED。 [Round24报告](../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md)。

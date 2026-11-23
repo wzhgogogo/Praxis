@@ -7225,3 +7225,8 @@ Frozen `0d269703b3251b35039fe33c07076b222d87e716` passed Typecheck, Arch check, 
 ### Round 22 — 2026-11-22（draft / not integrated）
 
 已受理问答的原子结算/合法取代与查询、Google 店型过滤五项收口；三条生命周期交错与系统版本对照保留。冻结 `a3d8412bade34c7018fcdfeb8768fdc974395515`：默认1835/1835，G2 5/5、Chromium501/501、G6 159/159，typecheck/arch/build PASS；正式16/16、Style1 6/6、状态86/86，原人工顺序10/10。首次默认测试3项失败日志保留，修复后全套重跑。仅离线 Fixture / PGlite / Chromium；保护面比对通过，0 Live/真实 PostgreSQL/4312，不推送不合main。[Round 22报告](../../.eval-artifacts/3c-unified-20261117/round-22/REPORT.md)。
+
+
+### Round 24 — 2026-11-23（frozen offline regression / draft, not integrated）
+
+冻结 `f036b7a0ea569ec41518837c4806b7b01f50578f` 完成B1–B5与六项UI/投影机制的离线收口。五门禁：默认1881/1881，G2 5/5、Chromium554/554、G6 159/159，typecheck/arch/build PASS。正式16/16、Style1 6/6、状态139/139；历史十路径、新采集后独立断言、严格TS/DAG及19资产一致性通过。截图加载等待补强后从新SHA完整重跑，首冻结全绿门禁原件保留。历史11413/保护853、主目录/env、closeout950现存材料未变。0 Live/真实PG/4312/推送/合main；真机键盘与缩放NOT_EVALUATED。 [Round24报告](../../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md)。

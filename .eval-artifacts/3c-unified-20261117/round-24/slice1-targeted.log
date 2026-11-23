@@ -1,0 +1,99 @@
+✔ Round22 accepted question handover: equivalent (1144.564208ms)
+✔ Round22 accepted question handover: area (615.839125ms)
+✔ Round22 accepted question handover: model-failure (678.468083ms)
+✔ Round22 accepted question handover: second-question (607.325208ms)
+✔ Round22 accepted question handover: shortlist-wins (608.192625ms)
+✔ Round22 accepted question handover: system-answer-first (639.982ms)
+✔ Round22 accepted question handover: conflict (729.220791ms)
+✔ Round22 accepted question handover: invalid-successor (636.646583ms)
+✔ Round22 accepted question ownership: before-handle-registration (665.427291ms)
+✔ Round22 accepted question ownership: non-replacing-edit (601.337625ms)
+✔ Round22 accepted successor keeps preparation while the prior question finishes (733.850959ms)
+✔ Round24 B1 pending question preserves recorded explicit selection and evidenced booking terms (1705.597583ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=default (1206.78525ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=true limit=default (1152.645834ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=6 (721.950375ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=true limit=6 (728.512458ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 0 shortlist changes (642.689083ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 1 shortlist changes (619.843917ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 2 shortlist changes (668.5005ms)
+✔ Round24 B2 overlapping application edits keep the committed read budget after the late 409 (1149.112459ms)
+✖ Round24 B3 a stop transition never retries the old ANSWERED completion (10573.271ms)
+✔ whole-read model budget starts before semantic work, counts failed calls, and isolates concurrent runs (1.372083ms)
+✔ retained live work observes the original deadline even without another model call (20.259541ms)
+✔ independent question scopes isolate their own calls and deadline from a depleted search (0.912708ms)
+✔ late async work cannot start another model call after its original run closes (0.114458ms)
+✔ Round24 overlapping same-task scopes retain their own reserve and the committed winner export (0.239708ms)
+✔ Round24 UI: B1 390 pending=false condition edit retains selected outlet and two handoff terms (3266.610292ms)
+✔ Round24 UI: B1 390 pending=true condition edit retains selected outlet and two handoff terms (2574.655083ms)
+✔ Round24 UI: B1 1440 pending=false condition edit retains selected outlet and two handoff terms (2452.577125ms)
+✔ Round24 UI: B1 1440 pending=true condition edit retains selected outlet and two handoff terms (2315.953666ms)
+✖ Round24 UI: B3 390 answer survives 1 concurrent shortlist changes after reload (11079.383375ms)
+✖ Round24 UI: B3 390 answer survives 2 concurrent shortlist changes after reload (11200.103ms)
+✖ Round24 UI: B3 1440 answer survives 1 concurrent shortlist changes after reload (11068.617125ms)
+✖ Round24 UI: B3 1440 answer survives 2 concurrent shortlist changes after reload (11198.471333ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 29
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 120300.415375
+
+✖ failing tests:
+
+test at src/application/restaurant-pending-edit.test.ts:1:7721
+✖ Round24 B3 a stop transition never retries the old ANSWERED completion (10573.271ms)
+  Error: Fixture boundary not reached
+      at Timeout.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:9:201)
+      at listOnTimeout (node:internal/timers:608:17)
+      at process.processTimers (node:internal/timers:543:7)
+
+test at src/harness/browser/web-workspace-round24.test.ts:1:6408
+✖ Round24 UI: B3 390 answer survives 1 concurrent shortlist changes after reload (11079.383375ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+    - waiting for locator('#candidate-panel') to be visible
+      24 × locator resolved to hidden <section hidden="" id="candidate-panel">…</section>
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24.test.ts:47:357) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#candidate-panel') to be visible", '    24 × locator resolved to hidden <section hidden="" id="candidate-panel">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-round24.test.ts:1:6408
+✖ Round24 UI: B3 390 answer survives 2 concurrent shortlist changes after reload (11200.103ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+    - waiting for locator('#candidate-panel') to be visible
+      24 × locator resolved to hidden <section hidden="" id="candidate-panel">…</section>
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24.test.ts:47:357) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#candidate-panel') to be visible", '    24 × locator resolved to hidden <section hidden="" id="candidate-panel">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-round24.test.ts:1:6408
+✖ Round24 UI: B3 1440 answer survives 1 concurrent shortlist changes after reload (11068.617125ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+    - waiting for locator('#candidate-panel') to be visible
+      24 × locator resolved to hidden <section hidden="" id="candidate-panel">…</section>
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24.test.ts:47:357) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#candidate-panel') to be visible", '    24 × locator resolved to hidden <section hidden="" id="candidate-panel">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-round24.test.ts:1:6408
+✖ Round24 UI: B3 1440 answer survives 2 concurrent shortlist changes after reload (11198.471333ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+    - waiting for locator('#candidate-panel') to be visible
+      24 × locator resolved to hidden <section hidden="" id="candidate-panel">…</section>
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24.test.ts:47:357) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#candidate-panel') to be visible", '    24 × locator resolved to hidden <section hidden="" id="candidate-panel">…</section>' ]
+  }

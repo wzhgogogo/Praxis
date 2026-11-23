@@ -1,0 +1,33 @@
+✔ Round22 accepted question handover: equivalent (1036.084916ms)
+✔ Round22 accepted question handover: area (668.785667ms)
+✔ Round22 accepted question handover: model-failure (567.771ms)
+✔ Round22 accepted question handover: second-question (583.743625ms)
+✔ Round22 accepted question handover: shortlist-wins (558.958416ms)
+✔ Round22 accepted question handover: system-answer-first (630.242625ms)
+✔ Round22 accepted question handover: conflict (606.196ms)
+✔ Round22 accepted question handover: invalid-successor (643.781291ms)
+✔ Round22 accepted question ownership: before-handle-registration (624.818292ms)
+✔ Round22 accepted question ownership: non-replacing-edit (627.705083ms)
+✔ Round22 accepted successor keeps preparation while the prior question finishes (614.08425ms)
+✔ Round24 B1 pending question preserves recorded explicit selection and evidenced booking terms (1539.614875ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=default (1154.07025ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=true limit=default (1153.975917ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=6 (605.197875ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=true limit=6 (662.353667ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 0 shortlist changes (615.304916ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 1 shortlist changes (632.98025ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 2 shortlist changes (601.120959ms)
+✔ Round24 B2 overlapping application edits keep the committed read budget after the late 409 (1122.779167ms)
+✔ whole-read model budget starts before semantic work, counts failed calls, and isolates concurrent runs (0.94925ms)
+✔ retained live work observes the original deadline even without another model call (21.585042ms)
+✔ independent question scopes isolate their own calls and deadline from a depleted search (0.883834ms)
+✔ late async work cannot start another model call after its original run closes (0.128583ms)
+✔ Round24 overlapping same-task scopes retain their own reserve and the committed winner export (0.254334ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11003.581791

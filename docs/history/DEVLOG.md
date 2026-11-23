@@ -6512,3 +6512,8 @@ The stopped question admission gate remains freshness-bound. Settling accepted w
 ### 2026-11-23 — Round 24 offline closure implementation（draft / not integrated）
 
 从5bca135c88da8b3ea62dd100aed3d401dfa036a4继续原稀疏工作树。第一切片保留待答编辑事务结算不变量，补齐选店来源和商业条款，语义至执行共享独立预算，收藏限定重试在任务行锁事务内完成。第二切片修正查询片段清理、否定分句边界、来源证据ID/歧义旧数据投影、同读取文本去重、同店外链身份与照片手势。新增正式单测及双尺寸浏览器回归；旧源文本/状态断言保留，新增来源ID单独验证。所有新复核脚本和输入先冻结，结果仅写round-24；最终验收与未测边界见报告。历史证据和保护面只读，0Live/真实PG/4312/远端写入。
+
+
+### Round 24 — 2026-11-23（frozen offline regression / draft, not integrated）
+
+冻结 `f036b7a0ea569ec41518837c4806b7b01f50578f` 完成B1–B5与六项UI/投影机制的离线收口。五门禁：默认1881/1881，G2 5/5、Chromium554/554、G6 159/159，typecheck/arch/build PASS。正式16/16、Style1 6/6、状态139/139；历史十路径、新采集后独立断言、严格TS/DAG及19资产一致性通过。截图加载等待补强后从新SHA完整重跑，首冻结全绿门禁原件保留。历史11413/保护853、主目录/env、closeout950现存材料未变。0 Live/真实PG/4312/推送/合main；真机键盘与缩放NOT_EVALUATED。 [Round24报告](../../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md)。

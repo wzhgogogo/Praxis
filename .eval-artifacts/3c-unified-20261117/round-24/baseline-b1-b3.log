@@ -1,0 +1,139 @@
+✖ Round24 B1 pending question preserves recorded explicit selection and evidenced booking terms (903.986375ms)
+✖ Round24 B2 selected edit reconciles actual model calls pending=false limit=default (1138.695375ms)
+✖ Round24 B2 selected edit reconciles actual model calls pending=true limit=default (1091.11425ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=6 (560.277584ms)
+✖ Round24 B2 selected edit reconciles actual model calls pending=true limit=6 (563.561542ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 0 shortlist changes (521.979ms)
+✖ Round24 B3 answer commit preserves ANSWERED across 1 shortlist changes (539.5495ms)
+✖ Round24 B3 answer commit preserves ANSWERED across 2 shortlist changes (533.085833ms)
+✖ Round24 overlapping same-task scopes retain their own reserve and the committed winner export (1.745958ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 2
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6422.140333
+
+✖ failing tests:
+
+test at src/application/restaurant-pending-edit.test.ts:1:1537
+✖ Round24 B1 pending question preserves recorded explicit selection and evidenced booking terms (903.986375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'praxis:restaurant:bd287442c716ac7439273cc9'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:24:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'praxis:restaurant:bd287442c716ac7439273cc9',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-pending-edit.test.ts:1:3016
+✖ Round24 B2 selected edit reconciles actual model calls pending=false limit=default (1138.695375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  4 !== 6
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:36:30)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 6,
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-pending-edit.test.ts:1:3016
+✖ Round24 B2 selected edit reconciles actual model calls pending=true limit=default (1091.11425ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  5 !== 6
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:36:30)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 5,
+    expected: 6,
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-pending-edit.test.ts:1:3016
+✖ Round24 B2 selected edit reconciles actual model calls pending=true limit=6 (563.561542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:36:30)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-pending-edit.test.ts:1:3822
+✖ Round24 B3 answer commit preserves ANSWERED across 1 shortlist changes (539.5495ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:48:146)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-pending-edit.test.ts:1:3822
+✖ Round24 B3 answer commit preserves ANSWERED across 2 shortlist changes (533.085833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:48:146)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/application/run-bounded-model-gateway.test.ts:1:4721
+✖ Round24 overlapping same-task scopes retain their own reserve and the committed winner export (1.745958ms)
+  AssertionError [ERR_ASSERTION]: reserve is local to this overlapping scope
+  
+  5 !== 4
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/application/run-bounded-model-gateway.test.ts:105:159)
+      at async RunBoundedModelGateway.withScope (/private/tmp/praxis-3c-unified/src/application/run-bounded-model-gateway.ts:39:14)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/run-bounded-model-gateway.test.ts:108:6)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 5,
+    expected: 4,
+    operator: 'strictEqual'
+  }
