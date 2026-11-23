@@ -153,3 +153,19 @@ for(const turns of [1,2])test('Round20 result diff skips '+turns+' unsearched cl
  const result=projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:5}},events:history(events),readyCandidateIds:['b','c'],openableCandidateIds:['b','c'],active:false,now});
  assert.equal(result.revisionDiff?.fromRevision,1);assert.deepEqual(result.revisionDiff?.removed.map(item=>item.candidateId),['a']);assert.deepEqual(result.revisionDiff?.added.map(item=>item.candidateId),['c']);
 });
+
+test('Round23 removed links reject API and low-confidence pages and isolate candidate history',()=>{
+ const source=(candidateId:string,url:string,confidence:'HIGH'|'MEDIUM'|'LOW',kind:'ENTITY_MATCH'|'RESTAURANT_FACT'|'AVAILABILITY'='ENTITY_MATCH')=>({evidenceId:JSON.stringify([candidateId,url,confidence,kind]),kind,provider:'GOOGLE_PLACES' as const,candidateId,sourceUrl:url,observedAt:now,requestFingerprint:'fixture',claims:{},entityMatch:{confidence,matchedBy:['fixture']}});
+ const events=history([compiled(initialPatch),presented(['a','b']),compiled({schemaVersion:'3',partySize:3}),presented(['c'])]);
+ const read=(evidence:import('../domains/restaurant/contracts.js').RestaurantReadEvidence[],maps?:string)=>{
+  const a=candidate('a');if(maps)a.restaurant.sourceIds.googleMapsUri=maps;
+  return projectWorkspaceRead({state:{...state({}),phase:'PRESENT_RESULTS',intentDraft:{...initialDraft,partySize:3},candidates:[a,candidate('b'),candidate('c')],readEvidence:evidence},events,readyCandidateIds:['c'],openableCandidateIds:['c'],active:false,now}).revisionDiff!.removed;
+ };
+ const maps='https://www.google.com/maps/place/fixture-a',api='https://places.googleapis.com/v1/places/a';
+ assert.equal(read([source('a',api,'HIGH')],maps)[0]!.sourceUrl,maps);
+ for(const confidence of ['LOW','MEDIUM'] as const)assert.equal(read([source('a','https://merchant.example/wrong-branch',confidence)],maps)[0]!.sourceUrl,maps);
+ for(const rows of [[source('a',api,'HIGH')],[source('a','https://merchant.example/wrong-branch','LOW')],[source('a','https://maps.googleapis.com/maps/api/place/details','HIGH')]])assert.equal(read(rows)[0]!.sourceUrl,undefined);
+ const isolated=read([source('a','https://merchant.example/a','HIGH','AVAILABILITY'),source('b','https://merchant.example/b','HIGH','AVAILABILITY')]);assert.deepEqual(isolated.map(row=>[row.candidateId,row.sourceUrl]),[['a','https://merchant.example/a'],['b','https://merchant.example/b']]);
+ const fact='https://merchant.example/a/menu';assert.equal(read([source('a','https://merchant.example/a','HIGH'),source('a',fact,'HIGH','RESTAURANT_FACT')])[0]!.sourceUrl,fact);
+ assert.equal(read([source('b','https://merchant.example/a','HIGH'),{...source('a',fact,'HIGH','RESTAURANT_FACT'),entityMatch:undefined}])[0]!.sourceUrl,undefined);
+});
