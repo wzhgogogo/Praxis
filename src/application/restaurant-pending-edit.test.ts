@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
 import type {ModelResponse} from '../core/model/contracts.js';
+import type {RestaurantAgentLoopRuntime} from './restaurant-agent-loop.js';
+import {StaleTaskVersionError} from './persistent-restaurant-agent.js';
 import {bookingTermsComposition,cancellationAnswer} from './fixtures/booking-terms-composition.js';
 
 const latch=()=>{let resolve!:()=>void;const promise=new Promise<void>(r=>{resolve=r;});return {promise,resolve};};
@@ -32,7 +34,7 @@ test('Round24 B1 pending question preserves recorded explicit selection and evid
 for(const limit of [undefined,6])for(const pendingQuestion of [false,true])test(`Round24 B2 selected edit reconciles actual model calls pending=${pendingQuestion} limit=${limit??'default'}`,{timeout:30_000},async()=>{
  const f=await bookingTermsComposition();let pending:Awaited<ReturnType<typeof parkQuestion>>|undefined;
  try{const initial=await f.initial();if(pendingQuestion)pending=await parkQuestion(f);if(limit!==undefined)Object.defineProperty(f.counted,'maxCalls',{value:limit});await f.select();pending?.release.resolve();await pending?.work;
-  const actual=f.requests.filter(row=>row.turn==='SELECTED'&&row.request.purpose!=='restaurant_page_question').length,usage=f.counted.usage(initial.case.caseId)!;
+  const actual=f.requests.filter(row=>row.turn==='SELECTED').length,usage=f.counted.usage(initial.case.caseId)!;
   assert.ok(actual>0);assert.equal(actual,usage.calls);if(limit!==undefined)assert.ok(actual<=limit);
  }finally{pending?.release.resolve();await pending?.work.catch(()=>{});pending?.restore();await f.close();}
 });
@@ -47,4 +49,38 @@ for(const changes of [0,1,2])test(`Round24 B3 answer commit preserves ANSWERED a
   await f.question();const final=await f.project(),completions=(await runtimeFor(f).listEvents(id)).filter(row=>row.event.type==='PAGE_QUESTION_COMPLETED');
   assert.ok(reached);assert.equal((final.restaurant.shortlistCandidateIds??[]).length,changes===1?1:0);assert.equal(completions.length,1);assert.equal(final.restaurant.questionHistory[0]!.result?.status,'ANSWERED');
  }finally{runtimeFor(f).dispatch=dispatch;await f.close();}
+});
+
+
+test('Round24 B2 overlapping application edits keep the committed read budget after the late 409',{timeout:30_000},async()=>{
+ const f=await bookingTermsComposition(),winnerEntered=latch(),loserEntered=latch(),allowWinner=latch(),allowLoser=latch();let pending:Awaited<ReturnType<typeof parkQuestion>>|undefined,winner:Promise<unknown>|undefined,loser:Promise<unknown>|undefined;
+ const complete=f.counted.complete.bind(f.counted);let semantics=0;
+ const observed:Array<{scope:number;purpose:string;before:number;after:number;calls:number;deadlineAt:number}>=[];
+ try{const initial=await f.initial(),id=initial.case.caseId;pending=await parkQuestion(f);
+  f.counted.complete=async request=>{const scope=f.counted.usage(id)!,before=f.counted.remainingCalls(id)!;
+   if(request.purpose==='restaurant_semantic_interpret'){semantics++;if(semantics===1){winnerEntered.resolve();await allowWinner.promise;}else if(semantics===2){loserEntered.resolve();await allowLoser.promise;}}
+   try{return await complete(request);}finally{const after=f.counted.usage(id)!;observed.push({scope:scope.startedAt,purpose:request.purpose,before,after:f.counted.remainingCalls(id)!,calls:after.calls,deadlineAt:after.deadlineAt});}
+  };
+  winner=f.select();await bounded(winnerEntered.promise);await new Promise(r=>setTimeout(r,5));const current=await f.project();
+  loser=f.app.submitMessage({userId:'terms-user',conversationId:current.case.conversationId,requestId:'late-conflicting-edit',expectedVersion:current.case.taskVersion,message:f.source.bookingFollowups[0]+' Please.'});const rejected=assert.rejects(loser,StaleTaskVersionError);await bounded(loserEntered.promise);
+  allowWinner.resolve();await bounded(winner);const usage=structuredClone(f.counted.usage(id)!);assert.ok(usage.calls>1);const exported=await f.app.exportReadArtifact(id);
+  allowLoser.resolve();await rejected;pending.release.resolve();await pending.work;
+  assert.deepEqual(f.counted.usage(id),usage,'a later exiting 409 cannot overwrite final winner usage');assert.equal((exported.resourceUsage as {modelCallsStarted:number}).modelCallsStarted,usage.calls);assert.deepEqual((await f.app.exportReadArtifact(id)).resourceUsage,exported.resourceUsage);
+  const successful=observed.filter(row=>row.scope===usage.startedAt),conflict=observed.filter(row=>row.scope!==usage.startedAt);assert.equal(successful.length,usage.calls);assert.equal(conflict.length,1);assert.notEqual(conflict[0]!.deadlineAt,usage.deadlineAt);
+  for(const row of successful){assert.equal(row.deadlineAt,usage.deadlineAt);assert.equal(row.after,row.before-1);}
+  assert.equal(conflict[0]!.calls,1);assert.equal(conflict[0]!.after,conflict[0]!.before-1);assert.equal((await f.project()).case.phase,'PRESENT_RESULTS');
+ }finally{allowWinner.resolve();allowLoser.resolve();pending?.release.resolve();await Promise.allSettled([winner,loser,pending?.work]);pending?.restore();f.counted.complete=complete;await f.close();}
+});
+
+for(const replacement of ['stop','edit','second-question'] as const)test(`Round24 B3 a ${replacement} transition rejects a stale answer instead of retrying`,{timeout:30_000},async()=>{
+ const f=await bookingTermsComposition(),runtime=runtimeFor(f);let pending:Awaited<ReturnType<typeof parkQuestion>>|undefined;
+ try{const initial=await f.initial(),id=initial.case.caseId;pending=await parkQuestion(f);const snapshot=await runtime.snapshot(id),q=snapshot.domainState.pageQuestion!;
+  const envelope={id:'stale-answer-guard',taskId:id,occurredAt:f.clock.now().toISOString(),trace:{schemaVersion:'1' as const,runId:snapshot.runId,correlationId:'stale-answer-guard',actor:'SYSTEM' as const},event:{type:'PAGE_QUESTION_COMPLETED' as const,requestId:q.requestId,readRunId:q.readRunId,result:{status:'ANSWERED' as const,candidateId:q.candidateId,answer:'Guard-only staged answer',citations:[],checkedPages:[],sensitiveCategory:'NONE' as const,confirmationRequired:false}}};
+  if(replacement==='stop'){const v=await f.project();await f.app.cancelCase('terms-user',id,{readRunId:v.restaurant.sourceReadContext!.runId,expectedVersion:v.case.taskVersion});}
+  else if(replacement==='edit')await f.select();
+  else {const v=await f.project();await f.app.askRestaurantQuestion({userId:'terms-user',caseId:id,candidateId:q.candidateId,requestId:'replacement-question',expectedVersion:v.case.taskVersion,question:'Does this restaurant require a card?'});}
+  const port=(f.app as unknown as {agentLoop:{runtime:RestaurantAgentLoopRuntime}}).agentLoop.runtime;
+  await assert.rejects(()=>port.dispatch(envelope,snapshot.version),StaleTaskVersionError);
+  const rows=(await runtime.listEvents(id)).filter(e=>e.event.type==='PAGE_QUESTION_COMPLETED'&&e.event.requestId===q.requestId);assert.equal(rows.length,1);if(rows[0]!.event.type==='PAGE_QUESTION_COMPLETED')assert.equal(rows[0]!.event.result.status,'UNVERIFIED');
+ }finally{pending?.release.resolve();await pending?.work.catch(()=>{});pending?.restore();await f.close();}
 });

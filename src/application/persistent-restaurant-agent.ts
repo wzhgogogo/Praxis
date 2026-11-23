@@ -327,6 +327,8 @@ export interface PersistentRestaurantAgentOptions {
     run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>;
     /** Keeps the parent read deadline alive while LIVE work continues after the HTTP mutation returns. */
     hold?(): () => void;
+    /** Selects the committed edit as owner of exported usage, across overlapping contenders. */
+    claim?(): void;
     usage(taskId: string): ModelRunUsage | undefined;
     remainingCalls?(taskId: string): number | undefined;
   };
@@ -452,13 +454,22 @@ export class PersistentRestaurantAgentApplication {
             // Reapply only its completed read/presentation event, once, after
             // proving every intervening transition was a shortlist edit.
             if (!(error instanceof StaleTaskVersionError) || expectedVersion === undefined
-              || !["SEARCH_COMPLETED", "AVAILABILITY_CHECKED", "CANDIDATE_FACTS_CHECKED", "RESULTS_PRESENTED"].includes(envelope.event.type)) throw error;
-            const current = await this.runtime.snapshot(envelope.taskId);
-            const intervening = (await this.runtime.listEvents(envelope.taskId)).slice(expectedVersion, current.version);
-            if (current.runId !== envelope.trace.runId || !intervening.length
-              || intervening.length !== current.version - expectedVersion
-              || intervening.some(item => item.event.type !== "SHORTLIST_UPDATED")) throw error;
-            return this.runtime.dispatch(envelope, current.version);
+              || !["SEARCH_COMPLETED", "AVAILABILITY_CHECKED", "CANDIDATE_FACTS_CHECKED", "RESULTS_PRESENTED", "PAGE_QUESTION_COMPLETED"].includes(envelope.event.type)) throw error;
+            return this.database.transaction(async transaction => {
+              await transaction.query("SELECT id FROM tasks WHERE id = $1 FOR UPDATE", [envelope.taskId]);
+              const runtime = new PostgresTaskRuntime({query:transaction.query.bind(transaction),transaction:async work=>work(transaction)},restaurantBookingTaskDefinition,this.clock,this.createId);
+              const current = await runtime.snapshot(envelope.taskId);
+              const intervening = (await runtime.listEvents(envelope.taskId)).slice(expectedVersion, current.version);
+              if (current.runId !== envelope.trace.runId || !intervening.length
+                || intervening.length !== current.version - expectedVersion
+                || intervening.some(item => item.event.type !== "SHORTLIST_UPDATED")) throw error;
+              if (envelope.event.type === "PAGE_QUESTION_COMPLETED") {
+                const question=current.domainState.pageQuestion;
+                if (!question || question.result || question.requestId!==envelope.event.requestId
+                  || question.readRunId!==envelope.event.readRunId || question.candidateId!==envelope.event.result.candidateId) throw error;
+              }
+              return runtime.dispatch(envelope, current.version);
+            });
           }
         },
       },
@@ -608,25 +619,39 @@ export class PersistentRestaurantAgentApplication {
     const pendingQuestion = beforeCancellation.domainState.pageQuestion;
     if (pendingQuestion && !pendingQuestion.result) {
       return this.withPreparingRead(record.rootTaskId, async () => {
-        const event = await restaurantEventForMessage(this.interpreter, {
-          taskId: record.rootTaskId, message: input.message, referenceTime: this.clock.now().toISOString(),
-          timezone: "Asia/Tokyo", ...(beforeCancellation.domainState.intentDraft ? {currentDraft:beforeCancellation.domainState.intentDraft} : {}),
-          ...(viewingContext ? {viewingContext} : {}),
-        }, this.partySizeSupplementResolver);
-        const result = await this.runtime.dispatch(this.userEvent(beforeCancellation, input.requestId, event), input.expectedVersion);
-        if (!result.duplicateEvent) {
-          await this.store.appendMessage({
-            id: "message:0:" + hash(record.id + ":" + input.requestId).slice(0,24), conversationId:record.id,
-            role:"USER",content:input.message,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString(),
-          });
-          if (!["FAILED","NEEDS_INPUT"].includes(result.snapshot.domainState.phase)
-            && !(event.type === "SEMANTIC_PROPOSAL_COMPILED" && !restaurantIntentPatchHasChanges(event.patch))) {
-            const handle = this.prepareRead(record, result.snapshot, input.requestId);
-            await this.runUserInitiatedRead(record, input.requestId, result.snapshot, handle);
+        // Keep the accepted question's handle until the successor transaction commits.
+        const work=async (signal?:AbortSignal) => {
+          const interpretedEvent = await restaurantEventForMessage(this.interpreter, {
+            taskId: record.rootTaskId, message: input.message, referenceTime: this.clock.now().toISOString(),
+            timezone: "Asia/Tokyo", ...(beforeCancellation.domainState.intentDraft ? {currentDraft:beforeCancellation.domainState.intentDraft} : {}),
+            ...(viewingContext ? {viewingContext} : {}),
+          }, this.partySizeSupplementResolver);
+          const event=interpretedEvent.type==="SEMANTIC_PROPOSAL_COMPILED"
+            ? bindUserBookingSelection(interpretedEvent,beforeCancellation.domainState):interpretedEvent;
+          const sourced=event.type==="SEMANTIC_PROPOSAL_COMPILED"&&event.patch.partySizeSource
+            ? {...event,partySizeSourceMessageRequestId:"user:"+input.requestId}:event;
+          const envelope=this.userEvent(beforeCancellation,input.requestId,sourced);
+          const result = await this.runtime.dispatch(envelope, input.expectedVersion);
+          if (!result.duplicateEvent) {
+            this.modelRunBudget?.claim?.();
+            await this.store.appendMessage({
+              id: "message:0:" + hash(record.id + ":" + input.requestId).slice(0,24), conversationId:record.id,
+              role:"USER",content:input.message,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString(),
+            });
+            if (result.snapshot.domainState.phase==="FAILED") {
+              await this.notifyReadFinished(record.rootTaskId);
+              await this.appendAssistant(record,input.requestId);
+            } else if (result.snapshot.domainState.phase!=="NEEDS_INPUT"
+              && !(event.type === "SEMANTIC_PROPOSAL_COMPILED" && !restaurantIntentPatchHasChanges(event.patch))) {
+              const handle = this.prepareRead(record, result.snapshot, input.requestId);
+              await this.runAfterUserInput(record,input.requestId,result.snapshot,handle,signal,undefined,
+                userBookingSelectionRequest([...events,envelope]));
+            }
+            await this.notifyCaseUpdate(record);
           }
-          await this.notifyCaseUpdate(record);
-        }
-        return this.project(record);
+          return this.project(record);
+        };
+        return this.modelRunBudget ? this.modelRunBudget.run(record.rootTaskId,work):work();
       });
     }
     return this.withPreparingRead(record.rootTaskId, async () => {
@@ -1174,6 +1199,7 @@ export class PersistentRestaurantAgentApplication {
     catch(error){if(error instanceof StaleTaskVersionError&&handle.controller.signal.aborted)return;throw error;}
     if (handle.controller.signal.aborted) return;
     if (result.duplicateEvent) return;
+    this.modelRunBudget?.claim?.();
     handle.startedVersion = result.snapshot.version;
     handle.readRunId = result.snapshot.runId+":investigation:"+String(result.snapshot.domainState.investigationRevision??0);
     // A committed winner owns the read ahead of an uncommitted contender;

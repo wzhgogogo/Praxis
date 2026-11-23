@@ -34,7 +34,7 @@ export class RunBoundedModelGateway implements ModelGateway {
       holds: 0, finished: false,
       timer: setTimeout(() => controller.abort(Object.assign(new Error("Read-run deadline reached"), { code: "RUN_DEADLINE_EXCEEDED" })), Math.max(0, previous.deadlineAt - this.now())),
     };
-    this.active.set(taskId, scope);
+    if (!this.active.has(taskId)) this.active.set(taskId, scope);
     try {
       return await this.scopes.run(scope, () => work(controller.signal));
     } finally {
@@ -56,8 +56,15 @@ export class RunBoundedModelGateway implements ModelGateway {
     };
   }
 
+  /** A committed mutation owns the exported read budget, not a later conflicting contender. */
+  claim(): void {
+    const scope = this.scopes.getStore();
+    if (scope && !scope.finished) this.active.set(scope.taskId, scope);
+  }
+
   usage(taskId: string): ModelRunUsage | undefined {
-    const scope = this.active.get(taskId);
+    const local = this.scopes.getStore();
+    const scope = local?.taskId === taskId ? local : this.active.get(taskId);
     return scope ? { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) } : this.completed.get(taskId);
   }
 
@@ -69,8 +76,9 @@ export class RunBoundedModelGateway implements ModelGateway {
 
   /** Read-only view of the active task's shared budget, including failed calls. */
   remainingCalls(taskId: string): number | undefined {
-    const scope = this.active.get(taskId);
-    return scope ? Math.max(0, this.maxCalls - scope.calls) : undefined;
+    const local = this.scopes.getStore();
+    const scope = local?.taskId === taskId ? local : this.active.get(taskId);
+    return scope && !scope.finished ? Math.max(0, this.maxCalls - scope.calls) : undefined;
   }
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
@@ -86,7 +94,9 @@ export class RunBoundedModelGateway implements ModelGateway {
     if (scope.finished) return;
     scope.finished = true;
     clearTimeout(scope.timer);
-    if (this.active.get(scope.taskId) === scope) this.active.delete(scope.taskId);
-    this.completed.set(scope.taskId, { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) });
+    if (this.active.get(scope.taskId) === scope) {
+      this.active.delete(scope.taskId);
+      this.completed.set(scope.taskId, { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) });
+    }
   }
 }
