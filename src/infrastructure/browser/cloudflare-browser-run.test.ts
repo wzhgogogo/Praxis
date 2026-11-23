@@ -2,7 +2,21 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { chromium } from "playwright-core";
 
-import { CloudflareBrowserRun } from "./cloudflare-browser-run.js";
+import { CloudflareBrowserRun, type CloudflareBrowserRunConfig } from "./cloudflare-browser-run.js";
+import { CloudflareBrowserSession, connectRemoteBrowser } from "./cloudflare-browser-session.js";
+import type { BrowserEngine, BrowserRuntime } from './browser-runtime.js';
+
+// Preserve every orchestration/guard/lifetime assertion. Only the component
+// transport is replaced; real CDP/worker behavior has its own HTTP/PGlite suite.
+class FixtureBrowserRun extends CloudflareBrowserRun {
+  constructor(private readonly fixture: CloudflareBrowserRunConfig & {connectOverCdp?:typeof chromium.connectOverCDP}) { super(fixture); }
+  protected override async openEngine(engine:BrowserEngine,input:Parameters<BrowserRuntime['openSession']>[0]) {
+    const connect:(endpoint:string,options?:import('playwright-core').ConnectOverCDPOptions)=>Promise<import('playwright-core').Browser>=this.fixture.connectOverCdp??connectRemoteBrowser;
+    const browser=await connect(this.connectionEndpoint(engine),{headers:{Authorization:'Bearer '+this.fixture.apiToken},timeout:this.fixture.connectTimeoutMs??12000});
+    const session=await CloudflareBrowserSession.create(browser,engine,input.networkPolicy,input.recordResponse);
+    input.signal.addEventListener('abort',()=>{void session.close();},{once:true});return session;
+  }
+}
 
 function fakeBrowser(onClose: () => void, options: { guardedContextError?: Error; routeError?: Error; onContextClose?: () => void } = {}) {
   let connected=true;
@@ -34,7 +48,7 @@ function fakeBrowser(onClose: () => void, options: { guardedContextError?: Error
 
 test("Browser Run keeps Kitesurf on successful AUTO session creation", async () => {
   const endpoints: string[] = [];
-  const runtime = new CloudflareBrowserRun({
+  const runtime = new FixtureBrowserRun({
     accountId: "account", apiToken: "token",
     connectOverCdp: async (endpoint) => { endpoints.push(String(endpoint)); return fakeBrowser(() => {}) as never; },
   });
@@ -49,7 +63,7 @@ test("Browser Run keeps Kitesurf on successful AUTO session creation", async () 
 
 test("Browser Run rejects HAR replay before opening a remote browser", async () => {
   let connects = 0;
-  const runtime = new CloudflareBrowserRun({
+  const runtime = new FixtureBrowserRun({
     accountId: "account", apiToken: "token",
     connectOverCdp: async () => { connects += 1; return fakeBrowser(() => {}) as never; },
   });
@@ -71,7 +85,7 @@ test("Browser Run preserves the Playwright receiver for its default CDP connecto
     },
   });
   try {
-    const runtime = new CloudflareBrowserRun({ accountId: "account", apiToken: "token" });
+    const runtime = new FixtureBrowserRun({ accountId: "account", apiToken: "token" });
     const session = await runtime.openSession({ signal: new AbortController().signal });
     assert.equal(receivedThis, chromium);
     await session.close();
@@ -83,7 +97,7 @@ test("Browser Run preserves the Playwright receiver for its default CDP connecto
 
 test("Browser Run falls back once from Kitesurf to Chromium and does not loop", async () => {
   const endpoints: string[] = [];
-  const runtime = new CloudflareBrowserRun({
+  const runtime = new FixtureBrowserRun({
     accountId: "account", apiToken: "token",
     connectOverCdp: async (endpoint) => {
       const url = String(endpoint);
@@ -100,7 +114,7 @@ test("Browser Run falls back once from Kitesurf to Chromium and does not loop", 
 
 test("Browser Run returns a stable failure after both engines fail", async () => {
   let attempts = 0;
-  const runtime = new CloudflareBrowserRun({
+  const runtime = new FixtureBrowserRun({
     accountId: "account", apiToken: "token",
     connectOverCdp: async () => { attempts += 1; throw new Error("remote unavailable"); },
   });
@@ -110,7 +124,7 @@ test("Browser Run returns a stable failure after both engines fail", async () =>
 
 test("Browser Run closes a remote session after AbortSignal", async () => {
   let closed = 0;
-  const runtime = new CloudflareBrowserRun({
+  const runtime = new FixtureBrowserRun({
     accountId: "account", apiToken: "token",
     connectOverCdp: async () => fakeBrowser(() => { closed += 1; }) as never,
   });
@@ -124,7 +138,7 @@ test("Browser Run closes a remote session after AbortSignal", async () => {
 test("Browser Run closes its remote browser when isolated guard setup fails", async () => {
   let closed = 0;
   let contextsClosed = 0;
-  const runtime = new CloudflareBrowserRun({
+  const runtime = new FixtureBrowserRun({
     accountId: "account", apiToken: "token",
     connectOverCdp: async () => fakeBrowser(() => { closed += 1; }, { routeError: new Error("guard route unavailable"), onContextClose: () => { contextsClosed += 1; } }) as never,
   });

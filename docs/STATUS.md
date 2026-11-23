@@ -1426,3 +1426,6 @@ B1–B3 定向关闭待答编辑的选店/条款丢失、预算漏计与并发�
 ### Round 24 — 2026-11-23（frozen offline regression / draft, not integrated）
 
 冻结 `f036b7a0ea569ec41518837c4806b7b01f50578f` 完成B1–B5与六项UI/投影机制的离线收口。五门禁：默认1881/1881，G2 5/5、Chromium554/554、G6 159/159，typecheck/arch/build PASS。正式16/16、Style1 6/6、状态139/139；历史十路径、新采集后独立断言、严格TS/DAG及19资产一致性通过。截图加载等待补强后从新SHA完整重跑，首冻结全绿门禁原件保留。历史11413/保护853、主目录/env、closeout950现存材料未变。0 Live/真实PG/4312/推送/合main；真机键盘与缩放NOT_EVALUATED。 [Round24报告](../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md)。
+
+
+2026-11-23 — Round25 C1 slice (draft / not integrated): remote CDP sessions are isolated in workers, no host-wide uncaught exception swallowing. Real local CDP duplicate-root-event reproduction and source/dist HTTP/PGlite controls pass; seven old component assertions remain. R1–R5 and M/V work plus unified frozen acceptance still pending. No Live/native PG/4312/push/main merge.

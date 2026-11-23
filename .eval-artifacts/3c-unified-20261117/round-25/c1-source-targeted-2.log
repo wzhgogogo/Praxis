@@ -1,0 +1,29 @@
+✔ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (3057.663916ms)
+✖ Round25 C1: real CDP read duplicate isolates concurrent healthy HTTP read and subsequent request (3784.789ms)
+✔ Round25 C1: unrelated host uncaught exceptions still terminate the real HTTP host (1584.276625ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8700.032792
+
+✖ failing tests:
+
+test at src/harness/browser/cloudflare-cdp-isolation.test.ts:1:3214
+✖ Round25 C1: real CDP read duplicate isolates concurrent healthy HTTP read and subsequent request (3784.789ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to:
+  
+  'RESULTS'
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:14:538)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'RESULTS',
+    expected: 'RESULTS',
+    operator: 'notStrictEqual'
+  }

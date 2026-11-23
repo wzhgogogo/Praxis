@@ -3,7 +3,7 @@ import {mkdtemp,writeFile,rm} from "node:fs/promises";
 import {tmpdir} from "node:os";
 import {join} from "node:path";
 import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-playwright-chromium.js";
-import { CloudflareBrowserRun } from "../../infrastructure/browser/cloudflare-browser-run.js";
+import { CloudflareBrowserSession } from "../../infrastructure/browser/cloudflare-browser-session.js";
 import type { BrowserRuntime, BrowserSession, BrowserReadNetworkPolicy } from "../../infrastructure/browser/browser-runtime.js";
 
 export const url = "https://www.tablecheck.com/en/fixture";
@@ -66,15 +66,7 @@ export function localFixture(html: string | Record<string, string>, runtimeKind:
     },
   };
   const runtime: BrowserRuntime = runtimeKind === "CLOUDFLARE_SESSION"
-    ? new CloudflareBrowserRun({
-      accountId: "fixture", apiToken: "fixture", engineMode: "CHROMIUM_ONLY",
-      // Replace only the remote connection; exercise the production Cloudflare session on local Chromium.
-      connectOverCdp: async () => {
-        const browser = await browserType.launch({ headless: true });
-        await browser.newContext();
-        return browser;
-      },
-    })
+    ? {async openSession(input:Parameters<BrowserRuntime['openSession']>[0]){const browser=await browserType.launch({headless:true});await browser.newContext();const session=await CloudflareBrowserSession.create(browser,'CHROMIUM',input.networkPolicy,input.recordResponse);input.signal.addEventListener('abort',()=>{void session.close();},{once:true});return session;}}
     : new LocalPlaywrightChromium({ browserType });
   // The fixture intercepts every request itself.  It is not a production
   // isolated context, so probe code must not install a second policy whose

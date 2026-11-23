@@ -4,7 +4,7 @@ import {createServer} from 'node:http';
 import {once} from 'node:events';
 import {chromium} from 'playwright-core';
 import {LocalPlaywrightChromium} from '../../../infrastructure/browser/local-playwright-chromium.js';
-import {CloudflareBrowserRun} from '../../../infrastructure/browser/cloudflare-browser-run.js';
+import {CloudflareBrowserSession} from '../../../infrastructure/browser/cloudflare-browser-session.js';
 import type {BrowserRuntime,BrowserSession} from '../../../infrastructure/browser/browser-runtime.js';
 import type {RestaurantCandidate} from '../../../domains/restaurant/contracts.js';
 
@@ -47,7 +47,7 @@ export async function recordedRuntime(html:string,options:{agedFetch?:boolean;ki
    }});return handler(wrapped,request);
   },opts);return context;
  };return browser;}};
- const raw:BrowserRuntime=options.kind==='CLOUDFLARE'?new CloudflareBrowserRun({accountId:'fixture',apiToken:'fixture',connectOverCdp:async()=>{const b=await browserType.launch({headless:true});await b.newContext();return b;}}):new LocalPlaywrightChromium({browserType,proxyServer:'http://127.0.0.1:9',directHosts:['127.0.0.1']});
+ const raw:BrowserRuntime=options.kind==='CLOUDFLARE'?{async openSession(input:Parameters<BrowserRuntime['openSession']>[0]){const b=await browserType.launch({headless:true});await b.newContext();const session=await CloudflareBrowserSession.create(b,'CHROMIUM',input.networkPolicy,input.recordResponse);input.signal.addEventListener('abort',()=>{void session.close();},{once:true});return session;}}:new LocalPlaywrightChromium({browserType,proxyServer:'http://127.0.0.1:9',directHosts:['127.0.0.1']});
  const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',async openSession(input){const session=await raw.openSession(input),navigate=session.navigate.bind(session),snapshot=session.snapshot.bind(session);
   session.navigate=async(url,opts)=>{await navigate(url,opts);if(options.agedFetch){const end=Date.now()+5000;while(!held&&Date.now()<end)await new Promise(r=>setTimeout(r,10));if(!held)throw Error('Constructed data request was not admitted');await new Promise(r=>setTimeout(r,3200));}};
   if(options.priorTextWait&&session.waitForSettled){const wait=session.waitForSettled.bind(session);let primed=false;session.waitForSettled=async(previous,timeout)=>{const before=primed?undefined:await pages.at(-1)!.locator('body').innerText();const settled=await wait(previous,primed?timeout:200);if(!primed){primed=true;priorWaits.push({settled,visibleTextChanging:session.settlementDiagnostics?.()?.visibleTextChanging,textChanged:before!==await pages.at(-1)!.locator('body').innerText()});if(options.priorTextWait==='quiet'){await pages.at(-1)!.evaluate(()=>clearInterval((window as unknown as {g1TextTimer:number}).g1TextTimer));await new Promise(r=>setTimeout(r,500));}}return settled;};}
