@@ -56,3 +56,8 @@ Draft / not integrated. Home title is one centered physical line with nowrap and
 Source blockquotes use a 2px rgba(61,90,254,.38) left rule. Open Q&A Source disclosures have transparent backgrounds with no nested horizontal padding; at 390px the answer sheet and About source footers retain one physical line through JST. Commercial display prose is distinct from quoted originals and has an attached source/time row even when no original quotation is present. Categories avoid generic Google labels and synonymous duplication. Revision removal names use human-readable verified links and omit redundant generic reason sublines.
 
 Mobile composer focus anchors the top bar and workspace to the visual viewport without resetting the internal About reading scroll. Image surfaces permit native vertical scrolling plus horizontal photo gestures; attribution links and the next normal tap remain usable. Landing WebGL and static gradients cover lower and side regions; focus=1 converged light geometry, edge fade and breathing remain unchanged. Real phone soft keyboards remain NOT_EVALUATED pending device verification.
+
+
+### Round 24 source and photo presentation
+
+Group quotations by exact source reading, de-duplicate equal text in that group and retain observed-price context. When an old quotation has ambiguous provenance, show its original and source link without a guessed Checked time. Keep unquoted structured terms as text with their source footer. Q&A-only smoking-field cleanup preserves parenthesized status qualifiers and answer prose. Photo surfaces use `pan-y pinch-zoom`; multi-touch never turns a page, while a horizontal mouse drag remains a gallery action. Native phone validation remains separate from Chromium simulation.

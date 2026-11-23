@@ -6507,3 +6507,8 @@ The stopped question admission gate remains freshness-bound. Settling accepted w
 ### Round 22 — 2026-11-22（draft / not integrated）
 
 已受理问答的原子结算/合法取代与查询、Google 店型过滤五项收口；三条生命周期交错与系统版本对照保留。冻结 `a3d8412bade34c7018fcdfeb8768fdc974395515`：默认1835/1835，G2 5/5、Chromium501/501、G6 159/159，typecheck/arch/build PASS；正式16/16、Style1 6/6、状态86/86，原人工顺序10/10。首次默认测试3项失败日志保留，修复后全套重跑。仅离线 Fixture / PGlite / Chromium；保护面比对通过，0 Live/真实 PostgreSQL/4312，不推送不合main。[Round 22报告](../../.eval-artifacts/3c-unified-20261117/round-22/REPORT.md)。
+
+
+### 2026-11-23 — Round 24 offline closure implementation（draft / not integrated）
+
+从5bca135c88da8b3ea62dd100aed3d401dfa036a4继续原稀疏工作树。第一切片保留待答编辑事务结算不变量，补齐选店来源和商业条款，语义至执行共享独立预算，收藏限定重试在任务行锁事务内完成。第二切片修正查询片段清理、否定分句边界、来源证据ID/歧义旧数据投影、同读取文本去重、同店外链身份与照片手势。新增正式单测及双尺寸浏览器回归；旧源文本/状态断言保留，新增来源ID单独验证。所有新复核脚本和输入先冻结，结果仅写round-24；最终验收与未测边界见报告。历史证据和保护面只读，0Live/真实PG/4312/远端写入。

@@ -15,7 +15,7 @@ export function groupCitations(items:readonly SourceExcerpt[]):CitationGroup[]{
 export function questionCitations(items:readonly SourceExcerpt[]):SourceExcerpt[]{
  const normalize=(text:string)=>text.normalize('NFKC').toLowerCase().replace(/[‐‑–—]/g,'-').replace(/\s+/g,' ').trim();
  const header=(text:string)=>['non-smoking/smoking','禁煙・喫煙'].includes(normalize(text).replace(/\s*\/\s*/g,'/'));
- const status=(text:string)=>/^(?:non[- ]?smoking|all seats? non[- ]?smoking|smoking (?:allowed|permitted)|(?:全席)?禁煙|喫煙可|分煙)$/.test(normalize(text));
+ const status=(text:string)=>/^(?:non[- ]?smoking|all seats? non[- ]?smoking|designated smoking area|separate(?:d)? smoking(?: area)?|smoking (?:allowed|permitted)|(?:全席)?禁煙|喫煙可|分煙)(?:\s*\([^)]*\))*$/.test(normalize(text));
  const key=(item:SourceExcerpt)=>JSON.stringify([item.url,item.readAt??null]);
  const withStatus=new Set(items.filter(item=>item.text&&status(item.text)).map(key));
  return items.filter(item=>!item.text||!header(item.text)||!withStatus.has(key(item)));

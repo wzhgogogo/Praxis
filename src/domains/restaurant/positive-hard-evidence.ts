@@ -61,7 +61,7 @@ export function positiveHardSourceSupport(criterion: string, source: RestaurantR
   const basis = quotes.length ? quotes.map(q => q.field === "NAME" ? "outlet name"
     : q.field === "GOOGLE_TYPE" ? "Google category" : q.field === "CATEGORY" && source.provider === "TABELOG" ? "Tabelog category"
     : "merchant website/menu text") : [source.provider === "GOOGLE_PLACES" ? "Google category" : source.provider === "TABELOG" ? "Tabelog category" : source.provider === "TABLECHECK" ? "TableCheck category" : "source category"];
-  return { evidenceIds: [source.evidenceId], sources: quotes, basis: [...new Set(basis)] };
+  return { evidenceIds: [source.evidenceId], sources: quotes.map(quote => ({...quote,evidenceId:source.evidenceId})), basis: [...new Set(basis)] };
 }
 
 /** Shared positive non-price admission result; callers provide their current, identity/scope-bound facts. */

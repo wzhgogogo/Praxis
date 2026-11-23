@@ -4,7 +4,7 @@ export interface WorkspaceUser { id:string; displayName:string }
 export interface CaseSummary { caseId:string; conversationId:string; title:string; status:string; phase:string; taskVersion:number; stopped?:boolean; updatedAt:string }
 export interface Offer { id:string; dateTime:string; partySize:number; displayExpiresAt?:string; price?:{amount:number;basis:'PER_PERSON'|'TOTAL'} }
 export interface Candidate { restaurant:{id:string;outletName:string;address:string;sourceIds:Record<string,string>};matchReasons?:string[];distanceObservation?:{meters:number} }
-export interface SourceQuote {field:string;quote:string;sourceUrl?:string}
+export interface SourceQuote {evidenceId?:string;field:string;quote:string;sourceUrl?:string}
 export interface Evidence { evidenceId:string;candidateId?:string;kind:string;provider:string;sourceUrl?:string;observedAt:string;claims:Record<string,string|number|boolean|string[]>;sourceFieldQuotes?:SourceQuote[] }
 export interface Condition {text:string;status:'MET'|'NOT_MET'|'NOT_CHECKED';strength:string;explanation?:string;evidenceIds:string[];sources:SourceQuote[]}
 export interface Citation {text:string;url:string;readAt:string}

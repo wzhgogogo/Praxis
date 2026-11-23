@@ -38,7 +38,7 @@ test("structured per-person cap has a HARD condition row with current quoted pri
  const conditions=assessRestaurantConditions(capped,[priced(7000)]);
  assert.equal(conditions.length,2,"a structured cap must not disappear outside intent.criteria");
  const budget=conditions[1]!;assert.equal(budget.criterionRef,"criterion:1");assert.equal(budget.strength,"HARD");assert.equal(budget.polarity,"POSITIVE");assert.equal(budget.status,"MET");
- assert.deepEqual(budget.sources,[{field:"PRICE",quote:"Dinner course JPY 7000 including tax",sourceUrl:url}]);
+ assert.deepEqual(budget.sources,[{field:"PRICE",quote:"Dinner course JPY 7000 including tax",sourceUrl:url,evidenceId:"merchant"}]);
  assert.equal(assessRestaurantConditions(capped,[priced(9000)])[1]?.status,"NOT_MET");
  assert.equal(assessRestaurantConditions(capped,[priced()])[1]?.status,"NOT_CHECKED");
  assert.equal(assessRestaurantConditions(capped,[priced(2000,"LUNCH")])[1]?.status,"NOT_CHECKED","a lunch price cannot establish a dinner cap");
@@ -59,7 +59,7 @@ test("a generic food descriptor uses the same explicit merchant category without
  const current=fact([source("CATEGORY","Regional, Noodles")],"regional food");
  const shown=assessRestaurantConditions({...intent,criteria},[current])[0]!;
  assert.equal(shown.status,"MET");
- assert.deepEqual(shown.sources,[source("CATEGORY","Regional, Noodles")],"display the actual merchant field, never a quote assembled from the request");
+ assert.deepEqual(shown.sources,[{...source("CATEGORY","Regional, Noodles"),evidenceId:"merchant"}],"display the actual merchant field, never a quote assembled from the request");
  for(const field of ["NAME","CUSTOMER_REVIEW"]){
   assert.equal(assessRestaurantConditions({...intent,criteria},[fact([source(field,"Regional")],"regional food")])[0]?.status,field === "NAME" ? "MET" : "NOT_CHECKED");
  }

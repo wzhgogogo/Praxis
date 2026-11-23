@@ -226,7 +226,7 @@ a:hover{text-decoration:underline}.brand:hover,.primary:hover{text-decoration:no
 #details-content .citation-group:not(:has(blockquote)){border:0;padding:0;border-radius:0;background:transparent}
 .asked-item details[open]{background:transparent;padding:6px 0 0}
 .about-commercial{margin-top:12px}.about-commercial>.citation-footer{margin-top:6px}
-.detail-photo-frame,#photo-viewer{touch-action:pan-y}
+.detail-photo-frame,#photo-viewer{touch-action:pan-y pinch-zoom}
 @media(max-width:959px){body.composer-focused #topbar{position:fixed;top:var(--workspace-viewport-top,0px);left:0;right:0}body.composer-focused main{position:fixed;top:calc(var(--workspace-viewport-top,0px) + 64px);width:100%;height:calc(var(--workspace-viewport-height,100dvh) - 64px);padding-top:22px}body.composer-focused #case-workspace{height:calc(var(--workspace-viewport-height,100dvh) - 64px - 54px)}body.composer-focused #workspace-composer{top:calc(var(--workspace-viewport-top,0px) + var(--workspace-viewport-height,100dvh) - var(--composer-height,52px) - 18px);bottom:auto}}
 .answer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}#answer-place{margin:0}#answer-close{flex:none;width:36px;height:36px;padding:4px;background:transparent;font-size:24px;color:#5F6275}#answer-question{font-size:13px;font-weight:600;color:#5F6275;margin-bottom:10px}
 </style></head>

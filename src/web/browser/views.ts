@@ -82,7 +82,7 @@ export function renderDetails(){
   const generic=new Set(['','restaurant','food','point of interest','establishment','store','food store']);
   const sourceGroup=(url:string,at:string|undefined)=>{const key=JSON.stringify([url,at??null]);let group=groups.get(key);if(!group){group={url,readAt:at,quotes:[],values:new Set()};groups.set(key,group);}return group;};
   for(const item of conditions){const row=element('div',undefined,'fact');row.append(conditionRow(item));
-   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl);sourceGroup(q.sourceUrl,evidence?.observedAt).quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(evidence?.observedAt?{readAt:evidence.observedAt}:{})});}
+   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.filter(e=>e.candidateId===id&&(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl&&(!q.evidenceId||e.evidenceId===q.evidenceId));const readings=[...new Set(evidence.map(e=>e.observedAt))],at=readings.length===1?readings[0]:undefined;sourceGroup(q.sourceUrl,at).quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(at?{readAt:at}:{})});}
    if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
   }
   for(const fact of facts){
@@ -96,8 +96,10 @@ export function renderDetails(){
   const originals=new Map<string,string>();for(const quote of quotedCategories){for(const token of quote.split(/[,、\n]/))categories.delete(categoryKey(token));const key=categoryKey(quote);categories.delete(key);if(!originals.has(key))originals.set(key,quote);}
   const labels=[...categories.values(),...originals.values()];if(labels.length)target.append(element('p','Categories: '+labels.join(', '),'about-categories'));
   for(const group of groups.values()){
-   const row=element('section',undefined,group.values.size?'about-commercial':'about-source');row.dataset.sourceId=JSON.stringify([group.url,group.readAt??null]);for(const value of group.values)row.append(element('p',value,'about-term'));
-   if(group.quotes.length)renderCitations(row,group.quotes,false);else row.append(citationFooter(group));target.append(row);
+   const normalize=(text:string)=>text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
+   const quotes=new Map<string,SourceExcerpt>();for(const quote of group.quotes){const key=normalize(quote.text??''),previous=quotes.get(key);if(!previous||!previous.label&&quote.label)quotes.set(key,quote);}
+   const row=element('section',undefined,group.values.size?'about-commercial':'about-source');row.dataset.sourceId=JSON.stringify([group.url,group.readAt??null]);for(const value of group.values)if(!quotes.has(normalize(value)))row.append(element('p',value,'about-term'));
+   if(quotes.size)renderCitations(row,[...quotes.values()],false);else row.append(citationFooter(group));target.append(row);
   }
  });}renderAsked(id);
 }

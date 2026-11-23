@@ -1416,3 +1416,8 @@ Round20 slice3 (draft / not integrated): clean source/domain labels, aligned ava
 ### Round 22 — 2026-11-22（draft / not integrated）
 
 已受理问答的原子结算/合法取代与查询、Google 店型过滤五项收口；三条生命周期交错与系统版本对照保留。冻结 `a3d8412bade34c7018fcdfeb8768fdc974395515`：默认1835/1835，G2 5/5、Chromium501/501、G6 159/159，typecheck/arch/build PASS；正式16/16、Style1 6/6、状态86/86，原人工顺序10/10。首次默认测试3项失败日志保留，修复后全套重跑。仅离线 Fixture / PGlite / Chromium；保护面比对通过，0 Live/真实 PostgreSQL/4312，不推送不合main。[Round 22报告](../.eval-artifacts/3c-unified-20261117/round-22/REPORT.md)。
+
+
+### Round 24 — 2026-11-23（draft / not integrated；待统一冻结验收）
+
+B1–B3 定向关闭待答编辑的选店/条款丢失、预算漏计与并发覆盖、收藏冲突取消已生成答案。B4–B5 与 U1–U5 定向验证查询编辑、否定分句、精确引用归属与去重、门店身份外链、原生缩放/多指与鼠标拖图、吸烟限定语。独立采集先落新观测再断言；统一离线门禁、历史十路径和视觉结果将在 [Round 24 报告](../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md) 记录。未运行 Live、真实 PostgreSQL 或4312；未推送/合main，真机软键盘/缩放未验收。

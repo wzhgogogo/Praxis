@@ -93,10 +93,11 @@ export function projectWorkspaceRead(input: {
   };
   const sourceUrl=(id:string)=>{
     const own=evidence.filter(item=>item.candidateId===id);
-    const high=own.filter(item=>item.kind==="ENTITY_MATCH"&&item.entityMatch?.confidence==="HIGH"&&humanUrl(item.sourceUrl));
-    const sameOrigin=(a:string|undefined,b:string|undefined)=>!!a&&!!b&&humanUrl(a)!==undefined&&humanUrl(b)!==undefined&&new URL(a).origin===new URL(b).origin;
+    const high=own.filter(item=>item.kind==="ENTITY_MATCH"&&item.entityMatch?.confidence==="HIGH");
+    const identified=(item:RestaurantReadEvidence)=>item.entityMatch!==undefined ? item.entityMatch?.confidence==="HIGH"
+      : !!item.sourceEntityId?.trim()&&high.some(identity=>!!identity.sourceEntityId?.trim()&&identity.provider===item.provider&&identity.sourceEntityId===item.sourceEntityId);
     for(const kind of ["AVAILABILITY","RESTAURANT_FACT","ENTITY_MATCH"] as const){
-      const item=own.findLast(item=>item.kind===kind&&humanUrl(item.sourceUrl)&&(kind==="AVAILABILITY"||kind==="ENTITY_MATCH"&&item.entityMatch?.confidence==="HIGH"||kind==="RESTAURANT_FACT"&&(item.entityMatch?.confidence==="HIGH"||!item.entityMatch&&high.some(identity=>sameOrigin(identity.sourceUrl,item.sourceUrl)))));
+      const item=own.findLast(item=>item.kind===kind&&humanUrl(item.sourceUrl)&&(kind==="ENTITY_MATCH"?item.entityMatch?.confidence==="HIGH":identified(item)));
       if(item)return humanUrl(item.sourceUrl);
     }
     const ids=known.get(id)?.restaurant.sourceIds;return humanUrl(ids?.googleWebsiteUri)||humanUrl(ids?.googleMapsUri);

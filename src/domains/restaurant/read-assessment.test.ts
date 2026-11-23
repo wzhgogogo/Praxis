@@ -84,7 +84,7 @@ for (const row of [
     assert.equal(Boolean(check()), row.accepted, row.name);
     assert.equal(projected().status, row.accepted ? "MET" : "NOT_CHECKED", row.name);
     if (!row.accepted) return;
-    assert.deepEqual(projected().sources, source.sourceFieldQuotes, row.name);
+    assert.deepEqual(projected().sources, source.sourceFieldQuotes.map(quote=>({...quote,evidenceId:source.evidenceId})), row.name);
     if (row.field === "NAME") assert.match(projected().explanation, /outlet name/i);
     source.sourceFieldQuotes[0]!.sourceUrl = "https://other-outlet.example/";
     assert.equal(check(), undefined, "a quotation from another page is not source support");

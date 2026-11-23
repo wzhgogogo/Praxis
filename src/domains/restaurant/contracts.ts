@@ -234,6 +234,8 @@ export type RestaurantReadEvidenceProvider = "GOOGLE_PLACES" | "RESTAURANT_WEBSI
  * normalized claims, never a provider payload, full HTML page, secret, or model reasoning.
  */
 export interface RestaurantSourceFieldQuote {
+  /** Exact originating read, when carried into a condition projection. */
+  evidenceId?: string;
   field: "CATEGORY" | "COURSE_TITLE" | "COURSE_DESCRIPTION" | "GOOGLE_TYPE" | "NAME" | "CUSTOMER_REVIEW" | "SOURCE_TEXT" | "PRICE";
   quote: string;
   sourceUrl: string;
