@@ -62,7 +62,7 @@ for(const [name,place,query,criterion,expectOrdinary,expectNamed] of scenarios){
   if(!allowed)assert.equal(details.reason,'GOOGLE_PLACE_TYPE_UNUSABLE');
   else {assert.ok(details.facts>0);assert.equal(details.violations.length,0);}
  }
- const observed={ordinary:ordinary.candidates.length,named:named.candidates.length,ordinaryDetail,namedDetail};
+ const observed={ordinary:ordinary.candidates.length,named:named.candidates.length,ordinaryDetail,namedDetail,ordinaryEvidence:ordinary.evidence,namedEvidence:named.evidence};
  const passed=observed.ordinary===Number(expectOrdinary)&&observed.named===Number(expectNamed)&&(ordinaryDetail.status==='COMPLETED')===expectOrdinary&&(namedDetail.status==='COMPLETED')===expectNamed;
  rows.push({name,place:place.displayName.text,query,criterion,expected:{ordinary:expectOrdinary,named:expectNamed},observed,passed,injectedTransportCalls:calls.length});
 }

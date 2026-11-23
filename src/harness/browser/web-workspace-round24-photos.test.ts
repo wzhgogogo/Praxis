@@ -6,7 +6,7 @@ import {chromium,type Page} from 'playwright-core';
 import {startWorkspaceFixture} from '../workspace-fixture-server.js';
 import {createGooglePhotoFixture} from '../google-photo-fixtures.js';
 import {createPhotoSourceFixture} from '../restaurant-photo-fixtures.js';
-async function capture(page:Page,name:string){const root=process.env.PRAXIS_ROUND24_VISUAL_OUTPUT??process.env.PRAXIS_ROUND8_VISUAL_OUTPUT??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(root){await mkdir(root,{recursive:true});await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});}}
+async function capture(page:Page,name:string){const root=process.env.PRAXIS_ROUND24_VISUAL_OUTPUT??process.env.PRAXIS_ROUND8_VISUAL_OUTPUT??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(root){await mkdir(root,{recursive:true});await page.waitForFunction(()=>{const viewer=document.getElementById('photo-viewer') as HTMLDialogElement;const img=document.getElementById(viewer.open?'large-photo':'detail-photo') as HTMLImageElement;return img.complete&&img.naturalWidth>0;});await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});}}
 async function save(name:string,data:unknown){const root=process.env.PRAXIS_ROUND24_OBSERVATIONS;if(root){await mkdir(root,{recursive:true});await writeFile(join(root,name+'.json'),JSON.stringify(data,null,2)+'\n');}}
 async function loaded(page:Page,id:string){await page.waitForFunction(id=>{const img=document.querySelector<HTMLImageElement>(id);return img?.complete&&img.naturalWidth>0;},id);}
 for(const mobile of [true,false])test(`Round24 UI: U4 ${mobile?390:1440} ${mobile?'native middle-photo pinch and multi-pointer isolation':'real mouse dragging'} preserves gallery controls`,{timeout:45000},async()=>{
