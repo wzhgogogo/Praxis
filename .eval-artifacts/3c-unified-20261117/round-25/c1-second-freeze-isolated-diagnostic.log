@@ -1,0 +1,29 @@
+✖ Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable (2137.925ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2572.6715
+
+✖ failing tests:
+
+test at src/harness/browser/cloudflare-cdp-isolation.test.ts:1:4560
+✖ Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable (2137.925ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNEXPECTED_SUCCESS'
+  - 'BROWSER_RUNTIME_FAILED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:19:450)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNEXPECTED_SUCCESS',
+    expected: 'BROWSER_RUNTIME_FAILED',
+    operator: 'strictEqual'
+  }
