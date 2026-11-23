@@ -59,7 +59,7 @@ for(const size of sizes){
       await page.locator("#bookmark").click();
       const card=await page.locator("#candidate-card").elementHandle(),first=await page.locator("#restaurant-name").innerText();
       await page.locator("#details-button").click();
-      assert.equal(await page.locator("#message").getAttribute("placeholder"),null);assert.equal(await page.locator("#message").getAttribute("aria-label"),"Restaurant question");
+      assert.equal(await page.locator("#message").getAttribute("placeholder"),"Ask about "+first);assert.equal(await page.locator("#message").getAttribute("aria-label"),"Restaurant question");
       assert.equal(await page.locator("#app input:visible, #app textarea:visible").count(),1);
       assert.equal(await page.locator("#question-form, #question-send").count(),0);
       const titleBefore=await page.locator("#details-name").boundingBox(),modelCalls=host.requests.length;
@@ -123,7 +123,7 @@ for(const size of sizes){
     let departures=0,refreshes=0;page.on("request",r=>{const path=new URL(r.url()).pathname;if(path.endsWith("/booking-departures"))departures++;if(path.endsWith("/refresh"))refreshes++;});
     try{
       await start(page,host,"Dinner to reconnect");await page.locator("#message").fill("Keep this unsent text");
-      const name=await page.locator("#restaurant-name").innerText();await eventually(()=>host.activeStreamCount()>0);host.disconnectStreams();await page.locator("#reconnecting").waitFor({state:"visible"});
+      const name=await page.locator("#restaurant-name").innerText();await eventually(()=>host.activeStreamCount()>0);host.disconnectStreams();await eventually(()=>host.activeStreamCount()===0);await eventually(()=>host.activeStreamCount()>0);await page.clock.fastForward(5000);assert.equal(await page.locator("#reconnecting").isVisible(),false,"a successful quick reconnect never shows the five-second banner");
       assert.equal(await page.locator("#reconnecting").innerText(),"Reconnecting…");assert.equal(await page.locator("#message").inputValue(),"Keep this unsent text");
       await capture(page,size.name+"-slice2-reconnecting");await page.locator("#reconnecting").waitFor({state:"hidden"});
       assert.equal(await page.locator("#restaurant-name").innerText(),name);assert.equal(await page.locator("#message").inputValue(),"Keep this unsent text");
@@ -177,7 +177,7 @@ for(const size of sizes)for(const scenario of ["structured","missing"] as const)
       assert.equal(await page.locator("#removed-count").innerText(),"2 no longer match");assert.equal(await page.locator("#added-count").innerText(),"1 new, ");
       await page.locator("#revision-changes summary").click();
       const reasons=await page.locator("#removed-list").innerText();assert.match(reasons,new RegExp(oldBudget));assert.match(reasons,new RegExp(oldTime));
-      if(scenario==="structured"){assert.match(reasons,/Over budget/);assert.match(reasons,/Doesn't match the new time/);}else{assert.equal(await page.getByText("No longer matches",{exact:true}).count(),2);}
+      if(scenario==="structured"){assert.match(reasons,/Over budget/);assert.match(reasons,/Doesn't match the new time/);}else{assert.equal(await page.getByText("No longer matches",{exact:true}).count(),0);assert.equal(await page.locator("#removed-list li").count(),2);}
       await page.locator("#message").fill("Keep this note while the changes stay expanded");
       const repeated=await page.request.post("/api/cases/"+encodeURIComponent(caseId)+"/shortlist",{data:{candidateId:view.restaurant.savedCandidates[0].candidateId,shortlisted:true,taskVersion:view.case.taskVersion,requestId:crypto.randomUUID()}});assert.equal(repeated.status(),200);view=(await repeated.json()).view;
       assert.equal(view.restaurant.savedCandidates[0].reasonCode,expected[0],"reaffirming an existing saved item cannot erase its requirement-change reason");

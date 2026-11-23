@@ -1,5 +1,5 @@
-import {renderCitations} from './citations.js';
-import type {SourceExcerpt} from './citation-groups.js';
+import {citationFooter,renderCitations} from './citations.js';
+import {questionCitations,type SourceExcerpt} from './citation-groups.js';
 import type { Answer, Condition, IntentDraft, Offer } from './view-contracts.js';
 import type { ConditionKind, ConditionValue } from './actions.js';
 import { $, clearError, element, requireView, show, state, text } from "./runtime.js";
@@ -8,7 +8,7 @@ import { closePhotos, renderPhotos } from "./photos.js";
 import { canAskCurrentPlace, canRefresh, canShortlist, candidate, ids, questionPending, sourceFor } from "./queries.js";
 import { savePosition } from "./position.js";
 import { availabilityTime, displayDate, displayTime, displayTitle, link, money, safeLink, sourceName } from "./format.js";
-import { resizeMessage, updateComposerClearance } from "./composer.js";
+import { resizeMessage, syncComposerPlaceholder, updateComposerClearance } from "./composer.js";
 import { actions } from "./actions.js";
 const caseScroller=$("case-workspace");
 
@@ -25,8 +25,8 @@ export function renderProgress(){
  if(hasCard)rows=[['check','Looking for more options',false,preview?Math.min(1,p.checkedCount||0):p.checkedCount]];
  else if(pending||understanding||preview&&preview.phase==='understanding')rows=[['request','Understanding your request',false]];
  else if(preview)rows=[['request','Request understood',true],['search',preview.phase==='finding'?'Finding places':'Places found',preview.phase!=='finding']];
- else rows=[['request','Request understood',true],['search',p.discoveredCount===undefined?'Finding places':'Places found',p.discoveredCount!==undefined]];
- if(!hasCard&&!pending&&!understanding&&(!preview&&p.discoveredCount!==undefined||preview&&['checking','card'].includes(preview.phase))){
+ else rows=[['request','Request understood',true],['search',(p.discoveredCount??0)>0?'Places found':'Finding places',(p.discoveredCount??0)>0]];
+ if(!hasCard&&!pending&&!understanding&&(!preview&&(p.discoveredCount??0)>0||preview&&['checking','card'].includes(preview.phase))){
   const label=r?.intentDraft?.target?.goal==='RECOMMENDATION'?'Checking details':'Checking availability';
   rows.push(['check',label,false,preview?(preview.phase==='checking'?0:Math.min(1,p.checkedCount||0)):p.checkedCount]);
  }
@@ -76,28 +76,36 @@ export function renderDetails(){
  show('refresh',requireView().case.phase==='PRESENT_RESULTS');$('refresh').disabled=refreshBusy||asking;if(asking)$('refresh').removeAttribute('aria-busy');else $('refresh').setAttribute('aria-busy',String(refreshBusy));text('refresh',refreshBusy?'Refreshing…':refreshSlots?'Refresh availability':'Refresh details');show('details-refresh-status',refreshBusy&&requireView().case.phase!=='PRESENT_RESULTS');
  text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source?.observedAt);if(source)text('evidence',sourceName(source.provider,source.sourceUrl)+' · Checked '+displayTime(source.observedAt));
  const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{
-  target.append(element('p',c.restaurant.address,'about-address'));const citations:SourceExcerpt[]=[],categories=new Set<string>();
-  const addSource=(url:string|undefined,text:string|undefined,at:string|undefined)=>{if(url)citations.push({url,...(text?{text}:{}),...(at?{readAt:at}:{})});};
+  target.append(element('p',c.restaurant.address,'about-address'));
+  const groups=new Map<string,{url:string;readAt?:string;quotes:SourceExcerpt[];values:Set<string>}>(),categories=new Map<string,string>(),quotedCategories:string[]=[];
+  const categoryKey=(value:string)=>{const key=value.normalize('NFKC').toLowerCase().replace(/_/g,' ').replace(/\s+/g,' ').trim();return ['steak','steak house','steakhouse'].includes(key)?'steak':key;};
+  const generic=new Set(['','restaurant','food','point of interest','establishment','store','food store']);
+  const sourceGroup=(url:string,at:string|undefined)=>{const key=JSON.stringify([url,at??null]);let group=groups.get(key);if(!group){group={url,readAt:at,quotes:[],values:new Set()};groups.set(key,group);}return group;};
   for(const item of conditions){const row=element('div',undefined,'fact');row.append(conditionRow(item));
-   for(const q of item.sources||[]){const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl);addSource(q.sourceUrl,(q.field==='PRICE'?'Observed price: ':'')+q.quote,evidence?.observedAt);}
+   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.find(e=>(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl);sourceGroup(q.sourceUrl,evidence?.observedAt).quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(evidence?.observedAt?{readAt:evidence.observedAt}:{})});}
    if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
   }
   for(const fact of facts){
    const values:string[]=[],claims=fact.claims||{};if(Array.isArray(claims.listedCourseDetails))values.push(...claims.listedCourseDetails);if(typeof claims.coursePriceYen==='number')values.push('Course '+money(claims.coursePriceYen));for(const k of ['cancellationTerms','noShowTerms'])if(typeof claims[k]==='string')values.push(claims[k]);
-   for(const value of values){target.append(element('p',value,'about-term'));addSource(fact.sourceUrl,undefined,fact.observedAt);}
-   const raw=fact.provider==='GOOGLE_PLACES'&&Array.isArray(claims.restaurantTypeFacts)?claims.restaurantTypeFacts.filter(t=>typeof t==='string'):[];
-   for(const category of raw)categories.add(category.replace(/_/g,' '));if(raw.length)addSource(fact.sourceUrl,undefined,fact.observedAt);
-   for(const quote of fact.sourceFieldQuotes||[])if(quote.field==='CATEGORY'){categories.add(quote.quote);addSource(quote.sourceUrl||fact.sourceUrl,undefined,fact.observedAt);}
+   if(values.length){if(fact.sourceUrl){const group=sourceGroup(fact.sourceUrl,fact.observedAt);for(const value of values)group.values.add(value);
+    for(const quote of fact.sourceFieldQuotes||[])if(['COURSE_TITLE','COURSE_DESCRIPTION','PRICE'].includes(quote.field))sourceGroup(quote.sourceUrl||fact.sourceUrl,fact.observedAt).quotes.push({url:quote.sourceUrl||fact.sourceUrl,readAt:fact.observedAt,text:quote.quote});
+   }else for(const value of values)target.append(element('p',value,'about-term'));}
+   if(fact.provider==='GOOGLE_PLACES'&&Array.isArray(claims.restaurantTypeFacts))for(const raw of claims.restaurantTypeFacts){const key=categoryKey(raw);if(!generic.has(key)&&!categories.has(key))categories.set(key,raw.replace(/_/g,' '));}
+   for(const quote of fact.sourceFieldQuotes||[])if(quote.field==='CATEGORY')quotedCategories.push(quote.quote);
   }
-  if(categories.size)target.append(element('p','Categories: '+[...categories].join(', '),'about-categories'));
-  renderCitations(target,citations,false);
+  const originals=new Map<string,string>();for(const quote of quotedCategories){for(const token of quote.split(/[,、\n]/))categories.delete(categoryKey(token));const key=categoryKey(quote);categories.delete(key);if(!originals.has(key))originals.set(key,quote);}
+  const labels=[...categories.values(),...originals.values()];if(labels.length)target.append(element('p','Categories: '+labels.join(', '),'about-categories'));
+  for(const group of groups.values()){
+   const row=element('section',undefined,group.values.size?'about-commercial':'about-source');row.dataset.sourceId=JSON.stringify([group.url,group.readAt??null]);for(const value of group.values)row.append(element('p',value,'about-term'));
+   if(group.quotes.length)renderCitations(row,group.quotes,false);else row.append(citationFooter(group));target.append(row);
+  }
  });}renderAsked(id);
 }
 export function renderAnswer(target:HTMLElement,result:Answer){
   target.replaceChildren();
   target.append(element('p',result.status==='ANSWERED'?result.answer:result.status==='NOT_STATED'?'Not stated on the page':'This answer could not be verified.'));
   const citations=result.citations||[],checkedPages=result.checkedPages||[];
-  renderCitations(target,citations.length?citations:checkedPages);
+  renderCitations(target,questionCitations(citations.length?citations:checkedPages));
   if(result.confirmationRequired)target.append(element('p','Please confirm with the restaurant.'));
 }
 export function renderAsked(id:string){
@@ -134,7 +142,7 @@ export function renderChanges(){
  const onlyAdded=diff.removed.length===0,summary=host.querySelector('summary')!;show('removed-count',!onlyAdded);show('added-count',added>0);show('revision-chevron',!onlyAdded);show('removed-list',!onlyAdded);host.classList.toggle('only-added',onlyAdded);summary.setAttribute('aria-disabled',String(onlyAdded));summary.tabIndex=onlyAdded?-1:0;summary.onclick=event=>{if(onlyAdded)event.preventDefault();};
  text('added-count',added?added+(onlyAdded?(added===1?' new place':' new places'):' new, '):'');text('removed-count',onlyAdded?'':diff.removed.length+' no longer match');text('revision-chevron',onlyAdded?'':'▾');
  const signature=JSON.stringify([diff,added]);if(signature===state.diffKey)return;state.diffKey=signature;host.open=false;
- $('removed-list').replaceChildren(...diff.removed.map(item=>{const row=element('li');row.dataset.candidateId=item.candidateId;row.append(element('span',item.outletName),element('p',changeReason(item.reasonCode),'muted'));return row;}));
+ $('removed-list').replaceChildren(...diff.removed.map(item=>{const row=element('li');row.dataset.candidateId=item.candidateId;row.append(item.sourceUrl?link(item.outletName+' ↗',item.sourceUrl):element('span',item.outletName));if(item.reasonCode!=='NO_LONGER_MATCHES')row.append(element('p',changeReason(item.reasonCode),'muted'));return row;}));
 }
 export function renderSaved(){
   const saved=requireView().restaurant.savedCandidates;show('saved-empty',!saved.length);$('saved-list').replaceChildren();
@@ -220,13 +228,13 @@ export function render(){
   const waiting=state.asking||questionPending();
   $('send').setAttribute('aria-busy',String(Boolean(state.sending||waiting)));
   $('send').disabled=state.blocked||waiting||(asking&&!canAskCurrentPlace());
-  if(!has){$('brand').classList.remove('working');show('progress',false);show('feedback',false);renderPhotos();return;}
+  if(!has){$('brand').classList.remove('working');show('progress',false);show('feedback',false);renderPhotos();syncComposerPlaceholder();return;}
   if(pending){
    caseScroller.scrollTop=0;delete caseScroller.dataset.caseId;
    reconcileSlot();
   text('case-title',displayTitle(pending.title));$('case-title').title=pending.title;
    for(const id of ['candidate-panel','details','handoff','saved-panel','batch-end','empty-state','understanding-error','revision-changes','partial-source-note','clarification-reply','messages','feedback','mode-note','use-location','saved'])show(id,false);
-   $('request-conditions').replaceChildren();delete $('request-conditions').dataset.signature;conditionRow.hidden=false;conditionRow.style.visibility='hidden';renderProgress();return;
+   $('request-conditions').replaceChildren();delete $('request-conditions').dataset.signature;conditionRow.hidden=false;conditionRow.style.visibility='hidden';renderProgress();syncComposerPlaceholder();return;
   }
   const r=requireView().restaurant,candidateIds=ids();
   let currentId=state.ui.candidateId;
@@ -257,5 +265,5 @@ export function render(){
   $('use-location').disabled=!!state.locating;
   if(mode!=='CANDIDATES')for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages','use-location'])show(id,false);
   show('mode-note',requireView().mode==='FIXTURE');text('mode-note','Fixture only. No real availability or reservations.');savePosition();clearTimeout(state.expiry);
-  const expiry=Object.values(r.availability).flat().map((o)=>Date.parse(o.displayExpiresAt??'')).filter(t=>t>Date.now()).sort((a,b)=>a-b)[0];if(expiry)state.expiry=setTimeout(()=>{reconcileSlot();render();},Math.min(expiry-Date.now()+10,2147483647));show('feedback',state.feedbackPrompts.has(requireView().case.caseId));
+  const expiry=Object.values(r.availability).flat().map((o)=>Date.parse(o.displayExpiresAt??'')).filter(t=>t>Date.now()).sort((a,b)=>a-b)[0];if(expiry)state.expiry=setTimeout(()=>{reconcileSlot();render();},Math.min(expiry-Date.now()+10,2147483647));show('feedback',state.feedbackPrompts.has(requireView().case.caseId));syncComposerPlaceholder();
 }

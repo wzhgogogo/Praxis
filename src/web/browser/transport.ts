@@ -69,13 +69,15 @@ export async function syncCaseList(){
   }catch{/* A later background sync can retry without interrupting the current plan. */}
   finally{state.caseListSyncing=false;scheduleCaseListSync();}
 }
-export function closeStream(){state.stream?.close();state.stream=null;state.streamCaseId=null;state.deferredView=null;}
+let reconnectTimer:number|undefined;
+function clearReconnect(){clearTimeout(reconnectTimer);reconnectTimer=undefined;show('reconnecting',false);}
+export function closeStream(){const stream=state.stream;state.stream=null;state.streamCaseId=null;state.deferredView=null;stream?.close();clearReconnect();}
 export function openStream(caseId:string,nav:number){
   closeStream();show('reconnecting',false);
   const stream=new EventSource(casePath(caseId)+'/events');state.stream=stream;state.streamCaseId=caseId;
   const current=()=>currentCase(nav,caseId)&&state.stream===stream;
-  stream.addEventListener('open',()=>{if(current())show('reconnecting',false);});
-  stream.addEventListener('error',()=>{if(current()){show('reconnecting',stream.readyState===EventSource.CONNECTING);scheduleCaseListSync();}});
+  stream.addEventListener('open',()=>{if(current())clearReconnect();});
+  stream.addEventListener('error',()=>{if(!current())return;if(stream.readyState===EventSource.CLOSED)clearReconnect();else if(stream.readyState===EventSource.CONNECTING&&reconnectTimer===undefined&&$('reconnecting').hidden){const timer=setTimeout(()=>{if(reconnectTimer!==timer)return;reconnectTimer=undefined;if(current()&&stream.readyState===EventSource.CONNECTING)show('reconnecting',true);},5000);reconnectTimer=timer;}scheduleCaseListSync();});
   stream.addEventListener('case',event=>{if(!current())return;try{receiveCase(JSON.parse(event.data) as WorkspaceView,nav,caseId);}catch(error){report(error);}});
   scheduleCaseListSync();
 }

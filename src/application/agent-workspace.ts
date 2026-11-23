@@ -117,7 +117,7 @@ export interface RestaurantWorkspaceReadProjection {
   revisionDiff?: {
     fromRevision: number;
     toRevision: number;
-    removed: Array<{ candidateId: string; outletName: string; reasonCode: WorkspaceCandidateChangeReason }>;
+    removed: Array<{ candidateId: string; outletName: string; reasonCode: WorkspaceCandidateChangeReason; sourceUrl?: string }>;
     added: Array<{ candidateId: string; outletName: string }>;
   };
   readStatus: {

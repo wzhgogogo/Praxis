@@ -112,3 +112,18 @@ test('entry preview guard: streaming progress follows the server and non-Fixture
   }finally{host.release();await page.close();await host.close();}
  }}finally{await browser.close();}
 });
+
+
+for(const width of [390,1440])test(`Round23 UI: R9 ${width} landing WebGL and both static fallbacks cover lower edges`,{timeout:45000},async()=>{
+ const host=await startWorkspaceFixture(),browser=await chromium.launch({headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}),context=await browser.newContext({viewport:{width,height:844}}),page=await context.newPage();
+ try{
+  await context.route('**/*',r=>new URL(r.request().url()).origin===host.baseUrl?r.continue():r.abort());
+  await page.addInitScript(()=>{const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(this:HTMLCanvasElement,...args:Parameters<typeof get>){const result=Reflect.apply(get,this,args);if(args[0]==='webgl2'&&result){const gl=result as WebGL2RenderingContext,draw=gl.drawArrays.bind(gl);gl.drawArrays=(...a:Parameters<typeof draw>)=>{draw(...a);const samples=[.03,.5,.97].map(x=>{const pixel=new Uint8Array(4);gl.readPixels(Math.floor(gl.drawingBufferWidth*x),Math.floor(gl.drawingBufferHeight*.25),1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);return [...pixel];});(window as unknown as {r23Light:number[][]}).r23Light=samples;};}return result;} as typeof get;});
+  await page.goto(host.baseUrl);await page.waitForFunction(()=>(window as unknown as {r23Light?:number[][]}).r23Light?.length===3);assert.equal(await page.locator('#landing-atmosphere').getAttribute('data-mode'),'landing');
+  const light=await page.evaluate(()=>(window as unknown as {r23Light:number[][]}).r23Light);console.log('ROUND23_LANDING_PIXELS '+JSON.stringify({width,light}));for(const pixel of light){assert.ok(255-pixel[0]!>=4,'lower-left/center/right have visible brand light');assert.ok(pixel[2]!>pixel[0]!);}
+  await capture(page,`round23-r9-${width}-landing-webgl`);
+  const staticSamples=async()=>{const bytes=await page.screenshot();const {default:sharp}=await import('sharp');const {data,info}=await sharp(bytes).raw().toBuffer({resolveWithObject:true});const pixels=[.03,.5,.97].map(x=>{const index=(Math.floor(info.height*.75)*info.width+Math.floor(info.width*x))*info.channels;return [...data.subarray(index,index+3)];});console.log('ROUND23_STATIC_PIXELS '+JSON.stringify({width,pixels}));for(const pixel of pixels){assert.ok(255-pixel[0]!>=4);assert.ok(pixel[2]!>pixel[0]!);}};
+  await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#landing-waves').waitFor({state:'hidden'});await staticSamples();await capture(page,`round23-r9-${width}-landing-reduced`);
+  await page.emulateMedia({reducedMotion:'no-preference'});await page.locator('#landing-waves').waitFor({state:'visible'});await page.locator('#landing-waves').evaluate((canvas:HTMLCanvasElement)=>canvas.getContext('webgl2')!.getExtension('WEBGL_lose_context')!.loseContext());await page.locator('#landing-waves').waitFor({state:'hidden'});await staticSamples();await capture(page,`round23-r9-${width}-landing-context-lost`);
+ }finally{await context.close();await browser.close();await host.close();}
+});

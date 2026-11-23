@@ -4,7 +4,7 @@ const SIDEBAR_ICON = '<svg class="sidebar-open-icon" viewBox="0 0 24 24" aria-hi
 
 export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,interactive-widget=resizes-content"/>
 <title>Praxis — Your plans</title>
 <style>
 @font-face{font-family:'DM Sans';src:url('/assets/dm-sans.woff2') format('woff2');font-weight:100 1000;font-display:swap}
@@ -30,7 +30,7 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke
 #case-list{overflow:auto;flex:1;display:flex;flex-direction:column;gap:4px}#profile{padding-top:16px;border-top:.5px solid #E3E5EC;font-size:13px}#profile summary{list-style:none;margin-left:12px;padding:10px 0;font-weight:600}#profile summary::-webkit-details-marker{display:none}#logout{font-size:13px;margin:0 0 2px 50px;padding:6px 0;text-decoration:underline}
 #backdrop{position:fixed;inset:72px 0 0;background:rgba(21,23,43,.16);z-index:7}
 main{max-width:660px;margin:auto;padding:28px 24px 40px}#home{min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:32px}
-#home h1{text-align:center;font-size:28px;letter-spacing:-0.02em}
+#home h1{text-align:center;white-space:nowrap;font-size:clamp(20px,5.6vw,28px);letter-spacing:-0.02em}
 html{scroll-padding-bottom:var(--composer-clearance,120px)}body:has(#case-workspace:not([hidden])){height:100dvh;overflow:hidden}
 #case-workspace{height:calc(100dvh - 72px - 68px);overflow-y:auto;overflow-x:hidden;padding-inline:24px;margin-inline:-24px;padding-bottom:var(--composer-clearance,120px);scroll-padding-bottom:var(--composer-clearance,120px)}
 #topbar-sentinel{height:1px;margin-bottom:-1px;pointer-events:none}.workspace-head{display:flex;align-items:baseline;gap:12px;justify-content:space-between;margin-bottom:14px}
@@ -76,7 +76,7 @@ html{scroll-padding-bottom:var(--composer-clearance,120px)}body:has(#case-worksp
 .condition-editor .editor-save{background:#15172B;color:#fff}.condition-editor :is(.editor-cancel,.editor-remove){background:#F5F6F9;color:#5F6275}
 .condition-editor .editor-save[aria-busy=true]::after{width:12px;height:12px;left:calc(50% - 6px);top:calc(50% - 6px);border-color:#fff;border-right-color:transparent}
 
-#reconnecting{position:sticky;top:0;z-index:7;background:#F5F6F9;padding:7px 20px;font-size:13px}
+#reconnecting{position:sticky;top:8px;z-index:7;width:fit-content;margin:0 auto 12px;background:#F5F6F9;color:#5F6275;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:500;line-height:1.4;box-shadow:0 2px 8px rgba(21,23,43,.06)}
 #answer-backdrop{position:fixed;inset:0;z-index:9;background:rgba(21,23,43,.12)}
 #answer-sheet{position:fixed;left:20px;right:20px;bottom:0;z-index:10;max-width:612px;margin:auto;max-height:65vh;overflow:auto;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -12px 32px rgba(21,23,43,.14);border-top:.5px solid #E3E5EC;padding:0 20px calc(28px + env(safe-area-inset-bottom));overscroll-behavior:contain}
 #answer-dismiss{display:block;width:100%;height:28px;padding:0;touch-action:none}#answer-dismiss::after{content:'';display:block;width:32px;height:3px;border-radius:999px;background:#5F6275;margin:auto}
@@ -189,7 +189,7 @@ a:hover{text-decoration:underline}.brand:hover,.primary:hover{text-decoration:no
 #candidate-panel .slot-time[aria-pressed=true]:hover{background:color-mix(in srgb,#3D5AFE 16%,#fff);filter:brightness(.98)}
 }
 /* Landing atmosphere exception; business workspace stays pure white. */
-#landing-atmosphere{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;opacity:0;visibility:hidden;background:radial-gradient(ellipse at 48% 38%,rgba(61,90,254,.20),transparent 58%),radial-gradient(ellipse at 76% 58%,rgba(61,90,254,.10),transparent 52%),#fff;transform:scale(1);transition:opacity .45s ease-out,transform .45s ease-out,visibility 0s linear .45s}
+#landing-atmosphere{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;opacity:0;visibility:hidden;background:radial-gradient(ellipse at 10% 78%,rgba(61,90,254,.18),transparent 78%),radial-gradient(ellipse at 88% 72%,rgba(61,90,254,.16),transparent 76%),radial-gradient(ellipse at 48% 28%,rgba(61,90,254,.16),transparent 72%),#fff;transform:scale(1);transition:opacity .45s ease-out,transform .45s ease-out,visibility 0s linear .45s}
 #landing-atmosphere[data-active=true]{opacity:1;visibility:visible;transition-delay:0s}
 #landing-atmosphere[data-mode=converged]{opacity:1;transform:scale(1)}
 #landing-atmosphere[data-mode=converged][data-renderer=static]{opacity:.82;transform:scale(.92);transform-origin:var(--stage-center-x,50%) 48%;background:radial-gradient(circle at var(--stage-center-x,50%) 48%,rgba(61,90,254,.18),transparent 38%),#fff}
@@ -216,13 +216,18 @@ a:hover{text-decoration:underline}.brand:hover,.primary:hover{text-decoration:no
 .quiet{background:#F5F6F9;color:#15172B;padding:8px 14px;font-size:13px;font-weight:500;border-radius:12px}
 .source-category-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:13px}.source-category-row>a{flex:none}.source-category-row>span{text-align:right;min-width:0}
 .about-address{padding-bottom:16px;border-bottom:1px solid #E3E5EC;color:#5F6275}.about-categories{font-size:13px;color:#5F6275}
-.citation-sources{font-size:13px;color:#5F6275;margin-top:10px}.citation-sources>summary{text-decoration:underline;text-underline-offset:3px}.citation-group{background:#fff;border:1px solid #E3E5EC;border-radius:12px;padding:10px 12px;margin-top:8px}.citation-group blockquote{margin:6px 0!important;padding-left:10px;border-left:2px solid #E3E5EC;white-space:pre-wrap;font-size:13px;color:#15172B}.citation-context{font-size:13px;font-weight:500}.citation-footer{font-size:12px;color:#5F6275;line-height:1.5}.citation-footer a{color:#5F6275;text-decoration:underline}
+.citation-sources{font-size:13px;color:#5F6275;margin-top:10px}.citation-sources>summary{text-decoration:underline;text-underline-offset:3px}.citation-group{background:#fff;border:1px solid #E3E5EC;border-radius:12px;padding:10px 12px;margin-top:8px}.citation-group blockquote{margin:6px 0!important;padding-left:10px;border-left:2px solid rgba(61,90,254,.38);white-space:pre-wrap;font-size:13px;color:#15172B}.citation-context{font-size:13px;font-weight:500}.citation-footer{font-size:12px;color:#5F6275;line-height:1.5}.citation-footer a{color:#5F6275;text-decoration:underline}
 @media(max-width:480px){
  #answer-sheet{padding-inline:16px}
- #answer-sheet .citation-sources[open],#answer-sheet .citation-group{padding-inline:8px}
+ #answer-sheet .asked-item,#details .asked-item{padding-inline:8px}
+ #answer-sheet .citation-sources[open],#answer-sheet .citation-group,#details .asked-item .citation-sources[open],#details .asked-item .citation-group{padding-inline:8px}
  #answer-sheet .citation-footer{text-wrap:wrap}
 }
 #details-content .citation-group:not(:has(blockquote)){border:0;padding:0;border-radius:0;background:transparent}
+.asked-item details[open]{background:transparent;padding:6px 0 0}
+.about-commercial{margin-top:12px}.about-commercial>.citation-footer{margin-top:6px}
+.detail-photo-frame,#photo-viewer{touch-action:pan-y}
+@media(max-width:959px){body.composer-focused #topbar{position:fixed;top:var(--workspace-viewport-top,0px);left:0;right:0}body.composer-focused main{position:fixed;top:calc(var(--workspace-viewport-top,0px) + 64px);width:100%;height:calc(var(--workspace-viewport-height,100dvh) - 64px);padding-top:22px}body.composer-focused #case-workspace{height:calc(var(--workspace-viewport-height,100dvh) - 64px - 54px)}body.composer-focused #workspace-composer{top:calc(var(--workspace-viewport-top,0px) + var(--workspace-viewport-height,100dvh) - var(--composer-height,52px) - 18px);bottom:auto}}
 .answer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}#answer-place{margin:0}#answer-close{flex:none;width:36px;height:36px;padding:4px;background:transparent;font-size:24px;color:#5F6275}#answer-question{font-size:13px;font-weight:600;color:#5F6275;margin-bottom:10px}
 </style></head>
 <body>

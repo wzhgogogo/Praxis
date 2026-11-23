@@ -44,7 +44,7 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
     await page.getByRole("button",{name:"Refresh availability",exact:true}).click();
     await page.getByText("Cancellation: current rule",{exact:false}).waitFor();
     const text=await page.locator("#details-content").innerText();
-    assert.match(text,/8,000/);assert.match(text,/Around ¥10,000 per person\s*Confirmed/);assert.match(text,/Observed price: Dinner course/);
+    assert.match(text,/8,000/);assert.match(text,/Around ¥10,000 per person\s*Confirmed/);assert.match(text,/Observed price:\s*Dinner course/);
     assert.doesNotMatch(text,/7,500|No-show: old rule|Discovery only/);
     assert.equal(await page.getByRole("link",{name:"Source page",exact:true}).first().getAttribute("href"),current.sourceUrl);
     await page.locator("#details-back").click();
@@ -102,7 +102,7 @@ test("G1 Web asks only for the displayed outlet and renders quotes, absence and 
       return route.fulfill({json:path==="/api/cases"?{cases:[view().case]}:path==="/api/session"?{user:{id:"fixture"}}:{view:view()}});
     });
     await page.goto("https://workspace.example/");await page.getByRole("button",{name:/Restaurant follow-up/}).click();await page.locator("#details-button").click();
-    assert.equal(await page.locator("#message").getAttribute("placeholder"),null);
+    assert.equal(await page.locator("#message").getAttribute("placeholder"),"Ask about Merchant Cafe");
     assert.equal(await page.locator("#details input, #details textarea").count(),0,"details must not own a second input");
     const ask=async(text:string)=>{
       await page.locator("#message").fill(text);

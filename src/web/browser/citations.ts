@@ -9,9 +9,13 @@ export function renderCitations(container:HTMLElement,items:readonly SourceExcer
  for(const group of groups){
   const block=element('div',undefined,'citation-group');block.dataset.sourceId=JSON.stringify([group.url,group.readAt??null]);
   for(const excerpt of group.excerpts){if(excerpt.label)block.append(element('p',excerpt.label,'citation-context'));block.append(element('blockquote',excerpt.text));}
-  const footer=element('p',undefined,'citation-footer'),source=link('Source page',group.url),arrow=element('span',' ↗');arrow.setAttribute('aria-hidden','true');source.append(arrow);footer.append(source);
-  if(group.readAt)footer.append(document.createTextNode(' · '+readAt(group.readAt)));
-  block.append(footer);host.append(block);
+  block.append(citationFooter(group));host.append(block);
  }
  container.append(host);
+}
+
+export function citationFooter(group:Pick<SourceExcerpt,'url'|'readAt'>){
+ const footer=element('p',undefined,'citation-footer'),source=link('Source page',group.url),arrow=element('span',' ↗');arrow.setAttribute('aria-hidden','true');source.append(arrow);footer.append(source);
+ if(group.readAt)footer.append(document.createTextNode(' · '+readAt(group.readAt)));
+ return footer;
 }

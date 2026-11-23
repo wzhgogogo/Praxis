@@ -2,7 +2,7 @@ import type { CaseSummary, PageQuestion, WorkspaceUser, WorkspaceView } from './
 import type { ConditionKind, ConditionValue } from './actions.js';
 import { previewPace } from './preview.js';
 import { connectWorkspace } from "./actions.js";
-import { closePhotos, movePhoto, observePhotoCredits, openPhotos } from "./photos.js";
+import { bindPhotoGestures, closePhotos, movePhoto, observePhotoCredits, openPhotos } from "./photos.js";
 import { accept, api, casePath, currentCase, openStream, receiveCase, refreshCaseLinks, reportCaseError, resetCaseRequests, resumeCase, scheduleCaseListSync, updateCases } from "./transport.js";
 import { $, clearError, desktopLayout, element, report, requestId, requireView, show, state, text } from "./runtime.js";
 import { render, renderAnswer, renderConditions } from "./views.js";
@@ -11,7 +11,7 @@ import { closePlans, loadCase, moveCard, newPlan, setView, syncBrand, syncSideba
 import { canAskCurrentPlace, canRefresh, canShortlist, candidate, ids } from "./queries.js";
 import { key, savePosition } from "./position.js";
 import { draftKey } from "./session.js";
-import { focusAdjustment, resizeMessage, setMessage, updateComposerClearance } from "./composer.js";
+import { blurComposer, focusAdjustment, resizeMessage, setMessage, syncComposerViewport, updateComposerClearance } from "./composer.js";
 import { cancelPreparation, clearEntryTransition, fixturePresentation } from "./preview.js";
 'use strict';
 connectWorkspace({render,accept,api,casePath,closeAnswer,currentCase,editCondition,finishPreparation,loadCase,openAnswer,openStream,refreshCaseLinks,reportCaseError,resetCaseRequests,scheduleCaseListSync,setView,updateCases});
@@ -78,14 +78,18 @@ export function editCondition(button:HTMLButtonElement,label:string,kind:Conditi
   state.conditionEditor={form,anchor,caseId:requireView().case.caseId,get busy(){return busy;},cancel:()=>{if(!busy)close(false);},position};update();input.focus({preventScroll:true});if(kind==='text')input.select();
 }
 
-$('message').addEventListener('blur',()=>{$('message').removeAttribute('placeholder');});
+$('message').addEventListener('blur',blurComposer);
+$('message').addEventListener('focus',syncComposerViewport);
+window.visualViewport?.addEventListener('resize',syncComposerViewport);
+window.visualViewport?.addEventListener('scroll',syncComposerViewport);
 $('message').addEventListener('input',resizeMessage);
 $('message').addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('composer').requestSubmit();}});
-new ResizeObserver(updateComposerClearance).observe($('workspace-composer'));window.addEventListener('resize',()=>{resizeMessage();updateComposerClearance();if(state.conditionEditor)state.conditionEditor.position();});
+new ResizeObserver(updateComposerClearance).observe($('workspace-composer'));window.addEventListener('resize',()=>{syncComposerViewport();resizeMessage();updateComposerClearance();if(state.conditionEditor)state.conditionEditor.position();});
 const caseScroller=$('case-workspace');
 new IntersectionObserver(entries=>{$('topbar').classList.toggle('scrolled',!caseScroller.hidden&&!entries[0].isIntersecting);},{root:caseScroller,threshold:0}).observe($('topbar-sentinel'));
 
 $('cover-open').onclick=openPhotos;$('detail-photo-open').onclick=openPhotos;$('photo-close').onclick=closePhotos;
+bindPhotoGestures();
 $('detail-photo-previous').onclick=()=>movePhoto(-1);$('detail-photo-next').onclick=()=>movePhoto(1);$('photo-previous').onclick=()=>movePhoto(-1);$('photo-next').onclick=()=>movePhoto(1);
 $('photo-viewer').addEventListener('keydown',event=>{if(event.key==='ArrowLeft'){event.preventDefault();movePhoto(-1);}if(event.key==='ArrowRight'){event.preventDefault();movePhoto(1);}});
 

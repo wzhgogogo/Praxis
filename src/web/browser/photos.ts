@@ -91,3 +91,15 @@ export function renderPhotos(){
 }
 export function movePhoto(delta:number){const key=photoKey(),entry=photoCache.get(key),photos=photoList(entry);if(!photos.length)return;const index=Math.max(0,Math.min(photoPosition(key,photos)+delta,photos.length-1));photoPositions.set(key,index);try{localStorage.setItem(key+':photo',String(index));}catch{}if(entry)renderPhotoImages(key,entry);}
 export function openPhotos(){const entry=photoCache.get(photoKey());if(!photoList(entry).length)return;$('photo-viewer').showModal();renderPhotos();}
+
+/** One gesture owns only its own synthetic click; vertical browser scrolling stays native. */
+export function bindPhotoGestures(){
+ for(const frame of [document.querySelector<HTMLElement>('.detail-photo-frame'),$('photo-viewer')]){
+  if(!frame)continue;
+  let start:{x:number;y:number;id:number;key:string}|undefined,suppressClick=false,timer:number|undefined;
+  frame.addEventListener('pointerdown',event=>{clearTimeout(timer);suppressClick=false;start=event.target instanceof Element&&event.target.closest('a')?undefined:{x:event.clientX,y:event.clientY,id:event.pointerId,key:photoKey()};});
+  frame.addEventListener('pointercancel',()=>{start=undefined;suppressClick=false;});
+  frame.addEventListener('pointerup',event=>{const down=start;start=undefined;if(!down||down.id!==event.pointerId||down.key!==photoKey()||!(state.ui.view==='DETAILS'||$('photo-viewer').open))return;const dx=event.clientX-down.x,dy=event.clientY-down.y;if(Math.abs(dx)<40||Math.abs(dx)<=Math.abs(dy))return;movePhoto(dx<0?1:-1);suppressClick=true;timer=setTimeout(()=>{suppressClick=false;},0);});
+  frame.addEventListener('click',event=>{if(!suppressClick||event.detail===0)return;suppressClick=false;clearTimeout(timer);event.preventDefault();event.stopImmediatePropagation();},true);
+ }
+}

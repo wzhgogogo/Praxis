@@ -1,6 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 import type { RecordedEventEnvelope } from "../core/task-runtime/contracts.js";
-import type { RestaurantCandidate, RestaurantEvent, RestaurantIntentDraft, RestaurantTaskState } from "../domains/restaurant/contracts.js";
+import type { RestaurantCandidate, RestaurantEvent, RestaurantIntentDraft, RestaurantReadEvidence, RestaurantTaskState } from "../domains/restaurant/contracts.js";
 import { applyRestaurantIntentPatch } from "../domains/restaurant/intent-state.js";
 import { restaurantIntentPatchHasChanges } from "../domains/restaurant/semantic-compiler.js";
 import { assessRestaurantConditions, priceCondition } from "../domains/restaurant/condition-states.js";
@@ -24,10 +24,12 @@ export function projectWorkspaceRead(input: {
   const groups: Array<{ revision: number; draft: RestaurantIntentDraft | undefined; presented: Set<string>; events: RestaurantEvent[] }> = [];
   let group = { revision: 0, presented: new Set<string>(), events: [] as RestaurantEvent[], draft: undefined as RestaurantIntentDraft | undefined };
   const known = new Map<string, RestaurantCandidate>();
+  const historicalEvidence:RestaurantReadEvidence[]=[];
   const savedAt = new Map<string, number>();
   const questions = new Map<string, RestaurantPageQuestionState>();
   const completedQuestions = new Map<string, RestaurantPageQuestionState>();
   for (const { event } of input.events) {
+    if(event.type==="SEARCH_COMPLETED"||event.type==="AVAILABILITY_CHECKED"||event.type==="CANDIDATE_FACTS_CHECKED")historicalEvidence.push(...event.evidence);
     const nextDraft = event.type === "SEMANTIC_PROPOSAL_COMPILED" && restaurantIntentPatchHasChanges(event.patch)
       ? applyRestaurantIntentPatch(group.draft, event.patch) : group.draft;
     // Field presence is not a revision: the reducer may retain presentation for
@@ -81,6 +83,24 @@ export function projectWorkspaceRead(input: {
     if (changedTime && check?.status === "UNAVAILABLE" && check.reasonCode === "NO_MATCHING_SLOT") return "NEW_TIME_MISMATCH";
     return "NO_LONGER_MATCHES";
   };
+  const evidence=[...historicalEvidence,...state.readEvidence];
+  const humanUrl=(value:string|undefined)=>{
+    if(!value)return undefined;
+    try{const url=new URL(value);if(url.protocol!=="https:"||url.username||url.password||url.hostname==="googleapis.com"||url.hostname.endsWith(".googleapis.com"))return undefined;
+      if((url.hostname==="google.com"||url.hostname.endsWith(".google.com"))&&url.hostname!=="maps.google.com"&&!(url.hostname==="www.google.com"&&/^\/maps(?:\/|$)/.test(url.pathname)))return undefined;
+      return url.href;
+    }catch{return undefined;}
+  };
+  const sourceUrl=(id:string)=>{
+    const own=evidence.filter(item=>item.candidateId===id);
+    const high=own.filter(item=>item.kind==="ENTITY_MATCH"&&item.entityMatch?.confidence==="HIGH"&&humanUrl(item.sourceUrl));
+    const sameOrigin=(a:string|undefined,b:string|undefined)=>!!a&&!!b&&humanUrl(a)!==undefined&&humanUrl(b)!==undefined&&new URL(a).origin===new URL(b).origin;
+    for(const kind of ["AVAILABILITY","RESTAURANT_FACT","ENTITY_MATCH"] as const){
+      const item=own.findLast(item=>item.kind===kind&&humanUrl(item.sourceUrl)&&(kind==="AVAILABILITY"||kind==="ENTITY_MATCH"&&item.entityMatch?.confidence==="HIGH"||kind==="RESTAURANT_FACT"&&(item.entityMatch?.confidence==="HIGH"||!item.entityMatch&&high.some(identity=>sameOrigin(identity.sourceUrl,item.sourceUrl)))));
+      if(item)return humanUrl(item.sourceUrl);
+    }
+    const ids=known.get(id)?.restaurant.sourceIds;return humanUrl(ids?.googleWebsiteUri)||humanUrl(ids?.googleMapsUri);
+  };
   const interpretation = group.events.findLast(event => event.type === "SEMANTIC_INTERPRETATION_FAILED" || event.type === "SEMANTIC_PROPOSAL_COMPILED");
   const modelFailed = interpretation?.type === "SEMANTIC_INTERPRETATION_FAILED" && interpretation.status === "MODEL_FAILURE";
   const savedCandidates = (state.selectionSession?.shortlistCandidateIds ?? []).map(id => ({
@@ -89,7 +109,7 @@ export function projectWorkspaceRead(input: {
   }));
   const revisionDiff = previous && groups.some(item => item.presented.size > 0) && qualifiedRevision && group.revision > previous.revision ? {
     fromRevision: previous.revision, toRevision: group.revision,
-    removed: [...previous.presented].filter(id => !group.presented.has(id) && !qualified.has(id)).map(id => ({ candidateId: id, outletName: name(id), reasonCode: reason(id) })),
+    removed: [...previous.presented].filter(id => !group.presented.has(id) && !qualified.has(id)).map(id => {const url=sourceUrl(id);return {candidateId:id,outletName:name(id),reasonCode:reason(id),...(url?{sourceUrl:url}:{})};}),
     added: [...group.presented].filter(id => !previous.presented.has(id)).map(id => ({ candidateId: id, outletName: name(id) })),
   } : undefined;
   const attempts = [...Object.values(state.availabilityChecks).flatMap(check => check.sourceAttempts ?? []),

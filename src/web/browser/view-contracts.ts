@@ -23,7 +23,7 @@ export interface WorkspaceView {
  availability:Record<string,Offer[]>;availabilityChecks:Record<string,{status:string;displayExpiresAt?:string;evidenceIds:string[]}>;
  readEvidence:Evidence[];currentFactEvidence:Evidence[];conditionStates?:Record<string,Condition[]>;
  savedCandidates:{candidateId:string;outletName:string;current:boolean;reasonCode?:string}[];
- revisionDiff?:{removed:{candidateId:string;outletName:string;reasonCode:string}[];added:{candidateId:string;outletName:string}[]};
+ revisionDiff?:{removed:{candidateId:string;outletName:string;reasonCode:string;sourceUrl?:string}[];added:{candidateId:string;outletName:string}[]};
  shortlistCandidateIds?:string[];questionHistory:PageQuestion[];pageQuestion?:PageQuestion;bookingHandoffs?:Handoff[];bookingFeedbackAvailable?:boolean;
  sourceReadContext?:{runId:string;startedAt:string;handleId?:string};clarificationQuestion?:string;missingRequiredFields:string[];
  }
