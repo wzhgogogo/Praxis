@@ -1454,3 +1454,12 @@ Fixed 5 P2 findings from Round 25 independent review (`V3`, `R1`, `M2`, `R3`, `R
 冻结 `937d44be67fb8f5b735743bc1666040cc6c551b7`（src tree `69da89954e4c74c0d08b6956219c05d3fb1d0679`，frozen offline regression / draft, not integrated）：ADR-0052、DATE offset2..365、Prompt29及当前消息绑定关闭错误/遗漏DATE；实际消息组合四种后天回包均查11月26日，歧义NEEDS_INPUT且0查位，时间单改保留11月25日。七项UI含胶囊保存/删除重搜态、Source双坐标零漂移、真实活动Stop200+stopped:true、390px流式编辑均离线通过。
 
 五门禁PASS：默认1951/1951，G2 5/5、Chromium593/593、G6 159/159；Build后dist C1 4/4，19JS+HTML/CSS一致、strict18模块零环。新增UI15条、34PNG/JSON及4联系表/18关键原图目检完成。两次中间冻结失败及测试输入/时序修正原件保留；最终SHA重新全套通过。主目录/env、closeout950现存材料与稀疏规则不变；12380现存本轮保护项匹配，原历史表12501/12638、137既有原件缺失，整体历史签收仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。无Live/真实PG/远端CDP/4312/推送/合main，真机键盘未验。[报告](../.eval-artifacts/3c-unified-20261117/round-27/REPORT.md)。
+
+
+<a id="unified-round27-date-selection-p1-20261124"></a>
+
+### 2026-11-24 — Round 27 日期选择 P1 独立复核收口
+
+冻结 `5d6d683f13ee1247910f08651ec1e1ec35b58a9c`（src tree `2e6d4725953ba1107a2437dda269ecd891c6b4d0`，frozen offline regression / draft, not integrated）。仅绑定器和两份对应测试发生源码变化：原文绑定的日历/weekday DATE共用选择优先级，不被其他相对词覆盖；日期选择关系集中从原文检查，中英文weekday正反序及模型漏DATE仍澄清、0查位；两三天近似不再折单值。保留原明确后天四组纠偏/补漏和时间继承。
+
+最终五门禁全绿：默认1963/1963，G2 5/5、Chromium593/593、G6 159/159；独立6+5探针11/11、定向21/21、Build后dist C1 4/4，strict18模块零环。17组实际持久消息中10组按明确日期查位、7组澄清且0查位。原UI源码零差异，19JS及HTML/CSS与原Round27字节相同，新34图目检保留。5969部分候选与6ba安全检查点中断原件保留，不冒充最终签收。13635现存历史保护匹配含原Round27全295文件，主/env/closeout/稀疏不变；137既有缺件继续阻塞整体历史签收。无Live/真实PG/远端CDP/4312/推送/合main，待独立复核。[报告](../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/REPORT.md)。

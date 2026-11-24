@@ -6553,3 +6553,12 @@ Slice A独立提交 `93b929a3518a713c0e04630901cf1706f5c2f1c2`：ADR-0052补充A
 Slice B维持严格浏览器DAG，新增显式researching请求态并对齐deferredView；手机胶囊独占行、Stop pointerdown保持composer布局至click，避免失焦导致点击丢失；问答Stop同排、收敛蓝色、隐藏纯事实refresh、Source零位移、Categories仅按实际渲染引文去重。用户四条补充要求均入正式测试。
 
 最终冻结 `937d44be67fb8f5b735743bc1666040cc6c551b7` 全门禁及Build后C1通过，冻结后不再改src。aa302候选因合成输入raw未绑定原文，ee650候选因旧手机占位/Stop接受时序断言失败；失败目录保留，仅对应测试输入和完成边界修正后从新SHA全套重跑。报告及账本另行本地归档，源差异为0。主/env/closeout/历史现存原件保护通过；137早期原件仍缺，整体历史签收继续阻塞。无Live/真实PG/4312/推送/合main。[完整报告](../../.eval-artifacts/3c-unified-20261117/round-27/REPORT.md)。
+
+
+<a id="unified-round27-date-selection-p1-20261124"></a>
+
+## 2026-11-24 — Round 27 日期选择 P1（frozen offline regression / draft, not integrated）
+
+从0b7e9384439efad773a917d65ad7e229cd6188bf复核：新绑定器把被提及/排除的后天覆盖到正确日历DATE，且两三天被末位折三。第一候选5969完整门禁通过但独立补强4/6未关闭普通主语/未定路径，原结果独立保存。6ba候选遗漏既有weekday；终止外层调度后当前默认子进程未收信号、自然结束，源码直到全部子进程结束才改。中断不算全门禁。
+
+最终仅三份源文件改动：在一处按原文日期片段判定未定/选择关系（不依赖模型DATE或前后顺序），日历与weekday提案共用当前原文raw绑定优先级；明确相对日沿用既有东京物化和纠偏/补漏，近似数字fail closed。不新增通用日期解析、模型调用、兼容路径或依赖，不改UI/Loop/Reducer/来源/Prompt/评分。最终冻结5d6d683f13ee1247910f08651ec1e1ec35b58a9c的21定向、11独立及全部离线门禁通过；原Round27及111份先前候选证据保持。137历史原件仍缺，未新增恢复。仅本地归档、无Live/真实PG/4312。[报告](../../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/REPORT.md)。

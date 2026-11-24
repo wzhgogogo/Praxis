@@ -7266,3 +7266,14 @@ All offline checks executed after source freeze (`6a5f782979054c3d04e01655b73e10
 源码C1 4条包含在Chromium；同SHA新dist C1 4/4（12742.427709ms），19JS+HTML/CSS逐字一致、strict18模块零环/any/抑制。新增UI15/15、34PNG及34JSON全部绑定最终SHA，4联系表与18关键原图目检完成；Source历史绝对top与sheet内部相对top四组差均0。实际消息6组：正确/两错/漏DATE查11月26日，歧义NEEDS_INPUT且0查位，时间单改仍11月25日。定向60、53、22、4均通过，不叠加正式分母。两次中间冻结首失败、重冻原因及原始日志保留。
 
 本轮12380现存保护项全部匹配；原Round25历史表12501/12638匹配、137既有缺失、现存变更0，整体历史签收BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS；主/env、closeout950现存材料、稀疏和依赖配置不变。Fixture服务/浏览器/PGlite均关闭，无测试子进程遗留。真实来源S0、Live、真实PG、远端CDP、真机键盘/缩放与4312为NOT_EVALUATED；未另跑独立正式16场景或历史十路径脚本。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27/REPORT.md) · [原始门禁](../../.eval-artifacts/3c-unified-20261117/round-27/gates/manifest.json)。
+
+
+<a id="unified-round27-date-selection-p1-20261124"></a>
+
+## 2026-11-24 — Round 27 日期选择 P1 最终冻结离线验收
+
+唯一最终SHA `5d6d683f13ee1247910f08651ec1e1ec35b58a9c`，src tree `2e6d4725953ba1107a2437dda269ecd891c6b4d0`。同一净树/不加载.env：Typecheck0.679259s、Arch0违规0.195640s、Build0.562913s；默认1963/1963计76.236037s；Browser Fixture483.101108s，G2 5/5（25563.805041ms）、Chromium593/593（419206.814625ms）、合计598，G6 159/159（37992.848084ms）。Browser外无嵌套sandbox，Replay子进程保持OS隔离。
+
+Build后dist C1 4/4（12833.69525ms），源码4条已含在Chromium；冻结独立日历/相对日6+weekday5共11/11（外层7.436231s）。原后天正确/错TOMORROW/错日历/漏DATE全部查11/26，时间单改沿用11/25；明确日历/周六更正保留11/28。17组持久消息有10组实际查位、7组NEEDS_INPUT且0查位。定向21/21含漏DATE与weekday正反序；不叠加正式分母。
+
+19JS+HTML/CSS源码/构建一致且与原Round27字节相同，strict18模块零环/any/抑制。原15条UI通过，新34PNG/JSON、4联系表及6关键原图目检，Source四组差0。13635现存保护匹配，原Round27295原件和先前111候选证据不变；主/env、closeout950现存材料、稀疏与配置保持。137历史缺件仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。5969门禁绿但新探针失败、6ba外层中断均分开记录，不冒充本次结果；所有Fixture进程与连接关闭。Live/真实PG/远端CDP/4312/真机及独立整单Replay未评，未推送或合main。[报告](../../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/REPORT.md) · [原始门禁](../../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/gates/manifest.json)。
