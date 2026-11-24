@@ -380,7 +380,14 @@ for(const size of sizes)test('Workspace inline condition '+size.name+': capped l
   const before=await page.locator('#request-conditions').evaluate(n=>{const row=n.getBoundingClientRect();return Array.from(n.children).map(x=>{const r=x.getBoundingClientRect();return {x:r.x-row.x+n.scrollLeft,y:r.y-row.y,width:r.width,height:r.height};});});await page.locator('#message').fill('Keep my unsent question');
   await page.getByRole('button',{name:'2 guests',exact:true}).click();const editor=page.getByRole('spinbutton',{name:'Edit 2 guests',exact:true});
   const after=await page.locator('#request-conditions').evaluate(n=>{const row=n.getBoundingClientRect();return Array.from(n.children).map(x=>{const r=x.getBoundingClientRect();return {x:r.x-row.x+n.scrollLeft,y:r.y-row.y,width:r.width,height:r.height};});});
-  assert.equal(after.length,before.length);for(let i=0;i<before.length;i++)for(const key of ['x','y','width','height'] as const)assert.ok(Math.abs(after[i]![key]-before[i]![key])<1,'editing preserves every pill footprint '+JSON.stringify({before,after}));
+  assert.equal(after.length,before.length);
+  if(size.width>=960){for(let i=0;i<before.length;i++)for(const key of ['x','y','width','height'] as const)assert.ok(Math.abs(after[i]![key]-before[i]![key])<1,'desktop editing preserves every pill footprint '+JSON.stringify({before,after}));}
+  else{
+   for(let i=0;i<before.length-1;i++)for(const key of ['x','y','width','height'] as const)assert.ok(Math.abs(after[i]![key]-before[i]![key])<1,'other mobile pills keep their footprint');
+   const flow=after.at(-1)!;assert.ok(flow.y>=Math.max(...after.slice(0,-1).map(r=>r.y+r.height))+8);assert.ok(Math.abs(flow.x)<1);assert.ok(flow.height>=32);
+   const metrics=await page.locator('.condition-editor').evaluate(form=>({position:getComputedStyle(form).position,anchorWidth:form.parentElement!.getBoundingClientRect().width,rowWidth:document.getElementById('request-conditions')!.getBoundingClientRect().width,inlineWidth:(form.parentElement as HTMLElement).style.width,controls:[...form.querySelectorAll('input,button')].map(n=>({left:n.getBoundingClientRect().left,right:n.getBoundingClientRect().right}))}));
+   assert.equal(metrics.position,'static');assert.equal(metrics.inlineWidth,'');assert.ok(Math.abs(metrics.anchorWidth-metrics.rowWidth)<1);assert.ok(metrics.controls.every(r=>r.left>=0&&r.right<=size.width));
+  }
   const overlay=await page.locator('.condition-editor').boundingBox(),row=await page.locator('#request-conditions').boundingBox();assert.ok(overlay&&row&&overlay.x>=row.x-1&&overlay.x+overlay.width<=row.x+row.width+1);
   assert.equal(await editor.getAttribute('type'),'number');assert.equal(await editor.getAttribute('min'),'1');await editor.fill('0');assert.equal(await page.getByRole('button',{name:'Save',exact:true}).isDisabled(),true);
   await editor.fill('3');const handle=await editor.elementHandle();

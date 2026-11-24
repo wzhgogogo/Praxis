@@ -1377,7 +1377,8 @@ for(const mobile of [false,true])test(`Round20 UI: ${mobile?'mobile':'desktop'} 
  const executing=latch();let holdQuestion=true;
  await fixture({staged:true,questions:{beforeAnswer:async(_input,signal)=>{if(holdQuestion){executing.release();await new Promise<void>((_resolve,reject)=>signal.addEventListener('abort',()=>reject(signal.reason),{once:true}));}}}},async(page,host)=>{
   await signin(page);const {view}=await createPlan(page,'Dinner in Tokyo',false);await host.waitForCheck();await page.locator('#progress.has-card').waitFor();
-  const stopped=page.waitForResponse(r=>r.request().method()==='DELETE'&&r.url().endsWith('/run'));await page.locator('#stop').click();assert.equal((await stopped).status(),200);
+  const beforeStop=await host.application.getCase(userId,view.case.caseId);assert.equal(beforeStop.restaurant.progress.active,true);
+  const stopped=page.waitForResponse(r=>r.request().method()==='DELETE'&&r.url().endsWith('/run'));await page.locator('#stop').click();const stoppedResponse=await stopped;assert.equal(stoppedResponse.status(),200);const stoppedView=(await stoppedResponse.json()).view as RestaurantCaseView;assert.equal(stoppedView.case.stopped,true);assert.equal(stoppedResponse.request().postDataJSON().handleId,beforeStop.restaurant.sourceReadContext!.handleId);await page.locator('#progress').waitFor({state:'hidden'});
   assert.equal(await page.locator('#bookmark').isDisabled(),true);await page.locator('#details-button').click();assert.equal(await page.locator('#refresh').isVisible(),false);assert.equal(await page.locator('#send').isEnabled(),true);
   const append=host.application.store.appendMessage.bind(host.application.store),prepared=latch(),release=latch();
   host.application.store.appendMessage=async input=>{if(input.content==='Question during preparation?'){prepared.release();await release.ready;}return append(input);};
