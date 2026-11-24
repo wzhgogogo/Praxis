@@ -32,6 +32,14 @@ const cases = [
   { name: "competing relative and weekday dates despite modeled DATE", initialDate: "2026-11-26", message: "后天还是周六晚上七点", date: { kind: "DATE", weekday: "SATURDAY", raw: "周六" } },
   { name: "competing relative and weekday dates with omitted DATE", initialDate: "2026-11-26", message: "后天还是周六晚上七点" },
   { name: "competing weekday then relative date with omitted DATE", initialDate: "2026-11-26", message: "周六还是后天晚上七点" },
+  { name: "tonight dining control", initialDate: "2026-11-26", message: "Make it tonight at 7 pm.", timeRaw: "7 pm", date: { kind: "DATE", relativeDay: "TODAY", raw: "tonight" }, expected: "2026-11-24" },
+  { name: "tonight dining DATE with background relative day", initialDate: "2026-11-26", message: "I'm flying out tomorrow, so make dinner tonight at 7 pm.", timeRaw: "7 pm", date: { kind: "DATE", relativeDay: "TODAY", raw: "tonight" }, expected: "2026-11-24" },
+  { name: "keep dining date time edit control", initialDate: "2026-11-26", message: "Keep the date, just change dinner to 7 pm.", timeRaw: "7 pm", expected: "2026-11-26" },
+  { name: "keep dining date ignores background relative day", initialDate: "2026-11-26", message: "I land in Tokyo tomorrow. Keep the date, just change dinner to 7 pm.", timeRaw: "7 pm", expected: "2026-11-26" },
+  { name: "omitted tonight dining DATE with background relative day", initialDate: "2026-11-26", message: "I'm flying out tomorrow, so make dinner tonight at 7 pm.", timeRaw: "7 pm", expected: "2026-11-24" },
+  { name: "background relative day does not turn time edit into DATE", initialDate: "2026-11-26", message: "I land in Tokyo tomorrow. Just change dinner to 7 pm.", timeRaw: "7 pm", expected: "2026-11-26" },
+  { name: "date-first background does not turn time edit into DATE", initialDate: "2026-11-26", message: "Tomorrow I arrive in Tokyo. Change dinner to 7 pm.", timeRaw: "7 pm", expected: "2026-11-26" },
+  { name: "connected weekday alternatives retain comma boundary", initialDate: "2026-11-26", message: "后天，还是周六晚上七点？", date: { kind: "DATE", weekday: "SATURDAY", raw: "周六" } },
 ] as const;
 
 for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${row.name}`, { timeout: 25_000 }, async () => {
@@ -43,7 +51,7 @@ for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${
     if (message === seedMessage) return structuredClone(seed);
     return { schemaVersion: "4", facts: [
       ...("date" in row ? [{ field: "DATE" as const, operation: "CORRECT" as const, value: row.date }] : []),
-      { field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "晚上七点" } },
+      { field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "timeRaw" in row ? row.timeRaw : "晚上七点" } },
     ] };
   } });
   async function settled(caseId: string) {

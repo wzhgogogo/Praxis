@@ -1,0 +1,45 @@
+{
+  "mode": "UNFROZEN_DEVELOPMENT_REVIEW",
+  "head": "e5721c68fdffd60c14b32415f1d0099295b4574a",
+  "helperGitBlob": "31de3eb5783406da43f5107bb6537795ff4cabe4",
+  "helperSHA256": "8be7c42fd055fbba8e7e38d996459ac2fad41a3e74ebc84a815f42d3b62ee432",
+  "inputOrigin": "/private/tmp/praxis-round27-date-audit.CsOvrL/alternatives.mjs",
+  "inputSHA256": "4101b861f38975c93c1cc7986c4cfbae6260cb3b6b89859476b58ab136f9b9e0",
+  "envLoaded": false,
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    ".eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/reviewer-alternatives.mjs"
+  ],
+  "exitCode": 0,
+  "rows": [
+    {
+      "case": "competition without comma",
+      "message": "\u540e\u5929\u8fd8\u662f\u5468\u516d\u665a\u4e0a\u4e03\u70b9\uff1f",
+      "expected": null,
+      "draftDate": "2026-11-26",
+      "phase": "NEEDS_INPUT",
+      "dates": [],
+      "times": [],
+      "pass": true
+    },
+    {
+      "case": "competition with comma",
+      "message": "\u540e\u5929\uff0c\u8fd8\u662f\u5468\u516d\u665a\u4e0a\u4e03\u70b9\uff1f",
+      "expected": null,
+      "draftDate": "2026-11-28",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-28"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ]
+}

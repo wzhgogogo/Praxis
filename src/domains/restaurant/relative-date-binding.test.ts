@@ -19,6 +19,25 @@ test("ADR-0052 DATE offset schema is bounded and compiler preserves distinct con
   }
 });
 
+test("ADR-0052 dining DATE scope excludes unrelated relative-day background", () => {
+  const clock: RestaurantSemanticProposal["facts"][number] = { field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } };
+  for (const relativeDay of ["TODAY", "TOMORROW"] as const) {
+    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [
+      { field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay, raw: "tonight" } }, clock,
+    ] }, { ...context, message: "I'm flying out tomorrow, so make dinner tonight at 7 pm." });
+    assert.equal(result.status, "COMPILED");
+    if (result.status === "COMPILED") assert.equal(result.patch.date, "2026-11-24");
+  }
+  for (const message of ["Keep the date, just change dinner to 7 pm.", "I land in Tokyo tomorrow. Keep the date, just change dinner to 7 pm.", "Tomorrow I arrive in Tokyo. Change dinner to 7 pm.", "我明天到东京，日期不变，只改时间为7 pm"]) {
+    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [clock] }, { ...context, message });
+    assert.equal(result.status, "COMPILED", message);
+    if (result.status === "COMPILED") assert.equal(result.patch.date, undefined, message);
+  }
+  const confirmed = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [{ field: "DATE", operation: "CONFIRM" }, clock] }, { ...context, message: "日期不变，还是后天，只改时间为7 pm" });
+  assert.equal(confirmed.status, "COMPILED");
+  if (confirmed.status === "COMPILED") assert.equal(confirmed.patch.date, undefined);
+});
+
 test("ADR-0052 supported current-message phrases repair DATE omission from trusted Tokyo day", () => {
   for (const [message, expected] of [
     ["今天", "2026-11-24"], ["today", "2026-11-24"], ["明天", "2026-11-25"], ["tomorrow", "2026-11-25"],
@@ -73,5 +92,6 @@ test("ADR-0052 binds selected dates, not excluded mentions or uncertain day rang
     assert.equal(result.status, "COMPILED", raw);
     if (result.status === "COMPILED") assert.equal(result.patch.date, "2026-11-28", raw);
     assert.equal(compileRestaurantSemanticProposal(weekday, { ...context, message: `后天还是${raw}晚上七点` }).status, "CONFLICT", raw);
+    assert.equal(compileRestaurantSemanticProposal(weekday, { ...context, message: `后天，还是${raw}晚上七点？` }).status, "CONFLICT", raw);
   }
 });

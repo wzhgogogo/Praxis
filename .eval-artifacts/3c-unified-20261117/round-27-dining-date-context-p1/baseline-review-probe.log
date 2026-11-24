@@ -1,0 +1,4 @@
+{"case":"tonight control","message":"Make it tonight at 7 pm.","expected":"2026-11-24","draftDate":"2026-11-24","phase":"PRESENT_RESULTS","dates":["2026-11-24"],"times":["19:00"],"pass":true}
+{"case":"tonight with background travel date","message":"I'm flying out tomorrow, so make dinner tonight at 7 pm.","expected":"2026-11-24","draftDate":"2026-11-25","phase":"PRESENT_RESULTS","dates":["2026-11-25"],"times":["19:00"],"pass":false}
+{"case":"time-only control","message":"Keep the date, just change dinner to 7 pm.","expected":"2026-11-26","draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":true}
+{"case":"time-only edit with background travel date","message":"I land in Tokyo tomorrow. Keep the date, just change dinner to 7 pm.","expected":"2026-11-26","draftDate":"2026-11-25","phase":"PRESENT_RESULTS","dates":["2026-11-25"],"times":["19:00"],"pass":false}

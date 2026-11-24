@@ -1,0 +1,17 @@
+{"case":"explicit calendar edit (control)","message":"改成11月28日晚上七点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"explicit relative edit (control)","message":"改成大后天晚上七点","expected":"2026-11-27","draftDate":"2026-11-27","phase":"PRESENT_RESULTS","dates":["2026-11-27"],"times":["19:00"],"pass":true}
+{"case":"reject old date, choose absolute date","message":"后天不行，改成11月28日晚上七点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"ambiguous range with omitted DATE","message":"大概两三天后晚上七点","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}
+{"case":"reject old date with normal subject","message":"后天我没空，改成11月28日晚上七点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"relative and calendar date both undecided","message":"后天还是11月28日我还没定，晚上七点","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}
+{"case":"weekday edit control","message":"改成周六晚上七点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"weekday edit with excluded date mentioned","message":"后天我没空，改成周六晚上七点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"unselected weekday alternative","message":"后天还是周六晚上七点","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}
+{"case":"unselected weekday alternative with omitted DATE","message":"后天还是周六晚上七点","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}
+{"case":"unselected weekday alternative in reverse order","message":"周六还是后天晚上七点","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}
+{"case":"tonight control","message":"Make it tonight at 7 pm.","expected":"2026-11-24","draftDate":"2026-11-24","phase":"PRESENT_RESULTS","dates":["2026-11-24"],"times":["19:00"],"pass":true}
+{"case":"tonight with background travel date","message":"I'm flying out tomorrow, so make dinner tonight at 7 pm.","expected":"2026-11-24","draftDate":"2026-11-24","phase":"PRESENT_RESULTS","dates":["2026-11-24"],"times":["19:00"],"pass":true}
+{"case":"time-only control","message":"Keep the date, just change dinner to 7 pm.","expected":"2026-11-26","draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":true}
+{"case":"time-only edit with background travel date","message":"I land in Tokyo tomorrow. Keep the date, just change dinner to 7 pm.","expected":"2026-11-26","draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":true}
+{"case":"competition without comma","message":"后天还是周六晚上七点？","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}
+{"case":"competition with comma","message":"后天，还是周六晚上七点？","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}

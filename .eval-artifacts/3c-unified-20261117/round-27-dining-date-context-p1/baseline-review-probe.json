@@ -1,0 +1,76 @@
+{
+  "sha": "e5721c68fdffd60c14b32415f1d0099295b4574a",
+  "envLoaded": false,
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/reviewer-contextual-date.mjs",
+    "--p1-only"
+  ],
+  "exitCode": 0,
+  "seconds": 2.940851459,
+  "inputOrigin": "/private/tmp/praxis-round27-date-audit.CsOvrL/contextual-date.mjs",
+  "inputSHA256": "d9660f63dc30c9ba67b12a6ba551ee87372dc41e454ced656e46e991fdb075c9",
+  "rows": [
+    {
+      "case": "tonight control",
+      "message": "Make it tonight at 7 pm.",
+      "expected": "2026-11-24",
+      "draftDate": "2026-11-24",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-24"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "tonight with background travel date",
+      "message": "I'm flying out tomorrow, so make dinner tonight at 7 pm.",
+      "expected": "2026-11-24",
+      "draftDate": "2026-11-25",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-25"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    },
+    {
+      "case": "time-only control",
+      "message": "Keep the date, just change dinner to 7 pm.",
+      "expected": "2026-11-26",
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "time-only edit with background travel date",
+      "message": "I land in Tokyo tomorrow. Keep the date, just change dinner to 7 pm.",
+      "expected": "2026-11-26",
+      "draftDate": "2026-11-25",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-25"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ]
+}
