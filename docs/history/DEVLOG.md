@@ -6532,3 +6532,13 @@ The stopped question admission gate remains freshness-bound. Settling accepted w
 ### 2026-11-24 - Round25 authorized historical14-path recovery
 
 Restored14/14 historical paths from explicitly authorized same-worktree copies, baselineSHA256 checked before write, O_EXCL no-overwrite, all target hashes match and12 unique sources unchanged. Original151-item gap list/failure logs retained; now12501/12638 historical matches,137 missing, protection still BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS (exit1). No source/test/input edits or new gate runs; functional results remain frozen at6202c1164aab14bec1a7353eadc8e5a522a3d259. Main/env, closeout and sparse unchanged;0Live/realPG/4312/remote writes. [Recovery report](../../.eval-artifacts/3c-unified-20261117/round-25/recovery-14-20261124/REPORT.md).
+
+### 2026-11-24 - Round 26 offline P2 fixes (`V3`, `R1`, `M2`, `R3`, `R4`)
+
+Completed Round 26 on `codex/feat-web-photos-unified`, frozen at `6a5f782979054c3d04e01655b73e10cb1ef1c694` (`src/` tree `34b625c0810d5b0bb780bd8902da8d3c6ff889bb`):
+- **V3**: Exported shared `observeVisibleHtml` in `src/infrastructure/browser/observe-page-images.ts` for both local Chromium and Cloudflare browser sessions; `sourceRowProof()` in `model-page-question.ts` fails closed without `visibleHtml` and requires adjacent visual `header`/`value` lines in `snapshot.text`.
+- **R1**: Passed active `handle` to `recordUnexpectedRunFailure()` in `persistent-restaurant-agent.ts`, guarding superseded/aborted question workers and settling only matching `pageQuestion` via `PAGE_QUESTION_COMPLETED` while catching `StaleTaskVersionError`.
+- **M2**: Tracked `opened`/`reconnecting` in `web/browser/transport.ts` and `PhotoEntry.resumeAfterCheck` in `web/browser/photos.ts` so SSE reconnects arriving before a late `HEAD` failure trigger bounded retry on completion.
+- **R3 / R4**: Extended `serves beer` punctuation lookahead/cleanup in `open-ended-target.ts` and removed `\/` from negative clause boundary in `read-grounding.ts`.
+
+Main workspace, `.env`, sparse rules, `round-25` archives (`698/698`, `44/44`) and surviving historical files (`12501/12638`) unchanged. Live, real PG, remote CDP, real device, standalone visual/repro scripts and `4312` `NOT_EVALUATED`. [Round 26 报告](../../.eval-artifacts/3c-unified-20261117/round-26/REPORT.md).

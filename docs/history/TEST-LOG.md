@@ -7242,3 +7242,16 @@ Frozen `0d269703b3251b35039fe33c07076b222d87e716` passed Typecheck, Arch check, 
 ### 2026-11-24 - Round25 authorized historical14-path recovery
 
 Restored14/14 historical paths from explicitly authorized same-worktree copies, baselineSHA256 checked before write, O_EXCL no-overwrite, all target hashes match and12 unique sources unchanged. Original151-item gap list/failure logs retained; now12501/12638 historical matches,137 missing, protection still BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS (exit1). No source/test/input edits or new gate runs; functional results remain frozen at6202c1164aab14bec1a7353eadc8e5a522a3d259. Main/env, closeout and sparse unchanged;0Live/realPG/4312/remote writes. [Recovery report](../../.eval-artifacts/3c-unified-20261117/round-25/recovery-14-20261124/REPORT.md).
+
+### 2026-11-24 - Round 26 frozen verification on `6a5f782979054c3d04e01655b73e10cb1ef1c694`
+
+All offline checks executed after source freeze (`6a5f782979054c3d04e01655b73e10cb1ef1c694`, `src/` tree `34b625c0810d5b0bb780bd8902da8d3c6ff889bb`, clean tree, `envLoaded: false`):
+- `npm run typecheck`: PASS (`exit 0`)
+- `npm run arch:check`: PASS (`exit 0`, `0` forbidden source dependencies)
+- `npm run build`: PASS (`exit 0`)
+- `npm test`: PASS (`1941 / 1941`, `fail 0`, `78611.576ms`, `BypassSandbox: true`)
+- `npm run test:browser:fixture`: PASS (`exit 0`, `BypassSandbox: true`): G2 exclusive `5 / 5` (`24988.660542ms`), Chromium remaining `578 / 578` (`423184.548417ms`) (aggregate `583 / 583`), G6 assembly `159 / 159` (`40212.092083ms`)
+- Built-dist C1 CDP isolation (`PRAXIS_CDP_DIST=1 node --import tsx --test src/harness/browser/cloudflare-cdp-isolation.test.ts`): PASS (`4 / 4`, `13522.6105ms`, `BypassSandbox: true`)
+- Build-asset parity: `19 / 19` JS assets SHA256 identical, `htmlMatches: true`
+- Historical & environment protection: `12501 / 12638` matched, `0` changed existing files, `0` unexpected missing (same `137` OS-cleaned early untracked files), `round-25` (`698/698`) and recovery (`44/44`) unchanged, `mainWorkspaceUnchanged: true`, `mainEnvUnchanged: true`, `sparseUnchanged: true`
+- `NOT_EVALUATED`: Live external services, real PostgreSQL, remote Cloudflare CDP, real mobile device soft keyboard / pinch-zoom-pan, standalone `round-25` visual & `round-25-independent-review-PcoqWu` repro scripts, port `4312`. [Round 26 报告](../../.eval-artifacts/3c-unified-20261117/round-26/REPORT.md).
