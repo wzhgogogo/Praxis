@@ -1,0 +1,30 @@
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"correct offset","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: correct offset (788.823084ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"wrong tomorrow","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: wrong tomorrow (545.488083ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"wrong calendar","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: wrong calendar (526.196459ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"omitted DATE","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: omitted DATE (527.078125ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"ambiguous dates","phase":"NEEDS_INPUT","persistedDate":"2026-11-25","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: ambiguous dates (506.191209ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"time only carries date","phase":"PRESENT_RESULTS","persistedDate":"2026-11-25","availabilityDates":["2026-11-25"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: time only carries date (519.018667ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"explicit calendar correction control","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: explicit calendar correction control (514.003625ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"excluded relative day preserves calendar correction","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: excluded relative day preserves calendar correction (523.931166ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"approximate day range with omitted DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: approximate day range with omitted DATE (498.403667ms)
+✔ ADR-0052 DATE offset schema is bounded and compiler preserves distinct conflict identities (0.988834ms)
+✔ ADR-0052 supported current-message phrases repair DATE omission from trusted Tokyo day (11.920042ms)
+✔ ADR-0052 day offsets use Tokyo natural days across month, year and UTC date boundaries (0.188208ms)
+✔ ADR-0052 binds selected dates, not excluded mentions or uncertain day ranges (0.233666ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5492.40025

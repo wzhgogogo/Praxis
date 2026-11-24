@@ -21,11 +21,18 @@ const cases = [
   { name: "omitted DATE", message: "改成后天晚上七点", expected: "2026-11-26" },
   { name: "ambiguous dates", message: "改成后天或大后天晚上七点", date: { kind: "DATE", relativeOffsetDays: 2, raw: "后天" } },
   { name: "time only carries date", message: "只改晚上七点", expected: "2026-11-25" },
+  { name: "explicit calendar correction control", initialDate: "2026-11-26", message: "改成11月28日晚上七点", date: { kind: "DATE", value: "2026-11-28", raw: "11月28日" }, expected: "2026-11-28" },
+  { name: "excluded relative day preserves calendar correction", initialDate: "2026-11-26", message: "后天不行，改成11月28日晚上七点", date: { kind: "DATE", value: "2026-11-28", raw: "11月28日" }, expected: "2026-11-28" },
+  { name: "approximate day range with omitted DATE", initialDate: "2026-11-26", message: "大概两三天后晚上七点" },
 ] as const;
 
 for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${row.name}`, { timeout: 25_000 }, async () => {
+  const initialDate = "initialDate" in row ? row.initialDate : "2026-11-25";
+  const seedMessage = initialMessage.replace("2026-11-25", initialDate);
+  const seed: RestaurantSemanticProposal = { ...initial, facts: initial.facts.map(fact => fact.field === "DATE"
+    ? { ...fact, value: { kind: "DATE", value: initialDate, raw: initialDate } } : fact) };
   const host = await startWorkspaceFixture({ semanticProposal(message) {
-    if (message === initialMessage) return structuredClone(initial);
+    if (message === seedMessage) return structuredClone(seed);
     return { schemaVersion: "4", facts: [
       ...("date" in row ? [{ field: "DATE" as const, operation: "CORRECT" as const, value: row.date }] : []),
       { field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "晚上七点" } },
@@ -43,9 +50,9 @@ for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${
   try {
     host.clock.advance(Date.parse(referenceTime) - host.clock.now().valueOf());
     await host.application.store.upsertUser({ id: userId, displayName: "Fixture" }, host.clock.now().toISOString());
-    const created = await host.application.createCase(userId, initialMessage, "initial");
+    const created = await host.application.createCase(userId, seedMessage, "initial");
     const prior = await settled(created.case.caseId);
-    assert.equal(prior.restaurant.intentDraft?.date, "2026-11-25");
+    assert.equal(prior.restaurant.intentDraft?.date, initialDate);
     assert.ok(host.providerCalls.length, "Initial real composition reached the availability port");
     const before = host.providerCalls.length;
     await host.application.submitMessage({ userId, conversationId: prior.case.conversationId, expectedVersion: prior.case.taskVersion, requestId: "relative-edit", message: row.message });

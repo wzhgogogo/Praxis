@@ -23,7 +23,7 @@ test("ADR-0052 supported current-message phrases repair DATE omission from trust
   for (const [message, expected] of [
     ["今天", "2026-11-24"], ["today", "2026-11-24"], ["明天", "2026-11-25"], ["tomorrow", "2026-11-25"],
     ["后天", "2026-11-26"], ["day after tomorrow", "2026-11-26"], ["大后天", "2026-11-27"],
-    ["3天后", "2026-11-27"], ["三天后", "2026-11-27"], ["in 3 days", "2026-11-27"],
+    ["3天后", "2026-11-27"], ["三天后", "2026-11-27"], ["in 3 days", "2026-11-27"], ["两天后", "2026-11-26"], ["三百六十五天后", "2027-11-24"],
     ["一周后", "2026-12-01"], ["in a week", "2026-12-01"], ["in 30 days", "2026-12-24"],
   ] as const) {
     const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [] }, { ...context, message });
@@ -49,5 +49,17 @@ test("ADR-0052 day offsets use Tokyo natural days across month, year and UTC dat
       assert.equal(result.patch.temporalResolution?.date?.basis, `RELATIVE_OFFSET_DAYS:${days}`);
       assert.equal(result.patch.temporalResolution?.referenceTime, referenceTime);
     }
+  }
+});
+
+test("ADR-0052 binds selected dates, not excluded mentions or uncertain day ranges", () => {
+  const calendar: RestaurantSemanticProposal = { schemaVersion: "4", facts: [
+    { field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-28", raw: "11月28日" } },
+  ] };
+  const corrected = compileRestaurantSemanticProposal(calendar, { ...context, message: "后天不行，改成11月28日晚上七点" });
+  assert.equal(corrected.status, "COMPILED");
+  if (corrected.status === "COMPILED") assert.equal(corrected.patch.date, "2026-11-28");
+  for (const message of ["大概两三天后晚上七点", "两三天后", "两到三天后", "大约三天后", "三天后左右", "后天不行，只改晚上七点"]) {
+    assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [] }, { ...context, message }).status, "CONFLICT", message);
   }
 });

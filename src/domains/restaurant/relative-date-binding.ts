@@ -1,9 +1,11 @@
 import type { RestaurantSemanticConflict } from "./contracts.js";
 import type { RestaurantSemanticProposal, RestaurantSemanticValue } from "./semantic-proposal.js";
 
-type RelativeExpression = { raw: string; days: number };
+type RelativeExpression = { raw: string; days: number; index: number };
 const englishNumbers: Readonly<Record<string, number>> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
 function chineseNumber(text: string): number {
+  // Adjacent numerals such as 两三 express a range, not a positional integer.
+  if (!/^(?:[零〇一二两三四五六七八九]|[一二两三四五六七八九]?十[一二两三四五六七八九]?|[一二两三四五六七八九]百(?:[零〇][一二两三四五六七八九]|[一二两三四五六七八九]?十[一二两三四五六七八九]?)?)$/u.test(text)) return NaN;
   const digits: Readonly<Record<string, number>> = { "零": 0, "〇": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9 };
   let total = 0, digit = 0;
   for (const char of text) {
@@ -16,30 +18,46 @@ function chineseNumber(text: string): number {
 /** Bounded point-date phrases only; not a general natural-language calendar parser. */
 function relativeExpressions(text: string): RelativeExpression[] {
   const normalized = text.normalize("NFKC");
-  const pattern = /大后天|后天|明天|今天|一周后|(?:-?\d+(?:\.\d+)?|[零〇一二两三四五六七八九十百]+)天后|\bday after tomorrow\b|\btomorrow\b|\btoday\b(?!['’]s)|\bin a week\b|\bin (-?\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten) days?\b/giu;
+  const pattern = /大后天|后天|明天|今天|一周后|(?:-?\d+(?:\.\d+)?|[零〇一二两三四五六七八九十百]+)(?:\s*[-–~～至到或]\s*(?:-?\d+(?:\.\d+)?|[零〇一二两三四五六七八九十百]+))?天后|\bday after tomorrow\b|\btomorrow\b|\btoday\b(?!['’]s)|\bin a week\b|\bin (-?\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten) days?\b/giu;
   return [...normalized.matchAll(pattern)].map(match => {
     const raw = match[0], lower = raw.toLowerCase();
     const fixed: Readonly<Record<string, number>> = { "今天": 0, today: 0, "明天": 1, tomorrow: 1, "后天": 2, "day after tomorrow": 2, "大后天": 3, "一周后": 7, "in a week": 7 };
     const number = match[1] ?? raw.slice(0, -2);
-    return { raw, days: fixed[lower] ?? englishNumbers[number.toLowerCase()] ?? (/^-?\d/.test(number) ? Number(number) : chineseNumber(number)) };
+    return { raw, index: match.index, days: fixed[lower] ?? englishNumbers[number.toLowerCase()] ?? (/^-?\d/.test(number) ? Number(number) : chineseNumber(number)) };
   });
+}
+
+function excludedDate(text: string, index: number, raw: string): boolean {
+  return /(?:不要|不选|排除|不是|别选|别|\bnot|\brather than)\s*$/iu.test(text.slice(0, index))
+    || /^\s*(?:(?:晚上|早上|中午|下午|晚餐|午餐|evening|morning)\s*)?(?:不行|不可以|不能|不合适|不方便|没空|is not|doesn['’]t work|won['’]t work)/iu.test(text.slice(index + raw.length));
 }
 
 export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal, message: string):
   | { status: "BOUND"; proposal: RestaurantSemanticProposal }
   | { status: "CONFLICT"; conflict: RestaurantSemanticConflict } {
-  const expressions = relativeExpressions(message);
+  message = message.normalize("NFKC");
+  const mentions = relativeExpressions(message);
+  const expressions = mentions.filter(item => !excludedDate(message, item.index, item.raw));
   const offsets = new Set(expressions.map(item => item.days));
   const dateFacts = proposal.facts.filter(fact => fact.field === "DATE");
   const fail = (reason: string) => ({ status: "CONFLICT" as const, conflict: { code: "UNSUPPORTED_SEMANTIC_EXPRESSION" as const, affectedFields: ["DATE" as const], message: reason } });
-  if (offsets.size > 1 || expressions.some(item => !Number.isInteger(item.days) || item.days < 0 || item.days > 365))
+  if (offsets.size > 1 || expressions.some(item => !Number.isInteger(item.days) || item.days < 0 || item.days > 365
+    || /(?:大概|大约|大致|约莫|差不多|约|\babout|\baround|\bapproximately)\s*$/iu.test(message.slice(0, item.index))
+    || /^\s*(?:左右|前后|上下)/u.test(message.slice(item.index + item.raw.length))))
     return fail("Clarify one supported relative dining date before reading availability");
   for (const fact of dateFacts) {
     if (fact.value?.kind !== "DATE") continue;
     const raw = relativeExpressions(fact.value.raw);
     if (raw.some(item => !offsets.has(item.days))) return fail("The DATE raw expression is not bound to this user message");
   }
-  if (!expressions.length) return { status: "BOUND", proposal };
+  if (!expressions.length) {
+    if (mentions.length && !dateFacts.some(fact => {
+      if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE" || !("value" in fact.value)) return false;
+      const raw = fact.value.raw.normalize("NFKC").trim(), index = message.indexOf(raw);
+      return !!raw && index >= 0 && !excludedDate(message, index, raw);
+    })) return fail("Clarify a replacement for the excluded dining date");
+    return { status: "BOUND", proposal };
+  }
   if (dateFacts.some(fact => fact.operation === "NEGATE" || fact.operation === "CONFIRM"))
     return fail("Clarify whether to clear, retain or replace the relative dining date");
   const expression = expressions[0]!;
