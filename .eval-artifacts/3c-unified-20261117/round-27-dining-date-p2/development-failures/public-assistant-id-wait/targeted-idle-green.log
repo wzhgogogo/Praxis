@@ -1,0 +1,174 @@
+✖ Round27 SEM-1 actual message and availability: correct offset (10746.528166ms)
+✖ Round27 SEM-1 actual message and availability: wrong tomorrow (10482.317125ms)
+✖ Round27 SEM-1 actual message and availability: wrong calendar (10470.851292ms)
+✖ Round27 SEM-1 actual message and availability: omitted DATE (10470.164125ms)
+✖ Round27 SEM-1 actual message and availability: ambiguous dates (10476.634291ms)
+✖ Round27 SEM-1 actual message and availability: time only carries date (10507.002542ms)
+✖ Round27 SEM-1 actual message and availability: explicit calendar correction control (10483.656625ms)
+✖ Round27 SEM-1 actual message and availability: excluded relative day preserves calendar correction (10485.286417ms)
+✖ Round27 SEM-1 actual message and availability: approximate day range with omitted DATE (10472.874333ms)
+✖ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected calendar DATE (10479.541417ms)
+✖ Round27 SEM-1 actual message and availability: undecided relative and calendar dates with omitted DATE (10477.433208ms)
+✖ Round27 SEM-1 actual message and availability: competing relative and calendar dates despite modeled DATE (10489.267791ms)
+✖ Round27 SEM-1 actual message and availability: weekday correction control (10475.750042ms)
+✖ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected weekday DATE (10496.364875ms)
+✖ Round27 SEM-1 actual message and availability: competing relative and weekday dates despite modeled DATE (10484.243125ms)
+✖ Round27 SEM-1 actual message and availability: competing relative and weekday dates with omitted DATE (10467.692708ms)
+✖ Round27 SEM-1 actual message and availability: competing weekday then relative date with omitted DATE (10479.402ms)
+✖ src/application/restaurant-relative-date.test.ts (178975.383ms)
+✔ ADR-0052 validates the selected dining-date occurrence and its own uncertainty (16.78725ms)
+✔ ADR-0052 DATE offset schema is bounded and compiler preserves distinct conflict identities (0.631833ms)
+✔ ADR-0052 dining DATE scope excludes unrelated relative-day background (0.920042ms)
+✔ ADR-0052 supported current-message phrases repair DATE omission from trusted Tokyo day (0.921625ms)
+✔ ADR-0052 day offsets use Tokyo natural days across month, year and UTC date boundaries (0.176ms)
+✔ ADR-0052 binds selected dates, not excluded mentions or uncertain day ranges (0.986041ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 6
+ℹ fail 17
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 178978.40325
+
+✖ failing tests:
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: correct offset (10746.528166ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: wrong tomorrow (10482.317125ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: wrong calendar (10470.851292ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: omitted DATE (10470.164125ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: ambiguous dates (10476.634291ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: time only carries date (10507.002542ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: explicit calendar correction control (10483.656625ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: excluded relative day preserves calendar correction (10485.286417ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: approximate day range with omitted DATE (10472.874333ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected calendar DATE (10479.541417ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: undecided relative and calendar dates with omitted DATE (10477.433208ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: competing relative and calendar dates despite modeled DATE (10489.267791ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: weekday correction control (10475.750042ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected weekday DATE (10496.364875ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: competing relative and weekday dates despite modeled DATE (10484.243125ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: competing relative and weekday dates with omitted DATE (10467.692708ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:13908
+✖ Round27 SEM-1 actual message and availability: competing weekday then relative date with omitted DATE (10479.402ms)
+  Error: Read did not settle
+      at settled (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:108:11)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:133:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-relative-date.test.ts:1:1
+✖ src/application/restaurant-relative-date.test.ts (178975.383ms)
+  'Promise resolution is still pending but the event loop has already resolved'

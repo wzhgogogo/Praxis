@@ -1,0 +1,385 @@
+[
+  {
+    "script": "reviewer-gemini-dates.mjs",
+    "sha": "eafb8dad5c84749a163ea0771a315496f1965985",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/reviewer-gemini-dates.mjs"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 6.880811209,
+    "rows": [
+      {
+        "case": "confirm no date change control",
+        "message": "\u65e5\u671f\u4e0d\u53d8\uff0c\u53ea\u6539\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-28",
+        "compiler": "COMPILED",
+        "phase": "PRESENT_RESULTS",
+        "draftDate": "2026-11-28",
+        "searches": 1,
+        "calls": 3,
+        "dates": [
+          "2026-11-28"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "explicit date correction control",
+        "message": "\u6539\u6210\u540e\u5929\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-26",
+        "compiler": "COMPILED",
+        "patchDate": "2026-11-26",
+        "phase": "PRESENT_RESULTS",
+        "draftDate": "2026-11-26",
+        "searches": 1,
+        "calls": 3,
+        "dates": [
+          "2026-11-26"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "wrong model CONFIRM on explicit date edit",
+        "message": "\u6539\u6210\u540e\u5929\u665a\u4e0a7\u70b9",
+        "expected": "clarify",
+        "compiler": "CONFLICT",
+        "conflict": "Clarify whether to clear, retain or replace the relative dining date",
+        "phase": "NEEDS_INPUT",
+        "draftDate": "2026-11-28",
+        "searches": 0,
+        "calls": 0,
+        "dates": [],
+        "times": [],
+        "pass": true
+      },
+      {
+        "case": "one\u660e\u5929 control",
+        "message": "\u6211\u4eec\u660e\u5929\u665a\u4e0a7\u70b9\u53bb\u5403\u5bff\u559c\u9505",
+        "expected": "2026-11-25",
+        "compiler": "COMPILED",
+        "patchDate": "2026-11-25",
+        "phase": "PRESENT_RESULTS",
+        "draftDate": "2026-11-25",
+        "searches": 1,
+        "calls": 3,
+        "dates": [
+          "2026-11-25"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "first\u660e\u5929 rejected, second chosen",
+        "message": "\u4e0d\u8981\u660e\u5929\u4e2d\u5348\uff0c\u6211\u4eec\u660e\u5929\u665a\u4e0a7\u70b9\u53bb\u5403\u5bff\u559c\u9505",
+        "expected": "2026-11-25",
+        "compiler": "CONFLICT",
+        "conflict": "The DATE raw expression is not bound to this user message",
+        "phase": "NEEDS_INPUT",
+        "draftDate": "2026-11-28",
+        "searches": 0,
+        "calls": 0,
+        "dates": [],
+        "times": [],
+        "pass": false
+      },
+      {
+        "case": "weekday in its own sentence control",
+        "message": "\u6211\u660e\u5929\u6216\u540e\u5929\u5230\u4e1c\u4eac\u3002\u665a\u9910\u5c31\u8ba2\u5468\u4e94\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-27",
+        "compiler": "COMPILED",
+        "patchDate": "2026-11-27",
+        "phase": "PRESENT_RESULTS",
+        "draftDate": "2026-11-27",
+        "searches": 1,
+        "calls": 3,
+        "dates": [
+          "2026-11-27"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "weekday with unrelated arrival alternatives",
+        "message": "\u6211\u660e\u5929\u6216\u540e\u5929\u5230\u4e1c\u4eac\uff0c\u4f46\u665a\u9910\u5c31\u8ba2\u5468\u4e94\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-27",
+        "compiler": "CONFLICT",
+        "conflict": "Clarify the undecided or competing dining dates",
+        "phase": "NEEDS_INPUT",
+        "draftDate": "2026-11-28",
+        "searches": 0,
+        "calls": 0,
+        "dates": [],
+        "times": [],
+        "pass": false
+      },
+      {
+        "case": "recommendation control",
+        "message": "\u63a8\u8350\u51e0\u5bb6\u6da9\u8c37\u5bff\u559c\u9505",
+        "expected": "search",
+        "compiler": "COMPILED",
+        "phase": "NO_VERIFIED_RESULT",
+        "searches": 1,
+        "calls": 0,
+        "dates": [],
+        "times": [],
+        "pass": true
+      },
+      {
+        "case": "recommendation with approximate arrival",
+        "message": "\u5927\u69823\u5929\u540e\u5230\u4e1c\u4eac\uff0c\u63a8\u8350\u51e0\u5bb6\u6da9\u8c37\u5bff\u559c\u9505",
+        "expected": "search",
+        "compiler": "CONFLICT",
+        "conflict": "Clarify one supported relative dining date before reading availability",
+        "phase": "NEEDS_INPUT",
+        "searches": 0,
+        "calls": 0,
+        "dates": [],
+        "times": [],
+        "pass": false
+      },
+      {
+        "case": "only change the time control",
+        "message": "\u53ea\u628a\u65f6\u95f4\u6539\u62108\u70b9",
+        "expected": "2026-11-28",
+        "compiler": "COMPILED",
+        "phase": "PRESENT_RESULTS",
+        "draftDate": "2026-11-28",
+        "searches": 1,
+        "calls": 3,
+        "dates": [
+          "2026-11-28"
+        ],
+        "times": [
+          "20:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "only change time with departure range",
+        "message": "\u6211\u8fd8\u67092-3\u5929\u540e\u624d\u98de\uff0c\u53ea\u628a\u65f6\u95f4\u6539\u62108\u70b9",
+        "expected": "2026-11-28",
+        "compiler": "CONFLICT",
+        "conflict": "Clarify one supported relative dining date before reading availability",
+        "phase": "NEEDS_INPUT",
+        "draftDate": "2026-11-28",
+        "searches": 0,
+        "calls": 0,
+        "dates": [],
+        "times": [],
+        "pass": false
+      },
+      {
+        "case": "omitted DATE with noun before correction",
+        "message": "\u5176\u4f59\u6761\u4ef6\u4e0d\u53d8\uff0c\u65e5\u671f\u6539\u6210\u540e\u5929\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-26",
+        "compiler": "CONFLICT",
+        "conflict": "Clarify whether the relative date applies to the dining time",
+        "phase": "NEEDS_INPUT",
+        "draftDate": "2026-11-28",
+        "searches": 0,
+        "calls": 0,
+        "dates": [],
+        "times": [],
+        "pass": false
+      }
+    ]
+  },
+  {
+    "script": "reviewer-contextual-date.mjs",
+    "sha": "eafb8dad5c84749a163ea0771a315496f1965985",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/reviewer-contextual-date.mjs"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 3.4545864999999996,
+    "rows": [
+      {
+        "case": "tonight control",
+        "message": "Make it tonight at 7 pm.",
+        "expected": "2026-11-24",
+        "draftDate": "2026-11-24",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-24"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "tonight with background travel date",
+        "message": "I'm flying out tomorrow, so make dinner tonight at 7 pm.",
+        "expected": "2026-11-24",
+        "draftDate": "2026-11-24",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-24"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "time-only control",
+        "message": "Keep the date, just change dinner to 7 pm.",
+        "expected": "2026-11-26",
+        "draftDate": "2026-11-26",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-26"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "time-only edit with background travel date",
+        "message": "I land in Tokyo tomorrow. Keep the date, just change dinner to 7 pm.",
+        "expected": "2026-11-26",
+        "draftDate": "2026-11-26",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-26"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "restaurant undecided, dining date fixed",
+        "message": "I haven't decided on a restaurant for dinner tomorrow. Make it 7 pm.",
+        "expected": "2026-11-25",
+        "draftDate": "2026-11-26",
+        "phase": "NEEDS_INPUT",
+        "dates": [],
+        "times": [],
+        "pass": false
+      }
+    ]
+  },
+  {
+    "script": "reviewer-scope-boundaries.mjs",
+    "sha": "eafb8dad5c84749a163ea0771a315496f1965985",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/reviewer-scope-boundaries.mjs"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 3.9970845410000013,
+    "rows": [
+      {
+        "case": "explicit ISO date control",
+        "message": "\u628a\u65e5\u671f\u6539\u52302026-11-28\uff0c\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-28",
+        "draftDate": "2026-11-28",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-28"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "explicit ISO edit with contradictory CONFIRM",
+        "message": "\u628a\u65e5\u671f\u6539\u52302026-11-28\uff0c\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-28",
+        "draftDate": "2026-11-26",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-26"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": false
+      },
+      {
+        "case": "explicit weekday control",
+        "message": "\u6539\u6210\u5468\u4e94\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-27",
+        "draftDate": "2026-11-27",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-27"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "explicit weekday edit with contradictory CONFIRM",
+        "message": "\u6539\u6210\u5468\u4e94\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-27",
+        "draftDate": "2026-11-26",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-26"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": false
+      },
+      {
+        "case": "budget undecided, dining date fixed",
+        "message": "I haven't decided how much to spend on dinner tomorrow. Make it 7 pm.",
+        "expected": "2026-11-25",
+        "draftDate": "2026-11-26",
+        "phase": "NEEDS_INPUT",
+        "dates": [],
+        "times": [],
+        "pass": false
+      },
+      {
+        "case": "dining date genuinely undecided",
+        "message": "Dinner tomorrow or the day after tomorrow at 7 pm.",
+        "expected": null,
+        "draftDate": "2026-11-25",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-25"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": false
+      }
+    ]
+  }
+]

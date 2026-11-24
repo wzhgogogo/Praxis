@@ -1,0 +1,6 @@
+{"case":"explicit ISO date control","message":"把日期改到2026-11-28，晚上7点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"explicit ISO edit with contradictory CONFIRM","message":"把日期改到2026-11-28，晚上7点","expected":"2026-11-28","draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":false}
+{"case":"explicit weekday control","message":"改成周五晚上7点","expected":"2026-11-27","draftDate":"2026-11-27","phase":"PRESENT_RESULTS","dates":["2026-11-27"],"times":["19:00"],"pass":true}
+{"case":"explicit weekday edit with contradictory CONFIRM","message":"改成周五晚上7点","expected":"2026-11-27","draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":false}
+{"case":"budget undecided, dining date fixed","message":"I haven't decided how much to spend on dinner tomorrow. Make it 7 pm.","expected":"2026-11-25","draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":false}
+{"case":"dining date genuinely undecided","message":"Dinner tomorrow or the day after tomorrow at 7 pm.","expected":null,"draftDate":"2026-11-25","phase":"PRESENT_RESULTS","dates":["2026-11-25"],"times":["19:00"],"pass":false}

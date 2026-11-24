@@ -78,7 +78,7 @@ function stateHash(state: RestaurantTaskState): string {
 
 function waitingForUser(state: RestaurantTaskState): boolean {
   return state.phase === "AWAITING_AUTHORIZATION" ||
-    (state.phase === "NEEDS_INPUT" && state.pendingUserQuestion !== undefined);
+    (state.phase === "NEEDS_INPUT" && (state.pendingUserQuestion !== undefined || state.semanticConflict !== undefined));
 }
 
 function terminal(state: RestaurantTaskState): boolean {

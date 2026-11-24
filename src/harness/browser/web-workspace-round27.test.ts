@@ -11,12 +11,43 @@ import {startWorkspaceFixture} from '../workspace-fixture-server.js';
 import {questionRowFixture} from '../question-row-fixture.js';
 
 type Host=Awaited<ReturnType<typeof startWorkspaceFixture>>;
+
+for(const output of ['CONFIRM','EMPTY','RAW_MISMATCH','CORRECT'] as const)for(const width of [390,1440])test(`Round27 DATE: ${width} structured date editor ${output} never reads the wrong date`,{timeout:35000},async()=>{
+ const seed='Find a table for two in Tokyo on 2026-11-26 at 18:00',edit='Change Thu, Nov 26 to 2026-11-28';
+ const semanticMessages:string[]=[];const host=await startWorkspaceFixture({semanticProposal(message):RestaurantSemanticProposal{
+  semanticMessages.push(message);
+  if(message===seed)return{schemaVersion:'4',facts:[
+   {field:'TARGET',operation:'ASSERT',value:{kind:'TARGET',goal:'AVAILABILITY',query:'dinner in Tokyo',selectionScope:'OPEN_ENDED',goalBasis:{type:'BOOKING_WORDING',reason:'User requests a table',quotes:['Find a table']}}},
+   {field:'DATE',operation:'ASSERT',value:{kind:'DATE',value:'2026-11-26',raw:'2026-11-26'}},
+   {field:'TIME_WINDOW',operation:'ASSERT',value:{kind:'TIME_WINDOW',earliest:'18:00',latest:'18:00',raw:'18:00'}},
+   {field:'PARTY_SIZE',operation:'ASSERT',value:{kind:'PARTY_SIZE',value:2}},
+   {field:'AREA',operation:'ASSERT',value:{kind:'AREA',query:'Tokyo'}},
+  ]};
+  assert.equal(message,edit);return{schemaVersion:'4',facts:output==='CONFIRM'?[{field:'DATE',operation:'CONFIRM'}]:output==='EMPTY'?[]:[{field:'DATE',operation:'CORRECT',value:{kind:'DATE',value:output==='RAW_MISMATCH'?'2026-11-27':'2026-11-28',raw:output==='RAW_MISMATCH'?'2026-11-27':'2026-11-28'}}]};
+ }});
+ host.clock.advance(Date.parse('2026-11-24T10:00:00+09:00')-host.clock.now().valueOf());
+ const browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:width===390,reducedMotion:'reduce'}),errors:string[]=[];
+ await context.route('**/*',route=>new URL(route.request().url()).origin===host.baseUrl?route.continue():route.abort());const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',error=>errors.push(error.message));
+ try{
+  await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();
+  await page.locator('#message').fill(seed);const created=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/cases'));await page.locator('#send').click();const response=await created;assert.equal(response.status(),201);const id=((await response.json()).view as RestaurantCaseView).case.caseId;
+  await settled(host,id,1);await page.locator('#candidate-panel').waitFor();const before=host.providerCalls.length,searchBefore=host.searches.length,decisionsBefore=host.requests.filter(r=>r.purpose==='restaurant_agent_decide').length,semanticBefore=semanticMessages.length;assert.ok(before);
+  let messagesPosted=0;page.on('request',request=>{if(request.method()==='POST'&&request.url().endsWith('/messages'))messagesPosted++;});
+  await page.getByRole('button',{name:'Thu, Nov 26',exact:true}).click();await page.getByLabel('Edit Thu, Nov 26',{exact:true}).fill('2026-11-26');await page.getByRole('button',{name:'Save',exact:true}).click();await page.locator('.condition-editor').waitFor({state:'detached'});assert.equal(messagesPosted,0);assert.equal(semanticMessages.length,semanticBefore);assert.equal(host.providerCalls.length,before);
+  await page.getByRole('button',{name:'Thu, Nov 26',exact:true}).click();await page.getByLabel('Edit Thu, Nov 26',{exact:true}).fill('2026-11-28');const posted=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/messages'));await page.getByRole('button',{name:'Save',exact:true}).click();const edited=await posted;
+  assert.equal(edited.request().postDataJSON()?.message,edit);assert.equal(edited.status(),200);const view=await settled(host,id,2);const decisionCalls=host.requests.filter(r=>r.purpose==='restaurant_agent_decide').length-decisionsBefore,calls=host.providerCalls.slice(before);console.info(JSON.stringify({mode:'OFFLINE_BROWSER_DATE',output,width,phase:view.case.phase,date:view.restaurant.intentDraft?.date,readHandleIdle:!view.restaurant.sourceReadContext?.handleId,searchCalls:host.searches.length-searchBefore,decisionCalls,availabilityCalls:calls.length,availabilityDates:[...new Set(calls.map(c=>c.date))],semanticMessages,equivalentEditPosts:messagesPosted-1}));
+  if(output==='CONFIRM'||output==='EMPTY'){assert.equal(view.case.phase,'NEEDS_INPUT');assert.ok(view.restaurant.clarificationQuestion);assert.equal(calls.length,0);assert.equal(host.searches.length,searchBefore);assert.equal(decisionCalls,0);await page.locator('#messages').waitFor();}
+  else{assert.equal(view.case.phase,'PRESENT_RESULTS');assert.equal(view.restaurant.intentDraft?.date,'2026-11-28');assert.ok(calls.length);assert.ok(calls.every(call=>call.date==='2026-11-28'&&call.timeWindow.earliest==='18:00'));await page.getByRole('button',{name:'Sat, Nov 28',exact:true}).waitFor();}
+  assert.deepEqual(errors,[]);await capture(page,`round27-date-${width}-structured-${output.toLowerCase()}`);
+ }finally{await context.close();await browser.close();await host.close();}
+});
+
 const latch=()=>{let release!:()=>void;const promise=new Promise<void>(r=>release=r);return{release,promise};};
 async function until(read:()=>Promise<boolean>|boolean){const end=Date.now()+12000;while(!await read()){if(Date.now()>end)throw Error('Round27 boundary timeout');await new Promise(r=>setTimeout(r,10));}}
 async function capture(page:Page,name:string){const root=process.env.PRAXIS_ROUND27_VISUAL_OUTPUT;if(root){await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});const observed=await page.evaluate(async()=>{const path='/assets/workspace/runtime.js';const {state}=await import(path);const [stop,composer,editor]=['#stop','#workspace-composer','.condition-editor'].map(selector=>{const n=document.querySelector(selector);if(!n)return null;const r=n.getBoundingClientRect();return{top:r.top,bottom:r.bottom,left:r.left,right:r.right};});return{phase:state.view?.case.phase,effectivePhase:state.deferredView?.view.case.phase??state.view?.case.phase,sending:state.sending??false,researching:state.researching,progressHidden:document.getElementById('progress')!.hidden,emptyHidden:document.getElementById('empty-state')!.hidden,stop,composer,summary:[...document.querySelectorAll('#asked-history summary,#question-result summary')].map(n=>({top:n.getBoundingClientRect().top,sheetTop:document.getElementById('answer-sheet')!.getBoundingClientRect().top,open:(n.parentElement as HTMLDetailsElement).open})),editor};});await writeFile(join(root,name+'.json'),JSON.stringify({sha:process.env.PRAXIS_ROUND27_SHA??'UNFROZEN_DEVELOPMENT',viewport:page.viewportSize(),...observed},null,2)+'\n');}}
 async function snapshot(page:Page){const id=(await page.locator('.case-link.active').getAttribute('data-case-id'))!;return(await(await page.request.get('/api/cases/'+encodeURIComponent(id))).json()).view as RestaurantCaseView;}
 async function projection(page:Page,view:RestaurantCaseView){await page.evaluate(async view=>{const path='/assets/workspace/transport.js';const {closeStream,accept}=await import(path);closeStream();accept(view);},view);}
-async function settled(host:Host,id:string){await until(async()=>!(await host.application.getCase('workspace-user',id)).restaurant.progress.active);return host.application.getCase('workspace-user',id);}
+async function settled(host:Host,id:string,assistantCount=0){await until(async()=>{const view=await host.application.getCase('workspace-user',id);return !view.restaurant.progress.active&&!view.restaurant.sourceReadContext?.handleId&&view.conversation.messages.filter(message=>message.role==='ASSISTANT').length>=assistantCount;});return host.application.getCase('workspace-user',id);}
 async function journey(width:number,options:Parameters<typeof startWorkspaceFixture>[0],ready:'card'|'empty'|'running',run:(page:Page,host:Host)=>Promise<void>){
  const host=await startWorkspaceFixture(options),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:width===390,reducedMotion:'reduce'}),page=await context.newPage(),errors:string[]=[];
  await context.route('**/*',route=>new URL(route.request().url()).origin===host.baseUrl?route.continue():route.abort());page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));

@@ -1,0 +1,30 @@
+[
+  {
+    "name": "targeted-green",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/domains/restaurant/relative-date-binding.test.ts",
+      "src/application/restaurant-relative-date.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 29.353297209
+  },
+  {
+    "name": "targeted-browser-date",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=Round27 DATE:",
+      "src/harness/browser/web-workspace-round27.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 1,
+    "seconds": 2.655823041999998
+  }
+]

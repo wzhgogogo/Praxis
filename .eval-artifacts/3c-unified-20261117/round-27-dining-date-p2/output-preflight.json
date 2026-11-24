@@ -1,0 +1,20 @@
+{
+  "baseline": "eafb8dad5c84749a163ea0771a315496f1965985",
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/verify-build-assets.mjs"
+  ],
+  "exitCode": 0,
+  "seconds": 1.025245583,
+  "envLoaded": false,
+  "assetOutput": ".eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/build-assets.json",
+  "htmlOutput": ".eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/html-build-comparison.json",
+  "outputMode": "both derive sibling URL from import.meta.url",
+  "allPriorHistoricalHashesMatch": true,
+  "historicalCount": 14370
+}

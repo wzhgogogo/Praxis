@@ -49,26 +49,63 @@ const cases = [
   { name: "DATE CONFIRM explicit keep-date control", initialDate: "2026-11-28", message: "日期不变，只改晚上7点", timeRaw: "晚上7点", confirm: true, expected: "2026-11-28" },
   { name: "DATE CORRECT explicit correction against CONFIRM control", initialDate: "2026-11-28", message: "改成后天晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", relativeOffsetDays: 2, raw: "后天" }, expected: "2026-11-26" },
   { name: "DATE CONFIRM contradicts explicit date correction", initialDate: "2026-11-28", message: "改成后天晚上7点", timeRaw: "晚上7点", confirm: true },
+  { name: "single tomorrow dining control", initialDate: "2026-11-28", message: "我们明天晚上7点去吃寿喜锅", timeRaw: "晚上7点", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" }, expected: "2026-11-25" },
+  { name: "excluded first tomorrow does not mask selected second occurrence", initialDate: "2026-11-28", message: "不要明天中午，我们明天晚上7点去吃寿喜锅", timeRaw: "晚上7点", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" }, expected: "2026-11-25" },
+  { name: "weekday after separate background sentence control", initialDate: "2026-11-28", message: "我明天或后天到东京。晚餐就订周五晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", weekday: "FRIDAY", raw: "周五" }, expected: "2026-11-27" },
+  { name: "selected weekday excludes background arrival alternatives", initialDate: "2026-11-28", message: "我明天或后天到东京，但晚餐就订周五晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", weekday: "FRIDAY", raw: "周五" }, expected: "2026-11-27" },
+  { name: "recommendation search control", message: "推荐几家涩谷寿喜锅", recommendation: true, fresh: true },
+  { name: "approximate background date does not block recommendation search", message: "大概3天后到东京，推荐几家涩谷寿喜锅", recommendation: true, fresh: true },
+  { name: "eight oclock time-only control", initialDate: "2026-11-28", message: "只把时间改成8点", timeRaw: "8点", expectedTime: "20:00", expected: "2026-11-28" },
+  { name: "background departure range does not block time-only edit", initialDate: "2026-11-28", message: "我还有2-3天后才飞，只把时间改成8点", timeRaw: "8点", expectedTime: "20:00", expected: "2026-11-28" },
+  { name: "undecided restaurant does not make selected dining date uncertain", initialDate: "2026-11-26", message: "I haven't decided on a restaurant for dinner tomorrow. Make it 7 pm.", timeRaw: "7 pm", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" }, expected: "2026-11-25" },
+  { name: "explicit date subject repairs omitted DATE", initialDate: "2026-11-28", message: "其余条件不变，日期改成后天晚上7点", timeRaw: "晚上7点", expected: "2026-11-26" },
+  { name: "ISO correction control", initialDate: "2026-11-26", message: "把日期改到2026-11-28，晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-11-28", raw: "2026-11-28" }, expected: "2026-11-28" },
+  { name: "DATE CONFIRM contradicts explicit ISO correction", initialDate: "2026-11-26", message: "把日期改到2026-11-28，晚上7点", timeRaw: "晚上7点", confirm: true },
+  { name: "Friday correction control", initialDate: "2026-11-26", message: "改成周五晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", weekday: "FRIDAY", raw: "周五" }, expected: "2026-11-27" },
+  { name: "DATE CONFIRM contradicts explicit weekday correction", initialDate: "2026-11-26", message: "改成周五晚上7点", timeRaw: "晚上7点", confirm: true },
+  { name: "undecided budget does not make selected dining date uncertain", initialDate: "2026-11-26", message: "I haven't decided how much to spend on dinner tomorrow. Make it 7 pm.", timeRaw: "7 pm", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" }, expected: "2026-11-25" },
+  { name: "English or the still connects competing dining dates", initialDate: "2026-11-26", message: "Dinner tomorrow or the day after tomorrow at 7 pm.", timeRaw: "7 pm", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
+  { name: "ISO raw owns inconsistent model calendar value", initialDate: "2026-11-26", message: "把日期改到2026-11-28，晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-11-27", raw: "2026-11-28" }, expected: "2026-11-28" },
+  { name: "weekday raw owns inconsistent model weekday value", initialDate: "2026-11-26", message: "改成周五晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", weekday: "SATURDAY", raw: "周五" }, expected: "2026-11-27" },
+  { name: "timed dinner occurrence beats same raw in background alternatives", initialDate: "2026-11-26", message: "我朋友明天或后天到东京，不过我自己的晚餐就订明天晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" }, expected: "2026-11-25" },
+  { name: "fixed dinner before background alternatives is not a last-occurrence rule", initialDate: "2026-11-26", message: "我自己的晚餐就订明天晚上7点，我朋友明天或后天到东京", timeRaw: "晚上7点", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" }, expected: "2026-11-25" },
+  { name: "structured date editor target rejects DATE CONFIRM", initialDate: "2026-11-26", message: "Change Thu, Nov 26 to 2026-11-28", confirm: true, noTime: true },
+  { name: "qualified next week is never reduced to nearest Friday", initialDate: "2026-11-26", message: "改成下周五晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-12-04", raw: "下周五" } },
+  { name: "structured date editor omission cannot silently retain old date", initialDate: "2026-11-26", message: "Change Thu, Nov 26 to 2026-11-28", noTime: true },
+  { name: "full Chinese calendar raw owns inconsistent model date", initialDate: "2026-11-26", message: "把日期改到2026年11月28日，晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-11-27", raw: "2026年11月28日" }, expected: "2026-11-28" },
+  { name: "date confirmation without any edit remains a no-op", initialDate: "2026-11-26", message: "日期不变", confirm: true, noTime: true, unchanged: true },
+  { name: "ordinary missing area still reaches ASK_USER", initialDate: "2026-11-26", message: "Find a table for two on 2026-11-26 at 18:00", ordinaryMissing: true, fresh: true },
+  { name: "structured target rejects fabricated model raw and value", initialDate: "2026-11-26", message: "Change Thu, Nov 26 to 2026-11-28", noTime: true, expectedTime: "18:00", date: { kind: "DATE", value: "2026-11-27", raw: "2026-11-27" }, expected: "2026-11-28" },
+  { name: "explicit ISO target rejects fabricated model raw and value", initialDate: "2026-11-26", message: "改成2026-11-28晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-11-27", raw: "2026-11-27" }, expected: "2026-11-28" },
+  { name: "structured ISO raw control preserves existing clock", initialDate: "2026-11-26", message: "Change Thu, Nov 26 to 2026-11-28", noTime: true, expectedTime: "18:00", date: { kind: "DATE", value: "2026-11-28", raw: "2026-11-28" }, expected: "2026-11-28" },
 ] as const;
 
 for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${row.name}`, { timeout: 25_000 }, async () => {
   const initialDate = "initialDate" in row ? row.initialDate : "2026-11-25";
+  const expectedTime = "expectedTime" in row ? row.expectedTime : "19:00";
   const seedMessage = initialMessage.replace("2026-11-25", initialDate);
   const seed: RestaurantSemanticProposal = { ...initial, facts: initial.facts.map(fact => fact.field === "DATE"
     ? { ...fact, value: { kind: "DATE", value: initialDate, raw: initialDate } } : fact) };
-  const host = await startWorkspaceFixture({ semanticProposal(message) {
+  const host = await startWorkspaceFixture({ ...("ordinaryMissing" in row ? { beerDiscoveryQuery: "ordinary-ask-area" } : {}), semanticProposal(message) {
     if (message === seedMessage) return structuredClone(seed);
+    assert.equal(message, row.message);
+    if ("ordinaryMissing" in row) return { ...seed, facts: seed.facts.filter(fact => fact.field !== "AREA").map(fact => fact.value?.kind === "TARGET" ? { ...fact, value: { ...fact.value, query: "dinner" } } : fact) };
+    if ("recommendation" in row) return { schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "sukiyaki in Shibuya", selectionScope: "OPEN_ENDED", goalBasis: { type: "JUDGMENT", reason: "User requests recommendations", quotes: [message] } } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shibuya" } },
+    ] };
     return { schemaVersion: "4", facts: [
       ...("date" in row ? [{ field: "DATE" as const, operation: "CORRECT" as const, value: row.date }] : []),
       ...("confirm" in row ? [{ field: "DATE" as const, operation: "CONFIRM" as const }] : []),
-      { field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "timeRaw" in row ? row.timeRaw : "晚上七点" } },
+      ...("noTime" in row ? [] : [{ field: "TIME_WINDOW" as const, operation: "CORRECT" as const, value: { kind: "TIME_WINDOW" as const, earliest: expectedTime, latest: expectedTime, raw: "timeRaw" in row ? row.timeRaw : "晚上七点" } }]),
     ] };
   } });
-  async function settled(caseId: string) {
+  async function settled(caseId: string, assistantCount: number) {
     const until = Date.now() + 10_000;
     while (Date.now() < until) {
       const view = await host.application.getCase(userId, caseId);
-      if (!view.restaurant.progress.active) return view;
+      if (!view.restaurant.progress.active && !view.restaurant.sourceReadContext?.handleId
+        && view.conversation.messages.filter(message => message.role === "ASSISTANT").length >= assistantCount) return view;
       await delay(10);
     }
     throw new Error("Read did not settle");
@@ -76,24 +113,57 @@ for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${
   try {
     host.clock.advance(Date.parse(referenceTime) - host.clock.now().valueOf());
     await host.application.store.upsertUser({ id: userId, displayName: "Fixture" }, host.clock.now().toISOString());
+    if ("fresh" in row) {
+      const created = await host.application.createCase(userId, row.message, "fresh-recommendation");
+      const view = await settled(created.case.caseId, 1);
+      const decisionCalls = host.requests.filter(request => request.purpose === "restaurant_agent_decide").length;
+      console.info(JSON.stringify({ mode: "OFFLINE_FAKE_MODEL_PGLITE", scenario: row.name, phase: view.case.phase, persistedDate: view.restaurant.intentDraft?.date, searchCalls: host.searches.length, decisionCalls, readHandleIdle: !view.restaurant.sourceReadContext?.handleId, availabilityDates: [], availabilityCalls: host.providerCalls.length }));
+      if ("ordinaryMissing" in row) {
+        assert.equal(view.case.phase, "NEEDS_INPUT");
+        assert.ok(view.restaurant.clarificationQuestion);
+        assert.ok(decisionCalls, "Ordinary missing fields must still let the loop ASK_USER");
+        assert.equal(host.searches.length, 0);
+        assert.equal(host.providerCalls.length, 0);
+        return;
+      }
+      assert.equal(view.restaurant.intentDraft?.target?.goal, "RECOMMENDATION");
+      assert.equal(view.restaurant.intentDraft?.date, undefined);
+      assert.ok(host.searches.length, "A background date must not prevent recommendation search");
+      assert.equal(host.providerCalls.length, 0);
+      return;
+    }
     const created = await host.application.createCase(userId, seedMessage, "initial");
-    const prior = await settled(created.case.caseId);
+    const prior = await settled(created.case.caseId, 1);
     assert.equal(prior.restaurant.intentDraft?.date, initialDate);
     assert.ok(host.providerCalls.length, "Initial real composition reached the availability port");
     const before = host.providerCalls.length;
+    const searchBefore = host.searches.length;
+    const decisionsBefore = host.requests.filter(request => request.purpose === "restaurant_agent_decide").length;
     await host.application.submitMessage({ userId, conversationId: prior.case.conversationId, expectedVersion: prior.case.taskVersion, requestId: "relative-edit", message: row.message });
-    const view = await settled(created.case.caseId);
+    const view = await settled(created.case.caseId, 2);
     const calls = host.providerCalls.slice(before);
-    console.info(JSON.stringify({ mode: "OFFLINE_FAKE_MODEL_PGLITE", scenario: row.name, phase: view.case.phase, persistedDate: view.restaurant.intentDraft?.date, availabilityDates: [...new Set(calls.map(call => call.date))], availabilityCalls: calls.length }));
+    const decisions = host.requests.filter(request => request.purpose === "restaurant_agent_decide").length - decisionsBefore;
+    console.info(JSON.stringify({ mode: "OFFLINE_FAKE_MODEL_PGLITE", scenario: row.name, phase: view.case.phase, persistedDate: view.restaurant.intentDraft?.date, searchCalls: host.searches.length - searchBefore, decisionCalls: decisions, readHandleIdle: !view.restaurant.sourceReadContext?.handleId, availabilityDates: [...new Set(calls.map(call => call.date))], availabilityTimes: [...new Set(calls.map(call => call.timeWindow.earliest))], availabilityCalls: calls.length }));
+    if ("unchanged" in row) {
+      assert.equal(view.case.phase, "PRESENT_RESULTS");
+      assert.deepEqual(view.restaurant.intentDraft, prior.restaurant.intentDraft);
+      assert.equal(view.restaurant.requirementRevision, prior.restaurant.requirementRevision);
+      assert.equal(calls.length, 0);
+      assert.equal(host.searches.length, searchBefore);
+      assert.equal(decisions, 0);
+      return;
+    }
     if ("expected" in row) {
       assert.equal(view.restaurant.intentDraft?.date, row.expected);
       assert.ok(calls.length, "The edited plan must actually reach availability");
       assert.deepEqual([...new Set(calls.map(call => call.date))], [row.expected]);
-      assert.ok(calls.every(call => call.timeWindow.earliest === "19:00" && call.timeWindow.latest === "19:00"));
+      assert.ok(calls.every(call => call.timeWindow.earliest === expectedTime && call.timeWindow.latest === expectedTime));
     } else {
       assert.equal(view.case.phase, "NEEDS_INPUT");
       assert.ok(view.restaurant.clarificationQuestion);
       assert.equal(calls.length, 0, "Ambiguous user dates must not query inherited or guessed dates");
+      assert.equal(host.searches.length, searchBefore);
+      assert.equal(decisions, 0, "Recorded semantic conflicts wait before restaurant decisions");
     }
   } finally { await host.close(); }
 });
