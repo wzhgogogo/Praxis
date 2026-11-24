@@ -1,0 +1,5 @@
+# Round27 refreeze after first default-test failure
+
+Superseded candidate aa3024862d77ff33bc0092b40c97e382e439057d passed typecheck, architecture and Build; default1951 had1935pass/16fail. Browser Fixture/G6/dist/asset/graph stages did not run. Original logs and manifests preserved under failures/aa3024862-first-gates/.
+
+The16 failures are13 immediate-opening-hours child cases plus their parent, and2 H002 party tests. They used synthetic proposals with raw today/tomorrow absent from their current user input; the new raw/current-message guard honestly rejected them before the original hours/party assertions. The C6a authored message now explicitly says today, right now. The H002 proposal-only fixture labels its fixed calendar literal2026-08-09 as that literal rather than claiming an unwritten tomorrow. All original hours, party, supplement-count, idempotency and refresh assertions remain unchanged. No production guard was removed or weakened. Re-run affected old paths and all new date controls before refreezing the test inputs; then restart all formal gates from a clean SHA.

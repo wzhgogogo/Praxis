@@ -10,7 +10,9 @@ knownMissingStill=[n for n in base['knownMissing'] if not (root/n).is_file()]
 recovered=[n for n in base['knownMissing'] if (root/n).is_file()]
 assert not recovered,'No additional historical recovery authorized in Round27'
 main=Path('/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing');now={k:hashlib.sha256(git('-C',str(main),*args)).hexdigest() for k,args in [('head',['rev-parse','HEAD']),('status',['status','--porcelain=v1','--untracked-files=all']),('index',['diff','--cached','--binary']),('diff',['diff','--binary'])]}
-allowed=set('''src/application/restaurant-message-handler.ts
+allowed=set('''src/server/local-web-server.test.ts
+src/harness/restaurant-execution-router.test.ts
+src/application/restaurant-message-handler.ts
 src/application/restaurant-relative-date.test.ts
 src/domains/restaurant/relative-date-binding.ts
 src/domains/restaurant/relative-date-binding.test.ts

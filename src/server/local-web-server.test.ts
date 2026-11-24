@@ -330,7 +330,7 @@ function availabilityProposal(partySize?: number): RestaurantSemanticProposal {
     schemaVersion: "4",
     facts: [
       { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT" as const, reason: "Controlled fixture target.", quotes: ["find"] }, kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
-      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "tomorrow" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "2026-08-09" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7pm" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shibuya" } },
       ...(partySize === undefined ? [] : [{ field: "PARTY_SIZE" as const, operation: "ASSERT" as const, value: { kind: "PARTY_SIZE" as const, value: partySize, source: "EXPLICIT" as const } }]),

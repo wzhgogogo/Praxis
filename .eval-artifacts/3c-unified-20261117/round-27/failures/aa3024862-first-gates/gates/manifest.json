@@ -1,0 +1,106 @@
+[
+  {
+    "name": "typecheck",
+    "sha": "aa3024862d77ff33bc0092b40c97e382e439057d",
+    "sourceTree": "cf22d1e08f7349a64651f7895a64320c0effcd60",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "seconds": 0.659435542,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "arch-check",
+    "sha": "aa3024862d77ff33bc0092b40c97e382e439057d",
+    "sourceTree": "cf22d1e08f7349a64651f7895a64320c0effcd60",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "exitCode": 0,
+    "seconds": 0.19886125,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "build",
+    "sha": "aa3024862d77ff33bc0092b40c97e382e439057d",
+    "sourceTree": "cf22d1e08f7349a64651f7895a64320c0effcd60",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "seconds": 0.5661562500000001,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "test",
+    "sha": "aa3024862d77ff33bc0092b40c97e382e439057d",
+    "sourceTree": "cf22d1e08f7349a64651f7895a64320c0effcd60",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "test"
+    ],
+    "exitCode": 1,
+    "seconds": 83.60048125,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": [
+      {
+        "tests": 1951,
+        "pass": 1935,
+        "fail": 16
+      }
+    ]
+  }
+]

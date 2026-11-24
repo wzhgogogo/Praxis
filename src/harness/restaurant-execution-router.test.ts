@@ -810,7 +810,7 @@ test("Router partial-port contract: C6a observed public hours end the immediate 
     browser,
     config: { maxAgentSteps: 4, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
-    await composition.interpretAndDispatch({taskId,message:'Find restaurants nearby right now for two',referenceTime:now.toISOString(),timezone:'Asia/Tokyo'},HIGASHI_GINZA_EVALUATION_LOCATION);
+    await composition.interpretAndDispatch({taskId,message:'Find restaurants nearby today, right now for two',referenceTime:now.toISOString(),timezone:'Asia/Tokyo'},HIGASHI_GINZA_EVALUATION_LOCATION);
     await composition.coordinator.run(taskId);
     const state=composition.runtime.snapshot(taskId).domainState;
     if(mode==='closed'||mode==='outside'){
