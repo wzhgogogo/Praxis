@@ -617,3 +617,37 @@ for(const boundary of ['message','worker-cleanup'] as const)for(const operation 
   else assert.equal(final.restaurant.intentDraft?.partySize,7,'the late older continuation cannot reclaim the read');
  }finally{off();release.release();await editing?.catch(()=>{});app.store.appendMessage=append;await host.close();}
 });
+
+test('Round26 R1 cancelled question worker storage fault cannot fail committed successor read',{timeout:25_000},async()=>{
+ const {AsyncLocalStorage}=await import('node:async_hooks');
+ const started=latch(),gate=latch(),owned=new AsyncLocalStorage<boolean>();
+ let markQuestion=false,questionSignal:AbortSignal|undefined,failedOnce=false;
+ const host=await startWorkspaceFixture({questions:{beforeAnswer:async(_input,signal)=>{
+  questionSignal=signal;started.release();
+  if(!signal.aborted)await Promise.race([gate.promise,new Promise<void>(resolve=>signal.addEventListener('abort',()=>resolve(),{once:true}))]);
+ }}});
+ const app=host.application,privateApp=app as unknown as {agentLoop:{run:(...args:unknown[])=>Promise<unknown>};runtime:Host['application']['runtime']};
+ const run=privateApp.agentLoop.run.bind(privateApp.agentLoop),snap=privateApp.runtime.snapshot.bind(privateApp.runtime);
+ try{
+  const initial=await create(host),ready=await settled(host,initial.case.caseId),id=ready.case.caseId;
+  const searchBefore=host.searches.length,slotBefore=host.providerCalls.length;
+  privateApp.agentLoop.run=(...args)=>{if(!markQuestion)return run(...args);markQuestion=false;return owned.run(true,()=>run(...args));};
+  privateApp.runtime.snapshot=async(...args)=>{
+   if(owned.getStore()&&questionSignal?.aborted&&!failedOnce){failedOnce=true;throw new Error('Fixture: cancelled question storage read failed');}
+   return snap(...args);
+  };
+  markQuestion=true;
+  await app.askRestaurantQuestion({userId,caseId:id,candidateId:ready.restaurant.presentedCandidateIds![0]!,question:'Card required?',requestId:'r26-question-before-edit',expectedVersion:ready.case.taskVersion});
+  await started.promise;
+  const active=await app.getCase(userId,id);
+  await app.submitMessage({userId,conversationId:ready.case.conversationId,requestId:'r26-change-to-osaka',expectedVersion:active.case.taskVersion,message:'Change Tokyo to Osaka'});
+  const final=await settled(host,id);
+  assert.equal(failedOnce,true);
+  assert.equal(final.case.phase,'PRESENT_RESULTS');
+  assert.equal(final.restaurant.intentDraft?.area?.query,'Osaka');
+  assert.equal(host.searches.length-searchBefore,1);
+  assert.ok(host.providerCalls.length-slotBefore>=1);
+  const events=(await privateApp.runtime.listEvents(id)).slice(active.case.taskVersion);
+  assert.equal(events.some(row=>row.event.type==='AGENT_LOOP_TERMINATED'&&row.event.termination==='EXECUTION_FAILURE'),false);
+ }finally{gate.release();privateApp.agentLoop.run=run;privateApp.runtime.snapshot=snap;await host.close();}
+});

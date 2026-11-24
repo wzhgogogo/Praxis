@@ -8,6 +8,7 @@ export async function questionRowFixture(candidate:RestaurantCandidate,mode:'sam
  const page:RestaurantFactPageObservation={readRunId:'row-read',requestedSourceUrl:url,candidateId:candidate.restaurant.id,observedAt:readAt,
   identity:{evidenceId:'row-identity',kind:'ENTITY_MATCH',provider:'TABELOG',sourceEntityId:'fixture-row-source',candidateId:candidate.restaurant.id,sourceUrl:url,observedAt:readAt,requestFingerprint:'row-fixture',entityMatch:{confidence:'HIGH',matchedBy:['EXACT_NAME_AND_ADDRESS']},claims:{outletName:candidate.restaurant.outletName,address:candidate.restaurant.address}},
   snapshot:{url,title:candidate.restaurant.outletName,settlement:'SETTLED',text:`${candidate.restaurant.outletName}\n${candidate.restaurant.address}\nPrivate rooms\nAvailable\nFor 2 people or more.\nPrivate hire\n${other}`,
+   visibleHtml:`<table><tr><th>Private rooms</th><td><p>Available</p><p>For 2 people or more.</p></td></tr><tr><th>Private hire</th><td>${other}</td></tr></table>`,
    html:`<table><tr><th>Private rooms</th><td><p>Available</p><p>For 2 people or more.</p></td></tr><tr><th>Private hire</th><td>${other}</td></tr></table>`}};
  const desired=mode==='crossed'?['Private rooms','Unavailable']:['Private rooms','Available','For 2 people or more.'];
  const core=new ModelRestaurantPageQuestion({async complete(input){

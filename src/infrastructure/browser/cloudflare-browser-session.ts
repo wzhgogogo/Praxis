@@ -1,4 +1,4 @@
-import { observePageImages } from "./observe-page-images.js";
+import { observePageImages, observeVisibleHtml } from "./observe-page-images.js";
 import { chromium, type Browser, type BrowserContext, type Page, type ConnectOverCDPOptions } from "playwright-core";
 
 import type {
@@ -109,6 +109,7 @@ export class CloudflareBrowserSession implements BrowserSession {
         url: this.page.url(),
         html: await this.page.content(),
         images: await observePageImages(this.page),
+        visibleHtml: await observeVisibleHtml(this.page, INTERACTIVE_ACTION_TIMEOUT_MS),
         text: await this.page.locator("body").innerText(),
         title: await this.page.title(),
         ...(state === undefined ? {} : { interactiveState: state }),

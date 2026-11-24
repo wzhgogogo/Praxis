@@ -25,8 +25,9 @@ export const RESTAURANT_PAGE_QUESTION_SCHEMA_VERSION = "3";
 export const RESTAURANT_PAGE_QUESTION_LIMITS = Object.freeze({ maxStatementCharacters: 6_000, maxTotalCharacters: 60_000, maxStatements: 1_200 });
 
 function sourceRowProof(page: RestaurantFactPageObservation, quote: string): RestaurantPageCitation['sourceRow'] {
+  if (!page.snapshot.visibleHtml?.trim()) return undefined;
   const normalize=(text:string)=>text.normalize('NFKC').replace(/\s+/g,' ').trim();
-  const $=load(page.snapshot.visibleHtml??page.snapshot.html);
+  const $=load(page.snapshot.visibleHtml);
   $('[hidden],[aria-hidden="true"],script,style,template,noscript').remove();
   const lines=page.snapshot.text.split(/\r?\n/).map(normalize).filter(Boolean);
   const proofs:Array<NonNullable<RestaurantPageCitation['sourceRow']>>=[];
@@ -34,9 +35,11 @@ function sourceRowProof(page: RestaurantFactPageObservation, quote: string): Res
     const cells=$(tr).children('th,td');if(cells.length!==2||cells[0]!.tagName!=='th'||cells[1]!.tagName!=='td')return;
     const header=normalize($(cells[0]!).text()),copy=$(cells[1]!).clone();copy.find('br').replaceWith('\n');copy.find('p,div,li').append('\n');
     const value=copy.text().split(/\r?\n/).map(normalize).find(Boolean);
-    if(!value||!header||header.length>80||!/^(?:Available|Unavailable|Not available|Yes|No|あり|なし|有|無)$/i.test(value)
-      ||lines.filter(line=>line===header).length!==1||lines.filter(line=>line===value).length!==1)return;
-    if(normalize(quote)!==header&&normalize(quote)!==value)return;
+    if(!value||!header||header.length>80||!/^(?:Available|Unavailable|Not available|Yes|No|あり|なし|有|無)$/i.test(value))return;
+    const headerCount=lines.filter(line=>line===header).length,valueCount=lines.filter(line=>line===value).length;
+    const adjacent=(headerCount===1&&valueCount===1&&lines[lines.indexOf(header)+1]===value)
+      ||(headerCount===0&&valueCount===0&&lines.filter(line=>line===`${header} ${value}`).length===1);
+    if(!adjacent||normalize(quote)!==header&&normalize(quote)!==value)return;
     const id=createHash('sha256').update(JSON.stringify([page.snapshot.url,page.observedAt,index,header,value])).digest('hex');proofs.push({id,header,value});
   });
   return proofs.length===1?proofs[0]:undefined;

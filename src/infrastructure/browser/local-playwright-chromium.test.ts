@@ -112,7 +112,7 @@ test("Local Playwright Chromium maps launch failures into the fail-closed Browse
 test("Local Playwright Chromium installs HAR replay before the Guard and refuses replay without that boundary", async () => {
   const calls: string[] = [];
   const page = {
-    goto: async () => null, content: async () => "<main>Replay</main>", locator: () => ({ evaluateAll: async () => [], innerText: async () => "Replay", click: async () => {}, fill: async () => {}, selectOption: async () => [], waitFor: async () => {} }),
+    goto: async () => null, content: async () => "<main>Replay</main>", locator: () => ({ evaluateAll: async () => [], evaluate: async () => "", innerText: async () => "Replay", click: async () => {}, fill: async () => {}, selectOption: async () => [], waitFor: async () => {} }),
     title: async () => "Replay", screenshot: async () => new Uint8Array(), url: () => "https://replay.example/guide", close: async () => {}, keyboard: { press: async () => {} },
   };
   const context = {

@@ -159,7 +159,7 @@ function usableRestaurant(place:UntrustedGooglePlaceObservation,input:GoogleDisc
  const primary=place.primaryType===undefined?undefined:normalizeType(place.primaryType),types=[...new Set([...(primary?[primary]:[]),...(place.types??[]).map(normalizeType)])];
  const isDining=(type:string)=>type==='restaurant'||type.endsWith('_restaurant')||DINING_PRIMARY_TYPES.has(type);
  const negative = [...(input.negativeCriteria ?? []), ...(input.criteria ?? []).filter(c => c.polarity === 'NEGATIVE' && c.strength === 'HARD').map(c => c.text)];
- const target = (input.targetQuery ?? '').replace(/\be\.g\./giu, 'for example').replace(/\b(?:no|not|nothing|without|avoid)\b[^,;.!?\/]*?(?=[,;.!?\/]|\bbut\b|\b(?:I|we)\s+(?:would\s+like|want|need|(?:am|are)\s+looking)\b|\band\s+(?:(?:I|we)\s+)?(?:would\s+like|want|need|looking|please|find)\b|$)/giu, ' ');
+ const target = (input.targetQuery ?? '').replace(/\be\.g\./giu, 'for example').replace(/\b(?:no|not|nothing|without|avoid)\b[^,;.!?]*?(?=[,;.!?]|\bbut\b|\b(?:I|we)\s+(?:would\s+like|want|need|(?:am|are)\s+looking)\b|\band\s+(?:(?:I|we)\s+)?(?:would\s+like|want|need|looking|please|find)\b|$)/giu, ' ');
  const positive=[target,...(input.requiredTypeCriteria??[]),...(input.criteria??[]).filter(c=>c.polarity==='POSITIVE').map(c=>c.text)].join(' ');
  const requested=(pattern:RegExp)=>pattern.test(positive);
  const specific=input.selectionScope==='SPECIFIC_OUTLET';

@@ -24,7 +24,7 @@ function fakeBrowser(onClose: () => void, options: { guardedContextError?: Error
     isClosed: () => !connected,
     goto: async () => null,
     content: async () => "<html><body>ok</body></html>",
-    locator: () => ({ evaluateAll: async () => [], innerText: async () => "ok", click: async () => {}, fill: async () => {}, selectOption: async () => {}, waitFor: async () => {} }),
+    locator: () => ({ evaluateAll: async () => [], evaluate: async () => "", innerText: async () => "ok", click: async () => {}, fill: async () => {}, selectOption: async () => {}, waitFor: async () => {} }),
     title: async () => "ok",
     screenshot: async () => new Uint8Array(),
     url: () => "https://example.test",

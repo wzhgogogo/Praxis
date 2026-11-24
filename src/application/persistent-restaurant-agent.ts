@@ -1308,7 +1308,7 @@ export class PersistentRestaurantAgentApplication {
         };
         await (questionDeadline ? read() : this.agentLoop.withReadRun(read, record.rootTaskId));
       } catch (error) {
-        await this.recordUnexpectedRunFailure(record, error);
+        await this.recordUnexpectedRunFailure(record, handle, error);
       } finally {
         if (this.activeReads.get(record.rootTaskId) === handle) this.activeReads.delete(record.rootTaskId);
         try {
@@ -1365,18 +1365,53 @@ export class PersistentRestaurantAgentApplication {
     return false;
   }
 
-  private async recordUnexpectedRunFailure(record: ConversationRecord, error: unknown): Promise<void> {
+  private async recordUnexpectedRunFailure(record: ConversationRecord, handle: ActiveRead, error: unknown): Promise<void> {
+    if (handle.controller.signal.aborted) return;
+    const owner = this.currentRead(record.rootTaskId, true);
+    if (owner && owner !== handle) return;
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    if (handle.controller.signal.aborted) return;
+    const latestOwner = this.currentRead(record.rootTaskId, true);
+    if (latestOwner && latestOwner !== handle) return;
+    if (restaurantInvestigationReadRunId(snapshot.domainState, snapshot.runId) !== handle.readRunId) return;
+    if (handle.questionRequestId) {
+      const q = snapshot.domainState.pageQuestion;
+      if (q && !q.result && q.requestId === handle.questionRequestId && q.readRunId === handle.readRunId) {
+        const id = this.createId("event:restaurant-question-runtime");
+        try {
+          await this.runtime.dispatch({
+            id,
+            taskId: snapshot.id,
+            event: {
+              type: "PAGE_QUESTION_COMPLETED",
+              requestId: q.requestId,
+              readRunId: q.readRunId,
+              result: { status: "UNVERIFIED", candidateId: q.candidateId, reason: "SOURCE_READ_FAILED", checkedPages: [] },
+            },
+            occurredAt: this.clock.now().toISOString(),
+            trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor: "SYSTEM" },
+          }, snapshot.version);
+        } catch (dispatchError) {
+          if (!(dispatchError instanceof StaleTaskVersionError)) throw dispatchError;
+        }
+      }
+      return;
+    }
     if (["PRESENT_RESULTS", "NO_VERIFIED_RESULT", "FAILED", "OUTCOME_UNKNOWN", "BOOKED_VERIFIED"].includes(snapshot.domainState.phase)) return;
+    if (snapshot.version < handle.startedVersion) return;
     const reason = error instanceof Error ? error.message : "The local read process failed unexpectedly";
     const id = this.createId("event:restaurant-agent-runtime");
-    await this.runtime.dispatch({
-      id,
-      taskId: snapshot.id,
-      event: { type: "AGENT_LOOP_TERMINATED", termination: "EXECUTION_FAILURE", reason },
-      occurredAt: this.clock.now().toISOString(),
-      trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor: "SYSTEM" },
-    }, snapshot.version);
+    try {
+      await this.runtime.dispatch({
+        id,
+        taskId: snapshot.id,
+        event: { type: "AGENT_LOOP_TERMINATED", termination: "EXECUTION_FAILURE", reason },
+        occurredAt: this.clock.now().toISOString(),
+        trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor: "SYSTEM" },
+      }, snapshot.version);
+    } catch (dispatchError) {
+      if (!(dispatchError instanceof StaleTaskVersionError)) throw dispatchError;
+    }
   }
 
   private async notifyCaseUpdate(record: ConversationRecord): Promise<void> {

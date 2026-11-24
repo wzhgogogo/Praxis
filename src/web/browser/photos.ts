@@ -3,7 +3,7 @@ import { $, element, requireUser, requireView, show, state, text } from "./runti
 import { candidate } from "./queries.js";
 import { link } from "./format.js";
 import { actions } from "./actions.js";
-interface PhotoEntry {result:PhotoResult|null;scope:'cover'|'gallery'|null;loading:boolean;generation:string;failed:Set<string>;prefetched:Set<string>;coverRetried?:boolean;failedCoverId?:string;listFailed?:boolean;recoverable:Set<string>;checking:Set<string>;retries:number;lastView?:string}
+interface PhotoEntry {result:PhotoResult|null;scope:'cover'|'gallery'|null;loading:boolean;generation:string;failed:Set<string>;prefetched:Set<string>;coverRetried?:boolean;failedCoverId?:string;listFailed?:boolean;recoverable:Set<string>;checking:Set<string>;retries:number;lastView?:string;resumeAfterCheck?:boolean}
 export const photoCache=new Map<string,PhotoEntry>(),photoPositions=new Map<string,number>();
 export let activePhotoKey='';
 export function photoKey(){const c=candidate();return state.view&&state.user&&c?JSON.stringify([requireUser().id,requireView().case.caseId,c.restaurant.id,c.restaurant.outletName,c.restaurant.address,c.restaurant.sourceIds]):'';}
@@ -49,7 +49,7 @@ export function renderPhotoImages(key:string,entry:PhotoEntry){
       if(response.status===200||response.status===503||response.status>=500)entry.recoverable.add(photo.id);
       else permanent(photo);
     }catch{if(photoKey()===key&&photoCache.get(key)===entry)entry.recoverable.add(photo.id);}
-    finally{entry.checking.delete(photo.id);}
+    finally{entry.checking.delete(photo.id);if(!entry.checking.size&&entry.resumeAfterCheck){entry.resumeAfterCheck=false;if(photoKey()===key&&photoCache.get(key)===entry&&['CANDIDATES','DETAILS'].includes(state.ui.view)){retryAlbum(key,entry);renderPhotos();}}}
   };
   renderPhotoSource('cover-photo-source',cover);
   const coverReady=()=>{show('cover-photo-source',true);show('cover-open',true);show('restaurant-initial',false);show('no-photo',false);requestAnimationFrame(()=>fitPhotoCredit($('cover-photo-source')));};
@@ -102,7 +102,7 @@ export function renderPhotos(){
   actions.api<PhotoResult>('/api/cases/'+encodeURIComponent(c)+'/candidates/'+encodeURIComponent(id)+'/photos?scope='+scope,{headers:target.failedCoverId?{'x-praxis-failed-photo':target.failedCoverId}:{}}).then(result=>{
     if(result.candidateId!==id)throw new Error('Photo response mismatch');target.result=result;target.scope=scope;
   }).catch(error=>{const status=error&&typeof error==='object'&&'status' in error?error.status:undefined;if(typeof status==='number'&&status>=400&&status<500&&![408,429].includes(status)){target.result={photos:[],expiresAt:new Date(Date.now()+600000).toISOString()};target.scope=scope;}else target.listFailed=true;})
-    .finally(()=>{target.loading=false;if(photoKey()===key)renderPhotos();});
+    .finally(()=>{target.loading=false;if(target.resumeAfterCheck&&!target.checking.size){target.resumeAfterCheck=false;if(photoKey()===key)retryAlbum(key,target);}if(photoKey()===key)renderPhotos();});
 }
 function retryAlbum(key:string,entry:PhotoEntry){
  if(photoKey()!==key||entry.loading||entry.retries>=2||!entry.listFailed&&!entry.recoverable.size)return;
@@ -111,7 +111,7 @@ function retryAlbum(key:string,entry:PhotoEntry){
  entry.recoverable.clear();
 }
 /** Reconnect retries only the current visible album, with no background Google warming. */
-export function resumePhotos(){if(!['CANDIDATES','DETAILS'].includes(state.ui.view))return;const key=photoKey(),entry=photoCache.get(key);if(entry){retryAlbum(key,entry);renderPhotos();}}
+export function resumePhotos(){if(!['CANDIDATES','DETAILS'].includes(state.ui.view))return;const key=photoKey(),entry=photoCache.get(key);if(!entry)return;if(entry.loading||entry.checking.size)entry.resumeAfterCheck=true;retryAlbum(key,entry);renderPhotos();}
 export function movePhoto(delta:number){const key=photoKey(),entry=photoCache.get(key),photos=photoList(entry);if(!photos.length)return;const index=Math.max(0,Math.min(photoPosition(key,photos)+delta,photos.length-1));photoPositions.set(key,index);try{localStorage.setItem(key+':photo',String(index));}catch{}if(entry)renderPhotoImages(key,entry);}
 export function openPhotos(){resumePhotos();const entry=photoCache.get(photoKey());if(!photoList(entry).length)return;$('photo-viewer').showModal();renderPhotos();}
 

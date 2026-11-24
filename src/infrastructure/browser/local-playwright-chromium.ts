@@ -1,4 +1,4 @@
-import { observePageImages } from "./observe-page-images.js";
+import { observePageImages, observeVisibleHtml } from "./observe-page-images.js";
 import { localBrowserProxyFromEnvironment, playwrightProxy, type LocalBrowserProxySettings } from "./local-browser-proxy.js";
 import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
@@ -104,33 +104,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         ...(this.networkGuard ? {urlQueryValues:await this.networkGuard.observeUrlQueryValues(this.page,this.page.url())} : {}),
         html: await this.page.content(),
         images: await observePageImages(this.page),
-        visibleHtml: await this.page.locator("body").evaluate(body => {
-          // Cloning an img can trigger a second request even while detached.
-          // Serialize the existing tree without constructing any DOM nodes.
-          const source = {
-            escape(text: string) { return text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;"); },
-            read(node: Node): string {
-              if (node.nodeType === Node.TEXT_NODE) return this.escape(node.textContent ?? "");
-              if (!(node instanceof Element)) return "";
-              const style = getComputedStyle(node);
-              if (node.matches('script,style,template,noscript,[hidden],[aria-hidden="true"]')
-                || style.display === "none" || style.visibility === "hidden") return "";
-              const name = node.tagName.toLowerCase();
-              const attributes = new Map([...node.attributes].map(attribute => [attribute.name, attribute.value]));
-              if (node instanceof HTMLInputElement) {
-                attributes.set("value", node.value);
-                if (node.checked) attributes.set("checked", ""); else attributes.delete("checked");
-              }
-              if (node instanceof HTMLOptionElement) {
-                if (node.selected) attributes.set("selected", ""); else attributes.delete("selected");
-              }
-              const tag = `<${name}${[...attributes].map(([key, value]) => ` ${key}="${this.escape(value)}"`).join("")}>`;
-              return tag + (/^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/.test(name)
-                ? "" : [...node.childNodes].map(child => this.read(child)).join("") + `</${name}>`);
-            },
-          };
-          return source.read(body);
-        }, undefined, { timeout: INTERACTIVE_ACTION_TIMEOUT_MS }),
+        visibleHtml: await observeVisibleHtml(this.page, INTERACTIVE_ACTION_TIMEOUT_MS),
         text: await this.page.locator("body").innerText(),
         title: await this.page.title(),
         ...(state === undefined ? {} : { interactiveState: state }),

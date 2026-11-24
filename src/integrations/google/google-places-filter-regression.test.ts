@@ -47,7 +47,8 @@ for(const strength of ['SOFT','HARD'] as const)for(const query of [
 });
 for(const [query,want] of [
  ...['avoid dessert cafés','avoid e.g. dessert cafés','not specifically looking for a dessert café'].flatMap(q=>['','.','!','?','/'].map(p=>['Dinner in Ginza, please '+q+p,false] as const)),
- ...['We have no parking requirements and want a dessert café in Ginza','We have no parking requirements and we want a dessert café in Ginza','not too sweet, but specifically looking for a dessert café in Ginza','without outdoor seating I would like a dessert café in Ginza'].map(q=>[q,true] as const),
+ ...['Dinner in Ginza, prefer to avoid bakeries / dessert cafés','Dinner in Ginza, prefer to avoid bakeries and dessert cafés'].map(q=>[q,false] as const),
+ ...['We have no parking requirements and want a dessert café in Ginza','We have no parking requirements and we want a dessert café in Ginza','no parking required and want a dessert café in Ginza','no parking required and I want a dessert café in Ginza','not too sweet, but specifically looking for a dessert café in Ginza','without outdoor seating I would like a dessert café in Ginza'].map(q=>[q,true] as const),
 ])test('Round25 R4 affirmative dining intent across search and inspectFacts: '+query,async()=>{
  const api=adapter([],age),intent={...fixtureIntent,target:target(query),timeWindow:{earliest:'19:00',latest:'20:00'},area:{query:'Ginza',coordinates},criteria:[{text:'dessert cafés',polarity:'NEGATIVE' as const,strength:'SOFT' as const}]};
  const namedIntent={...intent,target:target('Age.3 GINZA','SPECIFIC_OUTLET')},named=await api.search({intent:namedIntent,readRunId:'named'},signal());assert.equal(named.candidates.length,1);
@@ -55,4 +56,11 @@ for(const [query,want] of [
  assert.equal((await api.search({intent,readRunId:'search'},signal())).candidates.length,want?1:0);
  assert.equal((await api.inspectFacts({...input,intent,readRunId:'details'},signal())).factChecks[candidateIds[0]!]!.status,want?'COMPLETED':'UNKNOWN');
  assert.equal((await api.inspectFacts({...input,intent:namedIntent,readRunId:'named-details'},signal())).factChecks[candidateIds[0]!]!.status,'COMPLETED');
+});
+
+for(const punctuation of ['.','!','?'])test('Round26 R3 trailing sentence punctuation removes standalone beer on Google wire: '+punctuation,async()=>{
+ const beer={text:'serves beer',polarity:'POSITIVE' as const,strength:'HARD' as const},outdoor={text:'outdoor seating',polarity:'POSITIVE' as const,strength:'HARD' as const};
+ const next=applyRestaurantIntentPatch({schemaVersion:'3',timezone:'Asia/Tokyo',target:target('café with outdoor seating and beer'+punctuation),area:{query:'Ginza'},criteria:[outdoor,beer]},{schemaVersion:'3',removeCriteria:[beer]});
+ const wires:string[]=[];await adapter(wires).search({intent:{...fixtureIntent,target:next.target!,criteria:next.criteria,area:{...next.area!,coordinates}},readRunId:'edit'},signal());
+ assert.equal(wires[0],'café with outdoor seating in Ginza restaurant Ginza');
 });

@@ -91,3 +91,52 @@ for(const mode of ['list','transient','persistent','local-interruption','partial
   const root=process.env.PRAXIS_ROUND25_VISUAL_OUTPUT;if(root)await writeFile(join(root,`round25-m2-${mode}.json`),JSON.stringify({statuses,calls:google.calls,result},null,2));
  });
 });
+
+test('Round26 V3 CloudflareBrowserSession snapshot drops CSS-hidden duplicate table rows',{timeout:35000},async()=>{
+ const {createServer}=await import('node:http'),{CloudflareBrowserSession}=await import('../../infrastructure/browser/cloudflare-browser-session.js'),{ModelRestaurantPageQuestion}=await import('../../integrations/restaurant-facts/model-page-question.js'),{questionCitations}=await import('../../web/browser/citation-groups.js');
+ const visible='<dl><dt>Private rooms</dt><dd>Unavailable</dd><dt>Private hire</dt><dd>Available</dd></dl>';
+ const hidden=visible+'<style>.retired{display:none}</style><table class="retired"><tr><th>Private rooms</th><td>Available</td></tr></table>';
+ const table='<table><tr><th>Private rooms</th><td><p>Available</p></td></tr><tr><th>Private hire</th><td><p>Unavailable</p></td></tr></table>';
+ const server=createServer((req,res)=>{res.writeHead(200,{'content-type':'text/html'});res.end('<!doctype html><title>Fixture Sushi</title><h1>Fixture Sushi</h1><p>One Ginza</p>'+(req.url==='/visible'?table:hidden));});
+ await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+ const browser=await chromium.launch({headless:true});let session:Awaited<ReturnType<typeof CloudflareBrowserSession.create>>|undefined;
+ const observedAt='2026-11-21T08:04:00Z',startedAt='2026-11-21T08:00:00Z',candidateId='fixture',runId='r26-row-proof';
+ try{
+  await browser.newContext();session=await CloudflareBrowserSession.create(browser,'CHROMIUM');
+  for(const mode of ['hidden','visible'] as const){
+   const url=`http://127.0.0.1:${(server.address() as import('node:net').AddressInfo).port}/${mode}`;
+   await session.navigate(url);const snapshot=await session.snapshot();
+   assert.ok(snapshot.visibleHtml?.length);if(mode==='hidden')assert.equal(snapshot.visibleHtml!.includes('retired'),false);
+   const model=new ModelRestaurantPageQuestion({async complete(input){
+    const doc=JSON.parse(input.messages[1]!.content).sourceDocuments[0] as {id:string;statements:Array<{id:string;text:string}>};
+    const citations=['Private rooms','Available'].map(quote=>{const s=doc.statements.find(row=>row.text===quote)!;assert.ok(s);return {documentId:doc.id,statementId:s.id,quote};});
+    return {invocationId:'r26-row',provider:'FIXTURE',model:'fixture',finishReason:'TOOL_CALLS',latencyMs:0,outputText:JSON.stringify({status:'ANSWERED',answer:'The page lists facility information.',citations,sensitiveCategory:'NONE',sourceConflict:false})};
+   }},undefined,()=>observedAt);
+   const identity={evidenceId:'r26-identity',kind:'ENTITY_MATCH' as const,provider:'TABELOG' as const,sourceEntityId:'bound-fixture',candidateId,sourceUrl:url,observedAt,requestFingerprint:'r26',entityMatch:{confidence:'HIGH' as const,matchedBy:['EXACT_NAME_AND_ADDRESS']},claims:{outletName:'Fixture Sushi',address:'One Ginza'}};
+   const answer=await model.answer({question:'Does this restaurant have private rooms?',displayedOutlet:{candidateId,sourceUrl:url},readContext:{runId,startedAt},cachedPages:[{snapshot,readRunId:runId,requestedSourceUrl:url,candidateId,observedAt,identity}]},new AbortController().signal);
+   assert.equal(answer.status,'ANSWERED');
+   if(answer.status==='ANSWERED')assert.deepEqual(questionCitations(answer.citations).map(c=>c.text),mode==='visible'?['Private rooms: Available']:['Private rooms','Available']);
+  }
+ }finally{await session?.close();await browser.close();server.close();server.closeAllConnections();}
+});
+
+test('Round26 M2 390 reconnect before late HEAD 503 recovers photo 2 without leaving About',{timeout:45000},async()=>{
+ const google=await googlePhotoRecoveryFixture('transient'),website=await createPhotoSourceFixture();
+ await journey(390,{photoGoogle:google.transport,photoHttp:website.http},async(page,host,view)=>{
+  await loaded(page,'#cover-image');await page.locator('#details-button').click();
+  await page.waitForFunction(()=>document.getElementById('detail-photo-counter')?.textContent==='1 of 8');
+  const id=view.restaurant.presentedCandidateIds![0]!,gallery=await(await page.request.get(`/api/cases/${encodeURIComponent(view.case.caseId)}/candidates/${encodeURIComponent(id)}/photos?scope=gallery`)).json();
+  const imageUrl=gallery.photos[1].contentUrl as string;
+  let heldResolve!:()=>void;const held=new Promise<void>(r=>{heldResolve=r;});let releaseResolve!:()=>void;const release=new Promise<void>(r=>{releaseResolve=r;});
+  await page.route('**/photos/*/content',async route=>{if(route.request().method()==='HEAD'&&new URL(route.request().url()).pathname===imageUrl){heldResolve();await release;}await route.continue();});
+  try{
+   await page.locator('#detail-photo-next').click();
+   await Promise.race([held,new Promise<never>((_,reject)=>setTimeout(()=>reject(new Error('HEAD not intercepted')),5000))]);
+   await page.evaluate(()=>{document.body.dataset.r26Reopened='false';(window as unknown as {r25Streams:EventSource[]}).r25Streams.at(-1)!.addEventListener('open',()=>{document.body.dataset.r26Reopened='true';},{once:true});});
+   host.disconnectStreams();await page.waitForFunction(()=>document.body.dataset.r26Reopened==='true');
+   const headResponse=page.waitForResponse(r=>r.request().method()==='HEAD'&&new URL(r.url()).pathname===imageUrl);
+   releaseResolve();assert.equal((await headResponse).status(),503);
+   await loaded(page,'#detail-photo');assert.equal(await page.locator('#detail-photo-counter').innerText(),'2 of 8');
+  }finally{releaseResolve();}
+ });
+});
