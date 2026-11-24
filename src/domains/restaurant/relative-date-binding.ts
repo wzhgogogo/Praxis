@@ -32,6 +32,20 @@ function excludedDate(text: string, index: number, raw: string): boolean {
     || /^\s*(?:(?:晚上|早上|中午|下午|晚餐|午餐|evening|morning)\s*)?(?:不行|不可以|不能|不合适|不方便|没空|is not|doesn['’]t work|won['’]t work)/iu.test(text.slice(index + raw.length));
 }
 
+/** Recognize date-selection relations only; date interpretation stays in the materializer. */
+function dateSelectionIsUncertain(message: string, relative: readonly RelativeExpression[]): boolean {
+  const named = /\b\d{4}-\d{2}-\d{2}\b|(?:\d{4}年)?\d{1,2}月\d{1,2}[日号]|\b\d{1,2}\/\d{1,2}\b|(?:这|本|下)?(?:个)?(?:周|星期|礼拜)[一二三四五六日天]|\b(?:(?:this|next)\s+)?(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/giu;
+  const dates = [...relative, ...[...message.matchAll(named)].map(match => ({ raw: match[0], index: match.index }))]
+    .sort((a, b) => a.index - b.index);
+  return dates.some((date, index) => {
+    const before = message.slice(0, date.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "";
+    const after = message.slice(date.index).split(/[，,;；。.!?\n]/u)[0]!;
+    const next = dates[index + 1];
+    return /(?:未定|没定|待定|不确定|尚未决定|还没决定|\bundecided\b|\bnot (?:decided|sure)\b|\bhaven['’]t decided\b)/iu.test(before + after)
+      || !!next && /^[\s，,、]*(?:还是|或(?:者)?|要么|\bor\b|\/)[\s，,、]*$/iu.test(message.slice(date.index + date.raw.length, next.index));
+  });
+}
+
 export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal, message: string):
   | { status: "BOUND"; proposal: RestaurantSemanticProposal }
   | { status: "CONFLICT"; conflict: RestaurantSemanticConflict } {
@@ -39,20 +53,15 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
   const mentions = relativeExpressions(message);
   const dateFacts = proposal.facts.filter(fact => fact.field === "DATE");
   const fail = (reason: string) => ({ status: "CONFLICT" as const, conflict: { code: "UNSUPPORTED_SEMANTIC_EXPRESSION" as const, affectedFields: ["DATE" as const], message: reason } });
-  if (mentions.some(item => {
-    const before = message.slice(0, item.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "";
-    const after = message.slice(item.index).split(/[，,;；。.!?\n]/u)[0]!;
-    const tail = message.slice(item.index + item.raw.length);
-    return /(?:未定|没定|待定|不确定|尚未决定|还没决定|\bundecided\b|\bnot (?:decided|sure)\b|\bhaven['’]t decided\b)/iu.test(before + after)
-      || /^[\s，,]*(?:还是|或(?:者)?|\bor\b)\s*(?:大后天|后天|明天|今天|\d{1,4}(?:月|日|号|[-/]))/iu.test(tail);
-  })) return fail("Clarify the undecided or competing dining dates");
-  // A current-message-bound calendar correction owns the selected date. Other
-  // relative mentions must not replace it merely because their number is clear.
-  if (dateFacts.some(fact => {
-    if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE" || !("value" in fact.value)) return false;
+  const selectedDateRaws = dateFacts.flatMap(fact => {
+    if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE" || (!("value" in fact.value) && !("weekday" in fact.value))) return [];
     const raw = fact.value.raw.normalize("NFKC").trim(), index = message.indexOf(raw);
-    return !!raw && index >= 0 && !relativeExpressions(raw).length && !excludedDate(message, index, raw);
-  })) return { status: "BOUND", proposal };
+    return raw && index >= 0 && !relativeExpressions(raw).length && !excludedDate(message, index, raw) ? [raw] : [];
+  });
+  if (dateSelectionIsUncertain(message, mentions)) return fail("Clarify the undecided or competing dining dates");
+  // Bound calendar and weekday directives share the same selected-date priority.
+  // Incidental relative mentions cannot replace either; alternatives above clarify.
+  if (selectedDateRaws.length) return { status: "BOUND", proposal };
   const expressions = mentions.filter(item => !excludedDate(message, item.index, item.raw));
   const offsets = new Set(expressions.map(item => item.days));
   if (offsets.size > 1 || expressions.some(item => !Number.isInteger(item.days) || item.days < 0 || item.days > 365

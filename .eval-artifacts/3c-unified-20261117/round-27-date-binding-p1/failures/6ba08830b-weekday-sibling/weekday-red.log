@@ -1,0 +1,3 @@
+{"case":"weekday edit control","message":"改成周六晚上七点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"weekday edit with excluded date mentioned","message":"后天我没空，改成周六晚上七点","expected":"2026-11-28","draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":false}
+{"case":"unselected weekday alternative","message":"后天还是周六晚上七点","expected":null,"draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":false}

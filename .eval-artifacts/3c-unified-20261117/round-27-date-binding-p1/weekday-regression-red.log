@@ -1,0 +1,104 @@
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"correct offset","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: correct offset (809.483125ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"wrong tomorrow","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: wrong tomorrow (549.559416ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"wrong calendar","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: wrong calendar (531.7405ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"omitted DATE","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: omitted DATE (524.035917ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"ambiguous dates","phase":"NEEDS_INPUT","persistedDate":"2026-11-25","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: ambiguous dates (499.965ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"time only carries date","phase":"PRESENT_RESULTS","persistedDate":"2026-11-25","availabilityDates":["2026-11-25"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: time only carries date (530.567583ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"explicit calendar correction control","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: explicit calendar correction control (524.003166ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"excluded relative day preserves calendar correction","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: excluded relative day preserves calendar correction (526.03225ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"approximate day range with omitted DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: approximate day range with omitted DATE (499.266042ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"incidental relative mention preserves selected calendar DATE","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected calendar DATE (522.636584ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"undecided relative and calendar dates with omitted DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: undecided relative and calendar dates with omitted DATE (499.684125ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"competing relative and calendar dates despite modeled DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: competing relative and calendar dates despite modeled DATE (496.980333ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"weekday correction control","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: weekday correction control (528.493209ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"incidental relative mention preserves selected weekday DATE","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✖ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected weekday DATE (523.142ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"competing relative and weekday dates despite modeled DATE","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✖ Round27 SEM-1 actual message and availability: competing relative and weekday dates despite modeled DATE (526.528083ms)
+✔ ADR-0052 DATE offset schema is bounded and compiler preserves distinct conflict identities (0.929833ms)
+✔ ADR-0052 supported current-message phrases repair DATE omission from trusted Tokyo day (12.809375ms)
+✔ ADR-0052 day offsets use Tokyo natural days across month, year and UTC date boundaries (0.174792ms)
+✖ ADR-0052 binds selected dates, not excluded mentions or uncertain day ranges (1.446209ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 16
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8632.34925
+
+✖ failing tests:
+
+test at src/application/restaurant-relative-date.test.ts:1:3991
+✖ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected weekday DATE (523.142ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2026-11-26'
+  - '2026-11-28'
+              ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:69:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-26',
+    expected: '2026-11-28',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:3991
+✖ Round27 SEM-1 actual message and availability: competing relative and weekday dates despite modeled DATE (526.528083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PRESENT_RESULTS'
+  - 'NEEDS_INPUT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:74:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT_RESULTS',
+    expected: 'NEEDS_INPUT',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/relative-date-binding.test.ts:1:3434
+✖ ADR-0052 binds selected dates, not excluded mentions or uncertain day ranges (1.446209ms)
+  AssertionError [ERR_ASSERTION]: 周六
+  + actual - expected
+  
+  + '2026-11-26'
+  - '2026-11-28'
+              ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/relative-date-binding.test.ts:74:46)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-26',
+    expected: '2026-11-28',
+    operator: 'strictEqual'
+  }

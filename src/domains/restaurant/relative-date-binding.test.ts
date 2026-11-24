@@ -61,8 +61,17 @@ test("ADR-0052 binds selected dates, not excluded mentions or uncertain day rang
     assert.equal(corrected.status, "COMPILED", message);
     if (corrected.status === "COMPILED") assert.equal(corrected.patch.date, "2026-11-28", message);
   }
-  for (const message of ["大概两三天后晚上七点", "两三天后", "两到三天后", "大约三天后", "三天后左右", "后天不行，只改晚上七点", "后天还是11月28日我还没定，晚上七点", "后天我还没定，晚上七点"]) {
+  for (const message of ["大概两三天后晚上七点", "两三天后", "两到三天后", "大约三天后", "三天后左右", "后天不行，只改晚上七点", "后天还是11月28日我还没定，晚上七点", "后天我还没定，晚上七点", "后天还是周六晚上七点", "周六还是后天晚上七点", "day after tomorrow or Saturday", "Saturday or day after tomorrow"]) {
     assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [] }, { ...context, message }).status, "CONFLICT", message);
   }
   assert.equal(compileRestaurantSemanticProposal(calendar, { ...context, message: "后天还是11月28日晚上七点" }).status, "CONFLICT");
+  for (const raw of ["周六", "Saturday"]) {
+    const weekday: RestaurantSemanticProposal = { schemaVersion: "4", facts: [
+      { field: "DATE", operation: "CORRECT", value: { kind: "DATE", weekday: "SATURDAY", raw } },
+    ] };
+    const result = compileRestaurantSemanticProposal(weekday, { ...context, message: `后天我没空，改成${raw}晚上七点` });
+    assert.equal(result.status, "COMPILED", raw);
+    if (result.status === "COMPILED") assert.equal(result.patch.date, "2026-11-28", raw);
+    assert.equal(compileRestaurantSemanticProposal(weekday, { ...context, message: `后天还是${raw}晚上七点` }).status, "CONFLICT", raw);
+  }
 });

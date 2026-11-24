@@ -1,0 +1,5 @@
+# Superseded6ba08830b weekday sibling checkpoint
+
+Typecheck/Arch/Build exit0 on6ba08830bf13a87656ccf563d4c4485bccfe749a. New weekday review arrived before completion: external3-row probe passed1/3; bound weekday was overridden and its alternative was guessed. Stop only the outer driver with SIGTERM; the current default-test child received no signal and finished1958/1958 naturally. Outer default exit code was not captured, so do not represent a full five-gate run. Browser/G6/dist/reviewer/asset/graph/protection stages NOT_RUN. Source stayed unchanged until all tracked child PIDs exited. Raw interruption receipt and logs are preserved.
+
+The user then extended the independent weekday input to5 rows, including missingDATE and reverse order. The original3-row script remains weekday-probe-first3.mjs with its red inputSHA256. The current5-row script will be frozen anew and checked alongside6calendar/relative rows. Root choice detection uses original text date mentions, independent of modelDATE and order; calendar/weekday directives share one current-message-bound selected priority. No new date interpretation or external calls.

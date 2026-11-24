@@ -27,6 +27,11 @@ const cases = [
   { name: "incidental relative mention preserves selected calendar DATE", initialDate: "2026-11-26", message: "后天我没空，改成11月28日晚上七点", date: { kind: "DATE", value: "2026-11-28", raw: "11月28日" }, expected: "2026-11-28" },
   { name: "undecided relative and calendar dates with omitted DATE", initialDate: "2026-11-26", message: "后天还是11月28日我还没定，晚上七点" },
   { name: "competing relative and calendar dates despite modeled DATE", initialDate: "2026-11-26", message: "后天还是11月28日晚上七点", date: { kind: "DATE", value: "2026-11-28", raw: "11月28日" } },
+  { name: "weekday correction control", initialDate: "2026-11-26", message: "改成周六晚上七点", date: { kind: "DATE", weekday: "SATURDAY", raw: "周六" }, expected: "2026-11-28" },
+  { name: "incidental relative mention preserves selected weekday DATE", initialDate: "2026-11-26", message: "后天我没空，改成周六晚上七点", date: { kind: "DATE", weekday: "SATURDAY", raw: "周六" }, expected: "2026-11-28" },
+  { name: "competing relative and weekday dates despite modeled DATE", initialDate: "2026-11-26", message: "后天还是周六晚上七点", date: { kind: "DATE", weekday: "SATURDAY", raw: "周六" } },
+  { name: "competing relative and weekday dates with omitted DATE", initialDate: "2026-11-26", message: "后天还是周六晚上七点" },
+  { name: "competing weekday then relative date with omitted DATE", initialDate: "2026-11-26", message: "周六还是后天晚上七点" },
 ] as const;
 
 for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${row.name}`, { timeout: 25_000 }, async () => {

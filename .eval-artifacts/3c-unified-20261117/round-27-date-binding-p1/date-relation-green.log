@@ -1,0 +1,46 @@
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"correct offset","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: correct offset (818.359292ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"wrong tomorrow","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: wrong tomorrow (545.565416ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"wrong calendar","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: wrong calendar (524.4415ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"omitted DATE","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","availabilityDates":["2026-11-26"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: omitted DATE (526.842666ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"ambiguous dates","phase":"NEEDS_INPUT","persistedDate":"2026-11-25","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: ambiguous dates (507.21575ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"time only carries date","phase":"PRESENT_RESULTS","persistedDate":"2026-11-25","availabilityDates":["2026-11-25"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: time only carries date (527.316125ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"explicit calendar correction control","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: explicit calendar correction control (520.058958ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"excluded relative day preserves calendar correction","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: excluded relative day preserves calendar correction (528.830541ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"approximate day range with omitted DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: approximate day range with omitted DATE (498.402417ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"incidental relative mention preserves selected calendar DATE","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected calendar DATE (520.529542ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"undecided relative and calendar dates with omitted DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: undecided relative and calendar dates with omitted DATE (501.9595ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"competing relative and calendar dates despite modeled DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: competing relative and calendar dates despite modeled DATE (502.688084ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"weekday correction control","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: weekday correction control (520.836209ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"incidental relative mention preserves selected weekday DATE","phase":"PRESENT_RESULTS","persistedDate":"2026-11-28","availabilityDates":["2026-11-28"],"availabilityCalls":3}
+✔ Round27 SEM-1 actual message and availability: incidental relative mention preserves selected weekday DATE (521.751167ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"competing relative and weekday dates despite modeled DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: competing relative and weekday dates despite modeled DATE (495.177084ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"competing relative and weekday dates with omitted DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: competing relative and weekday dates with omitted DATE (497.504208ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"competing weekday then relative date with omitted DATE","phase":"NEEDS_INPUT","persistedDate":"2026-11-26","availabilityDates":[],"availabilityCalls":0}
+✔ Round27 SEM-1 actual message and availability: competing weekday then relative date with omitted DATE (498.524167ms)
+✔ ADR-0052 DATE offset schema is bounded and compiler preserves distinct conflict identities (0.957584ms)
+✔ ADR-0052 supported current-message phrases repair DATE omission from trusted Tokyo day (13.37575ms)
+✔ ADR-0052 day offsets use Tokyo natural days across month, year and UTC date boundaries (0.176334ms)
+✔ ADR-0052 binds selected dates, not excluded mentions or uncertain day ranges (0.714291ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9590.658292
