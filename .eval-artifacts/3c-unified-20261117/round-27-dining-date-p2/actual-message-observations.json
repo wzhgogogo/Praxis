@@ -1,0 +1,971 @@
+{
+  "sha": "98b35466bd0f37f662eabb5750b2f9c43e95fd04",
+  "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+  "source": "gates/test.log",
+  "rowCount": 65,
+  "phaseCounts": {
+    "PRESENT_RESULTS": 45,
+    "NEEDS_INPUT": 18,
+    "NO_VERIFIED_RESULT": 2
+  },
+  "rows": [
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "correct offset",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "wrong tomorrow",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "wrong calendar",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "omitted DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "ambiguous dates",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "time only carries date",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "explicit calendar correction control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "excluded relative day preserves calendar correction",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "approximate day range with omitted DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "incidental relative mention preserves selected calendar DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "undecided relative and calendar dates with omitted DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "competing relative and calendar dates despite modeled DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "weekday correction control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "incidental relative mention preserves selected weekday DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "competing relative and weekday dates despite modeled DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "competing relative and weekday dates with omitted DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "competing weekday then relative date with omitted DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "tonight dining control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-24",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-24"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "tonight dining DATE with background relative day",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-24",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-24"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "keep dining date time edit control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "keep dining date ignores background relative day",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "omitted tonight dining DATE with background relative day",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-24",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-24"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "background relative day does not turn time edit into DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "date-first background does not turn time edit into DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "connected weekday alternatives retain comma boundary",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "explicit Make date edit with omitted DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "explicit Move date edit with omitted DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "explicit Change date edit with omitted DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "standalone dining fragment selects tonight with omitted DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-24",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-24"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "unresolved relative clock dining scope needs clarification",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "descriptive other dining event does not change current plan DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "DATE CONFIRM explicit keep-date control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "DATE CORRECT explicit correction against CONFIRM control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "DATE CONFIRM contradicts explicit date correction",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "single tomorrow dining control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "excluded first tomorrow does not mask selected second occurrence",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "weekday after separate background sentence control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-27",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-27"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "selected weekday excludes background arrival alternatives",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-27",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-27"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "recommendation search control",
+      "phase": "NO_VERIFIED_RESULT",
+      "searchCalls": 1,
+      "decisionCalls": 2,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "approximate background date does not block recommendation search",
+      "phase": "NO_VERIFIED_RESULT",
+      "searchCalls": 1,
+      "decisionCalls": 2,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "eight oclock time-only control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "20:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "background departure range does not block time-only edit",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "20:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "undecided restaurant does not make selected dining date uncertain",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "explicit date subject repairs omitted DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "ISO correction control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "DATE CONFIRM contradicts explicit ISO correction",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "Friday correction control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-27",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-27"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "DATE CONFIRM contradicts explicit weekday correction",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "undecided budget does not make selected dining date uncertain",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "English or the still connects competing dining dates",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "ISO raw owns inconsistent model calendar value",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "weekday raw owns inconsistent model weekday value",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-27",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-27"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "timed dinner occurrence beats same raw in background alternatives",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "fixed dinner before background alternatives is not a last-occurrence rule",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "structured date editor target rejects DATE CONFIRM",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "qualified next week is never reduced to nearest Friday",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-12-04",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-12-04"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "wrong calendar week must clarify without availability",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "past this Friday never rolls into next week",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-12-01",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "structured date editor omission cannot silently retain old date",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "full Chinese calendar raw owns inconsistent model date",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "date confirmation without any edit remains a no-op",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "ordinary missing area still reaches ASK_USER",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 0,
+      "decisionCalls": 1,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "structured target rejects fabricated model raw and value",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "18:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "explicit ISO target rejects fabricated model raw and value",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "structured ISO raw control preserves existing clock",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "18:00"
+      ],
+      "availabilityCalls": 3
+    }
+  ],
+  "behaviorCounts": {
+    "qualifiedDateQueries": 44,
+    "semanticConflictZeroCalls": 17,
+    "recommendationSearches": 2,
+    "noOpConfirmation": 1,
+    "ordinaryAskUser": 1
+  }
+}

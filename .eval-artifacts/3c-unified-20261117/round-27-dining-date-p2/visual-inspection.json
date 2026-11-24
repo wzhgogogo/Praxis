@@ -1,0 +1,39 @@
+{
+  "sha": "98b35466bd0f37f662eabb5750b2f9c43e95fd04",
+  "mode": "LOCAL_CHROMIUM_FIXTURE",
+  "reviewedAll42ViaContactSheets": true,
+  "contactSheets": [
+    "contacts/contact-1.png",
+    "contacts/contact-2.png",
+    "contacts/contact-3.png",
+    "contacts/contact-4.png",
+    "contacts/contact-5.png"
+  ],
+  "reviewedOriginals": [
+    "visual/round27-date-1440-structured-confirm.png",
+    "visual/round27-date-1440-structured-correct.png",
+    "visual/round27-date-1440-structured-empty.png",
+    "visual/round27-date-1440-structured-raw_mismatch.png",
+    "visual/round27-date-390-structured-confirm.png",
+    "visual/round27-date-390-structured-correct.png",
+    "visual/round27-date-390-structured-empty.png",
+    "visual/round27-date-390-structured-raw_mismatch.png",
+    "visual/round27-ui4-390-sheet-before.png",
+    "visual/round27-ui4-390-sheet-after.png",
+    "visual/round27-ui5-390-capsule-save-inflight.png",
+    "visual/round27-ui6-390-keyboard-stop.png"
+  ],
+  "observations": [
+    "8 date originals: CONFIRM/EMPTY show clarification and no candidate; RAW_MISMATCH/CORRECT show target Nov28 and current availability in390/1440; synthetic cover placeholder expected.",
+    "UI1 pending question Stop shares status row. UI2 colors/bookmark/category remain. UI3 recommendation facts lacks refresh, availability exposes refresh.",
+    "UI4 history Source screen-top stable; modal height grows on expansion, Source offset within sheet stable;4coordinate deltas0. P3horizontal movement unchanged/out of scope.",
+    "UI5 delayed save/remove/Find more/retry hides empty card, failure restores corresponding controls.",
+    "UI6 simulated visual viewport leaves Stop above composer (262.375<282), draft retained; true native soft keyboard not evaluated.",
+    "UI7 duplicate category removal/extra category/original quote preserved across390/1440."
+  ],
+  "uiTestCount": 15,
+  "newDateBrowserTestCount": 8,
+  "formal16AndStyle1SeparateMatrices": "NOT_RERUN_IN_THIS_DATE_FOLLOWUP",
+  "nativeKeyboard": "NOT_EVALUATED",
+  "realSources": "NOT_EVALUATED"
+}

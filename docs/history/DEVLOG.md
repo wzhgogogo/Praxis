@@ -6582,3 +6582,12 @@ Slice B维持严格浏览器DAG，新增显式researching请求态并对齐defer
 最终冻结 `ffafb73cb8e277e86fe0537aaf508c8c304b50e4`（src tree `7f893aa7aa514010e51033524fd18776053c4ee5`，frozen offline regression / draft, not integrated）。只移除纯DATE CONFIRM无条件提前返回，原文明确保留日期仍沿用旧日；明确改后天却CONFIRM时走ADR-0052已有CONFLICT/NEEDS_INPUT且0查位，正常CORRECT仍查11/26、保留日期仍查11/28。仅绑定器及对应两份测试变化，不扩日期语法，不改UI/Loop/Reducer/Prompt/评分。
 
 默认1981/1981，G2 5/5、Chromium593/593、G6 159/159；Build后distC1 4/4、独立22/22、定向39/39；34正式消息=24查位+10澄清0查位。strict18模块零环/any/抑制、19JS+HTML/CSS与原Round27一致，UI15/15，新34图/JSON已核验。 首轮cd7资产脚本误写上一批SHA字段，净树检查立即停止；原文件按Git原文恢复并核对SHA256，保留错误产物/差异/回执，修正输出目录后新SHA全套重跑，源码未再改。14144现存历史保护匹配，主/env/closeout950/稀疏/八配置不变；137既有缺件仍阻塞整体历史签收。无Live/真实PG/4312/推送/合main；真机及真实来源S0未评。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/REPORT.md)。
+
+
+<a id="unified-round27-dining-date-p1-p2-20261125"></a>
+
+### 2026-11-25 — Round27 用餐日期P1/P2：功能通过、历史保护阻塞
+
+冻结`98b35466bd0f37f662eabb5750b2f9c43e95fd04`（src`a2e7df8b08e6bae1031e8dcba6f37ea7afa8764c`，frozen offline regression / draft, not integrated）。日期组按原文位置绑定，结构化目标/明确改期优先，背景到离/预算未定不误拦，保留周限定；补Loop semanticConflict等待。实际Chromium证明旧首次NEEDS_INPUT并非停读，此处更正前P1将首帧0查位推断为最终0查位，旧报告不改。65实际消息=44查位+17语义澄清零决策/搜索/查位+2推荐+1no-op+1普通ASK_USER；日期editor双尺寸8/8。默认2013、G2 5、Chromium601、G6 159、type/arch/build全通过，distC1 4/4、独立49/49、strict18模块0环/any/抑制，19JS+HTML/CSS与原Round27一致；原UI15及42PNG/JSON核对目检。
+
+**最终执行器exit1：保护失败**。14370历史现存10846匹配、现存变更0，缺3524=652已登记受跟踪+另发现2872未跟踪，加137旧缺件总3661。运行前后Git仅652历史删除，源码/42输入干净，不是净树；不改保护断言、不暂存删除、不伪造恢复。主/env/closeout950/稀疏/八配置不变；整体BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS，已请求原始备份。e1默认4失败、原SHA SCRIPT隔离1/1与最终完整复跑保留，SCRIPT首次根因未定。0Live/真实PG/4312/推送/合main，真机/真实来源S0及P3未测/未修。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/REPORT.md)。
