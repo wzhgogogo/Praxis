@@ -5,7 +5,7 @@ import {
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v28";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v29";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
   version: "4",
@@ -48,6 +48,7 @@ export type RestaurantSemanticValue =
   // trusted Tokyo reference time.
   | { kind: "DATE"; value: string; raw: string }
   | { kind: "DATE"; relativeDay: "TODAY" | "TOMORROW"; raw: string }
+  | { kind: "DATE"; relativeOffsetDays: number; raw: string }
   | { kind: "DATE"; weekday: "SUNDAY" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY"; raw: string }
   | { kind: "TIME_WINDOW"; earliest: string; latest: string; raw: string; alternativeEarliest?: string; alternativeLatest?: string; alternativeRaw?: string }
   | { kind: "TIME_WINDOW"; daypart: "AFTERNOON" | "AFTER_WORK" | "EVENING"; raw: string }
@@ -150,6 +151,7 @@ function valueSchema(field: RestaurantSemanticField): Record<string, unknown> {
       return { anyOf: [
         strictObject({ kind, value: { type: "string", pattern: "^\\d{4}-\\d{2}-\\d{2}$" }, raw: { type: "string" } }),
         strictObject({ kind, relativeDay: { type: "string", enum: ["TODAY", "TOMORROW"] }, raw: { type: "string" } }),
+        strictObject({ kind, relativeOffsetDays: { type: "integer", minimum: 2, maximum: 365 }, raw: { type: "string" } }),
         strictObject({ kind, weekday: { type: "string", enum: ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] }, raw: { type: "string" } }),
       ] };
     case "TIME_WINDOW":
@@ -244,6 +246,7 @@ function valueMatchesField(field: RestaurantSemanticField, value: unknown): bool
     case "DATE":
       return (hasOnlyKeys(value, ["kind", "value", "raw"]) && isDate(value.value) && isNonBlankString(value.raw)) ||
         (hasOnlyKeys(value, ["kind", "relativeDay", "raw"]) && (value.relativeDay === "TODAY" || value.relativeDay === "TOMORROW") && isNonBlankString(value.raw)) ||
+        (hasOnlyKeys(value, ["kind", "relativeOffsetDays", "raw"]) && typeof value.relativeOffsetDays === "number" && Number.isInteger(value.relativeOffsetDays) && value.relativeOffsetDays >= 2 && value.relativeOffsetDays <= 365 && isNonBlankString(value.raw)) ||
         (hasOnlyKeys(value, ["kind", "weekday", "raw"]) && ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"].includes(String(value.weekday)) && isNonBlankString(value.raw));
     case "TIME_WINDOW":
       return (

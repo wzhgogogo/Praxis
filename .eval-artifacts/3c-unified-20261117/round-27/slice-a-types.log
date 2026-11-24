@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/domains/restaurant/relative-date-binding.test.ts(29,89): error TS2379: Argument of type '{ referenceTime: string; timezone: "Asia/Tokyo"; message: string | undefined; }' is not assignable to parameter of type '{ referenceTime: string; timezone: "Asia/Tokyo"; message?: string; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'message' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.

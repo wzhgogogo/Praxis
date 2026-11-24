@@ -1,0 +1,110 @@
+✖ Round27 SEM-1 actual message and availability: correct offset (834.792208ms)
+✖ Round27 SEM-1 actual message and availability: wrong tomorrow (577.48525ms)
+✖ Round27 SEM-1 actual message and availability: wrong calendar (558.350458ms)
+✖ Round27 SEM-1 actual message and availability: omitted DATE (557.857834ms)
+✖ Round27 SEM-1 actual message and availability: ambiguous dates (517.760792ms)
+✔ Round27 SEM-1 actual message and availability: time only carries date (547.271333ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 1
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4147.77375
+
+✖ failing tests:
+
+test at src/application/restaurant-relative-date.test.ts:1:1979
+✖ Round27 SEM-1 actual message and availability: correct offset (834.792208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2026-11-25'
+  - '2026-11-26'
+              ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:55:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-25',
+    expected: '2026-11-26',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:1979
+✖ Round27 SEM-1 actual message and availability: wrong tomorrow (577.48525ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2026-11-25'
+  - '2026-11-26'
+              ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:55:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-25',
+    expected: '2026-11-26',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:1979
+✖ Round27 SEM-1 actual message and availability: wrong calendar (558.350458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2026-11-25'
+  - '2026-11-26'
+              ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:55:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-25',
+    expected: '2026-11-26',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:1979
+✖ Round27 SEM-1 actual message and availability: omitted DATE (557.857834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2026-11-25'
+  - '2026-11-26'
+              ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:55:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-25',
+    expected: '2026-11-26',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:1979
+✖ Round27 SEM-1 actual message and availability: ambiguous dates (517.760792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'FAILED'
+  - 'NEEDS_INPUT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:60:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'NEEDS_INPUT',
+    operator: 'strictEqual'
+  }

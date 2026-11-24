@@ -112,7 +112,7 @@ function semanticValueKey(value: RestaurantSemanticValue | undefined): string {
     case "AREA":
       return `${value.kind}:${value.query}`;
     case "DATE":
-      return `${value.kind}:${"value" in value ? value.value : "relativeDay" in value ? value.relativeDay : value.weekday}`;
+      return `${value.kind}:${"value" in value ? value.value : "relativeDay" in value ? value.relativeDay : "relativeOffsetDays" in value ? `OFFSET_DAYS:${value.relativeOffsetDays}` : value.weekday}`;
     case "TIME_WINDOW":
       return `${value.kind}:${"earliest" in value ? `${value.earliest}:${value.latest}` : "daypart" in value ? value.daypart : value.relativeOffsetMinutes}`;
     case "PARTY_SIZE":

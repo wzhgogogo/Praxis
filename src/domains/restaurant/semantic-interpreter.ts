@@ -377,6 +377,7 @@ For "right now" emit relativeOffsetMinutes 0. For "in two hours" emit relativeOf
 For "evening", "night", and "tonight", emit daypart "EVENING" unless a more precise time is given. Never encode night as AFTER_WORK. Emit a separate DATE relativeDay fact for today/tonight or tomorrow when expressed. Code alone defines daypart query windows; do not generate clock ranges for these expressions.
 
 Emit DATE whenever the current message determines the dining date.
+For today emit relativeDay TODAY; for tomorrow emit relativeDay TOMORROW. For 后天 / day after tomorrow emit relativeOffsetDays 2; for 大后天 / 3天后 / in 3 days emit relativeOffsetDays 3; for N天后 / in N days emit relativeOffsetDays N (integer 2..365); for 一周后 / in a week emit relativeOffsetDays 7. Copy the original expression to raw. Never calculate a calendar date for relative-day wording. A time-only correction preserves the current dining date; a relative-date correction must include DATE even when a date already exists.
 
 Meal-purpose words such as breakfast, lunch, or dinner alone do not determine a TIME_WINDOW. Only emit a time window when actual temporal information is expressed.
 
@@ -424,6 +425,7 @@ DATE (explicit user calendar date):
 
 DATE (relative):
 {"kind":"DATE","relativeDay":"TODAY|TOMORROW","raw":"today"}
+{"kind":"DATE","relativeOffsetDays":2,"raw":"day after tomorrow"}
 
 DATE (weekday):
 {"kind":"DATE","weekday":"MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY","raw":"Friday"}

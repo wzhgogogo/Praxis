@@ -90,3 +90,5 @@ Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) ad
 - [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)：Accepted1.1，20秒+动作中位数准入、原截止−20秒取消和完整子结果交接已接线；离线结果及Live缺口见实施报告。ADR-0044的批准与revision1.1修正已按用户直接确认整合，见上表。
 
 0047/0048 are reserved by B’s G3 branch. C’s reviewed0048 draft is renumbered0049 by user decision; original draft/report remain historical evidence at6b867b34.
+
+- [ADR-0052 Relative day offsets and current-message date binding](0052-relative-day-offset-and-date-binding.md): Accepted, user-directed Round27; supplements ADR-0024 with bounded DATE offsets and omission/wrong-date protection.

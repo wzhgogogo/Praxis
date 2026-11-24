@@ -83,7 +83,7 @@ export function createHybridReadComposition(options: HybridReadCompositionOption
   ): Promise<RestaurantSemanticInterpretResult> {
     const semantic = await interpreter.interpret(input);
     if (semantic.status !== "PROPOSED") return semantic;
-    const compilation = compileRestaurantSemanticProposal(semantic.proposal, { referenceTime: input.referenceTime, timezone: input.timezone });
+    const compilation = compileRestaurantSemanticProposal(semantic.proposal, { referenceTime: input.referenceTime, timezone: input.timezone, message: input.message });
     const snapshot = runtime.snapshot(options.taskId);
     const supplemented = compilation.status === "COMPILED" ? await supplementMissingAvailabilityPartySize({
           resolver: options.partySizeSupplementResolver,

@@ -46,7 +46,7 @@ export async function restaurantEventForMessage(
       reason: `Restaurant Semantic Interpreter did not produce a proposal: ${interpreted.status}`,
     };
   }
-  const compilation = compileRestaurantSemanticProposal(interpreted.proposal, { referenceTime: input.referenceTime, timezone: input.timezone });
+  const compilation = compileRestaurantSemanticProposal(interpreted.proposal, { referenceTime: input.referenceTime, timezone: input.timezone, message: input.message });
   if (compilation.status !== "COMPILED") {
     return { type: "SEMANTIC_CONFLICT_RECORDED", conflict: compilation.conflict };
   }
