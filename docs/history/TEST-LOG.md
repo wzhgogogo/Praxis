@@ -7255,3 +7255,14 @@ All offline checks executed after source freeze (`6a5f782979054c3d04e01655b73e10
 - Build-asset parity: `19 / 19` JS assets SHA256 identical, `htmlMatches: true`
 - Historical & environment protection: `12501 / 12638` matched, `0` changed existing files, `0` unexpected missing (same `137` OS-cleaned early untracked files), `round-25` (`698/698`) and recovery (`44/44`) unchanged, `mainWorkspaceUnchanged: true`, `mainEnvUnchanged: true`, `sparseUnchanged: true`
 - `NOT_EVALUATED`: Live external services, real PostgreSQL, remote Cloudflare CDP, real mobile device soft keyboard / pinch-zoom-pan, standalone `round-25` visual & `round-25-independent-review-PcoqWu` repro scripts, port `4312`. [Round 26 报告](../../.eval-artifacts/3c-unified-20261117/round-26/REPORT.md).
+
+
+<a id="unified-round27-final-20261124"></a>
+
+## 2026-11-24 — Round 27 最终冻结离线验收
+
+唯一最终验收SHA `937d44be67fb8f5b735743bc1666040cc6c551b7`（src tree `69da89954e4c74c0d08b6956219c05d3fb1d0679`，frozen offline regression / draft, not integrated）。同一净树、最小环境、不加载.env：Typecheck0.707621s、Arch0违规0.194585s、Build0.566433s、默认1951/1951计73.688401s、Browser Fixture480.800673s均exit0。Browser拆分G2 5/5（24249.275375ms）、Chromium593/593（418421.327125ms），合计598；G6 159/159（37806.513375ms），无外层嵌套sandbox。
+
+源码C1 4条包含在Chromium；同SHA新dist C1 4/4（12742.427709ms），19JS+HTML/CSS逐字一致、strict18模块零环/any/抑制。新增UI15/15、34PNG及34JSON全部绑定最终SHA，4联系表与18关键原图目检完成；Source历史绝对top与sheet内部相对top四组差均0。实际消息6组：正确/两错/漏DATE查11月26日，歧义NEEDS_INPUT且0查位，时间单改仍11月25日。定向60、53、22、4均通过，不叠加正式分母。两次中间冻结首失败、重冻原因及原始日志保留。
+
+本轮12380现存保护项全部匹配；原Round25历史表12501/12638匹配、137既有缺失、现存变更0，整体历史签收BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS；主/env、closeout950现存材料、稀疏和依赖配置不变。Fixture服务/浏览器/PGlite均关闭，无测试子进程遗留。真实来源S0、Live、真实PG、远端CDP、真机键盘/缩放与4312为NOT_EVALUATED；未另跑独立正式16场景或历史十路径脚本。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27/REPORT.md) · [原始门禁](../../.eval-artifacts/3c-unified-20261117/round-27/gates/manifest.json)。

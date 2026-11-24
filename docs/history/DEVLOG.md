@@ -6542,3 +6542,14 @@ Completed Round 26 on `codex/feat-web-photos-unified`, frozen at `6a5f782979054c
 - **R3 / R4**: Extended `serves beer` punctuation lookahead/cleanup in `open-ended-target.ts` and removed `\/` from negative clause boundary in `read-grounding.ts`.
 
 Main workspace, `.env`, sparse rules, `round-25` archives (`698/698`, `44/44`) and surviving historical files (`12501/12638`) unchanged. Live, real PG, remote CDP, real device, standalone visual/repro scripts and `4312` `NOT_EVALUATED`. [Round 26 报告](../../.eval-artifacts/3c-unified-20261117/round-26/REPORT.md).
+
+
+<a id="unified-round27-final-20261124"></a>
+
+## 2026-11-24 — Round 27 两切片收口（frozen offline regression / draft, not integrated）
+
+Slice A独立提交 `93b929a3518a713c0e04630901cf1706f5c2f1c2`：ADR-0052补充ADR-0024，新增DATE相对天数2..365、Prompt29；纯编译边界先保留模型单轮冲突判定，再用当前原文绑定相对日，覆盖错TOMORROW/错日历/漏DATE。东京自然日跨月/年由现有物化器处理。proposal@4/持久Schema/temporal policy@6不变；scorer仅区分偏移身份，不改评分政策；不改intent-state、缺失字段与搜索指纹。
+
+Slice B维持严格浏览器DAG，新增显式researching请求态并对齐deferredView；手机胶囊独占行、Stop pointerdown保持composer布局至click，避免失焦导致点击丢失；问答Stop同排、收敛蓝色、隐藏纯事实refresh、Source零位移、Categories仅按实际渲染引文去重。用户四条补充要求均入正式测试。
+
+最终冻结 `937d44be67fb8f5b735743bc1666040cc6c551b7` 全门禁及Build后C1通过，冻结后不再改src。aa302候选因合成输入raw未绑定原文，ee650候选因旧手机占位/Stop接受时序断言失败；失败目录保留，仅对应测试输入和完成边界修正后从新SHA全套重跑。报告及账本另行本地归档，源差异为0。主/env/closeout/历史现存原件保护通过；137早期原件仍缺，整体历史签收继续阻塞。无Live/真实PG/4312/推送/合main。[完整报告](../../.eval-artifacts/3c-unified-20261117/round-27/REPORT.md)。
