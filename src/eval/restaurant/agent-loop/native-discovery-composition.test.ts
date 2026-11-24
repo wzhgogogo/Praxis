@@ -1168,7 +1168,7 @@ test('F6 reserve search hands completed Native and Google children through SEARC
   }});
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:source==='native'?[tabelogDiscoveryPack]:[googlePlacesDiscoveryPack]}, {model,browser,google,clock:{now:()=>reference}});
   const composition=createHybridReadComposition({taskId:'f6-search-'+source,runId:'f6-search-'+source,clock:{now:()=>reference},model,...assembly});
-  await composition.interpretAndDispatch({taskId:'f6-search-'+source,message:'Find omakase in Shibuya for two at 7pm.',referenceTime:reference.toISOString(),timezone:'Asia/Tokyo'},{...center,radiusMeters:1000,label:'Local Shibuya circle',source:'LOCAL_CONSTRUCTED'});
+  await composition.interpretAndDispatch({taskId:'f6-search-'+source,message:'Find omakase in Shibuya for two tonight at 7pm.',referenceTime:reference.toISOString(),timezone:'Asia/Tokyo'},{...center,radiusMeters:1000,label:'Local Shibuya circle',source:'LOCAL_CONSTRUCTED'});
   const before=composition.runtime.snapshot('f6-search-'+source);
   const router=new RestaurantExecutionRouter(assembly.search,assembly.availability,assembly.router,assembly.facts);
   const result=await router.execute({type:'SEARCH_RESTAURANTS'},before.domainState,reference.toISOString(),'f6-search-'+source,controller.signal);

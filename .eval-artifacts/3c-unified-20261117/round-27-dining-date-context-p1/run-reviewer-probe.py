@@ -1,7 +1,7 @@
 from pathlib import Path
 import subprocess,json,sys
 out=Path(__file__).resolve().parent;groups=[]
-for script,args,expected in [('reviewer-date-probe.mjs',['--p1-only'],6),('reviewer-weekday-probe.mjs',[],5),('reviewer-contextual-date.mjs',['--p1-only'],4),('reviewer-alternatives.mjs',[],2)]:
+for script,args,expected in [('reviewer-date-probe.mjs',['--p1-only'],6),('reviewer-weekday-probe.mjs',[],5),('reviewer-contextual-date.mjs',['--p1-only'],4),('reviewer-alternatives.mjs',[],2),('reviewer-omitted-edit.mjs',[],2)]:
  command=['node','--import','tsx',str(out/script),*args];r=subprocess.run(command,capture_output=True,text=True)
  print(r.stdout,end='');print(r.stderr,end='',file=sys.stderr)
  rows=[json.loads(line) for line in r.stdout.splitlines() if line.startswith('{')]

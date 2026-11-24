@@ -40,6 +40,9 @@ const cases = [
   { name: "background relative day does not turn time edit into DATE", initialDate: "2026-11-26", message: "I land in Tokyo tomorrow. Just change dinner to 7 pm.", timeRaw: "7 pm", expected: "2026-11-26" },
   { name: "date-first background does not turn time edit into DATE", initialDate: "2026-11-26", message: "Tomorrow I arrive in Tokyo. Change dinner to 7 pm.", timeRaw: "7 pm", expected: "2026-11-26" },
   { name: "connected weekday alternatives retain comma boundary", initialDate: "2026-11-26", message: "后天，还是周六晚上七点？", date: { kind: "DATE", weekday: "SATURDAY", raw: "周六" } },
+  { name: "explicit Make date edit with omitted DATE", initialDate: "2026-11-26", message: "Make it tomorrow at 7 pm.", timeRaw: "7 pm", expected: "2026-11-25" },
+  { name: "explicit Move date edit with omitted DATE", initialDate: "2026-11-26", message: "Move it to tomorrow at 7 pm.", timeRaw: "7 pm", expected: "2026-11-25" },
+  { name: "explicit Change date edit with omitted DATE", initialDate: "2026-11-26", message: "Change it to tomorrow at 7 pm.", timeRaw: "7 pm", expected: "2026-11-25" },
 ] as const;
 
 for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${row.name}`, { timeout: 25_000 }, async () => {

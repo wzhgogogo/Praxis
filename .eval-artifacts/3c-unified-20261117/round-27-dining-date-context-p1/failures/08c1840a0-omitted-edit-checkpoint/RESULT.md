@@ -1,0 +1,5 @@
+# Superseded08c1840a0 same-P1 checkpoint
+
+Typecheck/Arch/Build exit0. On user-added Move/Change omittedDATE guard, terminate only outer scheduling; all22 current child PIDs received no signal and finished naturally. Raw default1972 had1967pass/5fail; outer default exit was not captured. Failures: F6 native/google and parent from authored rawtonight absent in userinput; Router alternate-time and Web semantic ownership from case-sensitive rawtomorrow vs currentTomorrow. Preserve original business assertions; restore case-insensitive current-message quotation correspondence and add tonight to the single constructed F6 input. No production guard weakening or change to source extraction/Loop/scoring. Browser/G6/dist and later stages NOT_RUN.
+
+Independent omitted-edit probe: Make it tomorrow passed, Move it to tomorrow queried old11/26 instead of11/25. Add common change/move it to forms in the existing explicit-date correction boundary and corresponding actual message controls. Preserve all background and comma-alternative regressions. All source edits occur only after current children finish.

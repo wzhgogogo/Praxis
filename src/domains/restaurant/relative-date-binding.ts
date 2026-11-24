@@ -50,7 +50,7 @@ function dateSelectionIsUncertain(message: string, relative: readonly RelativeEx
 function selectsRelativeDiningDate(message: string, item: RelativeExpression, timeRaws: readonly string[]): boolean {
   const before = message.slice(0, item.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "";
   const after = message.slice(item.index + item.raw.length).split(/[，,;；。.!?\n]/u)[0]!;
-  if (/^\s*(?:改成|改为|改到|(?:change|move)\s+to|make\s+it|(?:set|change)\s+(?:the\s+)?date\s+to)\s*$/iu.test(before)
+  if (/^\s*(?:改成|改为|改到|(?:change|move)\s+(?:it\s+)?to|make\s+it|(?:set|change)\s+(?:the\s+)?date\s+to)\s*$/iu.test(before)
     || /\b(?:make|find|book|have|plan|want|change)\s+(?:(?:a|the)\s+)?(?:dinner|lunch|breakfast|meal|table)\s*(?:for|on|to)?\s*$/iu.test(before)
     || /^\s*(?:把)?(?:晚餐|午餐|早餐|用餐)(?:日期|时间)?(?:改成|改为|改到|安排在|在)?\s*$/u.test(before)) return true;
   if (!/^\s*(?:(?:大概|大约|大致|约莫|差不多|约|about|around|approximately|on|for)\s*)?$/iu.test(before)) return false;
@@ -69,16 +69,14 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
   if (dateFacts.every(fact => fact.operation === "CONFIRM") && (dateFacts.length
     || /\bkeep\s+(?:the\s+)?(?:same\s+)?date\b|\bdate\s+(?:unchanged|the same)\b|日期不变|日期照旧|保留(?:原|原来|原有)?日期/iu.test(message)))
     return { status: "BOUND", proposal };
-  const boundDateRaws = dateFacts.flatMap(fact => {
+  const boundDates = dateFacts.flatMap(fact => {
     if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE") return [];
-    const raw = fact.value.raw.normalize("NFKC").trim(), index = message.indexOf(raw);
-    return raw && index >= 0 && !excludedDate(message, index, raw) ? [raw] : [];
+    const raw = fact.value.raw.normalize("NFKC").trim();
+    const quoted = raw ? new RegExp(raw.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&"), "iu").exec(message) : null;
+    return quoted && !excludedDate(message, quoted.index, quoted[0]) ? [{ raw: quoted[0], value: fact.value }] : [];
   });
-  const selectedDateRaws = dateFacts.flatMap(fact => {
-    if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE" || (!("value" in fact.value) && !("weekday" in fact.value))) return [];
-    const raw = fact.value.raw.normalize("NFKC").trim(), index = message.indexOf(raw);
-    return raw && index >= 0 && !relativeExpressions(raw).length && !excludedDate(message, index, raw) ? [raw] : [];
-  });
+  const boundDateRaws = boundDates.map(date => date.raw);
+  const selectedDateRaws = boundDates.filter(date => ("value" in date.value || "weekday" in date.value) && !relativeExpressions(date.raw).length).map(date => date.raw);
   // A comma can connect date alternatives; retain it inside the selected sentence.
   const scopedSentences = message.split(/[;；。.!?\n]/u).filter(sentence => boundDateRaws.some(raw => sentence.includes(raw)));
   const selectionScopes = scopedSentences.length ? scopedSentences : [message];

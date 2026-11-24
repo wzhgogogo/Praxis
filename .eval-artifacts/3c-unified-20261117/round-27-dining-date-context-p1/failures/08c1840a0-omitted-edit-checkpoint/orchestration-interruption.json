@@ -1,0 +1,156 @@
+{
+  "sha": "08c1840a027f771110e6d57ac8749a69f946b1fe",
+  "classification": "ORCHESTRATION_INTERRUPTED_AND_DEFAULT_CHILD_FAILED",
+  "driverPID": 91732,
+  "driverSignal": "SIGTERM",
+  "completedManifestStages": [
+    "typecheck",
+    "arch-check",
+    "build"
+  ],
+  "childrenSignalled": false,
+  "childrenAllowedToFinishNaturally": [
+    {
+      "pid": 91778,
+      "ppid": 91732,
+      "state": "S",
+      "executable": "npm"
+    },
+    {
+      "pid": 91787,
+      "ppid": 91778,
+      "state": "S",
+      "executable": "node"
+    },
+    {
+      "pid": 91788,
+      "ppid": 91787,
+      "state": "R",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 91805,
+      "ppid": 91788,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 91836,
+      "ppid": 91787,
+      "state": "R",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 91837,
+      "ppid": 91836,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 92087,
+      "ppid": 91787,
+      "state": "S",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 92089,
+      "ppid": 92087,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 92197,
+      "ppid": 91787,
+      "state": "R",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 92203,
+      "ppid": 92197,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 92212,
+      "ppid": 91787,
+      "state": "S",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 92218,
+      "ppid": 92212,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 92232,
+      "ppid": 91787,
+      "state": "S",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 92234,
+      "ppid": 92232,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 92254,
+      "ppid": 91787,
+      "state": "R",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 92255,
+      "ppid": 91787,
+      "state": "R",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 92256,
+      "ppid": 91787,
+      "state": "S",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 92259,
+      "ppid": 92087,
+      "state": "R",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 92260,
+      "ppid": 92255,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 92261,
+      "ppid": 92254,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 92262,
+      "ppid": 92256,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 92263,
+      "ppid": 92259,
+      "state": "R",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    }
+  ],
+  "sourceChangesBeforeActiveGateFinished": false,
+  "reason": "User added existing change/move it to omission guard at freeze boundary. Stop only outer scheduling, let active child gate finish unchanged, then refreeze/restart.",
+  "activeGateFinishedNaturally": true,
+  "rawDefaultTestSummary": {
+    "tests": 1972,
+    "pass": 1967,
+    "fail": 5
+  },
+  "outerDefaultExitCodeCaptured": false,
+  "remainingTrackedChildPIDs": {}
+}
