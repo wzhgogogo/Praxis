@@ -94,3 +94,12 @@ C1双入口为可执行测试宿主：源码通过tsx加载、dist通过**本次
 `artifact-sha256.json`列本轮所有交付文件（排除清单自身以免递归），包含报告、原始日志、输入、截图、失败与恢复证据；`source-freeze-verification.json`证明冻结后src diff为0。最终本地归档提交后以Git净树停下，不推送，不合main。
 
 **NOT_EVALUATED：远程真实CDP；真机iOS/Android软键盘与自动放大；真机双指缩放/平移；Live；真实PostgreSQL；4312走查。** 本轮新采集均为离线Fixture/假传输/回环HTTP与真实本地Chromium；没有重新跑Live、DeepSeek、Google真实API或餐厅站点。整体剩余事项是151份历史原件保护签收以及上述明确未测范围，不将功能PASS改写为无条件最终签收。
+
+
+## 8. Latest recovery update - 2026-11-24
+
+User-authorized recovery restored **14/14 original paths** from SHA-256-identical copies within this worktree: six Round 9 scripts/logs from `full-round-audit-6VU93V`, and eight Round 10 screenshot paths from six images in `round-10/states`. Twelve unique source files serve fourteen targets; `round10-handoff-reselect.png` matches three separate missing target paths. Before each write, the original missing-list baselineSHA256 was verified and the target was confirmed absent. O_EXCL prevented overwrites. Every restored target and every unchanged source was hashed again.
+
+**Current protection status: BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS; 137 remain missing.** Of 12638 baseline historical files, 12501 now match, 137 are missing, and zero existing historical contents changed. The original 151-item missing list and first failure logs remain unchanged. A fresh execution of the frozen protection checker, with only its output destination redirected, still exits 1; no assertion or baseline was relaxed. See [recovery report](recovery-14-20261124/REPORT.md), [source/target receipts](recovery-14-20261124/restoration-receipt.json), and [remaining list](recovery-14-20261124/remaining-missing.json). Sections 1-7 above describe the prior 3261ba6cc archive snapshot with 151 missing files; this section records the newer recovery status.
+
+This update only restores historical bytes and appends evidence/ledgers. No historical script was executed or screenshot regenerated. Source, tests and frozen inputs are unchanged; gates were not rerun. Functional acceptance remains bound to frozen SHA `6202c1164aab14bec1a7353eadc8e5a522a3d259` and the actual results in sections 3-4, never to the new archive HEAD. Main workspace/env, closeout and sparse configuration remain unchanged. No Live, real PostgreSQL, port4312, push or main merge. Restored originals retain their prior ignored/untracked status; historical sparse rules were not expanded.
