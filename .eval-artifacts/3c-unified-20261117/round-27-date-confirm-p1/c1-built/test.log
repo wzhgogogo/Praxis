@@ -1,0 +1,14 @@
+✔ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (3511.799583ms)
+CDP_FAULT_BINDING {"held":{"connection":1,"mode":"READ","event":"HELD_READ","sessionId":"AE29D0DF84521D4746209A20EB090331","targetId":"6635F1F8CE7DA2143A6AEFAF624E77EF"},"duplicate":{"connection":1,"mode":"READ","event":"DUPLICATE_DURING_READ","sessionId":"AE29D0DF84521D4746209A20EB090331","targetId":"6635F1F8CE7DA2143A6AEFAF624E77EF"}}
+✔ Round25 C1: real CDP read duplicate isolates concurrent healthy HTTP read and subsequent request (6464.826ms)
+✔ Round25 C1: unrelated host uncaught exceptions still terminate the real HTTP host (1358.61ms)
+CDP_FAULT_BINDING {"held":{"connection":1,"mode":"READ","event":"HELD_READ","sessionId":"E45504D376501327127ADE978D81A9E9","targetId":"269F7165457DCCF8C8281772FDF6EB3E"},"duplicate":{"connection":1,"mode":"READ","event":"DUPLICATE_DURING_READ","sessionId":"E45504D376501327127ADE978D81A9E9","targetId":"269F7165457DCCF8C8281772FDF6EB3E"}}
+✔ Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable (1602.144541ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13228.330083

@@ -7288,3 +7288,14 @@ Build后dist C1 4/4（12833.69525ms），源码4条已含在Chromium；冻结独
 同一净树/不加载.env：Typecheck0.738391s、Arch0违规0.203931s、Build0.597346s、默认1978/1978计83.182267s、Browser496.484491s，均exit0。G2 24843.285917ms、Chromium432045.251292ms（合计598不重复计数）、G6 39272.529250ms。源码C1四条含在Chromium，Build后dist四条13555.923458ms；独立19例外层14.667258s；定向36与兼容5不叠加默认分母。
 
 五门禁全绿：默认1978/1978，G2 5/5、Chromium593/593、G6 159/159；dist C1 4/4、独立19/19、定向36/36及兼容5/5。strict18模块零环/any/抑制，19JS+HTML/CSS与原Round27逐字一致；UI15/15，新34PNG/JSON、4联系表及6关键原图目检，Source四组坐标差0。 13883现存历史保护匹配，原Round27及前P1目录不变，主/env/closeout950/稀疏/八配置不变；137既有缺件仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。08c五失败/安全中断与25db门禁绿但作者3例失败原件保留，不替代最终验收。无Live/真实PG/4312/推送/合main，真机键盘与真实来源S0未评。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/REPORT.md) · [门禁](../../.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/gates/manifest.json)。
+
+
+<a id="unified-round27-date-confirm-p1-20261124"></a>
+
+## 2026-11-24 — Round27 DATE CONFIRM P1 离线闭环
+
+最终冻结 `ffafb73cb8e277e86fe0537aaf508c8c304b50e4`（src tree `7f893aa7aa514010e51033524fd18776053c4ee5`，frozen offline regression / draft, not integrated）。只移除纯DATE CONFIRM无条件提前返回，原文明确保留日期仍沿用旧日；明确改后天却CONFIRM时走ADR-0052已有CONFLICT/NEEDS_INPUT且0查位，正常CORRECT仍查11/26、保留日期仍查11/28。仅绑定器及对应两份测试变化，不扩日期语法，不改UI/Loop/Reducer/Prompt/评分。
+
+默认1981/1981，G2 5/5、Chromium593/593、G6 159/159；Build后distC1 4/4、独立22/22、定向39/39；34正式消息=24查位+10澄清0查位。strict18模块零环/any/抑制、19JS+HTML/CSS与原Round27一致，UI15/15，新34图/JSON已核验。 首轮cd7资产脚本误写上一批SHA字段，净树检查立即停止；原文件按Git原文恢复并核对SHA256，保留错误产物/差异/回执，修正输出目录后新SHA全套重跑，源码未再改。14144现存历史保护匹配，主/env/closeout950/稀疏/八配置不变；137既有缺件仍阻塞整体历史签收。无Live/真实PG/4312/推送/合main；真机及真实来源S0未评。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/REPORT.md)。
+
+同一最终净树：Typecheck0.727271s、Arch0违规0.207577s、Build0.617824s、默认88.833340s、Browser505.393083s、distC1外层13.357277s、独立22外层17.147573s。G2 25041.024167ms、Chromium440745.349125ms、G6 39279.957958ms；SourceC1四条含在Chromium，dist四条另列13228.330083ms。基线3例2/3，正式红39例37/39，未把定向或组合598重复加入正式分母。[原始门禁](../../.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/gates/manifest.json)。
