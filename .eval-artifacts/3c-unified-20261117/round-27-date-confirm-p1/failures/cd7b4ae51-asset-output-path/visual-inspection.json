@@ -1,0 +1,86 @@
+{
+  "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+  "tests": 15,
+  "passed": 15,
+  "names": [
+    "\u2714 Round27 UI: UI-1 390 pending question Stop shares status row and cancels its active read (2249.956375ms)",
+    "\u2714 Round27 UI: UI-1 1440 pending question Stop shares status row and cancels its active read (1732.88875ms)",
+    "\u2714 Round27 UI: UI-4 390 Source history absolute top and sheet relative top stay fixed (1919.624ms)",
+    "\u2714 Round27 UI: UI-4 1440 Source history absolute top and sheet relative top stay fixed (1966.124458ms)",
+    "\u2714 Round27 UI: UI-2 UI-7 390 restrained colors and rendered-category-only deduplication (1585.156459ms)",
+    "\u2714 Round27 UI: UI-2 UI-7 1440 restrained colors and rendered-category-only deduplication (1683.748458ms)",
+    "\u2714 Round27 UI: UI-3 390 pure facts hide refresh; recommendation slots and availability keep it (1817.564833ms)",
+    "\u2714 Round27 UI: UI-3 1440 pure facts hide refresh; recommendation slots and availability keep it (1712.679834ms)",
+    "\u2714 Round27 UI: UI-5 390 delayed retry hides empty immediately and failure restores controls (1386.964667ms)",
+    "\u2714 Round27 UI: UI-5 390 delayed more hides empty immediately and failure restores controls (1490.525458ms)",
+    "\u2714 Round27 UI: UI-5 390 delayed capsule-save hides empty immediately and failure restores controls (1541.0695ms)",
+    "\u2714 Round27 UI: UI-5 390 delayed capsule-remove hides empty immediately and failure restores controls (1600.230334ms)",
+    "\u2714 Round27 UI: UI-5 390 SSE-first deferred running snapshot removes prior empty card before HTTP (1323.209167ms)",
+    "\u2714 Round27 UI: UI-6 390 keyboard exposes Stop and cancels the paused current read with stopped true (1201.606167ms)",
+    "\u2714 Round27 UI: UI-6 390 time and removable editors flow full-width without overlapping neighbors (1591.773333ms)"
+  ],
+  "pngCount": 34,
+  "jsonCount": 34,
+  "visuallyInspectedContactSheets": [
+    "contacts/contact-1.png",
+    "contacts/contact-2.png",
+    "contacts/contact-3.png",
+    "contacts/contact-4.png"
+  ],
+  "individuallyInspected": [
+    "visual/round27-ui1-390-pending-stop.png",
+    "visual/round27-ui4-390-sheet-after.png",
+    "visual/round27-ui6-390-keyboard-stop.png",
+    "visual/round27-ui6-390-time-editor.png",
+    "visual/round27-ui6-390-removable-editor.png",
+    "visual/round27-ui7-390-footer-only-category.png"
+  ],
+  "observations": [
+    "Pending Q&A shows checking and Stop in one row.",
+    "Source expands without internal summary drift; sheets grow upward.",
+    "Capsule save/remove and retry/more pending frames hide previous empty card; intentional errors restore it.",
+    "Editors fit mobile row; simulated-keyboard Stop remains above composer.",
+    "Footer-only category removes duplicate source card."
+  ],
+  "sourceCoordinates": [
+    {
+      "width": 390,
+      "mode": "history",
+      "coordinate": "summary.top",
+      "before": 581.796875,
+      "after": 581.796875,
+      "delta": 0.0
+    },
+    {
+      "width": 390,
+      "mode": "sheet",
+      "coordinate": "summary.top - sheet.top",
+      "before": 163.640625,
+      "after": 163.640625,
+      "delta": 0.0
+    },
+    {
+      "width": 1440,
+      "mode": "history",
+      "coordinate": "summary.top",
+      "before": 550.546875,
+      "after": 550.546875,
+      "delta": 0.0
+    },
+    {
+      "width": 1440,
+      "mode": "sheet",
+      "coordinate": "summary.top - sheet.top",
+      "before": 140.390625,
+      "after": 140.390625,
+      "delta": 0.0
+    }
+  ],
+  "stopBottom": 262.375,
+  "composerTop": 282,
+  "nativeKeyboard": "NOT_EVALUATED",
+  "intentionalInjected500Cases": 4,
+  "unexpectedPageErrors": "test assertions passed; no universal console/HTTP inventory claimed",
+  "standaloneFormal16Style1HistoricalRoutes": "NOT_RERUN",
+  "inspectionScope": "Fresh current-freeze34 frames inspected via four current contact sheets and six current original files; no UI changes."
+}

@@ -1,0 +1,219 @@
+[
+  {
+    "name": "typecheck",
+    "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "seconds": 0.691284542,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "arch-check",
+    "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "exitCode": 0,
+    "seconds": 0.20432645800000004,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "build",
+    "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "seconds": 0.617128334,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "test",
+    "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "test"
+    ],
+    "exitCode": 0,
+    "seconds": 99.79514800000001,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": [
+      {
+        "tests": 1981,
+        "pass": 1981,
+        "fail": 0
+      }
+    ]
+  },
+  {
+    "name": "browser-fixture",
+    "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "invocation": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "exitCode": 0,
+    "seconds": 501.30192420799995,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "Fixture-only; Replay children enforce their own OS sandbox; no outer sandbox",
+    "testSummaries": [
+      {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0
+      },
+      {
+        "tests": 593,
+        "pass": 593,
+        "fail": 0
+      },
+      {
+        "tests": 598,
+        "pass": 598,
+        "fail": 0
+      },
+      {
+        "tests": 159,
+        "pass": 159,
+        "fail": 0
+      }
+    ]
+  },
+  {
+    "name": "c1-built",
+    "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-c1-built.py"
+    ],
+    "invocation": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-c1-built.py"
+    ],
+    "exitCode": 0,
+    "seconds": 13.80699920799998,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "Fixture-only; Replay children enforce their own OS sandbox; no outer sandbox",
+    "testSummaries": []
+  },
+  {
+    "name": "reviewer-probe",
+    "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-reviewer-probe.py"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-reviewer-probe.py"
+    ],
+    "exitCode": 0,
+    "seconds": 17.280388958999993,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "assets",
+    "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/verify-build-assets.mjs"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/verify-build-assets.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2059326249999458,
+    "cleanBefore": true,
+    "cleanAfter": false,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  }
+]
