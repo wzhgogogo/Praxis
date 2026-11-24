@@ -73,16 +73,16 @@ export function renderCard(){renderDelivery();const c=candidate();if(!c)return;c
 export function renderDetails(){
  const c=candidate();if(!c)return;const r=requireView().restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates?.[id]||[];
  const asking=state.asking||questionPending(),refreshBusy=!asking&&(r.progress.active||state.blocked),refreshSlots=r.readStatus.canRetry||ids().some(cid=>(r.availability[cid]||[]).length||r.availabilityChecks[cid]?.status==='AVAILABLE')||r.intentDraft?.target?.goal==='AVAILABILITY';
- show('refresh',requireView().case.phase==='PRESENT_RESULTS');$('refresh').disabled=refreshBusy||asking;if(asking)$('refresh').removeAttribute('aria-busy');else $('refresh').setAttribute('aria-busy',String(refreshBusy));text('refresh',refreshBusy?'Refreshing…':refreshSlots?'Refresh availability':'Refresh details');show('details-refresh-status',refreshBusy&&requireView().case.phase!=='PRESENT_RESULTS');
+ show('refresh',requireView().case.phase==='PRESENT_RESULTS'&&refreshSlots);$('refresh').disabled=refreshBusy||asking;if(asking)$('refresh').removeAttribute('aria-busy');else $('refresh').setAttribute('aria-busy',String(refreshBusy));text('refresh',refreshBusy?'Refreshing…':'Refresh availability');show('details-refresh-status',refreshBusy&&requireView().case.phase!=='PRESENT_RESULTS');
  text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source?.observedAt);if(source)text('evidence',sourceName(source.provider,source.sourceUrl)+' · '+readAt(source.observedAt));
  const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{
   target.append(element('p',c.restaurant.address,'about-address'));
-  const groups=new Map<string,{url:string;readAt?:string;quotes:SourceExcerpt[];values:Set<string>}>(),categories=new Map<string,string>(),quotedCategories:string[]=[];
+  const groups=new Map<string,{url:string;readAt?:string;quotes:Array<SourceExcerpt & {category?:boolean}>;values:Set<string>}>(),categories=new Map<string,string>(),quotedCategories:string[]=[];
   const categoryKey=(value:string)=>{const key=value.normalize('NFKC').toLowerCase().replace(/_/g,' ').replace(/\s+/g,' ').trim();return ['steak','steak house','steakhouse'].includes(key)?'steak':key;};
   const generic=new Set(['','restaurant','food','point of interest','establishment','store','food store']);
   const sourceGroup=(url:string,at:string|undefined)=>{const key=JSON.stringify([url,at??null]);let group=groups.get(key);if(!group){group={url,readAt:at,quotes:[],values:new Set()};groups.set(key,group);}return group;};
   for(const item of conditions){const row=element('div',undefined,'fact');row.append(conditionRow(item));
-   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.filter(e=>e.candidateId===id&&(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl&&(!q.evidenceId||e.evidenceId===q.evidenceId));const readings=[...new Set(evidence.map(e=>e.observedAt))],at=readings.length===1?readings[0]:undefined;const group=sourceGroup(q.sourceUrl,at);if(q.quote.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim()!==item.text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim())group.quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(at?{readAt:at}:{})});}
+   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.filter(e=>e.candidateId===id&&(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl&&(!q.evidenceId||e.evidenceId===q.evidenceId));const readings=[...new Set(evidence.map(e=>e.observedAt))],at=readings.length===1?readings[0]:undefined;const group=sourceGroup(q.sourceUrl,at);if(q.quote.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim()!==item.text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim())group.quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='CATEGORY'?{category:true}:{}),...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(at?{readAt:at}:{})});}
    if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
   }
   for(const fact of facts){
@@ -94,7 +94,9 @@ export function renderDetails(){
    for(const quote of fact.sourceFieldQuotes||[])if(quote.field==='CATEGORY')quotedCategories.push(quote.quote);
   }
   const originals=new Map<string,string>();for(const quote of quotedCategories){for(const token of quote.split(/[,、\n]/))categories.delete(categoryKey(token));const key=categoryKey(quote);categories.delete(key);if(!originals.has(key))originals.set(key,quote);}
-  const labels=[...categories.values(),...originals.values()];if(labels.length)target.append(element('p','Categories: '+labels.join(', '),'about-categories'));
+  const normalizeBody=(value:string)=>value.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
+  const renderedCategories=new Set([...groups.values()].flatMap(group=>group.quotes.filter(quote=>quote.category).map(quote=>normalizeBody(quote.text??''))));
+  const labels=[...categories.values(),...originals.values()];if(labels.length&&!renderedCategories.has(normalizeBody(labels.join(', '))))target.append(element('p','Categories: '+labels.join(', '),'about-categories'));
   for(const group of groups.values()){
    const normalize=(text:string)=>text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
    const quotes=new Map<string,SourceExcerpt>();for(const quote of group.quotes){const key=normalize(quote.text??''),previous=quotes.get(key);if(!previous||!previous.label&&quote.label)quotes.set(key,quote);}
@@ -155,10 +157,11 @@ export function renderSaved(){
   }
 }
 export function renderReadState(end:boolean){
-  const r=requireView().restaurant,status=r.readStatus;
+  const view=state.deferredView?.view??requireView(),r=view.restaurant,status=r.readStatus;
+  const searching=!!(r.progress.active||['UNDERSTANDING','SEARCHING'].includes(view.case.phase)||state.sending||state.preview||state.researching);
   const failed=status.kind==='OTHER_FAILURE'&&!r.progress.active&&!r.progress.stopped;
-  const empty=failed||status.kind==='NO_QUALIFIED_RESULTS'||status.kind==='ALL_SOURCES_FAILED';
-  show('empty-state',empty);show('understanding-error',status.kind==='MODEL_FAILURE');
+  const empty=!searching&&(failed||status.kind==='NO_QUALIFIED_RESULTS'||status.kind==='ALL_SOURCES_FAILED');
+  show('empty-state',empty);show('understanding-error',!searching&&status.kind==='MODEL_FAILURE');
   if(empty){text('empty-message',failed?"Couldn't complete this search. Please try again.":status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":status.canContinue?'Nothing matched yet.':"Couldn't confirm a matching place this time. Try adjusting the area, time, or party size.");show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canContinue);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canRetry);$('empty-more').disabled=state.blocked;$('empty-retry').disabled=state.blocked;}
   show('partial-source-note',status.partialSourceFailure&&!r.progress.active&&end);
 }
@@ -255,7 +258,7 @@ export function render(){
   show('candidate-panel',mode==='CANDIDATES'&&!!candidate()&&!end&&(!state.preview||state.preview.phase==='card'));show('batch-end',!!end);show('details',mode==='DETAILS'&&!!candidate());show('saved-panel',mode==='SAVED');show('saved',mode!=='SAVED');conditionRow.hidden=['SAVED','HANDOFF'].includes(mode);conditionRow.style.visibility=mode==='CANDIDATES'&&(state.preview&&state.preview.phase==='understanding'||!candidate()&&!$('request-conditions').childElementCount&&(r.progress.active||requireView().case.phase==='UNDERSTANDING'))?'hidden':'';show('handoff',mode==='HANDOFF'&&!!candidate());
   $('find-more').disabled=state.blocked;
   if(mode==='CANDIDATES'&&!end)renderCard();if(mode==='DETAILS')renderDetails();if(mode==='SAVED')renderSaved();if(mode==='HANDOFF')renderHandoff();renderPhotos();
-  renderReadState(!!end);const busy=!!(pending||state.preview||state.sending||state.blocked||r.progress.active||['UNDERSTANDING','SEARCHING'].includes(requireView().case.phase));
+  renderReadState(!!end);const busy=!!(pending||state.preview||state.sending||state.researching||state.blocked||r.progress.active||['UNDERSTANDING','SEARCHING'].includes(requireView().case.phase));
   const clarifying=!busy&&mode==='CANDIDATES'&&requireView().case.phase==='NEEDS_INPUT';
   const replies=clarifying?requireView().conversation.messages.filter(message=>message.role==='USER'):[];
   const reply=replies.at(-1)?.content||'';

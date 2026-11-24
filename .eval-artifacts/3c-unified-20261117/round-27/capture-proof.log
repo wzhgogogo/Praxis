@@ -1,0 +1,23 @@
+✖ Round27 UI: UI-4 390 Source history absolute top and sheet relative top stay fixed (1256.5465ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1817.822875
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:6357
+✖ Round27 UI: UI-4 390 Source history absolute top and sheet relative top stay fixed (1256.5465ms)
+  page.evaluate: ReferenceError: __name is not defined
+      at eval (eval at evaluate (:311:30), <anonymous>:1:188)
+      at async <anonymous>:337:30
+      at capture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:16:310)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:46:32)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:43:2) {
+    log: []
+  }

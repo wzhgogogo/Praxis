@@ -6,7 +6,7 @@ export interface EntryPreview {caseId:string;startedAt:number;phase:string;timer
 export interface WorkspaceState {
  sidebarCollapsed:boolean;user:WorkspaceUser|null;cases:Map<string,WorkspaceView['case']>;drafts:Map<string,string>;view:WorkspaceView|null;nav:number;
  stream:EventSource|null;streamCaseId:string|null;caseListTimer:number|undefined;caseListSyncing:boolean;signingOut:boolean;
- deferredView:{nav:number;caseId:string;view:WorkspaceView}|null;blocked:boolean;ui:WorkspaceUi;expiry:number|undefined;
+ deferredView:{nav:number;caseId:string;view:WorkspaceView}|null;blocked:boolean;researching:boolean;ui:WorkspaceUi;expiry:number|undefined;
  feedbackPrompts:Map<string,FeedbackPrompt>;detailKey:string;questionKey:string;handoffKey:string;
  pendingQuestion:{requestId:string;caseId:string;candidateId:string}|null;asking:boolean;askingId:string|null;locating:string|null;
  claiming:Set<string>;diffKey:string;pendingCase:{title:string}|null;preview:EntryPreview|null;entryPace:number|null;
@@ -164,7 +164,7 @@ interface WorkspaceElements {
 export function $<K extends keyof WorkspaceElements>(id:K):WorkspaceElements[K];
 export function $(id:string):HTMLElement;
 export function $(id:string):HTMLElement {const node=document.getElementById(id);if(!node)throw new Error('Missing workspace element: '+id);return node;}
-export const state:WorkspaceState = {sidebarCollapsed:false,user:null,cases:new Map(),drafts:new Map(),view:null,nav:0,stream:null,streamCaseId:null,caseListTimer:undefined,caseListSyncing:false,signingOut:false,deferredView:null,blocked:false,ui:{view:'CANDIDATES',candidateId:null,reselectSlot:false},expiry:undefined,feedbackPrompts:new Map(),detailKey:'',questionKey:'',handoffKey:'',pendingQuestion:null,asking:false,askingId:null,locating:null,claiming:new Set(),diffKey:'',pendingCase:null,preview:null,entryPace:null,preparing:null,conditionEditor:null};
+export const state:WorkspaceState = {sidebarCollapsed:false,user:null,cases:new Map(),drafts:new Map(),view:null,nav:0,stream:null,streamCaseId:null,caseListTimer:undefined,caseListSyncing:false,signingOut:false,deferredView:null,blocked:false,researching:false,ui:{view:'CANDIDATES',candidateId:null,reselectSlot:false},expiry:undefined,feedbackPrompts:new Map(),detailKey:'',questionKey:'',handoffKey:'',pendingQuestion:null,asking:false,askingId:null,locating:null,claiming:new Set(),diffKey:'',pendingCase:null,preview:null,entryPace:null,preparing:null,conditionEditor:null};
 export function requireView(){if(!state.view)throw new Error('No active workspace');return state.view;}
 export function requireUser(){if(!state.user)throw new Error('No authenticated workspace user');return state.user;}
 export function requestId(){

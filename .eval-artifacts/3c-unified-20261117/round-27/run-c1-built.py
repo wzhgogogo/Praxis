@@ -1,0 +1,13 @@
+import os,subprocess,json,hashlib,time,shutil
+from pathlib import Path
+root=Path.cwd();out=Path(__file__).resolve().parent/'c1-built';assert not out.exists();out.mkdir()
+sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip();assert not subprocess.check_output(['git','status','--porcelain'],text=True)
+# This one fixture uses readFile, so tsc does not emit it; copy only the exact frozen input, never code.
+source=root/'src/domains/restaurant/fixtures/booking-handoff/source.json';target=root/'dist/domains/restaurant/fixtures/booking-handoff/source.json';target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,target)
+modules=['infrastructure/browser/cloudflare-browser-run.js','infrastructure/browser/cloudflare-browser-worker.js','infrastructure/browser/cloudflare-session-proxy.js','server/local-web-server.js','application/persistent-restaurant-agent.js','harness/fixtures/cdp-service-host.js']
+assert all((root/'dist'/m).is_file() for m in modules)
+env={k:os.environ[k] for k in ['PATH','HOME','TMPDIR'] if k in os.environ};env['PRAXIS_CDP_DIST']='1';start=time.monotonic()
+command=['/usr/bin/sandbox-exec','-p','(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip "localhost:*"))','node','--import','tsx','--test','src/harness/browser/cloudflare-cdp-isolation.test.ts']
+with (out/'test.log').open('w') as log:r=subprocess.run(command,env=env,stdout=log,stderr=subprocess.STDOUT)
+row={'sha':sha,'sourceTree':subprocess.check_output(['git','rev-parse','HEAD:src'],text=True).strip(),'command':command,'exitCode':r.returncode,'seconds':time.monotonic()-start,'environment':{'PRAXIS_CDP_DIST':'1'},'envLoaded':False,'fixtureSHA256':hashlib.sha256(source.read_bytes()).hexdigest(),'modulesSHA256':{m:hashlib.sha256((root/'dist'/m).read_bytes()).hexdigest() for m in modules},'afterBuild':True,'cleanAfter':not subprocess.check_output(['git','status','--porcelain'],text=True)}
+(out/'manifest.json').write_text(json.dumps(row,indent=2)+'\n');print(json.dumps(row));raise SystemExit(r.returncode)

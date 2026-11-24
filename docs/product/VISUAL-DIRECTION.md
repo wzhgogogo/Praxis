@@ -1,8 +1,8 @@
 # Praxis visual direction
 
 - Status: Accepted
-- Document revision: 0.17
-- Last updated: 2026-11-21
+- Document revision: 0.18
+- Last updated: 2026-11-24
 - Source of truth for: current English Web presentation; product behavior and safety remain governed by accepted PRD and ADRs
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [User flows](USER-FLOWS.md), [Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [integration plan](../WEB-PHOTOS-UNIFIED-PLAN.md)
@@ -35,7 +35,7 @@ The backend address and About text remain complete. Only the address item in key
 
 ## 2026-11-18 — Style 1 condition rows
 
-User-approved / implementation in Round 6, draft / not integrated. Round20 supersedes the availability row: left Availability is 13px #15172B; right date is 13px 600 #15172B, Not checked / Expired is 13px 500 #5F6275, without a dot. Time controls retain 8px gaps. Empty slots/recommendation occupy no space. Conditions have 10px top margin, 6px row gap, 13px/1.45 text. Each row aligns baselines with space-between and 12px gap: capitalized name (#15172B, min-width:0), nonshrinking status (Confirmed #3D5AFE; Not a match / Unverified #5F6275; weight500). Status words are Confirmed / Not a match / Unverified, without dash or internal enum terms; About uses the same words. Added-only change summaries are static and hide zero counts.
+User-approved / implementation in Round 6, draft / not integrated. Round20 supersedes the availability row: left Availability is 13px #15172B; right date is 13px 600 #15172B, Not checked / Expired is 13px 500 #5F6275, without a dot. Time controls retain 8px gaps. Empty slots/recommendation occupy no space. Conditions have 10px top margin, 6px row gap, 13px/1.45 text. Each row aligns baselines with space-between and 12px gap: capitalized name (#15172B, min-width:0), nonshrinking status (Confirmed #364B8A; Not a match / Unverified #5F6275; weight500). Status words are Confirmed / Not a match / Unverified, without dash or internal enum terms; About uses the same words. Added-only change summaries are static and hide zero counts.
 
 Round 7 places at least 12px between the bottom of the condition list and the booking button, including cards with an empty recommendation.
 
@@ -66,4 +66,13 @@ Group quotations by exact source reading, de-duplicate equal text in that group 
 
 On widths below960px composer and condition-editor text inputs use16px. The visualViewport and measured composer determine clearance; focus may reveal the clarification ending once, including the keyboard resize, without pulling back subsequent user scroll. About focus preserves reading position/draft. Reconnecting has equal vertical breathing space between topbar and title. Native mobile keyboard/zoom remain NOT_EVALUATED until device testing.
 
-About condition quotes exactly equal to their normalized labels retain only a compact provenance footer. Longer originals retain white blocks. Citation links show Tabelog / TableCheck / Google Maps or a merchant domain without www, falling back to Open page. Display only Checked Nov21-style Tokyo dates; retain exact URL/ISO grouping and omit dates for ambiguous legacy evidence. Q&A joins header/value only with unique source-row proof from production extraction; crossed rows, repeated values and no-proof DTOs stay separate and answer prose is untouched. Functional brand accents use#3D5AFE for MET status,2px quote rules, saved bookmark fill/stroke, About action and source links; base ink/gray/white/DM Sans remain.
+About condition quotes exactly equal to their normalized labels retain only a compact provenance footer. Longer originals retain white blocks. Citation links show Tabelog / TableCheck / Google Maps or a merchant domain without www, falling back to Open page. Display only Checked Nov21-style Tokyo dates; retain exact URL/ISO grouping and omit dates for ambiguous legacy evidence. Q&A joins header/value only with unique source-row proof from production extraction; crossed rows, repeated values and no-proof DTOs stay separate and answer prose is untouched. Round27 refines the functional accents: #3D5AFE remains on2px quote rules, main actions, active progress marks, saved bookmark fill/stroke, selected-slot pale backgrounds and Handoff Recommended. Confirmed is plain #364B8A text at500, with no badge/background; About is ink#15172B and source/merchant links are secondary#5F6275 with their underline and arrow. Base ink/gray/white/DM Sans remain.
+
+
+## Round27 question, empty-state and mobile editing contract
+
+Pending Q&A places Checking the page and its underlined transparent Stop on one baseline row with distinct clickable space. Source disclosures keep history summary absolute top fixed; a bottom sheet can grow upward while summary top relative to sheet top stays fixed. Open details add no top padding, and summary tap highlight is transparent.
+
+Pure fact recommendations hide Refresh details; only slot-capable recommendations and availability results expose Refresh availability. About Categories summaries are omitted only when their entire normalized text already appears as an actually rendered CATEGORY blockquote. A same-text quote reduced to a source footer does not count; extra Google categories retain the summary.
+
+Prior empty results disappear immediately on message/capsule save/remove, Find more or Try again requests, independently of the composer sending spinner; deferred running SSE snapshots use the same effective view as progress. Failures restore the original empty actions. Mobile focused progress is compact and its active Stop stays above measured composer clearance without locking user scroll. Below960px open condition editors take a full flow row with flexible16px inputs and fixed action buttons; desktop overlays keep their existing dimensions. Native device behavior remains NOT_EVALUATED until device testing.

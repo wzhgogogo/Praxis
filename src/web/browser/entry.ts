@@ -48,7 +48,7 @@ export async function askCurrentPlace(message:string){
 export function editCondition(button:HTMLButtonElement,label:string,kind:ConditionKind,value:ConditionValue,removable=false){
   if(state.blocked||state.asking)return;
   if(state.conditionEditor)state.conditionEditor.cancel();
-  const bounds=button.getBoundingClientRect(),anchor=element('span',undefined,'condition-edit-anchor');anchor.style.width=bounds.width+'px';anchor.style.height=bounds.height+'px';
+  const bounds=button.getBoundingClientRect(),anchor=element('span',undefined,'condition-edit-anchor');if(desktopLayout.matches){anchor.style.width=bounds.width+'px';anchor.style.height=bounds.height+'px';}
   const form=element('form',undefined,'condition-editor'),input=element('input'),save=element('button',undefined,'editor-save'),cancel=element('button',undefined,'editor-cancel');
   form.noValidate=true;const inputs=[input];input.type=kind==='date'?'date':kind==='time'?'time':kind==='guests'?'number':'text';input.required=true;
   input.value=kind==='text'?label:kind==='time'&&typeof value==='object'?value.earliest:String(value);input.setAttribute('aria-label','Edit '+label);input.autocomplete='off';
@@ -61,7 +61,7 @@ export function editCondition(button:HTMLButtonElement,label:string,kind:Conditi
   const remove=removable?element('button',undefined,'editor-remove'):null;
   if(remove){remove.type='button';remove.setAttribute('aria-label','Remove '+label);remove.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/></svg>';}
   let busy=false;
-  const position=()=>{form.style.left='0px';const host=$('request-conditions').getBoundingClientRect();form.style.maxWidth=host.width+'px';const rect=form.getBoundingClientRect(),at=anchor.getBoundingClientRect();form.style.left=Math.max(host.left-at.left,Math.min(0,host.right-at.left-rect.width))+'px';};
+  const position=()=>{if(!desktopLayout.matches){anchor.style.width='';anchor.style.height='';form.style.left='';form.style.maxWidth='';return;}form.style.left='0px';const host=$('request-conditions').getBoundingClientRect();form.style.maxWidth=host.width+'px';const rect=form.getBoundingClientRect(),at=anchor.getBoundingClientRect();form.style.left=Math.max(host.left-at.left,Math.min(0,host.right-at.left-rect.width))+'px';};
   const update=()=>{const n=Array.from(newValue()).length,valid=inputs.every(i=>i.validity.valid)&&!(kind==='time'&&input.value>inputs[1].value);save.disabled=busy||!newValue()||n>30||!valid;cancel.disabled=busy;if(remove)remove.disabled=busy;for(const i of inputs)i.disabled=busy;if(kind==='text')input.style.width=Math.min(Math.max(n,3)+1,18)+'ch';if(form.isConnected)position();};
   const close=(refresh=true)=>{if(anchor.isConnected)anchor.replaceWith(button);if(state.conditionEditor&&state.conditionEditor.form===form)state.conditionEditor=null;if(refresh&&state.view)renderConditions();};
   cancel.onclick=event=>{if(busy)return;close();if(event.detail===0)button.focus({preventScroll:true});};
@@ -99,7 +99,7 @@ export async function submitRequirement(message:string,preserveComposer=false){
  if(!message||state.blocked||state.asking)return false;
  $('message').removeAttribute('placeholder');
  const nav=state.nav,old=state.view,caseId=old?.case.caseId,context=viewContext(),draft=$('message').value,startedAt=performance.now();
- clearEntryTransition();state.blocked=true;state.sending=!preserveComposer;clearError();
+ clearEntryTransition();state.blocked=true;state.researching=!!old;state.sending=!preserveComposer;clearError();
  if(!old){state.pendingCase={title:message};if(!preserveComposer)setMessage('');}
  render();
  try{
@@ -146,6 +146,8 @@ export async function stopCurrentRead(){
   finally{resumeCase(nav,caseId);}
 };
 $('stop').onclick=stopCurrentRead;$('question-stop').onclick=stopCurrentRead;
+// Keep the mobile composer layout stable through pointerup so Stop receives its click.
+for(const id of ['stop','question-stop'])$(id).addEventListener('pointerdown',event=>{if(!desktopLayout.matches&&document.activeElement===$('message'))event.preventDefault();});
 $('bookmark').onclick=async()=>{
   const c=candidate();if(state.blocked||!c||!canShortlist())return;
   const nav=state.nav,caseId=requireView().case.caseId;
@@ -162,7 +164,7 @@ $('details-button').onclick=()=>setView('DETAILS');$('details-back').onclick=()=
 export async function refreshCase(){
  if(state.blocked||!state.view)return false;
  const nav=state.nav,caseId=requireView().case.caseId;
- state.blocked=true;render();
+ state.blocked=true;state.researching=true;render();
  try{
   const p=await api<{view:WorkspaceView}>(casePath(caseId)+'/refresh',{method:'POST',body:JSON.stringify({taskVersion:requireView().case.taskVersion,requestId:requestId()})});
   return receiveCase(p.view,nav,caseId);
@@ -211,7 +213,7 @@ $('batch-back').onclick=()=>moveCard(-1);$('end-adjust').onclick=focusAdjustment
 export async function findMore(){
   if(state.blocked||!state.view)return;
   const nav=state.nav,caseId=requireView().case.caseId;
-  state.blocked=true;$('find-more').disabled=true;
+  state.blocked=true;state.researching=true;render();
   try{
     const p=await api<{view:WorkspaceView}>(casePath(caseId)+'/another-batch',{method:'POST',body:JSON.stringify({taskVersion:requireView().case.taskVersion,requestId:requestId()})});
     if(currentCase(nav,caseId)){state.ui.atEnd=false;state.ui.candidateId=null;clearSlotSelection();}

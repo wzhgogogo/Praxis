@@ -99,7 +99,7 @@ export function flushDeferredView(){
 }
 export function resumeCase(nav:number,caseId:string|undefined){
   if(!currentCase(nav,caseId))return;
-  state.blocked=false;
+  state.blocked=false;state.researching=false;
   if(!flushDeferredView())actions.render();
 }
 export async function reportCaseError(error:unknown,nav:number,caseId:string|undefined){
@@ -149,7 +149,7 @@ export function accept(view:WorkspaceView){
 }
 export function resetCaseRequests(){
   clearEntryTransition();cancelPreparation();actions.closeAnswer();closeStream();
-  state.sending=false;state.asking=false;state.askingId=null;state.locating=null;
+  state.researching=false;state.sending=false;state.asking=false;state.askingId=null;state.locating=null;
   state.blocked=false;state.pendingQuestion=null;
   show('reconnecting',false);clearError();
 }

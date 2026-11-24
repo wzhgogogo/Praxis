@@ -1,0 +1,140 @@
+✖ Round27 UI: UI-1 390 pending question Stop shares status row and cancels its active read (1261.853875ms)
+✖ Round27 UI: UI-1 1440 pending question Stop shares status row and cancels its active read (964.827458ms)
+✔ Round27 UI: UI-4 390 Source history absolute top and sheet relative top stay fixed (1106.16575ms)
+✔ Round27 UI: UI-4 1440 Source history absolute top and sheet relative top stay fixed (1140.366792ms)
+✔ Round27 UI: UI-2 UI-7 390 restrained colors and rendered-category-only deduplication (869.047083ms)
+✔ Round27 UI: UI-2 UI-7 1440 restrained colors and rendered-category-only deduplication (903.073958ms)
+✔ Round27 UI: UI-3 390 pure facts hide refresh; recommendation slots and availability keep it (910.014042ms)
+✔ Round27 UI: UI-3 1440 pure facts hide refresh; recommendation slots and availability keep it (922.451041ms)
+✖ Round27 UI: UI-5 390 delayed retry hides empty immediately and failure restores controls (10703.191292ms)
+✖ Round27 UI: UI-5 390 delayed more hides empty immediately and failure restores controls (10761.781792ms)
+✖ Round27 UI: UI-5 390 delayed capsule-save hides empty immediately and failure restores controls (10759.407167ms)
+✖ Round27 UI: UI-5 390 delayed capsule-remove hides empty immediately and failure restores controls (10766.337458ms)
+✖ Round27 UI: UI-5 390 SSE-first deferred running snapshot removes prior empty card before HTTP (10710.992792ms)
+✖ Round27 UI: UI-6 390 keyboard exposes Stop and cancels the paused current read with stopped true (10832.861459ms)
+✔ Round27 UI: UI-6 390 time and removable editors flow full-width without overlapping neighbors (1073.358291ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 7
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 74221.401208
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:3138
+✖ Round27 UI: UI-1 390 pending question Stop shares status row and cancels its active read (1261.853875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - true
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:37:253)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:32:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:3138
+✖ Round27 UI: UI-1 1440 pending question Stop shares status row and cancels its active read (964.827458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - true
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:37:253)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:32:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:11910
+✖ Round27 UI: UI-5 390 delayed retry hides empty immediately and failure restores controls (10703.191292ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('#empty-state') to be visible[22m
+  [2m    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>[22m
+  
+      at journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:25:67)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:79:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#empty-state') to be visible", '    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:11910
+✖ Round27 UI: UI-5 390 delayed more hides empty immediately and failure restores controls (10761.781792ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('#empty-state') to be visible[22m
+  [2m    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>[22m
+  
+      at journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:25:67)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:79:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#empty-state') to be visible", '    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:11910
+✖ Round27 UI: UI-5 390 delayed capsule-save hides empty immediately and failure restores controls (10759.407167ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('#empty-state') to be visible[22m
+  [2m    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>[22m
+  
+      at journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:25:67)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:79:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#empty-state') to be visible", '    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:11910
+✖ Round27 UI: UI-5 390 delayed capsule-remove hides empty immediately and failure restores controls (10766.337458ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('#empty-state') to be visible[22m
+  [2m    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>[22m
+  
+      at journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:25:67)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:79:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#empty-state') to be visible", '    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:14414
+✖ Round27 UI: UI-5 390 SSE-first deferred running snapshot removes prior empty card before HTTP (10710.992792ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('#empty-state') to be visible[22m
+  [2m    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>[22m
+  
+      at journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:25:67)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:95:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#empty-state') to be visible", '    24 × locator resolved to hidden <section hidden="" class="panel" id="empty-state">…</section>' ]
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:15569
+✖ Round27 UI: UI-6 390 keyboard exposes Stop and cancels the paused current read with stopped true (10832.861459ms)
+  page.waitForResponse: Timeout 10000ms exceeded while waiting for event "response"
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:107:24)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:104:2) {
+    name: 'TimeoutError',
+    log: []
+  }

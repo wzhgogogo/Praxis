@@ -1,0 +1,143 @@
+✖ Round27 UI: UI-4 390 Source history absolute top and sheet relative top stay fixed (1539.010791ms)
+✖ Round27 UI: UI-4 1440 Source history absolute top and sheet relative top stay fixed (997.433458ms)
+✖ Round27 UI: UI-2 UI-7 390 restrained colors and rendered-category-only deduplication (817.792792ms)
+✖ Round27 UI: UI-2 UI-7 1440 restrained colors and rendered-category-only deduplication (788.0585ms)
+✖ Round27 UI: UI-5 390 delayed capsule-save hides empty immediately and failure restores controls (893.354083ms)
+✖ Round27 UI: UI-6 390 keyboard exposes Stop and cancels the paused current read with stopped true (806.348875ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6397.485167
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:5108
+✖ Round27 UI: UI-4 390 Source history absolute top and sheet relative top stay fixed (1539.010791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 171.640625
+  - 163.640625
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:46:145)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:43:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 171.640625,
+    expected: 163.640625,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:5108
+✖ Round27 UI: UI-4 1440 Source history absolute top and sheet relative top stay fixed (997.433458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 148.390625
+  - 140.390625
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:46:145)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:43:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 148.390625,
+    expected: 140.390625,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:6871
+✖ Round27 UI: UI-2 UI-7 390 restrained colors and rendered-category-only deduplication (817.792792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      bg: 'rgba(0, 0, 0, 0)',
+  +   color: 'rgb(61, 90, 254)',
+  -   color: 'rgb(54, 75, 138)',
+      weight: '500'
+    }
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:57:218)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:53:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { color: 'rgb(61, 90, 254)', weight: '500', bg: 'rgba(0, 0, 0, 0)' },
+    expected: { color: 'rgb(54, 75, 138)', weight: '500', bg: 'rgba(0, 0, 0, 0)' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:6871
+✖ Round27 UI: UI-2 UI-7 1440 restrained colors and rendered-category-only deduplication (788.0585ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      bg: 'rgba(0, 0, 0, 0)',
+  +   color: 'rgb(61, 90, 254)',
+  -   color: 'rgb(54, 75, 138)',
+      weight: '500'
+    }
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:57:218)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:53:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { color: 'rgb(61, 90, 254)', weight: '500', bg: 'rgba(0, 0, 0, 0)' },
+    expected: { color: 'rgb(54, 75, 138)', weight: '500', bg: 'rgba(0, 0, 0, 0)' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:11886
+✖ Round27 UI: UI-5 390 delayed capsule-save hides empty immediately and failure restores controls (893.354083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:87:35)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:79:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:15545
+✖ Round27 UI: UI-6 390 keyboard exposes Stop and cancels the paused current read with stopped true (806.348875ms)
+  AssertionError [ERR_ASSERTION]: {"top":328.015625,"bottom":358.203125,"height":360,"composer":282}
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:106:255)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:26:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:104:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
