@@ -7277,3 +7277,14 @@ All offline checks executed after source freeze (`6a5f782979054c3d04e01655b73e10
 Build后dist C1 4/4（12833.69525ms），源码4条已含在Chromium；冻结独立日历/相对日6+weekday5共11/11（外层7.436231s）。原后天正确/错TOMORROW/错日历/漏DATE全部查11/26，时间单改沿用11/25；明确日历/周六更正保留11/28。17组持久消息有10组实际查位、7组NEEDS_INPUT且0查位。定向21/21含漏DATE与weekday正反序；不叠加正式分母。
 
 19JS+HTML/CSS源码/构建一致且与原Round27字节相同，strict18模块零环/any/抑制。原15条UI通过，新34PNG/JSON、4联系表及6关键原图目检，Source四组差0。13635现存保护匹配，原Round27295原件和先前111候选证据不变；主/env、closeout950现存材料、稀疏与配置保持。137历史缺件仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。5969门禁绿但新探针失败、6ba外层中断均分开记录，不冒充本次结果；所有Fixture进程与连接关闭。Live/真实PG/远端CDP/4312/真机及独立整单Replay未评，未推送或合main。[报告](../../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/REPORT.md) · [原始门禁](../../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/gates/manifest.json)。
+
+
+<a id="unified-round27-dining-date-context-p1-20261124"></a>
+
+## 2026-11-24 — Round27 用餐日期上下文 P1 最终离线验收
+
+最终冻结 `e68ed2a51baf19380dbca276e9b2651d6dc4e408`（src tree `71a58ad60ab47e73b94112121e82e8a92fa9ec58`，frozen offline regression / draft, not integrated）。仅日期绑定器、对应两份测试和F6构造输入补tonight一行变化；断言不放宽，UI/Loop/Reducer/Prompt/评分不变。绑定当前用餐DATE原文，背景日期不覆盖；tonight查11/24，keep/time-only沿用11/26，Make/Move/Change遗漏DATE查11/25，后天四种回包查11/26；未定日期NEEDS_INPUT且0查位。31组实际消息=22组查位+9组澄清，作者补充3例与用户独立19例分开。
+
+同一净树/不加载.env：Typecheck0.738391s、Arch0违规0.203931s、Build0.597346s、默认1978/1978计83.182267s、Browser496.484491s，均exit0。G2 24843.285917ms、Chromium432045.251292ms（合计598不重复计数）、G6 39272.529250ms。源码C1四条含在Chromium，Build后dist四条13555.923458ms；独立19例外层14.667258s；定向36与兼容5不叠加默认分母。
+
+五门禁全绿：默认1978/1978，G2 5/5、Chromium593/593、G6 159/159；dist C1 4/4、独立19/19、定向36/36及兼容5/5。strict18模块零环/any/抑制，19JS+HTML/CSS与原Round27逐字一致；UI15/15，新34PNG/JSON、4联系表及6关键原图目检，Source四组坐标差0。 13883现存历史保护匹配，原Round27及前P1目录不变，主/env/closeout950/稀疏/八配置不变；137既有缺件仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。08c五失败/安全中断与25db门禁绿但作者3例失败原件保留，不替代最终验收。无Live/真实PG/4312/推送/合main，真机键盘与真实来源S0未评。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/REPORT.md) · [门禁](../../.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/gates/manifest.json)。

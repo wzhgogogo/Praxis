@@ -1463,3 +1463,12 @@ Fixed 5 P2 findings from Round 25 independent review (`V3`, `R1`, `M2`, `R3`, `R
 冻结 `5d6d683f13ee1247910f08651ec1e1ec35b58a9c`（src tree `2e6d4725953ba1107a2437dda269ecd891c6b4d0`，frozen offline regression / draft, not integrated）。仅绑定器和两份对应测试发生源码变化：原文绑定的日历/weekday DATE共用选择优先级，不被其他相对词覆盖；日期选择关系集中从原文检查，中英文weekday正反序及模型漏DATE仍澄清、0查位；两三天近似不再折单值。保留原明确后天四组纠偏/补漏和时间继承。
 
 最终五门禁全绿：默认1963/1963，G2 5/5、Chromium593/593、G6 159/159；独立6+5探针11/11、定向21/21、Build后dist C1 4/4，strict18模块零环。17组实际持久消息中10组按明确日期查位、7组澄清且0查位。原UI源码零差异，19JS及HTML/CSS与原Round27字节相同，新34图目检保留。5969部分候选与6ba安全检查点中断原件保留，不冒充最终签收。13635现存历史保护匹配含原Round27全295文件，主/env/closeout/稀疏不变；137既有缺件继续阻塞整体历史签收。无Live/真实PG/远端CDP/4312/推送/合main，待独立复核。[报告](../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/REPORT.md)。
+
+
+<a id="unified-round27-dining-date-context-p1-20261124"></a>
+
+### 2026-11-24 — Round27 用餐日期上下文 P1
+
+最终冻结 `e68ed2a51baf19380dbca276e9b2651d6dc4e408`（src tree `71a58ad60ab47e73b94112121e82e8a92fa9ec58`，frozen offline regression / draft, not integrated）。仅日期绑定器、对应两份测试和F6构造输入补tonight一行变化；断言不放宽，UI/Loop/Reducer/Prompt/评分不变。绑定当前用餐DATE原文，背景日期不覆盖；tonight查11/24，keep/time-only沿用11/26，Make/Move/Change遗漏DATE查11/25，后天四种回包查11/26；未定日期NEEDS_INPUT且0查位。31组实际消息=22组查位+9组澄清，作者补充3例与用户独立19例分开。
+
+五门禁全绿：默认1978/1978，G2 5/5、Chromium593/593、G6 159/159；dist C1 4/4、独立19/19、定向36/36及兼容5/5。strict18模块零环/any/抑制，19JS+HTML/CSS与原Round27逐字一致；UI15/15，新34PNG/JSON、4联系表及6关键原图目检，Source四组坐标差0。 13883现存历史保护匹配，原Round27及前P1目录不变，主/env/closeout950/稀疏/八配置不变；137既有缺件仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。08c五失败/安全中断与25db门禁绿但作者3例失败原件保留，不替代最终验收。无Live/真实PG/4312/推送/合main，真机键盘与真实来源S0未评。 [报告](../.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/REPORT.md)。

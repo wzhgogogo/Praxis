@@ -6562,3 +6562,14 @@ Slice B维持严格浏览器DAG，新增显式researching请求态并对齐defer
 从0b7e9384439efad773a917d65ad7e229cd6188bf复核：新绑定器把被提及/排除的后天覆盖到正确日历DATE，且两三天被末位折三。第一候选5969完整门禁通过但独立补强4/6未关闭普通主语/未定路径，原结果独立保存。6ba候选遗漏既有weekday；终止外层调度后当前默认子进程未收信号、自然结束，源码直到全部子进程结束才改。中断不算全门禁。
 
 最终仅三份源文件改动：在一处按原文日期片段判定未定/选择关系（不依赖模型DATE或前后顺序），日历与weekday提案共用当前原文raw绑定优先级；明确相对日沿用既有东京物化和纠偏/补漏，近似数字fail closed。不新增通用日期解析、模型调用、兼容路径或依赖，不改UI/Loop/Reducer/来源/Prompt/评分。最终冻结5d6d683f13ee1247910f08651ec1e1ec35b58a9c的21定向、11独立及全部离线门禁通过；原Round27及111份先前候选证据保持。137历史原件仍缺，未新增恢复。仅本地归档、无Live/真实PG/4312。[报告](../../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/REPORT.md)。
+
+
+<a id="unified-round27-dining-date-context-p1-20261124"></a>
+
+## 2026-11-24 — Round27 用餐日期上下文 P1
+
+最终冻结 `e68ed2a51baf19380dbca276e9b2651d6dc4e408`（src tree `71a58ad60ab47e73b94112121e82e8a92fa9ec58`，frozen offline regression / draft, not integrated）。仅日期绑定器、对应两份测试和F6构造输入补tonight一行变化；断言不放宽，UI/Loop/Reducer/Prompt/评分不变。绑定当前用餐DATE原文，背景日期不覆盖；tonight查11/24，keep/time-only沿用11/26，Make/Move/Change遗漏DATE查11/25，后天四种回包查11/26；未定日期NEEDS_INPUT且0查位。31组实际消息=22组查位+9组澄清，作者补充3例与用户独立19例分开。
+
+先保存e572基线2/4和后续逗号/遗漏编辑红证据；08c外层停止后全部子进程自然结束才改源码。25db全套完成后作者补强发现3个同源缺口，保留完整原件、纳入正式消息测试，重新冻结并从头验收。五门禁全绿：默认1978/1978，G2 5/5、Chromium593/593、G6 159/159；dist C1 4/4、独立19/19、定向36/36及兼容5/5。strict18模块零环/any/抑制，19JS+HTML/CSS与原Round27逐字一致；UI15/15，新34PNG/JSON、4联系表及6关键原图目检，Source四组坐标差0。
+
+13883现存历史保护匹配，原Round27及前P1目录不变，主/env/closeout950/稀疏/八配置不变；137既有缺件仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。08c五失败/安全中断与25db门禁绿但作者3例失败原件保留，不替代最终验收。无Live/真实PG/4312/推送/合main，真机键盘与真实来源S0未评。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/REPORT.md)。
