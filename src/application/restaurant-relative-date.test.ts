@@ -70,7 +70,9 @@ const cases = [
   { name: "timed dinner occurrence beats same raw in background alternatives", initialDate: "2026-11-26", message: "我朋友明天或后天到东京，不过我自己的晚餐就订明天晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" }, expected: "2026-11-25" },
   { name: "fixed dinner before background alternatives is not a last-occurrence rule", initialDate: "2026-11-26", message: "我自己的晚餐就订明天晚上7点，我朋友明天或后天到东京", timeRaw: "晚上7点", date: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" }, expected: "2026-11-25" },
   { name: "structured date editor target rejects DATE CONFIRM", initialDate: "2026-11-26", message: "Change Thu, Nov 26 to 2026-11-28", confirm: true, noTime: true },
-  { name: "qualified next week is never reduced to nearest Friday", initialDate: "2026-11-26", message: "改成下周五晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-12-04", raw: "下周五" } },
+  { name: "qualified next week is never reduced to nearest Friday", initialDate: "2026-11-26", message: "改成下周五晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-12-04", raw: "下周五" }, expected: "2026-12-04" },
+  { name: "wrong calendar week must clarify without availability", initialDate: "2026-11-26", message: "改成下周五晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-11-27", raw: "下周五" } },
+  { name: "past this Friday never rolls into next week", referenceTime: "2026-11-28T10:00:00+09:00", initialDate: "2026-12-01", message: "Make it this Friday at 7 pm.", timeRaw: "7 pm", date: { kind: "DATE", weekday: "FRIDAY", raw: "this Friday" } },
   { name: "structured date editor omission cannot silently retain old date", initialDate: "2026-11-26", message: "Change Thu, Nov 26 to 2026-11-28", noTime: true },
   { name: "full Chinese calendar raw owns inconsistent model date", initialDate: "2026-11-26", message: "把日期改到2026年11月28日，晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", value: "2026-11-27", raw: "2026年11月28日" }, expected: "2026-11-28" },
   { name: "date confirmation without any edit remains a no-op", initialDate: "2026-11-26", message: "日期不变", confirm: true, noTime: true, unchanged: true },
@@ -111,7 +113,7 @@ for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${
     throw new Error("Read did not settle");
   }
   try {
-    host.clock.advance(Date.parse(referenceTime) - host.clock.now().valueOf());
+    host.clock.advance(Date.parse("referenceTime" in row ? row.referenceTime : referenceTime) - host.clock.now().valueOf());
     await host.application.store.upsertUser({ id: userId, displayName: "Fixture" }, host.clock.now().toISOString());
     if ("fresh" in row) {
       const created = await host.application.createCase(userId, row.message, "fresh-recommendation");

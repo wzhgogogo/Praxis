@@ -228,7 +228,7 @@ export function compileRestaurantSemanticProposal(
   const conflict = findConflict(proposal);
   if (conflict) return { status: "CONFLICT", conflict };
   if (temporalContext?.message !== undefined) {
-    const bound = bindRestaurantRelativeDate(proposal, temporalContext.message);
+    const bound = bindRestaurantRelativeDate(proposal, temporalContext.message, temporalContext);
     if (bound.status === "CONFLICT") return bound;
     proposal = bound.proposal;
   }

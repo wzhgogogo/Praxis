@@ -1,5 +1,6 @@
 import type { RestaurantSemanticConflict } from "./contracts.js";
 import type { RestaurantSemanticProposal, RestaurantSemanticValue } from "./semantic-proposal.js";
+import { materializeRestaurantTemporalFacts } from "./temporal-materialization.js";
 
 type DateMention = { raw: string; index: number };
 type RelativeExpression = DateMention & { days: number };
@@ -85,7 +86,7 @@ function namedDateDirective(date: DateMention): Extract<RestaurantSemanticValue,
   return weekday ? { kind: "DATE", weekday, raw: date.raw } : undefined;
 }
 
-export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal, message: string):
+export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal, message: string, temporalContext: { referenceTime: string; timezone: "Asia/Tokyo" }):
   | { status: "BOUND"; proposal: RestaurantSemanticProposal }
   | { status: "CONFLICT"; conflict: RestaurantSemanticConflict } {
   message = message.normalize("NFKC");
@@ -126,8 +127,25 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
     return fail("Clarify whether to clear, retain or replace the dining date");
   if (selectedGroups.length && structuredEdit && !dateFacts.length)
     return fail("Confirm the explicit calendar date change before reading availability");
-  if (selectedGroups.flat().some(date => /^(?:[这本下](?:个)?(?:周|星期|礼拜)|(?:this|next)\s+)/iu.test(date.raw)))
-    return fail("Clarify the qualified dining week without dropping its scope");
+  const qualified = selectedGroups.flat().filter(date => /^(?:[这本下](?:个)?(?:周|星期|礼拜)|(?:this|next)\s+)/iu.test(date.raw));
+  if (qualified.length) {
+    try {
+      const today = materializeRestaurantTemporalFacts({ date: { kind: "DATE", relativeDay: "TODAY", raw: "today" }, ...temporalContext }).date!;
+      const monday = new Date(`${today}T12:00:00.000Z`);
+      monday.setUTCDate(monday.getUTCDate() - (monday.getUTCDay() + 6) % 7);
+      for (const date of qualified) {
+        const weekday = namedDateDirective(date);
+        const original = boundDates.find(quote => date.index >= quote.index && date.index + date.raw.length <= quote.index + quote.raw.length)?.value;
+        if (!weekday || !("weekday" in weekday) || !original) return fail("Clarify the qualified dining week without dropping its scope");
+        const start = new Date(monday);
+        if (/^(?:下|next\b)/iu.test(date.raw)) start.setUTCDate(start.getUTCDate() + 7);
+        const expected = materializeRestaurantTemporalFacts({ date: weekday, referenceTime: start.toISOString().slice(0, 10) + "T12:00:00+09:00", timezone: temporalContext.timezone }).date;
+        const actual = materializeRestaurantTemporalFacts({ date: original, ...temporalContext }).date;
+        if (actual !== expected) return fail("Clarify the qualified dining week without rolling into another week");
+      }
+      return { status: "BOUND", proposal };
+    } catch { return fail("Clarify the qualified dining date against a valid reference time"); }
+  }
   // A recognized literal edit owns its target even when the model fabricates its quote.
   const directives = selectedGroups.flat().map(namedDateDirective).filter(value => value !== undefined);
   if (directives.length) {

@@ -6,7 +6,7 @@ changed=[n for n,v in base['historySHA256'].items() if (root/n).is_file() and h(
 missing=[n for n in base['historySHA256'] if not (root/n).is_file()]
 knownMissing=[n for n in base['knownMissing'] if not (root/n).is_file()]
 assert len(knownMissing)==137
-allowed={'src/application/restaurant-agent-loop.ts','src/harness/browser/web-workspace-round27.test.ts','src/domains/restaurant/relative-date-binding.ts','src/domains/restaurant/relative-date-binding.test.ts','src/application/restaurant-relative-date.test.ts'}
+allowed={'src/domains/restaurant/semantic-compiler.ts','src/application/restaurant-agent-loop.ts','src/harness/browser/web-workspace-round27.test.ts','src/domains/restaurant/relative-date-binding.ts','src/domains/restaurant/relative-date-binding.test.ts','src/application/restaurant-relative-date.test.ts'}
 sourceChanges=[n for n,v in base['sourceSHA256'].items() if not (root/n).is_file() or h(root/n)!=v]
 sourcePaths=git('diff','--name-only',base['head'],'--','src/').decode().splitlines();unauthorized=sorted((set(sourceChanges)|set(sourcePaths))-allowed)
 main=Path('/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing')

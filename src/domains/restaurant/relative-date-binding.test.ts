@@ -29,7 +29,10 @@ test("ADR-0052 validates the selected dining-date occurrence and its own uncerta
     { message: "我自己的晚餐就订明天晚上7点，我朋友明天或后天到东京", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" } }, clock("晚上7点")], expected: "2026-11-25" },
     { message: "Change Thu, Nov 26 to 2026-11-28", facts: [confirm], conflict: true },
     { message: "Change Thu, Nov 26 to 2026-11-28", facts: [], conflict: true },
-    { message: "改成下周五晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-12-04", raw: "下周五" } }, clock("晚上7点")], conflict: true },
+    { message: "改成下周五晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-12-04", raw: "下周五" } }, clock("晚上7点")], expected: "2026-12-04" },
+    { message: "改成下周五晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-27", raw: "下周五" } }, clock("晚上7点")], conflict: true },
+    { message: "Make it this Friday at 7 pm.", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", weekday: "FRIDAY", raw: "this Friday" } }, clock("7 pm")], expected: "2026-11-27" },
+    { message: "Make it this Saturday at 7 pm.", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-28", raw: "this Saturday" } }, clock("7 pm")], expected: "2026-11-28" },
     { message: "把日期改到2026年11月28日，晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-27", raw: "2026年11月28日" } }, clock("晚上7点")], expected: "2026-11-28" },
     { message: "把日期改到2026-11-28，晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "2026-11-28" } }, clock("晚上7点")], expected: "2026-11-28" },
     { message: "Change Thu, Nov 26 to 2026-11-28", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-27", raw: "2026-11-27" } }], expected: "2026-11-28" },
@@ -40,6 +43,7 @@ test("ADR-0052 validates the selected dining-date occurrence and its own uncerta
     assert.equal(result.status, row.conflict ? "CONFLICT" : "COMPILED", row.message);
     if (result.status === "COMPILED") assert.equal(result.patch.date, row.expected, row.message);
   }
+  assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", weekday: "FRIDAY", raw: "this Friday" } }, clock("7 pm")] }, { ...context, referenceTime: "2026-11-28T10:00:00+09:00", message: "Make it this Friday at 7 pm." }).status, "CONFLICT", "Past this-week weekdays cannot roll forward into next week");
 });
 
 test("ADR-0052 DATE offset schema is bounded and compiler preserves distinct conflict identities", () => {
