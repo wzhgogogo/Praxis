@@ -56,10 +56,13 @@ test("ADR-0052 binds selected dates, not excluded mentions or uncertain day rang
   const calendar: RestaurantSemanticProposal = { schemaVersion: "4", facts: [
     { field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-28", raw: "11月28日" } },
   ] };
-  const corrected = compileRestaurantSemanticProposal(calendar, { ...context, message: "后天不行，改成11月28日晚上七点" });
-  assert.equal(corrected.status, "COMPILED");
-  if (corrected.status === "COMPILED") assert.equal(corrected.patch.date, "2026-11-28");
-  for (const message of ["大概两三天后晚上七点", "两三天后", "两到三天后", "大约三天后", "三天后左右", "后天不行，只改晚上七点"]) {
+  for (const message of ["后天不行，改成11月28日晚上七点", "后天我没空，改成11月28日晚上七点", "后天我有安排，11月28日晚上七点"]) {
+    const corrected = compileRestaurantSemanticProposal(calendar, { ...context, message });
+    assert.equal(corrected.status, "COMPILED", message);
+    if (corrected.status === "COMPILED") assert.equal(corrected.patch.date, "2026-11-28", message);
+  }
+  for (const message of ["大概两三天后晚上七点", "两三天后", "两到三天后", "大约三天后", "三天后左右", "后天不行，只改晚上七点", "后天还是11月28日我还没定，晚上七点", "后天我还没定，晚上七点"]) {
     assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [] }, { ...context, message }).status, "CONFLICT", message);
   }
+  assert.equal(compileRestaurantSemanticProposal(calendar, { ...context, message: "后天还是11月28日晚上七点" }).status, "CONFLICT");
 });

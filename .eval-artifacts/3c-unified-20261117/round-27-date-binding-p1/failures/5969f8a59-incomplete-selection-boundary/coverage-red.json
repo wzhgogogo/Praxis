@@ -1,0 +1,100 @@
+{
+  "sha": "5969f8a59e8730ca4b8dd4d5900bb98babf1f6b1",
+  "envLoaded": false,
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    ".eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/failures/5969f8a59-incomplete-selection-boundary/coverage-probe.mjs",
+    "--p1-only"
+  ],
+  "exitCode": 0,
+  "seconds": 4.932946916000001,
+  "probeOrigin": "/private/tmp/praxis-round27-review.HNjA55/date-probe-coverage.mjs",
+  "probeSHA256": "c09c007334924f9067d6d7892c027bc1095ee5f858096b0d1c2deb95514238bd",
+  "rows": [
+    {
+      "case": "explicit calendar edit (control)",
+      "message": "\u6539\u621011\u670828\u65e5\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-28",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-28"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "explicit relative edit (control)",
+      "message": "\u6539\u6210\u5927\u540e\u5929\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-27",
+      "draftDate": "2026-11-27",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-27"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "reject old date, choose absolute date",
+      "message": "\u540e\u5929\u4e0d\u884c\uff0c\u6539\u621011\u670828\u65e5\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-28",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-28"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "ambiguous range with omitted DATE",
+      "message": "\u5927\u6982\u4e24\u4e09\u5929\u540e\u665a\u4e0a\u4e03\u70b9",
+      "expected": null,
+      "draftDate": "2026-11-26",
+      "phase": "NEEDS_INPUT",
+      "dates": [],
+      "times": [],
+      "pass": true
+    },
+    {
+      "case": "reject old date with normal subject",
+      "message": "\u540e\u5929\u6211\u6ca1\u7a7a\uff0c\u6539\u621011\u670828\u65e5\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    },
+    {
+      "case": "relative and calendar date both undecided",
+      "message": "\u540e\u5929\u8fd8\u662f11\u670828\u65e5\u6211\u8fd8\u6ca1\u5b9a\uff0c\u665a\u4e0a\u4e03\u70b9",
+      "expected": null,
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ]
+}

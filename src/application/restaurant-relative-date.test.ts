@@ -24,6 +24,9 @@ const cases = [
   { name: "explicit calendar correction control", initialDate: "2026-11-26", message: "改成11月28日晚上七点", date: { kind: "DATE", value: "2026-11-28", raw: "11月28日" }, expected: "2026-11-28" },
   { name: "excluded relative day preserves calendar correction", initialDate: "2026-11-26", message: "后天不行，改成11月28日晚上七点", date: { kind: "DATE", value: "2026-11-28", raw: "11月28日" }, expected: "2026-11-28" },
   { name: "approximate day range with omitted DATE", initialDate: "2026-11-26", message: "大概两三天后晚上七点" },
+  { name: "incidental relative mention preserves selected calendar DATE", initialDate: "2026-11-26", message: "后天我没空，改成11月28日晚上七点", date: { kind: "DATE", value: "2026-11-28", raw: "11月28日" }, expected: "2026-11-28" },
+  { name: "undecided relative and calendar dates with omitted DATE", initialDate: "2026-11-26", message: "后天还是11月28日我还没定，晚上七点" },
+  { name: "competing relative and calendar dates despite modeled DATE", initialDate: "2026-11-26", message: "后天还是11月28日晚上七点", date: { kind: "DATE", value: "2026-11-28", raw: "11月28日" } },
 ] as const;
 
 for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${row.name}`, { timeout: 25_000 }, async () => {

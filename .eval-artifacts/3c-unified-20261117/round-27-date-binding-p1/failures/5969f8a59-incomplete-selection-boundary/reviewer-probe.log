@@ -1,0 +1,4 @@
+{"case":"explicit calendar edit (control)","message":"改成11月28日晚上七点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"explicit relative edit (control)","message":"改成大后天晚上七点","expected":"2026-11-27","draftDate":"2026-11-27","phase":"PRESENT_RESULTS","dates":["2026-11-27"],"times":["19:00"],"pass":true}
+{"case":"reject old date, choose absolute date","message":"后天不行，改成11月28日晚上七点","expected":"2026-11-28","draftDate":"2026-11-28","phase":"PRESENT_RESULTS","dates":["2026-11-28"],"times":["19:00"],"pass":true}
+{"case":"ambiguous range with omitted DATE","message":"大概两三天后晚上七点","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}

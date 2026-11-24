@@ -19,6 +19,8 @@ const rows = [
   {name: "reject old date, choose absolute date", message: "后天不行，改成11月28日晚上七点", facts: [newDate, newTime], expected: "2026-11-28"},
   {name: "confirmation retains date, changes time", message: "日期不变，还是后天，只改晚上七点", facts: [{field: "DATE", operation: "CONFIRM"}, newTime], expected: "2026-11-26"},
   {name: "ambiguous range with omitted DATE", message: "大概两三天后晚上七点", facts: [newTime], expected: null},
+  {name: "reject old date with normal subject", message: "后天我没空，改成11月28日晚上七点", facts: [newDate, newTime], expected: "2026-11-28"},
+  {name: "relative and calendar date both undecided", message: "后天还是11月28日我还没定，晚上七点", facts: [newTime], expected: null},
 ];
 const ref = "2026-11-24T10:00:00+09:00";
 const user = "workspace-user";

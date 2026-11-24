@@ -37,10 +37,24 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
   | { status: "CONFLICT"; conflict: RestaurantSemanticConflict } {
   message = message.normalize("NFKC");
   const mentions = relativeExpressions(message);
-  const expressions = mentions.filter(item => !excludedDate(message, item.index, item.raw));
-  const offsets = new Set(expressions.map(item => item.days));
   const dateFacts = proposal.facts.filter(fact => fact.field === "DATE");
   const fail = (reason: string) => ({ status: "CONFLICT" as const, conflict: { code: "UNSUPPORTED_SEMANTIC_EXPRESSION" as const, affectedFields: ["DATE" as const], message: reason } });
+  if (mentions.some(item => {
+    const before = message.slice(0, item.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "";
+    const after = message.slice(item.index).split(/[，,;；。.!?\n]/u)[0]!;
+    const tail = message.slice(item.index + item.raw.length);
+    return /(?:未定|没定|待定|不确定|尚未决定|还没决定|\bundecided\b|\bnot (?:decided|sure)\b|\bhaven['’]t decided\b)/iu.test(before + after)
+      || /^[\s，,]*(?:还是|或(?:者)?|\bor\b)\s*(?:大后天|后天|明天|今天|\d{1,4}(?:月|日|号|[-/]))/iu.test(tail);
+  })) return fail("Clarify the undecided or competing dining dates");
+  // A current-message-bound calendar correction owns the selected date. Other
+  // relative mentions must not replace it merely because their number is clear.
+  if (dateFacts.some(fact => {
+    if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE" || !("value" in fact.value)) return false;
+    const raw = fact.value.raw.normalize("NFKC").trim(), index = message.indexOf(raw);
+    return !!raw && index >= 0 && !relativeExpressions(raw).length && !excludedDate(message, index, raw);
+  })) return { status: "BOUND", proposal };
+  const expressions = mentions.filter(item => !excludedDate(message, item.index, item.raw));
+  const offsets = new Set(expressions.map(item => item.days));
   if (offsets.size > 1 || expressions.some(item => !Number.isInteger(item.days) || item.days < 0 || item.days > 365
     || /(?:大概|大约|大致|约莫|差不多|约|\babout|\baround|\bapproximately)\s*$/iu.test(message.slice(0, item.index))
     || /^\s*(?:左右|前后|上下)/u.test(message.slice(item.index + item.raw.length))))
@@ -51,11 +65,7 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
     if (raw.some(item => !offsets.has(item.days))) return fail("The DATE raw expression is not bound to this user message");
   }
   if (!expressions.length) {
-    if (mentions.length && !dateFacts.some(fact => {
-      if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE" || !("value" in fact.value)) return false;
-      const raw = fact.value.raw.normalize("NFKC").trim(), index = message.indexOf(raw);
-      return !!raw && index >= 0 && !excludedDate(message, index, raw);
-    })) return fail("Clarify a replacement for the excluded dining date");
+    if (mentions.length) return fail("Clarify a replacement for the excluded dining date");
     return { status: "BOUND", proposal };
   }
   if (dateFacts.some(fact => fact.operation === "NEGATE" || fact.operation === "CONFIRM"))
