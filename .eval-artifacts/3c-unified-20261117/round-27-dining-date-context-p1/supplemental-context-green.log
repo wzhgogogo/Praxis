@@ -1,0 +1,3 @@
+{"case":"standalone dining fragment with omitted DATE","message":"Dinner tonight at 7 pm.","expected":"2026-11-24","draftDate":"2026-11-24","phase":"PRESENT_RESULTS","dates":["2026-11-24"],"times":["19:00"],"pass":true}
+{"case":"relative clock with unresolved dining scope","message":"Tomorrow at 7 pm might be my arrival time or dinner time.","expected":null,"draftDate":"2026-11-26","phase":"NEEDS_INPUT","dates":[],"times":[],"pass":true}
+{"case":"other dining event remains background","message":"I have dinner tomorrow elsewhere. Just change this plan's dinner to 7 pm.","expected":"2026-11-26","draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":true}

@@ -43,6 +43,9 @@ const cases = [
   { name: "explicit Make date edit with omitted DATE", initialDate: "2026-11-26", message: "Make it tomorrow at 7 pm.", timeRaw: "7 pm", expected: "2026-11-25" },
   { name: "explicit Move date edit with omitted DATE", initialDate: "2026-11-26", message: "Move it to tomorrow at 7 pm.", timeRaw: "7 pm", expected: "2026-11-25" },
   { name: "explicit Change date edit with omitted DATE", initialDate: "2026-11-26", message: "Change it to tomorrow at 7 pm.", timeRaw: "7 pm", expected: "2026-11-25" },
+  { name: "standalone dining fragment selects tonight with omitted DATE", initialDate: "2026-11-26", message: "Dinner tonight at 7 pm.", timeRaw: "7 pm", expected: "2026-11-24" },
+  { name: "unresolved relative clock dining scope needs clarification", initialDate: "2026-11-26", message: "Tomorrow at 7 pm might be my arrival time or dinner time.", timeRaw: "7 pm" },
+  { name: "descriptive other dining event does not change current plan DATE", initialDate: "2026-11-26", message: "I have dinner tomorrow elsewhere. Just change this plan's dinner to 7 pm.", timeRaw: "7 pm", expected: "2026-11-26" },
 ] as const;
 
 for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${row.name}`, { timeout: 25_000 }, async () => {

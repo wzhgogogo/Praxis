@@ -1,0 +1,47 @@
+{
+  "sha": "25db4b5e3b5043b1bab62b113e492140f52756b2",
+  "mode": "DIAGNOSTIC_OFFLINE_FAKE_MODEL_PGLITE",
+  "envLoaded": false,
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    ".eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/supplemental-scope-probe.mjs",
+    "--p1-only"
+  ],
+  "exitCode": 0,
+  "inputSHA256": "89b62cab8b807a11bf62a7a62a77fbae3cd6ad9857946357be2c46ed2c07008f",
+  "rows": [
+    {
+      "case": "standalone dining fragment with omitted DATE",
+      "message": "Dinner tonight at 7 pm.",
+      "expected": "2026-11-24",
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    },
+    {
+      "case": "relative clock with unresolved dining scope",
+      "message": "Tomorrow at 7 pm might be my arrival time or dinner time.",
+      "expected": null,
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ]
+}

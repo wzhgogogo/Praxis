@@ -1,0 +1,61 @@
+{
+  "sha": "25db4b5e3b5043b1bab62b113e492140f52756b2",
+  "mode": "AUTHOR_CONSTRUCTED_DIAGNOSTIC_FAKE_MODEL_PGLITE",
+  "envLoaded": false,
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    ".eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/supplemental-context-scope.mjs",
+    "--p1-only"
+  ],
+  "exitCode": 0,
+  "inputSHA256": "900f0f63a38ec0e8dd51683809ccea9438ea91f6127f8d22793b11098e4e8d59",
+  "rows": [
+    {
+      "case": "standalone dining fragment with omitted DATE",
+      "message": "Dinner tonight at 7 pm.",
+      "expected": "2026-11-24",
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    },
+    {
+      "case": "relative clock with unresolved dining scope",
+      "message": "Tomorrow at 7 pm might be my arrival time or dinner time.",
+      "expected": null,
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    },
+    {
+      "case": "other dining event remains background",
+      "message": "I have dinner tomorrow elsewhere. Just change this plan's dinner to 7 pm.",
+      "expected": "2026-11-26",
+      "draftDate": "2026-11-25",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-25"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ]
+}

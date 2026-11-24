@@ -51,11 +51,12 @@ function selectsRelativeDiningDate(message: string, item: RelativeExpression, ti
   const before = message.slice(0, item.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "";
   const after = message.slice(item.index + item.raw.length).split(/[，,;；。.!?\n]/u)[0]!;
   if (/^\s*(?:改成|改为|改到|(?:change|move)\s+(?:it\s+)?to|make\s+it|(?:set|change)\s+(?:the\s+)?date\s+to)\s*$/iu.test(before)
-    || /\b(?:make|find|book|have|plan|want|change)\s+(?:(?:a|the)\s+)?(?:dinner|lunch|breakfast|meal|table)\s*(?:for|on|to)?\s*$/iu.test(before)
+    || /^\s*(?:(?:so|then|please|just|only)\s+)*(?:make|find|book|have|plan|want|change)\s+(?:(?:a|the)\s+)?(?:dinner|lunch|breakfast|meal|table)\s*(?:for|on|to)?\s*$/iu.test(before)
+    || /^\s*(?:dinner|lunch|breakfast|meal|table)\s*(?:for|on)?\s*$/iu.test(before)
     || /^\s*(?:把)?(?:晚餐|午餐|早餐|用餐)(?:日期|时间)?(?:改成|改为|改到|安排在|在)?\s*$/u.test(before)) return true;
   if (!/^\s*(?:(?:大概|大约|大致|约莫|差不多|约|about|around|approximately|on|for)\s*)?$/iu.test(before)) return false;
-  let remainder = after;
-  for (const raw of timeRaws) remainder = remainder.replaceAll(raw, "");
+  let remainder = after.toLowerCase().replace(/\s+/gu, "");
+  for (const raw of timeRaws) remainder = remainder.replaceAll(raw.toLowerCase().replace(/\s+/gu, ""), "");
   return !remainder.replace(/\b(?:at|from)\b|左右|前后|上下|[\s.!?]/giu, "");
 }
 
@@ -102,6 +103,12 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
   }
   if (!expressions.length) {
     if (mentions.length && !available.length) return fail("Clarify a replacement for the excluded dining date");
+    if (!dateFacts.length && available.some(item => {
+      const before = message.slice(0, item.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "";
+      const after = message.slice(item.index).split(/[，,;；。.!?\n]/u)[0]!;
+      const scope = (before + after).toLowerCase().replace(/\s+/gu, "");
+      return timeRaws.some(raw => scope.includes(raw.toLowerCase().replace(/\s+/gu, "")));
+    })) return fail("Clarify whether the relative date applies to the dining time");
     return { status: "BOUND", proposal };
   }
   if (dateFacts.some(fact => fact.operation === "NEGATE" || fact.operation === "CONFIRM"))

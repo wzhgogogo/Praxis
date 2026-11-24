@@ -46,6 +46,12 @@ test("ADR-0052 dining DATE scope excludes unrelated relative-day background", ()
   ] }, { ...context, message: "Tomorrow at 7 pm near Shinjuku for two." });
   assert.equal(cased.status, "COMPILED");
   if (cased.status === "COMPILED") assert.equal(cased.patch.date, "2026-11-25");
+  for (const [message, expected] of [["Dinner tonight at 7 pm.", "2026-11-24"], ["I have dinner tomorrow elsewhere. Just change this plan's dinner to 7 pm.", undefined]] as const) {
+    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [clock] }, { ...context, message });
+    assert.equal(result.status, "COMPILED", message);
+    if (result.status === "COMPILED") assert.equal(result.patch.date, expected, message);
+  }
+  assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [clock] }, { ...context, message: "Tomorrow at 7 pm might be my arrival time or dinner time." }).status, "CONFLICT");
 });
 
 test("ADR-0052 supported current-message phrases repair DATE omission from trusted Tokyo day", () => {
