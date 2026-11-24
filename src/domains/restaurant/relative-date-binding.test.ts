@@ -36,6 +36,13 @@ test("ADR-0052 dining DATE scope excludes unrelated relative-day background", ()
   const confirmed = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [{ field: "DATE", operation: "CONFIRM" }, clock] }, { ...context, message: "日期不变，还是后天，只改时间为7 pm" });
   assert.equal(confirmed.status, "COMPILED");
   if (confirmed.status === "COMPILED") assert.equal(confirmed.patch.date, undefined);
+  const confirmProposal: RestaurantSemanticProposal = { schemaVersion: "4", facts: [{ field: "DATE", operation: "CONFIRM" }, clock] };
+  assert.equal(compileRestaurantSemanticProposal(confirmProposal, { ...context, message: "改成后天晚上7点" }).status, "CONFLICT", "DATE CONFIRM cannot bypass an explicit dining-date correction");
+  for (const message of ["日期不变，只改晚上7点", "只改晚上7点", "I land in Tokyo tomorrow. Just change dinner to 7 pm."]) {
+    const result = compileRestaurantSemanticProposal(confirmProposal, { ...context, message });
+    assert.equal(result.status, "COMPILED", message);
+    if (result.status === "COMPILED") assert.equal(result.patch.date, undefined, message);
+  }
   for (const command of ["Make it", "Move it to", "Change it to"]) {
     const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [clock] }, { ...context, message: `${command} tomorrow at 7 pm.` });
     assert.equal(result.status, "COMPILED", command);

@@ -1,0 +1,48 @@
+[
+  {
+    "name": "targeted-green",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/domains/restaurant/relative-date-binding.test.ts",
+      "src/application/restaurant-relative-date.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 19.735528208
+  },
+  {
+    "name": "independent22-targeted",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-reviewer-probe.py"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 17.499720417000002
+  },
+  {
+    "name": "targeted-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.7771328749999995
+  },
+  {
+    "name": "targeted-arch",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.21560808399999587
+  }
+]

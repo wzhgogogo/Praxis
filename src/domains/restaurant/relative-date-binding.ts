@@ -67,8 +67,8 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
   const mentions = relativeExpressions(message);
   const dateFacts = proposal.facts.filter(fact => fact.field === "DATE");
   const fail = (reason: string) => ({ status: "CONFLICT" as const, conflict: { code: "UNSUPPORTED_SEMANTIC_EXPRESSION" as const, affectedFields: ["DATE" as const], message: reason } });
-  if (dateFacts.every(fact => fact.operation === "CONFIRM") && (dateFacts.length
-    || /\bkeep\s+(?:the\s+)?(?:same\s+)?date\b|\bdate\s+(?:unchanged|the same)\b|日期不变|日期照旧|保留(?:原|原来|原有)?日期/iu.test(message)))
+  if (dateFacts.every(fact => fact.operation === "CONFIRM")
+    && /\bkeep\s+(?:the\s+)?(?:same\s+)?date\b|\bdate\s+(?:unchanged|the same)\b|日期不变|日期照旧|保留(?:原|原来|原有)?日期/iu.test(message))
     return { status: "BOUND", proposal };
   const boundDates = dateFacts.flatMap(fact => {
     if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE") return [];

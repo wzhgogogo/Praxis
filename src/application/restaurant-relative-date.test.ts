@@ -46,6 +46,9 @@ const cases = [
   { name: "standalone dining fragment selects tonight with omitted DATE", initialDate: "2026-11-26", message: "Dinner tonight at 7 pm.", timeRaw: "7 pm", expected: "2026-11-24" },
   { name: "unresolved relative clock dining scope needs clarification", initialDate: "2026-11-26", message: "Tomorrow at 7 pm might be my arrival time or dinner time.", timeRaw: "7 pm" },
   { name: "descriptive other dining event does not change current plan DATE", initialDate: "2026-11-26", message: "I have dinner tomorrow elsewhere. Just change this plan's dinner to 7 pm.", timeRaw: "7 pm", expected: "2026-11-26" },
+  { name: "DATE CONFIRM explicit keep-date control", initialDate: "2026-11-28", message: "日期不变，只改晚上7点", timeRaw: "晚上7点", confirm: true, expected: "2026-11-28" },
+  { name: "DATE CORRECT explicit correction against CONFIRM control", initialDate: "2026-11-28", message: "改成后天晚上7点", timeRaw: "晚上7点", date: { kind: "DATE", relativeOffsetDays: 2, raw: "后天" }, expected: "2026-11-26" },
+  { name: "DATE CONFIRM contradicts explicit date correction", initialDate: "2026-11-28", message: "改成后天晚上7点", timeRaw: "晚上7点", confirm: true },
 ] as const;
 
 for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${row.name}`, { timeout: 25_000 }, async () => {
@@ -57,6 +60,7 @@ for (const row of cases) test(`Round27 SEM-1 actual message and availability: ${
     if (message === seedMessage) return structuredClone(seed);
     return { schemaVersion: "4", facts: [
       ...("date" in row ? [{ field: "DATE" as const, operation: "CORRECT" as const, value: row.date }] : []),
+      ...("confirm" in row ? [{ field: "DATE" as const, operation: "CONFIRM" as const }] : []),
       { field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "timeRaw" in row ? row.timeRaw : "晚上七点" } },
     ] };
   } });
