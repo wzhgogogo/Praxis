@@ -186,8 +186,8 @@ for(const width of [390,1440])test(`Round23 UI: R8 ${width} About and fullscreen
   await swipe('#large-photo',-90);await assertCurrentPhoto(page,'large-photo','photo-counter',gallery.photos[1],2,8);assert.equal(await page.locator('#photo-viewer').evaluate(n=>(n as HTMLDialogElement).open),true);await capture(page,`round23-r8-${width}-viewer-swiped`);
   await swipe('#large-photo',90);await assertCurrentPhoto(page,'large-photo','photo-counter',gallery.photos[0],1,8);assert.equal(await page.locator('#photo-viewer').evaluate(n=>(n as HTMLDialogElement).open),true);await credits('#photo-source');await page.locator('#photo-close').tap();assert.equal(await page.locator('#details').isVisible(),true);
   const originalViewport=page.viewportSize()!;
-  // Exercise native vertical scroll with compact About content in a short mobile viewport.
-  if(width===390)await page.setViewportSize({width,height:520});
+  // Exercise native vertical scroll with compact About content in a short viewport.
+  await page.setViewportSize({width,height:520});
   const scroller=page.locator('#case-workspace');
   await scroller.evaluate(n=>n.scrollTop=0);
   assert.ok(await scroller.evaluate(n=>n.scrollHeight>n.clientHeight),'About must have room to scroll');
@@ -196,7 +196,7 @@ for(const width of [390,1440])test(`Round23 UI: R8 ${width} About and fullscreen
   await page.waitForFunction(y=>document.getElementById('case-workspace')!.scrollTop>y,before);
   assert.equal(await page.locator('#photo-viewer').isVisible(),false);
   await capture(page,`round23-r8-${width}-about-vertical-scroll`);
-  if(width===390)await page.setViewportSize(originalViewport);
+  await page.setViewportSize(originalViewport);
   await scroller.evaluate(n=>n.scrollTop=0);
   await credits('#detail-photo-source');
   assert.equal(await page.locator('#details').isVisible(),true);
