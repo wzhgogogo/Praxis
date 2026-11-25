@@ -145,8 +145,16 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
       return fail("The model date disagrees with the calendar expression");
     }
     const weekday = weekdayOf(token);
-    if (weekday && actual !== weekdayDate(weekday, token, today, context)) {
-      return fail("The model date disagrees with the complete Tokyo date for this weekday");
+    if (weekday) {
+      const expected = weekdayDate(weekday, token, today, context);
+      if (actual !== expected) {
+        if ("weekday" in value && value.weekday === weekday && raw.includes(token) && expected && expected >= today) {
+          const diffDays = Math.round((Date.parse(expected) - Date.parse(today)) / 86_400_000);
+          facts.push({ ...fact, value: { kind: "DATE", raw: value.raw, relativeOffsetDays: diffDays } });
+          continue;
+        }
+        return fail("The model date disagrees with the complete Tokyo date for this weekday");
+      }
     }
     facts.push(fact);
   }

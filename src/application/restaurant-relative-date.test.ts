@@ -37,6 +37,8 @@ const cases = [
   { name: "this week from adjacent prefix", message: "本周五，4人，izakaya，涩谷，19:00", timeRaw: "19:00", date: { kind: "DATE", weekday: "FRIDAY", raw: "周五" }, expected: "2026-11-27" },
   { name: "this week mismatching weekday", message: "本周五，4人，izakaya，涩谷，19:00", timeRaw: "19:00", date: { kind: "DATE", weekday: "SATURDAY", raw: "周五" } },
   { name: "next week from adjacent prefix", message: "下周五晚上七点", date: { kind: "DATE", weekday: "FRIDAY", raw: "周五" } },
+  { name: "next week complete weekday proposal", message: "改到下周五晚上7点。", timeRaw: "晚上7点", date: { kind: "DATE", weekday: "FRIDAY", raw: "下周五" }, expected: "2026-12-04" },
+  { name: "next week wrong weekday proposal", message: "改到下周五晚上7点。", timeRaw: "晚上7点", date: { kind: "DATE", weekday: "SATURDAY", raw: "下周五" } },
   { name: "next week valid date", message: "下周五晚上七点", date: { kind: "DATE", value: "2026-12-04", raw: "下周五" }, expected: "2026-12-04" },
   { name: "wrong year for yearless date", message: "11月28日晚上七点", date: { kind: "DATE", value: "2027-11-28", raw: "11月28日" } },
   { name: "yearless date crosses year", referenceTime: "2026-12-28T10:00:00+09:00", initialDate: "2026-12-29", message: "1月3日晚上七点", date: { kind: "DATE", value: "2027-01-03", raw: "1月3日" }, expected: "2027-01-03" },

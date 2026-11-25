@@ -45,6 +45,19 @@ test("ADR-0053 ordinary and qualified weekdays compare the complete Tokyo date",
   assert.equal(compile("this Friday", friday("this Friday"), "ASSERT", "2026-11-28T10:00:00+09:00").status, "CONFLICT");
 });
 
+test("ADR-0053 binds Prompt v29 weekday proposals with a complete next-week quote", () => {
+  const chinese = compile("下周五晚上7点", friday("下周五"));
+  expectDate(chinese, "2026-12-04");
+  if (chinese.status === "COMPILED") {
+    assert.deepEqual(chinese.patch.temporalResolution?.date, {
+      expression: "下周五", resolvedDate: "2026-12-04", basis: "RELATIVE_OFFSET_DAYS:10",
+    });
+  }
+  expectDate(compile("Move it to next Friday at 7 pm", friday("next Friday")), "2026-12-04");
+  expectDate(compile("下周五晚上7点", friday("下周五晚上7点")), "2026-12-04");
+  assert.equal(compile("下周五晚上7点", { kind: "DATE", raw: "下周五", weekday: "SATURDAY" }).status, "CONFLICT");
+});
+
 test("ADR-0053 complete DATE quotes bind offsets and reject truncated, invented and invalid dates", () => {
   for (const [message, raw] of [
     ["大后天晚上7点", "后天"], ["day after tomorrow", "tomorrow"], ["11月28日", "11月2日"], ["123天后", "23天后"],
