@@ -1504,3 +1504,10 @@ Fixed 5 P2 findings from Round 25 independent review (`V3`, `R1`, `M2`, `R3`, `R
 ### 2026-11-25 — Round 28 DATE.raw 与 About 定向复核
 
 冻结 `d2ec1b51971deac6f269e07e9d289ff8cd1cb2cc`。按既有日期词重叠区间校验较长 DATE.raw，保留原引文。东京 11 月 24 日的错标 TOMORROW 实际查位 11 月 26 日 19:00，另五条读轮结束后查位 0。About 的同名套餐摘要默认可见，原文在 Source。默认 1992/1992，G2 5/5，Chromium 604/604，G6 159/159，dist C1 4/4。五门禁、构建资产、严格浏览器模块图与历史增量保护核验通过，历史原件完整性仍阻塞。 [报告](../.eval-artifacts/3c-unified-20261117/round-28-follow-up/REPORT.md)
+
+
+<a id="unified-round28-qualified-weekday-20261125"></a>
+
+### 2026-11-25 — Round 28 周限定星期接线
+
+冻结 `f681133e8bb648bb6be7709161ef42a90bb537ec`。Prompt v29 的完整周限定 weekday 指令按东京偏移绑定。D04 原回包从冲突变为 2026-12-04 19:00，十句离线回放 10/10，新增真实请求 0。实际消息入口正例查位成功，坏绝对日期和错星期读轮结束后查位 0。默认 1995/1995，G2 5/5，Chromium 604/604，G6 159/159，dist C1 4/4。首个候选的 Typecheck 失败已归档。冻结后的九项原有门禁及日期回放通过，历史完整性仍阻塞。 [报告](../.eval-artifacts/3c-unified-20261117/round-28-qualified-weekday/REPORT.md)

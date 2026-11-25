@@ -1,0 +1,24 @@
+[
+  {
+    "name": "typecheck",
+    "sha": "dd6b2841911035f3bdcddca1d23db769dff3a030",
+    "sourceTree": "b8da12fbddd27a39b00d7ec7978d908ca7e85b4a",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "exitCode": 1,
+    "seconds": 0.655275083,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  }
+]
