@@ -43,7 +43,7 @@ for(const output of ['CONFIRM','EMPTY','RAW_MISMATCH','CORRECT'] as const)for(co
 
 const latch=()=>{let release!:()=>void;const promise=new Promise<void>(r=>release=r);return{release,promise};};
 async function until(read:()=>Promise<boolean>|boolean){const end=Date.now()+12000;while(!await read()){if(Date.now()>end)throw Error('Round27 boundary timeout');await new Promise(r=>setTimeout(r,10));}}
-async function capture(page:Page,name:string){const root=process.env.PRAXIS_ROUND27_VISUAL_OUTPUT;if(root){await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});const observed=await page.evaluate(async()=>{const path='/assets/workspace/runtime.js';const {state}=await import(path);const [stop,composer,editor]=['#stop','#workspace-composer','.condition-editor'].map(selector=>{const n=document.querySelector(selector);if(!n)return null;const r=n.getBoundingClientRect();return{top:r.top,bottom:r.bottom,left:r.left,right:r.right};});return{phase:state.view?.case.phase,effectivePhase:state.deferredView?.view.case.phase??state.view?.case.phase,sending:state.sending??false,researching:state.researching,progressHidden:document.getElementById('progress')!.hidden,emptyHidden:document.getElementById('empty-state')!.hidden,stop,composer,summary:[...document.querySelectorAll('#asked-history summary,#question-result summary')].map(n=>({top:n.getBoundingClientRect().top,sheetTop:document.getElementById('answer-sheet')!.getBoundingClientRect().top,open:(n.parentElement as HTMLDetailsElement).open})),editor};});await writeFile(join(root,name+'.json'),JSON.stringify({sha:process.env.PRAXIS_ROUND27_SHA??'UNFROZEN_DEVELOPMENT',viewport:page.viewportSize(),...observed},null,2)+'\n');}}
+async function capture(page:Page,name:string){const round29=name.startsWith('round29-'),root=(round29?process.env.PRAXIS_ROUND29_VISUAL_OUTPUT:undefined)??process.env.PRAXIS_ROUND27_VISUAL_OUTPUT;if(root){await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});const observed=await page.evaluate(async()=>{const path='/assets/workspace/runtime.js';const {state}=await import(path);const [stop,composer,editor]=['#stop','#workspace-composer','.condition-editor'].map(selector=>{const n=document.querySelector(selector);if(!n)return null;const r=n.getBoundingClientRect();return{top:r.top,bottom:r.bottom,left:r.left,right:r.right};});return{phase:state.view?.case.phase,effectivePhase:state.deferredView?.view.case.phase??state.view?.case.phase,sending:state.sending??false,researching:state.researching,progressHidden:document.getElementById('progress')!.hidden,emptyHidden:document.getElementById('empty-state')!.hidden,stop,composer,summary:[...document.querySelectorAll('#asked-history summary,#question-result summary')].map(n=>({top:n.getBoundingClientRect().top,sheetTop:document.getElementById('answer-sheet')!.getBoundingClientRect().top,open:(n.parentElement as HTMLDetailsElement).open})),editor};});await writeFile(join(root,name+'.json'),JSON.stringify({sha:(round29?process.env.PRAXIS_ROUND29_SHA:undefined)??process.env.PRAXIS_ROUND27_SHA??'UNFROZEN_DEVELOPMENT',viewport:page.viewportSize(),...observed},null,2)+'\n');}}
 async function snapshot(page:Page){const id=(await page.locator('.case-link.active').getAttribute('data-case-id'))!;return(await(await page.request.get('/api/cases/'+encodeURIComponent(id))).json()).view as RestaurantCaseView;}
 async function projection(page:Page,view:RestaurantCaseView){await page.evaluate(async view=>{const path='/assets/workspace/transport.js';const {closeStream,accept}=await import(path);closeStream();accept(view);},view);}
 async function settled(host:Host,id:string,assistantCount=0){await until(async()=>{const view=await host.application.getCase('workspace-user',id);return !view.restaurant.progress.active&&!view.restaurant.sourceReadContext?.handleId&&view.conversation.messages.filter(message=>message.role==='ASSISTANT').length>=assistantCount;});return host.application.getCase('workspace-user',id);}
@@ -79,7 +79,7 @@ for(const width of [390,1440])test(`Round27 UI: UI-4 ${width} Source history abs
  });
 });
 
-for(const width of [390,1440])test(`Round28 UI: ${width} neutral text and About category and Source states`,{timeout:35000},async()=>{
+for(const width of [390,1440])test(`Round29 UI: ${width} neutral text and compact About category provenance`,{timeout:35000},async()=>{
  await journey(width,{},'card',async(page)=>{
   const view=await snapshot(page),id=view.restaurant.presentedCandidateIds![0]!,url='https://tabelog.com/en/tokyo/A1301/A130101/13123456/';
   const original='Sushi, Seafood, Izakaya (Japanese style tavern)';
@@ -94,28 +94,20 @@ for(const width of [390,1440])test(`Round28 UI: ${width} neutral text and About 
   assert.equal(await page.locator('#bookmark svg').evaluate(n=>getComputedStyle(n).fill),'rgb(61, 90, 254)');
   await capture(page,`round28-${width}-neutral-card`);
   await page.locator('#details-button').click();
-  const content=page.locator('#details-content'),summary=content.locator('summary'),quote=content.locator('blockquote');
+  const content=page.locator('#details-content');
   assert.match(await content.innerText(),/Izakaya\s+Confirmed/);
-  assert.equal(await page.locator('.about-categories').innerText(),'Categories: Sushi, Seafood');
-  assert.equal(await quote.isVisible(),false);
-  await page.evaluate(()=>document.fonts.ready);await summary.scrollIntoViewIfNeeded();
-  const coordinates=()=>summary.evaluate(n=>{const r=n.getBoundingClientRect();return {top:r.top,left:r.left};});
-  const before=await coordinates();await capture(page,`round28-${width}-about-collapsed`);
-  await summary.click();assert.deepEqual(await coordinates(),before);
-  assert.equal(await quote.innerText(),original);
+  assert.equal(await content.locator('.about-categories, details').count(),0);
+  assert.doesNotMatch(await content.textContent()??'',/Sushi, Seafood/);
   assert.equal(await content.locator('.citation-footer').innerText(),'Tabelog ↗ · Checked Nov 21');
   assert.equal(await content.locator('a').evaluate(n=>getComputedStyle(n).color),'rgb(95, 98, 117)');
-  assert.equal(await quote.evaluate(n=>getComputedStyle(n).borderLeftColor),'rgb(61, 90, 254)');
-  await capture(page,`round28-${width}-about-expanded`);
-  view.restaurant.conditionStates[id]!.push({...condition,text:'Sushi',sources:[]},{...condition,text:'Seafood',sources:[]});
-  view.case.taskVersion++;await projection(page,view);assert.equal(await page.locator('.about-categories').count(),0);
+  await capture(page,`round29-${width}-about-category-condition`);
   const steak={...merchant,evidenceId:'steak',claims:{restaurantTypeFacts:['Steak']},sourceFieldQuotes:[{field:'CATEGORY' as const,quote:'Steak',sourceUrl:url}]};
   view.restaurant.currentFactEvidence=[steak];view.restaurant.readEvidence.push(steak);
   view.restaurant.conditionStates[id]=[{...condition,text:'Quiet',sources:[{field:'SOURCE_TEXT',quote:'Quiet',sourceUrl:url,evidenceId:steak.evidenceId}],evidenceIds:[steak.evidenceId]}];
   view.case.taskVersion++;await projection(page,view);
   assert.equal(await content.locator('summary').count(),0);
   assert.equal(await content.locator('.citation-footer').innerText(),'Tabelog ↗ · Checked Nov 21');
-  assert.equal(await page.locator('.about-categories').innerText(),'Categories: Steak');
+  assert.equal(await page.locator('.about-categories').count(),0);
   await capture(page,`round28-${width}-about-footer-only`);
  });
 });
@@ -162,6 +154,70 @@ test('Round27 UI: UI-6 390 keyboard exposes Stop and cancels the paused current 
    const rect=await page.locator('#stop').evaluate(n=>{const r=n.getBoundingClientRect();return{top:r.top,bottom:r.bottom,height:window.visualViewport!.height,composer:document.getElementById('workspace-composer')!.getBoundingClientRect().top};});assert.ok(rect.top>=0&&rect.bottom<=rect.height&&rect.bottom<rect.composer,JSON.stringify(rect));await capture(page,'round27-ui6-390-keyboard-stop');
    const response=page.waitForResponse(r=>r.request().method()==='DELETE'&&r.url().endsWith('/run'));await page.locator('#stop').click();const stopped=await response;assert.equal(stopped.status(),200);const payload=await stopped.json();assert.equal(payload.view.case.stopped,true);assert.equal(JSON.parse(stopped.request().postData()!).handleId,view.restaurant.sourceReadContext?.handleId);assert.equal(payload.view.restaurant.progress.stopped,true);assert.equal(payload.view.restaurant.progress.active,false);assert.equal(await page.locator('#message').inputValue(),'Keep this unsent draft');
   }finally{gate.release();}
+ });
+});
+
+for (const width of [390, 1440]) test('Round29 alert '+width+': Stop clears a prior failed Stop and preserves the draft',{timeout:35000},async()=>{
+ const gate=latch();
+ await journey(width,{beforeSearch:async signal=>{
+  await Promise.race([gate.promise,new Promise<void>(resolve=>signal.addEventListener('abort',()=>resolve(),{once:true}))]);
+ }},'running',async(page)=>{
+  try{
+   const rejected='Could not stop this read. Try again.';
+   let attempts=0;
+   await page.route('**/api/cases/*/run',route=>{
+    if(route.request().method()!=='DELETE'||++attempts!==1)return route.continue();
+    return route.fulfill({status:503,json:{error:rejected}});
+   });
+   const stop=page.locator('#stop'), error=page.locator('#error');
+   await page.locator('#message').fill('Keep my draft');
+   await stop.click();
+   await error.getByText(rejected,{exact:true}).waitFor();
+   await stop.click();
+   await page.getByText('Search stopped.',{exact:true}).waitFor();
+   assert.equal(attempts,2);
+   assert.equal(await error.isVisible(),false,'the successful Stop removes the prior error');
+   assert.equal(await error.textContent(),'');
+   assert.equal(await page.locator('#message').inputValue(),'Keep my draft');
+   // Expose the alert alongside the actual stopped message to measure the CSS state.
+   const layout=await error.evaluate(node=>{
+    const alert=node as HTMLElement, message=document.getElementById('messages')!;
+    alert.hidden=false;
+    alert.textContent='A later request could not be completed.';
+    const a=alert.getBoundingClientRect(),m=message.getBoundingClientRect(),css=getComputedStyle(alert);
+    return {left:a.left,right:a.right,messageLeft:m.left,messageRight:m.right,gap:a.top-m.bottom,
+     margin:css.margin,background:css.backgroundColor,padding:css.padding,radius:css.borderRadius,color:css.color,fontSize:css.fontSize};
+   });
+   assert.deepEqual([layout.left,layout.right],[layout.messageLeft,layout.messageRight]);
+   assert.equal(layout.gap,8);
+   assert.deepEqual([layout.margin,layout.background,layout.padding,layout.radius,layout.color,layout.fontSize],
+    ['8px 0px 0px','rgb(245, 246, 249)','10px 14px','12px','rgb(95, 98, 117)','13px']);
+   await error.scrollIntoViewIfNeeded();
+   await capture(page,'round29-'+width+'-alert-layout');
+   await error.evaluate(node=>{node.textContent='';(node as HTMLElement).hidden=true;});
+   await capture(page,'round29-'+width+'-stop-cleared');
+  }finally{gate.release();}
+ });
+});
+
+test('Round29 alert: leaving a stale Handoff without cards does not show a stale slot notice',{timeout:35000},async()=>{
+ await journey(390,{multiSlot:true},'card',async(page)=>{
+  await page.locator('#choose').click();
+  await page.locator('#handoff').waitFor();
+  const next=await snapshot(page);
+  next.case.taskVersion++;
+  next.case.phase='SEARCHING';
+  next.restaurant.requirementRevision++;
+  next.restaurant.progress={active:true,stopped:false,stage:'FINDING'};
+  next.restaurant.readStatus.kind='PENDING';
+  next.restaurant.presentedCandidateIds=[];
+  next.restaurant.readyCandidateIds=[];
+  next.restaurant.candidates=[];
+  await projection(page,next);
+  assert.equal(await page.locator('#handoff').isVisible(),false);
+  assert.equal(await page.locator('#candidate-panel').isVisible(),false);
+  assert.equal(await page.locator('#error').isVisible(),false);
+  await capture(page,'round29-390-handoff-no-card');
  });
 });
 

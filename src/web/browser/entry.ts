@@ -140,6 +140,7 @@ export async function stopCurrentRead(){
   if(state.blocked||!state.view)return;
   const nav=state.nav,{caseId,taskVersion}=requireView().case,readRunId=requireView().restaurant.sourceReadContext?.runId,handleId=requireView().restaurant.sourceReadContext?.handleId;
   if(!readRunId)return;
+  clearError();
   state.blocked=true;$('stop').disabled=true;$('question-stop').disabled=true;
   try{
     const p=await api<{view:WorkspaceView}>(casePath(caseId)+'/run',{method:'DELETE',body:JSON.stringify({readRunId,taskVersion,...(handleId?{handleId}:{})})});
@@ -234,11 +235,11 @@ export async function depart(event:MouseEvent){
  if(!target){report(new Error('Please allow this source tab to open.'));return;}
  target.opener=null;
  try{
-  const p=await api<{url:string}>(casePath(caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({
+  const p=await api<{url:string;departure:{id:string}}>(casePath(caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({
     candidateId:h.candidateId,offerId:h.offerId,taskVersion:requireView().case.taskVersion,requestId:requestId(),
   })});
   if(state.signingOut){target.close();return;}
-  localStorage.setItem(returnKey,'1');target.location.href=p.url;
+  localStorage.setItem(returnKey,p.departure.id);target.location.href=p.url;
  }catch(error){target.close();await reportCaseError(error,nav,caseId);}
 }
 $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};
@@ -254,8 +255,10 @@ for(const button of $('feedback').querySelectorAll<HTMLButtonElement>('[data-ans
  if(!prompt||!caseId)return;
  try{
    await api<{view:WorkspaceView}>(casePath(caseId)+'/booking-feedback',{method:'POST',body:JSON.stringify({departureId:prompt.departure.id,answer:button.dataset.answer})});
-   state.feedbackPrompts.delete(caseId);
-   if(draftKey()===caseId)show('feedback',false);
+   if(state.feedbackPrompts.get(caseId)===prompt){
+     state.feedbackPrompts.delete(caseId);
+     if(draftKey()===caseId)show('feedback',false);
+   }
  }catch(error){await reportCaseError(error,nav,caseId);}
 };
 $('menu').onclick=event=>{

@@ -10,7 +10,7 @@ import {readQuotedRestaurantSourceFacts,quotedRestaurantSourceEvidence,type Rest
 import {datedWorkspaceRequest, startWorkspaceFixture} from '../workspace-fixture-server.js';
 
 type Host=Awaited<ReturnType<typeof startWorkspaceFixture>>;
-async function capture(page:Page,name:string){const root=process.env.PRAXIS_ROUND24_VISUAL_OUTPUT??process.env.PRAXIS_ROUND8_VISUAL_OUTPUT??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!root)return;await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});}
+async function capture(page:Page,name:string){const root=(name.startsWith('round29-')?process.env.PRAXIS_ROUND29_VISUAL_OUTPUT:undefined)??process.env.PRAXIS_ROUND24_VISUAL_OUTPUT??process.env.PRAXIS_ROUND8_VISUAL_OUTPUT??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!root)return;await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});}
 // Controlled persisted-view fixture: the live local HTTP server and PGlite remain real.
 // Only the historical snapshot is seeded; this does not claim semantic or source-fetch quality.
 async function projected(width:number,run:(page:Page,host:Host,id:string,state:RestaurantTaskState,persist:()=>Promise<void>)=>Promise<void>){
@@ -35,52 +35,67 @@ for(const width of [390,1440])for(const legacy of [false,true])test(`Round24 UI:
   const conditions=assessRestaurantConditions({criteria:[],budgetPerPerson:{max:9000,currency:'JPY'},timeWindow:{earliest:'19:00',latest:'20:00'}},facts);assert.equal(conditions[0]!.sources.length,2);
   if(legacy)for(const condition of conditions)for(const quote of condition.sources)delete quote.evidenceId;
   state.presentedResults!.conditionStates[id]=conditions;await persist();const rows=await groups(page);
-  if(legacy){const unknown=rows.find(r=>r.key[0]===url&&r.key[1]===null)!;assert.ok(unknown);assert.equal(unknown.href,url);assert.doesNotMatch(unknown.footer!,/Checked|17:04|17:05/);assert.equal(unknown.quotes.length,2);assert.ok(rows.filter(row=>row.key[1]!==null).every(row=>row.quotes.every(q=>!q.label)),'legacy price labels never borrow an earlier reading time');}
-  else for(const [i,fact] of facts.entries()){for(const quote of fact.claims.listedCourseDetails as string[]){const matches=rows.filter(row=>row.quotes.some(q=>q.text===quote));assert.deepEqual(matches.map(r=>r.key[1]),[times[i]]);const row=matches[0]!;assert.equal(row.quotes.filter(q=>q.text===quote).length,1);assert.equal(row.values.filter(q=>q===quote).length,1);assert.equal(row.quotes.filter(q=>q.label==='Observed price:').length,1);}}
+  const stamped = rows.filter(row => row.key[0] === url && row.key[1] !== null);
+  assert.equal(stamped.length, 2, 'different prices retain separate readings of the same URL');
+  for (const [i, amount] of ['¥7,000','¥8,000'].entries()) {
+   const matches=stamped.filter(row=>row.values.includes('Course '+amount));
+   assert.deepEqual(matches.map(row=>row.key[1]),[times[i]]);
+   assert.equal(matches[0]!.href,url);
+   assert.deepEqual(matches[0]!.quotes,[]);
+  }
+  const unknown = rows.find(row=>row.key[0]===url&&row.key[1]===null);
+  if (legacy) {
+   assert.ok(unknown);
+   assert.equal(unknown.href,url);
+   assert.equal(unknown.footer,'merchant.example ↗');
+   assert.deepEqual(unknown.quotes,[]);
+  } else assert.equal(unknown,undefined);
   await capture(page,`round24-u1-u2-${width}-${legacy?'legacy-unknown-time':'exact-price-times'}`);
  });
 });
-async function assertTermsAndOpenSource(page: Page, expected: readonly string[]) {
- const section = page.locator('#details-content .about-commercial');
- const terms = section.locator(':scope > .about-term');
- const source = section.locator('details.citation-sources');
- const originals = source.locator('blockquote');
- const termTexts = await terms.allTextContents();
- const originalTexts = await originals.allTextContents();
- assert.equal(await source.evaluate((node: HTMLDetailsElement) => node.open), false);
- for (const text of expected) {
-  assert.equal(termTexts.filter(value => value === text).length, 1, text);
-  assert.equal(originalTexts.filter(value => value === text).length, 1, text);
-  assert.ok(await terms.nth(termTexts.indexOf(text)).isVisible(), text);
-  assert.equal(await originals.nth(originalTexts.indexOf(text)).isVisible(), false, text);
- }
- await source.locator('summary').click();
- for (const text of expected) assert.ok(await originals.nth(originalTexts.indexOf(text)).isVisible(), text);
-}
-for(const width of [390,1440])for(const budget of [false,true])for(const provider of ['tabelog','website'] as const)test(`Round24 UI: U2 ${width} archived ${provider} menu budget=${budget} keeps menu terms visible and originals in Source`,{timeout:35000},async()=>{
+for(const width of [390,1440])for(const budget of [false,true])for(const provider of ['tabelog','website'] as const)test(`Round24 U2 / Round29: ${width} archived ${provider} menu budget=${budget} keeps structured prices and hides raw menu text`,{timeout:35000},async()=>{
  const input=JSON.parse(await readFile(new URL('./fixtures/round24-provenance/'+provider+'-menu.json',import.meta.url),'utf8')) as {fact:RestaurantReadEvidence;identity:RestaurantReadEvidence;matchingQuotes:string[]};
- await projected(width,async(page,_host,_id,state,persist)=>{
+ await projected(width,async(page,host,caseId,state,persist)=>{
   const id=state.presentedResults!.candidateIds[0]!,fact={...input.fact,candidateId:id},identity={...input.identity,candidateId:id};state.readEvidence.push(identity,fact);state.factChecks![id]={status:'COMPLETED',sourceProvider:fact.provider as 'TABELOG'|'RESTAURANT_WEBSITE',checkedAt:fact.observedAt,evidenceIds:[fact.evidenceId]};
   state.presentedResults!.conditionStates[id]=budget?assessRestaurantConditions({criteria:[],budgetPerPerson:{max:9000,currency:'JPY'},timeWindow:{earliest:'19:00',latest:'20:00'}},[fact]):[];await persist();
-  await assertTermsAndOpenSource(page, input.matchingQuotes);
-  const rows=await groups(page),same=rows.find(row=>row.key[0]===fact.sourceUrl&&row.key[1]===fact.observedAt)!;assert.ok(same);assert.equal(same.footer,`${provider==='tabelog'?'Tabelog':new URL(fact.sourceUrl!).hostname.replace(/^www\./,'')} ↗ · Checked ${new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Tokyo',month:'short',day:'numeric'}).format(new Date(fact.observedAt))}`);assert.equal(same.href,fact.sourceUrl);await capture(page,`round24-u2-${width}-${provider}-${budget?'budget':'no-budget'}-menu`);
+  const content=page.locator('#details-content');
+  const rendered=await content.textContent()??'';
+  for(const quote of input.matchingQuotes)assert.ok(!rendered.includes(quote),quote);
+  assert.equal(await content.locator('details, .about-categories').count(),0);
+  const projected=await host.application.getCase('workspace-user',caseId);
+  const retained=projected.restaurant.currentFactEvidence.find(item=>item.evidenceId===fact.evidenceId);
+  assert.deepEqual(retained?.claims.listedCourseDetails,fact.claims.listedCourseDetails);
+  assert.deepEqual(retained?.sourceFieldQuotes,fact.sourceFieldQuotes);
+  if(provider==='website'){
+   const row=(await groups(page)).find(row=>row.key[0]===fact.sourceUrl&&row.key[1]===fact.observedAt)!;
+   assert.ok(row);
+   assert.deepEqual(row.values,['Course ¥3,800','Course ¥5,500','Course ¥7,000']);
+   assert.equal(row.href,fact.sourceUrl);
+   assert.match(row.footer!,/ ↗ · Checked /);
+  }else assert.equal(await content.locator('.about-term').count(),0);
+  await capture(page,`round24-u2-${width}-${provider}-${budget?'budget':'no-budget'}`);
  });
 });
 
-test("Round28 follow-up: 390 About keeps Chef's omakase visible with identical original in Source", { timeout: 35_000 }, async () => {
- await projected(390, async (page, _host, _id, state, persist) => {
+test("Round28 follow-up / Round29: 390 About keeps a numeric course price and omits matching raw menu title", { timeout: 35_000 }, async () => {
+ await projected(390, async (page, host, caseId, state, persist) => {
   const candidateId = state.presentedResults!.candidateIds[0]!;
   const input = JSON.parse(await readFile(new URL('./fixtures/round24-provenance/tabelog-menu.json', import.meta.url), 'utf8')) as { fact: RestaurantReadEvidence; identity: RestaurantReadEvidence };
   const title = "Chef's omakase";
-  const fact = { ...input.fact, candidateId, claims: { listedCourseDetails: [title] },
+  const fact = { ...input.fact, candidateId, claims: { coursePriceYen:8000, listedCourseDetails: [title] },
    sourceFieldQuotes: [{ field: 'COURSE_TITLE' as const, quote: title, sourceUrl: input.fact.sourceUrl! }] };
   state.readEvidence.push({ ...input.identity, candidateId }, fact);
   state.factChecks![candidateId] = { status: 'COMPLETED', sourceProvider: 'TABELOG', checkedAt: fact.observedAt, evidenceIds: [fact.evidenceId] };
   state.presentedResults!.conditionStates[candidateId] = [];
   await persist();
-  await capture(page, 'round28-follow-up-390-course-source-collapsed');
-  await assertTermsAndOpenSource(page, [title]);
-  await capture(page, 'round28-follow-up-390-course-source-expanded');
+  const content=page.locator('#details-content');
+  assert.deepEqual(await content.locator('.about-term').allTextContents(),['Course ¥8,000']);
+  assert.equal(await content.locator('details').count(),0);
+  assert.equal(await content.locator('.citation-footer a').getAttribute('href'),fact.sourceUrl);
+  assert.ok(!(await content.textContent())?.includes(title));
+  const view=await host.application.getCase('workspace-user',caseId);
+  assert.deepEqual(view.restaurant.currentFactEvidence.find(item=>item.evidenceId===fact.evidenceId)?.claims.listedCourseDetails,[title]);
+  await capture(page, 'round29-390-course-price');
  });
 });
 
@@ -93,6 +108,6 @@ for(const width of [390,1440])test(`Round24 UI: U5 ${width} recorded designated-
   const view=(await(await page.request.get('/api/cases/'+id)).json()).view as import('../../application/agent-workspace.js').RestaurantCaseView;const answer='The page\'s "Non-smoking/smoking" field says: '+input.pair[1];
   await page.route('**/api/cases/*/questions',async route=>{const body=route.request().postDataJSON() as {question:string;requestId:string};const q={requestId:body.requestId,question:body.question,candidateId,readRunId:view.restaurant.sourceReadContext!.runId,readStartedAt:times[0]!,deadlineAt:'2027-01-01T00:00:00Z',requestedAt:times[0]!,result:{status:'ANSWERED' as const,candidateId,answer,sensitiveCategory:'NONE' as const,confirmationRequired:false,citations:input.pair.map(text=>({text,url:input.url,readAt:times[0]!,identityEvidenceId:'smoking-source'})),checkedPages:[]}};view.restaurant.pageQuestion=q;view.restaurant.questionHistory.unshift(q);view.case.taskVersion++;await route.fulfill({json:{view}});});
   await page.locator('#message').fill('What is the smoking policy?');await page.locator('#send').click();await page.locator('#answer-sheet').waitFor();await page.locator('#question-result summary').click();assert.equal(await page.locator('#question-result > p').first().textContent(),answer);assert.deepEqual(await page.locator('#question-result blockquote').allTextContents(),[input.pair[1]]);if(width===390)for(const row of await footerGeometry(page,'#question-result')){assert.equal(row.lines,1);assert.ok(row.inBounds&&row.noOverflow);assert.match(row.text!,/Checked Nov 21$/);}await capture(page,`round24-u5-${width}-designated-smoking-sheet`);
-  await page.locator('#answer-close').click();await page.locator('#asked-result summary').click();assert.equal(await page.locator('#asked-result > p').first().textContent(),answer);assert.deepEqual(await page.locator('#asked-result blockquote').allTextContents(),[input.pair[1]]);await page.locator('#details-content summary').click();assert.deepEqual(await page.locator('#details-content blockquote').allTextContents(),input.pair,'About condition originals retain both header and value');if(width===390)for(const row of await footerGeometry(page,'#asked-result')){assert.equal(row.lines,1);assert.ok(row.inBounds&&row.noOverflow);assert.match(row.text!,/Checked Nov 21$/);}await capture(page,`round24-u5-${width}-designated-smoking-history`);
+  await page.locator('#answer-close').click();await page.locator('#asked-result summary').click();assert.equal(await page.locator('#asked-result > p').first().textContent(),answer);assert.deepEqual(await page.locator('#asked-result blockquote').allTextContents(),[input.pair[1]]);await page.locator('#details-content summary').click();assert.deepEqual(await page.locator('#details-content blockquote').allTextContents(),[input.pair[1]],'About expands only the materially longer qualifier');if(width===390)for(const row of await footerGeometry(page,'#asked-result')){assert.equal(row.lines,1);assert.ok(row.inBounds&&row.noOverflow);assert.match(row.text!,/Checked Nov 21$/);}await capture(page,`round24-u5-${width}-designated-smoking-history`);
  });
 });

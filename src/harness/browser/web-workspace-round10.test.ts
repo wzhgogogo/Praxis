@@ -604,7 +604,7 @@ test("Round11 UI: a persisted departure opens its own source tab after the main 
       assert.equal(await byCase(page, b.case.caseId).evaluate(row => row.classList.contains("active")), true);
       assert.equal(await page.locator("#feedback").isVisible(), false);
       const returnKey = "praxis:workspace:" + userId + ":" + a.case.caseId + ":return";
-      assert.equal(await page.evaluate(key => localStorage.getItem(key), returnKey), "1");
+      assert.match((await page.evaluate(key => localStorage.getItem(key), returnKey))!, /^departure:/);
       await byCase(page, a.case.caseId).click();
       await page.getByText("Did you get the booking?", { exact: true }).waitFor();
       assert.equal(await page.evaluate(key => localStorage.getItem(key), returnKey), null);
@@ -844,13 +844,10 @@ test("Round13 UI: About shows pending and newest-first answers and keeps rejecte
       await screenshot(page, "round13-question-history");
       await history.first().locator("summary").click();
       assert.match(await history.first().innerText(), /Checked Oct 29/);
-      assert.match(await page.locator("#details-content .about-categories").innerText(), /Chinese/);
-      const categorySource = page.locator("#details-content details").filter({has:page.locator("blockquote").filter({hasText:"Chinese, Dumpling, Izakaya"})});
-      assert.equal(await categorySource.getAttribute("open"),null);
-      assert.equal(await page.locator("#details-content .citation-footer:visible").count(),0,"A category must not leave an orphan footer on the first screen");
-      await categorySource.locator("summary").click();
-      assert.equal(await categorySource.locator("blockquote").innerText(),"Chinese, Dumpling, Izakaya");
-      assert.match(await categorySource.locator(".citation-footer").innerText(),/Checked Oct 29/);
+      const about = page.locator("#details-content");
+      assert.equal(await about.locator(".about-categories").count(),0);
+      assert.equal(await about.locator("details").count(),0);
+      assert.equal(await about.locator(".citation-footer").count(),0,"category-only evidence should not leave an orphan footer");
 
       await page.route("**" + pathFor(view) + "/questions", route => route.fulfill({
         status: 503, json: { error: "Fixture question unavailable" },
@@ -1261,6 +1258,7 @@ for(const mobile of [false,true])test(`Round17 UI: ${mobile?"mobile":"desktop"} 
 
 async function assertReconfirmation(page:Page){
  await page.locator("#delivery-slots").getByText("Plan conditions changed. Confirm the time again.",{exact:true}).waitFor();
+ assert.notEqual(await page.locator("#error").textContent(),"Plan conditions changed. Confirm the time again.","the card is the only copy of the notice");
  assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(),0);
  assert.equal(await page.locator("#choose").isDisabled(),true);
  await page.locator("#choose").dispatchEvent("click");assert.equal(await page.locator("#handoff").isVisible(),false);

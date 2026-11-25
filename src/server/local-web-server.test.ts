@@ -1928,6 +1928,10 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       assert.equal(view.restaurant.bookingHandoffs?.[0]?.url,"https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900");
       assert.equal(view.restaurant.selectedCandidateId,"fixture:outlet");
       const path="/api/cases/"+encodeURIComponent(view.case.caseId);
+      const olderLeave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-older-departure",taskVersion:view.case.taskVersion})});
+      assert.equal(olderLeave.response.status,201);
+      const olderDeparture=olderLeave.payload.departure as {id:string};
+      clock.advance(1);
       const leave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
       assert.equal(leave.response.status,201,"a validated B1 departure must be durable before leaving");
       const departure=leave.payload.departure as {id:string;provenance:string};assert.equal(departure.provenance,"USER_REPORTED");
@@ -1949,7 +1953,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       await running.close();running=await startServer(database,clock);
       const claims=await Promise.all(Array.from({length:4},()=>api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})));
       const shown=claims.map(item=>item.payload.prompt).filter(Boolean) as Array<{question:string;departure:{id:string}}>;
-      assert.equal(shown.length,1,"concurrent clients can claim at most one prompt per Case");
+      assert.equal(shown.length,1,"concurrent clients can only claim the latest departure once");
       assert.equal(shown[0]!.question,"Did you get the booking?");assert.equal(shown[0]!.departure.id,departure.id);
       assert.equal((await api(running.baseUrl,stranger,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).response.status,404);
       await running.close();running=await startServer(database,clock);
@@ -1966,7 +1970,10 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       assert.equal(after.restaurant.bookingFeedbackAvailable,false);
       assert.equal(after.case.taskVersion,before.case.taskVersion);assert.equal(after.case.phase,before.case.phase);
       assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,before.restaurant.selectedCandidateId);
-      const rows=await database.query<{count:string}>("SELECT COUNT(*) AS count FROM restaurant_booking_departures");assert.equal(Number(rows.rows[0]!.count),1);
+      const rows=await database.query<{id:string;prompted_at:unknown}>("SELECT id,prompted_at FROM restaurant_booking_departures ORDER BY departed_at,id");
+      assert.deepEqual(rows.rows.map(row=>row.id),[olderDeparture.id,departure.id]);
+      assert.equal(rows.rows[0]!.prompted_at,null,"claiming the latest receipt must never expose an earlier departure");
+      assert.ok(rows.rows[1]!.prompted_at);
       for(const choice of ["NO","SKIP"] as const){
         await running.close();decision=0;raw.source.observedAt=clock.now().toISOString();
         running=await startServer(database,clock,{restaurant,model,bookingHandoffs:{readPrepared:()=>cached,now:()=>clock.now().toISOString()}});

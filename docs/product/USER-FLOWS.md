@@ -158,7 +158,7 @@ Independent review of the original 102 model answers was reported by the user: z
 
 ## G5 B1 approved follow-up
 
-Current source-bound slot → two server URL checks → explicit Book/Continue click → persist Case departure → user-owned source tab. On return/focus or reload, atomically claim at most one feedback prompt per Case; respond Yes/No/Skip without follow-ups. Duplicate requests, unanswered prompts and restarts do not re-ask; only USER_REPORTED feedback changes, not booking state. Cancellation conflicts show Japanese and English originals with their paraphrases/citations and ask the user to confirm on the website. The first TableCheck Live must be checked by the user for actual date/time/guests, with num_people and encoded start_time=19%3A00; this is a checklist, not run evidence. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
+Current source-bound slot → two server URL checks → explicit Book/Continue click → persist Case departure → user-owned source tab. On return/focus or reload, atomically claim the latest explicit departure once under [ADR-0054](../decisions/0054-per-departure-booking-feedback-prompt.md). Two departures before returning yield only the latest prompt. Another Continue can produce another prompt in the same Case. Yes, No and Skip are optional USER_REPORTED feedback with no follow-up or change to booking status. Refresh and restart keep previously claimed prompts closed. Cancellation conflicts show Japanese and English originals with their paraphrases/citations and ask the user to confirm on the website. The first TableCheck Live must be checked by the user for actual date/time/guests, with num_people and encoded start_time=19%3A00; this is a checklist, not run evidence. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
 
 
 ## B1 G3 wiring preparation branch (2026-10-30 CET)
@@ -347,3 +347,9 @@ Pure fact recommendations no longer expose Refresh details; presented availabili
 The calendar capsule uses the selected valid date. If the semantic response omits the date or confirms or rejects the old choice, the workspace asks for clarification and waits. Free text lets the model choose whether and which date to edit. Emitted dates pass a literal quote and consistency check using trusted Tokyo time. An ordinary Friday must match the full date resolved by the Tokyo materializer. Background travel and alternative dates remain semantic evaluation cases. See [ADR-0053](../decisions/0053-structured-date-edit-and-raw-consistency-guard.md).
 
 A single-channel booking handoff names the source on the departure button and keeps the verified prefill hints. About shows source quotes behind Source, with compact footers for groups that have no quote. The visible category summary omits only individual items already covered by visible condition rows. On mobile an open editor sits below the capsule buttons, and tapping a second capsule switches directly to its editor.
+
+### 2026-11-25 — About sources and workspace alerts
+
+About shows structured dinner and lunch budgets when available, course prices and known cancellation or no-show terms. Ordinary conditions and prices use a compact source link with the recorded check date. Source expands for a detailed original that differs from its visible summary. Identical readings from the same URL keep the latest check date. Readings with changed prices or terms retain their own provenance.
+
+On a requirement change, the candidate card carries any required slot-reconfirmation notice. Stop clears an earlier workspace error. Current errors align with the messages above the composer.

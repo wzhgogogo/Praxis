@@ -11,7 +11,7 @@ import { datedWorkspaceRequest, startWorkspaceFixture } from "../workspace-fixtu
 // Only model and source transports are synthetic. This is not a model or live-site evaluation.
 const sizes=[{name:"mobile",width:390,height:844},{name:"desktop",width:1440,height:900}];
 async function capture(page:Page,name:string,scrollTarget?:string){
-  const folder=process.env.PRAXIS_ROUND28_HANDOFF_VISUAL_OUTPUT??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!folder)return;
+  const folder=(name.startsWith("round29-")?process.env.PRAXIS_ROUND29_VISUAL_OUTPUT:undefined)??process.env.PRAXIS_ROUND28_HANDOFF_VISUAL_OUTPUT??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!folder)return;
   await mkdir(folder,{recursive:true});await page.evaluate(()=>{window.scrollTo(0,0);return document.fonts.ready.then(()=>undefined);});
   const interrupted=await page.evaluate(async()=>{const finite=document.getAnimations().filter(a=>a.effect?.getTiming().iterations!==Infinity),settled=await Promise.allSettled(finite.map(a=>a.finished));return settled.flatMap((r,i)=>r.status==='rejected'?[{kind:finite[i]!.constructor.name,error:String(r.reason?.name)}]:[]);});
   assert.deepEqual(interrupted.filter(row=>row.error!=='AbortError'),[],"only a natively cancelled visual transition may settle without finishing");
@@ -142,8 +142,29 @@ for(const size of sizes){
       assert.ok(feedbackLayout.buttonTop >= feedbackLayout.closeBottom);
       assert.ok(Math.abs(feedbackLayout.answersCenter - feedbackLayout.buttonsCenter) < 1);
       await capture(page,size.name+"-feedback");
+      // The first prompt remains unanswered when the user explicitly leaves again.
+      host.clock.advance(1000);
+      const claim = page.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/booking-feedback/claim"),{timeout:8000});
+      const secondPopupPromise=page.waitForEvent("popup");
+      await page.locator("#departure").click();
+      const secondPopup=await secondPopupPromise;
+      await secondPopup.getByRole("heading",{name:"Fixture destination",exact:true}).waitFor();
+      assert.equal(destinationRequests,2);
+      await secondPopup.close();
+      await page.bringToFront();
+      await page.evaluate(()=>window.dispatchEvent(new Event("focus")));
+      const secondPrompt=(await (await claim).json()).prompt;
+      const departures=await host.database.query<{id:string;prompted_at:unknown}>(
+        "SELECT id,prompted_at FROM restaurant_booking_departures WHERE conversation_id=$1 ORDER BY departed_at,id",
+        [plan.conversation.id],
+      );
+      assert.equal(departures.rows.length,2);
+      assert.ok(departures.rows.every(row=>row.prompted_at));
+      assert.equal(secondPrompt?.departure.id,departures.rows[1]!.id);
+      await capture(page,"round29-"+size.width+"-second-feedback","#feedback");
       await page.getByRole("button",{name:"Not yet",exact:true}).click();
       await page.locator("#feedback").waitFor({state:"hidden"});
+      assert.equal(writes.filter(item=>item.path.endsWith("/booking-feedback")).at(-1)?.body.departureId,secondPrompt.departure.id);
       await page.reload();await page.locator("#handoff").waitFor({state:"visible"});
       await page.evaluate(()=>window.dispatchEvent(new Event("focus")));
       assert.equal(await page.locator("#feedback").isVisible(),false,"a claimed prompt never reappears after reload");

@@ -407,7 +407,7 @@ for(const size of [{width:390,height:844},{width:1440,height:900}])test(`Round20
   const original=await open(page,host) as import('../../application/agent-workspace.js').RestaurantCaseView,projected=structuredClone(original),id=projected.restaurant.presentedCandidateIds![0]!,time='2026-11-21T08:04:00Z',later='2026-11-21T08:05:00Z',url='https://www.k-daia.com/terms';
   await round20Projection(page,host,projected);
   const base=original.restaurant.readEvidence[0]!;projected.restaurant.conditionStates={[id]:[]};
-  projected.restaurant.currentFactEvidence=[0,1].map(i=>({...base,evidenceId:'reading-'+i,candidateId:id,kind:'RESTAURANT_FACT',provider:'RESTAURANT_WEBSITE',sourceUrl:url,observedAt:time,claims:{listedCourseDetails:['Original terms '+i]}}));
+  projected.restaurant.currentFactEvidence=[0,1].map(i=>({...base,evidenceId:'reading-'+i,candidateId:id,kind:'RESTAURANT_FACT',provider:'RESTAURANT_WEBSITE',sourceUrl:url,observedAt:time,claims:{cancellationTerms:'Original terms '+i}}));
   projected.case.taskVersion++;await emit(page,projected);await page.locator('#details-button').click();assert.equal(await page.locator('#details-content .citation-footer').count(),1);
   projected.restaurant.currentFactEvidence[1]!.observedAt=later;projected.case.taskVersion++;await emit(page,projected);assert.equal(await page.locator('#details-content .citation-footer').count(),2);assert.deepEqual(await page.locator('#details-content > section[data-source-id]').evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.getAttribute('data-source-id')!)[1])),[time,later]);assert.match(await page.locator('#details-content').innerText(),/Checked Nov 21/);assert.match(await page.locator('#details-content').innerText(),/Checked Nov 21/);
   let split=false;

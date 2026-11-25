@@ -138,7 +138,12 @@ export function accept(view:WorkspaceView){
   state.view=view;
   if(exitHandoff)requireReconfirmation();
   updateCases(view.case);reconcileSlot();actions.finishPreparation();actions.render();
-  if(exitHandoff){savePosition();report(new Error('Plan conditions changed. Confirm the time again.'));}
+  if(exitHandoff){
+    savePosition();
+    const notice='Plan conditions changed. Confirm the time again.';
+    if(!$('candidate-panel').hidden&&!state.ui.reconfirmSlot)report(new Error(notice));
+    else if($('error').textContent===notice)clearError();
+  }
   const pending=state.pendingQuestion,q=view.restaurant.pageQuestion;
   if(pending&&pending.caseId===view.case.caseId&&q&&q.requestId===pending.requestId&&q.result){
     state.pendingQuestion=null;

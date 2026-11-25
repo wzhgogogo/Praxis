@@ -12,11 +12,12 @@ export function restoreDraft(id:string){setMessage(state.drafts.get(id)||'');}
 export async function claimFeedback(){
  if(!state.view)return;
  const nav=state.nav,caseId=requireView().case.caseId,returnKey=key(caseId)+':return';
- if(state.signingOut||state.feedbackPrompts.has(caseId)||state.claiming.has(caseId))return;
+ const returning=localStorage.getItem(returnKey),shown=state.feedbackPrompts.get(caseId);
+ if(state.signingOut||state.claiming.has(caseId)||shown&&(!returning||shown.departure.id===returning))return;
  state.claiming.add(caseId);
  try{
    const p=await actions.api<{prompt?:FeedbackPrompt}>(actions.casePath(caseId)+'/booking-feedback/claim',{method:'POST',body:'{}'});
-   localStorage.removeItem(returnKey);
+   if(localStorage.getItem(returnKey)===returning)localStorage.removeItem(returnKey);
    if(p.prompt)state.feedbackPrompts.set(caseId,p.prompt);
    if(draftKey()===caseId&&!state.signingOut)show('feedback',state.feedbackPrompts.has(caseId));
  }catch(error){await actions.reportCaseError(error,nav,caseId);}

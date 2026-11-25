@@ -1,6 +1,6 @@
 import {citationFooter,renderCitations} from './citations.js';
 import {questionCitations,type SourceExcerpt} from './citation-groups.js';
-import type { Answer, Condition, IntentDraft, Offer } from './view-contracts.js';
+import type { Answer, Condition, Evidence, IntentDraft, Offer } from './view-contracts.js';
 import type { ConditionKind, ConditionValue } from './actions.js';
 import { $, clearError, element, requireView, show, state, text } from "./runtime.js";
 import { availabilityExpired, clearSlotSelection, currentHandoff, forgetSlotSelection, freshOffers, handoffs, needsSlotReselection, offerFor, reconcileSlot, selectSlot } from "./selected-slot.js";
@@ -70,6 +70,90 @@ export function renderDelivery(){
    .filter(item=>item.status!=='NOT_CHECKED'||item.strength==='HARD').map(conditionRow));
 }
 export function renderCard(){renderDelivery();const c=candidate();if(!c)return;const id=c.restaurant.id,r=requireView().restaurant,offer=offerFor(id), eligible=ids().includes(id), available=eligible&&freshOffers(id)[0], expired=availabilityExpired(id);const card=$('candidate-card'),changed=card.dataset.candidateId!==id;card.dataset.candidateId=id;text('restaurant-name',c.restaurant.outletName);text('restaurant-initial',Array.from(c.restaurant.outletName)[0]||'');const facts=[c.restaurant.address.replace(/^Japan,\s*/i,'').replace(/^(?:〒\s*)?\d{3}-?\d{4}\s*/,'')];if(c.distanceObservation)facts.push(c.distanceObservation.meters+' m away');if(offer&&offer.price)facts.push(money(offer.price.amount)+(offer.price.basis==='PER_PERSON'?' per guest':''));$('key-facts').replaceChildren(...facts.map((v,i)=>element('span',v,i===0?'address-line':undefined)));$('availability').dataset.status=available?'available':'unknown';text('availability-status',available?displayDate(available.dateTime):expired?'Expired':'Not checked');text('recommendation',(c.matchReasons||[]).find(reason=>!reason.startsWith('Address explicitly matches requested area:')&&!reason.startsWith('Source coordinates within'))||'');renderSourceCategories(id);const saved=(r.shortlistCandidateIds||[]).includes(id);$('bookmark').disabled=!canShortlist();$('bookmark').setAttribute('aria-pressed',String(saved));$('bookmark').setAttribute('aria-label',saved?'Remove from saved':'Save for later');const n=ids().indexOf(id);text('card-counter',n>=0?(n+1)+' of '+ids().length:'');show('card-counter',true);$('card-counter').style.visibility=!r.progress.active&&!state.preview?'visible':'hidden';$('previous').disabled=n<=0;$('next').disabled=n<0||(n>=ids().length-1&&(r.progress.active||requireView().case.phase!=='PRESENT_RESULTS'));$('choose').disabled=state.blocked||!!state.ui.reconfirmSlot||needsSlotReselection(id)||!!state.preparing||!eligible||!!state.ui.selectedSlot&&!!available&&!offer||expired&&!canRefresh();$('choose').setAttribute('aria-busy',String(!!state.preparing));if(changed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)card.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-out'});}
+interface AboutReading {
+ url:string;
+ readAt?:string;
+ values:Map<string,string>;
+ quotes:Map<string,{text:string;showOriginal:boolean}>;
+}
+const normalizeAboutText=(value:string)=>value.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
+
+function renderAboutSources(target:HTMLElement,conditions:Condition[],facts:Evidence[],evidence:Evidence[]){
+ const readings=new Map<string,AboutReading>();
+ const readingKey=(url:string,at?:string)=>JSON.stringify([url,at??null]);
+ function sourceGroup(url:string,at?:string){
+  const key=readingKey(url,at);
+  let group=readings.get(key);
+  if(!group){group={url,readAt:at,values:new Map(),quotes:new Map()};readings.set(key,group);}
+  return group;
+ }
+ function addQuote(group:AboutReading,value:string,differentOriginal=false){
+  const key=normalizeAboutText(value);
+  if(!key)return;
+  const showOriginal=differentOriginal&&Array.from(key).length>=40;
+  if(!group.quotes.has(key)||showOriginal)group.quotes.set(key,{text:value,showOriginal});
+ }
+ for(const item of conditions){
+  const row=element('div',undefined,'fact');
+  row.append(conditionRow(item));
+  for(const q of item.sources||[]){
+   if(!q.sourceUrl)continue;
+   const times=new Set(evidence.filter(e=>item.evidenceIds?.includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl
+    &&(!q.evidenceId||q.evidenceId===e.evidenceId)).map(e=>e.observedAt));
+   const at=times.size===1?[...times][0]:undefined;
+   addQuote(sourceGroup(q.sourceUrl,at),q.quote,q.field==='SOURCE_TEXT'&&normalizeAboutText(q.quote)!==normalizeAboutText(item.text));
+  }
+  if(!item.sources?.length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));
+  target.append(row);
+ }
+ for(const fact of facts){
+  const {sourceUrl,observedAt,claims,priceFacts}=fact;
+  const addValue=(value:string,url=sourceUrl)=>{
+   if(url)sourceGroup(url,observedAt).values.set(normalizeAboutText(value),value);
+   else target.append(element('p',value,'about-term'));
+  };
+  for(const [label,range] of [['Dinner budget',priceFacts?.dinnerBudgetRangeYen],['Lunch budget',priceFacts?.lunchBudgetRangeYen]] as const){
+   if(!range)continue;
+   addValue(label+' '+money(range.min)+'–'+money(range.max),range.sourceUrl);
+   addQuote(sourceGroup(range.sourceUrl,observedAt),range.quote);
+  }
+  if(typeof claims.coursePriceYen==='number')addValue('Course '+money(claims.coursePriceYen));
+  else for(const price of priceFacts?.listedCoursePricesYen??[]){
+   if(price.kind!=='MEAL')continue;
+   addValue('Course '+money(price.amount),price.sourceUrl);
+   addQuote(sourceGroup(price.sourceUrl,observedAt),price.quote);
+  }
+  for(const term of [claims.cancellationTerms,claims.noShowTerms])if(typeof term==='string')addValue(term);
+ }
+ for(const fact of facts){
+  const hasPolicy=typeof fact.claims.cancellationTerms==='string'||typeof fact.claims.noShowTerms==='string';
+  for(const q of fact.sourceFieldQuotes??[]){
+   const url=q.sourceUrl||fact.sourceUrl,group=url&&readings.get(readingKey(url,fact.observedAt));
+   if(group)addQuote(group,q.quote,hasPolicy&&q.field==='SOURCE_TEXT'&&!group.values.has(normalizeAboutText(q.quote)));
+  }
+ }
+ // Unbound legacy citations keep their unknown time. Compare the full
+ // normalized excerpts and values even when users see only compact footers.
+ const distinct=new Map<string,AboutReading>();
+ for(const group of readings.values()){
+  const key=JSON.stringify([group.url,!!group.readAt,[...group.quotes.keys()].sort(),[...group.values.keys()].sort()]);
+  const prior=distinct.get(key);
+  if(!prior||group.readAt&&prior.readAt&&Date.parse(group.readAt)>Date.parse(prior.readAt))distinct.set(key,group);
+ }
+ for(const group of distinct.values()){
+  const row=element('section',undefined,group.values.size?'about-commercial':'about-source');
+  row.dataset.sourceId=readingKey(group.url,group.readAt);
+  for(const value of group.values.values())row.append(element('p',value,'about-term'));
+  const originals:SourceExcerpt[]=[];
+  for(const [key,quote] of group.quotes)if(quote.showOriginal&&!group.values.has(key)){
+   originals.push({url:group.url,readAt:group.readAt,text:quote.text});
+  }
+  if(originals.length)renderCitations(row,originals,true);
+  else row.append(citationFooter(group));
+  target.append(row);
+ }
+}
+
 export function renderDetails(){
  const c=candidate();if(!c)return;const r=requireView().restaurant,id=c.restaurant.id,facts=r.currentFactEvidence.filter(f=>f.candidateId===id),conditions=r.conditionStates?.[id]||[];
  const asking=state.asking||questionPending(),refreshBusy=!asking&&(r.progress.active||state.blocked),refreshSlots=r.readStatus.canRetry||ids().some(cid=>(r.availability[cid]||[]).length||r.availabilityChecks[cid]?.status==='AVAILABLE')||r.intentDraft?.target?.goal==='AVAILABILITY';
@@ -77,45 +161,7 @@ export function renderDetails(){
  text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source?.observedAt);if(source)text('evidence',sourceName(source.provider,source.sourceUrl)+' · '+readAt(source.observedAt));
  const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{
   target.append(element('p',c.restaurant.address,'about-address'));
-  const groups=new Map<string,{url:string;readAt?:string;quotes:SourceExcerpt[];values:Set<string>}>(),categories=new Map<string,string>(),quotedCategories:string[]=[];
-  const categoryKey=(value:string)=>{const key=value.normalize('NFKC').toLowerCase().replace(/\s*\([^()]*\)\s*$/u,'').replace(/_/g,' ').replace(/\s+/g,' ').trim();return ['steak','steak house','steakhouse'].includes(key)?'steak':key;};
-  const generic=new Set(['','restaurant','food','point of interest','establishment','store','food store']);
-  const categoryLabels=(quote:string)=>quote.split(/[,、\n]/u).map(label=>label.trim()).filter(Boolean);
-  const sourceGroup=(url:string,at:string|undefined)=>{const key=JSON.stringify([url,at??null]);let group=groups.get(key);if(!group){group={url,readAt:at,quotes:[],values:new Set()};groups.set(key,group);}return group;};
-  for(const item of conditions){const row=element('div',undefined,'fact');row.append(conditionRow(item));
-   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.filter(e=>e.candidateId===id&&(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl&&(!q.evidenceId||e.evidenceId===q.evidenceId));const readings=[...new Set(evidence.map(e=>e.observedAt))],at=readings.length===1?readings[0]:undefined;const group=sourceGroup(q.sourceUrl,at);if(q.quote.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim()!==item.text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim())group.quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(at?{readAt:at}:{})});}
-   if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
-  }
-  for(const fact of facts){
-   const values:string[]=[],claims=fact.claims||{};if(Array.isArray(claims.listedCourseDetails))values.push(...claims.listedCourseDetails);if(typeof claims.coursePriceYen==='number')values.push('Course '+money(claims.coursePriceYen));for(const k of ['cancellationTerms','noShowTerms'])if(typeof claims[k]==='string')values.push(claims[k]);
-   if(values.length){if(fact.sourceUrl){const group=sourceGroup(fact.sourceUrl,fact.observedAt);for(const value of values)group.values.add(value);
-    for(const quote of fact.sourceFieldQuotes||[])if(['COURSE_TITLE','COURSE_DESCRIPTION','PRICE'].includes(quote.field))sourceGroup(quote.sourceUrl||fact.sourceUrl,fact.observedAt).quotes.push({url:quote.sourceUrl||fact.sourceUrl,readAt:fact.observedAt,text:quote.quote});
-   }else for(const value of values)target.append(element('p',value,'about-term'));}
-   if(fact.provider==='GOOGLE_PLACES'&&Array.isArray(claims.restaurantTypeFacts))for(const raw of claims.restaurantTypeFacts){const key=categoryKey(raw);if(!generic.has(key)&&!categories.has(key))categories.set(key,raw.replace(/_/g,' '));}
-   for(const quote of fact.sourceFieldQuotes||[]){
-    if(quote.field!=='CATEGORY')continue;
-    quotedCategories.push(quote.quote);
-    // The summary can split a list, while its original remains available in Source.
-    const url=quote.sourceUrl||fact.sourceUrl;
-    if(url&&categoryLabels(quote.quote).length>1)sourceGroup(url,fact.observedAt).quotes.push({url,readAt:fact.observedAt,text:quote.quote});
-   }
-  }
-  const sourceCategoryKeys=new Set<string>();
-  for(const quote of quotedCategories){
-   for(const label of categoryLabels(quote)){
-    const key=categoryKey(label);
-    if(!generic.has(key)&&!sourceCategoryKeys.has(key)){categories.set(key,label);sourceCategoryKeys.add(key);}
-   }
-  }
-  const visibleConditions=new Set(conditions.map(item=>categoryKey(item.text)));
-  const labels=[...categories].filter(([key])=>!visibleConditions.has(key)).map(([,label])=>label);
-  if(labels.length)target.append(element('p','Categories: '+labels.join(', '),'about-categories'));
-  for(const group of groups.values()){
-   const normalize=(text:string)=>text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
-   const quotes=new Map<string,SourceExcerpt>();for(const quote of group.quotes){const key=normalize(quote.text??''),previous=quotes.get(key);if(!previous||!previous.label&&quote.label)quotes.set(key,quote);}
-   const row=element('section',undefined,group.values.size?'about-commercial':'about-source');row.dataset.sourceId=JSON.stringify([group.url,group.readAt??null]);for(const value of group.values)row.append(element('p',value,'about-term'));
-   if(quotes.size)renderCitations(row,[...quotes.values()],true);else row.append(citationFooter(group));target.append(row);
-  }
+  renderAboutSources(target,conditions,facts,r.readEvidence.filter(e=>e.candidateId===id));
  });}renderAsked(id);
 }
 export function renderAnswer(target:HTMLElement,result:Answer){
@@ -239,7 +285,7 @@ export function render(){
   const real=!!state.view,pending=state.pendingCase,has=real||!!pending,mode=pending?'CANDIDATES':state.ui.view;caseScroller.dataset.view=mode;show('home',!has);show('case-workspace',has);show('workspace-composer',has&&['CANDIDATES','DETAILS'].includes(mode));const conditionRow=document.querySelector<HTMLElement>('.workspace-conditions')!;conditionRow.hidden=mode==='SAVED'||mode==='HANDOFF';
   for(const row of $('case-list').querySelectorAll<HTMLElement>('.case-link'))row.classList.toggle('active',real&&row.dataset.caseId===requireView().case.caseId);
   if(real&&caseScroller.dataset.caseId!==requireView().case.caseId){caseScroller.scrollTop=0;caseScroller.dataset.caseId=requireView().case.caseId;}
-  if(!has){caseScroller.scrollTop=0;$('topbar').classList.remove('scrolled');if($('error').parentElement===caseScroller)$('workspace-composer').before($('error'));}else if($('error').parentElement!==caseScroller)caseScroller.append($('error'));
+  if(!has){caseScroller.scrollTop=0;$('topbar').classList.remove('scrolled');if($('error').parentElement===caseScroller)$('workspace-composer').before($('error'));}else if($('error').parentElement!==caseScroller)$('messages').after($('error'));
   const parent=has?$('workspace-composer'):$('home-composer');if($('composer').parentElement!==parent)parent.append($('composer'));resizeMessage();updateComposerClearance();
   const asking=real&&state.ui.view==='DETAILS';$('message').setAttribute('aria-label',asking?'Restaurant question':'Plan message');
   const waiting=state.asking||questionPending();

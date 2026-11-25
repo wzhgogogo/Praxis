@@ -7,7 +7,7 @@ import type { RestaurantCaseView } from '../../application/agent-workspace.js';
 import { datedWorkspaceRequest, startWorkspaceFixture } from '../workspace-fixture-server.js';
 
 type Host=Awaited<ReturnType<typeof startWorkspaceFixture>>;
-async function shot(page:Page,name:string){const root=process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!root)return;await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});}
+async function shot(page:Page,name:string){const root=(name.startsWith('round29-')?process.env.PRAXIS_ROUND29_VISUAL_OUTPUT:undefined)??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!root)return;await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});}
 async function signIn(page:Page,host:Host){await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.locator('#home').waitFor();}
 async function create(page:Page,message='Dinner in Tokyo'){await page.locator('#message').fill(datedWorkspaceRequest(message));const response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/api/cases');await page.locator('#send').click();await response;await page.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3'&&document.getElementById('progress')?.hidden);const id=await page.locator('.case-link.active').getAttribute('data-case-id');assert.ok(id);return id;}
 async function emit(page:Page,view:RestaurantCaseView){await page.evaluate(view=>{for(const stream of (window as unknown as {r23Streams:EventTarget[]}).r23Streams)stream.dispatchEvent(new MessageEvent('case',{data:JSON.stringify(view)}));},view);}
@@ -40,17 +40,118 @@ test('Round23 UI: R3 removed names use verified human links and omit generic rea
  });
 });
 
-for(const width of [390,1440])test(`Round23 UI: R4 ${width} About separates category labels, original quotes and structured terms`,{timeout:30000},async()=>{
+for(const width of [390,1440])test(`Round23 R4 / Round29: ${width} About keeps detailed originals and structured terms`,{timeout:30000},async()=>{
  await projection(width,async(page,view,_host,update)=>{
   const id=view.restaurant.presentedCandidateIds![0]!,time='2026-11-21T08:04:00Z',later='2026-11-21T08:05:00Z',a='https://merchant.example/conditions',b='https://merchant.example/terms';
   const base=view.restaurant.readEvidence.find(f=>f.candidateId===id)!;assert.ok(base);
   view.restaurant.currentFactEvidence=[{...base,kind:'RESTAURANT_FACT',evidenceId:'condition-a',provider:'GOOGLE_PLACES',sourceUrl:a,observedAt:time,claims:{restaurantTypeFacts:['restaurant','food','point_of_interest','establishment','store','food_store','steak_house']},sourceFieldQuotes:[{field:'CATEGORY',quote:'Steak',sourceUrl:a}]},{...base,kind:'RESTAURANT_FACT',evidenceId:'terms-b',sourceUrl:b,observedAt:later,claims:{coursePriceYen:8000,cancellationTerms:'Cancellation costs 100%.'},sourceFieldQuotes:[]}];view.restaurant.readEvidence=[...view.restaurant.readEvidence,...view.restaurant.currentFactEvidence];
-  view.restaurant.conditionStates={[id]:[{criterionRef:'private',text:'Private room',polarity:'POSITIVE',strength:'HARD',status:'MET',explanation:'Original condition evidence',evidenceIds:['condition-a'],sources:[{field:'SOURCE_TEXT',quote:'Private rooms available.',sourceUrl:a}]}]};await update();await page.locator('#details-button').click();
-  assert.equal(await page.locator('.about-categories').innerText(),'Categories: Steak');assert.deepEqual(await page.locator('#details-content blockquote').allTextContents(),['Private rooms available.']);await page.locator('#details-content summary').click();assert.match(await page.locator('#details-content').innerText(),/Course ¥8,000/);assert.match(await page.locator('#details-content').innerText(),/Cancellation costs 100%/);
+  const original='Private rooms are available for groups of two to six when booked in advance.';
+  view.restaurant.conditionStates={[id]:[{criterionRef:'private',text:'Private room',polarity:'POSITIVE',strength:'HARD',status:'MET',explanation:'Original condition evidence',evidenceIds:['condition-a'],sources:[{field:'SOURCE_TEXT',quote:original,sourceUrl:a}]}]};await update();await page.locator('#details-button').click();
+  assert.equal(await page.locator('.about-categories').count(),0);
+  const originalQuote=page.locator('#details-content blockquote');
+  assert.equal(await originalQuote.textContent(),original);
+  assert.equal(await originalQuote.isVisible(),false);
+  await page.locator('#details-content summary').click();
+  assert.ok(await originalQuote.isVisible());
+  assert.equal(await originalQuote.evaluate(node=>getComputedStyle(node).borderLeftColor),'rgb(61, 90, 254)');
+  assert.match(await page.locator('#details-content').innerText(),/Course ¥8,000/);assert.match(await page.locator('#details-content').innerText(),/Cancellation costs 100%/);
   const links=page.locator('#details-content .citation-footer a');assert.deepEqual(await links.evaluateAll(nodes=>nodes.map(n=>(n as HTMLAnchorElement).href).sort()),[a,b].sort());assert.deepEqual(await page.locator('#details-content > section[data-source-id]').evaluateAll(nodes=>nodes.map(n=>JSON.parse(n.getAttribute('data-source-id')!)[1])),[time,later]);assert.match(await page.locator('#details-content').innerText(),/Checked Nov 21/);assert.match(await page.locator('#details-content').innerText(),/Checked Nov 21/);
   const term=page.locator('#details-content .about-commercial').filter({hasText:'Course ¥8,000'});assert.equal(await term.locator('.citation-footer a').getAttribute('href'),b);assert.equal(await term.locator('blockquote').count(),0);assert.equal(await page.locator('#details-content .citation-group').evaluateAll(nodes=>nodes.filter(n=>!n.querySelector('blockquote')).length),0);
   await shot(page,`round23-r4-${width}-terms-and-quotes`);
   view.restaurant.conditionStates={};view.restaurant.currentFactEvidence=[{...base,kind:'RESTAURANT_FACT',evidenceId:'course-only',sourceUrl:b,observedAt:later,claims:{coursePriceYen:8000},sourceFieldQuotes:[]}];await update();assert.equal(await page.locator('#details-content blockquote').count(),0);const only=page.locator('#details-content .about-commercial');assert.match(await only.innerText(),/Course ¥8,000/);assert.match(await only.innerText(),/Checked Nov 21/);assert.equal(await only.locator('.citation-footer a').getAttribute('href'),b);await shot(page,`round23-r4-${width}-course-only`);
+  const policy='Same-day cancellations require the full course price.';
+  const policySource='Reservations cancelled after midnight on the booking date will be charged 100% of the selected course price.';
+  view.restaurant.currentFactEvidence=[{...base,kind:'RESTAURANT_FACT',evidenceId:'full-policy',sourceUrl:b,observedAt:later,
+   claims:{cancellationTerms:policy,noShowTerms:'No-show fee applies.'},sourceFieldQuotes:[
+    {field:'SOURCE_TEXT',quote:policy.toUpperCase(),sourceUrl:b},
+    {field:'SOURCE_TEXT',quote:policySource,sourceUrl:b},
+   ]}];
+  await update();
+  assert.deepEqual(await only.locator('.about-term').allTextContents(),[policy,'No-show fee applies.']);
+  const quote=only.locator('blockquote');
+  assert.deepEqual(await quote.allTextContents(),[policySource]);
+  assert.equal(await quote.isVisible(),false);
+  await only.locator('summary').click();
+  assert.equal(await quote.innerText(),policySource);
+  await quote.scrollIntoViewIfNeeded();
+  await shot(page,`round29-${width}-about-policy`);
+ });
+});
+
+for (const width of [390, 1440]) test('Round29 About '+width+': Refresh keeps one identical reading and distinct price snapshots', {timeout: 35_000}, async () => {
+ await projection(width, async (page, view, _host, update) => {
+  const id = view.restaurant.presentedCandidateIds![0]!;
+  const base = view.restaurant.readEvidence.find(fact => fact.candidateId === id)!;
+  const url = 'https://tabelog.com/en/tokyo/A1301/A130101/13123456/';
+  const times = ['2026-11-25T05:00:00Z', '2026-11-26T05:00:00Z', '2026-11-27T05:00:00Z'];
+  const policy = 'No-show fee applies.';
+  const course = '全12品のおまかせ料理と飲み放題の詳細。季節の仕入れにより変更となります。';
+  function reading(index: number, min: number, quote: string) {
+   return {
+    ...base, kind:'RESTAURANT_FACT' as const, provider:'TABELOG' as const,
+    evidenceId:'about-refresh-'+index, sourceUrl:url, observedAt:times[index]!,
+    claims:{coursePriceYen:8000, cancellationTerms:'Cancellation costs 100%.', noShowTerms:policy, listedCourseDetails:[course]},
+    priceFacts:{schemaVersion:'restaurant-price-facts@1' as const, listedCoursePricesYen:[],
+     dinnerBudgetRangeYen:{min,max:min+999,quote,sourceUrl:url},
+     ...(index===2?{lunchBudgetRangeYen:{min:1500,max:1999,quote:'Lunch ¥1,500–¥1,999',sourceUrl:url}}:{})},
+    sourceFieldQuotes:[
+     {field:'PRICE' as const,quote,sourceUrl:url},
+     {field:'COURSE_DESCRIPTION' as const,quote:course,sourceUrl:url},
+     {field:'CATEGORY' as const,quote:'Sushi, Seafood',sourceUrl:url},
+     {field:'SOURCE_TEXT' as const,quote:'Quiet',sourceUrl:url},
+    ],
+   };
+  }
+  const first = reading(0,4000,'Dinner ¥4,000–¥4,999');
+  const identical = reading(1,4000,'  DINNER　¥4,000–¥4,999  ');
+  identical.sourceFieldQuotes.reverse();
+  const changed = reading(2,5000,'Dinner ¥5,000–¥5,999');
+  function publish(...readings: typeof first[]) {
+   view.restaurant.currentFactEvidence = readings;
+   view.restaurant.readEvidence = [base,...readings];
+   // Conditions after Refresh reference the newest observation, not both copies.
+   const current = readings.at(-1)!;
+   view.restaurant.conditionStates = {[id]: [{
+    criterionRef:'quiet',text:'Quiet',polarity:'POSITIVE',strength:'HARD',status:'MET',explanation:'Source text supports quiet seating.',
+    evidenceIds:[current.evidenceId],sources:[{field:'SOURCE_TEXT',quote:'Quiet',sourceUrl:url,evidenceId:current.evidenceId}],
+   }]};
+  }
+  publish(first);
+  await update();
+  await page.locator('#details-button').click();
+  await page.route('**/api/cases/*/refresh', async route => {
+   assert.equal(route.request().method(),'POST');
+   publish(first,identical);
+   view.case.taskVersion++;
+   await route.fulfill({json:{view}});
+  });
+  const response = page.waitForResponse(r=>r.url().endsWith('/refresh')&&r.request().method()==='POST');
+  await page.locator('#refresh').click();
+  assert.equal((await response).status(),200);
+  const content = page.locator('#details-content'), rows = content.locator('section[data-source-id]');
+  const readTimes = () => rows.evaluateAll(nodes => nodes.map(node => JSON.parse(node.getAttribute('data-source-id')!)[1]).sort());
+  await page.waitForFunction(time=>Array.from(document.querySelectorAll('#details-content section')).some(n=>n.getAttribute('data-source-id')?.includes(time)),times[1]!);
+  assert.deepEqual(await readTimes(),[times[1]],'identical Refresh snapshots must keep only the latest reading');
+  assert.deepEqual(await rows.locator('.citation-footer').allTextContents(),['Tabelog ↗ · Checked Nov 26']);
+  assert.match(await content.innerText(),/Dinner budget ¥4,000–¥4,999/);
+  assert.match(await content.innerText(),/Course ¥8,000/);
+  assert.match(await content.innerText(),/Cancellation costs 100%/);
+  assert.match(await content.innerText(),/No-show fee applies/);
+  assert.doesNotMatch(await content.textContent()??'',/Categories:|全12品|Lunch budget/);
+  assert.equal(await content.locator('details').count(),0);
+  assert.ok(Math.abs(await page.locator('#refresh').evaluate(button=>{
+   const bounds=button.getBoundingClientRect(),content=document.querySelector('#details-content')!.getBoundingClientRect();
+   return (bounds.left+bounds.right-content.left-content.right)/2;
+  }))<1,'Refresh is centered');
+  await page.locator('#refresh').scrollIntoViewIfNeeded();
+  await shot(page,'round29-'+width+'-about-refresh');
+  publish(first,identical,changed);
+  await update();
+  assert.deepEqual(await readTimes(),[times[1],times[2]]);
+  assert.match(await rows.filter({hasText:'Checked Nov 26'}).innerText(),/¥4,000–¥4,999/);
+  assert.match(await rows.filter({hasText:'Checked Nov 27'}).innerText(),/¥5,000–¥5,999[\s\S]*Lunch budget ¥1,500–¥1,999/);
+  await page.locator('#refresh').scrollIntoViewIfNeeded();
+  await shot(page,'round29-'+width+'-about-changed');
  });
 });
 
@@ -68,7 +169,7 @@ for(const width of [390,1440])test(`Round23 UI: R5 ${width} Q&A-only smoking hea
    if(width===390)for(const row of await footerGeometry(page,'#asked-result')){assert.equal(row.lines,1);assert.ok(row.inBounds&&row.noOverflow);assert.match(row.text!,/Checked Nov 21$/);}
    await shot(page,`round23-r5-${width}-${variant}-history`);
   }
-  assert.deepEqual(await page.locator('#details-content blockquote').allTextContents(),['Non-smoking/smoking','Non smoking'],'About condition quotations retain their original header');assert.equal(await page.locator('#asked-earlier blockquote').filter({hasText:'Non-smoking/smoking'}).count(),0,'earlier Q&A smoking group remains filtered');
+  assert.equal(await page.locator('#details-content blockquote').count(),0,'short condition quotations use a compact footer');assert.equal(await page.locator('#asked-earlier blockquote').filter({hasText:'Non-smoking/smoking'}).count(),0,'earlier Q&A smoking group remains filtered');
   const handoff=view.restaurant.bookingHandoffs!.find(h=>h.candidateId===id)!;assert.ok(handoff);handoff.terms=[{label:'Smoking policy',citations:['Non-smoking/smoking','Non smoking'].map(text=>({text,url,readAt:time,identityEvidenceId:base.evidenceId}))}];await update();await page.locator('#details-back').click();await page.locator('#choose').click();await page.locator('#handoff').waitFor();assert.deepEqual(await page.locator('#handoff-terms blockquote').allTextContents(),['Non-smoking/smoking','Non smoking']);await shot(page,`round23-r5-${width}-handoff-control`);
  });
 });

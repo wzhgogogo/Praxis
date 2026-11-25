@@ -5,7 +5,15 @@ export interface CaseSummary { caseId:string; conversationId:string; title:strin
 export interface Offer { id:string; dateTime:string; partySize:number; displayExpiresAt?:string; price?:{amount:number;basis:'PER_PERSON'|'TOTAL'} }
 export interface Candidate { restaurant:{id:string;outletName:string;address:string;sourceIds:Record<string,string>};matchReasons?:string[];distanceObservation?:{meters:number} }
 export interface SourceQuote {evidenceId?:string;field:string;quote:string;sourceUrl?:string}
-export interface Evidence { evidenceId:string;candidateId?:string;kind:string;provider:string;sourceUrl?:string;observedAt:string;claims:Record<string,string|number|boolean|string[]>;sourceFieldQuotes?:SourceQuote[] }
+interface QuotedBudget {min:number;max:number;quote:string;sourceUrl:string}
+export interface Evidence {
+ evidenceId:string;candidateId?:string;kind:string;provider:string;sourceUrl?:string;observedAt:string;
+ claims:Record<string,string|number|boolean|string[]>;sourceFieldQuotes?:SourceQuote[];
+ priceFacts?:{
+  dinnerBudgetRangeYen?:QuotedBudget;lunchBudgetRangeYen?:QuotedBudget;
+  listedCoursePricesYen?:{amount:number;kind:string;quote:string;sourceUrl:string}[];
+ };
+}
 export interface Condition {text:string;status:'MET'|'NOT_MET'|'NOT_CHECKED';strength:string;explanation?:string;evidenceIds:string[];sources:SourceQuote[]}
 export interface Citation {text:string;url:string;readAt:string;sourceRow?:{id:string;header:string;value:string}}
 export interface Answer {status:'ANSWERED'|'NOT_STATED'|'UNVERIFIED';answer?:string|null;confirmationRequired?:boolean;citations?:Citation[];checkedPages:{url:string;readAt:string}[]}

@@ -65,7 +65,7 @@ Praxis第一版是一个面向在日外国人的Responsive English Web Agent，�
 7. 用户通过`Choose this`明确选定一家；查看、备选和指代上下文不等于选定，选定也不授权任何外部提交或自动换店。
 8. 有合格来源交接时即可直接出发，不必等待渠道比较；出发前复用ADR-0049的服务端二次校验，条件变化或证据失效时旧交接失效，不拼造链接。
 9. 无API网站的受控读取继续建设；来源网站的登录、验证码、银行卡、支付和最终预约提交由用户独立完成，第一版不提供远程代订或接管后代提交。
-10. 返回后至多一次非阻断自报，只记`USER_REPORTED`，不转为`BOOKED_VERIFIED`；不回答也不追问。
+10. 按 [ADR-0054](../decisions/0054-per-departure-booking-feedback-prompt.md)，每次明确离开后返回至多一次可跳过的 `USER_REPORTED` 自报。只询问最近一次离开，不追问。
 11. 用户修改需求或停止当前查找后，旧请求的迟到进度、卡片和交接不得重新出现；查找中提供`Stop`并使用服务端已有取消路径。
 12. 用户可以关闭页面后恢复同一Case；候选、备选按Case隔离，恢复原来的工作区视图和当前候选。
 13. 前端有首页、`My plans`抽屉（桌面常驻侧栏）和安排工作区三个位置；对话、候选、详情、备选、比较及预约准备在同一工作区内切换。
@@ -153,7 +153,7 @@ Independent review of the original 102 model answers was reported by the user: z
 
 ## G5 B1 approved follow-up
 
-B1 hands a current, server-checked source URL to the user. Each explicit departure is recorded separately from Task State. On return, an authenticated durable claim asks “Did you get the booking?” at most once per Case; Yes/No/Skip is USER_REPORTED, never BOOKED_VERIFIED. Japanese/English cancellation conflicts show both original quotations and one English paraphrase per page, the explicit conflict notice, and website-confirmation hint; neither model nor code ranks strictness. A fixed Tabelog English system-fee rule is supported by the2026-10-29 public help GET and date/SHA; TableCheck gets no inferred fee. Ordinary G3 source-link activation is implemented with the reviewed main release below. No real booking/model/Live is run. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
+B1 hands a current, server-checked source URL to the user. Each explicit departure is recorded separately from Task State. On return, an authenticated durable claim asks “Did you get the booking?” once for the latest explicit departure under [ADR-0054](../decisions/0054-per-departure-booking-feedback-prompt.md). Yes, No and Skip record USER_REPORTED feedback. Japanese/English cancellation conflicts show both original quotations and one English paraphrase per page, the explicit conflict notice, and website-confirmation hint; neither model nor code ranks strictness. A fixed Tabelog English system-fee rule is supported by the2026-10-29 public help GET and date/SHA; TableCheck gets no inferred fee. Ordinary G3 source-link activation is implemented with the reviewed main release below. No real booking/model/Live is run. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
 
 
 ## B1 G3 wiring preparation branch (2026-10-30 CET)
