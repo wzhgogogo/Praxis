@@ -190,7 +190,30 @@ test('Round23 UI: R7 mobile visualViewport simulation protects headings and long
    await update();if(phase==='ABOUT')await page.locator('#details-button').click();await page.locator('#case-workspace').evaluate(n=>n.scrollTop=0);await page.locator('#message').focus();await keyboard(true);
    const boxes=await page.evaluate(()=>{const vv=window.visualViewport!;return ['#topbar','#case-title','.workspace-conditions','#workspace-composer'].map(selector=>{const r=document.querySelector(selector)!.getBoundingClientRect();return{selector,top:r.top,bottom:r.bottom,from:vv.offsetTop,to:vv.offsetTop+vv.height};});});for(const b of boxes)assert.ok(b.top>=b.from-1&&b.bottom<=b.to+1,JSON.stringify({phase,...b}));await shot(page,`round23-r7-${phase.toLowerCase()}-keyboard`);await page.locator('#message').evaluate(n=>(n as HTMLElement).blur());await keyboard(false);if(phase==='ABOUT')await page.locator('#details-back').click();
   }
-  Object.assign(view,structuredClone(original));const base=view.restaurant.readEvidence.find(f=>f.candidateId===id)!;view.restaurant.currentFactEvidence=[{...base,sourceFieldQuotes:[{field:'CATEGORY',quote:'Long About reading '.repeat(350),sourceUrl:base.sourceUrl!}]}];await update();await page.locator('#details-button').click();await page.locator('#case-workspace').evaluate(n=>n.scrollTop=350);const before=await page.locator('#case-workspace').evaluate(n=>n.scrollTop);assert.ok(before>300);await page.locator('#message').fill('Keep my unsent question');await keyboard(true);assert.equal(await page.locator('#case-workspace').evaluate(n=>n.scrollTop),before);await page.locator('#message').evaluate(n=>(n as HTMLElement).blur());await keyboard(false);assert.equal(await page.locator('#case-workspace').evaluate(n=>n.scrollTop),before);assert.equal(await page.locator('#message').inputValue(),'Keep my unsent question');await page.mouse.move(150,300);await page.mouse.wheel(0,160);await page.waitForFunction(y=>document.getElementById('case-workspace')!.scrollTop>y,before);await shot(page,'round23-r7-long-about-scroll');
+  Object.assign(view,structuredClone(original));
+  const base=view.restaurant.readEvidence.find(f=>f.candidateId===id)!;
+  const url='https://merchant.example/reservations';
+  const policy=Array.from({length:42},(_,index)=>'Cancellation rule '+(index+1)+' applies to confirmed tables.').join('\n');
+  view.restaurant.currentFactEvidence=[{...base,kind:'RESTAURANT_FACT',sourceUrl:url,claims:{cancellationTerms:'Cancellation fees may apply.'},
+   sourceFieldQuotes:[{field:'SOURCE_TEXT',quote:policy,sourceUrl:url}]}];
+  await update();
+  await page.locator('#details-button').click();
+  await page.locator('#details-content summary').click();
+  const scroll=page.locator('#case-workspace');
+  await scroll.evaluate(node=>node.scrollTop=350);
+  const before=await scroll.evaluate(node=>node.scrollTop);
+  assert.ok(before>300);
+  await page.locator('#message').fill('Keep my unsent question');
+  await keyboard(true);
+  assert.equal(await scroll.evaluate(node=>node.scrollTop),before);
+  await page.locator('#message').evaluate(node=>(node as HTMLElement).blur());
+  await keyboard(false);
+  assert.equal(await scroll.evaluate(node=>node.scrollTop),before);
+  assert.equal(await page.locator('#message').inputValue(),'Keep my unsent question');
+  await page.mouse.move(150,300);
+  await page.mouse.wheel(0,160);
+  await page.waitForFunction(y=>document.getElementById('case-workspace')!.scrollTop>y,before);
+  await shot(page,'round23-r7-long-about-scroll');
  });
 });
 

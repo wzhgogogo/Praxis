@@ -176,7 +176,7 @@ test('Website photos: one deduplicated lookahead, fail-closed provider and faile
 
 for(const width of [390,1440])test(`Round23 UI: R8 ${width} About and fullscreen native swipes preserve taps scroll and attribution`,{timeout:45000},async()=>{
  const {createGooglePhotoFixture}=await import('../google-photo-fixtures.js');const google=await createGooglePhotoFixture(),source=await createPhotoSourceFixture();
- const host=await startWorkspaceFixture({photoHttp:source.http,photoGoogle:google.transport,provider:'TABELOG',cuisineDisagreement:'Original category prose for a long About page. '.repeat(150)}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:true,reducedMotion:'reduce'});
+ const host=await startWorkspaceFixture({photoHttp:source.http,photoGoogle:google.transport,provider:'TABELOG'}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:true,reducedMotion:'reduce'});
  const destinations:string[]=[];await context.route('**/*',r=>{const url=r.request().url();if(new URL(url).origin===host.baseUrl)return r.continue();if(r.request().isNavigationRequest()){destinations.push(url);return r.fulfill({contentType:'text/html',body:'<title>Offline attribution target</title>'});}return r.abort();});const page=await context.newPage(),cdp=await context.newCDPSession(page);
  const swipe=async(selector:string,dx:number,dy=0)=>{const box=await page.locator(selector).boundingBox();assert.ok(box);const x=box.x+box.width*.5,y=box.y+box.height*.5;await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});for(let i=1;i<=6;i++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+dx*i/6,y:y+dy*i/6}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});};
  const credits=async(selector:string)=>{for(const index of [0,1]){const a=page.locator(selector+' a').nth(index),href=await a.getAttribute('href');assert.ok(href?.startsWith('https:'));const popup=context.waitForEvent('page');await a.tap();const opened=await popup;await opened.waitForLoadState('domcontentloaded');assert.equal(opened.url(),href);assert.ok(destinations.includes(href!));await opened.close();}};
@@ -185,6 +185,20 @@ for(const width of [390,1440])test(`Round23 UI: R8 ${width} About and fullscreen
   await swipe('#detail-photo',90);await assertCurrentPhoto(page,'detail-photo','detail-photo-counter',gallery.photos[0],1,8);assert.equal(await page.locator('#photo-viewer').isVisible(),false);await page.locator('#detail-photo-open').tap();await page.locator('#photo-viewer').waitFor();
   await swipe('#large-photo',-90);await assertCurrentPhoto(page,'large-photo','photo-counter',gallery.photos[1],2,8);assert.equal(await page.locator('#photo-viewer').evaluate(n=>(n as HTMLDialogElement).open),true);await capture(page,`round23-r8-${width}-viewer-swiped`);
   await swipe('#large-photo',90);await assertCurrentPhoto(page,'large-photo','photo-counter',gallery.photos[0],1,8);assert.equal(await page.locator('#photo-viewer').evaluate(n=>(n as HTMLDialogElement).open),true);await credits('#photo-source');await page.locator('#photo-close').tap();assert.equal(await page.locator('#details').isVisible(),true);
-  const before=await page.locator('#case-workspace').evaluate(n=>n.scrollTop);await swipe('#detail-photo',0,-100);await page.waitForFunction(y=>document.getElementById('case-workspace')!.scrollTop>y,before);assert.equal(await page.locator('#photo-viewer').isVisible(),false);await capture(page,`round23-r8-${width}-about-vertical-scroll`);await page.locator('#case-workspace').evaluate(n=>n.scrollTop=0);await credits('#detail-photo-source');assert.equal(await page.locator('#details').isVisible(),true);
+  const originalViewport=page.viewportSize()!;
+  // Exercise native vertical scroll with compact About content in a short mobile viewport.
+  if(width===390)await page.setViewportSize({width,height:520});
+  const scroller=page.locator('#case-workspace');
+  await scroller.evaluate(n=>n.scrollTop=0);
+  assert.ok(await scroller.evaluate(n=>n.scrollHeight>n.clientHeight),'About must have room to scroll');
+  const before=await scroller.evaluate(n=>n.scrollTop);
+  await swipe('#detail-photo',0,-100);
+  await page.waitForFunction(y=>document.getElementById('case-workspace')!.scrollTop>y,before);
+  assert.equal(await page.locator('#photo-viewer').isVisible(),false);
+  await capture(page,`round23-r8-${width}-about-vertical-scroll`);
+  if(width===390)await page.setViewportSize(originalViewport);
+  await scroller.evaluate(n=>n.scrollTop=0);
+  await credits('#detail-photo-source');
+  assert.equal(await page.locator('#details').isVisible(),true);
  }finally{await context.close();await browser.close();await host.close();}
 });

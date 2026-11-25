@@ -698,7 +698,7 @@ test("Round13 UI: optional condition chips can be removed without touching the d
   });
 });
 
-test("Round13 UI: the card shows short source labels and About keeps the original excerpt", { timeout: 30_000 }, async () => {
+test("Round13 UI: the card keeps short source labels while About omits category excerpts", { timeout: 30_000 }, async () => {
   const sourceText = "Chinese, ＣＨＩＮＥＳＥ, Casual\nlunch, Book a table!, Private dining rooms for your next company celebration, Dumpling, Izakaya, Bistro";
   const matchReasons = [
     "Address explicitly matches requested area: Tokyo",
@@ -721,14 +721,10 @@ test("Round13 UI: the card shows short source labels and About keeps the origina
     await screenshot(page, "round13-compact-source-categories");
 
     await page.locator("#details-button").click();
-    const matchingQuote = page.locator("blockquote").filter({hasText:"Private dining rooms for your next company celebration"});
-    const source = page.locator("#details-content details").filter({has:matchingQuote});
-    const excerpt = source.locator("blockquote").filter({hasText:"Private dining rooms for your next company celebration"});
-    assert.equal(await excerpt.count(),1);
-    assert.equal(await excerpt.isVisible(),false);
-    await source.locator("summary").click();
-    assert.equal(await excerpt.textContent(),sourceText);
-    assert.equal(await excerpt.isVisible(),true);
+    const about=page.locator("#details-content");
+    assert.equal(await about.locator(".about-categories, details, .citation-footer").count(),0);
+    assert.ok(!(await about.textContent())?.includes(sourceText));
+    assert.ok(persisted.restaurant.currentFactEvidence.some(fact=>fact.sourceFieldQuotes?.some(quote=>quote.quote===sourceText)));
   });
 });
 
@@ -1202,14 +1198,14 @@ for(const mobile of [false,true])for(const boundary of ["SSE","reload","same-rev
    assert.ok(latest.restaurant.availability[candidateId]!.some(o=>o.partySize===3&&o.dateTime.includes("19:30")));
    assert.ok(latest.restaurant.availability[candidateId]!.some(o=>o.partySize===3&&o.dateTime.includes("19:00")));
    if(boundary==="reload")await page.reload();
-   await page.locator("#candidate-panel").waitFor();await page.locator("#error").waitFor();
+   await page.locator("#candidate-panel").waitFor();
    assert.equal(await page.locator("#handoff").isVisible(),false);assert.equal(await page.locator("#departure").isVisible(),false);
-   assert.match(await page.locator("#error").innerText(),/conditions.*changed|plan.*changed/i);
+   assert.equal(await page.locator("#error").isVisible(),false);
+   await assertReconfirmation(page);
    assert.equal(departures.length,0);
    const before=await host.database.query<{count:number}>("SELECT count(*)::int AS count FROM restaurant_booking_departures WHERE conversation_id = $1",[view.case.conversationId]);
    assert.equal(before.rows[0]!.count,0);
    await screenshot(page,`round17-${mobile?"mobile":"desktop"}-${boundary.toLowerCase()}-revision-exit`);
-   await assertReconfirmation(page);
    await screenshot(page,`round18-${mobile?"mobile":"desktop"}-${boundary.toLowerCase()}-reconfirm`);
    if(boundary==="SSE"){
     await page.reload();await page.locator("#candidate-panel").waitFor();await assertReconfirmation(page);
