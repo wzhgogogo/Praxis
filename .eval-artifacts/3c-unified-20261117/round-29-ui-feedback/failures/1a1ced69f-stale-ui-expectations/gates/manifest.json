@@ -1,0 +1,137 @@
+[
+  {
+    "name": "typecheck",
+    "sha": "1a1ced69fd1d29f2de76579a6e1e4a61bd16e904",
+    "sourceTree": "eee92b381a591d1fc234191608e36839a48d6c82",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "seconds": 0.7638140830000001,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "arch-check",
+    "sha": "1a1ced69fd1d29f2de76579a6e1e4a61bd16e904",
+    "sourceTree": "eee92b381a591d1fc234191608e36839a48d6c82",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "exitCode": 0,
+    "seconds": 0.24709941599999996,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "build",
+    "sha": "1a1ced69fd1d29f2de76579a6e1e4a61bd16e904",
+    "sourceTree": "eee92b381a591d1fc234191608e36839a48d6c82",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "seconds": 0.690396,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "test",
+    "sha": "1a1ced69fd1d29f2de76579a6e1e4a61bd16e904",
+    "sourceTree": "eee92b381a591d1fc234191608e36839a48d6c82",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "test"
+    ],
+    "exitCode": 0,
+    "seconds": 85.61809325,
+    "tests": [
+      {
+        "tests": 1995,
+        "pass": 1995,
+        "fail": 0,
+        "durationMs": 85511.9435
+      }
+    ],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "browser-fixture",
+    "sha": "1a1ced69fd1d29f2de76579a6e1e4a61bd16e904",
+    "sourceTree": "eee92b381a591d1fc234191608e36839a48d6c82",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "exitCode": 1,
+    "seconds": 479.067590334,
+    "tests": [
+      {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "durationMs": 24341.652709
+      },
+      {
+        "tests": 609,
+        "pass": 602,
+        "fail": 7,
+        "durationMs": 454548.064917
+      },
+      {
+        "tests": 614,
+        "pass": 607,
+        "fail": 7,
+        "durationMs": 478944.38
+      }
+    ],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {
+      "PRAXIS_ROUND29_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-29-ui-feedback/states",
+      "PRAXIS_ROUND29_SHA": "1a1ced69fd1d29f2de76579a6e1e4a61bd16e904"
+    },
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  }
+]

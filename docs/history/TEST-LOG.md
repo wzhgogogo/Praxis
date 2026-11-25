@@ -7336,3 +7336,10 @@ Build后dist C1 4/4（12833.69525ms），源码4条已含在Chromium；冻结独
 ## Round 28 周限定星期接线
 
 冻结 `f681133e8bb648bb6be7709161ef42a90bb537ec`。Prompt v29 的完整周限定 weekday 指令按东京偏移绑定。D04 原回包从冲突变为 2026-12-04 19:00，十句离线回放 10/10，新增真实请求 0。实际消息入口正例查位成功，坏绝对日期和错星期读轮结束后查位 0。默认 1995/1995，G2 5/5，Chromium 604/604，G6 159/159，dist C1 4/4。首个候选的 Typecheck 失败已归档。冻结后的九项原有门禁及日期回放通过，历史完整性仍阻塞。 [门禁清单](../../.eval-artifacts/3c-unified-20261117/round-28-qualified-weekday/gates/manifest.json)
+
+
+<a id="unified-round29-ui-feedback-20261125"></a>
+
+## 2026-11-25 — Round 29 UI 与预约反馈离线验收
+
+冻结 `f800ae00d9109a66831acf75297ed88cb46f09be` 的五道离线门禁通过。默认 1,995/1,995、G2 5/5、Chromium 609/609、G6 159/159、dist C1 4/4。390×844 与 1440×900 共 16 张截图通过核对，19 个资产一致，18 模块零环。历史完整性仍受既有原件缺失阻塞。 保存了修前反例、旧断言失败和 Node/V8 原生栈。闭环证据覆盖两尺寸、有价差快照、连续离开、并发领取与 Stop 清理。[报告](../../.eval-artifacts/3c-unified-20261117/round-29-ui-feedback/REPORT.md)

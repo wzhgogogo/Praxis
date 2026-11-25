@@ -1511,3 +1511,12 @@ Fixed 5 P2 findings from Round 25 independent review (`V3`, `R1`, `M2`, `R3`, `R
 ### 2026-11-25 — Round 28 周限定星期接线
 
 冻结 `f681133e8bb648bb6be7709161ef42a90bb537ec`。Prompt v29 的完整周限定 weekday 指令按东京偏移绑定。D04 原回包从冲突变为 2026-12-04 19:00，十句离线回放 10/10，新增真实请求 0。实际消息入口正例查位成功，坏绝对日期和错星期读轮结束后查位 0。默认 1995/1995，G2 5/5，Chromium 604/604，G6 159/159，dist C1 4/4。首个候选的 Typecheck 失败已归档。冻结后的九项原有门禁及日期回放通过，历史完整性仍阻塞。 [报告](../.eval-artifacts/3c-unified-20261117/round-28-qualified-weekday/REPORT.md)
+
+
+<a id="unified-round29-ui-feedback-20261125"></a>
+
+### 2026-11-25 — Round 29 UI 与预约反馈离线验收
+
+About 同源相同内容合并到最新读取，保留不同报价和条款，显示结构化价位与紧凑出处。ADR-0054 和迁移 0011 改为每次明确离开后返回至多一次反馈，只领取最新离开记录。Stop 清理旧提示，Handoff 确认回到候选卡片。
+
+冻结 `f800ae00d9109a66831acf75297ed88cb46f09be` 的五道离线门禁通过。默认 1,995/1,995、G2 5/5、Chromium 609/609、G6 159/159、dist C1 4/4。390×844 与 1440×900 共 16 张截图通过核对，19 个资产一致，18 模块零环。历史完整性仍受既有原件缺失阻塞。 [报告](../.eval-artifacts/3c-unified-20261117/round-29-ui-feedback/REPORT.md)

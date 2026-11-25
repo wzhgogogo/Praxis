@@ -1,0 +1,33 @@
+✔ Round23 UI: R8 390 About and fullscreen native swipes preserve taps scroll and attribution (3327.818625ms)
+✔ Round23 UI: R8 1440 About and fullscreen native swipes preserve taps scroll and attribution (2689.901ms)
+✔ Round13 UI: the card keeps short source labels while About omits category excerpts (1845.453208ms)
+✔ Round17 UI: desktop Handoff SSE distinguishes changed conditions from another tab's slot (2124.572667ms)
+✔ Round17 UI: desktop Handoff reload distinguishes changed conditions from another tab's slot (2102.05575ms)
+✔ Round17 UI: desktop Handoff same-revision choice distinguishes changed conditions from another tab's slot (1603.399208ms)
+✔ Round17 UI: mobile Handoff SSE distinguishes changed conditions from another tab's slot (1362.614917ms)
+✔ Round17 UI: mobile Handoff reload distinguishes changed conditions from another tab's slot (1298.110292ms)
+✔ Round17 UI: mobile Handoff same-revision choice distinguishes changed conditions from another tab's slot (1100.974375ms)
+✖ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (11907.335291ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12943.576625
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:21915
+✖ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (11907.335291ms)
+  locator.click: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('#details-content summary')[22m
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:200:50)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:184:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#details-content summary')" ]
+  }
