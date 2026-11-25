@@ -117,7 +117,7 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
   if (!dates.some(isDateEdit)) return { status: "BOUND", proposal };
 
   const normalized = normalize(message);
-  const facts = [];
+  const facts: RestaurantSemanticProposal["facts"] = [];
   for (const fact of proposal.facts) {
     const value = fact.value;
     if (fact.field !== "DATE" || !isDateEdit(fact) || value?.kind !== "DATE") {
