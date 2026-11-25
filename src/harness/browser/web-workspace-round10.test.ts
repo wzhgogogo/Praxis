@@ -785,6 +785,8 @@ test("Round13 UI: About shows pending and newest-first answers and keeps rejecte
     try {
       await signin(page);
       const { view } = await createPlan(page, "Dinner in Tokyo");
+      const current = await host.application.getCase(userId, view.case.caseId);
+      await expire(page, host, current, current.restaurant.presentedCandidateIds![0]!);
       await page.locator("#details-button").click();
       const composer = page.locator("#message");
       const send = page.locator("#send");
@@ -884,7 +886,7 @@ for (const entry of ["About", "Handoff Back", "other tab", "renewal"] as const) 
         await expire(page, host, before, id);
         assert.equal(await page.locator("#departure-title").innerText(), "Check availability again");
         host.hold();
-      } else await tab.locator("#details-button").click();
+      } else { await expire(tab, host, before, id); await tab.locator("#details-button").click(); }
       options.multiSlot = retains;
       options.offerRevision = "reissued";
       const response = tab.waitForResponse(r => r.request().method() === "POST" && r.url().endsWith("/refresh"));
@@ -1102,6 +1104,8 @@ for(const scenario of ["failed refresh","other tab Back"] as const)test("Round15
    await other.locator("#choose").click();await other.locator("#handoff-back").click();await other.close();
   }else{
    options.outcome="all-sources-failed";
+   const current=await host.application.getCase(userId,view.case.caseId);
+   await expire(page, host, current, current.restaurant.presentedCandidateIds![0]!);
    await page.locator("#details-button").click();await page.locator("#refresh").click();await page.locator("#empty-state").waitFor();
    host.recoverSources();options.multiSlot=false;
    await page.locator("#empty-retry").click();
@@ -1135,7 +1139,7 @@ for(const action of ["next","Back","Saved","Find more"] as const)test("Round16 U
   const id=current.restaurant.presentedCandidateIds![0]!;
   await page.getByRole("button",{name:"Time 19:30 on Mon, Nov 2",exact:true}).click();
   const other=await page.context().newPage();await other.clock.install({time:host.clock.now()});await other.goto("/");await ready(other);
-  options.multiSlot=false;await other.locator("#details-button").click();
+  options.multiSlot=false;await expire(other, host, current, id);await other.locator("#details-button").click();
   await other.locator("#refresh").click();
   await page.waitForFunction(()=>document.querySelectorAll('.slot-time').length===1&&document.querySelector<HTMLButtonElement>("#choose")?.disabled===true);
   const scope=JSON.stringify([userId,view.case.caseId,current.restaurant.requirementRevision,id]),selectionKey="praxis:slot:"+scope;

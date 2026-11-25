@@ -119,6 +119,9 @@ for (const width of [390, 1440]) test('Round29 About '+width+': Refresh keeps on
   publish(first);
   await update();
   await page.locator('#details-button').click();
+  assert.equal(await page.locator('#refresh').isVisible(),false,'fresh availability hides on-demand refresh');
+  view.restaurant.availability={};view.case.taskVersion++;await update();
+  assert.equal(await page.locator('#refresh').isVisible(),true);
   await page.route('**/api/cases/*/refresh', async route => {
    assert.equal(route.request().method(),'POST');
    publish(first,identical);

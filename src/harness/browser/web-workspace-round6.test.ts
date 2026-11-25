@@ -37,7 +37,7 @@ for(const size of [{width:390,height:844},{width:1440,height:900}])test(`Round6 
     const original=await open(page,host);host.disconnectStreams();let projected=structuredClone(original);
     await projectionStream(page);await page.route("**/api/cases/*",r=>r.request().method()==="GET"&&!r.request().url().endsWith("/events")?r.fulfill({json:{view:projected}}):r.continue());
     await page.reload();await page.locator("#details-button").click();await loaded(page,"detail-photo");
-    assert.equal(await page.locator("#refresh").innerText(),"Refresh availability");
+    assert.equal(await page.locator("#refresh").isVisible(),false);
     await page.locator("#message").fill("Retain this draft");await page.locator("#detail-photo-open").click();await loaded(page,"large-photo");const photo=await page.locator("#large-photo").getAttribute("src");
     projected.case.phase="SEARCHING";projected.restaurant.progress.active=true;await emit(page,projected);
     assert.equal(await page.locator("#details").isVisible(),true);assert.equal(await page.locator("#photo-viewer").isVisible(),true);assert.equal(await page.locator("#large-photo").getAttribute("src"),photo);
@@ -59,9 +59,10 @@ test("Round6: refresh labels use the whole presented batch, retry and goal rathe
     const original=await open(page,host);host.disconnectStreams();let projected=structuredClone(original);await projectionStream(page);await page.route("**/api/cases/*",r=>r.request().method()==="GET"&&!r.request().url().endsWith("/events")?r.fulfill({json:{view:projected}}):r.continue());await page.reload();await page.locator("#details-button").click();
     const [current,other]=projected.restaurant.presentedCandidateIds;projected.restaurant.intentDraft.target.goal="RECOMMENDATION";delete projected.restaurant.intentDraft.target.goalBasis;
     projected.restaurant.availability={};projected.restaurant.availabilityChecks={};projected.restaurant.readStatus.canRetry=false;await emit(page,projected);assert.equal(await page.locator("#refresh").isVisible(),false,"Pure facts do not expose a details-refresh action");
-    projected.restaurant.availability[other]=original.restaurant.availability[other];await emit(page,projected);assert.equal(await page.locator("#refresh").innerText(),"Refresh availability","mixed batch: a different outlet has displayed inventory");assert.equal(projected.restaurant.availability[current],undefined);
+    projected.restaurant.availability[other]=original.restaurant.availability[other];await emit(page,projected);assert.equal(await page.locator("#refresh").innerText(),"Refresh availability","mixed batch: current outlet without offers keeps on-demand refresh");assert.equal(projected.restaurant.availability[current],undefined);
     projected.restaurant.availability={};projected.restaurant.availabilityChecks[other]=original.restaurant.availabilityChecks[other];await emit(page,projected);assert.equal(await page.locator("#refresh").innerText(),"Refresh availability");
     projected.restaurant.availabilityChecks={};projected.restaurant.intentDraft.target.goal="AVAILABILITY";await emit(page,projected);assert.equal(await page.locator("#refresh").innerText(),"Refresh availability");
+    projected.restaurant.availability[current]=original.restaurant.availability[current];await emit(page,projected);assert.equal(await page.locator("#refresh").isVisible(),false,"fresh availability for current outlet hides refresh");
     projected.restaurant.intentDraft.target.goal="RECOMMENDATION";projected.restaurant.readStatus.canRetry=true;await emit(page,projected);assert.equal(await page.locator("#refresh").innerText(),"Refresh availability");
     projected.restaurant.progress.active=true;await emit(page,projected);assert.equal(await page.locator("#refresh").innerText(),"Refreshing…");assert.equal(await page.locator("#refresh").isDisabled(),true);
   }finally{await context.close();await browser.close();await host.close();}

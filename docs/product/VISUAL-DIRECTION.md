@@ -82,3 +82,5 @@ Prior empty results disappear immediately on message/capsule save/remove, Find m
 Confirmed and Not checked use secondary gray #5F6275. About and handoff text use #15172B, with source links in #5F6275. Blue remains on the logo cursor, quote rule, progress mark, saved bookmark, primary action and the pale selected time surface and outline. Card times use a compact grid with 5px by 10px button padding and 8px corners. The booking feedback title shares a row with the upper-right close control. Yes and Not yet sit centered below.
 
 Source disclosures keep their horizontal and vertical origin when opened, measured relative to the sheet for the bottom dialog. Quotation groups own the visible frame and padding. About starts with Source collapsed. Mobile capsule editors appear after the capsule buttons, with snap disabled while the editor is open.
+
+Booking feedback centers its title above centered Yes and Not yet controls with upper-right ×. About Refresh availability is shown on demand only when the selected restaurant's availability is expired, absent, or retryable.

@@ -116,10 +116,15 @@ for(const width of [390,1440])test(`Round27 UI: UI-3 ${width} pure facts hide re
  await journey(width,{multiSlot:true},'card',async(page,host)=>{
   const original=await snapshot(page),view=structuredClone(original);assert.ok(view.restaurant.intentDraft?.target);view.restaurant.intentDraft.target.goal='RECOMMENDATION';view.restaurant.availability={};view.restaurant.availabilityChecks={};view.restaurant.readStatus.canRetry=false;view.case.taskVersion++;
   await projection(page,view);await page.locator('#details-button').click();assert.equal(await page.locator('#refresh').isVisible(),false);await capture(page,`round27-ui3-${width}-pure-facts`);
-  view.restaurant.availability=structuredClone(original.restaurant.availability);view.case.taskVersion++;await projection(page,view);assert.equal(await page.locator('#refresh').isVisible(),true);assert.equal(await page.locator('#refresh').innerText(),'Refresh availability');
-  // Restore actual authority before the real availability-refresh POST.
+  view.restaurant.availability=structuredClone(original.restaurant.availability);view.case.taskVersion++;await projection(page,view);assert.equal(await page.locator('#refresh').isVisible(),false,'fresh availability hides on-demand refresh');
+  view.restaurant.availability={};view.restaurant.availabilityChecks=structuredClone(original.restaurant.availabilityChecks);view.case.taskVersion++;await projection(page,view);assert.equal(await page.locator('#refresh').isVisible(),true);assert.equal(await page.locator('#refresh').innerText(),'Refresh availability');
+  // Restore actual authority and expire slots before the real availability-refresh POST.
+  const id=original.restaurant.presentedCandidateIds![0]!,expiresAt=original.restaurant.availabilityChecks[id]?.displayExpiresAt;assert.ok(expiresAt);
+  const duration=Date.parse(expiresAt)-host.clock.now().valueOf()+100;
+  host.clock.advance(duration);await page.clock.fastForward(duration);
   await page.evaluate(async view=>{const path='/assets/workspace/runtime.js';const {state}=await import(path);state.view=null;const transport='/assets/workspace/transport.js';const {accept,openStream}=await import(transport);accept(view);openStream(view.case.caseId,state.nav);},original);
-  const before=host.providerCalls.length,response=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/refresh'));await page.locator('#refresh').click();assert.equal((await response).status(),200);await settled(host,original.case.caseId);await page.waitForFunction(()=>!document.getElementById('refresh')!.hidden&&document.getElementById('refresh')!.textContent==='Refresh availability');assert.ok(host.providerCalls.length>before);await capture(page,`round27-ui3-${width}-availability-refreshed`);
+  await page.locator('#refresh').waitFor();
+  const before=host.providerCalls.length,response=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/refresh'));await page.locator('#refresh').click();assert.equal((await response).status(),200);await settled(host,original.case.caseId);await page.waitForFunction(()=>document.getElementById('refresh')!.hidden);assert.ok(host.providerCalls.length>before);await capture(page,`round27-ui3-${width}-availability-refreshed`);
  });
 });
 

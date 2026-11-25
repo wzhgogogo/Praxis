@@ -127,17 +127,19 @@ for(const size of sizes){
       await page.evaluate(()=>window.dispatchEvent(new Event("focus")));
       await page.getByText("Did you get the booking?",{exact:true}).waitFor();
       const feedbackLayout = await page.locator("#feedback").evaluate(root => {
+        const headRect = root.querySelector(".feedback-head")!.getBoundingClientRect();
         const title = root.querySelector(".feedback-head p")!.getBoundingClientRect();
         const close = root.querySelector("#feedback-dismiss")!.getBoundingClientRect();
         const yes = root.querySelector('[data-answer="YES"]')!.getBoundingClientRect();
         const no = root.querySelector('[data-answer="NO"]')!.getBoundingClientRect();
         const answers = root.querySelector(".answers")!.getBoundingClientRect();
-        return { head: root.querySelector(".feedback-head")!.getBoundingClientRect().right, titleRight: title.right, titleMiddle: (title.top + title.bottom) / 2,
+        return { head: headRect.right, headCenter: (headRect.left + headRect.right) / 2, titleRight: title.right, titleCenter: (title.left + title.right) / 2, titleMiddle: (title.top + title.bottom) / 2,
           closeLeft: close.left, closeRight: close.right, closeHeight: close.height, closeBottom: close.bottom, closeMiddle: (close.top + close.bottom) / 2,
           answersCenter: (answers.left + answers.right) / 2, buttonsCenter: (yes.left + no.right) / 2, buttonTop: Math.min(yes.top, no.top) };
       });
       assert.equal(feedbackLayout.closeRight, feedbackLayout.head);
-      assert.equal(feedbackLayout.closeMiddle, feedbackLayout.titleMiddle);
+      assert.ok(Math.abs(feedbackLayout.closeMiddle - feedbackLayout.titleMiddle) < 1);
+      assert.ok(Math.abs(feedbackLayout.headCenter - feedbackLayout.titleCenter) < 1);
       assert.ok(feedbackLayout.closeLeft > feedbackLayout.titleRight && feedbackLayout.closeHeight >= 44);
       assert.ok(feedbackLayout.buttonTop >= feedbackLayout.closeBottom);
       assert.ok(Math.abs(feedbackLayout.answersCenter - feedbackLayout.buttonsCenter) < 1);
