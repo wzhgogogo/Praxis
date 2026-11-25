@@ -43,7 +43,12 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
     assert.match(await page.locator("#details-content").innerText(),/Private room\s*Unverified/);
     await page.getByRole("button",{name:"Refresh availability",exact:true}).click();
     await page.getByText("Cancellation: current rule",{exact:false}).waitFor();
-    const text=await page.locator("#details-content").innerText();
+    const details=page.locator("#details-content");
+    const price=details.locator("details").filter({has:page.getByText("Observed price:",{exact:true})});
+    assert.equal(await price.getAttribute("open"),null);
+    assert.equal(await price.locator("blockquote").isVisible(),false);
+    await price.locator("summary").click();
+    const text=await details.innerText();
     assert.match(text,/8,000/);assert.match(text,/Around ¥10,000 per person\s*Confirmed/);assert.match(text,/Observed price:\s*Dinner course/);
     assert.doesNotMatch(text,/7,500|No-show: old rule|Discovery only/);
     assert.equal(await page.locator(".citation-footer a").first().getAttribute("href"),current.sourceUrl);

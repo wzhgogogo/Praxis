@@ -845,7 +845,12 @@ test("Round13 UI: About shows pending and newest-first answers and keeps rejecte
       await history.first().locator("summary").click();
       assert.match(await history.first().innerText(), /Checked Oct 29/);
       assert.match(await page.locator("#details-content .about-categories").innerText(), /Chinese/);
-      assert.equal(await page.locator("#details-content .citation-footer").count(), 0, "Round23 categories alone must not create orphan source footers");
+      const categorySource = page.locator("#details-content details").filter({has:page.locator("blockquote").filter({hasText:"Chinese, Dumpling, Izakaya"})});
+      assert.equal(await categorySource.getAttribute("open"),null);
+      assert.equal(await page.locator("#details-content .citation-footer:visible").count(),0,"A category must not leave an orphan footer on the first screen");
+      await categorySource.locator("summary").click();
+      assert.equal(await categorySource.locator("blockquote").innerText(),"Chinese, Dumpling, Izakaya");
+      assert.match(await categorySource.locator(".citation-footer").innerText(),/Checked Oct 29/);
 
       await page.route("**" + pathFor(view) + "/questions", route => route.fulfill({
         status: 503, json: { error: "Fixture question unavailable" },
