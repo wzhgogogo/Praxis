@@ -1,0 +1,63 @@
+node:internal/errors:983
+  const err = new Error(message);
+              ^
+
+Error: Command failed: /opt/homebrew/Cellar/node/24.4.1/bin/node /private/tmp/praxis-3c-unified/node_modules/typescript/lib/tsc.js -p /private/tmp/praxis-3c-unified/tsconfig.web.json --noEmit false --outDir /var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-web-aH85aD
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:924:11)
+    at execFileSync (node:child_process:960:15)
+    at <anonymous> (/private/tmp/praxis-3c-unified/src/web/workspace-assets.ts:17:5)
+    at ModuleJob.run (node:internal/modules/esm/module_job:370:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:99:5) {
+  status: 2,
+  signal: null,
+  output: [
+    null,
+    Buffer(273) [Uint8Array] [
+      116, 115,  99, 111, 110, 102, 105, 103,  46, 119, 101,  98,
+       46, 106, 115, 111, 110,  40,  50,  44,  51,  41,  58,  32,
+      101, 114, 114, 111, 114,  32,  84,  83,  53,  48,  49,  49,
+       58,  32,  84, 104, 101,  32,  99, 111, 109, 109, 111, 110,
+       32, 115, 111, 117, 114,  99, 101,  32, 100, 105, 114, 101,
+       99, 116, 111, 114, 121,  32, 111, 102,  32,  39, 116, 115,
+       99, 111, 110, 102, 105, 103,  46, 119, 101,  98,  46, 106,
+      115, 111, 110,  39,  32, 105, 115,  32,  39,  46,  47, 115,
+      114,  99,  47, 119,
+      ... 173 more items
+    ],
+    Buffer(0) [Uint8Array] []
+  ],
+  pid: 35496,
+  stdout: Buffer(273) [Uint8Array] [
+    116, 115,  99, 111, 110, 102, 105, 103,  46, 119, 101,  98,
+     46, 106, 115, 111, 110,  40,  50,  44,  51,  41,  58,  32,
+    101, 114, 114, 111, 114,  32,  84,  83,  53,  48,  49,  49,
+     58,  32,  84, 104, 101,  32,  99, 111, 109, 109, 111, 110,
+     32, 115, 111, 117, 114,  99, 101,  32, 100, 105, 114, 101,
+     99, 116, 111, 114, 121,  32, 111, 102,  32,  39, 116, 115,
+     99, 111, 110, 102, 105, 103,  46, 119, 101,  98,  46, 106,
+    115, 111, 110,  39,  32, 105, 115,  32,  39,  46,  47, 115,
+    114,  99,  47, 119,
+    ... 173 more items
+  ],
+  stderr: Buffer(0) [Uint8Array] []
+}
+
+Node.js v24.4.1
+✖ src/harness/browser/web-workspace-round10.test.ts (522.915167ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 525.941917
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:1
+✖ src/harness/browser/web-workspace-round10.test.ts (522.915167ms)
+  'test failed'

@@ -1,0 +1,43 @@
+✖ B1 persistent HTTP composition projects a cached source link, rechecks it and isolates owners (891.194333ms)
+▶ B1 ordinary assembly exposes only the exact G3 source link
+  ✔ original (50.199791ms)
+  ✔ relative (26.877125ms)
+  ✔ missing (30.954542ms)
+  ✔ date (21.129292ms)
+  ✔ party (20.709292ms)
+  ✔ time (25.058583ms)
+  ✔ outlet (20.248667ms)
+  ✔ domain (20.041667ms)
+  ✔ path (25.291417ms)
+  ✔ extra-query (20.10675ms)
+  ✔ japanese-name (71.309125ms)
+✔ B1 ordinary assembly exposes only the exact G3 source link (898.013667ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2300.356917
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:3:23317
+✖ B1 persistent HTTP composition projects a cached source link, rechecks it and isolates owners (891.194333ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Found 1 restaurant/. Input:
+  
+  'The case is now present results.'
+  
+      at <anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/server/local-web-server.test.ts:1846:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/private/tmp/praxis-seed-readiness-fixes/src/server/local-web-server.test.ts:247:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/server/local-web-server.test.ts:1800:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'The case is now present results.',
+    expected: /Found 1 restaurant/,
+    operator: 'match'
+  }

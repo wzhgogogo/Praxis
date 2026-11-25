@@ -1,0 +1,178 @@
+{
+  "sha": "ea7b20c6eaf842a3d365784f529b543f23218ed2",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "ea7b20c6eaf842a3d365784f529b543f23218ed2",
+      "exitCode": 0,
+      "seconds": 0.587024875,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "ea7b20c6eaf842a3d365784f529b543f23218ed2",
+      "exitCode": 0,
+      "seconds": 0.19348129199999997,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "ea7b20c6eaf842a3d365784f529b543f23218ed2",
+      "exitCode": 0,
+      "seconds": 60.866433209,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "test"
+      ],
+      "testSummaries": [
+        {
+          "tests": 1689,
+          "pass": 1689,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "ea7b20c6eaf842a3d365784f529b543f23218ed2",
+      "exitCode": 0,
+      "seconds": 371.00339137500004,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "offline Fixture contracts; runner-replay children apply their own OS outbound denial; no outer sandbox",
+      "invocation": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "testSummaries": [
+        {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0
+        },
+        {
+          "tests": 392,
+          "pass": 392,
+          "fail": 0
+        },
+        {
+          "tests": 397,
+          "pass": 397,
+          "fail": 0
+        },
+        {
+          "tests": 159,
+          "pass": 159,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "ea7b20c6eaf842a3d365784f529b543f23218ed2",
+      "exitCode": 0,
+      "seconds": 0.5199147499999981,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "build"
+      ],
+      "testSummaries": []
+    }
+  ],
+  "browserGroups": [
+    {
+      "name": "G2",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "durationMs": 24176.295167
+    },
+    {
+      "name": "remaining Chromium",
+      "tests": 392,
+      "pass": 392,
+      "fail": 0,
+      "durationMs": 309842.877167
+    },
+    {
+      "name": "combined browser summary (not G6)",
+      "tests": 397,
+      "pass": 397,
+      "fail": 0,
+      "durationMs": 334072.65
+    },
+    {
+      "name": "G6 assembly",
+      "tests": 159,
+      "pass": 159,
+      "fail": 0,
+      "durationMs": 36677.748875
+    }
+  ],
+  "actualG6CommandReached": true
+}

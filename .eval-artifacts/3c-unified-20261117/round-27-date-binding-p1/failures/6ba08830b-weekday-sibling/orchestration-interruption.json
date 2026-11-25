@@ -1,0 +1,84 @@
+{
+  "sha": "6ba08830bf13a87656ccf563d4c4485bccfe749a",
+  "classification": "ORCHESTRATION_INTERRUPTED_FOR_SAME_P1_WEEKDAY_COVERAGE",
+  "driverPID": 78522,
+  "driverSignal": "SIGTERM",
+  "completedManifestStages": [
+    "typecheck",
+    "arch-check",
+    "build"
+  ],
+  "childrenSignalled": false,
+  "childrenAllowedToFinishNaturally": [
+    {
+      "pid": 78569,
+      "ppid": 78522,
+      "state": "S",
+      "executable": "npm"
+    },
+    {
+      "pid": 78578,
+      "ppid": 78569,
+      "state": "S",
+      "executable": "node"
+    },
+    {
+      "pid": 79075,
+      "ppid": 78578,
+      "state": "S",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 79077,
+      "ppid": 79075,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 79111,
+      "ppid": 78578,
+      "state": "R",
+      "executable": "/opt/homebrew/Cellar/node/24.4.1/bin/node"
+    },
+    {
+      "pid": 79114,
+      "ppid": 79111,
+      "state": "S",
+      "executable": "/private/tmp/praxis-3c-unified/node_modules/@esbuild/darwin-arm64/bin/esbuild"
+    },
+    {
+      "pid": 79156,
+      "ppid": 79075,
+      "state": "Ss",
+      "executable": "/Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+    },
+    {
+      "pid": 79157,
+      "ppid": 79156,
+      "state": "S",
+      "executable": "/Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+    },
+    {
+      "pid": 79158,
+      "ppid": 79156,
+      "state": "S",
+      "executable": "/Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+    },
+    {
+      "pid": 79159,
+      "ppid": 79156,
+      "state": "S",
+      "executable": "/Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell"
+    }
+  ],
+  "sourceChangesBeforeActiveGateFinished": false,
+  "reason": "Reviewer identified supported weekday DATE sibling; stop outer scheduling, let active child gate finish, then refreeze/restart complete acceptance.",
+  "activeGateFinishedNaturally": true,
+  "rawDefaultTestSummary": {
+    "tests": 1958,
+    "pass": 1958,
+    "fail": 0
+  },
+  "outerDefaultExitCodeCaptured": false,
+  "remainingTrackedChildPIDs": {}
+}

@@ -1,0 +1,48 @@
+✖ blocked POST suppresses entry recovery: NO_HEADERS (10245.904833ms)
+✖ blocked POST suppresses entry recovery: IDLE_ABORT (20133.989958ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30659.737458
+
+✖ failing tests:
+
+test at src/harness/browser/entry-unsafe-no-retry.test.ts:1:274
+✖ blocked POST suppresses entry recovery: NO_HEADERS (10245.904833ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    events.filter(e=>e.event==='STARTED')
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-unsafe-no-retry.test.ts:29:46)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/entry-unsafe-no-retry.test.ts:1:274
+✖ blocked POST suppresses entry recovery: IDLE_ABORT (20133.989958ms)
+  Error [BrowserRuntimeError]: Local Playwright Chromium operation failed
+      at LocalPlaywrightChromiumSession.run (/private/tmp/praxis-heldout-read-reliability/src/infrastructure/browser/local-playwright-chromium.ts:267:13)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-unsafe-no-retry.test.ts:29:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'BROWSER_RUNTIME_FAILED',
+    cause: page.content: Target page, context or browser has been closed
+        at <anonymous> (/private/tmp/praxis-heldout-read-reliability/src/infrastructure/browser/local-playwright-chromium.ts:100:31)
+        at async LocalPlaywrightChromiumSession.run (/private/tmp/praxis-heldout-read-reliability/src/infrastructure/browser/local-playwright-chromium.ts:264:14)
+        at async TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-unsafe-no-retry.test.ts:29:14) {
+      log: []
+    },
+    scope: undefined,
+    networkFailures: [ { outcome: 'TIMED_OUT', origin: 'http://127.0.0.1:64787', pathname: '/stall.css', method: 'GET', resourceType: 'stylesheet', queryKeys: [], queryValues: [], error: [Object] } ]
+  }

@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: Round14 UI: About refresh requires explicit slot reselection
+ok 1 - Round14 UI: About refresh requires explicit slot reselection
+  ---
+  duration_ms: 1519.516125
+  type: 'test'
+  ...
+# Subtest: Round14 UI: Handoff Back refresh requires explicit slot reselection
+ok 2 - Round14 UI: Handoff Back refresh requires explicit slot reselection
+  ---
+  duration_ms: 1131.166083
+  type: 'test'
+  ...
+# Subtest: Round14 UI: other tab refresh requires explicit slot reselection
+ok 3 - Round14 UI: other tab refresh requires explicit slot reselection
+  ---
+  duration_ms: 1819.680625
+  type: 'test'
+  ...
+# Subtest: Round14 UI: renewal refresh rebinds the same time
+ok 4 - Round14 UI: renewal refresh rebinds the same time
+  ---
+  duration_ms: 1547.404667
+  type: 'test'
+  ...
+# Subtest: Round14 UI: delayed Stop is harmless after delivery
+ok 5 - Round14 UI: delayed Stop is harmless after delivery
+  ---
+  duration_ms: 1101.064709
+  type: 'test'
+  ...
+# Subtest: Round14 UI: delayed Stop does not stop the replacement read
+ok 6 - Round14 UI: delayed Stop does not stop the replacement read
+  ---
+  duration_ms: 1133.268958
+  type: 'test'
+  ...
+# Subtest: Round14 UI: late About acceptance clears only the sent draft
+ok 7 - Round14 UI: late About acceptance clears only the sent draft
+  ---
+  duration_ms: 1407.838875
+  type: 'test'
+  ...
+# Subtest: Round14 UI: late About acceptance preserves a replacement draft
+ok 8 - Round14 UI: late About acceptance preserves a replacement draft
+  ---
+  duration_ms: 1432.901292
+  type: 'test'
+  ...
+# Subtest: Round14 UI: an exhausted revised batch hides stale additions after reload
+ok 9 - Round14 UI: an exhausted revised batch hides stale additions after reload
+  ---
+  duration_ms: 1602.7345
+  type: 'test'
+  ...
+# Subtest: Round14 UI: a claimed return prompt survives switching plans and is answered once
+ok 10 - Round14 UI: a claimed return prompt survives switching plans and is answered once
+  ---
+  duration_ms: 1591.106875
+  type: 'test'
+  ...
+# Subtest: Round15 UI: explicit 19:30 survives failed refresh
+ok 11 - Round15 UI: explicit 19:30 survives failed refresh
+  ---
+  duration_ms: 1342.998209
+  type: 'test'
+  ...
+# Subtest: Round15 UI: explicit 19:30 survives other tab Back
+ok 12 - Round15 UI: explicit 19:30 survives other tab Back
+  ---
+  duration_ms: 1843.315542
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab next preserves this tab's missing 19:30 choice
+ok 13 - Round16 UI: other tab next preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1681.044625
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab Back preserves this tab's missing 19:30 choice
+ok 14 - Round16 UI: other tab Back preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1766.040333
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab Saved preserves this tab's missing 19:30 choice
+ok 15 - Round16 UI: other tab Saved preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1766.939458
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab Find more preserves this tab's missing 19:30 choice
+ok 16 - Round16 UI: other tab Find more preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1777.611917
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop Handoff SSE distinguishes changed conditions from another tab's slot
+ok 17 - Round17 UI: desktop Handoff SSE distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1685.213791
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop Handoff reload distinguishes changed conditions from another tab's slot
+ok 18 - Round17 UI: desktop Handoff reload distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1949.694
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop Handoff same-revision choice distinguishes changed conditions from another tab's slot
+ok 19 - Round17 UI: desktop Handoff same-revision choice distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1600.475292
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile Handoff SSE distinguishes changed conditions from another tab's slot
+ok 20 - Round17 UI: mobile Handoff SSE distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1198.602333
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile Handoff reload distinguishes changed conditions from another tab's slot
+ok 21 - Round17 UI: mobile Handoff reload distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1300.373834
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile Handoff same-revision choice distinguishes changed conditions from another tab's slot
+ok 22 - Round17 UI: mobile Handoff same-revision choice distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1052.609417
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop superseded semantic edit returns 409 and keeps its draft
+ok 23 - Round17 UI: desktop superseded semantic edit returns 409 and keeps its draft
+  ---
+  duration_ms: 1272.406708
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile superseded semantic edit returns 409 and keeps its draft
+ok 24 - Round17 UI: mobile superseded semantic edit returns 409 and keeps its draft
+  ---
+  duration_ms: 1015.427666
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 36092.321333

@@ -1,0 +1,54 @@
+✔ stale same-Case refresh, batch and location requests never cancel an active read (981.324833ms)
+✔ preparing refresh: concurrent getCase cannot fail persisted SEARCHING before read registration (785.29625ms)
+✔ preparing batch: concurrent getCase cannot fail persisted SEARCHING before read registration (664.28375ms)
+✖ preparing location: concurrent getCase cannot fail persisted SEARCHING before read registration (791.070666ms)
+✔ B1 open request does not read terms merely because the Agent chose a candidate (1011.488875ms)
+✔ B1 selected TABELOG outlet proactively acquires same-channel cancellation and card terms through ordinary composition (1295.952292ms)
+✔ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (3712.662041ms)
+✔ B1 reuses the actual admitted G1 cancellation answer without another model call, before or after selection (1089.686083ms)
+✔ B1 carries both observed language policies and separate English paraphrases when G1 reports conflict (1563.79575ms)
+✔ B1 hides SHOP G1 pages without losing the source link (1057.014916ms)
+✔ B1 hides CHANNEL G1 pages without losing the source link (1046.509709ms)
+✔ B1 omits unstated policy and card requirements, and never carries previous-run terms (1606.703583ms)
+✔ B1 shares the real run model ceiling and drops optional terms when that budget is spent (1049.10675ms)
+✔ B1 discards late terms on cancellation while keeping its qualified handoff (1045.199584ms)
+✔ B1 drops expired G1 pages and enclosing-deadline output independently of its still-current link (2130.965584ms)
+✖ B1 stays in the selected Case read scope after the Agent loop returns (543.844292ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 14
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 17621.941958
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:2260
+✖ preparing location: concurrent getCase cannot fail persisted SEARCHING before read registration (791.070666ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNDERSTANDING'
+  - 'SEARCHING'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:51:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNDERSTANDING',
+    expected: 'SEARCHING',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:8856
+✖ B1 stays in the selected Case read scope after the Agent loop returns (543.844292ms)
+  TypeError [Error]: Cannot read properties of undefined (reading '0')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/application/fixtures/booking-terms-composition.ts:340:473)
+      at finished (/private/tmp/praxis-3c-unified/src/application/fixtures/booking-terms-composition.ts:336:525)
+      at Object.select (/private/tmp/praxis-3c-unified/src/application/fixtures/booking-terms-composition.ts:340:124)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-booking-terms-composition.test.ts:128:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

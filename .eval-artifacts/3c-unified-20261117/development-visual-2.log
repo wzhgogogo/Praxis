@@ -1,0 +1,19 @@
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /¥5,000/. Input:
+
+'1-2-3 Tokyo (synthetic) ※ East entrance, 【annex building, level 8】 Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description,\n' +
+  '450 m away'
+
+    at file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/visual-smoke.mjs:39:272 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '1-2-3 Tokyo (synthetic) ※ East entrance, 【annex building, level 8】 Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description, Very long building and entrance description,\n' +
+    '450 m away',
+  expected: /¥5,000/,
+  operator: 'match'
+}
+
+Node.js v24.4.1

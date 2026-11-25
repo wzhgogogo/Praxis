@@ -1,0 +1,27 @@
+[
+  {
+    "name": "targeted-final-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.672583959
+  },
+  {
+    "name": "targeted-final-green",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/domains/restaurant/relative-date-binding.test.ts",
+      "src/application/restaurant-relative-date.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 1,
+    "seconds": 33.513946250000004
+  }
+]

@@ -1,0 +1,1050 @@
+{
+  "provenance": {
+    "status": "exposed recorded regression, offline counterfactual re-grounding only",
+    "source": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.json",
+    "sourceSHA256": "1479c4e145fc66d32c53671971fd5e1844838775ea2e5f40e193270211021bd7",
+    "clock": "2026-11-18T03:52:25.365Z"
+  },
+  "state": {
+    "phase": "NO_VERIFIED_RESULT",
+    "intent": {
+      "area": {
+        "query": "Tokyo"
+      },
+      "date": "2026-11-20",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "sushi restaurants in Tokyo",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "criteria": [
+        {
+          "text": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "timezone": "Asia/Tokyo",
+      "partySize": 7,
+      "timeWindow": {
+        "latest": "23:00",
+        "earliest": "18:00"
+      }
+    },
+    "candidates": [
+      {
+        "warnings": [],
+        "restaurant": {
+          "id": "praxis:restaurant:b502a92798add7944a0b5897",
+          "address": "3-chōme-52-15 Izumi, Suginami City, Tokyo 168-0063, Japan",
+          "sourceIds": {
+            "phone": "03-6379-0285",
+            "googlePlaces": "ChIJE-vjIBzzGGARoevP-nYK02k",
+            "googleMapsUri": "https://maps.google.com/?cid=7625450100198730657&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "googleWebsiteUri": "http://www.miraisuisan.co.jp/",
+            "discoverySourceId": "google-places"
+          },
+          "outletName": "MIRAI SUISAN FISHERIES",
+          "provenance": {
+            "address": "evidence:restaurant:google-discovery:4677f581ee0f116368a27a4a",
+            "sourceIds": "evidence:restaurant:google-discovery:4677f581ee0f116368a27a4a",
+            "outletName": "evidence:restaurant:google-discovery:4677f581ee0f116368a27a4a"
+          },
+          "coordinates": {
+            "lat": 35.6808494,
+            "lng": 139.6467037
+          }
+        },
+        "matchReasons": [
+          "Address explicitly matches requested area: Tokyo"
+        ],
+        "executionConfidence": "LOW"
+      }
+    ],
+    "factChecks": {
+      "praxis:restaurant:b502a92798add7944a0b5897": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-11-18T03:49:53.196Z",
+        "reasonCode": "WEBSITE_FACT_READ_FAILED",
+        "evidenceIds": [
+          "evidence:restaurant:google-entity:4f124c3e988860c89525bc81",
+          "evidence:restaurant:google-facts:298698daa4dc0fb09562eefa",
+          "fact-judgment:praxis:restaurant:b502a92798add7944a0b5897:2026-11-18T03:49:57.634Z:evidence:restaurant:google-facts:298698daa4dc0fb09562eefa"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "GOOGLE_PLACES",
+            "outcome": "COMPLETED"
+          },
+          {
+            "source": "RESTAURANT_WEBSITE",
+            "outcome": "UNKNOWN",
+            "reasonCode": "WEBSITE_FACT_READ_FAILED"
+          }
+        ],
+        "supersededEvidenceIds": [
+          "evidence:restaurant:google-facts:a0801fb47d657092c11c5355"
+        ]
+      }
+    },
+    "intentDraft": {
+      "area": {
+        "query": "Tokyo"
+      },
+      "date": "2026-11-20",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "sushi restaurants in Tokyo",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "criteria": [
+        {
+          "text": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "timezone": "Asia/Tokyo",
+      "partySize": 7,
+      "timeWindow": {
+        "latest": "23:00",
+        "earliest": "18:00"
+      },
+      "schemaVersion": "3",
+      "partySizeSource": "EXPLICIT",
+      "temporalResolution": {
+        "date": {
+          "basis": "WEEKDAY:FRIDAY",
+          "expression": "friday",
+          "resolvedDate": "2026-11-20"
+        },
+        "timezone": "Asia/Tokyo",
+        "timeWindow": {
+          "basis": "DAYPART:EVENING",
+          "expression": "evening",
+          "resolvedTimeWindow": {
+            "latest": "23:00",
+            "earliest": "18:00"
+          }
+        },
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-11-18T03:48:36.022Z"
+      }
+    },
+    "availability": {
+      "praxis:restaurant:b502a92798add7944a0b5897": [
+        {
+          "id": "offer:tabelog:praxis:restaurant:b502a92798add7944a0b5897:2026-11-20:18:00:7",
+          "source": "TABELOG",
+          "dateTime": "2026-11-20T18:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-11-18T03:52:04.172Z",
+          "expiresAt": "2026-11-18T03:52:04.172Z",
+          "partySize": 7,
+          "bookingMode": "REQUEST",
+          "restaurantId": "praxis:restaurant:b502a92798add7944a0b5897",
+          "executionMode": "BROWSER",
+          "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+          "bookingRecheckRequired": true
+        },
+        {
+          "id": "offer:tabelog:praxis:restaurant:b502a92798add7944a0b5897:2026-11-20:18:15:7",
+          "source": "TABELOG",
+          "dateTime": "2026-11-20T18:15:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-11-18T03:52:04.172Z",
+          "expiresAt": "2026-11-18T03:52:04.172Z",
+          "partySize": 7,
+          "bookingMode": "REQUEST",
+          "restaurantId": "praxis:restaurant:b502a92798add7944a0b5897",
+          "executionMode": "BROWSER",
+          "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+          "bookingRecheckRequired": true
+        },
+        {
+          "id": "offer:tabelog:praxis:restaurant:b502a92798add7944a0b5897:2026-11-20:18:30:7",
+          "source": "TABELOG",
+          "dateTime": "2026-11-20T18:30:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-11-18T03:52:04.172Z",
+          "expiresAt": "2026-11-18T03:52:04.172Z",
+          "partySize": 7,
+          "bookingMode": "REQUEST",
+          "restaurantId": "praxis:restaurant:b502a92798add7944a0b5897",
+          "executionMode": "BROWSER",
+          "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+          "bookingRecheckRequired": true
+        },
+        {
+          "id": "offer:tabelog:praxis:restaurant:b502a92798add7944a0b5897:2026-11-20:18:45:7",
+          "source": "TABELOG",
+          "dateTime": "2026-11-20T18:45:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-11-18T03:52:04.172Z",
+          "expiresAt": "2026-11-18T03:52:04.172Z",
+          "partySize": 7,
+          "bookingMode": "REQUEST",
+          "restaurantId": "praxis:restaurant:b502a92798add7944a0b5897",
+          "executionMode": "BROWSER",
+          "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+          "bookingRecheckRequired": true
+        },
+        {
+          "id": "offer:tabelog:praxis:restaurant:b502a92798add7944a0b5897:2026-11-20:19:00:7",
+          "source": "TABELOG",
+          "dateTime": "2026-11-20T19:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-11-18T03:52:04.172Z",
+          "expiresAt": "2026-11-18T03:52:04.172Z",
+          "partySize": 7,
+          "bookingMode": "REQUEST",
+          "restaurantId": "praxis:restaurant:b502a92798add7944a0b5897",
+          "executionMode": "BROWSER",
+          "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+          "bookingRecheckRequired": true
+        },
+        {
+          "id": "offer:tabelog:praxis:restaurant:b502a92798add7944a0b5897:2026-11-20:19:15:7",
+          "source": "TABELOG",
+          "dateTime": "2026-11-20T19:15:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-11-18T03:52:04.172Z",
+          "expiresAt": "2026-11-18T03:52:04.172Z",
+          "partySize": 7,
+          "bookingMode": "REQUEST",
+          "restaurantId": "praxis:restaurant:b502a92798add7944a0b5897",
+          "executionMode": "BROWSER",
+          "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+          "bookingRecheckRequired": true
+        },
+        {
+          "id": "offer:tabelog:praxis:restaurant:b502a92798add7944a0b5897:2026-11-20:19:30:7",
+          "source": "TABELOG",
+          "dateTime": "2026-11-20T19:30:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-11-18T03:52:04.172Z",
+          "expiresAt": "2026-11-18T03:52:04.172Z",
+          "partySize": 7,
+          "bookingMode": "REQUEST",
+          "restaurantId": "praxis:restaurant:b502a92798add7944a0b5897",
+          "executionMode": "BROWSER",
+          "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+          "bookingRecheckRequired": true
+        }
+      ]
+    },
+    "readEvidence": [
+      {
+        "kind": "DISCOVERY",
+        "claims": {
+          "types": [
+            "seafood_restaurant",
+            "sushi_restaurant",
+            "japanese_restaurant",
+            "food_store",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "store",
+            "establishment"
+          ],
+          "address": "3-chōme-52-15 Izumi, Suginami City, Tokyo 168-0063, Japan",
+          "placeId": "ChIJE-vjIBzzGGARoevP-nYK02k",
+          "areaMatch": true,
+          "areaQuery": "Tokyo",
+          "outletName": "MIRAI SUISAN FISHERIES",
+          "primaryType": "seafood_restaurant",
+          "areaMatchBasis": "NAMED_PLACE_RADIUS",
+          "distanceMeters": 577,
+          "availabilityPath": "NAME_RESOLUTION",
+          "regularOpeningHours": [
+            "Monday: 11:00 AM – 10:00 PM",
+            "Tuesday: 11:00 AM – 10:00 PM",
+            "Wednesday: 11:00 AM – 10:00 PM",
+            "Thursday: 11:00 AM – 10:00 PM",
+            "Friday: 11:00 AM – 10:00 PM",
+            "Saturday: 11:00 AM – 10:00 PM",
+            "Sunday: 11:00 AM – 10:00 PM"
+          ],
+          "evaluationLocationLabel": "Tokyo",
+          "matchedAddressComponent": "Tokyo",
+          "matchedAddressComponentTypes": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=7625450100198730657&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-discovery:4677f581ee0f116368a27a4a",
+        "observedAt": "2026-11-18T03:49:40.468Z",
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "sourceEntityId": "ChIJE-vjIBzzGGARoevP-nYK02k",
+        "requestFingerprint": "1c4522fedb950cfb22d1f2b9c81b4b3943089edd21b80ca6e693787f52e68a77"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "address": "3-chōme-52-15 Izumi, Suginami City, Tokyo 168-0063, Japan",
+          "placeId": "ChIJE-vjIBzzGGARoevP-nYK02k",
+          "outletName": "MIRAI SUISAN FISHERIES"
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=7625450100198730657&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-entity:4677f581ee0f116368a27a4a",
+        "observedAt": "2026-11-18T03:49:40.468Z",
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "entityMatch": {
+          "matchedBy": [
+            "GOOGLE_PLACE_ID"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "ChIJE-vjIBzzGGARoevP-nYK02k",
+        "requestFingerprint": "1c4522fedb950cfb22d1f2b9c81b4b3943089edd21b80ca6e693787f52e68a77"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "http://www.miraisuisan.co.jp/",
+          "openingHoursMatch": false,
+          "regularOpeningHours": [
+            "Monday: 11:00 AM – 10:00 PM",
+            "Tuesday: 11:00 AM – 10:00 PM",
+            "Wednesday: 11:00 AM – 10:00 PM",
+            "Thursday: 11:00 AM – 10:00 PM",
+            "Friday: 11:00 AM – 10:00 PM",
+            "Saturday: 11:00 AM – 10:00 PM",
+            "Sunday: 11:00 AM – 10:00 PM"
+          ],
+          "restaurantTypeFacts": [
+            "seafood restaurant",
+            "sushi restaurant",
+            "japanese restaurant",
+            "food store",
+            "restaurant",
+            "food",
+            "point of interest",
+            "store",
+            "establishment"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=7625450100198730657&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+        "evidenceId": "evidence:restaurant:google-facts:a0801fb47d657092c11c5355",
+        "observedAt": "2026-11-18T03:49:40.468Z",
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "sourceEntityId": "ChIJE-vjIBzzGGARoevP-nYK02k",
+        "requestFingerprint": "1c4522fedb950cfb22d1f2b9c81b4b3943089edd21b80ca6e693787f52e68a77"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "address": "3-chōme-52-15 Izumi, Suginami City, Tokyo 168-0063, Japan",
+          "placeId": "ChIJE-vjIBzzGGARoevP-nYK02k",
+          "outletName": "MIRAI SUISAN FISHERIES"
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=7625450100198730657&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+        "evidenceId": "evidence:restaurant:google-entity:4f124c3e988860c89525bc81",
+        "observedAt": "2026-11-18T03:49:52.927Z",
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "entityMatch": {
+          "matchedBy": [
+            "GOOGLE_PLACE_ID"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "ChIJE-vjIBzzGGARoevP-nYK02k",
+        "requestFingerprint": "c349fe821d5e5ebf909e6e2b2f494bf20cf6b211db00f976001c5dbebab5cc6c"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "http://www.miraisuisan.co.jp/",
+          "openingHoursMatch": false,
+          "regularOpeningHours": [
+            "Monday: 11:00 AM – 10:00 PM",
+            "Tuesday: 11:00 AM – 10:00 PM",
+            "Wednesday: 11:00 AM – 10:00 PM",
+            "Thursday: 11:00 AM – 10:00 PM",
+            "Friday: 11:00 AM – 10:00 PM",
+            "Saturday: 11:00 AM – 10:00 PM",
+            "Sunday: 11:00 AM – 10:00 PM"
+          ],
+          "restaurantTypeFacts": [
+            "seafood restaurant",
+            "sushi restaurant",
+            "food store",
+            "japanese restaurant",
+            "store",
+            "restaurant",
+            "food",
+            "point of interest",
+            "establishment"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "sourceUrl": "https://maps.google.com/?cid=7625450100198730657&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+        "evidenceId": "evidence:restaurant:google-facts:298698daa4dc0fb09562eefa",
+        "observedAt": "2026-11-18T03:49:52.927Z",
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "sourceEntityId": "ChIJE-vjIBzzGGARoevP-nYK02k",
+        "requestFingerprint": "c349fe821d5e5ebf909e6e2b2f494bf20cf6b211db00f976001c5dbebab5cc6c"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "verifiedHardCriteria": [
+            "sushi"
+          ],
+          "supportingEvidenceIds": [
+            "evidence:restaurant:google-facts:298698daa4dc0fb09562eefa"
+          ]
+        },
+        "provider": "MODEL_JUDGMENT",
+        "evidenceId": "fact-judgment:praxis:restaurant:b502a92798add7944a0b5897:2026-11-18T03:49:57.634Z:evidence:restaurant:google-facts:298698daa4dc0fb09562eefa",
+        "observedAt": "2026-11-18T03:49:57.634Z",
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "requestFingerprint": "{\"candidateId\":\"praxis:restaurant:b502a92798add7944a0b5897\",\"criteria\":[\"sushi\"],\"cited\":[\"evidence:restaurant:google-facts:298698daa4dc0fb09562eefa\"]}"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "outletName": "MIRAI SUISAN FISHERIES",
+          "observedOutletName": "Mirai Suisan"
+        },
+        "provider": "TABELOG",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131805/13279899/",
+        "evidenceId": "evidence:restaurant:tabelog-entity-match:19c76c52e51dc3c2e5668022",
+        "observedAt": "2026-11-18T03:52:04.172Z",
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "entityMatch": {
+          "matchedBy": [
+            "EXACT_PHONE"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "en/tokyo/A1318/A131805/13279899",
+        "sourceFieldQuotes": [
+          {
+            "field": "NAME",
+            "quote": "Mirai Suisan",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131805/13279899/"
+          }
+        ],
+        "requestFingerprint": "6020e321a6a155a6ca4472fd64131f72f2c6341a111ad0c7d01aeaa7cca6d6c6"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "verifiedHardCriteria": []
+        },
+        "provider": "TABELOG",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131805/13279899/",
+        "evidenceId": "evidence:restaurant:tabelog-hard-criteria:9589745ff453e1465a794772",
+        "observedAt": "2026-11-18T03:52:04.172Z",
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "entityMatch": {
+          "matchedBy": [
+            "EXACT_PHONE"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "en/tokyo/A1318/A131805/13279899",
+        "sourceFieldQuotes": [
+          {
+            "meal": "UNSPECIFIED",
+            "field": "CATEGORY",
+            "quote": "Seafood, Side dishes, Delicatessen",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131805/13279899/"
+          }
+        ],
+        "requestFingerprint": "b7dd4b26f0a8705625e34b0fbe5da1721b9b064f97cb7bc934ab7d3c5a18f0f9"
+      },
+      {
+        "kind": "AVAILABILITY",
+        "claims": {
+          "date": "2026-11-20",
+          "partySize": 7,
+          "visibleSlots": [
+            "18:00",
+            "18:15",
+            "18:30",
+            "18:45",
+            "19:00",
+            "19:15",
+            "19:30"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "inventoryStatus": "AVAILABLE"
+        },
+        "provider": "TABELOG",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131805/13279899/",
+        "evidenceId": "evidence:restaurant:tabelog-availability:edefba845b5e2e90b2c91e58",
+        "observedAt": "2026-11-18T03:52:04.172Z",
+        "artifactRef": {
+          "kind": "DOM_EXCERPT",
+          "reference": "sha256:8e5b9ddbcaa15b018c818f6952a46a9901c94325a2b998cb479c83835dca1f87"
+        },
+        "candidateId": "praxis:restaurant:b502a92798add7944a0b5897",
+        "entityMatch": {
+          "matchedBy": [
+            "EXACT_PHONE"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "en/tokyo/A1318/A131805/13279899",
+        "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+        "requestFingerprint": "5d346d422efd79b4e2cafe6255f56823c63bd6695bade1c3ca95567b140e9620",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    ],
+    "readEndWindow": {
+      "reason": "MODEL_CALL",
+      "openedAt": "2026-11-18T03:52:23.212Z",
+      "deadlineAt": "2026-11-18T03:53:08.211Z"
+    },
+    "schemaVersion": "25",
+    "searchRevision": 1,
+    "noVerifiedResult": {
+      "endedAt": "2026-11-18T03:52:25.307Z",
+      "termination": {
+        "type": "END_READ",
+        "initiator": "AGENT",
+        "reasonCode": "AGENT_END_READ",
+        "isSystemReason": false
+      },
+      "remainingGaps": [
+        "Tsukiji Nihonkai Honancho: availability UNKNOWN (BROWSER_BUDGET_EXHAUSTED); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)",
+        "Jo Sushi: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)",
+        "Hama Sushi: availability UNKNOWN (RESERVE_REACHED); facts COMPLETED",
+        "MIRAI SUISAN FISHERIES: availability AVAILABLE (source reported AVAILABLE; see current offers and evidence); facts COMPLETED (WEBSITE_FACT_READ_FAILED)",
+        "Sabani: availability UNKNOWN (RESERVE_REACHED); facts COMPLETED",
+        "Becchi: availability UNKNOWN (RESERVE_REACHED); facts COMPLETED (WEBSITE_FACT_READ_FAILED)",
+        "Uochu: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED",
+        "Candidate praxis:restaurant:2215a58d58f35bb4e70269ca has no opening-hours evidence for the requested visit window",
+        "Candidate praxis:restaurant:835fbac56a4575c3e687f1a2 has no opening-hours evidence for the requested visit window",
+        "Candidate praxis:restaurant:eaced8ea299780aa9dd4dd90 has no opening-hours evidence for the requested visit window",
+        "Candidate praxis:restaurant:b502a92798add7944a0b5897 has no opening-hours evidence for the requested visit window",
+        "Candidate praxis:restaurant:7ad836ddf5de1b418d697dc5 has no evidence for HARD criterion sushi",
+        "Candidate praxis:restaurant:f69dc732eeaf67f2f78e8fcb has no evidence for HARD criterion sushi",
+        "Candidate praxis:restaurant:c37fa931b35bc8738ba36ea7 has no evidence for HARD criterion sushi",
+        "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats."
+      ],
+      "unresolvedCandidateIds": [
+        "praxis:restaurant:2215a58d58f35bb4e70269ca",
+        "praxis:restaurant:835fbac56a4575c3e687f1a2",
+        "praxis:restaurant:eaced8ea299780aa9dd4dd90",
+        "praxis:restaurant:b502a92798add7944a0b5897",
+        "praxis:restaurant:7ad836ddf5de1b418d697dc5",
+        "praxis:restaurant:f69dc732eeaf67f2f78e8fcb",
+        "praxis:restaurant:c37fa931b35bc8738ba36ea7"
+      ],
+      "investigatedCandidateIds": [
+        "praxis:restaurant:2215a58d58f35bb4e70269ca",
+        "praxis:restaurant:835fbac56a4575c3e687f1a2",
+        "praxis:restaurant:eaced8ea299780aa9dd4dd90",
+        "praxis:restaurant:b502a92798add7944a0b5897",
+        "praxis:restaurant:7ad836ddf5de1b418d697dc5",
+        "praxis:restaurant:f69dc732eeaf67f2f78e8fcb"
+      ]
+    },
+    "availabilityChecks": {
+      "praxis:restaurant:b502a92798add7944a0b5897": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-11-18T03:52:04.172Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:19c76c52e51dc3c2e5668022",
+          "evidence:restaurant:tabelog-hard-criteria:9589745ff453e1465a794772",
+          "evidence:restaurant:tabelog-availability:edefba845b5e2e90b2c91e58"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "displayExpiresAt": "2026-11-18T04:02:04.172Z",
+        "requestFingerprint": "{\"date\":\"2026-11-20\",\"timeWindow\":{\"latest\":\"23:00\",\"earliest\":\"18:00\"},\"partySize\":7}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    },
+    "searchContinuation": {
+      "exhausted": false,
+      "pagesRead": 1,
+      "discoveryPlan": {
+        "cursor": 2,
+        "entries": [
+          {
+            "query": {
+              "keyword": "sushi",
+              "category": "restaurant",
+              "location": {
+                "label": "Tokyo",
+                "latitude": 35.6764225,
+                "longitude": 139.650027,
+                "queryLabel": "Tokyo",
+                "radiusMeters": 1000,
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "addressComponents": [
+                  {
+                    "types": [
+                      "administrative_area_level_1",
+                      "political"
+                    ],
+                    "longText": "Tokyo",
+                    "shortText": "Tokyo"
+                  },
+                  {
+                    "types": [
+                      "country",
+                      "political"
+                    ],
+                    "longText": "Japan",
+                    "shortText": "JP"
+                  }
+                ]
+              },
+              "positiveCriteria": [
+                {
+                  "text": "sushi",
+                  "strength": "HARD",
+                  "criterionRef": "criterion:0"
+                }
+              ]
+            },
+            "sourceId": "tabelog"
+          },
+          {
+            "query": {
+              "keyword": "sushi",
+              "category": "restaurant",
+              "location": {
+                "label": "Tokyo",
+                "latitude": 35.6764225,
+                "longitude": 139.650027,
+                "queryLabel": "Tokyo",
+                "radiusMeters": 1000,
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "addressComponents": [
+                  {
+                    "types": [
+                      "administrative_area_level_1",
+                      "political"
+                    ],
+                    "longText": "Tokyo",
+                    "shortText": "Tokyo"
+                  },
+                  {
+                    "types": [
+                      "country",
+                      "political"
+                    ],
+                    "longText": "Japan",
+                    "shortText": "JP"
+                  }
+                ]
+              },
+              "positiveCriteria": [
+                {
+                  "text": "sushi",
+                  "strength": "HARD",
+                  "criterionRef": "criterion:0"
+                }
+              ]
+            },
+            "sourceId": "google-places"
+          },
+          {
+            "query": {
+              "keyword": "sushi",
+              "category": "restaurant",
+              "location": {
+                "label": "Tokyo",
+                "latitude": 35.6764225,
+                "longitude": 139.650027,
+                "queryLabel": "Tokyo",
+                "radiusMeters": 1000,
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "addressComponents": [
+                  {
+                    "types": [
+                      "administrative_area_level_1",
+                      "political"
+                    ],
+                    "longText": "Tokyo",
+                    "shortText": "Tokyo"
+                  },
+                  {
+                    "types": [
+                      "country",
+                      "political"
+                    ],
+                    "longText": "Japan",
+                    "shortText": "JP"
+                  }
+                ]
+              },
+              "positiveCriteria": [
+                {
+                  "text": "sushi",
+                  "strength": "HARD",
+                  "criterionRef": "criterion:0"
+                }
+              ]
+            },
+            "sourceId": "tabelog"
+          }
+        ],
+        "textRetrieval": {
+          "reason": "No observation yet; retrieve Tokyo restaurants matching the hard sushi criterion.",
+          "keyword": "sushi",
+          "accepted": true,
+          "criterionRef": "criterion:0"
+        }
+      },
+      "usedPageTokens": [],
+      "deferredSources": [
+        {
+          "progress": {
+            "sourceId": "tabelog",
+            "elapsedMs": 30256,
+            "pagesRead": 3,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation yet; retrieve Tokyo restaurants matching the hard sushi criterion.",
+                "keyword": "sushi",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 2,
+              "retrievalPages": 1
+            },
+            "nextListing": {
+              "sourceUrl": "https://tabelog.com/en/tokyo/rstLst/sushi/2/",
+              "observedAt": "2026-11-18T03:49:29.125Z",
+              "observedOn": "https://tabelog.com/en/tokyo/rstLst/sushi/"
+            },
+            "detailAttempts": 5,
+            "pendingSourceIds": [
+              "en/tokyo/A1304/A130401/13292246",
+              "en/tokyo/A1302/A130201/13096429",
+              "en/tokyo/A1301/A130101/13295658",
+              "en/tokyo/A1307/A130701/13286138",
+              "en/tokyo/A1304/A130401/13310859",
+              "en/tokyo/A1301/A130101/13323643",
+              "en/tokyo/A1303/A130302/13295650",
+              "en/tokyo/A1303/A130301/13225919",
+              "en/tokyo/A1301/A130101/13291436",
+              "en/tokyo/A1301/A130103/13299980",
+              "en/tokyo/A1301/A130101/13283245",
+              "en/tokyo/A1301/A130103/13307510",
+              "en/tokyo/A1303/A130301/13319616",
+              "en/tokyo/A1307/A130701/13262522",
+              "en/tokyo/A1314/A131401/13247407"
+            ],
+            "inspectedSourceIds": [
+              "en/tokyo/A1301/A130103/13294162",
+              "en/tokyo/A1301/A130103/13292459",
+              "en/tokyo/A1301/A130101/13277198",
+              "en/tokyo/A1303/A130301/13275802",
+              "en/tokyo/A1303/A130302/13293501"
+            ],
+            "visitedListingUrls": [
+              "https://tabelog.com/en/tokyo/rstLst/sushi/"
+            ],
+            "pendingSourceEntries": [
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13292246/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Hana",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1304/A130401/13292246",
+                "sourceCategories": [
+                  "Higashi Shinjuku Sta. 308m / Sushi, Japanese Cuisine, Seafood"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13096429/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Manten Sushi Marunouchi",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1302/A130201/13096429",
+                "sourceCategories": [
+                  "Nijubashimae Sta. 185m / Sushi, Japanese Cuisine, Seafood"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Ginza Sushi Sendou",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1301/A130101/13295658",
+                "sourceCategories": [
+                  "Ginza Sta. 380m / Sushi, Japanese Cuisine, Seafood"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13286138/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Isseki Sanchou Bettei",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1307/A130701/13286138",
+                "sourceCategories": [
+                  "Nogizaka Sta. 668m / Sushi, Izakaya (Japanese style tavern), Seafood"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13310859/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Yoshikawa Kaido Shinjuku",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1304/A130401/13310859",
+                "sourceCategories": [
+                  "Nishi Shinjuku Sta. 286m / Sushi, Seafood, Japanese Cuisine"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13323643/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Ginza Yotsumi Gokujou Seafood Buffet Dining",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1301/A130101/13323643",
+                "sourceCategories": [
+                  "Ginza Itchome Sta. 77m / Buffet, Sushi, Shabu shabu (Japanese hotpot)"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13295650/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Ebisu Sushi Hatsume",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1303/A130302/13295650",
+                "sourceCategories": [
+                  "Ebisu Sta. 524m / Sushi, Seafood, Japanese Cuisine"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13225919/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Tokyo Ten、 Shibuya ten",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1303/A130301/13225919",
+                "sourceCategories": [
+                  "Shibuya Sta. 277m / Sushi"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13291436/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Yuu",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1301/A130101/13291436",
+                "sourceCategories": [
+                  "Ginza Itchome Sta. 270m / Sushi, Seafood"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13299980/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Yatagarasu",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1301/A130103/13299980",
+                "sourceCategories": [
+                  "Shiodome Sta. 260m / Sushi"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13283245/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Itsutsu",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1301/A130101/13283245",
+                "sourceCategories": [
+                  "Higashi Ginza Sta. 194m / Sushi"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13307510/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Dokoro Kanpai",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1301/A130103/13307510",
+                "sourceCategories": [
+                  "Shiodome Sta. 246m / Sushi, Seafood, Izakaya (Japanese style tavern)"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13319616/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Sho Issekisanchou",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1303/A130301/13319616",
+                "sourceCategories": [
+                  "Shinsen Sta. 122m / Sushi"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13262522/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Yaki Uo Ishikawa Roppongi Rinkaro",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1307/A130701/13262522",
+                "sourceCategories": [
+                  "Roppongi Sta. 180m / Seafood, Yakiniku (Japanese BBQ), Sushi"
+                ]
+              },
+              {
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1314/A131401/13247407/",
+                "observedAt": "2026-11-18T03:49:29.125Z",
+                "outletName": "Sushi Hiroya",
+                "listingScope": {
+                  "ref": "observation:4:target:47",
+                  "url": "https://tabelog.com/en/tokyo/rstLst/sushi/",
+                  "text": "Sushi"
+                },
+                "sourceEntityId": "en/tokyo/A1314/A131401/13247407",
+                "sourceCategories": [
+                  "Daimon Sta. 317m / Sushi, Japanese Cuisine"
+                ]
+              }
+            ]
+          },
+          "pagesRead": 3,
+          "usedPageTokens": []
+        }
+      ],
+      "locationContext": {
+        "label": "Tokyo",
+        "latitude": 35.6764225,
+        "longitude": 139.650027,
+        "queryLabel": "Tokyo",
+        "radiusMeters": 1000,
+        "areaMatchBasis": "NAMED_PLACE_RADIUS",
+        "addressComponents": [
+          {
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ],
+            "longText": "Tokyo",
+            "shortText": "Tokyo"
+          },
+          {
+            "types": [
+              "country",
+              "political"
+            ],
+            "longText": "Japan",
+            "shortText": "JP"
+          }
+        ]
+      },
+      "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"RECOMMENDATION\",\"query\":\"sushi restaurants in Tokyo\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-11-20\",\"timeWindow\":{\"latest\":\"23:00\",\"earliest\":\"18:00\"},\"partySize\":7,\"area\":{\"query\":\"Tokyo\"},\"criteria\":[{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}]}",
+      "sourceRequestContext": {
+        "textQuery": "sushi Tokyo"
+      },
+      "currentDiscoveryBatch": {
+        "sourceId": "google-places",
+        "candidateIds": [
+          "praxis:restaurant:2215a58d58f35bb4e70269ca",
+          "praxis:restaurant:835fbac56a4575c3e687f1a2",
+          "praxis:restaurant:eaced8ea299780aa9dd4dd90",
+          "praxis:restaurant:b502a92798add7944a0b5897",
+          "praxis:restaurant:7ad836ddf5de1b418d697dc5",
+          "praxis:restaurant:f69dc732eeaf67f2f78e8fcb",
+          "praxis:restaurant:c37fa931b35bc8738ba36ea7"
+        ]
+      }
+    },
+    "investigationRevision": 2,
+    "pendingResultBatchTarget": 3
+  },
+  "semantic": {
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "sushi restaurants in Tokyo",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": {
+      "value": "2026-11-20"
+    },
+    "party_size": 7,
+    "party_size_source": "EXPLICIT",
+    "time": {
+      "start": "18:00",
+      "end": "23:00"
+    },
+    "location": {
+      "value": "Tokyo",
+      "relation": "NEAR"
+    },
+    "criteria": [
+      {
+        "value": "sushi",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  }
+}

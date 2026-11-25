@@ -1,0 +1,179 @@
+{
+  "status": "NOT_SIGNED_OFF",
+  "layers": {
+    "endToEnd": "REPLAY_INCOMPLETE; no qualified-delivery claim",
+    "stages": "Replay cannot match/admit the requested source records before delivery; downstream not evaluated",
+    "severity": "No independent Live S0 evaluation; do not report S0=0",
+    "attribution": "Recorded input matching/coverage remains unresolved; original HAR contains same-path suggest responses, so exact-query coverage is not established. Downstream missing model output retained."
+  },
+  "runs": [
+    {
+      "case": "D01",
+      "classification": "REPLAY_INCOMPLETE",
+      "actualPhases": [
+        "FAILED"
+      ],
+      "firstStop": {
+        "reason": "MISSING_RESPONSE",
+        "origin": "https://tabelog.com",
+        "pathname": "/en/suggest/keyword_suggest",
+        "queryKeys": [
+          "keyword",
+          "no_display_area_suggest_flg",
+          "station_id"
+        ],
+        "method": "GET"
+      },
+      "allStops": [
+        {
+          "reason": "MISSING_RESPONSE",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/suggest/keyword_suggest",
+          "queryKeys": [
+            "keyword",
+            "no_display_area_suggest_flg",
+            "station_id"
+          ],
+          "method": "GET"
+        },
+        {
+          "reason": "DOCUMENT_NOT_QUALIFIED",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/rstLst/",
+          "queryKeys": [
+            "utf8",
+            "pal",
+            "LstPrf",
+            "LstAre",
+            "station_id",
+            "area_datatype",
+            "area_id",
+            "genre_name",
+            "sw",
+            "search_mode"
+          ],
+          "method": "GET"
+        },
+        {
+          "reason": "MISSING_MODEL_OUTPUT",
+          "purpose": "restaurant_agent_decide",
+          "offset": 7
+        },
+        {
+          "reason": "PREVIOUS_TURN_DIVERGED",
+          "turn": "INITIAL",
+          "actualPhase": "FAILED",
+          "capturedPhase": "PRESENT_RESULTS"
+        }
+      ],
+      "sourceSHA": "45eb89b4b874e4c845188972f406529472ccfa7b",
+      "realCalls": {
+        "model": 0,
+        "google": 0,
+        "website": 0,
+        "live": 0
+      },
+      "quality": "NOT_EVALUATED"
+    },
+    {
+      "case": "D02",
+      "classification": "REPLAY_INCOMPLETE",
+      "actualPhases": [
+        "FAILED"
+      ],
+      "firstStop": {
+        "reason": "DOCUMENT_NOT_QUALIFIED",
+        "origin": "https://tabelog.com",
+        "pathname": "/en/rstLst/",
+        "queryKeys": [
+          "utf8",
+          "pal",
+          "LstPrf",
+          "LstAre",
+          "station_id",
+          "area_datatype",
+          "area_id",
+          "genre_name",
+          "sw",
+          "search_mode"
+        ],
+        "method": "GET"
+      },
+      "allStops": [
+        {
+          "reason": "DOCUMENT_NOT_QUALIFIED",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/rstLst/",
+          "queryKeys": [
+            "utf8",
+            "pal",
+            "LstPrf",
+            "LstAre",
+            "station_id",
+            "area_datatype",
+            "area_id",
+            "genre_name",
+            "sw",
+            "search_mode"
+          ],
+          "method": "GET"
+        },
+        {
+          "reason": "MISSING_GOOGLE_RESPONSE",
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places/ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+          "queryKeys": [],
+          "method": "GET"
+        },
+        {
+          "reason": "MISSING_RESPONSE",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/suggest/keyword_suggest",
+          "queryKeys": [
+            "keyword"
+          ],
+          "method": "GET"
+        },
+        {
+          "reason": "DOCUMENT_NOT_QUALIFIED",
+          "origin": "https://tabelog.com",
+          "pathname": "/en/rstLst/",
+          "queryKeys": [
+            "utf8",
+            "pal",
+            "LstPrf",
+            "LstAre",
+            "station_id",
+            "area_datatype",
+            "area_id",
+            "genre_name",
+            "sw",
+            "search_mode"
+          ],
+          "method": "GET"
+        },
+        {
+          "reason": "MISSING_GOOGLE_RESPONSE",
+          "origin": "https://places.googleapis.com",
+          "pathname": "/v1/places/ChIJx8njvZbyGGARg-JtPMy7c4Q",
+          "queryKeys": [],
+          "method": "GET"
+        },
+        {
+          "reason": "MISSING_MODEL_OUTPUT",
+          "purpose": "restaurant_agent_decide",
+          "offset": 7
+        }
+      ],
+      "sourceSHA": "45eb89b4b874e4c845188972f406529472ccfa7b",
+      "realCalls": {
+        "model": 0,
+        "google": 0,
+        "website": 0,
+        "live": 0
+      },
+      "quality": "NOT_EVALUATED"
+    }
+  ],
+  "R2": "User assigned private-environment Replay to reviewer; private original not read"
+}

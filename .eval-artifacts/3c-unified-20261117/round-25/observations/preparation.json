@@ -1,0 +1,176 @@
+{
+  "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+  "mode": "OFFLINE_OBSERVATIONS_BEFORE_SEPARATE_ORACLE",
+  "rows": [
+    {
+      "name": "Round25 R1 committed successor stop across message",
+      "checks": [
+        {
+          "method": "notEqual",
+          "args": [
+            "read-handle:f242a868-f1a6-481e-85d6-c6d1457e471d",
+            "read-handle:499692ba-7dfb-4bd5-bf2a-309a980414b5",
+            "publish the committed successor before any asynchronous cleanup/write"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "StaleTaskVersionError",
+            "StaleTaskVersionError",
+            "request rejection class"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            true,
+            true
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            true,
+            true
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            3,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round25 R1 committed successor edit across message",
+      "checks": [
+        {
+          "method": "notEqual",
+          "args": [
+            "read-handle:6bdcb509-b7c6-4cd4-806b-8220fe08424d",
+            "read-handle:8df78f19-6059-4ea4-ab63-09baf7919083",
+            "publish the committed successor before any asynchronous cleanup/write"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "StaleTaskVersionError",
+            "StaleTaskVersionError",
+            "request rejection class"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            7,
+            7
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            7,
+            7,
+            "the late older continuation cannot reclaim the read"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round25 R1 committed successor stop across worker-cleanup",
+      "checks": [
+        {
+          "method": "notEqual",
+          "args": [
+            "read-handle:c2af81a6-1c0e-4e50-a4cc-222525889e99",
+            "read-handle:743578ab-48e9-40a6-9e08-1b62c51a126c",
+            "publish the committed successor before any asynchronous cleanup/write"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "StaleTaskVersionError",
+            "StaleTaskVersionError",
+            "request rejection class"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            true,
+            true
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            true,
+            true
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            3,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round25 R1 committed successor edit across worker-cleanup",
+      "checks": [
+        {
+          "method": "notEqual",
+          "args": [
+            "read-handle:04914367-3ee9-4042-986f-97c5d65ab52c",
+            "read-handle:9f3fa593-23fb-4705-ae07-68f1f8fba111",
+            "publish the committed successor before any asynchronous cleanup/write"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "StaleTaskVersionError",
+            "StaleTaskVersionError",
+            "request rejection class"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            7,
+            7
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            7,
+            7,
+            "the late older continuation cannot reclaim the read"
+          ]
+        }
+      ]
+    }
+  ]
+}

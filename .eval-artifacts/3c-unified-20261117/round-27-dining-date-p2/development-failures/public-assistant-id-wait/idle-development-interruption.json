@@ -1,0 +1,14 @@
+{
+  "scope": "only failed uncommitted development run, no frozen acceptance",
+  "reason": "Wait predicate incorrectly referenced requestId absent from public ConversationMessage DTO; no capability verdict from these timeouts",
+  "signal": "SIGTERM",
+  "verifiedCommands": {
+    "25653": "node --import tsx --test src/domains/restaurant/relative-date-binding.test.ts src/application/restaurant-relative-date.test.ts",
+    "25654": "/opt/homebrew/Cellar/node/24.4.1/bin/node --import tsx src/application/restaurant-relative-date.test.ts"
+  },
+  "signalledPids": [
+    25654,
+    25653
+  ],
+  "sourceUnchangedDuringRun": true
+}

@@ -1,0 +1,29 @@
+✖ recorded R2-03 HIGH availability page supplies G1 instead of the Google Japanese website (17.592917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 112.75225
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/page-question-reader.test.ts:1:3871
+✖ recorded R2-03 HIGH availability page supplies G1 instead of the Google Japanese website (17.592917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'NOT_STATED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/restaurant-facts/page-question-reader.test.ts:54:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'NOT_STATED',
+    operator: 'strictEqual'
+  }

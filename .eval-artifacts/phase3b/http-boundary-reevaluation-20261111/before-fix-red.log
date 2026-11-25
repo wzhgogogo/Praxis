@@ -1,0 +1,59 @@
+✖ source request boundary GET http://official.example/ (3.463584ms)
+✖ source request boundary HEAD http://official.example/ (0.454167ms)
+✔ source request boundary GET http://official.example/yoyaku/tabelog_booking/new (0.136917ms)
+✔ source request boundary GET http://official.example/confirm (0.120292ms)
+✔ source request boundary GET http://official.example/payment (0.11075ms)
+✔ source request boundary POST http://official.example/ (0.143583ms)
+✔ source request boundary GET http://user:password@official.example/ (0.121083ms)
+✔ source request boundary GET http://official.example:8080/ (0.091792ms)
+✔ source request boundary GET http://official.example:80/ (0.093041ms)
+✔ source request boundary GET https://official.example/ (0.131ms)
+✔ source request boundary POST https://official.example/ (0.136ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 104.321667
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/evaluator.test.ts:1:17452
+✖ source request boundary GET http://official.example/ (3.463584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'FAIL' !== 'PASS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-http-evaluation-resume/src/eval/restaurant/agent-loop/g6/evaluator.test.ts:180:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAIL',
+    expected: 'PASS',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/evaluator.test.ts:1:17452
+✖ source request boundary HEAD http://official.example/ (0.454167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'FAIL' !== 'PASS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-http-evaluation-resume/src/eval/restaurant/agent-loop/g6/evaluator.test.ts:180:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAIL',
+    expected: 'PASS',
+    operator: 'strictEqual'
+  }

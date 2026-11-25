@@ -1,0 +1,68 @@
+✔ Round19 UI: desktop candidates restores only unresolved Case reconfirmation (2823.219167ms)
+✔ Round19 UI: desktop About restores only unresolved Case reconfirmation (2195.558209ms)
+✖ Round19 UI: desktop Saved restores only unresolved Case reconfirmation (2133.857042ms)
+✔ Round19 UI: desktop other-plan restores only unresolved Case reconfirmation (2133.673292ms)
+✔ Round19 UI: desktop resolved-old-lock-after-away-revision restores only unresolved Case reconfirmation (2066.861125ms)
+✔ Round19 UI: mobile candidates restores only unresolved Case reconfirmation (1582.50675ms)
+✔ Round19 UI: mobile About restores only unresolved Case reconfirmation (1736.133167ms)
+✖ Round19 UI: mobile Saved restores only unresolved Case reconfirmation (1531.844917ms)
+✖ Round19 UI: mobile other-plan restores only unresolved Case reconfirmation (9554.326042ms)
+✖ Round19 UI: mobile resolved-old-lock-after-away-revision restores only unresolved Case reconfirmation (9700.016125ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 6
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 36441.429209
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: desktop Saved restores only unresolved Case reconfirmation (2133.857042ms)
+  TypeError [Error]: Cannot read properties of undefined (reading '0')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1350:122)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: mobile Saved restores only unresolved Case reconfirmation (1531.844917ms)
+  TypeError [Error]: Cannot read properties of undefined (reading '0')
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1350:122)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: mobile other-plan restores only unresolved Case reconfirmation (9554.326042ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:0813dda9ba785a40fc11dcf6"]').and(locator('.active')) to be visible
+      19 × locator resolved to hidden <button class="case-link active" data-case-id="restaurant:0813dda9ba785a40fc11dcf6" title="Tokyo · 2026-11-02 · 19:00–19:30 · 4 guests">…</button>
+  
+      at openPlan (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1302:91)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1328:28)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:0813dda9ba785a40fc11dcf6"]').and(locator('.active')) to be visible`, '    19 × locator resolved to hidden <button class="case-link active" data-case-id="restaurant:0813dda9ba785a40fc11dcf6" title="Tokyo · 2026-11-02 · 19:00–19:30 · 4 guests">…</button>' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: mobile resolved-old-lock-after-away-revision restores only unresolved Case reconfirmation (9700.016125ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:e586e9a96a7a4cb6558b333d"]').and(locator('.active')) to be visible
+      19 × locator resolved to hidden <button class="case-link active" data-case-id="restaurant:e586e9a96a7a4cb6558b333d" title="Tokyo · 2026-11-02 · 19:00–19:30 · 5 guests">…</button>
+  
+      at openPlan (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1302:91)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1341:78)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:e586e9a96a7a4cb6558b333d"]').and(locator('.active')) to be visible`, '    19 × locator resolved to hidden <button class="case-link active" data-case-id="restaurant:e586e9a96a7a4cb6558b333d" title="Tokyo · 2026-11-02 · 19:00–19:30 · 5 guests">…</button>' ]
+  }

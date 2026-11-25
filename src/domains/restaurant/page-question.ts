@@ -6,6 +6,8 @@ export interface RestaurantPageCitation {
   url: string;
   readAt: string;
   identityEvidenceId: string;
+  /** Code-proven unique cells in one original merchant table row. */
+  sourceRow?: { id: string; header: string; value: string };
 }
 type CheckedPage = { url: string; readAt: string };
 export type RestaurantQuestionSensitiveCategory = "ALLERGY" | "RELIGIOUS_DIET" | "ACCESSIBILITY" | "NONE";

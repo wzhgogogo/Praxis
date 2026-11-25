@@ -1,0 +1,52 @@
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: REAL_CATEGORY (53.133834ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: LOW (1.812959ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: WRONG_QUOTE (1.783125ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: REVIEW (1.616792ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: PARENT_UNKNOWN (1.067625ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: BAD_CITATION (1.637875ms)
+✖ D01 #8 recorded broad scope, local session component: CITED (2.282542ms)
+✔ D01 #8 recorded broad scope, local session component: NO_REFERENCE (0.370333ms)
+✔ D01 #8 recorded broad scope, local session component: STALE (0.616792ms)
+✔ D01 #8 recorded broad scope, local session component: HIDDEN (0.284833ms)
+✖ D01 recorded native and Google batches coexist; conservative dedup and cited-category ranking (5.867833ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 174.590292
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/discovery-landing-recorded.test.ts:1:644
+✖ D01 #8 recorded broad scope, local session component: CITED (2.282542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'Western'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/integrations/restaurant-search/discovery-landing-recorded.test.ts:18:49)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'Western',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-search/discovery-landing-recorded.test.ts:1:2616
+✖ D01 recorded native and Google batches coexist; conservative dedup and cited-category ranking (5.867833ms)
+  AssertionError [ERR_ASSERTION]: Recorded Google cuisine type leads native Western-only lists
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/integrations/restaurant-search/discovery-landing-recorded.test.ts:31:99)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }

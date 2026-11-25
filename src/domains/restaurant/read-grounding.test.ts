@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { materializeRestaurantTemporalFacts } from "./temporal-materialization.js";
 
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import { groundGoogleDiscovery, groundTabelogAvailability, openingHoursForRequest } from "./read-grounding.js";
@@ -10,6 +11,19 @@ const request = {
   timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: ["yakiniku"],
 };
 const now = "2026-08-05T09:00:00.000Z";
+
+test("materialized AFTER_WORK broad window grounds the actual supported source-hours subset", () => {
+  const request = materializeRestaurantTemporalFacts({
+    date: { kind: "DATE", value: "2026-11-20", raw: "2026-11-20" },
+    timeWindow: { kind: "TIME_WINDOW", daypart: "AFTER_WORK", raw: "after work" },
+    referenceTime: now, timezone: "Asia/Tokyo",
+  });
+  assert.deepEqual(request.timeWindow, { earliest: "17:30", latest: "22:00" });
+  assert.equal(request.temporalResolution?.timeWindow?.basis, "DAYPART:AFTER_WORK_BROAD_WINDOW");
+  assert.deepEqual(openingHoursForRequest(["Friday: 11:00 AM – 8:00 PM"], request.date,
+    request.timeWindow, "Asia/Tokyo", request.temporalResolution?.timeWindow?.basis),
+    { matches: true, window: ["17:30", "20:00"], noWindow: false });
+});
 
 test("Google discovery accepts structurally valid restaurant places without claiming retrieval criteria as facts", () => {
   const result = groundGoogleDiscovery({
@@ -301,4 +315,97 @@ test("opening-hours weekdays use the supplied timezone for the current and previ
   );
   assert.deepEqual(timezones, ["UTC", "UTC"]);
   assert.deepEqual(result, { matches: false, noWindow: false });
+});
+
+import { groundRestaurantWebsiteFacts } from "./read-grounding.js";
+import { applyRestaurantIntentPatch, completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
+import type { RestaurantIntentDraft } from "./contracts.js";
+
+const eveningDraft: RestaurantIntentDraft = {
+  ...fixtureIntent, schemaVersion: "3", date: "2026-11-20", timeWindow: { earliest: "18:00", latest: "23:00" },
+  temporalResolution: { policyVersion: "restaurant-temporal-materialization@6", referenceTime: now, timezone: "Asia/Tokyo",
+    timeWindow: { expression: "evening", basis: "DAYPART:EVENING", resolvedTimeWindow: { earliest: "18:00", latest: "23:00" } } },
+};
+
+test("party/date patches retain the active DAYPART basis; explicit numeric replacement or clear removes it", () => {
+  const party = applyRestaurantIntentPatch(eveningDraft, { schemaVersion: "3", partySize: 7 });
+  const date = applyRestaurantIntentPatch(party, { schemaVersion: "3", date: "2026-11-27", temporalResolution: {
+    policyVersion: "restaurant-temporal-materialization@6", referenceTime: now, timezone: "Asia/Tokyo",
+    date: { expression: "next Friday", basis: "WEEKDAY:FRIDAY", resolvedDate: "2026-11-27" },
+  } });
+  assert.deepEqual(date.temporalResolution?.timeWindow, eveningDraft.temporalResolution!.timeWindow);
+  assert.equal(completeRestaurantSearchIntent(date)?.timeWindowBasis, "DAYPART:EVENING");
+  assert.equal(completeRestaurantIntent(date)?.timeWindowBasis, "DAYPART:EVENING");
+  for (const timeWindow of [null, { earliest: "18:00", latest: "23:00" }]) {
+    assert.equal(applyRestaurantIntentPatch(date, { schemaVersion: "3", timeWindow }).temporalResolution?.timeWindow, undefined);
+  }
+  assert.equal(applyRestaurantIntentPatch(date, { schemaVersion: "3", timeWindow: eveningDraft.timeWindow!,
+    temporalResolution: eveningDraft.temporalResolution! }).temporalResolution?.timeWindow?.basis, "DAYPART:EVENING");
+});
+
+test("Google and website distinguish DAYPART intersection from the identical explicit numeric window", () => {
+  const hours = ["Friday: 11:00 AM – 10:00 PM"];
+  for (const basis of ["DAYPART:EVENING", "DAYPART:AFTERNOON", "DAYPART:AFTER_WORK", "EXPLICIT_RANGE", undefined]) {
+    const expected = basis?.startsWith("DAYPART:") === true;
+    const google = groundGoogleDiscovery({ placeId: "daypart", displayName: "Evening Sushi", formattedAddress: "Tokyo", types: ["restaurant", "sushi_restaurant"], regularOpeningHours: hours },
+      { timezone: "Asia/Tokyo", requestFingerprint: "daypart", areaQuery: "Tokyo", observedAt: now, requestedDate: eveningDraft.date!,
+        requestedTimeWindow: eveningDraft.timeWindow!, ...(basis ? { requestedTimeWindowBasis: basis } : {}) });
+    assert.ok(google.accepted); if (!google.accepted) continue;
+    const website = groundRestaurantWebsiteFacts(google.candidate, { ...completeRestaurantSearchIntent({ ...eveningDraft, temporalResolution: { ...eveningDraft.temporalResolution!, timeWindow: { ...eveningDraft.temporalResolution!.timeWindow!, basis: basis ?? "EXPLICIT_RANGE" } } })! },
+      { candidateId: google.candidate.restaurant.id, sourceUrl: "https://sushi.example/", observedAt: now,
+        entityMatch: { confidence: "HIGH", matchedBy: ["GOOGLE_LISTED_WEBSITE_URI"] }, regularOpeningHours: hours });
+    for (const facts of [google.additionalEvidence, website.evidence]) {
+      const claims = facts.find(e => e.kind === "RESTAURANT_FACT")!.claims;
+      assert.equal(claims.openingHoursMatch, expected, String(basis));
+      assert.deepEqual(claims.openingHoursMatchedWindow, expected ? ["18:00", "22:00"] : undefined);
+    }
+  }
+  assert.equal(openingHoursForRequest(["Friday: 11:00 AM – 6:00 PM"], eveningDraft.date, eveningDraft.timeWindow, "Asia/Tokyo", "DAYPART:EVENING")?.matches, false, "touching the exclusive closing boundary is not an intersection");
+  assert.deepEqual(openingHoursForRequest(["Friday: 5:00 PM – 7:00 PM, 8:00 PM – 10:00 PM"], eveningDraft.date, eveningDraft.timeWindow, "Asia/Tokyo", "DAYPART:EVENING")?.window, ["18:00", "19:00"], "split shifts remain separate");
+});
+
+test("Google primary dining types admit standalone food and drink venues and reject mixed-use primaries", () => {
+  const place = {
+    placeId:"place-mixed",displayName:"Fixture in Shibuya",formattedAddress:"Shibuya, Tokyo",
+    location:{latitude:35.66,longitude:139.7},
+  };
+  const context = {timezone:fixtureIntent.timezone,requestFingerprint:"request",observedAt:now,areaQuery:"Shibuya"};
+  for (const primaryType of ["hotel","shopping_mall","department_store","art_museum","museum","banquet_hall","event_venue","grocery_store","butcher_shop"]) {
+    assert.deepEqual(groundGoogleDiscovery({...place,primaryType,types:["restaurant","food"]},context),
+      {accepted:false,reasonCode:"GOOGLE_PLACE_TYPE_UNUSABLE"},primaryType);
+  }
+  for (const primaryType of ["restaurant","japanese_restaurant","cafe","bar","brewpub","bakery","  WINE Bar  "]) {
+    assert.equal(groundGoogleDiscovery({...place,primaryType,types:[primaryType,"point_of_interest","establishment"]},context).accepted,true,primaryType);
+  }
+  for (const type of ["restaurant","cafe","food","brewpub"]) {
+    assert.equal(groundGoogleDiscovery({...place,types:[type,"establishment"]},context).accepted,true,type);
+  }
+});
+
+const age3={placeId:'age3-policy-observation',displayName:'Age.3 GINZA',formattedAddress:'Ginza, Tokyo',primaryType:'cafe',types:['cafe','dessert_restaurant','snack_bar','sandwich_shop','meal_takeaway','restaurant']};
+const ageInput={timezone:'Asia/Tokyo' as const,requestFingerprint:'round20',observedAt:now,areaQuery:'Ginza',targetQuery:'restaurant in Ginza',selectionScope:'OPEN_ENDED' as const,requestedTimeWindow:{earliest:'19:00',latest:'20:00'},requestedTimeWindowBasis:'DAYPART:EVENING'};
+test('Round20 observed Age.3 mixed cafe is not generic dinner; explicit outlet/cafe/dessert remain admissible',()=>{
+ assert.deepEqual(groundGoogleDiscovery(age3,ageInput),{accepted:false,reasonCode:'GOOGLE_PLACE_TYPE_UNUSABLE'});
+ for(const input of [{...ageInput,targetQuery:'Age.3 GINZA',selectionScope:'SPECIFIC_OUTLET' as const},{...ageInput,targetQuery:'café in Ginza'},{...ageInput,criteria:[{text:'dessert',polarity:'POSITIVE' as const,strength:'SOFT' as const}]}])assert.equal(groundGoogleDiscovery(age3,input).accepted,true);
+ assert.equal(groundGoogleDiscovery(age3,{...ageInput,targetQuery:'cafe',criteria:[{text:'dessert',polarity:'NEGATIVE',strength:'HARD'}]}).accepted,false);
+ const {primaryType:_primary,...withoutPrimary}=age3;
+ assert.equal(groundGoogleDiscovery(withoutPrimary,ageInput).accepted,false);
+ assert.equal(groundGoogleDiscovery(withoutPrimary,{...ageInput,targetQuery:'cafe'}).accepted,true);
+});
+for(const [type,query] of Object.entries({sandwich_shop:'sandwich',dessert_shop:'dessert',dessert_restaurant:'dessert',snack_bar:'snack',ice_cream_shop:'ice cream',bagel_shop:'bagel',donut_shop:'donut',juice_shop:'juice',acai_shop:'acai',meal_takeaway:'takeaway',meal_delivery:'delivery',pizza_delivery:'pizza delivery'}))test('Round20 restricted '+type+' requires intent in primary and fallback paths',()=>{
+ for(const primary of [true,false]){
+  const place={...age3,...(primary?{primaryType:type}:{primaryType:undefined}),types:[type,'restaurant','food']};
+  const {primaryType,...rest}=place;const observation=primary?{...rest,primaryType:primaryType!}:rest;
+  assert.equal(groundGoogleDiscovery(observation,ageInput).accepted,false);
+  assert.equal(groundGoogleDiscovery(observation,{...ageInput,targetQuery:query}).accepted,true);
+ }
+});
+
+for(const punctuation of ['','.','!','?'])test(`Round24 B5 negative dessert preference has punctuation-invariant grounding ${punctuation||'none'}`,()=>{
+ const targetQuery='dinner in Ginza, preferably without overly sweet desserts'+punctuation;
+ assert.deepEqual(groundGoogleDiscovery(age3,{...ageInput,targetQuery}),{accepted:false,reasonCode:'GOOGLE_PLACE_TYPE_UNUSABLE'});
+ assert.equal(groundGoogleDiscovery(age3,{...ageInput,targetQuery:'Age.3 GINZA'+punctuation,selectionScope:'SPECIFIC_OUTLET'}).accepted,true);
+});
+for(const targetQuery of ['without outdoor seating I would like a dessert café in Ginza','no parking required and looking for a dessert café in Ginza','not too sweet, but specifically looking for a dessert café in Ginza','nothing too sweet, please find a dessert café in Ginza','a dessert café in Ginza without outdoor seating'])test('Round24 B5 local negation retains a later or earlier positive request: '+targetQuery,()=>{
+ assert.equal(groundGoogleDiscovery(age3,{...ageInput,targetQuery}).accepted,true);
 });

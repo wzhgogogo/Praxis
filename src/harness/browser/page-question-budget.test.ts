@@ -49,7 +49,9 @@ test("G1 fresh Google page capture keeps the real Guard ahead of an unreviewed c
   const origin="http://127.0.0.1:"+(server.address() as AddressInfo).port;
   const raw=new LocalPlaywrightChromium();let installed=0;
   const runtime:import("../../infrastructure/browser/browser-runtime.js").BrowserRuntime={readNetworkBoundaryCapability:raw.readNetworkBoundaryCapability,async openSession(input){
-    const session=await raw.openSession(input);assert.equal(session.metadata.readNetworkBoundary,"INSTALLED");installed++;return session;
+    const session=await raw.openSession(input);assert.equal(session.metadata.readNetworkBoundary,"INSTALLED");installed++;
+    const navigate=session.navigate.bind(session);session.navigate=async(...args)=>{try{return await navigate(...args);}catch(error){if(process.env.PRAXIS_G1_TRANSPORT_CAPTURE==="1"){const {browserTransportError}=await import("../../infrastructure/browser/browser-runtime-errors.js");console.log("G1_TRANSPORT "+JSON.stringify({error:browserTransportError(error),requests:(error as {networkFailures?:unknown}).networkFailures}));}throw error;}};
+    return session;
   }};
   try {
     const blocked=pageQuestionCaptureFixture("GOOGLE",runtime,origin+"/checkout");html=blocked.page.html;
@@ -59,7 +61,7 @@ test("G1 fresh Google page capture keeps the real Guard ahead of an unreviewed c
     assert.deepEqual(received,[],"the prohibited document never reached the independent HTTP receiver");
     const permitted=pageQuestionCaptureFixture("GOOGLE",runtime,origin+"/merchant");html=permitted.page.html;
     const answered=await permitted.assembly.questions.answerQuestion(permitted.input,new AbortController().signal);
-    assert.equal(answered.status,"ANSWERED","the same guarded acquisition can read a permitted merchant page");assert.ok(answered.status==="ANSWERED");
+    if(process.env.PRAXIS_G1_TRANSPORT_CAPTURE==="1")console.log("G1_ANSWER "+JSON.stringify(answered));assert.equal(answered.status,"ANSWERED","the same guarded acquisition can read a permitted merchant page");assert.ok(answered.status==="ANSWERED");
     assert.equal(answered.citations[0]?.text,captureQuote);assert.deepEqual(received,["GET /merchant"]);
   } finally {server.closeAllConnections();server.close();await once(server,"close");}
 });

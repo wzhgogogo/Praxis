@@ -1,0 +1,10 @@
+/private/tmp/praxis-http-evaluation-resume/src/eval/restaurant/agent-loop/g6/holdout-runner.ts:152
+   const e=await evaluation(a);if(e?.verdict.s0){state.status='FAILED_S0';state.stopReason='S0_STOP';await save();throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');}
+                                                                                                                        ^
+
+
+Error: HOLDOUT_S0_RESUME_FORBIDDEN
+    at runPrivateHoldout (/private/tmp/praxis-http-evaluation-resume/src/eval/restaurant/agent-loop/g6/holdout-runner.ts:152:121)
+    at async <anonymous> (/private/tmp/praxis-http-replay-preflight.mts:16:5)
+
+Node.js v24.4.1

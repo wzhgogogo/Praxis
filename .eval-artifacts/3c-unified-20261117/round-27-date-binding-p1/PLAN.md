@@ -1,0 +1,15 @@
+# Round27 date-binding P1 follow-up — current offline development / not integrated
+
+Baseline0b7e9384439efad773a917d65ad7e229cd6188bf, source69da89954e4c74c0d08b6956219c05d3fb1d0679. Reuse original sparse worktree and all existing fixes. Scope: relative-date-binding.ts and its compiler/message regressions only; preserve UI, runtime, Agent Loop, scoring, prompts, root configs, protected functions and historical evidence.
+
+Reproduce reviewer probe in OS loopback-only isolation, no dotenv. A rejected relative-day mention must not override an explicit affirmative calendar correction. Adjacent Chinese approximate numerals / uncertain date ranges must never become a guessed integer: NEEDS_INPUT and0availability calls. Keep original four clear-day-after-tomorrow model variants, ambiguity and time-only inheritance controls. Prove through real persistent message composition with fake model/availability and PGlite.
+
+Add minimal regression cases, observe red, implement bounded selected/excluded/ambiguous handling, run focused tests, then freeze code/tests/runner. Same clean SHA: Typecheck, Arch, Build, npm test, Browser Fixture including G2/Chromium/G6 (no outer sandbox around Browser Fixture), freshly built dist C1,19JS+HTML parity, strict browser DAG and protection. OriginalRound27 is immutable; fresh UI screenshots may be emitted only here and inspected. Preserve any failure before refreeze/restart.
+
+Append four ledgers/report and artifactSHA256 after acceptance, local archive commit only. No Live, real PostgreSQL,4312, external services, push/main merge. Known137missing historical originals remain blocked, no recovery.
+
+
+Independent coverage addendum: preserve5969f8a59's complete gate outputs as superseded, because subject-containing relative mentions and undecided relative/calendar alternatives still query the wrong day. At a completed-run checkpoint, add three real message regressions: incidental relative mention with correct calendar fact, undecided mixed dates with omitted DATE, and competing mixed dates despite a calendar proposal. Prioritize a verbatim current-message-bound calendar fact over incidental relative expressions; explicit undecided/competing selection rejects before relative fallback. Keep bounded numeric uncertainty checks and original six controls. Do not add a 我没空-specific vocabulary patch or a general calendar parser. Final reviewer probe uses all6 P1 rows, excluding its out-of-scope CONFIRM row.
+
+
+Weekday sibling addendum: existing DATE.weekday and literal calendar facts share one raw-bound selected priority. Detect undecided/choice relations centrally using only user-message date spans (relative days, existing calendar spellings, Chinese/English weekdays), in either order and without depending on modelDATE. Do not compute weekday/calendar values in the binding guard; keep the existing materializer. Cover missingDATE mixed-weekday alternatives, clear weekday controls and all original relative cases. The interrupted6ba checkpoint is retained and never claimed as full acceptance. Freeze both reviewer probes (6+5rows), then restart all gates from a clean finalSHA.

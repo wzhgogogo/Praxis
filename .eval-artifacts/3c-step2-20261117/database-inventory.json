@@ -1,0 +1,1037 @@
+{
+  "authorization": "User approved local system-account override after non-local .env URL preflight",
+  "target": {
+    "protocol": "postgresql:",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "accountSource": "local system account"
+  },
+  "databases": [
+    {
+      "name": "praxis_smoke",
+      "tables": [
+        {
+          "name": "conversation_messages",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "conversation_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "role",
+              "data_type": "text"
+            },
+            {
+              "column_name": "content",
+              "data_type": "text"
+            },
+            {
+              "column_name": "request_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "conversations",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "user_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "root_task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "create_request_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "title",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "goal_task_memberships",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "goal_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "parent_task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "critical",
+              "data_type": "boolean"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "goals",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "status",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "praxis_schema_migrations",
+          "count": 9,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "applied_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "restaurant_agent_trajectory_steps",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "step_number",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "occurred_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "state_version_before",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "state_hash_before",
+              "data_type": "text"
+            },
+            {
+              "column_name": "capabilities",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "agent_action",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "decision_summary",
+              "data_type": "text"
+            },
+            {
+              "column_name": "model_attempt",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "action_validation",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "execution_route",
+              "data_type": "text"
+            },
+            {
+              "column_name": "observation",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "state_version_after",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "state_hash_after",
+              "data_type": "text"
+            },
+            {
+              "column_name": "step_outcome",
+              "data_type": "text"
+            },
+            {
+              "column_name": "causal_refs",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "proposal_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "context_schema_version",
+              "data_type": "text"
+            },
+            {
+              "column_name": "decision_context",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "execution_metadata",
+              "data_type": "jsonb"
+            }
+          ]
+        },
+        {
+          "name": "task_commands",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_version",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "command_type",
+              "data_type": "text"
+            },
+            {
+              "column_name": "category",
+              "data_type": "text"
+            },
+            {
+              "column_name": "idempotency_key",
+              "data_type": "text"
+            },
+            {
+              "column_name": "payload",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "issued_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "trace",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "status",
+              "data_type": "text"
+            },
+            {
+              "column_name": "available_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "lease_owner",
+              "data_type": "text"
+            },
+            {
+              "column_name": "lease_expires_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "delivery_attempts",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "last_error",
+              "data_type": "text"
+            },
+            {
+              "column_name": "completed_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "task_dependencies",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "goal_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "upstream_task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "downstream_task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "condition",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "task_events",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_version",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "event_type",
+              "data_type": "text"
+            },
+            {
+              "column_name": "payload",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "occurred_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "trace",
+              "data_type": "jsonb"
+            }
+          ]
+        },
+        {
+          "name": "task_triggers",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "expected_task_version",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "idempotency_key",
+              "data_type": "text"
+            },
+            {
+              "column_name": "trigger_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "payload",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "trace",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "status",
+              "data_type": "text"
+            },
+            {
+              "column_name": "available_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "lease_owner",
+              "data_type": "text"
+            },
+            {
+              "column_name": "lease_expires_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "delivery_attempts",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "last_error",
+              "data_type": "text"
+            },
+            {
+              "column_name": "dispatched_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "tasks",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "run_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_type",
+              "data_type": "text"
+            },
+            {
+              "column_name": "definition_version",
+              "data_type": "text"
+            },
+            {
+              "column_name": "lifecycle_state",
+              "data_type": "text"
+            },
+            {
+              "column_name": "domain_state_schema_version",
+              "data_type": "text"
+            },
+            {
+              "column_name": "domain_state",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "outcome",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "version",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "workspace_sessions",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "token_hash",
+              "data_type": "text"
+            },
+            {
+              "column_name": "user_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "expires_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "workspace_users",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "display_name",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "praxis_web",
+      "tables": [
+        {
+          "name": "conversation_messages",
+          "count": 32,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "conversation_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "role",
+              "data_type": "text"
+            },
+            {
+              "column_name": "content",
+              "data_type": "text"
+            },
+            {
+              "column_name": "request_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "conversations",
+          "count": 14,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "user_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "root_task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "create_request_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "title",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "goal_task_memberships",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "goal_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "parent_task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "critical",
+              "data_type": "boolean"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "goals",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "status",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "praxis_schema_migrations",
+          "count": 9,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "applied_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "restaurant_agent_trajectory_steps",
+          "count": 114,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "step_number",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "occurred_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "state_version_before",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "state_hash_before",
+              "data_type": "text"
+            },
+            {
+              "column_name": "capabilities",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "agent_action",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "decision_summary",
+              "data_type": "text"
+            },
+            {
+              "column_name": "model_attempt",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "action_validation",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "execution_route",
+              "data_type": "text"
+            },
+            {
+              "column_name": "observation",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "state_version_after",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "state_hash_after",
+              "data_type": "text"
+            },
+            {
+              "column_name": "step_outcome",
+              "data_type": "text"
+            },
+            {
+              "column_name": "causal_refs",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "proposal_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "context_schema_version",
+              "data_type": "text"
+            },
+            {
+              "column_name": "decision_context",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "execution_metadata",
+              "data_type": "jsonb"
+            }
+          ]
+        },
+        {
+          "name": "task_commands",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_version",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "command_type",
+              "data_type": "text"
+            },
+            {
+              "column_name": "category",
+              "data_type": "text"
+            },
+            {
+              "column_name": "idempotency_key",
+              "data_type": "text"
+            },
+            {
+              "column_name": "payload",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "issued_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "trace",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "status",
+              "data_type": "text"
+            },
+            {
+              "column_name": "available_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "lease_owner",
+              "data_type": "text"
+            },
+            {
+              "column_name": "lease_expires_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "delivery_attempts",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "last_error",
+              "data_type": "text"
+            },
+            {
+              "column_name": "completed_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "task_dependencies",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "goal_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "upstream_task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "downstream_task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "condition",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "task_events",
+          "count": 97,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_version",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "event_type",
+              "data_type": "text"
+            },
+            {
+              "column_name": "payload",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "occurred_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "trace",
+              "data_type": "jsonb"
+            }
+          ]
+        },
+        {
+          "name": "task_triggers",
+          "count": 0,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "expected_task_version",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "idempotency_key",
+              "data_type": "text"
+            },
+            {
+              "column_name": "trigger_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "payload",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "trace",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "status",
+              "data_type": "text"
+            },
+            {
+              "column_name": "available_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "lease_owner",
+              "data_type": "text"
+            },
+            {
+              "column_name": "lease_expires_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "delivery_attempts",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "last_error",
+              "data_type": "text"
+            },
+            {
+              "column_name": "dispatched_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "tasks",
+          "count": 14,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "run_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "task_type",
+              "data_type": "text"
+            },
+            {
+              "column_name": "definition_version",
+              "data_type": "text"
+            },
+            {
+              "column_name": "lifecycle_state",
+              "data_type": "text"
+            },
+            {
+              "column_name": "domain_state_schema_version",
+              "data_type": "text"
+            },
+            {
+              "column_name": "domain_state",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "outcome",
+              "data_type": "jsonb"
+            },
+            {
+              "column_name": "version",
+              "data_type": "integer"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "workspace_sessions",
+          "count": 2,
+          "columns": [
+            {
+              "column_name": "token_hash",
+              "data_type": "text"
+            },
+            {
+              "column_name": "user_id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "expires_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        },
+        {
+          "name": "workspace_users",
+          "count": 1,
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "text"
+            },
+            {
+              "column_name": "display_name",
+              "data_type": "text"
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp with time zone"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp with time zone"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "names": [
+    "praxis_smoke",
+    "praxis_web"
+  ]
+}

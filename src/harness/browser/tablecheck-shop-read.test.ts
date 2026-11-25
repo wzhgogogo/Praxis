@@ -55,12 +55,13 @@ test("TableCheck selection reads the recorded shop contract before a detail can 
       response.setHeader("Content-Type", "application/json"); response.end(JSON.stringify({ shops: [{ _id: "fixture-public-id", slug, name_translations: [{locale:"en",translation:query}], locale:"en", address:"1-1 Fixture Street, Tokyo", phone:"03-1111-2222", stations:[], cuisines:[], geocode:{lat:35.1,lon:139.1}, service_modes:["dining"] }], menu_categories:[] })); return;
     }
     response.setHeader("Content-Type", "text/html");
+    // LOCAL_CONSTRUCTION: listbox/option semantics mirror the captured public suggestions.
     response.end(`<body>
       <button onclick='for(const c of ${JSON.stringify(forbiddenReads)}){if(c.type){const s=document.createElement("script");s.src=c.url;document.body.append(s)}else fetch(c.url,{method:c.method||"GET",headers:c.headers||{}}).catch(()=>{})}'>Boundary requests</button>
       <button onclick="fetch('${recordedURL}').catch(()=>{})">Recorded request</button>
       <button onclick="document.querySelector('input').hidden=false">Destination</button>
       <input aria-label="Destination" hidden oninput="document.getElementById('option').hidden=false">
-      <button hidden id="option" onclick="loadFixture()">${query}</button>
+      <div role="listbox"><div role="option" tabindex="0" hidden id="option" onclick="loadFixture()">${query}</div></div>
       <script>
       // Constructed transport/query dependencies; the two functions below are
       // unchanged excerpts from the recorded public client, not a fake recording.
@@ -139,7 +140,7 @@ test("TableCheck selection reads the recorded shop contract before a detail can 
     query = name; const beforeDetail = received.filter(path => path === "/v2/shops/" + slug).length;
     let charged = 0;
     const result = await runG6SourceReadCheck({ browser, policy: tableCheckPublicReadNetworkPolicy, spec: { startUrl: mainOrigin + "/en/japan/search", query, minimumIntervalMs: 1 }, signal: new AbortController().signal, beforeEntry: async () => { charged++; }, catalogTerminal: Promise.resolve(true), phase: () => {}, record: () => {} });
-    assert.equal(charged, 1); assert.equal(result.phase, "SELECT_MATCH"); assert.equal(result.status, "SELECT_ACTION_COMPLETED");
+    assert.equal(charged, 1); assert.equal(result.phase, "SELECT_MATCH", JSON.stringify(result)); assert.equal(result.status, "SELECT_ACTION_COMPLETED");
     assert.equal(received.filter(path => path === "/v2/shops/" + slug).length, beforeDetail + 1, "Each current read must reach the receiver; an earlier success cannot stand in for this detail");
     const final = snapshots.at(-1)!; assert.equal(final.url, mainOrigin + "/en/" + slug);
     const identity = parseTableCheckOutletIdentityWithEvidence(final, final.url);

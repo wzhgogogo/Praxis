@@ -1,0 +1,25 @@
+{
+  "appErrors": [],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ],
+  "httpErrors": [
+    {
+      "url": "http://127.0.0.1:64894/api/session",
+      "status": 401,
+      "expectedStartup": true
+    },
+    {
+      "url": "http://127.0.0.1:64894/api/cases/restaurant%3A06595afe47d106568585813a/candidates/fixture%3Aoutlet/photos/da8711a9e982844db2e551b439e64ae2/content",
+      "status": 503
+    },
+    {
+      "url": "http://127.0.0.1:64894/api/cases/restaurant%3A06595afe47d106568585813a/candidates/fixture%3Aoutlet/photos/da8711a9e982844db2e551b439e64ae2/content",
+      "status": 503
+    }
+  ],
+  "expectedTransportFailures": true,
+  "nonLocalRequests": "context aborted"
+}

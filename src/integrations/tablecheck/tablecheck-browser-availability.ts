@@ -16,6 +16,7 @@ import type { TableCheckAvailabilityPageObservation, TableCheckIdentityDiagnosti
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
   hasTableCheckBotChallenge,
+  tableCheckGuideQuery,
   hasTableCheckAvailabilityWidget,
   hasTableCheckAvailabilityResultLoading,
   hasTableCheckDisabledRequestMarkup,
@@ -516,6 +517,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           discoveryBase = { requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(directPage.url), title: directPage.title };
         } else {
           const searched = await this.executor.search({
+            ...(tableCheckDiscoveryPack.skillPath ? {sourceSkillPath: tableCheckDiscoveryPack.skillPath} : {}),
             source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName, querySource, completion: page => tableCheckNameSearchCompletion(page, searchName),
           });
           modelFailed ||= searched.status === "MODEL_FAILURE";
@@ -910,7 +912,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         if (request.timeWindow.earliest === request.timeWindow.latest && assessed.html.queryComplete) {coverageStop = "OBSERVED_TIMES_EXHAUSTED"; break;}
         if (queries === 4) {coverageStop = "TIME_QUERY_LIMIT"; break;}
         try {
-          const next = await this.executor.advanceAvailabilityTime({...availabilityInput, goal: {...availabilityInput.goal, timeWindow: request.timeWindow}}, covered.map(p=>p.earliest));
+          const next = await this.executor.advanceAvailabilityTime({...availabilityInput, goal: {...availabilityInput.goal, timeWindow: request.timeWindow}}, covered.map(p=>p.earliest), (current,controls,time) => {
+            const query = tableCheckGuideQuery(current);
+            return query?.date === request.date && query.party === String(request.partySize) && query.time === time
+              && hasTableCheckSelectedRequest(current,request.date,request.partySize,controls);
+          });
           if (!next) {coverageStop = "OBSERVED_TIMES_EXHAUSTED"; break;}
           readWindow = {earliest: next, latest: next};
           availabilityInput.goal = {...availabilityInput.goal, timeWindow: readWindow};

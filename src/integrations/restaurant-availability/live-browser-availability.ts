@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from "node:async_hooks";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest,RestaurantCandidateFactRead } from "../../domains/restaurant/contracts.js";
@@ -47,23 +48,43 @@ export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
  */
 export class LiveBrowserAvailability {
   readonly executionRoute = "GENERIC_BROWSER" as const;
-  /** Persists across candidate batches in one Live availability composition. */
-  private readonly browserBudget: BrowserExecutionBudget;
+  private readonly readRuns = new AsyncLocalStorage<{
+    browserBudget: BrowserExecutionBudget; tableCheckEntryLedger: TableCheckEntryLedger;
+    namedQueries: ModelNamedSourceQuery; readExecutor: BrowserTaskExecutor | undefined; scopeId?: string;
+  }>();
+  private readonly legacyRun: NonNullable<ReturnType<typeof this.readRuns.getStore>>;
   private readonly networkPolicy: BrowserReadNetworkPolicy | undefined;
-  private tableCheckEntryLedger = new TableCheckEntryLedger();
-  private readonly namedQueries: ModelNamedSourceQuery;
-  private readExecutor: BrowserTaskExecutor | undefined;
+  private get run() { return this.readRuns.getStore() ?? this.legacyRun; }
+  private get browserBudget() { return this.run.browserBudget; }
+  private get tableCheckEntryLedger() { return this.run.tableCheckEntryLedger; }
+  private set tableCheckEntryLedger(value: TableCheckEntryLedger) { this.run.tableCheckEntryLedger = value; }
+  private get namedQueries() { return this.run.namedQueries; }
+  private get readExecutor() { return this.run.readExecutor; }
+  private set readExecutor(value: BrowserTaskExecutor | undefined) { this.run.readExecutor = value; }
 
   constructor(
     private readonly runtime: BrowserRuntime,
     private readonly model: ModelGateway,
     private readonly options: LiveBrowserAvailabilityOptions,
   ) {
-    this.browserBudget = options.browserBudget ?? { totalModelCalls: 0 };
+    const browserBudget = options.browserBudget ?? { totalModelCalls: 0 };
+    this.legacyRun = { browserBudget, tableCheckEntryLedger: new TableCheckEntryLedger(),
+      namedQueries: new ModelNamedSourceQuery(model, browserBudget), readExecutor: undefined };
     this.networkPolicy = options.networkPolicy
       ?? (runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined);
     if (options.maxModelCallsTotal !== undefined) this.browserBudget.maxModelCalls = options.maxModelCallsTotal;
-    this.namedQueries = new ModelNamedSourceQuery(model, this.browserBudget);
+  }
+
+  /** One invocation owns its sessions/ledger, including work after the Agent loop. */
+  async withReadRun<T>(read: () => Promise<T>, scopeId?: string, sharedBudget?: BrowserExecutionBudget): Promise<T> {
+    const active = this.readRuns.getStore();
+    if (active && (scopeId === undefined || active.scopeId === scopeId) && (!sharedBudget || active.browserBudget === sharedBudget)) return read();
+    const browserBudget = sharedBudget ?? { totalModelCalls: 0, maxModelCalls: this.options.maxModelCallsTotal };
+    return this.readRuns.run({ browserBudget, ...(scopeId !== undefined ? { scopeId } : {}), tableCheckEntryLedger: new TableCheckEntryLedger(),
+      namedQueries: new ModelNamedSourceQuery(this.model, browserBudget), readExecutor: undefined }, async () => {
+      this.beginReadRun();
+      try { return await read(); } finally { await this.endReadRun(); }
+    });
   }
 
   browserModelBudgetExhausted(): boolean {
@@ -120,6 +141,7 @@ export class LiveBrowserAvailability {
 
   private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean,targetQuery?:string):Promise<RestaurantAvailabilityRead>{
     const executor=this.readExecutor??this.createExecutor(true);
+    if(identityOnly&&targetQuery)request={...request,selectionScope:"SPECIFIC_OUTLET"};
     const providerContext = {
       executor,
       ...(identityOnly?{identityOnly:true}:{}),

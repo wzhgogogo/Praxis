@@ -1,3 +1,7 @@
+import { AsyncLocalStorage } from "node:async_hooks";
+import type { PhotoHttpPort } from "../restaurant-photos/public-photo-http.js";
+import { RestaurantDisplayPhotos } from "../restaurant-photos/display-photos.js";
+import type { GooglePhotoTransport } from "../restaurant-photos/google-photos.js";
 import {positiveDiscoveryCriteria} from "../../domains/restaurant/discovery-retrieval.js";
 import {ModelDiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
 import {restaurantSearchIntentFingerprint, type RestaurantSearchRequest, type RestaurantSearchRead} from "../../domains/restaurant/contracts.js";
@@ -29,6 +33,8 @@ export interface LiveReadAssemblyConfig extends LiveReadInvestigationBudget {
 export interface LiveReadTransports {
   model: ModelGateway;
   google: GooglePlacesClient;
+  googlePhotos?: GooglePhotoTransport;
+  photoHttp?: PhotoHttpPort;
   browser: BrowserRuntime;
   clock: RuntimeClock;
   onBrowserDiagnostic?: LiveBrowserAvailabilityOptions["onBrowserDiagnostic"];
@@ -49,7 +55,9 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const runCeilings = Object.freeze({ ...ceilings });
   const now = () => transports.clock.now().toISOString();
   const taskId = transports.currentTaskId ?? (() => undefined);
-  const sourceNames=new ObservedOutletNames(transports.browser);
+  const photos=new RestaurantDisplayPhotos(transports.googlePhotos,transports.photoHttp,now,taskId);
+  const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
+  const sourceNames=new ObservedOutletNames(transports.browser,now);
   const tabelogHandoffs = new TabelogBookingHandoffReader(sourceNames.runtime, taskId, now);
   const tablecheckHandoffs = new TableCheckBookingHandoffReader(tabelogHandoffs.runtime, taskId, now);
   const bookingLinks = {
@@ -58,7 +66,16 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       tabelogHandoffs.capture(request, signal, () => tablecheckHandoffs.capture(request, signal, read)),
     readPrepared: (view: Parameters<typeof tablecheckHandoffs.readPrepared>[0]) => [...tabelogHandoffs.readPrepared(view), ...tablecheckHandoffs.readPrepared(view)],
   };
-  const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: config.maxBrowserModelCallsTotal };
+  const runBudgets = new AsyncLocalStorage<{ budget: BrowserExecutionBudget; scopeId?: string }>();
+  const newBudget = () => ({ totalModelCalls: 0, maxModelCalls: config.maxBrowserModelCallsTotal });
+  const standaloneBudget = newBudget();
+  // All concrete readers keep this same reference; its counters belong to the current async read.
+  const browserBudget: BrowserExecutionBudget = {
+    get totalModelCalls() { return (runBudgets.getStore()?.budget ?? standaloneBudget).totalModelCalls; },
+    set totalModelCalls(value: number) { (runBudgets.getStore()?.budget ?? standaloneBudget).totalModelCalls = value; },
+    get maxModelCalls() { return (runBudgets.getStore()?.budget ?? standaloneBudget).maxModelCalls ?? config.maxBrowserModelCallsTotal; },
+    set maxModelCalls(value: number) { (runBudgets.getStore()?.budget ?? standaloneBudget).maxModelCalls = value; },
+  };
   const google = new GooglePlacesRestaurantSearch(transports.google, now, config.maxDiscoveryCandidates, { maxRequests: config.maxGoogleRequests });
   const native = composeNativeRestaurantRead(google, sourceNames.runtime, transports.model, browserBudget,
     transports.onBrowserDiagnostic, evaluationLocation, now, {
@@ -73,12 +90,11 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       maxAutomaticElapsedMs: config.maxFactBrowserMs,
       maxElapsedMsPerCandidate: config.maxFactBrowserMs,
       maxElapsedMsPerProvider: config.maxFactProviderMs,
-    }, packs);
+    }, packs,sourceNames.categoryQuotes.bind(sourceNames),photos.observe);
   const terms = new RestaurantBookingTerms(native.questions, bookingLinks.readPrepared, taskId,
     transports.remainingModelCalls ?? (()=>undefined), now, config.maxAutomaticBrowserMs);
   const bookingHandoffs = {...bookingLinks,readPrepared:terms.readPrepared};
   const questions=Object.assign(native.questions,{readBookingTerms:terms.readBookingTerms.bind(terms),readBookingTermsDiagnostics:terms.readBookingTermsDiagnostics});
-  const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
   const sourceAvailability = new LiveBrowserAvailability(bookingHandoffs.runtime, transports.model, {
     now, browserBudget,
     japaneseName: google.japaneseName.bind(google),
@@ -98,11 +114,17 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   });
   const availability = {
     executionRoute: sourceAvailability.executionRoute,
+    withReadRun: <T>(read: () => Promise<T>, scopeId?: string): Promise<T> => {
+      const active = runBudgets.getStore();
+      if (active && (scopeId === undefined || active.scopeId === scopeId)) return read();
+      const budget = newBudget();
+      return runBudgets.run({ budget, ...(scopeId !== undefined ? { scopeId } : {}) }, () => sourceAvailability.withReadRun(read, scopeId, budget));
+    },
     beginReadRun: () => sourceAvailability.beginReadRun(),
     endReadRun: () => sourceAvailability.endReadRun(),
     browserModelBudgetExhausted: () => sourceAvailability.browserModelBudgetExhausted(),
     check: async (request: Parameters<LiveBrowserAvailability["check"]>[0], signal: AbortSignal, readRunId?: string) => {
-      const read = await sourceNames.capture(()=>bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal, readRunId)));
+      const read = await sourceNames.capture(()=>bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal, readRunId)),{readRunId,observe:page=>{native.questions.retainBoundPage(page);photos.observe(page);}});
       return {...read,evidence:[...read.evidence,...await google.observedSourceNames(request.candidates,readRunId)],metadata:{...read.metadata,googleRequests:google.googleRequestUsage(readRunId)}};
     },
   };
@@ -166,8 +188,9 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     inspectFacts:(request,signal,identityOnly)=>sourceNames.capture(()=>{
       const {date,timeWindow,partySize}=request.intent;
       return identityOnly&&date&&timeWindow&&partySize!==undefined?sourceAvailability.identify({candidateIds:request.candidateIds,candidates:request.candidates,
+        ...(request.intent.target?{selectionScope:request.intent.target.selectionScope}:{}),
         date,timeWindow,partySize,
         hardCriteria:[]},signal,request.readRunId,request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined):native.facts.inspectFacts(request,signal);
     })};
-  return { ...native, facts, questions, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
+  return { ...native, facts, questions, search, google, photos, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
 }

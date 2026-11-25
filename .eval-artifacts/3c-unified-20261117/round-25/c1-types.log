@@ -1,0 +1,14 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/infrastructure/browser/cloudflare-browser-run.test.ts(39,5): error TS2353: Object literal may only specify known properties, and 'connectOverCdp' does not exist in type 'CloudflareBrowserRunConfig'.
+src/infrastructure/browser/cloudflare-browser-run.test.ts(39,28): error TS7006: Parameter 'endpoint' implicitly has an 'any' type.
+src/infrastructure/browser/cloudflare-browser-run.test.ts(54,5): error TS2353: Object literal may only specify known properties, and 'connectOverCdp' does not exist in type 'CloudflareBrowserRunConfig'.
+src/infrastructure/browser/cloudflare-browser-run.test.ts(88,5): error TS2353: Object literal may only specify known properties, and 'connectOverCdp' does not exist in type 'CloudflareBrowserRunConfig'.
+src/infrastructure/browser/cloudflare-browser-run.test.ts(88,28): error TS7006: Parameter 'endpoint' implicitly has an 'any' type.
+src/infrastructure/browser/cloudflare-browser-run.test.ts(105,5): error TS2353: Object literal may only specify known properties, and 'connectOverCdp' does not exist in type 'CloudflareBrowserRunConfig'.
+src/infrastructure/browser/cloudflare-browser-run.test.ts(115,5): error TS2353: Object literal may only specify known properties, and 'connectOverCdp' does not exist in type 'CloudflareBrowserRunConfig'.
+src/infrastructure/browser/cloudflare-browser-run.test.ts(129,5): error TS2353: Object literal may only specify known properties, and 'connectOverCdp' does not exist in type 'CloudflareBrowserRunConfig'.
+src/infrastructure/browser/cloudflare-session-proxy.ts(27,300): error TS2322: Type 'ReturnType<Required<Pick<BrowserSession, "beginReadScope" | "captureResponses" | "click" | "close" | "dismissTransientObstruction" | "fill" | "flushRecordedResponses" | "navigate" | ... 13 more ... | "waitForSettled">>[K]>' is not assignable to type 'Awaited<ReturnType<Required<Pick<BrowserSession, "beginReadScope" | "captureResponses" | "click" | "close" | "dismissTransientObstruction" | "fill" | "flushRecordedResponses" | ... 14 more ... | "waitForSettled">>[K]>>'.
+  Type 'unknown' is not assignable to type 'Awaited<ReturnType<Required<Pick<BrowserSession, "beginReadScope" | "captureResponses" | "click" | "close" | "dismissTransientObstruction" | "fill" | "flushRecordedResponses" | ... 14 more ... | "waitForSettled">>[K]>>'.

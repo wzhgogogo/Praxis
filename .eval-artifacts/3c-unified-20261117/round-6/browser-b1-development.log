@@ -1,0 +1,254 @@
+✔ stale same-Case refresh, batch and location requests never cancel an active read (1959.629459ms)
+✔ preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration (954.242584ms)
+✔ preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration (741.743125ms)
+✔ preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration (918.941083ms)
+✔ B1 open request does not read terms merely because the Agent chose a candidate (1918.622583ms)
+✔ B1 selected TABELOG outlet proactively acquires same-channel cancellation and card terms through ordinary composition (1475.228ms)
+✔ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (3871.784209ms)
+✔ B1 reuses the actual admitted G1 cancellation answer without another model call, before or after selection (1307.143458ms)
+✔ B1 carries both observed language policies and separate English paraphrases when G1 reports conflict (1722.161625ms)
+✔ B1 hides SHOP G1 pages without losing the source link (1204.451417ms)
+✔ B1 hides CHANNEL G1 pages without losing the source link (1212.518292ms)
+✔ B1 omits unstated policy and card requirements, and never carries previous-run terms (1669.484542ms)
+✔ B1 shares the real run model ceiling and drops optional terms when that budget is spent (1094.888375ms)
+✔ B1 discards late terms on cancellation while keeping its qualified handoff (1105.047334ms)
+✔ B1 drops expired G1 pages and enclosing-deadline output independently of its still-current link (2262.266958ms)
+✖ B1 stays in the selected Case read scope after the Agent loop returns (1101.561875ms)
+✔ Restaurant photos mobile: production assembly/HTTP renders a source cover and gallery without changing the plan, input or current card (3038.068125ms)
+✔ Restaurant photos mobile: availability SSE keeps the open gallery, current photo and draft (1547.689917ms)
+✔ Restaurant photos mobile: a late first-outlet photo cannot overwrite the current outlet or typed text (1110.369708ms)
+✔ Restaurant photos mobile: empty, wrong-outlet and corrupt-image sources retain No photo and usable actions (2904.415084ms)
+✔ Restaurant photos desktop: production assembly/HTTP renders a source cover and gallery without changing the plan, input or current card (1810.660792ms)
+✔ Restaurant photos desktop: availability SSE keeps the open gallery, current photo and draft (1537.269875ms)
+✔ Restaurant photos desktop: a late first-outlet photo cannot overwrite the current outlet or typed text (1302.158792ms)
+✔ Restaurant photos desktop: empty, wrong-outlet and corrupt-image sources retain No photo and usable actions (3232.502833ms)
+✔ Photo DOM observation uses the real browser currentSrc for responsive/lazy source images (164.440292ms)
+✔ Google photos: eight of eight through About and viewer, with exact demand-only downloads and no lookahead (1887.080583ms)
+✔ Website photos: one deduplicated lookahead, fail-closed provider and failed warm-up leave current image/counter untouched (3764.746417ms)
+✖ Round6 390: Details and Handoff retain active reads, then leave failed or removed results (2827.600708ms)
+✖ Round6 1440: Details and Handoff retain active reads, then leave failed or removed results (1707.79125ms)
+✖ Round6: refresh labels use the whole presented batch, retry and goal rather than only the current outlet (1478.318916ms)
+✖ Round6 Style1 390x844 available: aligned condition rows and clean availability (1014.171667ms)
+✖ Round6 Style1 390x844 not-checked: aligned condition rows and clean availability (1016.564ms)
+✖ Round6 Style1 768x1024 available: aligned condition rows and clean availability (1004.50275ms)
+✖ Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability (1015.941375ms)
+✖ Round6 Style1 1440x900 available: aligned condition rows and clean availability (1301.374208ms)
+✖ Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability (1274.88375ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 26
+ℹ fail 10
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22948.009083
+
+✖ failing tests:
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:8856
+✖ B1 stays in the selected Case read scope after the Agent loop returns (1101.561875ms)
+  AssertionError [ERR_ASSERTION]: actual browser reads consume this run's budget
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-booking-terms-composition.test.ts:130:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:2012
+✖ Round6 390: Details and Handoff retain active reads, then leave failed or removed results (2827.600708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:44:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:2012
+✖ Round6 1440: Details and Handoff retain active reads, then leave failed or removed results (1707.79125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:44:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:5563
+✖ Round6: refresh labels use the whole presented batch, retry and goal rather than only the current outlet (1478.318916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Refresh availability'
+  - 'Refresh details'
+             ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:61:166)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Refresh availability',
+    expected: 'Refresh details',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:8140
+✖ Round6 Style1 390x844 available: aligned condition rows and clean availability (1014.171667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'Serves beer',
+  -   'Quiet seating',
+  -   'Outdoor seats'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:80:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'Serves beer', 'Quiet seating', 'Outdoor seats' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:8140
+✖ Round6 Style1 390x844 not-checked: aligned condition rows and clean availability (1016.564ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'Serves beer',
+  -   'Quiet seating',
+  -   'Outdoor seats'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:80:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'Serves beer', 'Quiet seating', 'Outdoor seats' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:8140
+✖ Round6 Style1 768x1024 available: aligned condition rows and clean availability (1004.50275ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'Serves beer',
+  -   'Quiet seating',
+  -   'Outdoor seats'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:80:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'Serves beer', 'Quiet seating', 'Outdoor seats' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:8140
+✖ Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability (1015.941375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'Serves beer',
+  -   'Quiet seating',
+  -   'Outdoor seats'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:80:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'Serves beer', 'Quiet seating', 'Outdoor seats' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:8140
+✖ Round6 Style1 1440x900 available: aligned condition rows and clean availability (1301.374208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'Serves beer',
+  -   'Quiet seating',
+  -   'Outdoor seats'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:80:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'Serves beer', 'Quiet seating', 'Outdoor seats' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:1:8140
+✖ Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability (1274.88375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'Serves beer',
+  -   'Quiet seating',
+  -   'Outdoor seats'
+  - ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:80:12)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'Serves beer', 'Quiet seating', 'Outdoor seats' ],
+    operator: 'deepStrictEqual'
+  }

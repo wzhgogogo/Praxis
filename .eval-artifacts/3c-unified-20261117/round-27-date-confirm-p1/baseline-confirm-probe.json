@@ -1,0 +1,72 @@
+{
+  "sha": "678a177391ce3b3b65a620e2521428f36c683274",
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/reviewer-confirm-date.mjs",
+    "--confirm-only"
+  ],
+  "envLoaded": false,
+  "exitCode": 0,
+  "seconds": 2.497575458,
+  "rows": [
+    {
+      "case": "confirm no date change control",
+      "message": "\u65e5\u671f\u4e0d\u53d8\uff0c\u53ea\u6539\u665a\u4e0a7\u70b9",
+      "expected": "2026-11-28",
+      "compiler": "COMPILED",
+      "phase": "PRESENT_RESULTS",
+      "draftDate": "2026-11-28",
+      "searches": 1,
+      "calls": 3,
+      "dates": [
+        "2026-11-28"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "explicit date correction control",
+      "message": "\u6539\u6210\u540e\u5929\u665a\u4e0a7\u70b9",
+      "expected": "2026-11-26",
+      "compiler": "COMPILED",
+      "patchDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "draftDate": "2026-11-26",
+      "searches": 1,
+      "calls": 3,
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "wrong model CONFIRM on explicit date edit",
+      "message": "\u6539\u6210\u540e\u5929\u665a\u4e0a7\u70b9",
+      "expected": "clarify",
+      "compiler": "COMPILED",
+      "phase": "PRESENT_RESULTS",
+      "draftDate": "2026-11-28",
+      "searches": 1,
+      "calls": 3,
+      "dates": [
+        "2026-11-28"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ],
+  "passed": 2,
+  "total": 3
+}

@@ -1,0 +1,164 @@
+{
+  "sourceSHA": "cfd5a5ced96551ad13aabba3facbf911cbcc08d8",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sourceSHA": "cfd5a5ced96551ad13aabba3facbf911cbcc08d8",
+      "startedAtUTC": "2026-11-09T13:53:27.703447+00:00",
+      "finishedAtUTC": "2026-11-09T13:53:28.204183+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": []
+    },
+    {
+      "gate": "architecture",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sourceSHA": "cfd5a5ced96551ad13aabba3facbf911cbcc08d8",
+      "startedAtUTC": "2026-11-09T13:53:28.250724+00:00",
+      "finishedAtUTC": "2026-11-09T13:53:28.476024+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": []
+    },
+    {
+      "gate": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sourceSHA": "cfd5a5ced96551ad13aabba3facbf911cbcc08d8",
+      "startedAtUTC": "2026-11-09T13:53:28.521589+00:00",
+      "finishedAtUTC": "2026-11-09T13:54:26.697338+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": [
+        "ℹ tests 1559",
+        "ℹ pass 1559",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0"
+      ]
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sourceSHA": "cfd5a5ced96551ad13aabba3facbf911cbcc08d8",
+      "startedAtUTC": "2026-11-09T13:54:26.744786+00:00",
+      "finishedAtUTC": "2026-11-09T13:54:27.297338+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": []
+    },
+    {
+      "gate": "browser-g6",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sourceSHA": "cfd5a5ced96551ad13aabba3facbf911cbcc08d8",
+      "startedAtUTC": "2026-11-09T13:54:27.343041+00:00",
+      "finishedAtUTC": "2026-11-09T13:57:35.877625+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": [
+        "ℹ tests 5",
+        "ℹ pass 5",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ tests 258",
+        "ℹ pass 258",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ tests 263",
+        "ℹ pass 263",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ tests 89",
+        "ℹ pass 89",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0"
+      ]
+    },
+    {
+      "gate": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "sourceSHA": "cfd5a5ced96551ad13aabba3facbf911cbcc08d8",
+      "startedAtUTC": "2026-11-09T13:57:35.925562+00:00",
+      "finishedAtUTC": "2026-11-09T13:58:00.724725+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "summaries": [
+        "ℹ tests 5",
+        "ℹ pass 5",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0"
+      ]
+    }
+  ],
+  "mode": "OFFLINE_FIXTURE_AND_RECORDED_COMPONENTS",
+  "realCalls": {
+    "sourceGET": 0,
+    "models": 0,
+    "Live": 0
+  },
+  "hardcodedScan": {
+    "hits": 5,
+    "businessHardcodingAdded": false,
+    "classifications": [
+      "unchanged privacy-key regex extracted to a shared helper",
+      "existing protocol GET/HEAD/OPTIONS boundary",
+      "generic actual transport-timeout classifier",
+      "existing provider-parser dispatch + exclusion of MODEL_JUDGMENT",
+      "user-approved source-pack skip-reason metadata"
+    ]
+  },
+  "originalPreservation": {
+    "HEAD": "4256303de2cf8cf1921420e3318db5ce443d3c6d",
+    "clean": true,
+    "runFiles": 871,
+    "allRunBytesUnchanged": true,
+    "ledgerSHA256": "62ee1f8ee2690e3e248db96b13716b7ca3d52c3385ad7e2ea616c97a10017f9a",
+    "ledgerUnchanged": true
+  },
+  "strictG2": {
+    "tests": 5,
+    "validPages": 12,
+    "allPass": true
+  },
+  "knownLimits": [
+    "Historical Node body-byte count UNKNOWN; no actual401 recorded in audited evidence05 JSON.",
+    "Second-response HTTP envelope and first zero-body stall LOCAL_CONSTRUCTION; original same-page DOM/JSON bytes preserved.",
+    "02-r1 timeout trace936-939 is a region directory, not an outlet detail.",
+    "Estimated avoided original provider attempts do not predict whole-run delivery or model reallocation.",
+    "No new Live/source reliability certification; old held-out paused without invalidation."
+  ]
+}

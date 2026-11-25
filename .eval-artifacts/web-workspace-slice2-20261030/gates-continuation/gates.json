@@ -1,0 +1,67 @@
+{
+  "sourceCommit": "704478935e16cb78a6b08ee6e92aec79c113993f",
+  "main": "4cbc521bb9e4fb177e247266561bd90eb5d34e3f",
+  "manifestSHA256": "7676a2dd98cb9942d8e06b5104613282dd75684597ae8907080cec5f026269a2",
+  "mode": "OFFLINE_AND_LOCAL_CHROMIUM_FIXTURE",
+  "realAPIRequests": 0,
+  "Holdout": "NOT_RUN",
+  "sourceGET": 0,
+  "Google": 0,
+  "externalWrites": 0,
+  "screenshotDirectory": "/private/tmp/praxis-slice2-20261030-approved-screens",
+  "frozenFilesUnchanged": 742,
+  "checks": [
+    {
+      "name": "empty-continuation-diagnostic",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/web-workspace-slice2-20261030/probe-empty-continuation.mjs"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 1806,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 516,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 238,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 1,
+      "elapsedMs": 29092,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    }
+  ]
+}

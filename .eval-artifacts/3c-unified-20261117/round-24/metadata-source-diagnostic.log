@@ -1,0 +1,27 @@
+✖ Phase2c observed cuisine and approved price applicability reach Router to Reducer without changing other saved displays (6.980375ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 122.0215
+
+✖ failing tests:
+
+test at src/application/restaurant-presentation-evidence.test.ts:1:28145
+✖ Phase2c observed cuisine and approved price applicability reach Router to Reducer without changing other saved displays (6.980375ms)
+  AssertionError [ERR_ASSERTION]: {"run":"h-02","id":"tabelog:en/tokyo/A1311/A131101/13093277","quote":{"field":"NAME","quote":"Korean","sourceUrl":"https://tabelog.com/en/tokyo/A1311/A131101/13093277/","meal":"UNSPECIFIED"},"ids":["fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"]}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-presentation-evidence.test.ts:398:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

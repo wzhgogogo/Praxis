@@ -1,0 +1,46 @@
+✔ Round21 UI: expired stopped inventory preserves accepted question answer (3125.728084ms)
+✔ Round21 UI: expired stopped inventory preserves accepted question preparation-stop (1738.559083ms)
+✔ Round21 UI: expired stopped inventory preserves accepted question execution-stop (1404.506708ms)
+✔ Round21 UI: expired stopped inventory preserves accepted question interrupted (1179.356959ms)
+✖ Round21 UI: 390 removing beer only changes its phrase in actual search requests (8794.737708ms)
+✖ Round21 UI: 1440 removing beer only changes its phrase in actual search requests (9033.159916ms)
+✔ Round20 UI: 390 citation reading groups, About provenance and bilingual Handoff (3136.316875ms)
+✔ Round20 UI: 1440 citation reading groups, About provenance and bilingual Handoff (2166.136875ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 29756.91325
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:84537
+✖ Round21 UI: 390 removing beer only changes its phrase in actual search requests (8794.737708ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#messages') to be visible
+      20 × locator resolved to hidden <div hidden="" id="messages" aria-live="polite"></div>
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1538:41)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1535:7) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#messages') to be visible", '    20 × locator resolved to hidden <div hidden="" id="messages" aria-live="polite"></div>' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:84537
+✖ Round21 UI: 1440 removing beer only changes its phrase in actual search requests (9033.159916ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#messages') to be visible
+      20 × locator resolved to hidden <div hidden="" id="messages" aria-live="polite"></div>
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1538:41)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1535:7) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#messages') to be visible", '    20 × locator resolved to hidden <div hidden="" id="messages" aria-live="polite"></div>' ]
+  }

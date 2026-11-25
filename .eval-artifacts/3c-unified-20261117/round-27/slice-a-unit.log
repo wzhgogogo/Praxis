@@ -1,0 +1,81 @@
+✔ ADR-0052 DATE offset schema is bounded and compiler preserves distinct conflict identities (1.028ms)
+✔ ADR-0052 supported current-message phrases repair DATE omission from trusted Tokyo day (12.903ms)
+✔ ADR-0052 day offsets use Tokyo natural days across month, year and UTC date boundaries (0.227125ms)
+✔ Restaurant Semantic Compiler translates independent corrections and criterion negations (0.9055ms)
+✔ Restaurant Semantic Compiler retains party provenance only as diagnostic state and clears it with the count (1.09825ms)
+✔ Restaurant Semantic Compiler preserves the user delivery goal independently of party size (0.197333ms)
+✔ ADR-0044 conflicting goals for the same target query are a semantic conflict in either fact order (0.159125ms)
+✔ Restaurant Semantic Compiler preserves explicit recommendation scope and count without inventing either (0.134792ms)
+✔ Restaurant Semantic Compiler rejects singleton clear-and-set combinations independent of fact order (0.1195ms)
+✔ criterion ASSERT adds, CORRECT replaces, and NEGATE removes deterministically (0.496ms)
+✔ Restaurant Semantic Compiler reports contradictory criterion additions and negations (0.099542ms)
+✔ Restaurant Semantic Compiler materializes Tokyo relative time in code and records its basis (10.336125ms)
+✔ explicitly permitted time alternatives retain the original target and cannot widen party or date (0.218084ms)
+✔ Restaurant Semantic Compiler carries a relative offset across Tokyo midnight without model date arithmetic (0.17575ms)
+✔ C6a right now materializes a thirty-minute window without moving its start (0.16975ms)
+✔ C6a right now retains the Tokyo start and makes the earliest source slot eligible (0.14475ms)
+✔ an explicit calendar date wins over a relative clock date while retaining the relative clock (0.179083ms)
+✔ after work remains an original broad query rather than an invented 18:00-20:00 promise (0.099541ms)
+✔ this afternoon carries its Tokyo date so a timed recommendation cannot bypass opening-hours evidence (0.097417ms)
+✔ evening and night retain tomorrow through validation, compilation and state (0.417209ms)
+✔ criterion identity updates strength by text and polarity without merging opposite polarity (0.080584ms)
+✔ same-proposal criterion strength conflicts are rejected independent of fact order (0.064ms)
+✔ ASSERT strength revisions flow Proposal to Compiler to Reducer without replacing unrelated criteria (0.11475ms)
+✖ Semantic prompt without viewing context is byte-identical to v26; context instructions are conditional (2.268625ms)
+✔ Semantic Interpreter sends the proposal schema and separates user data from system context (0.92525ms)
+✔ Semantic Interpreter preserves an existing target scope in its bounded model context (0.114292ms)
+✔ named outlet survives supplemental visit inputs and goal changes while explicit replacement remains possible (12.416792ms)
+✔ Semantic Interpreter rejects a structurally valid-looking state patch (0.130542ms)
+✔ closed-party and open-group proposals stay distinct through the semantic boundary and compiler (0.36325ms)
+✔ party-size transport preserves an enumerated or explicit count and never supplies one for an open or generic request (0.240875ms)
+✔ ADR-0044 current-message quotes admit both goals without persisting their basis (0.143458ms)
+✔ ADR-0044 fabricated or prior-turn quotes fail through the existing semantic failure path (0.248042ms)
+✔ Semantic Proposal Contract accepts stable slots and open criteria without a taxonomy (0.534875ms)
+✔ Semantic Proposal Contract accepts only an explicit or closed-party source for a party count (0.111333ms)
+✔ Semantic Proposal Contract carries an explicit open-ended result count for either delivery goal but rejects it for a named outlet (0.10075ms)
+✔ Semantic Proposal Contract rejects internal protocols and invalid operation/value combinations (0.048167ms)
+✔ Semantic Proposal Contract rejects collection CONFIRM because it has no deterministic effect (0.040041ms)
+✔ DeepSeek transport schema uses only supported string constraints while local validation rejects blanks (0.071459ms)
+✔ explicit date and clock values require the raw user expression promised by the strict transport contract (1.131375ms)
+✔ ADR-0044 TARGET requires a nonempty structural basis without judging goal rationale (0.162666ms)
+✔ stage scorer assigns valid but wrong meaning to Semantic Interpreter (0.933875ms)
+✔ stage scorer assigns a wrong deterministic translation to Compiler (0.089167ms)
+✔ stage scorer assigns wrong accumulated state after correct compilation to Reducer (0.090625ms)
+✔ semantic scorer ignores the retired ADR-0007 next-step annotation (0.057375ms)
+✔ stage scorer treats unordered criteria and facts with case/whitespace-only text changes as equal (0.183375ms)
+✔ ADR-0044 scoring permits either grounded gray goal but rejects fabricated basis and wrong anchors (0.325834ms)
+✔ ADR-0044 gray goal flexibility does not hide other semantic drift or a changed carried goal (0.103583ms)
+✔ ADR-0044 independently rejects ungrounded gray basis (0.062ms)
+✔ ADR-0044 independently rejects A recommendation (0.041583ms)
+✔ ADR-0044 independently rejects B recommendation (0.061625ms)
+✔ ADR-0052 scorer must distinguish plus-two and plus-three DATE directives (0.091709ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 50
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 168.624583
+
+✖ failing tests:
+
+test at src/domains/restaurant/semantic-interpreter.test.ts:1:910
+✖ Semantic prompt without viewing context is byte-identical to v26; context instructions are conditional (2.268625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'a206f9319e982625b41e8b7ec9bd017890436516e89267e1210e4a59f3b33bd1'
+  - '7121f0bb150c0cee9092583b97c640e0ac00865e2d1c5e63208aa5a3ed336994'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/semantic-interpreter.test.ts:29:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'a206f9319e982625b41e8b7ec9bd017890436516e89267e1210e4a59f3b33bd1',
+    expected: '7121f0bb150c0cee9092583b97c640e0ac00865e2d1c5e63208aa5a3ed336994',
+    operator: 'strictEqual'
+  }

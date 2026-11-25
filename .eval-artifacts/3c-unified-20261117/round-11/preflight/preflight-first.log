@@ -1,0 +1,38 @@
+✖ Round10 UI: actual 409 recovers the deferred SSE snapshot (1562.37025ms)
+✖ Round10 UI: actual 409 recovers the latest Case after an intermediate SSE and disconnect (1263.472792ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3389.14
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:17278
+✖ Round10 UI: actual 409 recovers the deferred SSE snapshot (1562.37025ms)
+  page.waitForFunction: EvalError: Evaluating a string as JavaScript violates the following Content Security Policy directive because 'unsafe-eval' is not an allowed source of script: script-src 'unsafe-inline'".
+  
+      at eval (<anonymous>)
+      at predicate (eval at evaluate (:311:30), <anonymous>:4:60)
+      at next (eval at evaluate (:311:30), <anonymous>:29:33)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:431:20)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:25:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:391:5) {
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:17278
+✖ Round10 UI: actual 409 recovers the latest Case after an intermediate SSE and disconnect (1263.472792ms)
+  page.waitForFunction: EvalError: Evaluating a string as JavaScript violates the following Content Security Policy directive because 'unsafe-eval' is not an allowed source of script: script-src 'unsafe-inline'".
+  
+      at eval (<anonymous>)
+      at predicate (eval at evaluate (:311:30), <anonymous>:4:60)
+      at next (eval at evaluate (:311:30), <anonymous>:29:33)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:431:20)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:25:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:391:5) {
+    log: []
+  }

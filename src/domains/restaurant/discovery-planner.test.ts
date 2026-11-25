@@ -29,9 +29,10 @@ test("planner keeps negative-only criteria out of discovery text and routes reco
   assert.ok(recommendation.entries.every((entry) => entry.query.category === "cafe"));
 });
 
-test("planner retains base source priority for a group request", () => {
+test("area planner places reservation-only discovery last; specific outlet retains prior order", () => {
   const plan = planDiscoverySources(intent({ partySize: 10 }), location, packs);
-  assert.equal(plan.entries[0]!.sourceId, "source-reservation-a");
+  assert.deepEqual(plan.entries.map(e=>e.sourceId), ["source-directory-b","source-places-c","source-reservation-a"]);
+  assert.equal(planDiscoverySources(intent({target:{goal:"AVAILABILITY",query:"Named outlet",selectionScope:"SPECIFIC_OUTLET"}}),location,packs).entries[0]!.sourceId,"source-reservation-a");
 });
 
 test("planner evaluates same-day capability in the intent timezone", () => {
@@ -56,6 +57,6 @@ test("group-window: unfinished source chunk rotates behind every other first bat
   let plan = planDiscoverySources(intent(), location, packs);
   const first = plan.entries[0]!.sourceId;
   plan = Reflect.apply(advanceDiscoveryPlan, undefined, [plan, false]);
-  assert.equal(plan.entries[plan.cursor]!.sourceId,"source-directory-b");
+  assert.equal(plan.entries[plan.cursor]!.sourceId,"source-places-c");
   assert.equal(plan.entries.at(-1)!.sourceId,first);
 });

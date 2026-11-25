@@ -1,0 +1,74 @@
+✖ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (1005.1935ms)
+✖ old HTTP location cannot write or abort the replacement read at the cancellation boundary (621.661ms)
+✖ H002 persistent duplicate message delivery invokes the supplement once; completed retries and refresh do not invoke it (1058.909792ms)
+✔ HTTP stale refresh cannot target the next batch after its cancellation preflight (584.572167ms)
+✔ HTTP stale another-batch cannot target the next batch after its cancellation preflight (503.138667ms)
+✔ HTTP duplicate refresh crossing the Runtime dispatch boundary starts exactly one read (502.524125ms)
+✔ HTTP next G1 question continues after prior G1 normal completion (530.704625ms)
+✔ HTTP next G1 question continues after prior G1 cancellation (524.414833ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 5
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4209.263166
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:4321
+✖ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (1005.1935ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  201 !== 200
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:77:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 201,
+    expected: 200,
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:4321
+✖ old HTTP location cannot write or abort the replacement read at the cancellation boundary (621.661ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NO_VERIFIED_RESULT'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:73:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_VERIFIED_RESULT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/server/local-web-server.test.ts:1:24634
+✖ H002 persistent duplicate message delivery invokes the supplement once; completed retries and refresh do not invoke it (1058.909792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NO_VERIFIED_RESULT'
+  - 'PRESENT_RESULTS'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:740:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:252:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:618:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_VERIFIED_RESULT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }

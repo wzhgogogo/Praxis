@@ -1,0 +1,174 @@
+[
+  {
+    "name": "gates",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "python3",
+      ".eval-artifacts/3c-unified-20261117/run-gates.py"
+    ],
+    "extraEnvironment": {
+      "PRAXIS_GATES_SUBDIR": "round-25/gates"
+    },
+    "exitCode": 0,
+    "seconds": 542.201825625,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "c1-built",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/run-c1-built.py"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 12.872525709000001,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "graph",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/inspect-browser-graph.py"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 0.047795416999974805,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "assets",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/verify-build-assets.mjs"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 0.2448215839999648,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "independent-collect",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/run-independent.py"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 45.24315641699991,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "independent-assert",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "node",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/assert-observations.mjs"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 0.04779095799995048,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "manual-user-routes",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/manual-user-routes-current.mjs"
+    ],
+    "extraEnvironment": {
+      "PRAXIS_REVIEW_EXPECT_SOURCE": "6453345249c5a2ebea1c6d5af3b2d2f14b283944"
+    },
+    "exitCode": 0,
+    "seconds": 4.552642290999984,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "reported-front-end-paths",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/reported-front-end-paths.mjs"
+    ],
+    "extraEnvironment": {
+      "PRAXIS_REVIEW_EXPECT_SOURCE": "6453345249c5a2ebea1c6d5af3b2d2f14b283944"
+    },
+    "exitCode": 0,
+    "seconds": 8.332806583999968,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "visual",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/run-visual.py"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 191.4898646659999,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  },
+  {
+    "name": "visual-inventory",
+    "sha": "6202c1164aab14bec1a7353eadc8e5a522a3d259",
+    "sourceTree": "6453345249c5a2ebea1c6d5af3b2d2f14b283944",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-25/verify-visual-inventory.py"
+    ],
+    "extraEnvironment": {},
+    "exitCode": 0,
+    "seconds": 0.08992687500006014,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback; browser gate Replay children own their OS isolation"
+  }
+]

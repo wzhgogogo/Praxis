@@ -1,0 +1,104 @@
+{
+  "classification": "DEVELOPMENT_DIAGNOSTIC",
+  "purpose": "Check real DeepSeek date selection and compiler behavior before deciding whether a follow-up is needed",
+  "referenceTime": "2026-11-24T10:00:00+09:00",
+  "draft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "dinner in Tokyo",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-11-25",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "18:00"
+    },
+    "partySize": 2,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Tokyo"
+    },
+    "criteria": []
+  },
+  "cases": [
+    {
+      "id": "D01",
+      "message": "改成后天晚上7点。",
+      "expectedDate": "2026-11-26",
+      "expectedTime": "19:00",
+      "focus": "2 天偏移"
+    },
+    {
+      "id": "D02",
+      "message": "大后天晚上7点可以，改到那天。",
+      "expectedDate": "2026-11-27",
+      "expectedTime": "19:00",
+      "focus": "3 天偏移"
+    },
+    {
+      "id": "D03",
+      "message": "改到周五晚上7点。",
+      "expectedDate": "2026-11-27",
+      "expectedTime": "19:00",
+      "focus": "普通星期"
+    },
+    {
+      "id": "D04",
+      "message": "改到下周五晚上7点。",
+      "expectedDate": "2026-12-04",
+      "expectedTime": "19:00",
+      "focus": "限定周"
+    },
+    {
+      "id": "D05",
+      "message": "改到 2026-11-28 19:00。",
+      "expectedDate": "2026-11-28",
+      "expectedTime": "19:00",
+      "focus": "ISO 日期和时间一起引用"
+    },
+    {
+      "id": "D06",
+      "message": "改到11月28日晚上7点。",
+      "expectedDate": "2026-11-28",
+      "expectedTime": "19:00",
+      "focus": "无年份月日"
+    },
+    {
+      "id": "D07",
+      "message": "我明天早上飞东京，晚饭改成周五晚上7点。",
+      "expectedDate": "2026-11-27",
+      "expectedTime": "19:00",
+      "focus": "背景日期与用餐日期分开"
+    },
+    {
+      "id": "D08",
+      "message": "日期不变，只把晚饭时间改到晚上7点。",
+      "expectedDate": "2026-11-25",
+      "expectedTime": "19:00",
+      "focus": "保留原日期"
+    },
+    {
+      "id": "D09",
+      "message": "明天还是后天我还没决定，先别沿用原来的日期。晚饭几点先定在晚上7点。",
+      "expectedDate": null,
+      "expectedTime": "19:00",
+      "focus": "旧日期撤下，允许编译冲突或明确清空日期"
+    },
+    {
+      "id": "D10",
+      "message": "不是明天，改成后天晚上7点。",
+      "expectedDate": "2026-11-26",
+      "expectedTime": "19:00",
+      "focus": "排除日期与新日期分开"
+    }
+  ],
+  "policy": {
+    "oneTrialPerSentence": true,
+    "productionSchemaRetryOnly": true,
+    "maxModelInvocations": 20,
+    "stopOnProviderFailure": true,
+    "externalService": "DeepSeek only"
+  }
+}

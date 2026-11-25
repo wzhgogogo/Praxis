@@ -1,0 +1,31 @@
+{
+  "sha": "e68ed2a51baf19380dbca276e9b2651d6dc4e408",
+  "sourceTree": "71a58ad60ab47e73b94112121e82e8a92fa9ec58",
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "src/harness/browser/cloudflare-cdp-isolation.test.ts"
+  ],
+  "exitCode": 0,
+  "seconds": 13.5958755,
+  "environment": {
+    "PRAXIS_CDP_DIST": "1"
+  },
+  "envLoaded": false,
+  "fixtureSHA256": "9d09e5e047ef5efe3ee0c3810044cf26c2b35d30d1f9bb05cf0350d105c8dfb4",
+  "modulesSHA256": {
+    "infrastructure/browser/cloudflare-browser-run.js": "4774eecab92ba439b599e84e169aee79124149b3f7d4dc392cb9c64024b531ed",
+    "infrastructure/browser/cloudflare-browser-worker.js": "23d7d139cb0f1aca446e3b88e973855b15c1244aacfdd4be23611e6af684e10a",
+    "infrastructure/browser/cloudflare-session-proxy.js": "a6b319d93960045f3c9740aff284ab130015f78dec5ba041bacdabea6e4593ba",
+    "server/local-web-server.js": "ddb94d9b960b00d9b96a97b47f77ff053bac5ff2c1b3b3319c98e8c97b53bd7a",
+    "application/persistent-restaurant-agent.js": "9cf4454de072c35ed8c77bcfa145c03d838c9067812acd85ef3f65ba96c68b67",
+    "harness/fixtures/cdp-service-host.js": "bbad39f662238e32c0e621109df2870f81ccd032dcf9f37b11b832852ae3b41b"
+  },
+  "afterBuild": true,
+  "cleanAfter": true
+}

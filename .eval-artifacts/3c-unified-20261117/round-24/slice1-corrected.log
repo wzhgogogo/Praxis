@@ -1,0 +1,44 @@
+✔ Round22 accepted question handover: equivalent (1116.671917ms)
+✔ Round22 accepted question handover: area (590.976375ms)
+✔ Round22 accepted question handover: model-failure (658.43425ms)
+✔ Round22 accepted question handover: second-question (608.995917ms)
+✔ Round22 accepted question handover: shortlist-wins (608.817833ms)
+✔ Round22 accepted question handover: system-answer-first (610.976292ms)
+✔ Round22 accepted question handover: conflict (708.430291ms)
+✔ Round22 accepted question handover: invalid-successor (664.035667ms)
+✔ Round22 accepted question ownership: before-handle-registration (648.878625ms)
+✔ Round22 accepted question ownership: non-replacing-edit (600.760875ms)
+✔ Round22 accepted successor keeps preparation while the prior question finishes (730.247209ms)
+✔ Round24 B1 pending question preserves recorded explicit selection and evidenced booking terms (1655.845042ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=default (1193.583125ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=true limit=default (1187.242458ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=6 (649.996916ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=true limit=6 (681.76225ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 0 shortlist changes (633.673458ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 1 shortlist changes (606.979291ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 2 shortlist changes (668.132584ms)
+✔ Round24 B2 overlapping application edits keep the committed read budget after the late 409 (1149.351417ms)
+✔ Round24 B3 a stop transition rejects a stale answer instead of retrying (532.709541ms)
+✔ Round24 B3 a edit transition rejects a stale answer instead of retrying (1096.345916ms)
+✔ Round24 B3 a second-question transition rejects a stale answer instead of retrying (598.180583ms)
+✔ whole-read model budget starts before semantic work, counts failed calls, and isolates concurrent runs (0.90125ms)
+✔ retained live work observes the original deadline even without another model call (21.680417ms)
+✔ independent question scopes isolate their own calls and deadline from a depleted search (1.605708ms)
+✔ late async work cannot start another model call after its original run closes (0.114417ms)
+✔ Round24 overlapping same-task scopes retain their own reserve and the committed winner export (0.227875ms)
+✔ Round24 UI: B1 390 pending=false condition edit retains selected outlet and two handoff terms (3020.571417ms)
+✔ Round24 UI: B1 390 pending=true condition edit retains selected outlet and two handoff terms (2563.28ms)
+✔ Round24 UI: B1 1440 pending=false condition edit retains selected outlet and two handoff terms (2460.017166ms)
+✔ Round24 UI: B1 1440 pending=true condition edit retains selected outlet and two handoff terms (2235.865ms)
+✔ Round24 UI: B3 390 answer survives 1 concurrent shortlist changes after reload (1222.9205ms)
+✔ Round24 UI: B3 390 answer survives 2 concurrent shortlist changes after reload (1293.029334ms)
+✔ Round24 UI: B3 1440 answer survives 1 concurrent shortlist changes after reload (1078.012583ms)
+✔ Round24 UI: B3 1440 answer survives 2 concurrent shortlist changes after reload (1188.611375ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15819.471209

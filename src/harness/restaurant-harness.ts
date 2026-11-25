@@ -129,7 +129,7 @@ export class RestaurantHarness {
       { type: "BOOK_RESERVATION", candidateId: firstCandidate.restaurant.id, offerId: firstOffer.id },
     ] satisfies RestaurantAgentAction[] : [{ type: "ASK_USER", question: "No fixture candidate is available." }]);
     this.agentLoop = new RestaurantAgentLoopCoordinator(
-      { snapshot: async (taskId) => this.runtime.snapshot(taskId), dispatch: async (envelope, expectedVersion) => this.runtime.dispatch(envelope, expectedVersion) },
+      { listEvents: async taskId => this.runtime.eventLog.filter(event => event.taskId === taskId), snapshot: async (taskId) => this.runtime.snapshot(taskId), dispatch: async (envelope, expectedVersion) => this.runtime.dispatch(envelope, expectedVersion) },
       new ScriptedRestaurantAgentDecisionPort(actions),
       new RestaurantExecutionRouter(this.searchAdapter, this.availabilityAdapter, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000, }, this.searchAdapter),
       this.trajectories,

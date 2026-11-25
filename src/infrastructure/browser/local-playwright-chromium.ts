@@ -1,3 +1,4 @@
+import { observePageImages, observeVisibleHtml } from "./observe-page-images.js";
 import { localBrowserProxyFromEnvironment, playwrightProxy, type LocalBrowserProxySettings } from "./local-browser-proxy.js";
 import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
@@ -9,7 +10,7 @@ import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
 import { assertPublicReadInput, traceFormEvidence } from "./playwright-observed-get-forms.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
-import { PlaywrightControlRegistry, waitForPageSettled, pageBusySelectors, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
+import { PlaywrightControlRegistry, waitForPageSettled, pageBusyDiagnostics, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
 const INTERACTIVE_ACTION_TIMEOUT_MS = 5_000;
 
@@ -91,40 +92,19 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
 
   async snapshot(): Promise<BrowserSnapshot> {
     return this.run(async () => {
+      // Compare this snapshot's own endpoints, never the last wait's flag.
+      // G1 separately proves the 500ms window between fresh snapshots.
+      const textBefore = await this.page.locator("body").innerText();
       const state = await interactiveState(this.page).catch(() => undefined);
+      const busy = await pageBusyDiagnostics(this.page);
       const snapshot:BrowserSnapshot = {
         settlement: this.lastSettlement ? "SETTLED" : "PENDING",
-        ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
+        ...(this.lastSettlementDiagnostic || this.networkGuard ? { settlementDiagnostics: { pendingByType: {}, oldestPendingMs: 0, blockingDataRequests: 0, visibleTextChanging: false, ...this.lastSettlementDiagnostic, url: this.page.url(), ...busy } } : {}),
         url: this.page.url(),
         ...(this.networkGuard ? {urlQueryValues:await this.networkGuard.observeUrlQueryValues(this.page,this.page.url())} : {}),
         html: await this.page.content(),
-        visibleHtml: await this.page.locator("body").evaluate(body => {
-          // Cloning an img can trigger a second request even while detached.
-          // Serialize the existing tree without constructing any DOM nodes.
-          const source = {
-            escape(text: string) { return text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;"); },
-            read(node: Node): string {
-              if (node.nodeType === Node.TEXT_NODE) return this.escape(node.textContent ?? "");
-              if (!(node instanceof Element)) return "";
-              const style = getComputedStyle(node);
-              if (node.matches('script,style,template,noscript,[hidden],[aria-hidden="true"]')
-                || style.display === "none" || style.visibility === "hidden") return "";
-              const name = node.tagName.toLowerCase();
-              const attributes = new Map([...node.attributes].map(attribute => [attribute.name, attribute.value]));
-              if (node instanceof HTMLInputElement) {
-                attributes.set("value", node.value);
-                if (node.checked) attributes.set("checked", ""); else attributes.delete("checked");
-              }
-              if (node instanceof HTMLOptionElement) {
-                if (node.selected) attributes.set("selected", ""); else attributes.delete("selected");
-              }
-              const tag = `<${name}${[...attributes].map(([key, value]) => ` ${key}="${this.escape(value)}"`).join("")}>`;
-              return tag + (/^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/.test(name)
-                ? "" : [...node.childNodes].map(child => this.read(child)).join("") + `</${name}>`);
-            },
-          };
-          return source.read(body);
-        }, undefined, { timeout: INTERACTIVE_ACTION_TIMEOUT_MS }),
+        images: await observePageImages(this.page),
+        visibleHtml: await observeVisibleHtml(this.page, INTERACTIVE_ACTION_TIMEOUT_MS),
         text: await this.page.locator("body").innerText(),
         title: await this.page.title(),
         ...(state === undefined ? {} : { interactiveState: state }),
@@ -134,6 +114,11 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: structuredClone(this.networkGuard.snapshotRequests()) } : {}),
         ...(this.networkGuard?.snapshotResourceTypes().length ? { networkResourceTypes: this.networkGuard.snapshotResourceTypes() } : {}),
       };
+      if (snapshot.settlementDiagnostics) snapshot.settlementDiagnostics.visibleTextChanging = textBefore !== snapshot.text;
+      const activity = this.networkGuard?.settlementActivity();
+      if (activity && snapshot.settlementDiagnostics) Object.assign(snapshot.settlementDiagnostics, {
+        pendingByType: activity.pendingByType, oldestPendingMs: activity.oldestPendingMs, blockingDataRequests: activity.pending,
+      });
       this.networkGuard?.forms.observePageText(this.page,snapshot.text);
       return snapshot;
     });
@@ -167,17 +152,19 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
       if (!locator) throw new Error("Observed link reference is no longer available");
       if (observedHref && await observedLinkCovered(locator, observedHref, timeout)) {
         this.responses.reset();
-        await this.page.goto(observedHref, { waitUntil: "domcontentloaded", timeout });
+        if(this.networkGuard)await this.networkGuard.navigateEntry(this.page,observedHref,{waitUntil:"domcontentloaded",timeoutMs:timeout});
+        else await this.page.goto(observedHref,{waitUntil:"domcontentloaded",timeout});
         return;
       }
-      const opener = this.page;
-      const popup = opener.waitForEvent("popup", { timeout: Math.min(1_000, timeout) }).catch(() => undefined);
-      await locator.click({ timeout });
-      const next = await popup;
-      if (!next) return;
-      this.page = next;
-      this.pageId(next);
-      await next.waitForLoadState("domcontentloaded", { timeout: Math.min(2_500, timeout) }).catch(() => undefined);
+      const clickObserved=async(timeoutMs:number)=>{
+        const opener=this.page;
+        const popup=opener.waitForEvent("popup",{timeout:Math.min(1_000,timeoutMs)}).catch(()=>undefined);
+        await locator.click({timeout:timeoutMs});const next=await popup;
+        if(!next)return;this.page=next;this.pageId(next);
+        await next.waitForLoadState("domcontentloaded",{timeout:Math.min(2_500,timeoutMs)}).catch(()=>undefined);
+      };
+      if(observedHref&&this.networkGuard)await this.networkGuard.navigateEntry(this.page,observedHref,{timeoutMs:timeout},clickObserved);
+      else await clickObserved(timeout);
     });
   }
   async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> {
@@ -286,7 +273,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void; onResponseHeaders?: Parameters<BrowserRuntime["openSession"]>[0]["onResponseHeaders"]; replayHarPath?: string }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Local browser session creation was aborted");
     let browser: Browser | undefined;
     let context: BrowserContext | undefined;
@@ -315,7 +302,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         browser = await browserType.launch(launchOptions);
         context = await browser.newContext((input.networkPolicy || input.replayHarPath) ? { serviceWorkers: "block" } : {});
       }
-      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse, this.config.admittedGetTransport??"REVIEWED_STATIC_BROWSER") : undefined;
+      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse, this.config.admittedGetTransport??"REVIEWED_STATIC_BROWSER",input.onResponseHeaders) : undefined;
       if (input.replayHarPath) await context.routeFromHAR(input.replayHarPath, { notFound: "abort" });
       if (networkGuard) await networkGuard.install(context, { replay: input.replayHarPath !== undefined });
       page = await context.newPage();

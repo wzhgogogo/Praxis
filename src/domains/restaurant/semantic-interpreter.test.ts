@@ -22,12 +22,14 @@ class QueuedGateway implements ModelGateway {
   }
 }
 
-test("Semantic prompt without viewing context is byte-identical to v26; context instructions are conditional",()=>{
-  const baseline=JSON.parse(readFileSync(new URL("./fixtures/semantic-prompt-v26-sha.json",import.meta.url),"utf8")) as {rows:Array<{input:Parameters<typeof buildRestaurantSemanticInterpreterSystemPrompt>[0];sha256:string}>};
+test("Semantic prompt v29 binds relative-day directives; viewing context instructions stay conditional",()=>{
+  const baseline=JSON.parse(readFileSync(new URL("./fixtures/semantic-prompt-v29-sha.json",import.meta.url),"utf8")) as {rows:Array<{input:Parameters<typeof buildRestaurantSemanticInterpreterSystemPrompt>[0];sha256:string}>};
   for(const row of baseline.rows){
     const plain=buildRestaurantSemanticInterpreterSystemPrompt(row.input);
     assert.equal(createHash("sha256").update(plain).digest("hex"),row.sha256);
     assert.doesNotMatch(plain,/Viewing context identifies/);
+    assert.match(plain,/relativeOffsetDays 2/);
+    assert.match(plain,/relative-date correction must include DATE/);
     const viewed=buildRestaurantSemanticInterpreterSystemPrompt({...row.input,viewingContext:{view:"DETAILS",candidate:{id:"outlet",outletName:"Current outlet",address:"Tokyo"},comparedCandidates:[]}});
     assert.match(viewed,/Viewing context identifies/);assert.match(viewed,/"id":"outlet"/);
   }
@@ -78,7 +80,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v28");
+  assert.equal(request.promptVersion, "v29");
   assert.match(request.messages[0]!.content, /even when no visit date or time is given/);
   assert.match(request.messages[0]!.content, /neither a visit date\/time nor booking wording/);
   assert.match(request.messages[0]!.content, /keep its AVAILABILITY goal without re-emitting TARGET/);

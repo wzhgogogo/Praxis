@@ -14,7 +14,7 @@ const digest=(data:Uint8Array|string)=>createHash('sha256').update(data).digest(
 
 test('reviewed static default preserves admission and recording while documents data and authority URLs stay Node',async()=>{
  const root=await mkdtemp(join(tmpdir(),'native-static-'));
- const font=await readFile('node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2');
+ const font=await readFile('node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2');
  const script='window.fixtureLoaded=true;window.fixtureConfig={api_key:"opaque-fixture-credential"};';
  const rows:Array<{pathname:string;term:string|null}>=[];let documentOrigin='';
  const api=createServer((request,response)=>{const u=new URL(request.url!,'http://localhost');rows.push({pathname:u.pathname,term:u.searchParams.get('term')});response.setHeader('Access-Control-Allow-Origin',documentOrigin);response.setHeader('Access-Control-Allow-Headers','x-api-key');response.setHeader('Access-Control-Allow-Methods','GET');response.setHeader('Content-Type','application/json');response.end('{}');});api.listen(0,'127.0.0.1');await once(api,'listening');const apiOrigin=`http://127.0.0.1:${(api.address() as import('node:net').AddressInfo).port}`;

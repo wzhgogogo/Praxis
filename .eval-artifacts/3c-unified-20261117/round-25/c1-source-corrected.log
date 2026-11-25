@@ -1,0 +1,28 @@
+✔ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (3094.606708ms)
+✖ Round25 C1: real CDP read duplicate isolates concurrent healthy HTTP read and subsequent request (4248.138625ms)
+✔ Round25 C1: unrelated host uncaught exceptions still terminate the real HTTP host (1611.025833ms)
+✔ Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable (1663.487834ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10906.7325
+
+✖ failing tests:
+
+test at src/harness/browser/cloudflare-cdp-isolation.test.ts:1:3303
+✖ Round25 C1: real CDP read duplicate isolates concurrent healthy HTTP read and subsequent request (4248.138625ms)
+  AssertionError [ERR_ASSERTION]: The failed source read is explicit even when the ordinary Case loop subsequently recovers
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:15:538)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

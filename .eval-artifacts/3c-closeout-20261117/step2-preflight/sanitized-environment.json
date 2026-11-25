@@ -1,0 +1,65 @@
+{
+  "status": "BLOCKED_BEFORE_ANY_CONNECTION",
+  "entrySHA": "b2d216d1ba38e244a33cbc25164066bc965f56d4",
+  "sourceVerificationSHA": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+  "envSource": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+  "readOnly": true,
+  "secretValuesPrintedOrSaved": false,
+  "database": {
+    "status": "PARSED",
+    "protocol": "https:",
+    "host": "NON_LOCAL_REDACTED",
+    "port": "443",
+    "portWasExplicit": false,
+    "database": "NOT_RECORDED_NON_LOCAL_OR_NON_POSTGRESQL",
+    "isPostgresURL": false,
+    "localTarget": false
+  },
+  "variables": {
+    "DATABASE_URL": true,
+    "DEEPSEEK_API_KEY": true,
+    "DEEPSEEK_MODEL": true,
+    "GOOGLE_MAPS_API_KEY": true,
+    "PRAXIS_BROWSER_ENGINE": false,
+    "CLOUDFLARE_ACCOUNT_ID": true,
+    "CLOUDFLARE_API_TOKEN": true,
+    "PRAXIS_PILOT_ACCESS_JSON": false,
+    "PRAXIS_DEEPSEEK_API_PROXY_SERVER": false,
+    "PRAXIS_GOOGLE_API_PROXY_SERVER": true,
+    "PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER": false,
+    "PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS": false
+  },
+  "proxyPresence": {
+    "PRAXIS_DEEPSEEK_API_PROXY_SERVER": {
+      "present": false
+    },
+    "PRAXIS_GOOGLE_API_PROXY_SERVER": {
+      "present": true,
+      "validURL": true,
+      "protocol": "http:",
+      "loopback": true,
+      "port": "10808",
+      "credentialsPresent": false
+    },
+    "PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER": {
+      "present": false
+    }
+  },
+  "browserEnginePresent": false,
+  "effectiveDefaultEngine": "CLOUDFLARE_BY_DEFAULT",
+  "pilotConfigPresent": false,
+  "connectionAttempts": {
+    "postgres": 0,
+    "proxy": 0,
+    "model": 0,
+    "google": 0,
+    "website": 0
+  },
+  "steps": {
+    "2A": "NOT_STARTED_DATABASE_TARGET_PRECONDITION",
+    "2B": "NOT_STARTED_2A_NOT_PASSED"
+  },
+  "externalSideEffectCount": "NOT_MEASURED",
+  "backendWebsiteRequests": "NOT_MEASURED",
+  "independentS0": "NOT_EVALUATED"
+}

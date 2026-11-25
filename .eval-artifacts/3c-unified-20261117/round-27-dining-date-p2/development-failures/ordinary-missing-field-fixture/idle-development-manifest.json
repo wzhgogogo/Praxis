@@ -1,0 +1,27 @@
+[
+  {
+    "name": "targeted-idle-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.689192791
+  },
+  {
+    "name": "targeted-idle-green",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/domains/restaurant/relative-date-binding.test.ts",
+      "src/application/restaurant-relative-date.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 1,
+    "seconds": 31.805364374999996
+  }
+]

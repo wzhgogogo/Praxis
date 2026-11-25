@@ -3,6 +3,7 @@ import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } fr
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
 import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate,namedOutletIdentityPrefix} from "./named-outlet-resolution.js";
+import type { RestaurantPageQuestionState } from "./page-question.js";
 import { acceptedPositiveHardEvidence } from "./positive-hard-evidence.js";
 
 /**
@@ -243,17 +244,19 @@ export function immediateSourcesClosed(state: Readonly<RestaurantTaskState>): bo
 export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: string): RestaurantReadAssessment {
   const intent = completeRestaurantSearchIntent(state.intentDraft);
   if (!intent) return { presentation: [], factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded: false, canEndRead: false, endReadBlockReason: "The current request is incomplete", unresolvedCandidateIds: [] };
+  const factRefreshTargets = state.factRefreshRequestedCandidateIds ?? [];
   const presentation = state.candidates.map((candidate) => {
     const candidateId = candidate.restaurant.id;
     const userRequestedRefresh = state.refreshRequestedCandidateIds?.includes(candidateId) ?? false;
     if (userRequestedRefresh) return { candidateId, eligible: false, missingReason: "A user-requested read-only refresh is pending", recheckReason: "USER_REQUESTED_REFRESH" as const };
+    if (factRefreshTargets.includes(candidateId)) return { candidateId, eligible: false, missingReason: "A user-requested fact refresh is pending" };
     const evidence = presentationEvidenceIds(state, candidateId, intent, now);
     if (evidence.valid) return { candidateId, eligible: true };
     const check = state.availabilityChecks[candidateId];
     const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
     return { candidateId, eligible: false, missingReason: evidence.reason, ...(hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}) };
   });
-  if(state.candidates.length&&!state.candidates.some(c=>namedOutletCandidateResolved(state,c.restaurant.id))){
+  if(!factRefreshTargets.length&&state.candidates.length&&!state.candidates.some(c=>namedOutletCandidateResolved(state,c.restaurant.id))){
     const possible=state.candidates.filter(c=>namedOutletCandidateCanInvestigate(state,c.restaurant.id)).map(c=>c.restaurant.id);
     const identityOnly=namedOutletIdentityPrefix(state).length>0;
     return {presentation,
@@ -272,15 +275,19 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
         : { endReadReason: "IMMEDIATE_REQUEST_EXPIRED: The requested thirty-minute window has elapsed. Offer to search the nearest bookable time with a new user-approved window." }),
       unresolvedCandidateIds: state.candidates.map(candidate => candidate.restaurant.id) };
   }
-  const factRefreshTargets = state.factRefreshRequestedCandidateIds ?? [];
   // A pending next batch is a continuation of the same request, not a reason
   // to reopen or count an already delivered restaurant again.
   const excludedFromPendingBatch = new Set(state.pendingResultBatchTarget === undefined
     ? []
-    : state.selectionSession?.deliveredCandidateIds ?? []);
+    : [...(state.selectionSession?.deliveredCandidateIds ?? []), ...(state.noVerifiedResult?.investigatedCandidateIds ?? [])]);
   const hardConflictedCandidates = new Set(state.candidates.filter((candidate) =>
     hasCurrentHardConflict(state, candidate.restaurant.id, intent)).map((candidate) => candidate.restaurant.id));
+  const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
   const factInvestigableCandidateIds = presentation.filter((item) => {
+    const check = state.availabilityChecks[item.candidateId];
+    if (restaurantGoalRequiresAvailability(intent) && completeBookingIntent && check?.status === "UNKNOWN"
+      && check.reasonCode === "PARTY_SIZE_NOT_SELECTABLE"
+      && check.requestFingerprint === restaurantAvailabilityRequestFingerprint(completeBookingIntent)) return false;
     if(!namedOutletCandidateResolved(state,item.candidateId))return false;
     if (excludedFromPendingBatch.has(item.candidateId)) return false;
     const refreshing = factRefreshTargets.includes(item.candidateId);
@@ -293,14 +300,15 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
       || Boolean(candidate?.restaurant.sourceIds.googleWebsiteUri)
       || Boolean(candidate?.restaurant.sourceIds.discoveryDetailUri);
   }).map((item) => item.candidateId);
-  const completeBookingIntent = completeRestaurantIntent(state.intentDraft);
-  const eligibleCheckableIds = completeBookingIntent ? presentation.filter((item) =>
+  const checkableCandidateIds = !factRefreshTargets.length && completeBookingIntent ? presentation.filter((item) =>
     namedOutletCandidateResolved(state,item.candidateId)&&!excludedFromPendingBatch.has(item.candidateId) && !hardConflictedCandidates.has(item.candidateId)
       && (state.availabilityChecks[item.candidateId] === undefined || item.recheckReason !== undefined),
   ).map((item) => item.candidateId) : [];
-  const checkableCandidateIds = eligibleCheckableIds;
   const investigationRecorded = state.searchRevision > 0 || Object.keys(state.factChecks ?? {}).length > 0 || Object.keys(state.availabilityChecks).length > 0;
   const relevantPresentation = presentation.filter((item) => !excludedFromPendingBatch.has(item.candidateId));
+  const eligibleIds = relevantPresentation.filter(item => item.eligible).map(item => item.candidateId);
+  const hasDeliverable = state.pendingResultBatchTarget === undefined ? eligibleIds.length > 0
+    : distinctDiscoveryResultCandidateIds(state, eligibleIds, state.selectionSession?.deliveredCandidateIds ?? []).length > 0;
   const unresolvedCandidateIds = relevantPresentation.filter((item) => !item.eligible).map((item) => item.candidateId);
   const refreshPending = (state.refreshRequestedCandidateIds?.length ?? 0) > 0 || (state.factRefreshRequestedCandidateIds?.length ?? 0) > 0;
   const internalFailure = state.failure && /^(AGENT_|SEMANTIC_|BROWSER_RUNTIME|BROWSER_TIMEOUT)/.test(state.failure.code);
@@ -309,7 +317,7 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     && state.searchContinuation.discoveryPlan.cursor < state.searchContinuation.discoveryPlan.entries.length);
   const currentBatchPending = state.searchContinuation?.currentDiscoveryBatch
     ? currentDiscoveryBatchInvestigationBlockReason(state) : undefined;
-  if (!refreshPending && !internalFailure && !relevantPresentation.some(item => item.eligible) && immediateSourcesClosed(state)) return {
+  if (!refreshPending && !internalFailure && !hasDeliverable && immediateSourcesClosed(state)) return {
     presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded,
     canEndRead: true, unresolvedCandidateIds,
     endReadReason: "IMMEDIATE_SOURCES_CLOSED: At least three checked outlets and every checked public page explicitly show closed today or no opening period in the original immediate window. This concerns checked sources only; unexamined outlets remain unknown. Offer to search the nearest bookable time with a new user-approved window.",
@@ -318,16 +326,16 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   const reserve = endWindow && Date.parse(now) >= Date.parse(endWindow.openedAt) && Date.parse(now) <= Date.parse(endWindow.deadlineAt);
   if (reserve && endWindow.reason === 'DELIVERY_TIME' && !internalFailure) return {
     presentation,factInvestigableCandidateIds:[],checkableCandidateIds:[],investigationRecorded,
-    canEndRead:!relevantPresentation.some(item=>item.eligible),unresolvedCandidateIds,
+    canEndRead:!hasDeliverable,unresolvedCandidateIds,
     endReadReason:'READ_TIME_RESERVE: This bounded read is ending to reserve time for an honest conclusion. Unread sources and incomplete candidates remain unknown; no claim that nearby restaurants have no seats is supported.',
   };
-  if (reserve && !internalFailure && !relevantPresentation.some(item => item.eligible)) return {
+  if (reserve && !internalFailure && !hasDeliverable) return {
     presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded,
     canEndRead: true, unresolvedCandidateIds,
     endReadReason: "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats.",
   };
   const canEndRead = investigationRecorded && !refreshPending && !internalFailure && !discoveryPlanPending
-    && !currentBatchPending && !relevantPresentation.some((item) => item.eligible);
+    && !currentBatchPending && !hasDeliverable;
   return { presentation, factInvestigableCandidateIds, checkableCandidateIds, investigationRecorded, canEndRead, ...(canEndRead ? {} : { endReadBlockReason: !investigationRecorded ? "No actual source investigation is recorded" : refreshPending ? "A user-requested refresh remains pending" : internalFailure ? "An internal execution failure is recorded" : discoveryPlanPending ? "A bounded discovery-plan source remains unread" : currentBatchPending ?? "A grounded result is available and must not be ignored" }), unresolvedCandidateIds };
 }
 
@@ -363,9 +371,10 @@ export function discoveryPlanSearchBlockReason(state: Readonly<RestaurantTaskSta
   if (pending) return pending;
   const priorBatch = state.candidates.filter((candidate) => candidate.restaurant.sourceIds.discoverySourceId === prior.sourceId);
   const assessment = assessRestaurantRead(state, now);
-  const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);
-  const priorBatchEligible = assessment.presentation.filter((item) => priorBatch.some((candidate) => candidate.restaurant.id === item.candidateId)
-    && item.eligible && !delivered.has(item.candidateId));
+  const delivered = state.selectionSession?.deliveredCandidateIds ?? [];
+  const priorBatchEligible = distinctDiscoveryResultCandidateIds(state, assessment.presentation
+    .filter(item => item.eligible && priorBatch.some(candidate => candidate.restaurant.id === item.candidateId))
+    .map(item => item.candidateId), delivered);
   if (priorBatchEligible.length > 0 && state.intentDraft?.target?.requestedResultCount === undefined) {
     return "The investigated discovery batch has a grounded result to deliver";
   }
@@ -403,19 +412,34 @@ export function discoveryShortBatchDeliveryReady(state: Readonly<RestaurantTaskS
   if (state.intentDraft?.target?.requestedResultCount !== undefined || state.intentDraft?.target?.selectionScope !== "OPEN_ENDED") return false;
   if (currentDiscoveryBatchInvestigationBlockReason(state) !== undefined) return false;
   const batchIds = new Set(state.searchContinuation?.currentDiscoveryBatch?.candidateIds ?? []);
-  const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);
-  return assessRestaurantRead(state, now).presentation.some((item) => batchIds.has(item.candidateId) && item.eligible && !delivered.has(item.candidateId));
+  const eligible = assessRestaurantRead(state, now).presentation
+    .filter(item => item.eligible && batchIds.has(item.candidateId)).map(item => item.candidateId);
+  return distinctDiscoveryResultCandidateIds(state, eligible, state.selectionSession?.deliveredCandidateIds ?? []).length > 0;
+}
+
+/** Qualified, distinct candidates the current delivery may consider. */
+export function restaurantPresentableCandidateIds(
+  state: Readonly<RestaurantTaskState>,
+  now: string,
+  presentation = assessRestaurantRead(state, now).presentation,
+): string[] {
+  if (state.refreshRequestedCandidateIds?.length || state.factRefreshRequestedCandidateIds?.length) return [];
+  const delivered = state.pendingResultBatchTarget === undefined ? [] : state.selectionSession?.deliveredCandidateIds ?? [];
+  return distinctDiscoveryResultCandidateIds(state, presentation.filter(item => item.eligible).map(item => item.candidateId), delivered);
 }
 
 /** Keep independently evidenced source records separate while refusing to count an unresolved same outlet twice. */
-export function distinctDiscoveryResultCandidateIds(state: Readonly<RestaurantTaskState>, candidateIds: readonly string[]): string[] {
+export function distinctDiscoveryResultCandidateIds(
+  state: Readonly<RestaurantTaskState>, candidateIds: readonly string[], priorCandidateIds: readonly string[] = [],
+): string[] {
   const compact = (value: string) => value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
   const selected: string[] = [];
   for (const id of candidateIds) {
+    if (priorCandidateIds.includes(id)) continue;
     const candidate = state.candidates.find((item) => item.restaurant.id === id)?.restaurant;
     if (!candidate) { selected.push(id); continue; }
     const source = candidate.sourceIds.discoverySourceId;
-    const unresolvedSameOutlet = selected.some((priorId) => {
+    const unresolvedSameOutlet = [...priorCandidateIds, ...selected].some((priorId) => {
       const prior = state.candidates.find((item) => item.restaurant.id === priorId)?.restaurant;
       if (!prior) return false;
       const priorSource = prior.sourceIds.discoverySourceId;
@@ -427,4 +451,36 @@ export function distinctDiscoveryResultCandidateIds(state: Readonly<RestaurantTa
     if (!unresolvedSameOutlet) selected.push(id);
   }
   return selected;
+}
+
+/** Same current qualification/batch boundary used by stopped cards and page questions. */
+export function restaurantReadyCandidateIds(state:Readonly<RestaurantTaskState>,now:string,qualified?:readonly string[]):string[]{
+ if(state.phase==='NO_VERIFIED_RESULT')return [];
+ const ids=qualified??state.candidates.filter(c=>restaurantPresentationEvidenceIds(state,c.restaurant.id,now)!==undefined).map(c=>c.restaurant.id);
+ return state.pendingResultBatchTarget===undefined?[...ids]:distinctDiscoveryResultCandidateIds(state,ids,state.selectionSession?.deliveredCandidateIds??[]);
+}
+export function canAskPageQuestion(state:Readonly<RestaurantTaskState>,candidateId:string,openableCandidateIds:readonly string[]):boolean{
+ return state.phase==='PRESENT_RESULTS'?!!state.presentedResults?.candidateIds.includes(candidateId)
+  :state.phase==='FAILED'&&state.failure?.code==='AGENT_LOOP_CANCELLED'&&openableCandidateIds.includes(candidateId);
+}
+
+/** Bind accepted question work to the current task run and investigation. */
+export function restaurantInvestigationReadRunId(state: Readonly<RestaurantTaskState>, taskRunId: string): string {
+  return taskRunId + ":investigation:" + String(state.investigationRevision ?? 0);
+}
+
+/** Inventory freshness gates admission. An accepted question has its own read scope and deadline. */
+export function canSettlePageQuestion(
+  state: Readonly<RestaurantTaskState>,
+  question: Readonly<RestaurantPageQuestionState>,
+  currentReadRunId: string,
+): boolean {
+  const pending = state.pageQuestion;
+  return !!pending && !pending.result && !question.result
+    && pending.requestId === question.requestId && pending.candidateId === question.candidateId
+    && pending.readRunId === question.readRunId && question.readRunId === currentReadRunId
+    && currentReadRunId.endsWith(":investigation:" + String(state.investigationRevision ?? 0))
+    && state.candidates.some(candidate => candidate.restaurant.id === question.candidateId)
+    && (state.phase === "PRESENT_RESULTS" && !!state.presentedResults?.candidateIds.includes(question.candidateId)
+      || state.phase === "FAILED" && state.failure?.code === "AGENT_LOOP_CANCELLED");
 }

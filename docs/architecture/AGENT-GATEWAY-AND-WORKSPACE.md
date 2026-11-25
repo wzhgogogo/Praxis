@@ -141,3 +141,60 @@ This slice has offline fixture and local Chromium evidence only. Real-model answ
 ## Explicit booking message records user choice (2026-11-02 CET; approved main integration)
 
 Per ADR0049, an accepted SPECIFIC_OUTLET / BOOKING_WORDING message can record a uniquely matched outlet through the existing CANDIDATE_SELECTED event, without an Agent selection action. Code checks full-name uniqueness and a prior displayed candidate binding or existing HIGH entity evidence; ambiguity/partial references remain unselected. The accepted message event retains only a pending choice marker, never raw goalBasis or a new State field, so a party-only reply can resume that original choice after the normal candidate reset. New non-booking targets, semantic failure/conflict and mismatched current candidates cannot reuse it. USER event causation and a USER_MESSAGE trajectory distinguish this from Agent selection. Repeated same candidate/offer selection is a no-op. This grants no booking/authorization, changes no goal or source identity rule, and skips no availability. The existing same-turn B1 terms acquisition, budget/cancellation/reuse and 20-second reserve are unchanged. G1 questions, open recommendations and departures do not create choices. The user reported independent review passed and approved main integration. Evidence remains saved-response/local-source composition; Live assessment is separate.
+
+
+## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
+
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+
+After results are displayed, the main composer in DETAILS calls the existing question interface for the outlet currently in view; cards have no second question input. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; code selects the sole legal `ANSWER_PAGE_QUESTION` without an Agent model call, still through Validator, Router and Reducer. In CANDIDATES/CONVERSATION, the composer continues to edit the restaurant request. The UI view determines routing; a model does not choose it.
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.
+
+## 第2段只读工作区投影（工作分支）
+
+Case project复用已读取的同一用户/Case事件，不新增表、State字段、模型/来源调用或数据库往返。searchRevision表达搜索页/批次数，替代原误名requestRevision；requirementRevision比较应用patch后的完整意图草稿是否实际改变，而非只看SEMANTIC_PROPOSAL_COMPILED是否含字段；沿用Reducer的完整值/来源元数据相等规则，重放已接纳的地点绑定以恢复真实比较上下文，与another-batch分开。等价patch不切空分组，复用保留的展示集合及最近一次真实版本差异，不要求重发RESULTS_PRESENTED。revisionDiff只在批次结束后发布，比较最近两个条件版本内经Runtime接纳的展示ID集合；removed/added不由浏览器计算。savedCandidates从同Case历史恢复已保存对象的店名，仅当前合格对象标current，旧证据不成为当前可用性。
+
+移除原因枚举为OVER_BUDGET、NEW_TIME_MISMATCH、NO_LONGER_MATCHES。预算/时段须有当前结构化判定，其他只能通用原因，不解析助手或Activity文本。questionHistory由PAGE_QUESTION_REQUESTED/COMPLETED按requestId、readRunId、candidateId绑定恢复，完成事件逆序；原引文/敏感标记、G1执行入口和20问限制不改。
+
+readStatus区分已有结果、无合格结果、明确的全部来源失败、语义MODEL_FAILURE及其他故障。全部失败须逐店有非空的显式失败尝试且无成功检查；UNKNOWN、正常无位、未查或缺少attempt细节不冒充来源失败。按用户2026-10-30批准，TaskDefinition22→23，State24形状不变：NO_VERIFIED_RESULT可经NEXT_BATCH_REPLENISHMENT_REQUESTED回到SEARCHING，但服务端canContinue必须证明必要条件齐全、池内有未调查对象或已有匹配条件的观察游标/发现计划仍有未查工作。保留旧检查和游标，不重置来源计划；已有失败/不合格对象在Context及Validator中排除，模型不能改写这个边界。前端只消费canContinue，不自行推断。
+
+全部来源失败不走another-batch；服务端canRetry允许原refresh通过AVAILABILITY_REFRESH_REQUESTED显式重查全部已确认失败的候选，保留原有展示结果刷新，不运行语义。两个入口均先核对归属，requestId重交不再读取，其他请求仍核对版本；沿用原有界读取、Stop、迟到丢弃和预算。只清除上一轮收尾窗口，不清空检查/备选或新增条件修改事件。实现与验证见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
+
+
+### Round-4 workspace projection (2026-11-18, draft / not integrated)
+
+The server supplies the exact current openable candidate IDs: presented IDs in PRESENT_RESULTS, otherwise currently qualified ready IDs. Saved links use that set; expired displayed availability remains browsable and booking still requires the existing fresh check. Removal/reason inference runs only for completed qualification (PRESENT_RESULTS or non-source-failed NO_VERIFIED_RESULT), never a stopped/cancelled/failed read. Revised Case titles after requirementRevision1 derive from authoritative criteria, area/date/time/party, never the old retrieval query; all server projections and list reloads share the result. NEEDS_INPUT exposes its current structured clarification separately from conversation history. Main messages are state-driven and isolated to CANDIDATES; restaurant Q&A stays in Details.
+
+
+## 2026-11-18 — Round 6 read ownership and projections
+
+Draft / not integrated. One persistent Case read owns an AsyncLocalStorage scope through discovery/retrieval, facts, availability and post-loop B1 terms. The shared production assembly resolves a separate browser budget and availability executor/entry ledger/named queries for each run; nested same-run work joins it, concurrent Cases cannot reset or close each other. Explicit G1 retains its independent budget. The legacy begin/end lifecycle remains available for existing callers.
+
+Refresh, next-batch and location validate idempotency, pending G1, expected version and business prerequisites before cancelling only their Case. Preparation covers cancellation, fresh snapshot/rechecks, event persistence and asynchronous read registration; concurrent projection cannot classify that gap as an interrupted process. Preparing UNDERSTANDING/SEARCHING/SELECTION_REQUIRED counts as active. Details/Handoff and open galleries remain during active work, then return to candidates if the terminal projection has no current presented candidate.
+
+The shared previous-revision selector is unchanged. revisionDiff additionally requires an actual earlier delivered batch; initial delivery after a clarification has no diff. A completed empty revision remains the immediately preceding baseline for a later diff and Saved validation.
+
+### 2026-11-19 — Round 7 read mutation preflight
+
+A durable request ID returns the current projection before the version check. Cancellation targets the ActiveRead instance seen by preflight. After it ends, the application rechecks the request ID, intervening user events, the requested target and read ownership before dispatching at the current snapshot version. An ordinary background completion on the same target can advance the version. Runtime duplicate delivery stops before appending another message or launching another read.
+
+While the displayed batch has a pending fact refresh, the context and Validator allow fact investigation of its original targets and withhold discovery, availability and presentation. An availability refresh also withholds presentation until its pending targets are observed.
+
+### 2026-11-19 — Round 8 delivery and workspace state
+
+Saving a restaurant during the first read records a shortlist entry without consuming the short-delivery window. On bounded termination, the coordinator uses the same qualified, distinct candidate pool as the Agent context. A pending next batch excludes delivered outlets and caps automatic presentation at its target. The Validator, Router and Reducer still authorize presentation.
+
+A Case summary carries the last task activity time and indicates an explicitly stopped failed read. The workspace orders cases newest first and ties by Case ID. The selected card follows the current qualifying set after the read ends. A stopped read may retain a ready outlet for About, with shortlist actions gated by the same phases as the reducer.
+
+### 2026-11-19 — Round 9 delivery boundaries
+
+Search, read completion, Validator and cached delivery apply the same exclusion for previously delivered outlets across source records while a user seeks another batch. Existing displayed results keep their refresh path. A delivery window uses the time at opening, and the closing action uses one timestamp across validation, routing and persistence.
+
+Displayed expired cards offer refresh when permitted by the current Case. An expired stopped handoff can still show its safe source link.
+
+
+### 2026-11-19 — Round 10 Case response ordering
+
+Case responses are bound to the navigation and Case that started them. An older plan can update its sidebar summary after navigation. The currently open Case uses its SSE projection, buffering the newest snapshot while a mutation is pending. A version conflict uses that snapshot or reads the current Case once, preserving the unsent text. Sidebar status polling runs only while another Case is active.
+
+A Case version conflict includes the server's current version. The workspace uses a buffered event only if its version has caught up, otherwise it reads the latest Case once. A successful response clears only the matching sent draft in its own plan. A prior-batch outlet still verified for the current request does not count as a removal.

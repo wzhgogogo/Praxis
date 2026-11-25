@@ -1,0 +1,51 @@
+✖ Restaurant photos mobile: production assembly/HTTP renders a source cover and gallery without changing the plan, input or current card (1371.999875ms)
+✔ Restaurant photos mobile: availability SSE keeps the open gallery, current photo and draft (1076.833667ms)
+✔ Restaurant photos mobile: a late first-outlet photo cannot overwrite the current outlet or typed text (852.517875ms)
+✔ Restaurant photos mobile: empty, wrong-outlet and corrupt-image sources retain No photo and usable actions (2416.976834ms)
+✖ Restaurant photos desktop: production assembly/HTTP renders a source cover and gallery without changing the plan, input or current card (1051.182542ms)
+✔ Restaurant photos desktop: availability SSE keeps the open gallery, current photo and draft (1333.18875ms)
+✔ Restaurant photos desktop: a late first-outlet photo cannot overwrite the current outlet or typed text (1081.882791ms)
+✔ Restaurant photos desktop: empty, wrong-outlet and corrupt-image sources retain No photo and usable actions (3082.954458ms)
+✔ Photo DOM observation uses the real browser currentSrc for responsive/lazy source images (128.767583ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13767.842833
+
+✖ failing tests:
+
+test at src/harness/browser/restaurant-photos.test.ts:1:1771
+✖ Restaurant photos mobile: production assembly/HTTP renders a source cover and gallery without changing the plan, input or current card (1371.999875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/restaurant-photos.test.ts:29:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/restaurant-photos.test.ts:1:1771
+✖ Restaurant photos desktop: production assembly/HTTP renders a source cover and gallery without changing the plan, input or current card (1051.182542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/restaurant-photos.test.ts:29:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }

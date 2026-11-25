@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.17
-- Last updated: 2026-11-13
+- Document revision: 1.24
+- Last updated: 2026-11-25
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -42,8 +42,8 @@ Accepted ADR
 ## 产品
 
 - [MVP PRD](product/MVP-PRD.md)：面向在日外国人的东京英文Web决策、准备与来源交接范围；第一版由用户在来源网站自行提交。
-- [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；第一段已完成本地Fixture浏览器链路，待独立视觉复核。
-- [Web Visual Direction](product/VISUAL-DIRECTION.md)：用户选定的合并版视觉规则及英文文案；Mono仅用于logo，信息靠间距分隔，实施范围/验收见切片计划。
+- [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；第1段已复核合main，第2段状态见切片计划。
+- [Web Visual Direction](product/VISUAL-DIRECTION.md)：用户选定的合并版视觉规则及英文文案；当前全界面与logo使用DM Sans，信息靠间距分隔，实施范围/验收见切片计划。
 - [Booking Design Draft 0.6](product/BOOKING-DESIGN-DRAFT.md)：draft / not integrated的历史方案输入；B1以Accepted ADR-0049为准，B2/B2+不属于前端第一段，原稿的取消严格程度与工作流读取不得覆盖ADR。
 
 ## 架构
@@ -64,6 +64,14 @@ Accepted ADR
 - [Capability Matrix](integrations/CAPABILITY-MATRIX.md)：DeepSeek、Google、Hot Pepper、TableCheck 和官网能力边界。
 
 ## 验证、阶段与历史
+
+- [胶囊原地30字符编辑](reviews/WEB-INLINE-CONDITIONS-20261111.md)：用户新决定已实现，底部草稿保持，五门禁通过；原3c回放/设备门槛不变，未合main。
+
+- [3c同步与设备反馈](reviews/WEB-WORKSPACE-SLICE2-SYNC-20261111.md)：本地五门禁全绿、67张Fixture图；D01/D02回放匹配/覆盖待定位、R2交复核者、设备未完成，A/main1bc已同步，未合main。
+
+- [前端第2段合入前同步](reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)：main7c83e02e/G3已合入分支，四文档正文保留、0/0行隐藏；55d70963净树五门禁1246/208、两尺寸全部验收通过，63张截图，结构化修改仍draft，工作分支交ff-only合入复核。
+
+- [前端第2段实现与复核](reviews/WEB-WORKSPACE-SLICE2-20261030.md)：单输入框/完整问答历史、条件、差异、批末与错误及获准的未查工作续接/独立刷新；净树五门禁1215/203、两尺寸验收通过，40张新图及21张回归图，待工作分支复核，不是Live能力。
 
 - [SR04零API定位与合入复核](reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)：两条生产解析路径各10/10，SR04目标同v26；诊断透传修复及main404a766e同步；净树五门禁1211/181和两尺寸十一项通过，21张截图，工作分支待合入复核。
 
@@ -112,6 +120,8 @@ Accepted ADR
 - [Post-change Verify](skills/post-change-verify/SKILL.md)
 
 ## 当前阶段计划
+
+- [Web Workspace Slice 2 Plan](WEB-WORKSPACE-SLICE2-PLAN.md)：从已快进合main的第1段4cbc521b开始，单输入框/条件/差异/收尾/错误及用户批准的有未查工作才续接；真实调用0。
 
 - [Web Workspace Slice 1 Plan](WEB-WORKSPACE-SLICE1-PLAN.md)：当前前端纵向切片范围、现有取消/进度链路、两尺寸浏览器验收与停止条件；业务真实调用0。
 

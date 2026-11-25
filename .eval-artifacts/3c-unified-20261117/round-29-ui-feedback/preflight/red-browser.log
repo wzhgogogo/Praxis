@@ -1,0 +1,135 @@
+✖ Round29 About 390: Refresh keeps one identical reading and distinct price snapshots (2484.779125ms)
+✖ Round29 About 1440: Refresh keeps one identical reading and distinct price snapshots (1332.122125ms)
+✖ Round29 alert 390: Stop clears a prior failed Stop and preserves the draft (2365.961ms)
+✖ Round29 alert 1440: Stop clears a prior failed Stop and preserves the draft (1180.869792ms)
+✖ Round29 alert: leaving a stale Handoff without cards does not show a stale slot notice (1048.824417ms)
+✖ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (11170.922542ms)
+✖ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (9970.675792ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 0
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22028.650584
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:10766
+✖ Round29 About 390: Refresh keeps one identical reading and distinct price snapshots (2484.779125ms)
+  AssertionError [ERR_ASSERTION]: identical Refresh snapshots must keep only the latest reading
+  + actual - expected
+  
+    [
+      '2026-11-26T05:00:00Z',
+  +   '2026-11-25T05:00:00Z'
+    ]
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:110:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:58:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ '2026-11-26T05:00:00Z', '2026-11-25T05:00:00Z' ],
+    expected: [ '2026-11-26T05:00:00Z' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:10766
+✖ Round29 About 1440: Refresh keeps one identical reading and distinct price snapshots (1332.122125ms)
+  AssertionError [ERR_ASSERTION]: identical Refresh snapshots must keep only the latest reading
+  + actual - expected
+  
+    [
+      '2026-11-26T05:00:00Z',
+  +   '2026-11-25T05:00:00Z'
+    ]
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:110:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:58:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ '2026-11-26T05:00:00Z', '2026-11-25T05:00:00Z' ],
+    expected: [ '2026-11-26T05:00:00Z' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:24874
+✖ Round29 alert 390: Stop clears a prior failed Stop and preserves the draft (2365.961ms)
+  AssertionError [ERR_ASSERTION]: the successful Stop removes the prior error
+  
+  true !== false
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:187:11)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:56:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:170:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:24874
+✖ Round29 alert 1440: Stop clears a prior failed Stop and preserves the draft (1180.869792ms)
+  AssertionError [ERR_ASSERTION]: the successful Stop removes the prior error
+  
+  true !== false
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:187:11)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:56:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:170:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round27.test.ts:1:27029
+✖ Round29 alert: leaving a stale Handoff without cards does not show a stale slot notice (1048.824417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:227:10)
+      at async journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:56:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round27.test.ts:212:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:3476
+✖ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (11170.922542ms)
+  page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace.test.ts:147:26) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:3476
+✖ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (9970.675792ms)
+  page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace.test.ts:147:26) {
+    name: 'TimeoutError',
+    log: []
+  }

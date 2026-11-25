@@ -16,7 +16,7 @@ export interface RestaurantFactJudgmentResult {
 
 type JudgmentOutcome = "SUPPORTED" | "CONFLICT" | "UNKNOWN";
 
-export const RESTAURANT_FACT_JUDGMENT_PROMPT_VERSION = "14";
+export const RESTAURANT_FACT_JUDGMENT_PROMPT_VERSION = "15";
 
 function record(value: unknown): Record<string, unknown> | undefined {
   return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
@@ -41,7 +41,8 @@ function scopeKey(scope: ServiceScopeClaims | undefined): string {
 
 /** These labels identify a venue class too broadly to discharge a cuisine/type exclusion. */
 function concreteTypeFacts(values: string[]): string[] {
-  const broad = new Set(["restaurant", "food", "dining", "cuisine", "chinese restaurant", "asian restaurant"]);
+  const broad = new Set(["restaurant", "food", "dining", "cuisine", "chinese restaurant", "asian restaurant",
+    "point of interest", "establishment", "store", "food store", "liquor store", "wholesaler", "service"]);
   return values.filter((value) => !broad.has(normalized(value)));
 }
 
@@ -52,7 +53,7 @@ function concreteTypeFacts(values: string[]): string[] {
  * ranking or a replacement for missing page evidence.
  */
 export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
-  constructor(private readonly model: ModelGateway, private readonly now: () => string = () => new Date().toISOString()) {}
+  constructor(private readonly model: ModelGateway, private readonly now: () => string = () => new Date().toISOString(), private readonly categoryQuotes: (e: RestaurantReadEvidence) => string[] = () => []) {}
 
   async judge(input: { candidate: RestaurantCandidate; intent: RestaurantSearchIntent; evidence: RestaurantReadEvidence[]; sourceDocuments?: RestaurantFactSourceDocument[] }): Promise<RestaurantFactJudgmentResult> {
     const criteria = input.intent.criteria.filter((item) => item.strength === "HARD");
@@ -64,7 +65,7 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
     const observations = input.evidence
       .filter((item) => item.candidateId === input.candidate.restaurant.id && item.kind === "RESTAURANT_FACT")
       .flatMap((item) => {
-        const rawTypeFacts = strings(item.claims.restaurantTypeFacts).filter((value) => value.trim().length > 0);
+        const rawTypeFacts = [...new Set([...strings(item.claims.restaurantTypeFacts), ...this.categoryQuotes(item)])].filter((value) => value.trim().length > 0);
         const typeFacts = concreteTypeFacts(rawTypeFacts);
         // A broad type is never proof of satisfying an exclusion.  It is kept
         // only for the same bounded negative-criterion judgment so the model

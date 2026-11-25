@@ -1,0 +1,11 @@
+# Round 19 unresolved Case reconfirmation
+
+Draft / not integrated. Baseline 6a54ff083372bbc61dbed27ce81bbf8ca4647a4e; preceding frozen source77f5b9bc2e242f1fbcd6e8f508fff140c88d732c. Only the frontend unresolved-lock persistence is changed; all backend, source, scoring and other protected code stays unchanged.
+
+RECONFIRM belongs to the current tab, user and Case, in one sessionStorage key. It survives missed requirement revisions, Candidates/About/Saved reload, switching plans and passive navigation until explicitly resolved. readSelection accepts only parsed kind RECONFIRM; corrupt/other JSON is not a lock. SELECTED still belongs to user/Case/revision/restaurant and rebinds only the same date/time/party. No revision-key fallback, migration, copy or compatibility path is retained.
+
+Only explicit slot choice, deliberate paging/Saved change to a different restaurant, or a successful own Candidates condition edit that advances revision consumes the lock. Same-restaurant Saved, About/Back, Find more, refresh/question Stop, model failure, conflicts, logout/login and account isolation keep their existing boundaries. Reconciliation reads lock storage even without a candidate, before that early return; transport only creates it when exiting an old Handoff and never copies revision-local memory.
+
+Four restore journeys run in actual local Chromium at1440×900 and390×844: Candidates missed second edit then reload; About missed edit/reload/Back; Saved missed edit/reload/Back and same restaurant; plan switch and return after remote edit. Every unresolved journey has no selected slot, a persistent delivery-slot hint, disabled/programmatically guarded booking and SQL departures0 before explicit19:30 selection. Then local POST201 must persist the correct4-guest19:30 offer. A resolved lock must leave no orphan key and must not return after away-plan revision5; ordinary new revision can book normally.
+
+Freeze source/config before five clean gates, formal16, Style1 six, all prior state regressions and new images. Keep strict browser TS,16 singleton SCCs,0 any/suppressions,17 identical source/build assets. No Live/real PostgreSQL/4312/push/main merge. closeout's already absent.git/prunable registry and residual files are audited unchanged without repair.

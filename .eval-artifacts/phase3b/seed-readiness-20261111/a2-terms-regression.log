@@ -1,0 +1,116 @@
+✔ B1 open request does not read terms merely because the Agent chose a candidate (1258.21575ms)
+✔ B1 selected TABELOG outlet proactively acquires same-channel cancellation and card terms through ordinary composition (627.899833ms)
+✔ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (2851.314125ms)
+✔ B1 reuses the actual admitted G1 cancellation answer without another model call, before or after selection (590.770167ms)
+✔ B1 carries both observed language policies and separate English paraphrases when G1 reports conflict (526.884708ms)
+✖ B1 hides SHOP G1 pages without losing the source link (521.999125ms)
+✖ B1 hides CHANNEL G1 pages without losing the source link (525.201625ms)
+✔ B1 omits unstated policy and card requirements, and never carries previous-run terms (549.963084ms)
+✔ B1 shares the real run model ceiling and drops optional terms when that budget is spent (517.194792ms)
+✔ B1 discards late terms on cancellation while keeping its qualified handoff (521.030875ms)
+✔ B1 drops expired G1 pages and enclosing-deadline output independently of its still-current link (1058.395625ms)
+✔ B1 reserve boundary 20001ms uses the actual assembly and preserves its link (1300.294958ms)
+✔ B1 reserve boundary 20000ms uses the actual assembly and preserves its link (614.567083ms)
+✔ B1 rechecks reserve after cancellation answer and before the card model (668.32075ms)
+✔ B1 rechecks reserve before an observed language navigation inside G1 capture (607.145084ms)
+✔ B1 in-flight read inherits deadline minus reserve, not the whole deadline (580.456625ms)
+✔ B1 measures durable assistant append after optional terms or omission (1247.775708ms)
+✔ D3 saved pending fact page reaches G1 after bounded readiness and records why no unsupported booking terms are shown (2334.704208ms)
+✔ D3 current source data still loading is omitted with a reason and never becomes a guessed term (758.680417ms)
+✔ fresh question reads own independent model and browser counters, with no completed search context (1.55275ms)
+✔ question deadline actively cancels a pending read, without cancelling the next question (22.042916ms)
+✔ recorded R2-03 HIGH availability page supplies G1 instead of the Google Japanese website (30.558292ms)
+✔ production assembly retains recorded availability page for G1 even when Google website points to Japanese (1186.785458ms)
+✔ availability page cache rejects LOW, ambiguous, stale-run and mismatched entities; PENDING refresh uses exact bound URL once (10.992833ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 22
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10079.312833
+
+✖ failing tests:
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:4521
+✖ B1 hides SHOP G1 pages without losing the source link (521.999125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   {
+  +     citations: [
+  +       {
+  +         identityEvidenceId: 'evidence:restaurant:tabelog-entity-match:7996501e4fb5faca2aef624c',
+  +         readAt: '2026-11-01T06:00:00.000Z',
+  +         text: 'Cancellations on the reservation date are charged at 100% of the course price.',
+  +         url: 'https://tabelog.com/en/tokyo/A1301/A130101/13123456/'
+  +       }
+  +     ],
+  +     label: 'Same-day cancellations cost 100% of the course price.'
+  +   },
+  +   {
+  +     citations: [
+  +       {
+  +         identityEvidenceId: 'evidence:restaurant:tabelog-entity-match:7996501e4fb5faca2aef624c',
+  +         readAt: '2026-11-01T06:00:00.000Z',
+  +         text: 'A credit card is required to guarantee this reservation.',
+  +         url: 'https://tabelog.com/en/tokyo/A1301/A130101/13123456/'
+  +       }
+  +     ],
+  +     label: 'Card required'
+  +   }
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/application/restaurant-booking-terms-composition.test.ts:63:149)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { label: 'Same-day cancellations cost 100% of the course price.', citations: [Array] }, { label: 'Card required', citations: [Array] } ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:4521
+✖ B1 hides CHANNEL G1 pages without losing the source link (525.201625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   {
+  +     citations: [
+  +       {
+  +         identityEvidenceId: 'evidence:restaurant:tabelog-entity-match:7996501e4fb5faca2aef624c',
+  +         readAt: '2026-11-01T06:00:00.000Z',
+  +         text: 'Cancellations on the reservation date are charged at 100% of the course price.',
+  +         url: 'https://tabelog.com/en/tokyo/A1301/A130101/13123456/'
+  +       }
+  +     ],
+  +     label: 'Same-day cancellations cost 100% of the course price.'
+  +   },
+  +   {
+  +     citations: [
+  +       {
+  +         identityEvidenceId: 'evidence:restaurant:tabelog-entity-match:7996501e4fb5faca2aef624c',
+  +         readAt: '2026-11-01T06:00:00.000Z',
+  +         text: 'A credit card is required to guarantee this reservation.',
+  +         url: 'https://tabelog.com/en/tokyo/A1301/A130101/13123456/'
+  +       }
+  +     ],
+  +     label: 'Card required'
+  +   }
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/application/restaurant-booking-terms-composition.test.ts:63:149)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { label: 'Same-day cancellations cost 100% of the course price.', citations: [Array] }, { label: 'Card required', citations: [Array] } ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

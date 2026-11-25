@@ -1,0 +1,77 @@
+{
+  "frozenSha": "6a5f782979054c3d04e01655b73e10cb1ef1c694",
+  "sourceTree": "34b625c0810d5b0bb780bd8902da8d3c6ff889bb",
+  "envLoaded": false,
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "log": "typecheck.log",
+      "result": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "log": "arch-check.log",
+      "result": "PASS (0 violations)"
+    },
+    {
+      "gate": "build",
+      "command": "npm run build",
+      "exitCode": 0,
+      "log": "build.log",
+      "result": "PASS"
+    },
+    {
+      "gate": "test",
+      "command": "npm test",
+      "exitCode": 0,
+      "log": "test.log",
+      "counts": {
+        "total": 1941,
+        "pass": 1941,
+        "fail": 0,
+        "durationMs": 78611.576
+      }
+    },
+    {
+      "gate": "browser-fixture",
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "log": "browser-fixture.log",
+      "counts": {
+        "g2Exclusive": {
+          "total": 5,
+          "pass": 5,
+          "fail": 0,
+          "durationMs": 24988.660542
+        },
+        "chromiumRemaining": {
+          "total": 578,
+          "pass": 578,
+          "fail": 0,
+          "durationMs": 423184.548417
+        },
+        "g6Assembly": {
+          "total": 159,
+          "pass": 159,
+          "fail": 0,
+          "durationMs": 40212.092083
+        }
+      }
+    }
+  ],
+  "c1BuiltDist": {
+    "command": "PRAXIS_CDP_DIST=1 node --import tsx --test src/harness/browser/cloudflare-cdp-isolation.test.ts",
+    "exitCode": 0,
+    "log": "../c1-built.log",
+    "counts": {
+      "total": 4,
+      "pass": 4,
+      "fail": 0,
+      "durationMs": 13522.6105
+    }
+  }
+}

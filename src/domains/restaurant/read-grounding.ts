@@ -82,10 +82,14 @@ export interface GoogleDiscoveryGroundingInput {
     label: string;
     areaMatchBasis?: "TASK_LOCATION_RADIUS" | "EVALUATION_LOCATION_RADIUS" | "NAMED_PLACE_RADIUS";
   };
+  selectionScope?: "SPECIFIC_OUTLET" | "OPEN_ENDED";
+  targetQuery?: string;
+  criteria?: RestaurantSearchIntent["criteria"];
   requiredTypeCriteria?: string[];
   negativeCriteria?: string[];
   requestedDate?: string;
   requestedTimeWindow?: { earliest: string; latest: string };
+  requestedTimeWindowBasis?: string;
 }
 
 export interface GroundedAvailability {
@@ -107,9 +111,74 @@ function stableCandidateId(placeId: string): string {
   return `praxis:restaurant:${createHash("sha256").update(placeId).digest("hex").slice(0, 24)}`;
 }
 
-function usableRestaurant(place: UntrustedGooglePlaceObservation): boolean {
-  const types = new Set([...(place.types ?? []), ...(place.primaryType ? [place.primaryType] : [])]);
-  return types.has("restaurant") || types.has("cafe") || types.has("food");
+const DINING_PRIMARY_TYPES = new Set([
+  "cafe", "coffee_shop", "bakery", "bar", "pub", "brewpub", "wine_bar", "cocktail_bar",
+  "bar_and_grill", "gastropub", "bistro", "diner", "steak_house", "deli", "tea_house",
+  "sandwich_shop", "cafeteria", "food_court", "dessert_shop", "ice_cream_shop", "bagel_shop",
+  "donut_shop", "juice_shop", "acai_shop", "meal_takeaway", "meal_delivery", "pizza_delivery", "izakaya",
+]);
+
+const LIGHT_FOOD_TYPES:Record<string,RegExp>={
+ sandwich_shop:/sandwich|サンド/iu,dessert_shop:/dessert|sweet|デザート|スイーツ/iu,dessert_restaurant:/dessert|sweet|デザート|スイーツ/iu,
+ snack_bar:/snack|light meal|軽食/iu,ice_cream_shop:/ice.?cream|gelato|アイス/iu,bagel_shop:/bagel|ベーグル/iu,
+ donut_shop:/donut|doughnut|ドーナツ/iu,juice_shop:/juice|ジュース/iu,acai_shop:/acai|açaí|アサイー/iu,
+ meal_takeaway:/take.?away|take.?out|to go|持ち帰り|テイクアウト/iu,meal_delivery:/delivery|配達|デリバリー/iu,pizza_delivery:/delivery|配達|デリバリー/iu,
+};
+const LIGHT_FOOD_CATEGORY_LABELS: Record<string, readonly string[]> = {
+  sandwich_shop: ["sandwich", "サンドイッチ"],
+  dessert_shop: ["dessert", "sweets", "sweet", "デザート", "スイーツ"],
+  dessert_restaurant: ["dessert", "sweets", "sweet", "デザート", "スイーツ"],
+  snack_bar: ["snack", "snack bar", "light meal", "軽食"],
+  ice_cream_shop: ["ice cream", "gelato", "アイス"],
+  bagel_shop: ["bagel", "ベーグル"],
+  donut_shop: ["donut", "doughnut", "ドーナツ"],
+  juice_shop: ["juice", "ジュース"],
+  acai_shop: ["acai", "アサイー"],
+  meal_takeaway: ["meal takeaway", "takeaway", "takeout", "take away", "take out", "to go", "持ち帰り", "テイクアウト"],
+  meal_delivery: ["meal delivery", "delivery", "配達", "デリバリー"],
+  pizza_delivery: ["pizza delivery", "delivery", "配達", "デリバリー"],
+  cafe: ["cafe","カフェ"], coffee_shop:["coffee","coffee shop","コーヒー"], bakery:["bakery","パン屋"], tea_house:["tea house","tea","茶館"],
+};
+
+function categoryLabel(value: string): string {
+  return normalized(value.normalize("NFKD").replace(/\p{M}/gu, "").replace(/[_-]+/g, " "))
+    .replace(/^(?:no|not|without|avoid)\s+/, "")
+    .replace(/\s+(?:restaurants?|cuisines?|shops?|places?|stores?|dining type)$/, "")
+    .replace(/\bsandwiches\b/g, "sandwich").replace(/\bbakeries\b/g, "bakery")
+    .replace(/\b(\w{3,})s\b/g, "$1");
+}
+
+/** Match whole category labels, never a shared word in a quality/degree condition. */
+function excludesCategory(criterion: string, type: string): boolean {
+  const labels = [type, ...(LIGHT_FOOD_CATEGORY_LABELS[type] ?? [])].map(categoryLabel);
+  return criterion.split("/").some(value => labels.includes(categoryLabel(value)));
+}
+
+function usableRestaurant(place:UntrustedGooglePlaceObservation,input:GoogleDiscoveryGroundingInput):boolean{
+ const normalizeType=(type:string)=>type.trim().toLowerCase().replace(/[\s-]+/g,'_');
+ const primary=place.primaryType===undefined?undefined:normalizeType(place.primaryType),types=[...new Set([...(primary?[primary]:[]),...(place.types??[]).map(normalizeType)])];
+ const isDining=(type:string)=>type==='restaurant'||type.endsWith('_restaurant')||DINING_PRIMARY_TYPES.has(type);
+ const negative = [...(input.negativeCriteria ?? []), ...(input.criteria ?? []).filter(c => c.polarity === 'NEGATIVE' && c.strength === 'HARD').map(c => c.text)];
+ const target = (input.targetQuery ?? '').replace(/\be\.g\./giu, 'for example').replace(/\b(?:no|not|nothing|without|avoid)\b[^,;.!?]*?(?=[,;.!?]|\bbut\b|\b(?:I|we)\s+(?:would\s+like|want|need|(?:am|are)\s+looking)\b|\band\s+(?:(?:I|we)\s+)?(?:would\s+like|want|need|looking|please|find)\b|$)/giu, ' ');
+ const positive=[target,...(input.requiredTypeCriteria??[]),...(input.criteria??[]).filter(c=>c.polarity==='POSITIVE').map(c=>c.text)].join(' ');
+ const requested=(pattern:RegExp)=>pattern.test(positive);
+ const specific=input.selectionScope==='SPECIFIC_OUTLET';
+ const restricted=types.filter(t=>LIGHT_FOOD_TYPES[t]);
+ if(types.some(type => LIGHT_FOOD_CATEGORY_LABELS[type] && negative.some(criterion => excludesCategory(criterion,type))))return false;
+ if (restricted.some(type => negative.some(criterion => excludesCategory(criterion, type)))) return false;
+ if(primary&&LIGHT_FOOD_TYPES[primary])return specific||requested(LIGHT_FOOD_TYPES[primary]!);
+ const lightIntent=/caf[eé]|coffee|dessert|sweet|sandwich|baker|pastr|カフェ|喫茶|デザート|サンド|パン/iu;
+ const evening=/(?:EVENING|DINNER)/i.test(input.requestedTimeWindowBasis??'')||!!input.requestedTimeWindow&&input.requestedTimeWindow.earliest>='17:00';
+ const cafe=(primary==='cafe'||primary==='coffee_shop'||!primary&&types.some(t=>t==='cafe'||t==='coffee_shop'));
+ if(cafe&&restricted.length&&evening&&!specific){
+  if(!requested(lightIntent))return false;
+ }
+ if(primary!==undefined)return isDining(primary);
+ const substantial=types.some(t=>isDining(t)&&!['restaurant','cafe','coffee_shop','bakery','tea_house'].includes(t)&&!LIGHT_FOOD_TYPES[t]);
+ if(restricted.length&&!substantial&&!specific){
+  if(!restricted.some(t=>requested(LIGHT_FOOD_TYPES[t]!))&&!(cafe&&requested(lightIntent)))return false;
+ }
+ return types.some(type=>type==='food'||isDining(type));
 }
 
 function normalized(value: string): string {
@@ -183,15 +252,11 @@ function negativeTypeConflicts(
   const sourceTypes = [...new Set([...(types ?? []), ...(primaryType ? [primaryType] : [])]
     .map((value) => normalized(value.replace(/_/g, " ")))
     .filter((value) => value && !["restaurant", "cafe", "food"].includes(value)))];
-  const typeScoped = (criteria ?? []).filter((criterion) => /\b(restaurants?|cuisines?|dining type)\b/i.test(criterion));
   const result = { verified: [] as string[], violated: [] as string[], judgments: [] as string[] };
-  for (const criterion of typeScoped) {
-    const criterionTerms = normalized(criterion).split(/[^\p{L}\p{N}]+/u).filter((term) => term.length > 2 && !["restaurant", "cuisine", "dining", "type"].includes(term));
-    if (criterionTerms.length === 0) continue;
-    const matchingType = sourceTypes.find((sourceType) => {
-      const terms = new Set(sourceType.split(/[^\p{L}\p{N}]+/u).filter(Boolean));
-      return criterionTerms.some((term) => terms.has(term));
-    });
+  for (const criterion of criteria ?? []) {
+    const matchingType = sourceTypes.find(type =>
+      (/\b(?:restaurants?|cuisines?|dining type)\b/i.test(criterion) || LIGHT_FOOD_TYPES[type.replace(/ /g, "_")])
+        && excludesCategory(criterion, type.replace(/ /g, "_")));
     if (matchingType) {
       result.violated.push(criterion);
       result.judgments.push(`${criterion}<=${matchingType === normalizedPrimary ? "primaryType" : "types"}:${matchingType}`);
@@ -225,6 +290,7 @@ export function openingHoursForRequest(
   date: string | undefined,
   timeWindow: { earliest: string; latest: string } | undefined,
   timezone: string,
+  timeWindowBasis?: string,
 ): { matches: boolean; window?: string[]; noWindow?: boolean } | undefined {
   if (!descriptions || !date || !timeWindow) return undefined;
   const day = new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: timezone })
@@ -254,8 +320,13 @@ export function openingHoursForRequest(
   // One explicit interval must cover the requested window; adjacent split
   // periods cannot be fused into an invented continuous opening.
   if (!intervals.length) return undefined;
-  const matching = intervals.find(([start, end]) => start <= requestedStart && end > requestedEnd);
-  return matching ? { matches: true, window: [hhmm(requestedStart), hhmm(requestedEnd)], noWindow: false }
+  const daypart = /^(?:DAYPART:EVENING|DAYPART:AFTERNOON|DAYPART:AFTER_WORK(?:_BROAD_WINDOW)?)$/.test(timeWindowBasis ?? "");
+  const matching = intervals.find(([start, end]) => daypart
+    ? Math.max(start, requestedStart) < Math.min(end, requestedEnd)
+    : start <= requestedStart && end > requestedEnd);
+  return matching ? { matches: true, window: daypart
+    ? [hhmm(Math.max(matching[0], requestedStart)), hhmm(Math.min(matching[1], requestedEnd))]
+    : [hhmm(requestedStart), hhmm(requestedEnd)], noWindow: false }
     : { matches: false, noWindow: !priorOverlap && !intervals.some(([start, end]) => start <= requestedEnd && end > requestedStart) };
 }
 
@@ -290,7 +361,7 @@ export interface UntrustedRestaurantWebsiteObservation {
  */
 export function groundRestaurantWebsiteFacts(
   candidate: RestaurantCandidate,
-  intent: Pick<RestaurantSearchIntent, "timezone" | "area" | "criteria" | "date" | "timeWindow">,
+  intent: Pick<RestaurantSearchIntent, "timezone" | "area" | "criteria" | "date" | "timeWindow" | "timeWindowBasis">,
   observation: UntrustedRestaurantWebsiteObservation,
 ): { evidence: RestaurantReadEvidence[]; status: "COMPLETED" | "UNKNOWN"; reasonCode?: string } {
   if (observation.candidateId !== candidate.restaurant.id || observation.entityMatch.confidence !== "HIGH") {
@@ -308,7 +379,7 @@ export function groundRestaurantWebsiteFacts(
   const positive = supportedTypeCriteria(types, intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text));
   const negative = negativeTypeConflicts(types, undefined, intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD").map((item) => item.text));
   const openingHours = intent.date && intent.timeWindow
-    ? openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow, intent.timezone)
+    ? openingHoursForRequest(observation.regularOpeningHours, intent.date, intent.timeWindow, intent.timezone, intent.timeWindowBasis)
     : undefined;
   const commercialTerms = observation.publicCommercialTerms;
   const facts: RestaurantReadEvidence[] = types.length || openingHours !== undefined || commercialTerms !== undefined ? [{
@@ -346,7 +417,7 @@ export function groundGoogleDiscovery(
   if (!observation.placeId?.trim()) return { accepted: false, reasonCode: "GOOGLE_PLACE_ID_MISSING" };
   if (!observation.displayName?.trim()) return { accepted: false, reasonCode: "GOOGLE_NAME_MISSING" };
   if (!observation.formattedAddress?.trim()) return { accepted: false, reasonCode: "GOOGLE_ADDRESS_MISSING" };
-  if (!usableRestaurant(observation)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
+  if (!usableRestaurant(observation,input)) return { accepted: false, reasonCode: "GOOGLE_PLACE_TYPE_UNUSABLE" };
   const areaComponent = matchingAddressComponent(observation, input.areaQuery);
   const geo = googleDiscoveryGeoDiagnostics(observation, input);
   const rawDistanceMeters = geo.distanceMeters;
@@ -404,7 +475,7 @@ export function groundGoogleDiscovery(
   const restaurantTypeFacts = sourceRestaurantTypeFacts(observation);
   const verifiedHardCriteria = supportedTypeCriteria(restaurantTypeFacts, input.requiredTypeCriteria);
   const negativeTypes = negativeTypeConflicts(observation.types, observation.primaryType, input.negativeCriteria);
-  const openingHours = openingHoursForRequest(observation.regularOpeningHours, input.requestedDate, input.requestedTimeWindow, input.timezone);
+  const openingHours = openingHoursForRequest(observation.regularOpeningHours, input.requestedDate, input.requestedTimeWindow, input.timezone, input.requestedTimeWindowBasis);
   const facts: RestaurantReadEvidence[] = restaurantTypeFacts.length || openingHours !== undefined ? [{
     evidenceId: evidenceId("google-facts", { placeId: observation.placeId, observedAt: input.observedAt, verifiedHardCriteria, openingHours }),
     kind: "RESTAURANT_FACT",

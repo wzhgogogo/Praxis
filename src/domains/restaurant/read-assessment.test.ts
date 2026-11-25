@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import type { RestaurantEvent, RestaurantReadEvidence, RestaurantTaskState } from "./contracts.js";
+import { restaurantAvailabilityRequestFingerprint, type RestaurantEvent, type RestaurantReadEvidence, type RestaurantTaskState } from "./contracts.js";
 import { restaurantBookingTaskDefinition } from "./task-definition.js";
-import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { assessRestaurantConditions } from "./condition-states.js";
 
 // Local construction, 2026-10-29: event order and source observations are
@@ -84,7 +84,7 @@ for (const row of [
     assert.equal(Boolean(check()), row.accepted, row.name);
     assert.equal(projected().status, row.accepted ? "MET" : "NOT_CHECKED", row.name);
     if (!row.accepted) return;
-    assert.deepEqual(projected().sources, source.sourceFieldQuotes, row.name);
+    assert.deepEqual(projected().sources, source.sourceFieldQuotes.map(quote=>({...quote,evidenceId:source.evidenceId})), row.name);
     if (row.field === "NAME") assert.match(projected().explanation, /outlet name/i);
     source.sourceFieldQuotes[0]!.sourceUrl = "https://other-outlet.example/";
     assert.equal(check(), undefined, "a quotation from another page is not source support");
@@ -95,4 +95,32 @@ for (const row of [
     source.sourceExpiresAt = "2026-08-19T07:19:00.000Z";
     assert.equal(check(), undefined, "an expired supporting page cannot qualify a current judgment");
     assert.equal(projected().status, "NOT_CHECKED");
+});
+
+// Source-query inability is not inventory absence, but facts cannot cure it for
+// that same availability request. Other goals/changed requests remain readable.
+for(const mode of ['CURRENT','CHANGED_REQUEST','RECOMMENDATION']as const)test(`party-not-selectable avoids futile fact reads only for the bound availability request: ${mode}`,()=>{
+ const state=base();state.availabilityChecks[candidateId]={status:'UNKNOWN',checkedAt:at,evidenceIds:[],reasonCode:'PARTY_SIZE_NOT_SELECTABLE',requestFingerprint:restaurantAvailabilityRequestFingerprint(intent)};
+ if(mode==='CHANGED_REQUEST')state.intentDraft!.partySize=intent.partySize+1;
+ if(mode==='RECOMMENDATION')state.intentDraft!.target={goal:'RECOMMENDATION',query:'Find a suitable restaurant'};
+ const assessed=assessRestaurantRead(state,at);assert.equal(assessed.factInvestigableCandidateIds.includes(candidateId),mode!=='CURRENT');assert.equal(state.availabilityChecks[candidateId]!.status,'UNKNOWN');
+});
+
+test("recorded MIRAI Friday evening facts qualify at the historical clock after DAYPART re-grounding", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { openingHoursForRequest } = await import("./read-grounding.js");
+  const recorded = JSON.parse(await readFile(new URL("../../harness/fixtures/daypart-mirai-recorded.json", import.meta.url), "utf8"));
+  const state = recorded.state as RestaurantTaskState;
+  const id = state.candidates[0]!.restaurant.id;
+  assert.equal(state.candidates[0]!.restaurant.outletName, "MIRAI SUISAN FISHERIES");
+  assert.equal(restaurantPresentationEvidenceIds(state, id, recorded.provenance.clock), undefined, "original recorded strict hours did not qualify");
+  // Counterfactual re-grounding of the recorded Google hours only, never a new Live result.
+  for (const fact of state.readEvidence.filter(e => e.kind === "RESTAURANT_FACT" && e.provider === "GOOGLE_PLACES")) {
+    const hours = openingHoursForRequest(fact.claims.regularOpeningHours as string[], state.intentDraft!.date, state.intentDraft!.timeWindow, "Asia/Tokyo", state.intentDraft!.temporalResolution!.timeWindow!.basis)!;
+    assert.equal(hours.matches, true);
+    assert.deepEqual(hours.window, ["18:00", "22:00"]);
+    fact.claims.openingHoursMatch = hours.matches;
+    fact.claims.openingHoursMatchedWindow = hours.window!;
+  }
+  assert.ok(restaurantPresentationEvidenceIds(state, id, recorded.provenance.clock), "recorded identity, area and sushi support now satisfy production RECOMMENDATION eligibility");
 });

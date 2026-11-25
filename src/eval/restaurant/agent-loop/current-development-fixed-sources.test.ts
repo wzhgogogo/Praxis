@@ -37,7 +37,7 @@ test("fixed source discovery is candidate-scoped and accepts equivalent retrieva
 test("fixed source keeps inventory with its own candidate and request scope", async () => {
   const sources = createCurrentDevelopmentFixedSources(currentDevelopmentSourceScenario("multi-candidate-control"), { now: () => "2026-08-19T08:00:00.000Z" }, model);
   const discovery = await sources.search.search({ intent, readRunId: "source-inventory" }, new AbortController().signal);
-  const read = await sources.availability.check({
+  const read = await sources.availability.check({ selectionScope:"SPECIFIC_OUTLET",
     candidateIds: discovery.candidates.map((candidate) => candidate.restaurant.id), candidates: discovery.candidates,
     date: "2026-08-20", partySize: 3, timeWindow: { earliest: "12:30", latest: "12:30" }, hardCriteria: ["vegetarian restaurant"],
   }, new AbortController().signal);
@@ -46,7 +46,7 @@ test("fixed source keeps inventory with its own candidate and request scope", as
   assert.equal(read.availabilityChecks[first.restaurant.id]?.status, "UNAVAILABLE");
   assert.equal(read.availabilityChecks[second.restaurant.id]?.status, "AVAILABLE");
   assert.deepEqual(read.offers.map((offer) => offer.restaurantId), [second.restaurant.id], "an available slot cannot be copied to the first candidate");
-  const wrongParty = await sources.availability.check({
+  const wrongParty = await sources.availability.check({ selectionScope:"SPECIFIC_OUTLET",
     candidateIds: [second.restaurant.id], candidates: [second],
     date: "2026-08-20", partySize: 4, timeWindow: { earliest: "12:30", latest: "12:30" }, hardCriteria: ["vegetarian restaurant"],
   }, new AbortController().signal);
@@ -114,7 +114,7 @@ test("independent source identities accept a normalized same outlet and reject a
   sameOutlet.observations[0]!.tableCheck!.address = "1 18 Jinnan Shibuya City Tokyo";
   sameOutlet.observations[0]!.tableCheck!.phone = "+81 3 6000 1006 ext. 1";
   const same = await discoveredCandidate(sameOutlet, "independent-same-outlet");
-  const sameRead = await same.sources.availability.check({
+  const sameRead = await same.sources.availability.check({ selectionScope:"SPECIFIC_OUTLET",
     candidateIds: [same.candidate.restaurant.id], candidates: [same.candidate],
     date: "2026-08-20", partySize: 3, timeWindow: { earliest: "12:30", latest: "12:30" }, hardCriteria: ["vegetarian restaurant"],
   }, new AbortController().signal);
@@ -124,7 +124,7 @@ test("independent source identities accept a normalized same outlet and reject a
   differentBranch.observations[0]!.tableCheck!.address = "9F, 99 Other Building, Shibuya City, Tokyo";
   differentBranch.observations[0]!.tableCheck!.phone = differentBranch.observations[0]!.google.phone;
   const different = await discoveredCandidate(differentBranch, "independent-different-branch");
-  const differentRead = await different.sources.availability.check({
+  const differentRead = await different.sources.availability.check({ selectionScope:"SPECIFIC_OUTLET",
     candidateIds: [different.candidate.restaurant.id], candidates: [different.candidate],
     date: "2026-08-20", partySize: 3, timeWindow: { earliest: "12:30", latest: "12:30" }, hardCriteria: ["vegetarian restaurant"],
   }, new AbortController().signal);
@@ -139,7 +139,7 @@ test("source observation time advances with the controlled business clock while 
   current = "2026-08-19T08:05:00.000Z";
   await sources.google.inspectFacts({ intent, candidateIds: discovery.candidates.map((candidate) => candidate.restaurant.id), candidates: discovery.candidates, readRunId: "clock-facts" }, new AbortController().signal);
   current = "2026-08-19T08:10:00.000Z";
-  const availability = await sources.availability.check({
+  const availability = await sources.availability.check({ selectionScope:"SPECIFIC_OUTLET",
     candidateIds: discovery.candidates.map((candidate) => candidate.restaurant.id), candidates: discovery.candidates,
     date: "2026-08-20", partySize: 3, timeWindow: { earliest: "12:30", latest: "12:30" }, hardCriteria: ["vegetarian restaurant"],
   }, new AbortController().signal);
@@ -147,7 +147,7 @@ test("source observation time advances with the controlled business clock while 
   assert.equal(availability.availabilityChecks[discovery.candidates[0]!.restaurant.id]?.displayExpiresAt, "2026-08-19T08:20:00.000Z", "the display window is derived from the actual availability observation, not the historical fixture capture time");
   assert.deepEqual(
     sources.calls.observations.filter((event) => ["SEARCH", "DETAILS", "AVAILABILITY"].includes(event.stage)).map((event) => [event.stage, event.observedAt]),
-    [["SEARCH", "2026-08-19T08:00:00.000Z"], ["DETAILS", "2026-08-19T08:05:00.000Z"], ["AVAILABILITY", "2026-08-19T08:10:00.000Z"]],
+    [["SEARCH", "2026-08-19T08:00:00.000Z"], ["DETAILS", "2026-08-19T08:05:00.000Z"], ["AVAILABILITY", "2026-08-19T08:10:00.000Z"], ["AVAILABILITY", "2026-08-19T08:10:00.000Z"]],
   );
   assert.equal(sources.calls.observations.find((event) => event.stage === "AVAILABILITY")?.sampleCapturedAt, "2026-08-01T00:00:00.000Z");
 });
@@ -162,7 +162,7 @@ test("a lead found while investigating A may help B only after B's own identity 
   a.google.websiteUri = "https://www.tablecheck.com" + b.tableCheck.reservationEntryPath;
   const sources = createCurrentDevelopmentFixedSources(scenario, { now: () => "2026-08-19T08:00:00.000Z" }, model);
   const discovery = await sources.search.search({ intent, readRunId: "entry-ledger" }, new AbortController().signal);
-  const result = await sources.availability.check({
+  const result = await sources.availability.check({ selectionScope:"SPECIFIC_OUTLET",
     candidateIds: discovery.candidates.map((candidate) => candidate.restaurant.id), candidates: discovery.candidates,
     date: "2026-08-20", partySize: 3, timeWindow: { earliest: "12:30", latest: "12:30" }, hardCriteria: ["vegetarian restaurant"],
   }, new AbortController().signal);

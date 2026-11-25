@@ -1,0 +1,36 @@
+ROUND20_DIAGNOSTIC projection begin
+ROUND20_DIAGNOSTIC reloaded
+ROUND20_DIAGNOSTIC projection ready
+ROUND20_DIAGNOSTIC before data
+ROUND20_DIAGNOSTIC before emit
+ROUND20_DIAGNOSTIC emitted
+ROUND20_DIAGNOSTIC equivalence
+ROUND20_DIAGNOSTIC geometry {"availabilityJustify":"space-between","conditionJustify":"space-between","availabilityRight":353,"conditionRight":353,"aboutRight":353,"gap":16,"margin":"16px","bottom":"2px"}
+ROUND20_DIAGNOSTIC layout done
+ROUND20_DIAGNOSTIC domains done
+ROUND20_DIAGNOSTIC names ["Source page","ginzano.jp","New provider","Tabelog","TableCheck"]
+ROUND20_DIAGNOSTIC about done
+✖ Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries (1736.698459ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2417.527084
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:28419
+✖ Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries (1736.698459ms)
+  [AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    getComputedStyle(condition)
+  ] {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

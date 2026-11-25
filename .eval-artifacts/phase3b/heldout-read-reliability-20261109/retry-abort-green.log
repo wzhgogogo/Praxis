@@ -1,0 +1,17 @@
+DOCUMENT_ATTEMPTS {"mode":"ZERO_SUCCESS","requests":2,"elapsedMs":10119.846667,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":10012,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":1,"retryCount":0,"event":"ZERO_BYTE_TIMEOUT","elapsedMs":10012,"receivedBodyBytes":0,"bytesObserved":true,"resourceType":"document"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":10019,"receivedBodyBytes":0,"bytesObserved":true},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":10019,"attemptTimeoutMs":9980},{"attempt":2,"retryCount":1,"event":"SUCCEEDED","elapsedMs":10046,"receivedBodyBytes":49,"bytesObserved":true,"status":200}]}
+✔ document zero-byte retry boundary: ZERO_SUCCESS (10255.262958ms)
+LOCAL_ENTRY_FAILURE BrowserRuntimeError: Local Playwright Chromium operation failed Error: page.goto: net::ERR_BLOCKED_BY_CLIENT at http://127.0.0.1:55957/detail?observed=one
+Call log:
+[2m  - navigating to "http://127.0.0.1:55957/detail?observed=one", waiting until "domcontentloaded"[22m
+ [{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":3}]
+DOCUMENT_ATTEMPTS {"mode":"GUARD_BLOCKED","requests":0,"elapsedMs":29.556957999999213,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0,"attemptTimeoutMs":10000},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":3}]}
+✔ document zero-byte retry boundary: GUARD_BLOCKED (129.340625ms)
+✔ recorded timeout component resumes source interpretation: 02-r1 (10371.856958ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10725.369292

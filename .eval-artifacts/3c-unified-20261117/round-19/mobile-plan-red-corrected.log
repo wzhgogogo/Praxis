@@ -1,0 +1,25 @@
+✖ Round19 UI: mobile other-plan restores only unresolved Case reconfirmation (9911.244833ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10895.988916
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67777
+✖ Round19 UI: mobile other-plan restores only unresolved Case reconfirmation (9911.244833ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+  
+      at assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1349:10)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible" ]
+  }

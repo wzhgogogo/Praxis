@@ -1,0 +1,12 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/domains/restaurant/relative-date-binding.ts(161,54): error TS2322: Type '(RestaurantSemanticFact | { field: "AREA" | "BUDGET_PER_PERSON" | "CRITERION" | "DATE" | "PARTY_SIZE" | "TARGET" | "TIME_WINDOW"; operation: "ASSERT" | "CONFIRM" | "CORRECT" | "NEGATE"; value: { ...; }; })[]' is not assignable to type 'RestaurantSemanticFact[]'.
+  Type 'RestaurantSemanticFact | { field: "AREA" | "BUDGET_PER_PERSON" | "CRITERION" | "DATE" | "PARTY_SIZE" | "TARGET" | "TIME_WINDOW"; operation: "ASSERT" | "CONFIRM" | "CORRECT" | "NEGATE"; value: { ...; }; }' is not assignable to type 'RestaurantSemanticFact' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+    Type '{ field: RestaurantSemanticField; operation: RestaurantSemanticOperation; value: { kind: string; raw: string; relativeOffsetDays: number; }; }' is not assignable to type 'RestaurantSemanticFact'.
+      Types of property 'value' are incompatible.
+        Type '{ kind: string; raw: string; relativeOffsetDays: number; }' is not assignable to type 'RestaurantSemanticValue'.
+          Type '{ kind: string; raw: string; relativeOffsetDays: number; }' is not assignable to type '{ kind: "DATE"; relativeOffsetDays: number; raw: string; }'.
+            Types of property 'kind' are incompatible.
+              Type 'string' is not assignable to type '"DATE"'.

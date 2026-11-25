@@ -1,0 +1,66 @@
+✖ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (723.88875ms)
+✖ Round16 first semantic preparation Stop cancels with zero source calls (478.900083ms)
+✖ Round16 old prepared refresh never claims replacement preparation handle (472.327417ms)
+✖ Round16 About question preparing Stop returns HTTP 200 and zero question sources (500.528416ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12782.3415
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:14174
+✖ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (723.88875ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:15405
+✖ Round16 first semantic preparation Stop cancels with zero source calls (478.900083ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:16349
+✖ Round16 old prepared refresh never claims replacement preparation handle (472.327417ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:18037
+✖ Round16 About question preparing Stop returns HTTP 200 and zero question sources (500.528416ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

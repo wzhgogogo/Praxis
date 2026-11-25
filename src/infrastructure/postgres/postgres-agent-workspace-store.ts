@@ -226,13 +226,16 @@ export class PostgresAgentWorkspaceStore {
       createdAt: toIsoString(row.created_at),
     }));
   }
-  async hasUnpromptedBookingDeparture(conversationId:string):Promise<boolean> {
-    const result=await this.database.query<{available:boolean}>(`SELECT EXISTS (
-      SELECT 1 FROM restaurant_booking_departures WHERE conversation_id=$1
-    ) AND NOT EXISTS (
-      SELECT 1 FROM restaurant_booking_departures WHERE conversation_id=$1 AND prompted_at IS NOT NULL
-    ) AS available`,[conversationId]);
-    return result.rows[0]?.available===true;
+  async hasUnpromptedBookingDeparture(conversationId: string): Promise<boolean> {
+    const result = await this.database.query<{ available: boolean }>(
+      `SELECT prompted_at IS NULL AS available
+       FROM restaurant_booking_departures
+       WHERE conversation_id = $1
+       ORDER BY departed_at DESC, id DESC
+       LIMIT 1`,
+      [conversationId],
+    );
+    return result.rows[0]?.available === true;
   }
   async recordBookingDeparture(input:{userId:string;caseId:string;expectedVersion:number;requestId:string;candidateId:string;offerId:string;provider:"TABELOG"|"TABLECHECK";now:string}):Promise<BookingDepartureReceipt> {
     return this.database.transaction(async transaction=>{
@@ -249,15 +252,22 @@ export class PostgresAgentWorkspaceStore {
       return departure(result.rows[0]!,input.caseId);
     });
   }
-  async claimBookingFeedback(userId:string,caseId:string,now:string):Promise<BookingDepartureReceipt|undefined> {
-    return this.database.transaction(async transaction=>{
-      const record=await lockBookingCase(transaction,userId,caseId);
-      const asked=await transaction.query(`SELECT id FROM restaurant_booking_departures WHERE conversation_id=$1 AND prompted_at IS NOT NULL`,[record.id]);
-      if(asked.rows.length)return undefined;
-      const latest=await transaction.query<DepartureRow>(`SELECT * FROM restaurant_booking_departures WHERE conversation_id=$1 ORDER BY departed_at DESC,id DESC LIMIT 1`,[record.id]);
-      if(!latest.rows[0])return undefined;
-      const claimed=await transaction.query<DepartureRow>(`UPDATE restaurant_booking_departures SET prompted_at=$2 WHERE id=$1 AND prompted_at IS NULL RETURNING *`,[latest.rows[0].id,now]);
-      return claimed.rows[0] ? departure(claimed.rows[0],caseId) : undefined;
+  async claimBookingFeedback(userId: string, caseId: string, now: string): Promise<BookingDepartureReceipt | undefined> {
+    return this.database.transaction(async transaction => {
+      const record = await lockBookingCase(transaction, userId, caseId);
+      const claimed = await transaction.query<DepartureRow>(
+        `UPDATE restaurant_booking_departures
+         SET prompted_at = $2
+         WHERE id = (
+           SELECT id FROM restaurant_booking_departures
+           WHERE conversation_id = $1
+           ORDER BY departed_at DESC, id DESC
+           LIMIT 1
+         ) AND prompted_at IS NULL
+         RETURNING *`,
+        [record.id, now],
+      );
+      return claimed.rows[0] ? departure(claimed.rows[0], caseId) : undefined;
     });
   }
   async answerBookingFeedback(input:{userId:string;caseId:string;departureId:string;answer:BookingFeedbackAnswer;now:string}):Promise<BookingDepartureReceipt> {

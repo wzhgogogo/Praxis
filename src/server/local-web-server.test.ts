@@ -1,3 +1,8 @@
+import type { EventEnvelope } from "../core/task-runtime/contracts.js";
+import type { RestaurantEvent } from "../domains/restaurant/contracts.js";
+import { projectRestaurantAgentContext } from "../domains/restaurant/agent-context.js";
+import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
+import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
 import {fixtureGetRuntime} from "../harness/fixtures/observed-get-session.js";
 import {scriptedBrowserObservation} from "../harness/fixtures/restaurant-observation-model.js";
 import { prepareBookingHandoff, type BookingHandoffContext, type BookingHandoffSource, type PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
@@ -320,12 +325,12 @@ async function withinTestTimeout<T>(promise: Promise<T>, label: string, timeoutM
   }
 }
 
-function availabilityProposal(partySize?: number): RestaurantSemanticProposal {
+function availabilityProposal(partySize?: number, rawDate = "2026-08-09"): RestaurantSemanticProposal {
   return {
     schemaVersion: "4",
     facts: [
       { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT" as const, reason: "Controlled fixture target.", quotes: ["find"] }, kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
-      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "tomorrow" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: rawDate } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7pm" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shibuya" } },
       ...(partySize === undefined ? [] : [{ field: "PARTY_SIZE" as const, operation: "ASSERT" as const, value: { kind: "PARTY_SIZE" as const, value: partySize, source: "EXPLICIT" as const } }]),
@@ -337,7 +342,8 @@ class MessageProposalInterpreter implements RestaurantSemanticInterpreterPort {
   async interpret(input: { message: string }): ReturnType<RestaurantSemanticInterpreterPort["interpret"]> {
     const proposal = input.message === "recommendation"
       ? { schemaVersion: "4" as const, facts: [{ field: "TARGET" as const, operation: "ASSERT" as const, value: { goalBasis: { type: "JUDGMENT" as const, reason: "Controlled fixture target.", quotes: ["recommend"] }, kind: "TARGET" as const, goal: "RECOMMENDATION" as const, query: "recommend a cafe" } }] }
-      : input.message === "explicit" ? availabilityProposal(4) : availabilityProposal();
+      : input.message === "explicit on 2026-08-09" ? availabilityProposal(4) : availabilityProposal();
+    if (!input.message.includes("2026-08-09")) proposal.facts = proposal.facts.filter(fact => fact.field !== "DATE");
     return { status: "PROPOSED", proposal, attempts: [] };
   }
 }
@@ -428,6 +434,7 @@ function selectionSessionFixture(
   calls: { search: number; facts: number; availability: number },
   paginated = false,
   initiallyUnverifiedCandidateIds: readonly string[] = [],
+  openingHoursMatch = false,
 ): RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort {
   const candidates: RestaurantCandidate[] = ["a", "b", "c", "d", "e", "f"].map((id) => ({
     restaurant: { id, outletName: `Session Restaurant ${id.toUpperCase()}`, address: "Shinjuku, Tokyo", sourceIds: { googlePlaces: `place-${id}` }, provenance: {} },
@@ -439,7 +446,7 @@ function selectionSessionFixture(
     return [
       { evidenceId: `area:${id}`, kind: "DISCOVERY" as const, provider: "GOOGLE_PLACES" as const, candidateId: id, sourceEntityId, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "session", claims: { areaQuery: "Shinjuku", areaMatch: true } },
       { evidenceId: `identity:${id}`, kind: "ENTITY_MATCH" as const, provider: "GOOGLE_PLACES" as const, candidateId: id, sourceEntityId, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "session", claims: {}, entityMatch: { confidence: "HIGH" as const, matchedBy: ["FIXTURE"] } },
-      { evidenceId: `fact:${id}`, kind: "RESTAURANT_FACT" as const, provider: "GOOGLE_PLACES" as const, candidateId: id, sourceEntityId, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "session", claims: {} },
+      { evidenceId: `fact:${id}`, kind: "RESTAURANT_FACT" as const, provider: "GOOGLE_PLACES" as const, candidateId: id, sourceEntityId, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "session", claims: openingHoursMatch ? {openingHoursMatch:true} : {} },
     ];
   });
   return {
@@ -484,7 +491,7 @@ function selectionSessionFixture(
   };
 }
 
-function selectionSessionModel(calls: { model: number }, supportsConditionRevision = false): ModelGateway {
+function selectionSessionModel(calls: { model: number }, supportsConditionRevision = false, completeVisit = false): ModelGateway {
   return {
     async complete(request) {
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
@@ -505,6 +512,11 @@ function selectionSessionModel(calls: { model: number }, supportsConditionRevisi
           outputText: JSON.stringify({ schemaVersion: "4", facts: [
             { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants", selectionScope: "OPEN_ENDED" } },
             { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shinjuku" } },
+            ...(completeVisit ? [
+              { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-18", raw: "2026-09-18" } },
+              { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "20:00", raw: "19:00–20:00" } },
+              { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "EXPLICIT" } },
+            ] : []),
           ] }), finishReason: "TOOL_CALLS", latencyMs: 0,
         };
       }
@@ -516,7 +528,7 @@ function selectionSessionModel(calls: { model: number }, supportsConditionRevisi
       };
       return context.candidates.length === 0
         ? strictFixtureAction("SEARCH_RESTAURANTS")
-        : context.resultBatchTarget && context.legalActions.presentResults.length < context.resultBatchTarget.candidateCount
+        : context.legalActions.presentResults.length < (context.resultBatchTarget?.candidateCount ?? 1)
           ? context.legalActions.investigateCandidateFacts.length > 0
             ? strictFixtureAction("INVESTIGATE_CANDIDATE_FACTS", context.legalActions.investigateCandidateFacts.slice(0, 3))
             : strictFixtureAction("SEARCH_RESTAURANTS")
@@ -531,8 +543,13 @@ test("Stage 2B serves the fixture workspace and rejects unauthenticated case acc
     try {
       const response = await fetch(running.baseUrl);
       assert.equal(response.status, 200);
+      assert.equal(response.headers.get("cache-control"), "no-store");
       const page = await response.text();
-      assert.match(page, /Fixture only/i);
+      assert.match(page, /type="module" src="\/assets\/workspace\/entry.js"/);
+      const module = await fetch(running.baseUrl + "/assets/workspace/views.js");
+      assert.equal(module.status, 200);
+      assert.match(module.headers.get("content-type")!, /javascript/);
+      assert.match(await module.text(), /Fixture only/i);
       const unauthorized = await fetch(`${running.baseUrl}/api/cases`);
       assert.equal(unauthorized.status, 401);
     } finally {
@@ -544,14 +561,14 @@ test("Stage 2B serves the fixture workspace and rejects unauthenticated case acc
 test("H002 persistent Runtime preserves explicit or inferred party size and safely asks when the supplement is unknown or fails", async () => {
   await withDatabase(async ({ database, clock }) => {
     const resolver = new MessagePartySupplementResolver((message) => {
-      if (message === "relational") {
+      if (message === "relational on 2026-08-09") {
         return {
           status: "RESOLVED",
           partySize: 3,
           attempts: [{ invocationId: "supplement-relational", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
         };
       }
-      if (message === "unknown") {
+      if (message === "unknown on 2026-08-09") {
         return {
           status: "UNKNOWN",
           attempts: [{ invocationId: "supplement-unknown", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
@@ -566,22 +583,22 @@ test("H002 persistent Runtime preserves explicit or inferred party size and safe
     });
     try {
       const cookie = await login(running.baseUrl, "token-a");
-      const explicit = await createCase(running.baseUrl, cookie, "h002-explicit", "explicit");
+      const explicit = await createCase(running.baseUrl, cookie, "h002-explicit", "explicit on 2026-08-09");
       assert.equal(explicit.restaurant.intentDraft?.partySize, 4);
       assert.equal(explicit.restaurant.intentDraft?.partySizeSource, "EXPLICIT");
       assert.deepEqual(resolver.messages, [], "T1 primary explicit party must not call the supplement");
 
-      const relational = await createCase(running.baseUrl, cookie, "h002-relational", "relational");
+      const relational = await createCase(running.baseUrl, cookie, "h002-relational", "relational on 2026-08-09");
       assert.equal(relational.restaurant.intentDraft?.partySize, 3);
       assert.equal(relational.restaurant.intentDraft?.partySizeSource, "INFERRED_CLOSED_PARTY");
-      assert.deepEqual(resolver.messages, ["relational"], "T2 closed-party result is applied once by the real Runtime");
+      assert.deepEqual(resolver.messages, ["relational on 2026-08-09"], "T2 closed-party result is applied once by the real Runtime");
 
-      const unknown = await createCase(running.baseUrl, cookie, "h002-unknown", "unknown");
+      const unknown = await createCase(running.baseUrl, cookie, "h002-unknown", "unknown on 2026-08-09");
       assert.equal(unknown.case.phase, "NEEDS_INPUT");
       assert.equal(unknown.restaurant.intentDraft?.partySize, undefined);
       assert.ok(unknown.restaurant.missingRequiredFields.includes("partySize"), "T4 UNKNOWN remains a user-input requirement");
 
-      const failed = await createCase(running.baseUrl, cookie, "h002-failed", "failure");
+      const failed = await createCase(running.baseUrl, cookie, "h002-failed", "failure on 2026-08-09");
       assert.equal(failed.case.phase, "NEEDS_INPUT");
       assert.equal(failed.restaurant.intentDraft?.partySize, undefined);
       assert.ok(failed.restaurant.missingRequiredFields.includes("partySize"), "T5 model failure must not invent a party size");
@@ -593,11 +610,11 @@ test("H002 persistent Runtime preserves explicit or inferred party size and safe
       assert.equal(revised.response.status, 200, String(revised.payload.error));
       const revisedView = revised.payload.view as RestaurantCaseView;
       assert.equal(revisedView.restaurant.intentDraft?.partySize, 4, "a later omitted party must not overwrite the current Draft");
-      assert.deepEqual(resolver.messages, ["relational", "unknown", "failure"], "existing party suppresses a second supplement invocation");
+      assert.deepEqual(resolver.messages, ["relational on 2026-08-09", "unknown on 2026-08-09", "failure on 2026-08-09"], "existing party suppresses a second supplement invocation");
 
       const recommendation = await createCase(running.baseUrl, cookie, "h002-recommendation", "recommendation");
       assert.equal(recommendation.restaurant.intentDraft?.target?.goal, "RECOMMENDATION");
-      assert.deepEqual(resolver.messages, ["relational", "unknown", "failure"], "T6 recommendation requests never invoke party supplementation");
+      assert.deepEqual(resolver.messages, ["relational on 2026-08-09", "unknown on 2026-08-09", "failure on 2026-08-09"], "T6 recommendation requests never invoke party supplementation");
     } finally {
       await running.close();
     }
@@ -614,7 +631,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
     const secondCall = new Promise<void>((resolve) => { secondResolverCall = resolve; });
     let relationalCalls = 0;
     const resolver = new MessagePartySupplementResolver(async (message) => {
-      if (message === "initial") {
+      if (message === "initial on 2026-08-09") {
         return {
           status: "UNKNOWN",
           attempts: [{ invocationId: "supplement-initial", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
@@ -640,8 +657,10 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
     });
     try {
       const cookie = await login(running.baseUrl, "token-a");
-      const initial = await createCase(running.baseUrl, cookie, "h002-duplicate-create", "initial");
+      const initial = await createCase(running.baseUrl, cookie, "h002-duplicate-create", "initial on 2026-08-09");
       assert.equal(initial.case.phase, "NEEDS_INPUT");
+      let readsFinished = 0;
+      running.application.subscribeReadFinished(() => { readsFinished++; });
       const inFlight = (running.application as unknown as { applyingUserMessages: Map<string, Promise<unknown>> }).applyingUserMessages;
       const originalGet = inFlight.get.bind(inFlight);
       let secondJoinedGuard: (() => void) | undefined;
@@ -666,12 +685,12 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       // guarded second Promise marks itself only if submitMessage actually
       // awaits the already-registered work; a bypass instead reaches the
       // resolver and is independently observable below.
-      const first = running.application.submitMessage({
-        userId: "user-a", conversationId: initial.conversation.id, message: "relational", requestId: "h002-duplicate-submit", expectedVersion: initial.case.taskVersion,
-      });
-      const duplicate = running.application.submitMessage({
-        userId: "user-a", conversationId: initial.conversation.id, message: "relational", requestId: "h002-duplicate-submit", expectedVersion: initial.case.taskVersion,
-      });
+      const messagePath = `/api/conversations/${encodeURIComponent(initial.conversation.id)}/messages`;
+      const originalRequest = { method: "POST", body: JSON.stringify({
+        message: "relational on 2026-08-09", requestId: "h002-duplicate-submit", taskVersion: initial.case.taskVersion,
+      }) };
+      const first = api(running.baseUrl, cookie, messagePath, originalRequest);
+      const duplicate = api(running.baseUrl, cookie, messagePath, originalRequest);
       await withinTestTimeout(entered, "one simultaneous duplicate submission to enter the supplement");
       const path = await withinTestTimeout(
         Promise.race([
@@ -684,45 +703,106 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       release?.();
       const settled = await withinTestTimeout(Promise.allSettled([first, duplicate]), "duplicate user messages to settle");
       assert.equal(path, "JOINED_GUARD", "a second resolver call proves duplicate delivery escaped the in-flight guard");
-      assert.ok(settled.every((result) => result.status === "fulfilled"), "both duplicate deliveries must resolve from the one durable event");
-      const firstView = settled[0].status === "fulfilled" ? settled[0].value : undefined;
-      assert.deepEqual(resolver.messages, ["initial", "relational"], "concurrent delivery shares one in-flight supplement");
+      assert.ok(settled.every(result => result.status === "fulfilled" && result.value.response.status === 200),
+        "both concurrent HTTP deliveries must resolve from one durable event");
+      const firstView = settled[0].status === "fulfilled" ? settled[0].value.payload.view as RestaurantCaseView : undefined;
+      assert.deepEqual(resolver.messages, ["initial on 2026-08-09", "relational on 2026-08-09"], "concurrent delivery shares one in-flight supplement");
       assert.equal(firstView?.restaurant.intentDraft?.partySize, 2);
-      await running.application.submitMessage({
-        userId: "user-a", conversationId: initial.conversation.id, message: "relational", requestId: "h002-duplicate-submit", expectedVersion: firstView!.case.taskVersion,
-      });
-      assert.deepEqual(resolver.messages, ["initial", "relational"], "a completed message retry is idempotent");
+      const retried = await api(running.baseUrl, cookie, messagePath, originalRequest);
+      assert.equal(retried.response.status, 200);
+      assert.equal((retried.payload.view as RestaurantCaseView).case.taskVersion, firstView!.case.taskVersion);
+      const events = (await running.application.exportReadArtifact(initial.case.caseId)).events as Array<{trace:{actor:string},event:{type:string}}>;
+      assert.equal(events.filter(e => e.trace.actor === "USER").length, 2, "one create and one accepted user message");
+      assert.equal(readsFinished,1,"the concurrent deliveries and durable retry share one read");
+      assert.deepEqual(resolver.messages, ["initial on 2026-08-09", "relational on 2026-08-09"], "a completed message retry is idempotent");
       const persisted = await running.application.getCase("user-a", initial.case.caseId);
       assert.equal(persisted.restaurant.intentDraft?.partySize, 2, "the persisted replay result remains authoritative");
     } finally {
       await running.close();
     }
 
-    const refreshResolver = new MessagePartySupplementResolver(() => ({
-      status: "MODEL_FAILURE", errorCode: "NETWORK", retryable: false, attempts: [],
-    }));
-    const refreshCalls = { model: 0, search: 0, facts: 0, availability: 0 };
-    const refreshModel = new RunBoundedModelGateway(selectionSessionModel(refreshCalls), 50, 500_000);
-    const refreshServer = await startServer(database, clock, {
-      partySizeSupplementResolver: refreshResolver,
-      restaurant: selectionSessionFixture(refreshCalls),
-      model: refreshModel,
-      modelRunBudget: refreshModel,
-    });
-    try {
-      const cookie = await login(refreshServer.baseUrl, "token-a");
-      const created = await createCase(refreshServer.baseUrl, cookie, "h002-refresh", "Recommend restaurants in Shinjuku.");
-      assert.equal(refreshResolver.messages.length, 0, "a recommendation request suppresses supplementation");
-      assert.equal(created.case.phase, "PRESENT_RESULTS");
-      const refreshed = await api(refreshServer.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/refresh`, {
-        method: "POST",
-        body: JSON.stringify({ requestId: "h002-refresh-action", taskVersion: created.case.taskVersion }),
+    for (const completeVisit of [false, true]) {
+      const refreshResolver = new MessagePartySupplementResolver(() => ({
+        status: "MODEL_FAILURE", errorCode: "NETWORK", retryable: false, attempts: [],
+      }));
+      const refreshCalls = { model: 0, search: 0, facts: 0, availability: 0 };
+      const refreshModel = new RunBoundedModelGateway(selectionSessionModel(refreshCalls, false, completeVisit), 50, 500_000);
+      const restaurant = selectionSessionFixture(refreshCalls, completeVisit, [], completeVisit);
+      const inspect = restaurant.inspectFacts.bind(restaurant);
+      let pending: RestaurantTaskState | undefined;
+      restaurant.inspectFacts = async (...args) => {
+        pending ??= ((await refreshServer.application.exportReadArtifact(caseId)).finalSnapshot as {domainState:RestaurantTaskState}).domainState;
+        return inspect(...args);
+      };
+      let caseId: string;
+      const refreshServer = await startServer(database, clock, {
+        partySizeSupplementResolver: refreshResolver,
+        restaurant,
+        model: refreshModel,
+        modelRunBudget: refreshModel,
       });
-      assert.equal(refreshed.response.status, 200, String(refreshed.payload.error));
-      assert.equal(refreshResolver.messages.length, 0, "availability refresh never re-interprets or supplements the original request");
-      assert.ok((refreshModel.usage(created.case.caseId)?.calls ?? 0) > 0, "a direct refresh owns a fresh bounded model scope rather than borrowing the completed message run");
-    } finally {
-      await refreshServer.close();
+      try {
+        const cookie = await login(refreshServer.baseUrl, "token-a");
+        const created = await createCase(refreshServer.baseUrl, cookie, `h002-refresh-${completeVisit}`,
+          completeVisit ? "Recommend restaurants in Shinjuku for two on 2026-09-18 from 19:00 to 20:00." : "Recommend restaurants in Shinjuku.");
+        caseId = created.case.caseId;
+        assert.equal(refreshResolver.messages.length, 0, "a recommendation request suppresses supplementation");
+        assert.equal(created.case.phase, "PRESENT_RESULTS");
+        const refreshed = await api(refreshServer.baseUrl, cookie, `/api/cases/${encodeURIComponent(created.case.caseId)}/refresh`, {
+          method: "POST",
+          body: JSON.stringify({ requestId: "h002-refresh-action", taskVersion: created.case.taskVersion }),
+        });
+        assert.equal(refreshed.response.status, 200, String(refreshed.payload.error));
+        const view = refreshed.payload.view as RestaurantCaseView;
+        assert.equal(view.case.phase, "PRESENT_RESULTS");
+        assert.deepEqual(view.restaurant.presentedCandidateIds, ["a","b","c"]);
+        assert.equal(refreshCalls.facts, 3, "one refresh reads all three original targets");
+        assert.equal(refreshCalls.availability, 0);
+        const execution = await refreshServer.application.exportReadArtifact(created.case.caseId);
+        const events = (execution.events as Array<{event:{type:string,candidateIds?:string[],request?:{candidateIds:string[]}}}>).map(e => e.event);
+        assert.deepEqual(events.filter(e => e.type === "CANDIDATE_FACTS_REFRESH_REQUESTED").map(e => e.candidateIds), [["a","b","c"]]);
+        assert.deepEqual(events.filter(e => e.type === "CANDIDATE_FACTS_CHECKED").flatMap(e => e.request!.candidateIds), ["a","b","c"]);
+        assert.ok(pending);
+        const now = clock.now().toISOString();
+        const context = projectRestaurantAgentContext(pending, now);
+        assert.equal(context.searchAvailability.available, false);
+        assert.equal(context.legalActions.search, false);
+        assert.deepEqual(context.legalActions.checkAvailability, []);
+        assert.deepEqual(context.legalActions.presentResults, []);
+        assert.deepEqual(context.legalActions.investigateCandidateFacts, ["a","b","c"]);
+        const targetPresentation = context.presentation.filter(item => ["a","b","c"].includes(item.candidateId));
+        assert.equal(targetPresentation.length,3);
+        assert.ok(targetPresentation.every(item => !item.eligible && !item.recheckReason));
+        assert.equal(context.legalActions.endRead,false);
+        if (!completeVisit) {
+          assert.ok(context.presentation.some(item => item.candidateId === "d" && item.eligible));
+          assert.equal(validateRestaurantAction(pending,{type:"INVESTIGATE_CANDIDATE_FACTS",candidateIds:["d"]},now).status,"REJECTED");
+        }
+        if (completeVisit) {
+          assert.equal(pending.searchContinuation?.exhausted, false);
+          assert.ok(pending.searchContinuation?.nextPageToken);
+          assert.equal(pending.intentDraft?.date, "2026-09-18");
+          assert.equal(pending.intentDraft?.partySize, 2);
+          assert.deepEqual(pending.intentDraft?.timeWindow, {earliest:"19:00",latest:"20:00"});
+          assert.deepEqual(pending.availabilityChecks, {});
+          const {factRefreshRequestedCandidateIds: _, ...ordinary} = pending;
+          assert.deepEqual(assessRestaurantRead(ordinary, now).checkableCandidateIds, ["a","b","c"]);
+          assert.equal(projectRestaurantAgentContext(ordinary, now).legalActions.search, true);
+        }
+        for (const action of [
+          {type:"SEARCH_RESTAURANTS"},
+          {type:"CHECK_AVAILABILITY",candidateIds:["a"]},
+          {type:"PRESENT_RESULTS",candidateIds:["a"]},
+        ] as const) {
+          const input = "candidateIds" in action ? {...action,candidateIds:[...action.candidateIds]} : action;
+          assert.equal(validateRestaurantAction(pending, input, now).status, "REJECTED", action.type);
+        }
+        assert.equal(validateRestaurantAction(pending,{type:"INVESTIGATE_CANDIDATE_FACTS",candidateIds:["a","b","c"]},now).status,"ALLOWED");
+        assert.equal(refreshResolver.messages.length, 0, "availability refresh never re-interprets or supplements the original request");
+        assert.ok((refreshModel.usage(created.case.caseId)?.calls ?? 0) > 0, "a direct refresh owns a fresh bounded model scope rather than borrowing the completed message run");
+      } finally {
+        await refreshServer.close();
+      }
     }
   });
 });
@@ -1004,7 +1084,7 @@ test("W06 Live read creates a recoverable active Case and cancellation reaches t
         running.baseUrl,
         cookie,
         `/api/cases/${encodeURIComponent(created.case.caseId)}/run`,
-        { method: "DELETE" },
+        { method: "DELETE", body: JSON.stringify({readRunId:created.restaurant.sourceReadContext!.runId,taskVersion:created.case.taskVersion}) },
       );
       assert.equal(stopped.response.status, 200);
       const view = stopped.payload.view as RestaurantCaseView;
@@ -1044,7 +1124,7 @@ test("W08 ordinary Web cancellation writes an immutable execution artifact and i
         running.baseUrl,
         cookie,
         `/api/cases/${encodeURIComponent(created.case.caseId)}/run`,
-        { method: "DELETE" },
+        { method: "DELETE", body: JSON.stringify({readRunId:created.restaurant.sourceReadContext!.runId,taskVersion:created.case.taskVersion}) },
       );
       assert.equal(stopped.response.status, 200);
       const files = await readdir(artifactDirectory);
@@ -1784,7 +1864,8 @@ test("G1 async cancellation and newer question discard a late model answer", asy
       assert.equal(old?.status,"UNVERIFIED");assert.equal(old?.reason,"CANCELLED","a late answer cannot restore old success after supersession");
       blockAnswer();await ask("question-cancel",view);
       await withinTestTimeout(modelStarted,"second fixture model answer to block");
-      const cancelled=await server.application.cancelCase("user-a",view.case.caseId);
+      const active=await server.application.getCase("user-a",view.case.caseId);
+      const cancelled=await server.application.cancelCase("user-a",view.case.caseId,{readRunId:active.restaurant.sourceReadContext!.runId,expectedVersion:active.case.taskVersion});
       const result=cancelled.restaurant.pageQuestion!.result!;
       assert.ok(result.status==="UNVERIFIED"&&result.reason==="CANCELLED");
       assert.equal(cancelled.case.phase,"PRESENT_RESULTS","question cancellation does not destroy the displayed batch");
@@ -1842,9 +1923,15 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const cookie=await login(running.baseUrl,"token-a");
       const view=await createCase(running.baseUrl,cookie,"b1-create",message);
       assert.equal(view.case.phase,"PRESENT_RESULTS");
+      const summary=view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)!.content;
+      assert.match(summary,/Found 1 restaurant/);assert.match(summary,/Fixture Sushi/);assert.match(summary,/19:00/);assert.match(summary,/2 guests/);assert.doesNotMatch(summary,/present results/i);
       assert.equal(view.restaurant.bookingHandoffs?.[0]?.url,"https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900");
       assert.equal(view.restaurant.selectedCandidateId,"fixture:outlet");
       const path="/api/cases/"+encodeURIComponent(view.case.caseId);
+      const olderLeave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-older-departure",taskVersion:view.case.taskVersion})});
+      assert.equal(olderLeave.response.status,201);
+      const olderDeparture=olderLeave.payload.departure as {id:string};
+      clock.advance(1);
       const leave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
       assert.equal(leave.response.status,201,"a validated B1 departure must be durable before leaving");
       const departure=leave.payload.departure as {id:string;provenance:string};assert.equal(departure.provenance,"USER_REPORTED");
@@ -1866,7 +1953,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       await running.close();running=await startServer(database,clock);
       const claims=await Promise.all(Array.from({length:4},()=>api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})));
       const shown=claims.map(item=>item.payload.prompt).filter(Boolean) as Array<{question:string;departure:{id:string}}>;
-      assert.equal(shown.length,1,"concurrent clients can claim at most one prompt per Case");
+      assert.equal(shown.length,1,"concurrent clients can only claim the latest departure once");
       assert.equal(shown[0]!.question,"Did you get the booking?");assert.equal(shown[0]!.departure.id,departure.id);
       assert.equal((await api(running.baseUrl,stranger,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).response.status,404);
       await running.close();running=await startServer(database,clock);
@@ -1883,7 +1970,10 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       assert.equal(after.restaurant.bookingFeedbackAvailable,false);
       assert.equal(after.case.taskVersion,before.case.taskVersion);assert.equal(after.case.phase,before.case.phase);
       assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,before.restaurant.selectedCandidateId);
-      const rows=await database.query<{count:string}>("SELECT COUNT(*) AS count FROM restaurant_booking_departures");assert.equal(Number(rows.rows[0]!.count),1);
+      const rows=await database.query<{id:string;prompted_at:unknown}>("SELECT id,prompted_at FROM restaurant_booking_departures ORDER BY departed_at,id");
+      assert.deepEqual(rows.rows.map(row=>row.id),[olderDeparture.id,departure.id]);
+      assert.equal(rows.rows[0]!.prompted_at,null,"claiming the latest receipt must never expose an earlier departure");
+      assert.ok(rows.rows[1]!.prompted_at);
       for(const choice of ["NO","SKIP"] as const){
         await running.close();decision=0;raw.source.observedAt=clock.now().toISOString();
         running=await startServer(database,clock,{restaurant,model,bookingHandoffs:{readPrepared:()=>cached,now:()=>clock.now().toISOString()}});
@@ -1915,7 +2005,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
     const fixture: ModelGateway = {async complete(request) {
       const observed=scriptedBrowserObservation(request);if(observed)return observed;
       let output: unknown;
-      if (request.purpose === "restaurant_semantic_interpret") output = availabilityProposal(2);
+      if (request.purpose === "restaurant_semantic_interpret") output = availabilityProposal(2, "Tomorrow");
       else if (request.purpose === "restaurant_source_facts") output = {selections: []};
       else if (request.purpose === "restaurant_named_source_query") output = {field:"name",fragment:"Fixture Sushi"};
       else {
@@ -2031,5 +2121,198 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
       assert.equal(opens,before,"projection/expiry may not open or re-read a source");
       assert.ok(navigations.length>0);
     }finally{await running.application.stopActiveReads();await running.close();}
+  });
+});
+
+function pausePoint() {
+  let resume!: () => void;
+  const reached = new Promise<void>(resolve => { resume = resolve; });
+  return { reached, resume };
+}
+
+function mutationTestBoundary(application: PersistentRestaurantAgentApplication) {
+  return application as unknown as {
+    cancelActiveRead(record: unknown, prior: unknown, reason: string): Promise<boolean>;
+    runtime: { dispatch(event: EventEnvelope<RestaurantEvent>, version?: number): Promise<{duplicateEvent:boolean}> };
+  };
+}
+
+for (const operation of ["refresh","another-batch"] as const) test(`HTTP stale ${operation} cannot target the next batch after its cancellation preflight`, async () => {
+  await withDatabase(async ({database,clock}) => {
+    const calls = {model:0,search:0,facts:0,availability:0};
+    const running = await startServer(database,clock,{restaurant:selectionSessionFixture(calls),model:selectionSessionModel(calls)});
+    const parked = pausePoint(), release = pausePoint();
+    let stale: ReturnType<typeof api> | undefined;
+    try {
+      const cookie = await login(running.baseUrl,"token-a");
+      const initial = await createCase(running.baseUrl,cookie,"batch-race", "Recommend restaurants in Shinjuku.");
+      assert.deepEqual(initial.restaurant.presentedCandidateIds,["a","b","c"]);
+      const boundary = mutationTestBoundary(running.application);
+      const cancel = boundary.cancelActiveRead.bind(boundary);
+      boundary.cancelActiveRead = async (...args) => {
+        if (args[2].startsWith(operation === "refresh" ? "A refresh" : "A new result batch")) {
+          // Only the first matching request stops, after its final preflight.
+          boundary.cancelActiveRead = cancel;
+          parked.resume();
+          await release.reached;
+        }
+        return cancel(...args);
+      };
+      const endpoint = `/api/cases/${encodeURIComponent(initial.case.caseId)}`;
+      const post = (op: string, requestId: string) => api(running.baseUrl,cookie,endpoint+"/"+op,{
+        method:"POST",body:JSON.stringify({requestId,taskVersion:initial.case.taskVersion}),
+      });
+      stale = post(operation,"stale-operation");
+      await withinTestTimeout(parked.reached,"old operation to finish cancellation preflight");
+      const winner = await post("another-batch","winning-batch");
+      assert.equal(winner.response.status,200,JSON.stringify(winner.payload.error));
+      assert.deepEqual((winner.payload.view as RestaurantCaseView).restaurant.presentedCandidateIds,["d","e","f"]);
+      release.resume();
+      const rejected = await stale;
+      assert.equal(rejected.response.status,409,JSON.stringify(rejected.payload));
+      const events = (await running.application.exportReadArtifact(initial.case.caseId)).events as Array<{trace:{actor:string},event:RestaurantEvent}>;
+      assert.deepEqual(events.filter(e=>e.trace.actor==="USER").map(e=>e.event.type),["SEMANTIC_PROPOSAL_COMPILED","RESULTS_PRESENTED"]);
+      assert.equal(calls.facts,0);
+      assert.equal(calls.availability,0);
+      assert.equal((await post("another-batch","winning-batch")).response.status,200,"use the original version on the durable retry");
+    } finally {
+      release.resume();
+      await stale?.catch(()=>{});
+      await running.close();
+    }
+  });
+});
+
+test("HTTP duplicate refresh crossing the Runtime dispatch boundary starts exactly one read", async () => {
+  await withDatabase(async ({database,clock}) => {
+    const calls = {model:0,search:0,facts:0,availability:0};
+    const running = await startServer(database,clock,{restaurant:selectionSessionFixture(calls),model:selectionSessionModel(calls)});
+    const both = pausePoint(), release = pausePoint();
+    let pending: Array<ReturnType<typeof api>> = [];
+    try {
+      const cookie = await login(running.baseUrl,"token-a");
+      const initial = await createCase(running.baseUrl,cookie,"refresh-runtime-duplicate","Recommend restaurants in Shinjuku.");
+      const runtime = mutationTestBoundary(running.application).runtime;
+      const dispatch = runtime.dispatch.bind(runtime);
+      const results: boolean[] = [];
+      let contenders = 0, messages = 0, finished = 0;
+      const append = running.application.store.appendMessage.bind(running.application.store);
+      running.application.store.appendMessage = async message => {
+        if (message.requestId === "user:duplicate-refresh") messages++;
+        return append(message);
+      };
+      running.application.subscribeReadFinished(() => { finished++; });
+      runtime.dispatch = async (...args) => {
+        if (args[0].event.type !== "CANDIDATE_FACTS_REFRESH_REQUESTED") return dispatch(...args);
+        if (++contenders === 2) both.resume();
+        await release.reached;
+        const result = await dispatch(...args);
+        results.push(result.duplicateEvent);
+        return result;
+      };
+      const post = () => api(running.baseUrl,cookie,`/api/cases/${encodeURIComponent(initial.case.caseId)}/refresh`,{
+        method:"POST",body:JSON.stringify({requestId:"duplicate-refresh",taskVersion:initial.case.taskVersion}),
+      });
+      pending = [post(),post()];
+      await withinTestTimeout(both.reached,"both original requests at the Runtime boundary");
+      release.resume();
+      for (const {response,payload} of await Promise.all(pending)) assert.equal(response.status,200,JSON.stringify(payload.error));
+      assert.equal((await post()).response.status,200,"completed retry uses the original request body");
+      assert.deepEqual(results,[false,true],"one commit and one Runtime duplicate");
+      const events = (await running.application.exportReadArtifact(initial.case.caseId)).events as Array<{event:RestaurantEvent}>;
+      assert.equal(events.filter(e=>e.event.type==="CANDIDATE_FACTS_REFRESH_REQUESTED").length,1);
+      assert.equal(messages,1);
+      assert.equal(finished,1);
+      assert.equal(calls.facts,3);
+      assert.equal(calls.availability,0);
+    } finally {
+      release.resume();
+      await Promise.allSettled(pending);
+      await running.close();
+    }
+  });
+});
+
+for (const finishNaturally of [true,false]) test(`HTTP next G1 question continues after prior G1 ${finishNaturally ? "normal completion" : "cancellation"}`, async () => {
+  await withDatabase(async ({database,clock}) => {
+    const calls = {model:0,search:0,facts:0,availability:0};
+    const readStarted = pausePoint(), complete = pausePoint(), atCancel = pausePoint(), resumeCancel = pausePoint();
+    const seen: string[] = [];
+    let firstAborted = false;
+    const running = await startServer(database,clock,{
+      mode:"LIVE_READ", restaurant:selectionSessionFixture(calls),model:selectionSessionModel(calls),
+      restaurantQuestions:{
+        executionRoute:"STRUCTURED_ADAPTER",
+        async answerQuestion(input,signal) {
+          seen.push(input.question);
+          if (seen.length === 1) {
+            signal.addEventListener("abort", () => { firstAborted = true; complete.resume(); }, {once:true});
+            readStarted.resume();
+            await complete.reached;
+          }
+          return {status:"UNVERIFIED",candidateId:input.candidate.restaurant.id,reason:"NO_BOUND_PAGE",checkedPages:[]};
+        },
+      },
+    });
+    let next: ReturnType<typeof api> | undefined;
+    const idle = async (caseId: string) => {
+      const end = Date.now()+5_000;
+      while (Date.now()<end) {
+        const current = await running.application.getCase("user-a",caseId);
+        if (!current.restaurant.progress.active) return current;
+        await new Promise(resolve=>setTimeout(resolve,10));
+      }
+      throw new Error("Fixture did not become idle");
+    };
+    try {
+      const cookie = await login(running.baseUrl,"token-a");
+      const created = await createCase(running.baseUrl,cookie,"g1-race", "Recommend restaurants in Shinjuku.");
+      const initial = await idle(created.case.caseId);
+      assert.deepEqual(initial.restaurant.presentedCandidateIds,["a","b","c"]);
+      const post = (version: number, requestId: string, question: string) => api(running.baseUrl,cookie,`/api/cases/${encodeURIComponent(initial.case.caseId)}/questions`,{
+        method:"POST",body:JSON.stringify({requestId,taskVersion:version,candidateId:"a",question}),
+      });
+      const first = await post(initial.case.taskVersion,"first-g1","Do you have a terrace?");
+      assert.equal(first.response.status,200,JSON.stringify(first.payload.error));
+      await withinTestTimeout(readStarted.reached,"first G1 reader");
+      const active = await running.application.getCase("user-a",initial.case.caseId);
+      const boundary = mutationTestBoundary(running.application);
+      const dispatch = boundary.runtime.dispatch.bind(boundary.runtime);
+      boundary.runtime.dispatch = async (...args) => {
+        if (args[0].event.type === "PAGE_QUESTION_REQUESTED" && args[0].event.question.requestId === "next-g1") {
+          atCancel.resume();
+          if (finishNaturally) await resumeCancel.reached;
+        }
+        return dispatch(...args);
+      };
+      next = post(active.case.taskVersion,"next-g1","Is there an indoor table?");
+      await withinTestTimeout(atCancel.reached,"following question past preflight");
+      if (finishNaturally) {
+        complete.resume();
+        const completed = await idle(initial.case.caseId);
+        assert.equal(completed.restaurant.pageQuestion?.result?.status,"UNVERIFIED");
+        assert.ok(completed.case.taskVersion>active.case.taskVersion);
+        resumeCancel.resume();
+      }
+      const result = await next;
+      assert.equal(result.response.status,200,JSON.stringify(result.payload.error));
+      const done = await idle(initial.case.caseId);
+      assert.deepEqual(done.restaurant.presentedCandidateIds,["a","b","c"]);
+      assert.equal(done.restaurant.pageQuestion?.requestId,"next-g1");
+      const artifact = await running.application.exportReadArtifact(initial.case.caseId);
+      const events = (artifact.events as Array<{event:RestaurantEvent}>).map(e=>e.event);
+      const oldCompletion = events.find(e=>e.type==="PAGE_QUESTION_COMPLETED"&&e.requestId==="first-g1");
+      assert.equal(oldCompletion?.type==="PAGE_QUESTION_COMPLETED" && oldCompletion.result.status==="UNVERIFIED" && oldCompletion.result.reason,
+        finishNaturally ? "NO_BOUND_PAGE" : "CANCELLED");
+      assert.equal(firstAborted,!finishNaturally);
+      assert.equal((await post(active.case.taskVersion,"next-g1","Is there an indoor table?")).response.status,200);
+      assert.deepEqual(seen,["Do you have a terrace?","Is there an indoor table?"]);
+    } finally {
+      complete.resume();
+      resumeCancel.resume();
+      await next?.catch(()=>{});
+      await running.application.stopActiveReads();
+      await running.close();
+    }
   });
 });

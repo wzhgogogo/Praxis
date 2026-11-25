@@ -2,12 +2,14 @@ import type { ModelGateway } from "../../core/model/contracts.js";
 import type { DiscoveryPackMetadata, DiscoveryQuery } from "../../domains/restaurant/discovery-planner.js";
 import type { GroundedAvailability, UntrustedProviderAvailabilityObservation } from "../../domains/restaurant/read-grounding.js";
 import { groundTabelogAvailability, groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
-import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantOutlet, RestaurantReadEvidenceProvider } from "../../domains/restaurant/contracts.js";
+import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantOutlet, RestaurantReadEvidenceProvider, RestaurantReadEvidence } from "../../domains/restaurant/contracts.js";
 import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { tabelogPublicReadNetworkPolicy } from "../tabelog/tabelog-public-query.js";
 import { tableCheckPublicReadNetworkPolicy } from "../tablecheck/tablecheck-public-query.js";
 import { hasTabelogSourceBusy, hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets, tabelogSearchResultBusy } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckDiscoveryNoResult, tableCheckSearchResultBusy, inspectTableCheckPageUnavailable, parseTableCheckDiscoveryOutletUrls, parseTableCheckOutletIdentityWithEvidence } from "../tablecheck/tablecheck-page-parser.js";
+import { inspectTabelogEntity } from "../tabelog/tabelog-entity-resolver.js";
+import { inspectTableCheckEntity } from "../tablecheck/tablecheck-entity-resolver.js";
 import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
 import type { TableCheckIdentityDiagnostic, TableCheckUserInterventionHandler } from "../tablecheck/tablecheck-contracts.js";
 import { TabelogBrowserAvailability } from "../tabelog/tabelog-browser-availability.js";
@@ -73,6 +75,8 @@ export interface BrowserDiscoveryPackCapability {
   resultBusy(snapshot: BrowserSnapshot): boolean;
   retrievalExpression(url:string):string|undefined;
   parseDetailIdentity(snapshot: BrowserSnapshot, fallback: SourcePackListingOutlet): SourcePackListingOutlet | undefined;
+  /** Reuse this source's ordinary identity gate on already captured details; never performs I/O. */
+  resolveDetailIdentity(candidate:RestaurantCandidate, outlets:readonly SourcePackListingOutlet[]):NonNullable<RestaurantReadEvidence["entityMatch"]> & {outlet?:SourcePackListingOutlet};
 
 }
 export interface DiscoverySourcePack {
@@ -95,6 +99,8 @@ export interface DiscoverySourcePack {
     candidatePath(candidate: RestaurantOutlet): "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE";
     /** Stable default order among otherwise neutral current providers. */
     availabilityPriority: number;
+    /** Area candidates skip NAME_RESOLUTION; existing bound outlet paths and named requests are unchanged. */
+    areaEvidenceRequired?: {notEvidencedReason: 'TABLECHECK_NOT_EVIDENCED'};
     /** Public source congestion, not an identity failure or bot challenge. */
     sourceBusy?: { matches(page: BrowserSnapshot): boolean; retryDelayMs: number };
     /** Construct this Pack's existing availability adapter for one shared read run. */
@@ -267,6 +273,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
     isPageUnavailable: () => false,
     resultBusy: tabelogSearchResultBusy,
     isExplicitEmptyListing: (snapshot) => /\b(?:no|0)\s+(?:restaurants?|results?)\s+(?:found|match(?:es)?)/i.test(snapshot.text),
+    resolveDetailIdentity: (candidate, outlets) => inspectTabelogEntity(candidate, [...outlets]).resolution,
     parseDetailIdentity(snapshot, fallback) {
       const extracted = parseTabelogOutletIdentityWithEvidence(snapshot, fallback);
       const outlet = extracted.outlet;
@@ -296,6 +303,7 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
   skillPath: "web-skills/tablecheck/SKILL.md",
   availability: {
     provider: "TABLECHECK",
+    areaEvidenceRequired: {notEvidencedReason:'TABLECHECK_NOT_EVIDENCED'},
     candidateBinding: tableCheckAvailabilityBinding,
     candidatePath: candidate => tableCheckAvailabilityBinding(candidate) === "INAPPLICABLE" ? "NONE"
       : [candidate.sourceIds.tablecheckNativeGuideUri, candidate.sourceIds.googleListedTableCheckUri, candidate.sourceIds.googleWebsiteUri].some(isTableCheckOutletUrl)
@@ -327,6 +335,10 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
     isPageUnavailable: (snapshot) => inspectTableCheckPageUnavailable(snapshot).pageUnavailable,
     resultBusy: tableCheckSearchResultBusy,
     isExplicitEmptyListing: hasTableCheckDiscoveryNoResult,
+    resolveDetailIdentity(candidate, outlets) {
+      const matches=outlets.map(outlet=>inspectTableCheckEntity(candidate,outlet).resolution).filter(result=>result.confidence==="HIGH");
+      return matches.length===1 ? matches[0]! : {confidence:"LOW",matchedBy:[]};
+    },
     parseDetailIdentity(snapshot, fallback) {
       const extracted = parseTableCheckOutletIdentityWithEvidence(snapshot, fallback.sourceUrl);
       const outlet = extracted?.outlet;

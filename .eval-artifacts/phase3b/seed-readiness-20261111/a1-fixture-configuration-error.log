@@ -1,0 +1,25 @@
+✖ recorded R2-07 stale detail and absent search each return to the reviewed entrance before the next named query (4.997208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 237.176833
+
+✖ failing tests:
+
+test at src/integrations/restaurant-availability/named-search-session-reuse.test.ts:1:11459
+✖ recorded R2-07 stale detail and absent search each return to the reviewed entrance before the next named query (4.997208ms)
+  Error [BrowserRuntimeError]: Source start is missing or ambiguous
+      at BrowserTaskExecutor.rejected (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/browser-task-executor.ts:1599:12)
+      at BrowserTaskExecutor.search (/private/tmp/praxis-seed-readiness-fixes/src/infrastructure/browser/browser-task-executor.ts:490:42)
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/integrations/restaurant-availability/named-search-session-reuse.test.ts:163:22)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }

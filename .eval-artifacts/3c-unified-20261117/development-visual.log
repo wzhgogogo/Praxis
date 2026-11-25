@@ -1,0 +1,19 @@
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok(record.sse.length)
+
+    at file:///private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/visual-smoke.mjs:31:270
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:473:9) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: true,
+  operator: '=='
+}
+
+Node.js v24.4.1

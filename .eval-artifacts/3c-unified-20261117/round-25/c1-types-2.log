@@ -1,0 +1,7 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/infrastructure/browser/cloudflare-browser-run.test.ts(14,109): error TS2345: Argument of type '{ headers: { Authorization: string; }; timeout: number; }' is not assignable to parameter of type 'undefined'.
+src/infrastructure/browser/cloudflare-browser-session.ts(31,106): error TS2493: Tuple type '[options: ConnectOverCDPOptions & { wsEndpoint?: string; }]' of length '1' has no element at index '1'.
+src/infrastructure/browser/cloudflare-browser-worker.ts(15,58): error TS2345: Argument of type '{ headers: { Authorization: string; }; timeout: number; }' is not assignable to parameter of type 'undefined'.

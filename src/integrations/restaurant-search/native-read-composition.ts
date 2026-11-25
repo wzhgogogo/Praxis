@@ -1,3 +1,4 @@
+import type { RestaurantFactPageObserver } from "../restaurant-facts/fact-source-document.js";
 import { RestaurantPageQuestionReader } from "../restaurant-facts/page-question-reader.js";
 import { pageQuestionRuntime } from "../restaurant-facts/page-question-read-budget.js";
 import {ModelDiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
@@ -25,14 +26,18 @@ export function composeNativeRestaurantRead(
   nativeDiscoveryLimits: BrowserTaskExecutorOptions,
   factLimits: BrowserTaskExecutorOptions,
   packs?: readonly DiscoverySourcePack[],
+  categoryQuotes?: (e: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence)=>string[],
+  onSourcePage?: RestaurantFactPageObserver,
 ) {
   const selectedPacks = packs ?? restaurantDiscoveryPacks;
   const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? discoveryPackNetworkPolicy(selectedPacks) : undefined;
   const questions = new RestaurantPageQuestionReader(model, (observe, scopedBudget, scopedModel = model, visits, beforeRead) => {
+    const observed:RestaurantFactPageObserver=page=>{observe(page);onSourcePage?.(page);};
     const browser = visits||beforeRead ? pageQuestionRuntime(runtime, visits, beforeRead) : runtime;
     return new SourceAwareFactRead(
-      new NativeSourceFactRead(factLimits, browser, new ModelRestaurantFactJudgment(scopedModel, now), now, new ModelBrowserReadActionDecision(scopedModel), scopedBudget, onBrowserDiagnostic, networkPolicy, observe, scopedModel),
-      composeLiveRestaurantFactRead(factLimits, google, browser, scopedModel, scopedBudget, now, onBrowserDiagnostic, observe),
+      new NativeSourceFactRead(factLimits, browser, new ModelRestaurantFactJudgment(scopedModel, now,categoryQuotes), now, new ModelBrowserReadActionDecision(scopedModel), scopedBudget, onBrowserDiagnostic, networkPolicy, observed, scopedModel),
+      composeLiveRestaurantFactRead(factLimits, google, browser, scopedModel, scopedBudget, now, onBrowserDiagnostic, observed,categoryQuotes),
+      new ModelRestaurantFactJudgment(scopedModel,now,categoryQuotes),
     );
   }, now, nativeDiscoveryLimits.maxAutomaticElapsedMs ?? 500_000, browserBudget);
   return {

@@ -1,0 +1,44 @@
+✖ Round22 UI: 390 local phrase and Japanese query edits reach search transport (6386.137792ms)
+✖ Round22 UI: 1440 local phrase and Japanese query edits reach search transport (7100.130125ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14136.837667
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:86406
+✖ Round22 UI: 390 local phrase and Japanese query edits reach search transport (6386.137792ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "渋谷". Observations: no returned places
+      at namedLocationResolutionError (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-restaurant-search.ts:189:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-restaurant-search.ts:368:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-restaurant-search.ts:479:90)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1602:4)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1576:25)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    status: undefined,
+    publicLocationObservations: []
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:86406
+✖ Round22 UI: 1440 local phrase and Japanese query edits reach search transport (7100.130125ms)
+  Error [GooglePlacesError]: Google Places could not resolve coordinates for the named location "渋谷". Observations: no returned places
+      at namedLocationResolutionError (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-restaurant-search.ts:189:24)
+      at GooglePlacesRestaurantSearch.resolveNamedNearbyLocation (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-restaurant-search.ts:368:13)
+      at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-3c-unified/src/integrations/google/google-places-restaurant-search.ts:479:90)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1602:4)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1576:25)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'GOOGLE_LOCATION_UNRESOLVED',
+    status: undefined,
+    publicLocationObservations: []
+  }

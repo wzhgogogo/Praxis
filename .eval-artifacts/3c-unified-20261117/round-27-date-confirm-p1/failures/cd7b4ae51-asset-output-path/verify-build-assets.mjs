@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readdir, writeFile } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
+import { workspaceAsset as source } from '/private/tmp/praxis-3c-unified/src/web/workspace-assets.ts';
+import { workspaceAsset as built } from '/private/tmp/praxis-3c-unified/dist/web/workspace-assets.js';
+const files=(await readdir('dist/web/browser')).filter(file=>file.endsWith('.js')).sort();
+const paths=['/assets/landing.js',...files.map(file=>'/assets/workspace/'+file)];
+const sha256=value=>createHash('sha256').update(value).digest('hex');
+const assets=paths.map(path=>{const a=source(path),b=built(path);assert.ok(a);assert.equal(a,b,path);return {path,sourceSHA256:sha256(a),buildSHA256:sha256(b),matches:true};});
+await writeFile('.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/build-assets.json',JSON.stringify({sha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),assets},null,2)+'\n');
+console.log('Matched',assets.length,'same-origin assets from tsx and build');
+
+const {LOCAL_WORKSPACE_PAGE:sourceHtml}=await import('../../../src/web/local-workspace-page.ts');
+const {LOCAL_WORKSPACE_PAGE:builtHtml}=await import('../../../dist/web/local-workspace-page.js');
+assert.equal(sourceHtml,builtHtml);
+await writeFile(new URL('html-build-comparison.json',import.meta.url),JSON.stringify({sha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),matches:true,sourceSHA256:sha256(sourceHtml),builtSHA256:sha256(builtHtml)},null,2)+'\n');

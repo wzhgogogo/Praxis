@@ -1,0 +1,33 @@
+✖ 3c explicit empty continuation preserves source exhaustion and every later read still passes the ordinary budget and evidence guards (4.608584ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 106.578667
+
+✖ failing tests:
+
+test at src/domains/restaurant/action-validator.test.ts:1:68683
+✖ 3c explicit empty continuation preserves source exhaustion and every later read still passes the ordinary budget and evidence guards (4.608584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   googlePlacesSearchBudget: 'EXHAUSTED'
+  - }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/domains/restaurant/action-validator.test.ts:924:47)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { googlePlacesSearchBudget: 'EXHAUSTED' },
+    operator: 'deepStrictEqual'
+  }

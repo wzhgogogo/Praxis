@@ -299,6 +299,10 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
         ON restaurant_booking_departures (conversation_id) WHERE prompted_at IS NOT NULL`,
     ],
   },
+  {
+    id: "0011-per-departure-booking-feedback",
+    statements: ["DROP INDEX restaurant_booking_feedback_once_per_case_idx"],
+  },
 ];
 
 export async function applyPostgresMigrations(database: SqlDatabase): Promise<void> {

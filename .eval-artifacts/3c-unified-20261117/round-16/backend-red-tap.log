@@ -1,0 +1,92 @@
+TAP version 13
+# Subtest: Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch
+not ok 1 - Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch
+  ---
+  duration_ms: 762.01725
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:14174'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    1 !== 2
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 2
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:265:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+  ...
+# Subtest: Round16 first semantic preparation Stop cancels with zero source calls
+not ok 2 - Round16 first semantic preparation Stop cancels with zero source calls
+  ---
+  duration_ms: 525.485
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:15405'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + undefined
+    - true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:279:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+# Subtest: Round16 old prepared refresh never claims replacement preparation handle
+not ok 3 - Round16 old prepared refresh never claims replacement preparation handle
+  ---
+  duration_ms: 506.622167
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:16349'
+  failureType: 'unhandledRejection'
+  error: 'Refresh requires currently presented read-only results'
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    PersistentRestaurantAgentApplication.refreshAvailability (/private/tmp/praxis-3c-unified/src/application/persistent-restaurant-agent.ts:783:52)
+  ...
+# Subtest: Round16 About question preparing Stop returns HTTP 200 and zero question sources
+not ok 4 - Round16 About question preparing Stop returns HTTP 200 and zero question sources
+  ---
+  duration_ms: 589.886959
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:18037'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"error":"Event AGENT_LOOP_TERMINATED is invalid while restaurant task is PRESENT_RESULTS"}
+    
+    400 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 400
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:319:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 0
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2909.937542

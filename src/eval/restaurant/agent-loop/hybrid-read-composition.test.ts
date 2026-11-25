@@ -895,7 +895,7 @@ test("Google fact exhaustion must leave a separately executable browser investig
   const loop = await composition.coordinator.run(taskId);
   const state = composition.runtime.snapshot(taskId).domainState;
   if (maxRequests === 1) assert.equal(state.sourceReadState?.googlePlacesSearchBudget, "EXHAUSTED");
-  assert.ok(visited.some(url => new URL(url).hostname.endsWith("tablecheck.com")), `Browser source never received a request; loop=${loop.status}, failure=${state.failure?.code}`);
+  assert.ok(visited.some(url => new URL(url).hostname === "tabelog.com"), `Browser source never received a request; loop=${loop.status}, failure=${state.failure?.code}`);
   assert.ok(Object.values(state.availabilityChecks).length > 0);
   assert.ok(Object.values(state.availabilityChecks).every(check => check.status === "UNKNOWN"));
   });
@@ -944,14 +944,15 @@ test("source text handoff reaches request-bound availability and presentation th
   } };
   const place = { id: "source-prose", displayName: { text: "Source Kitchen" }, formattedAddress: "1 Ginza, Tokyo", nationalPhoneNumber: "03-1111-1003", types: ["restaurant"],
     websiteUri: "https://source.example/menu", location: { latitude: 35.6697, longitude: 139.767 } };
-  const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : place), { status: 200 }) });
+  // LOCAL_CONSTRUCTION: Text Search explicitly lists the booking source; Details independently supplies the menu website.
+  const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [{...place,websiteUri:"https://www.tablecheck.com/en/source-kitchen"}] } : place), { status: 200 }) });
   const browser: BrowserRuntime = {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", async openSession() {
     let url = "",query="";
     return {
       metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: now.toISOString(),readNetworkBoundary:"INSTALLED" },
       async navigate(value) { url = value; },
       async snapshot() {
-        if (url.includes("source.example")) return { url, title: "季節の料理", text: quotation, html: '<a href="tel:03-1111-1003">電話する</a>' };
+        if (url.includes("source.example")) return { url, title: "季節の料理", text: quotation, html: '<a href="tel:03-1111-1003">電話する</a><a href="https://www.tablecheck.com/en/source-kitchen">Reserve this merchant</a>' };
         if (url.includes("/japan/search")) return { url, title: "Search", text: "Source Kitchen", html: '<a href="https://www.tablecheck.com/en/source-kitchen">Source Kitchen</a>' };
         return { url, title: "Source Kitchen", text: "Source Kitchen 2026-09-17 2 guests 13:00", html: '<h1>Source Kitchen</h1><a href="tel:03-1111-1003">Call</a><p class="address">1 Ginza, Tokyo</p><div data-testid="Venue Availability" data-selected-date="2026-09-17" data-pax="2"><a href="/en/shops/source-kitchen/reserve?start_date=2026-09-17&num_people=2&start_time=13:00">13:00</a></div>' };
       },
@@ -983,7 +984,7 @@ test("source text handoff reaches request-bound availability and presentation th
   const loop = await composition.coordinator.run(taskId);
   const snapshot = composition.runtime.snapshot(taskId);
   const state = snapshot.domainState;
-  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ actions, failure: state.failure, factChecks: state.factChecks, availability: state.availabilityChecks }));
+  assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify({ actions, failure: state.failure, factChecks: state.factChecks, availability: state.availabilityChecks, identities:state.readEvidence.filter(e=>e.kind==='ENTITY_MATCH') }));
   assert.deepEqual(actions, ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"]);
   const raw = state.readEvidence.find(e => e.provider === "RESTAURANT_WEBSITE" && Array.isArray(e.claims.restaurantTypeFacts) && e.claims.restaurantTypeFacts.includes(quotation));
   assert.ok(raw);
@@ -1208,7 +1209,8 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
   const places = ["a", "b", "c", "d", "outside", "missing"].map((name, index) => ({
     id: name, displayName: { text: `Fixture ${name}` }, formattedAddress: "1-1 Ginza, Chuo City, Tokyo",
     types: ["restaurant"], nationalPhoneNumber: `03-1111-${1000 + index}`,
-    websiteUri: `https://tabelog.com/tokyo/A1304/A130401/${1000 + index}/`,
+    // LOCAL_CONSTRUCTION: the option-wire control publishes its own entrance.
+    websiteUri: mode === "option" && name === "d" ? "https://www.tablecheck.com/en/restaurant-d" : `https://tabelog.com/tokyo/A1304/A130401/${1000 + index}/`,
     ...(name === "missing" ? {} : { location: name === "outside" ? { latitude: 34.05, longitude: -118.24 } : { latitude: 35.6697, longitude: 139.767 } }),
   }));
   const google = new GooglePlacesClient({

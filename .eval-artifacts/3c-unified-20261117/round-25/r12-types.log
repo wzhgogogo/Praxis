@@ -1,0 +1,12 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/application/persistent-read-preparation.test.ts(607,49): error TS2379: Argument of type '{ readRunId: string; expectedVersion: number; handleId: string | undefined; }' is not assignable to parameter of type '{ readRunId: string; expectedVersion: number; handleId?: string; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'handleId' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/application/persistent-read-preparation.test.ts(609,49): error TS2379: Argument of type '{ readRunId: string; expectedVersion: number; handleId: string | undefined; }' is not assignable to parameter of type '{ readRunId: string; expectedVersion: number; handleId?: string; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'handleId' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.

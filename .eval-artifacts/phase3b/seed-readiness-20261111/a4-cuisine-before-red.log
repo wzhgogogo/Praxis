@@ -1,0 +1,34 @@
+✖ Workspace mobile: cuisine source disagreement remains visible without changing qualification (11372.482875ms)
+✖ Workspace desktop: cuisine source disagreement remains visible without changing qualification (10824.638542ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22970.453333
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace.test.ts:1:17131
+✖ Workspace mobile: cuisine source disagreement remains visible without changing qualification (11372.482875ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('#source-categories') to be visible[22m
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/web-workspace.test.ts:254:74) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#source-categories') to be visible" ]
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:17131
+✖ Workspace desktop: cuisine source disagreement remains visible without changing qualification (10824.638542ms)
+  locator.waitFor: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for locator('#source-categories') to be visible[22m
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/web-workspace.test.ts:254:74) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#source-categories') to be visible" ]
+  }

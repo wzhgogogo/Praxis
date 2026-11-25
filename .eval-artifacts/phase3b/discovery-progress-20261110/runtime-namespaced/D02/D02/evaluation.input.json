@@ -1,0 +1,2700 @@
+{
+  "runId": "g6-D02-1794280948842-0",
+  "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+  "mode": "LIVE_READ",
+  "artifactRefs": [
+    "/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/discovery-progress-20261110/runtime-namespaced/D02/D02/execution.result.json"
+  ],
+  "request": {
+    "dates": [
+      "2026-11-19"
+    ],
+    "partySize": 6,
+    "requiresIndependentQualification": true,
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "20:00"
+    }
+  },
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "6 of us want robatayaki near Nakano on Thursday, November 19, any time between 6 and 8 PM. An English menu would be nice.",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "outletName": "Nakano Robata Sumika",
+                "sourceIds": {
+                  "phone": "03-4400-3404",
+                  "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                  "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:776889de3aaa5cc62164d040",
+                "outletName": "鉄板焼 奥里火",
+                "sourceIds": {
+                  "phone": "03-5942-7322",
+                  "googlePlaces": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+                  "googleMapsUri": "https://maps.google.com/?cid=6379578298962152974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131902/13319294/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−49−７ 2F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                "outletName": "Okajoki",
+                "sourceIds": {
+                  "phone": "03-3228-1230",
+                  "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                  "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:89d44e809dc2381f57193c6e",
+                "outletName": "Aburiya Nakano",
+                "sourceIds": {
+                  "phone": "03-3388-5941",
+                  "googlePlaces": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+                  "googleMapsUri": "https://maps.google.com/?cid=751540202718262909&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://aburiya-nakano.owst.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-56-2 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:c7ceea0792973fa81816746a",
+                "outletName": "Dai Ni Chikara Shu Zo",
+                "sourceIds": {
+                  "phone": "03-3385-6471",
+                  "googlePlaces": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+                  "googleMapsUri": "https://maps.google.com/?cid=9544178521189769859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://dai2-chikara.gorp.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-32-15 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:590f4111274e95419c2b2875",
+                "outletName": "本格地酒と旬の逸品 十七番地 中野レンガ坂",
+                "sourceIds": {
+                  "googlePlaces": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+                  "googleMapsUri": "https://maps.google.com/?cid=10287703308469661252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://r.gnavi.co.jp/fxvctmwc0000/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-35-6 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                "outletName": "中野製作所 まんてん別館",
+                "sourceIds": {
+                  "phone": "03-5942-6711",
+                  "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                  "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+                "outletName": "最魚の晩餐～寿司と牡蠣と日本酒の裏切り～",
+                "sourceIds": {
+                  "phone": "03-5942-7767",
+                  "googlePlaces": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+                  "googleMapsUri": "https://maps.google.com/?cid=7547434262048016086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://saigyonobansan.foodre.jp/?utm_source=gbp&utm_medium=organic&utm_contents=website_link",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-46-2 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+                "outletName": "Guttsu",
+                "sourceIds": {
+                  "phone": "03-5318-2538",
+                  "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                  "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13319294",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "kind": "ENTITY_MATCH",
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceEntityId": "website:ae9a504b832d6fd8fb8d8930",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:c46b9946-21f1-4422-b38c-430ed62ddbc5",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:1af9a129-cf1b-4991-88c7-771c09f41379",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:0cfce329-a45d-491c-8237-679a377ae212",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:89fdadbf-c37e-4ba1-93e8-b2d8e567b995",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:d795fa1d-fdcf-4554-84a0-f31e4e9307b4",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:3b7c9bca-3a76-454e-9714-805ea21465f3",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:fd5a2236-2514-4a6c-9d11-b289b54f9686",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_END_WINDOW_OPENED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:e01559b1-63e8-4e2f-9848-1c009fec67c4",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_ENDED_NO_VERIFIED_RESULT"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "delivered": [],
+  "handoffs": [],
+  "answers": [],
+  "pages": [],
+  "qualificationClaims": [],
+  "vacancy": [
+    {
+      "ref": "/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/discovery-progress-20261110/runtime-namespaced/D02/D02/witness/001-vacancy.body",
+      "phase": "BEFORE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13287727&svd=20261119&svps=6&svt=1900",
+      "candidateId": "witness-D02",
+      "body": {
+        "selection": {
+          "0": {
+            "time": "17:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1700"
+          },
+          "1": {
+            "time": "17:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1715"
+          },
+          "2": {
+            "time": "17:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1730"
+          },
+          "3": {
+            "time": "17:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1745"
+          },
+          "4": {
+            "time": "18:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1800"
+          },
+          "5": {
+            "time": "18:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1815"
+          },
+          "6": {
+            "time": "18:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1830"
+          },
+          "7": {
+            "time": "18:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1845"
+          },
+          "8": {
+            "time": "19:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1900"
+          },
+          "9": {
+            "time": "19:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1915"
+          },
+          "10": {
+            "time": "19:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1930"
+          },
+          "11": {
+            "time": "19:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1945"
+          },
+          "12": {
+            "time": "20:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2000"
+          },
+          "13": {
+            "time": "20:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2015"
+          },
+          "14": {
+            "time": "20:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2030"
+          },
+          "15": {
+            "time": "20:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2045"
+          },
+          "16": {
+            "time": "21:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2100"
+          },
+          "17": {
+            "time": "21:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2115"
+          },
+          "18": {
+            "time": "21:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2130"
+          },
+          "19": {
+            "time": "21:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2145"
+          },
+          "20": {
+            "time": "22:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2200"
+          }
+        },
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 19,
+          "dow": "Thu"
+        },
+        "members": 6,
+        "time": "19:00"
+      }
+    },
+    {
+      "ref": "/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/discovery-progress-20261110/runtime-namespaced/D02/D02/witness/002-vacancy.body",
+      "phase": "NO_DELIVERY_AFTER",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13287727&svd=20261119&svps=6&svt=1900",
+      "candidateId": "witness-D02",
+      "body": {
+        "selection": {
+          "0": {
+            "time": "17:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1700"
+          },
+          "1": {
+            "time": "17:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1715"
+          },
+          "2": {
+            "time": "17:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1730"
+          },
+          "3": {
+            "time": "17:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1745"
+          },
+          "4": {
+            "time": "18:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1800"
+          },
+          "5": {
+            "time": "18:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1815"
+          },
+          "6": {
+            "time": "18:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1830"
+          },
+          "7": {
+            "time": "18:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1845"
+          },
+          "8": {
+            "time": "19:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1900"
+          },
+          "9": {
+            "time": "19:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1915"
+          },
+          "10": {
+            "time": "19:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1930"
+          },
+          "11": {
+            "time": "19:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1945"
+          },
+          "12": {
+            "time": "20:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2000"
+          },
+          "13": {
+            "time": "20:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2015"
+          },
+          "14": {
+            "time": "20:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2030"
+          },
+          "15": {
+            "time": "20:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2045"
+          },
+          "16": {
+            "time": "21:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2100"
+          },
+          "17": {
+            "time": "21:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2115"
+          },
+          "18": {
+            "time": "21:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2130"
+          },
+          "19": {
+            "time": "21:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2145"
+          },
+          "20": {
+            "time": "22:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2200"
+          }
+        },
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 19,
+          "dow": "Thu"
+        },
+        "members": 6,
+        "time": "19:00"
+      }
+    }
+  ],
+  "requests": [
+    {
+      "ref": "g6-node:2",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:4",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:3",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:5",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:8",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:12",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:7",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:6",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:13",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:9",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:10",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:31",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:11",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:43",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:46",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:47",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:48",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:49",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:50",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:53",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:51",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:52",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:54",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:57",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:56",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:55",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-native:61",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:68",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:69",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:70",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:71",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:72",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:74",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:75",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:73",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:79",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:76",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:77",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:85",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:80",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:78",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:116",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:119",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/seafood/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:121",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:120",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:125",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:123",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:124",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:122",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:126",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:127",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:129",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:130",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:135",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:128",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:165",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:167",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:168",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:169",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:171",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:170",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:173",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:174",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:175",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:177",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:178",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:176",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-native:172",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:196",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:208",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:211",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:212",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:213",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:214",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:215",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:216",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:218",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:217",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:221",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:222",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:219",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:227",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:220",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:238",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:240",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:242",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:241",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:244",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:245",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:243",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:246",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:252",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:253",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:247",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:254",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:255",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f07e60cc5749e40ed464c969cd23184387e6957ebd1a7be24677615438ce0e33"
+      ]
+    },
+    {
+      "ref": "g6-native:251",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:249",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:250",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:314",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:248",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:330",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:331",
+      "url": "https://tabelog.com/en/booking/calendar/initial_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:332",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd"
+      ]
+    },
+    {
+      "ref": "g6-node:333",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:338",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:344",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13319294/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:346",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:345",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:347",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:348",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:349",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:356",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:350",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:351",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:357",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:358",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:354",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:353",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:413",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:355",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:359",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f07e60cc5749e40ed464c969cd23184387e6957ebd1a7be24677615438ce0e33"
+      ]
+    },
+    {
+      "ref": "g6-native:352",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:428",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:429",
+      "url": "https://tabelog.com/en/booking/calendar/initial_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:431",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13319294/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:432",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:434",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:433",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:436",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:435",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:437",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:443",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:444",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:445",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:438",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-df9cc1fb93a8794c7a309dce22640e8128e22c4e8beed6531e82fd983eac24d9"
+      ]
+    },
+    {
+      "ref": "g6-native:441",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:446",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-f07e60cc5749e40ed464c969cd23184387e6957ebd1a7be24677615438ce0e33"
+      ]
+    },
+    {
+      "ref": "g6-native:442",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:440",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:500",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:439",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611100031-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:513",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:514",
+      "url": "https://tabelog.com/en/booking/calendar/initial_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:515",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd"
+      ]
+    },
+    {
+      "ref": "g6-node:516",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:523",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:526",
+      "url": "https://babytattoo.jp/robata",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:531",
+      "url": "https://tabelog.com/tokyo/A1319/A131902/13319294/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:533",
+      "url": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:551",
+      "url": "https://horumon-manten.jp/cmn/css/default.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:552",
+      "url": "https://horumon-manten.jp/cmn/css/color.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:553",
+      "url": "https://horumon-manten.jp/cmn/css/desktop.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:554",
+      "url": "https://horumon-manten.jp/cmn/css/cmn.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:555",
+      "url": "https://horumon-manten.jp/shops/css/style.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:556",
+      "url": "https://horumon-manten.jp/cmn/js/jquery.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:557",
+      "url": "https://horumon-manten.jp/cmn/js/jquery-migrate.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:558",
+      "url": "https://horumon-manten.jp/cmn/js/application.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:564",
+      "url": "https://saigyonobansan.foodre.jp/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:580",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/entry.CBstagy9.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:581",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/CXjXPcKM.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:582",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/BGg3iH4E.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:583",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/VN9qmZsX.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:584",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/L5O4B1jh.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:585",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/CMUk9WPG.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:586",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/B0T_w5lp.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:587",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/CT20c9tR.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:588",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/CPyD1Ozw.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:589",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/DpvmOmMe.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:610",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/RestaurantPage.Dw_YX1ac.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:618",
+      "url": "https://saigyonobansan.foodre.jp/_nuxt/builds/meta/6f9e7aeb-1022-4f52-a973-4cd66a23be15.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    }
+  ],
+  "qualificationOracles": [],
+  "reviewedReadRules": [
+    {
+      "ref": "independent-approved-literal-0",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/catalog.json",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-1",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "queryProfile",
+        "hits",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "offset",
+        "id",
+        "open_day",
+        "service_mode"
+      ],
+      "requiredQueryKeys": [
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-2",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-3",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-4",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-5",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-6",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "POST"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/v2/hub/availability_calendar_v2",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      },
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "content-type"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-7",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "sw",
+        "vac_net",
+        "svd",
+        "svt",
+        "svps"
+      ],
+      "requiredQueryKeys": [],
+      "pathnamePattern": "^/en/tokyo/.*$"
+    },
+    {
+      "ref": "independent-approved-literal-8",
+      "origin": "https://www.tablecheck.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "search_text",
+        "date",
+        "time",
+        "num_people",
+        "availability_mode"
+      ],
+      "requiredQueryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate"
+      ],
+      "pathname": "/en/japan/search"
+    },
+    {
+      "ref": "independent-approved-literal-9",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/v2/geolocation",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-10",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ],
+      "requiredQueryKeys": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ],
+      "pathname": "/v2/autocomplete",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-11",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "limit",
+        "sort_by",
+        "shop_ids[]"
+      ],
+      "requiredQueryKeys": [
+        "limit",
+        "sort_by"
+      ],
+      "pathname": "/v2/hub/public_shop_lists",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-12",
+      "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "shop_universe_id",
+        "include_ids",
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "requiredQueryKeys": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "pathname": "/ai_search",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-13",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "shop_universe_id",
+        "include_ids",
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "requiredQueryKeys": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "pathname": "/v2/shop_search",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-14",
+      "origin": "https://cdn0.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathnamePattern": "^/common/.*$",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-15",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "locale"
+      ],
+      "requiredQueryKeys": [
+        "locale"
+      ],
+      "pathnamePattern": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    {
+      "ref": "independent-approved-literal-16",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ],
+      "requiredQueryKeys": [
+        "rst_id"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/initial_vacancy/?$"
+    },
+    {
+      "ref": "independent-approved-literal-17",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "plan_id",
+        "seat_only"
+      ],
+      "requiredQueryKeys": [
+        "rst_id"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy_date_with_status/?$"
+    },
+    {
+      "ref": "independent-approved-literal-18",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "plan_id",
+        "seat_only"
+      ],
+      "requiredQueryKeys": [
+        "rst_id",
+        "svd"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy_member_by_date/?$"
+    },
+    {
+      "ref": "independent-approved-literal-19",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ],
+      "requiredQueryKeys": [
+        "rst_id",
+        "svd",
+        "svps"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy/?$"
+    },
+    {
+      "ref": "independent-approved-literal-20",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "requiredQueryKeys": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "pathname": "/contents/reserve_date_status_list"
+    }
+  ],
+  "witnesses": [
+    {
+      "candidateId": "witness-D02",
+      "name": "中野製作所 まんてん別館",
+      "provider": "TABELOG",
+      "sourceEntityId": "13287727",
+      "date": "2026-11-19",
+      "time": "19:00",
+      "partySize": 6,
+      "detailUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+      "identityText": [
+        "中野製作所 まんてん別館"
+      ]
+    }
+  ],
+  "boundedNoResult": true,
+  "deadline": {
+    "elapsedMs": 157336.325625,
+    "turns": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794280951867,
+        "deadlineAtMs": 1794281451867,
+        "elapsedMs": 156800.08275000003,
+        "modelCalls": 47,
+        "googleRequests": 8,
+        "exceeded500Seconds": false
+      }
+    ],
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "priceClaims": [],
+  "softClaims": []
+}

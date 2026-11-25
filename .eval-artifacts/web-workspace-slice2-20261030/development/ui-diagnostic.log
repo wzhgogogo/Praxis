@@ -1,0 +1,38 @@
+{"slice2Failure":{"phase":"NO_VERIFIED_RESULT","progress":{"active":false,"stopped":false,"discoveredCount":6,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"NEXT_BATCH_REPLENISHMENT_REQUESTED","targetCandidateCount":3},{"type":"AGENT_LOOP_TERMINATED","reason":"Agent repeated the same rejected action after PRESENTATION_EVIDENCE_MISSING; corrective action was required; presentation was not permitted: PRESENTATION_EVIDENCE_MISSING","reasonCode":"AGENT_LOOP_REJECTION_LIMIT","termination":"REJECTION_LIMIT"}]}}
+✖ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2088.476709ms)
+{"slice2Failure":{"phase":"NO_VERIFIED_RESULT","progress":{"active":false,"stopped":false,"discoveredCount":3,"checkedCount":3},"ready":[],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (14205.40275ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16717.584167
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:1413
+✖ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2088.476709ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Fixture later restaurant/. Input:
+  
+  'Fixture Sushi'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace-slice2.test.ts:81:32)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Fixture Sushi',
+    expected: /Fixture later restaurant/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:8051
+✖ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (14205.40275ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace-slice2.test.ts:102:59) {
+    name: 'TimeoutError',
+    log: []
+  }

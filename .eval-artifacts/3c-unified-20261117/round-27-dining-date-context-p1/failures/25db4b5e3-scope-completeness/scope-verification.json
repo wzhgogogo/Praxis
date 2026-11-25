@@ -1,0 +1,35 @@
+{
+  "sha": "25db4b5e3b5043b1bab62b113e492140f52756b2",
+  "baseline": "e5721c68fdffd60c14b32415f1d0099295b4574a",
+  "sourceChanges": [
+    "src/application/restaurant-relative-date.test.ts",
+    "src/domains/restaurant/relative-date-binding.test.ts",
+    "src/domains/restaurant/relative-date-binding.ts",
+    "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts"
+  ],
+  "productionSourceChanges": [
+    "src/domains/restaurant/relative-date-binding.ts"
+  ],
+  "webSourceDiff": [],
+  "sourceSHA256": {
+    "src/application/restaurant-relative-date.test.ts": {
+      "before": "eb61161d4f8c5e8393037eb1d25d4eb2a251246fa036a8cdc4ec0eab72b4bb1c",
+      "after": "3067368ce325db37a42ddfe40a3243a84e472f2895050a2afde4d8d9cf9acf42"
+    },
+    "src/domains/restaurant/relative-date-binding.test.ts": {
+      "before": "a8ba35f81f1871560576c940b1401d4ceae12fd18ee77c10052df7644d92bffd",
+      "after": "e2a872cdb1fb6947cfd8c614a546833431efe518b3d6d85f0461f591116b1cfd"
+    },
+    "src/domains/restaurant/relative-date-binding.ts": {
+      "before": "1b884a98faa879676110a45501e71d21621c7dfe9c44daa0873c653f98a82bd3",
+      "after": "aec37dcd384abcf1f28a25e38e7de5836ab3b686277f860ee4657085af188d8e"
+    },
+    "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts": {
+      "before": "3bbc0821574a19d92a24acf6266f8ade3af16362d99cb113382b50e6759326ea",
+      "after": "39faa742098c468a7d4ede732d99d9427d5b5d0679a29237f393e827ff0bb09e"
+    }
+  },
+  "additionalF6AuthoredInputDiff": "diff --git a/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts b/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts\nindex 4544aa13a..cc9a24850 100644\n--- a/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts\n+++ b/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts\n@@ -1171 +1171 @@ test('F6 reserve search hands completed Native and Google children through SEARC\n-  await composition.interpretAndDispatch({taskId:'f6-search-'+source,message:'Find omakase in Shibuya for two at 7pm.',referenceTime:reference.toISOString(),timezone:'Asia/Tokyo'},{...center,radiusMeters:1000,label:'Local Shibuya circle',source:'LOCAL_CONSTRUCTED'});\n+  await composition.interpretAndDispatch({taskId:'f6-search-'+source,message:'Find omakase in Shibuya for two tonight at 7pm.',referenceTime:reference.toISOString(),timezone:'Asia/Tokyo'},{...center,radiusMeters:1000,label:'Local Shibuya circle',source:'LOCAL_CONSTRUCTED'});\n",
+  "additionalF6InputOnly": true,
+  "notes": "No production Loop/Reducer/State/source extractor/Prompt/scorer/evaluator/fingerprint/missing-fields or root dependency/CSP changes; F6 is one constructed test message, with every original assertion unchanged."
+}

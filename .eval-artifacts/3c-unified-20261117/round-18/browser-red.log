@@ -1,0 +1,233 @@
+TAP version 13
+# Subtest: Round17 UI: desktop Handoff SSE distinguishes changed conditions from another tab's slot
+not ok 1 - Round17 UI: desktop Handoff SSE distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 10337.077042
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:53539'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1191:10)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1149:2)
+  ...
+# Subtest: Round17 UI: desktop Handoff reload distinguishes changed conditions from another tab's slot
+not ok 2 - Round17 UI: desktop Handoff reload distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 9678.582542
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:53539'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1191:10)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1149:2)
+  ...
+# Subtest: Round17 UI: desktop Handoff same-revision choice distinguishes changed conditions from another tab's slot
+ok 3 - Round17 UI: desktop Handoff same-revision choice distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1559.222292
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile Handoff SSE distinguishes changed conditions from another tab's slot
+not ok 4 - Round17 UI: mobile Handoff SSE distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 9085.7005
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:53539'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1191:10)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1149:2)
+  ...
+# Subtest: Round17 UI: mobile Handoff reload distinguishes changed conditions from another tab's slot
+not ok 5 - Round17 UI: mobile Handoff reload distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 9141.624208
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:53539'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1191:10)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1149:2)
+  ...
+# Subtest: Round17 UI: mobile Handoff same-revision choice distinguishes changed conditions from another tab's slot
+ok 6 - Round17 UI: mobile Handoff same-revision choice distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1074.71975
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop superseded semantic edit returns 409 and keeps its draft
+ok 7 - Round17 UI: desktop superseded semantic edit returns 409 and keeps its draft
+  ---
+  duration_ms: 1293.97325
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile superseded semantic edit returns 409 and keeps its draft
+ok 8 - Round17 UI: mobile superseded semantic edit returns 409 and keeps its draft
+  ---
+  duration_ms: 1026.0785
+  type: 'test'
+  ...
+# Subtest: Round18 UI: desktop explicit next restaurant change clears reconfirmation and own card edit stays ordinary
+not ok 9 - Round18 UI: desktop explicit next restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 9385.134875
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:61289'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1255:59)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1246:2)
+  ...
+# Subtest: Round18 UI: desktop explicit Saved restaurant change clears reconfirmation and own card edit stays ordinary
+not ok 10 - Round18 UI: desktop explicit Saved restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 9406.498541
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:61289'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1255:59)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1246:2)
+  ...
+# Subtest: Round18 UI: mobile explicit next restaurant change clears reconfirmation and own card edit stays ordinary
+not ok 11 - Round18 UI: mobile explicit next restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 9078.494125
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:61289'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1255:59)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1246:2)
+  ...
+# Subtest: Round18 UI: mobile explicit Saved restaurant change clears reconfirmation and own card edit stays ordinary
+not ok 12 - Round18 UI: mobile explicit Saved restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 9151.885291
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:61289'
+  failureType: 'testCodeFailure'
+  error: |-
+    locator.waitFor: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+    
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1255:59)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1246:2)
+  ...
+# Subtest: Round18 UI: desktop delayed version0 Stop cannot cancel a replacement version0 preparation
+not ok 13 - Round18 UI: desktop delayed version0 Stop cannot cancel a replacement version0 preparation
+  ---
+  duration_ms: 1552.226167
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:62964'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"view":{"mode":"LIVE_READ","case":{"caseId":"restaurant:56a1dc64b885c69227c67e4f","conversationId":"conversation:56a1dc64b885c69227c67e4f","rootTaskId":"restaurant:56a1dc64b885c69227c67e4f","title":"Dinner in Tokyo","status":"COMPLETED","phase":"FAILED","taskVersion":1,"stopped":true,"pendingUserAction":"REVIEW_ATTENTION","updatedAt":"2026-10-29T10:00:00.000Z"},"conversation":{"id":"conversation:56a1dc64b885c69227c67e4f","messages":[]},"restaurant":{"requirementRevision":0,"questionHistory":[],"savedCandidates":[],"readStatus":{"kind":"OTHER_FAILURE","partialSourceFailure":false,"canContinue":false,"canRetry":false},"missingRequiredFields":["date","timeWindow","partySize","area"],"searchRevision":0,"readyCandidateIds":[],"progress":{"active":false,"stopped":true},"bookingFeedbackAvailable":false,"candidates":[],"availability":{},"availabilityChecks":{},"readEvidence":[],"currentFactEvidence":[],"sourceReadContext":{"runId":"run:restaurant:56a1dc64b885c69227c67e4f:investigation:0","startedAt":"2026-10-29T10:00:00.000Z"},"bookingHandoffs":[]},"artifacts":[{"artifactId":"artifact:outcome:restaurant:56a1dc64b885c69227c67e4f:1","caseId":"restaurant:56a1dc64b885c69227c67e4f","domain":"restaurant","type":"OUTCOME","sourceVersion":1,"data":{"outcome":{"reason":"The user cancelled this read-only investigation.","status":"FAILED"}}}],"activities":[{"activityId":"activity:event:user:b86dc08782b8a679fcc98e52c10f1329","caseId":"restaurant:56a1dc64b885c69227c67e4f","sourceRef":{"kind":"EVENT","id":"event:user:b86dc08782b8a679fcc98e52c10f1329"},"type":"AGENT_LOOP_TERMINATED","display":{"title":"Agent loop stopped","detail":"CANCELLED: The user cancelled this read-only investigation."},"occurredAt":"2026-10-29T10:00:00.000Z"}],"note":"Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."}}
+    
+    200 !== 409
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 409
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1283:64)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1268:2)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+# Subtest: Round18 UI: mobile delayed version0 Stop cannot cancel a replacement version0 preparation
+not ok 14 - Round18 UI: mobile delayed version0 Stop cannot cancel a replacement version0 preparation
+  ---
+  duration_ms: 8635.194875
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1:62964'
+  failureType: 'unhandledRejection'
+  error: 'page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"'
+  code: 'ERR_TEST_FAILURE'
+  name: 'TimeoutError'
+  stack: |-
+    <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1271:50)
+    async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+    async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1268:2)
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 4
+# fail 10
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 113127.832917

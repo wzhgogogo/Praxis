@@ -1,0 +1,261 @@
+[
+  {
+    "name": "typecheck",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "seconds": 0.703469458,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "arch-check",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2050749169999999,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "build",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "seconds": 0.5949751249999999,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "test",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "test"
+    ],
+    "exitCode": 0,
+    "seconds": 95.35482208399999,
+    "tests": [
+      {
+        "tests": 1995,
+        "pass": 1995,
+        "fail": 0,
+        "durationMs": 95254.763958
+      }
+    ],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "browser-fixture",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "exitCode": 0,
+    "seconds": 518.4830775830001,
+    "tests": [
+      {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "durationMs": 25886.548166
+      },
+      {
+        "tests": 604,
+        "pass": 604,
+        "fail": 0,
+        "durationMs": 451019.030125
+      },
+      {
+        "tests": 609,
+        "pass": 609,
+        "fail": 0,
+        "durationMs": 476962.759
+      },
+      {
+        "tests": 159,
+        "pass": 159,
+        "fail": 0,
+        "durationMs": 41235.361042
+      }
+    ],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "c1-built",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/harness/browser/cloudflare-cdp-isolation.test.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 18.186335166999925,
+    "tests": [
+      {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "durationMs": 18155.290208
+      }
+    ],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {
+      "PRAXIS_CDP_DIST": "1"
+    },
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "build-assets",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-28-qualified-weekday/verify-build-assets.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.19961575000002085,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "browser-graph",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-28-qualified-weekday/inspect-browser-graph.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.05827487500005191,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "protection",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-28-qualified-weekday/verify-protection.py"
+    ],
+    "exitCode": 0,
+    "seconds": 2.9196747920000234,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  },
+  {
+    "name": "date-replay",
+    "sha": "f681133e8bb648bb6be7709161ef42a90bb537ec",
+    "sourceTree": "23f616cff7939703568c63563ea4ab4edd12120c",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-28-qualified-weekday/replay-deepseek.ts"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11958054199999424,
+    "tests": [],
+    "envLoaded": false,
+    "statusBeforeSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "statusAfterSHA256": "d7ee88d53f8f698459beced4d45c15802b798441652df2893a19918172b11752",
+    "environment": {},
+    "wholeTreeClean": false,
+    "sourceAndInputsClean": true
+  }
+]

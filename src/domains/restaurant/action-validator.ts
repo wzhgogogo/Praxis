@@ -1,3 +1,4 @@
+import {canSettlePageQuestion} from './read-assessment.js';
 import {restaurantReadActionFits,restaurantReadClosing} from "./read-time-reserve.js";
 import type { RestaurantAgentAction } from "./agent-action.js";
 import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js";
@@ -113,7 +114,7 @@ export function defaultBatchDeliveryCandidateIds(state: Readonly<RestaurantTaskS
   if (state.phase !== "SEARCHING" || state.pendingResultBatchTarget !== 3
     || state.intentDraft?.target?.selectionScope !== "OPEN_ENDED"
     || state.intentDraft.target.requestedResultCount !== undefined
-    || state.selectionSession !== undefined
+    || (state.selectionSession?.deliveredCandidateIds.length ?? 0) > 0
     || state.refreshRequestedCandidateIds?.length || state.factRefreshRequestedCandidateIds?.length) return [];
   const eligible = distinctDiscoveryResultCandidateIds(state, assessRestaurantRead(state, now).presentation.filter((item) => item.eligible).map((item) => item.candidateId));
   return eligible.length >= 1 && eligible.length <= 2 ? eligible : [];
@@ -140,6 +141,7 @@ export function validateRestaurantAction(
   action: RestaurantAgentAction,
   now: string,
   budget: RestaurantReadBudgetStatus = {},
+  currentReadRunId?: string,
 ): RestaurantActionValidation {
   if (state.phase === "OUTCOME_UNKNOWN") {
     return rejected("OUTCOME_UNKNOWN", "An unknown booking outcome must be verified before any new action");
@@ -147,7 +149,7 @@ export function validateRestaurantAction(
   if (state.pageQuestion && !state.pageQuestion.result) {
     const q = state.pageQuestion;
     if (action.type !== "ANSWER_PAGE_QUESTION") return rejected("PRESENTATION_READY", "Only the pending displayed-outlet question may be answered");
-    if (state.phase !== "PRESENT_RESULTS" || !state.presentedResults?.candidateIds.includes(q.candidateId) || !candidate(state, q.candidateId)) return rejected("CANDIDATE_UNKNOWN", "Question outlet must belong to the currently presented batch");
+    if (!currentReadRunId || !canSettlePageQuestion(state, q, currentReadRunId)) return rejected("CANDIDATE_UNKNOWN", "Question outlet must belong to the currently presented batch");
     if (budget.remainingModelCalls !== undefined && budget.remainingModelCalls <= 0 || budget.browserModelBudgetExhausted) return rejected("READ_BUDGET_EXHAUSTED", "The question model budget is exhausted");
     if (Date.parse(q.deadlineAt) <= Date.parse(now)) return rejected("READ_TIME_RESERVED", "The question deadline expired");
     return { status: "ALLOWED" };
@@ -178,7 +180,12 @@ export function validateRestaurantAction(
   if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && immediateRequestWindowExpired(state, now))
     return rejected("INTENT_INCOMPLETE", "IMMEDIATE_REQUEST_EXPIRED: End this read or ask for a new nearest-bookable-time window");
 
+  if ((action.type === "INVESTIGATE_CANDIDATE_FACTS" || action.type === "CHECK_AVAILABILITY")
+    && state.pendingResultBatchTarget !== undefined && action.candidateIds.some(id => state.noVerifiedResult?.investigatedCandidateIds.includes(id)))
+    return rejected(action.type === "CHECK_AVAILABILITY" ? "AVAILABILITY_ALREADY_CHECKED" : "FACTS_ALREADY_CHECKED", "Empty-result continuation cannot reinvestigate an already investigated outlet");
+
   if (action.type === "SEARCH_RESTAURANTS") {
+    if (state.factRefreshRequestedCandidateIds?.length) return rejected("REFRESH_TARGET_REQUIRED", "Complete the pending fact refresh for the displayed restaurants first");
     if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");
     const nativeBlock = discoveryPlanSearchBlockReason(state, now);
     if (nativeBlock) return rejected("DISCOVERY_UNAVAILABLE", nativeBlock);
@@ -221,6 +228,7 @@ export function validateRestaurantAction(
   }
 
   if (action.type === "CHECK_AVAILABILITY") {
+    if (state.factRefreshRequestedCandidateIds?.length) return rejected("REFRESH_TARGET_REQUIRED", "Complete the pending fact refresh for the displayed restaurants first");
     if (defaultBatchDeliveryWindowActive(state, now)) return rejected("PRESENTATION_READY", "The default batch delivery window is open; present the currently eligible results before the read deadline");
     const intent = requireCompleteIntent(state);
     if (!intent.valid) return intent.verdict;
@@ -261,7 +269,11 @@ export function validateRestaurantAction(
     if (action.candidateIds.length === 0 || new Set(action.candidateIds).size !== action.candidateIds.length) {
       return rejected("CANDIDATE_UNKNOWN", "Presenting results requires one or more unique known candidate IDs");
     }
-    if (distinctDiscoveryResultCandidateIds(state, action.candidateIds).length !== action.candidateIds.length) {
+    const delivered = state.pendingResultBatchTarget === undefined ? [] : state.selectionSession?.deliveredCandidateIds ?? [];
+    if (action.candidateIds.some(candidateId => delivered.includes(candidateId))) {
+      return rejected("PRESENTATION_EVIDENCE_MISSING", "The requested next batch may contain only previously unshown restaurants");
+    }
+    if (distinctDiscoveryResultCandidateIds(state, action.candidateIds, delivered).length !== action.candidateIds.length) {
       return rejected("PRESENTATION_EVIDENCE_MISSING", "Native source records with unresolved same-outlet signals cannot count as distinct restaurants");
     }
     if (state.pendingResultBatchTarget !== undefined) {
@@ -277,10 +289,6 @@ export function validateRestaurantAction(
         if (action.candidateIds.length !== eligible.length || action.candidateIds.some((candidateId) => !eligible.includes(candidateId))) {
           return rejected("PRESENTATION_EVIDENCE_MISSING", "The delivery window must include every currently eligible unshown restaurant");
         }
-      }
-      const delivered = new Set(state.selectionSession?.deliveredCandidateIds ?? []);
-      if (action.candidateIds.some((candidateId) => delivered.has(candidateId))) {
-        return rejected("PRESENTATION_EVIDENCE_MISSING", "The requested next batch may contain only previously unshown restaurants");
       }
     }
     if ((state.refreshRequestedCandidateIds?.length ?? 0) > 0) {

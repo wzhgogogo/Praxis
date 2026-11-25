@@ -1,0 +1,46 @@
+{
+  "sha": "08c1840a027f771110e6d57ac8749a69f946b1fe",
+  "envLoaded": false,
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    ".eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/reviewer-omitted-edit.mjs"
+  ],
+  "exitCode": 0,
+  "inputOrigin": "/private/tmp/praxis-round27-date-audit.CsOvrL/omitted-edit.mjs",
+  "inputSHA256": "27ffa9d14e10cc2d7da489cac1c1551c8bfd616ca69cb338aff4ff6d827b8d97",
+  "rows": [
+    {
+      "case": "explicit date without DATE control",
+      "message": "Make it tomorrow at 7 pm.",
+      "expected": "2026-11-25",
+      "draftDate": "2026-11-25",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-25"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "explicit move with omitted DATE",
+      "message": "Move it to tomorrow at 7 pm.",
+      "expected": "2026-11-25",
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ]
+}

@@ -36,7 +36,7 @@ function gateway(output: Record<string, string>): ModelGateway {
   };
 }
 
-test("strict browser wire COMPLETE accepts only a current observed placeholder and restores target-free canonical action", async () => {
+test("strict browser wire COMPLETE retains only a current observed scope reference", async () => {
   const transport = gateway({
     action: "COMPLETE",
     targetRef: "observation:1:target:1",
@@ -49,7 +49,7 @@ test("strict browser wire COMPLETE accepts only a current observed placeholder a
     requestedTimeoutMs = request.timeoutMs;
     return transport.complete(request);
   } });
-  assert.deepEqual(await decision.decide(input), { type: "COMPLETE", reason: "The read-only page is ready." });
+  assert.deepEqual(await decision.decide(input), { type: "COMPLETE", reason: "The read-only page is ready.", scopeRef:"observation:1:target:1" });
   assert.equal(requestedTimeoutMs, 30_000, "Browser decision latency allowance; executor/Runner deadlines remain bounded");
 });
 
@@ -213,4 +213,17 @@ test('LOCATION wire cannot carry a replacement value or use a non-fill action', 
 
 test("retired SELECT_REGION_ENTRANCE is unavailable in the current strict browser wire", async () => {
   await assert.rejects(new ModelBrowserReadActionDecision(gateway({ action: "SELECT_REGION_ENTRANCE", targetRef: "old-flow:1", authoritativeField: "NONE", requestedState: "NONE", reason: "Old collection" })).decide(input), { code: "INVALID_MODEL_OUTPUT" });
+});
+
+
+test("browser prompt 27 keeps parent-region consistency and observed recovery navigation generic", async () => {
+ let captured: ModelRequest | undefined;
+ const decision = new ModelBrowserReadActionDecision({async complete(request){captured=request;return gateway({action:"REQUEST_HUMAN_HELP",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"No observed safe route"}).complete(request);}});
+ await decision.decide(input);
+ assert.equal(captured?.promptVersion,"27");
+ const prompt=JSON.stringify(captured?.messages);
+ assert.match(prompt,/goal.location.addressComponents/);
+ assert.match(prompt,/administrative_area_level_1/);
+ assert.match(prompt,/filter-removal/);
+ assert.match(prompt,/directory navigation/);
 });

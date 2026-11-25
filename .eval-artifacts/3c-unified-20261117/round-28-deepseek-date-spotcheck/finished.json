@@ -1,0 +1,40 @@
+{
+  "sha": "551a567ee1d91a2d51d44123b2b5fbefa0179bbb",
+  "sourceTree": "a0455cd4a4580f6fb3597f48096afb322be6cf4f",
+  "hashes": {
+    "inputs.json": "f69005ea6125f2e568bf517ed954d7eeadc8003087367007601845396db47e46",
+    "run.ts": "e0f1f65fad4345726068dbbd32b759886ebf110cb3ff091a6134e4ba9beb6162"
+  },
+  "classification": "DEVELOPMENT_DIAGNOSTIC",
+  "mode": "REAL_MODEL_SEMANTIC_ONLY",
+  "model": "deepseek-v4-flash",
+  "promptVersion": "v29",
+  "startedAt": "2026-11-25T07:18:55.898Z",
+  "plannedSentences": 10,
+  "maxModelInvocations": 20,
+  "finishedAt": "2026-11-25T07:19:11.628Z",
+  "status": "COMPLETED",
+  "evaluatedSentences": 10,
+  "passed": 9,
+  "failed": 1,
+  "notEvaluated": 0,
+  "modelMetrics": {
+    "modelCalls": 10,
+    "successfulCalls": 10,
+    "failedCalls": 0,
+    "retryCalls": 0,
+    "totalLatencyMs": 15674,
+    "providerModels": [
+      "DEEPSEEK:deepseek-flash"
+    ],
+    "usage": {
+      "reportedByCalls": 10,
+      "inputTokens": 73312,
+      "outputTokens": 1409,
+      "totalTokens": 74721
+    },
+    "cost": {
+      "status": "NOT_CONFIGURED"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "sha": "e1c4ec63ca874949a52cb7d2eecad1a7b4ec596c",
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=Tabelog observed location suggestions through ordinary assembly: SCRIPT",
+    "src/integrations/restaurant-search/location-suggestion-discovery.test.ts"
+  ],
+  "envLoaded": false,
+  "sourceUnchanged": true,
+  "exitCode": 0,
+  "seconds": 4.302564708,
+  "scope": "diagnosis only, not replacement fullgate; assertions/budgets unchanged",
+  "environment": {
+    "PRAXIS_LOCATION_SUGGESTION_CAPTURE": "1"
+  }
+}

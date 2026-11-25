@@ -82,7 +82,7 @@ test("frozen H001-H005 authoritative semantics materialize into auditable source
     };
   });
   assert.deepEqual(rendered.map((item) => item.id), ["h001", "h002", "h003", "h004", "h005"]);
-  assert.deepEqual(rendered[0]!.plan.map((item) => item.pack), ["tabelog", "tablecheck", "google-places"]);
+  assert.deepEqual(rendered[0]!.plan.map((item) => item.pack), ["tabelog", "google-places", "tablecheck"]);
   assert.equal(rendered[0]!.plan[0]!.query.keyword, undefined);
   assert.deepEqual(rendered[0]!.plan[0]!.query.positiveCriteria,[{criterionRef:"criterion:0",text:"omakase",strength:"HARD"}]);
   assert.equal(rendered[1]!.plan[0]!.query.keyword, undefined, "both H002 negative HARD conditions stay out of retrieval");

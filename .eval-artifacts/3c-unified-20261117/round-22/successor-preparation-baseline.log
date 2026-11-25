@@ -1,0 +1,29 @@
+✖ Round22 accepted successor keeps preparation while the prior question finishes (815.792708ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1361.889583
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:39388
+✖ Round22 accepted successor keeps preparation while the prior question finishes (815.792708ms)
+  AssertionError [ERR_ASSERTION]: committed successor must not look like an interrupted process before handle registration
+  + actual - expected
+  
+  + 'FAILED'
+  - 'UNDERSTANDING'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:588:79)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'UNDERSTANDING',
+    operator: 'strictEqual'
+  }

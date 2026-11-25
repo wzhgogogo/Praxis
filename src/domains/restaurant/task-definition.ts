@@ -1,3 +1,4 @@
+import {canAskPageQuestion,canSettlePageQuestion,restaurantInvestigationReadRunId,restaurantReadyCandidateIds} from './read-assessment.js';
 import {RESTAURANT_READ_ADMISSION_MS} from "./read-time-reserve.js";
 import { assessRestaurantConditions } from "./condition-states.js";
 import { createHash } from "node:crypto";
@@ -25,9 +26,10 @@ import type {
 import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "./contracts.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
 import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
-import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentableCandidateIds, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
 import { restaurantReadStopIsSystem, restaurantUnverifiedReadSummary } from "./read-loop-termination.js";
+import { canContinueRestaurantRead, failedSourceRetryCandidateIds } from "./read-continuation.js";
 
 function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantPhase[], eventType: string) {
   if (!allowed.includes(state.phase)) {
@@ -98,7 +100,7 @@ function resetForSemanticUpdate(
 }
 
 function sameSearchIntent(left: RestaurantTaskState["intent"], right: RestaurantTaskState["intent"]): boolean {
-  return JSON.stringify(left) === JSON.stringify(right);
+  return isDeepStrictEqual(left, right);
 }
 
 /**
@@ -253,25 +255,26 @@ function transition(
 ): TransitionResult<RestaurantTaskState, RestaurantCommand> {
   switch (event.type) {
     case "PAGE_QUESTION_REQUESTED": {
-      requirePhase(state, ["PRESENT_RESULTS"], event.type);
       const q = event.question;
       if (q.result || !q.requestId || !q.question.trim() || q.question.length > 2000
-        || !state.presentedResults?.candidateIds.includes(q.candidateId)
+        || !canAskPageQuestion(state,q.candidateId,restaurantReadyCandidateIds(state,context.now))
         || !state.candidates.some(c => c.restaurant.id === q.candidateId)
         || !q.readRunId
         || !Number.isFinite(Date.parse(q.readStartedAt)) || !Number.isFinite(Date.parse(q.deadlineAt))) throw new Error("Question must bind an explicitly displayed outlet and the current read run");
+      if (state.pageQuestion && !state.pageQuestion.result) throw new Error("Settle the accepted question before replacing it");
       return { state: { ...state, pageQuestion: structuredClone(q) }, commands: [] };
     }
     case "PAGE_QUESTION_COMPLETED": {
       const q = state.pageQuestion;
       if (!q || q.result || q.requestId !== event.requestId || q.readRunId !== event.readRunId
-        || event.result.candidateId !== q.candidateId || state.phase !== "PRESENT_RESULTS") throw new Error("Stale or mismatched restaurant question result");
+        || event.result.candidateId !== q.candidateId || !canSettlePageQuestion(state, q, restaurantInvestigationReadRunId(state, context.runId))) throw new Error("Stale or mismatched restaurant question result");
       return { state: { ...state, pageQuestion: { ...q, result: structuredClone(event.result) } }, commands: [] };
     }
 
     case "SEMANTIC_PROPOSAL_COMPILED": {
       requireSemanticMutablePhase(state, event.type);
       if (!restaurantIntentPatchHasChanges(event.patch)) return { state: structuredClone(state), commands: [] };
+      if (state.pageQuestion && !state.pageQuestion.result) throw new Error("Settle the accepted question before revising the intent");
       const intentDraft = applyRestaurantIntentPatch(state.intentDraft, event.patch);
       // Reaffirming identical conditions does not refresh or erase source
       // evidence. Actual value/provenance changes still invalidate the read.
@@ -315,6 +318,7 @@ function transition(
     }
     case "SEMANTIC_CONFLICT_RECORDED":
       requireSemanticMutablePhase(state, event.type);
+      if (state.pageQuestion && !state.pageQuestion.result) throw new Error("Settle the accepted question before ending its investigation");
       return {
         state: {
           ...resetForSemanticUpdate(state, state.intentDraft ? structuredClone(state.intentDraft) : undefined),
@@ -325,6 +329,7 @@ function transition(
       };
     case "SEMANTIC_INTERPRETATION_FAILED":
       requireSemanticMutablePhase(state, event.type);
+      if (state.pageQuestion && !state.pageQuestion.result) throw new Error("Settle the accepted question before ending its investigation");
       return {
         state: {
           ...state,
@@ -343,7 +348,7 @@ function transition(
       requirePhase(state, ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       const remainingMs = Date.parse(event.deadlineAt) - Date.parse(context.now);
       if (!Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > (event.reason==='DELIVERY_TIME'?Math.max(...Object.values(RESTAURANT_READ_ADMISSION_MS)):45_000)
-        || event.reason==='MODEL_CALL' && assessRestaurantRead(state,context.now).presentation.some(item=>item.eligible)) throw new Error("Read-end reserve requires a bounded deadline and a code-owned reason");
+        || event.reason==='MODEL_CALL' && restaurantPresentableCandidateIds(state,context.now).length>0) throw new Error("Read-end reserve requires a bounded deadline and a code-owned reason");
       return { state: { ...state, readEndWindow: { openedAt: context.now, deadlineAt: event.deadlineAt, reason:event.reason } }, commands: [] };
     }
     case "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED": {
@@ -556,14 +561,15 @@ function transition(
       };
     }
     case "AVAILABILITY_REFRESH_REQUESTED": {
-      requirePhase(state, ["PRESENT_RESULTS"], event.type);
-      if (!state.presentedResults || event.candidateIds.length === 0 || new Set(event.candidateIds).size !== event.candidateIds.length) {
+      requirePhase(state, ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"], event.type);
+      const allowedIds = state.phase === "NO_VERIFIED_RESULT" ? failedSourceRetryCandidateIds(state, context.now) : state.presentedResults?.candidateIds ?? [];
+      if (!allowedIds.length || event.candidateIds.length === 0 || new Set(event.candidateIds).size !== event.candidateIds.length) {
         throw new Error("Availability refresh requires unique previously presented candidates");
       }
-      if (!event.candidateIds.every((candidateId) => state.presentedResults!.candidateIds.includes(candidateId))) {
+      if (!event.candidateIds.every((candidateId) => allowedIds.includes(candidateId))) {
         throw new Error("Availability refresh is limited to previously presented candidates");
       }
-      const { presentedResults: _presentedResults, failure: _failure, readEndWindow: _readEndWindow, ...remaining } = state;
+      const { presentedResults: _presentedResults, failure: _failure, readEndWindow: _readEndWindow, noVerifiedResult: _noResult, ...remaining } = state;
       return {
         state: { ...remaining, phase: "SEARCHING", refreshRequestedCandidateIds: [...event.candidateIds] },
         commands: [],
@@ -655,7 +661,7 @@ function transition(
       if (event.candidateIds.some(id => restaurantPresentationEvidenceIds(state, id, context.now)?.some(required => !citedEvidence.has(required)))) {
         throw new Error("Results presentation omitted current required evidence citations");
       }
-      const { pendingResultBatchTarget: _pendingResultBatchTarget, defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow, ...remaining } = state;
+      const { pendingResultBatchTarget: _pendingResultBatchTarget, defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow, noVerifiedResult: _noResult, ...remaining } = state;
       const resultBatchTarget = state.pendingResultBatchTarget === undefined
         ? undefined
         : { candidateCount: state.pendingResultBatchTarget, met: event.candidateIds.length === state.pendingResultBatchTarget };
@@ -676,14 +682,15 @@ function transition(
       };
     }
     case "NEXT_BATCH_REPLENISHMENT_REQUESTED": {
-      requirePhase(state, ["PRESENT_RESULTS"], event.type);
+      requirePhase(state, ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"], event.type);
       if (!Number.isSafeInteger(event.targetCandidateCount) || event.targetCandidateCount < 1 || event.targetCandidateCount > 3) {
         throw new Error("A requested next result batch must have a bounded target of one to three candidates");
       }
-      if (!state.presentedResults?.candidateIds.length) throw new Error("Another result batch requires an existing presented batch");
+      if (state.phase === "NO_VERIFIED_RESULT" ? !canContinueRestaurantRead(state, context.now) : !state.presentedResults?.candidateIds.length) throw new Error("Another result batch requires presented results or proven unread work");
+      const { readEndWindow: _end, defaultBatchDeliveryWindow: _delivery, failure: _failure, ...remaining } = state;
       return {
         state: {
-          ...state,
+          ...remaining,
           phase: "SEARCHING",
           pendingResultBatchTarget: event.targetCandidateCount,
         },

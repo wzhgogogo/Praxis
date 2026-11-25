@@ -1,0 +1,65 @@
+{
+  "sourceSHA": "50bd33493ad15fd77e0acb752e44b100f417c891",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "sourceSHA": "50bd33493ad15fd77e0acb752e44b100f417c891",
+      "startedAtCET": "2026-11-10T10:12:37.533372+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-10T10:12:38.026809+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "architecture",
+      "command": "npm run arch:check",
+      "sourceSHA": "50bd33493ad15fd77e0acb752e44b100f417c891",
+      "startedAtCET": "2026-11-10T10:12:38.114896+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-10T10:12:38.306481+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "default",
+      "command": "npm test",
+      "sourceSHA": "50bd33493ad15fd77e0acb752e44b100f417c891",
+      "startedAtCET": "2026-11-10T10:12:38.392605+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-10T10:13:35.478710+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "build",
+      "command": "npm run build",
+      "sourceSHA": "50bd33493ad15fd77e0acb752e44b100f417c891",
+      "startedAtCET": "2026-11-10T10:13:35.590075+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-10T10:13:36.101425+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "browser",
+      "command": "npm run test:browser:fixture",
+      "sourceSHA": "50bd33493ad15fd77e0acb752e44b100f417c891",
+      "startedAtCET": "2026-11-10T10:13:36.192002+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-10T10:17:18.800467+01:00",
+      "cleanAfter": true
+    },
+    {
+      "gate": "strict-g2",
+      "command": "PRAXIS_G2_REQUIRE_PASS=1 npm run test:dom-change",
+      "sourceSHA": "50bd33493ad15fd77e0acb752e44b100f417c891",
+      "startedAtCET": "2026-11-10T10:17:18.890923+01:00",
+      "cleanBefore": true,
+      "exitCode": 0,
+      "finishedAtCET": "2026-11-10T10:17:43.548946+01:00",
+      "cleanAfter": true
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+✔ C3 settles delayed date results before asking the model and never completes from stale loading stock (6465.85425ms)
+✔ C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton (11868.669709ms)
+✖ C4 blocks repeated toggle state but allows the same Next control on changed pages (2026.982416ms)
+✔ C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending (14172.971084ms)
+✔ C3b Chromium ignores an outstanding image once data has completed (476.135042ms)
+✔ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (12859.967625ms)
+✖ recorded DIRECTORY components stop on second equivalent visible-state/action stall, despite changing refs/prose (10.463292ms)
+ℹ {"run":"D01","oldCalls":17,"used":12,"avoided":5,"noProgress":2}
+✔ changing controls through exact suggestion, outlet and date/party has no stall; hidden/opaque refs/prose aren't progress (1.059459ms)
+✖ executor closes a source after two no-effect actions, exposes factual stateChanged history and preserves filled inputs (1678.008917ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 6
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 48216.241375
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-stability.test.ts:6:1614
+✖ C4 blocks repeated toggle state but allows the same Next control on changed pages (2026.982416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NO_SAFE_ACTION'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/browser-read-stability.test.ts:68:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_SAFE_ACTION',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-visible-progress.test.ts:1:375
+✖ recorded DIRECTORY components stop on second equivalent visible-state/action stall, despite changing refs/prose (10.463292ms)
+  Error: ENOENT: no such file or directory, open '/private/tmp/praxis-heldout-read-reliability/src/harness/browser/fixtures/discovery-visible-progress/p3b-holdout-01-r1-retry1.json'
+      at async open (node:internal/fs/promises:640:25)
+      at async readFile (node:internal/fs/promises:1277:14)
+      at async TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/browser-visible-progress.test.ts:8:27)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/private/tmp/praxis-heldout-read-reliability/src/harness/browser/fixtures/discovery-visible-progress/p3b-holdout-01-r1-retry1.json'
+  }
+
+test at src/harness/browser/browser-visible-progress.test.ts:1:2744
+✖ executor closes a source after two no-effect actions, exposes factual stateChanged history and preserves filled inputs (1678.008917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/browser-visible-progress.test.ts:55:17)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }

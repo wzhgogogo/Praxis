@@ -1,0 +1,1 @@
+Frozen4658490514c6c47124e881462d8873d550b3628f: type/arch/default1932PASS; Browser G2 5PASS + Chromium570/573 (3fail), so G6/Build and later acceptance NOT_RUN. Two stale time-format oracles; one real focus regression on stopped card. Correct under new freeze; old logs/trace/screenshots untouched.

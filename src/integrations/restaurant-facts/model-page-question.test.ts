@@ -407,3 +407,28 @@ test("G1 preserves parent IDs for unsplit lines while split lines require comple
   assert.equal(sentence.status, "ANSWERED");
   assert.equal(sentence.citations[0]!.text, "Cards accepted.");
 });
+
+import {questionRowFixture} from '../../harness/question-row-fixture.js';
+import {questionCitations} from '../../web/browser/citation-groups.js';
+for(const mode of ['same-row','crossed','repeated','legacy'] as const)test('Round25 V3 production table extraction proves only unique same-row cells: '+mode,async()=>{
+ const result=await questionRowFixture(candidate,mode);assert.equal(result.status,'ANSWERED');if(result.status!=='ANSWERED')return;
+ const rendered=questionCitations(result.citations).map(row=>row.text);
+ assert.equal(result.answer,'The page lists private-room information. Please check the quoted rows.');
+ if(mode==='same-row')assert.deepEqual(rendered,['Private rooms: Available','For 2 people or more.']);
+ else {assert.ok(!rendered.some(text=>text?.startsWith('Private rooms:')));assert.equal(rendered[0],'Private rooms');}
+});
+
+test('Round26 V3 sourceRowProof fails closed when visibleHtml is absent or visible text is non-adjacent',async()=>{
+ const missingVisible=page('Private rooms\nAvailable\nPrivate hire\nUnavailable');
+ missingVisible.snapshot.html='<table><tr><th>Private rooms</th><td><p>Available</p></td></tr></table>';
+ delete missingVisible.snapshot.visibleHtml;
+ const noProof=await new ModelRestaurantPageQuestion(fixtureModel(selected(['Private rooms','Available'])),undefined,now).answer(question([missingVisible],'Does this restaurant have private rooms?'),signal());
+ assert.equal(noProof.status,'ANSWERED');
+ if(noProof.status==='ANSWERED')assert.deepEqual(questionCitations(noProof.citations).map(row=>row.text),['Private rooms','Available']);
+
+ const rogueHtml=page('Fixture Sushi\nOne Ginza\nPrivate rooms\nUnavailable\nPrivate hire\nAvailable');
+ rogueHtml.snapshot.visibleHtml='<dl><dt>Private rooms</dt><dd>Unavailable</dd><dt>Private hire</dt><dd>Available</dd></dl><table><tr><th>Private rooms</th><td>Available</td></tr></table>';
+ const mismatch=await new ModelRestaurantPageQuestion(fixtureModel(selected(['Private rooms','Available'])),undefined,now).answer(question([rogueHtml],'Does this restaurant have private rooms?'),signal());
+ assert.equal(mismatch.status,'ANSWERED');
+ if(mismatch.status==='ANSWERED')assert.deepEqual(questionCitations(mismatch.citations).map(row=>row.text),['Private rooms','Available']);
+});

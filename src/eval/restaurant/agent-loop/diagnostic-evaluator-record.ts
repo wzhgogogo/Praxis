@@ -75,7 +75,8 @@ const criterion: typeof criterionFields = (value, path, issues) => {
 const party: Decoder<number | { value?: number }> = (value, path, issues) => typeof value === "number" ? number(value, path, issues) : object({ value: number })(value, path, issues);
 const semantic = object({ target, date: object({ value: text }), time: object({ value: text, start: text, end: text }), party_size: party,
   location: object({ value: text, relation: text }), criteria: array(criterion), permittedAlternativeTimeWindow: window });
-const intent = object({ target, date: text, partySize: party, timeWindow: window, area: object({ query: text }),
+const temporalResolution = object({ timeWindow: object({ basis: text, resolvedTimeWindow: window }) });
+const intent = object({ temporalResolution, timeWindowBasis: text, target, date: text, partySize: party, timeWindow: window, area: object({ query: text }),
   criteria: array(criterion), permittedAlternativeTimeWindow: window, timezone: text });
 const serviceScope = object({ field: text, group: text, value: text });
 const claims = object({ serviceScopeField: text, serviceScopeGroup: text, serviceScopeValue: text, supportingEvidenceIds: texts,
@@ -98,7 +99,8 @@ const trajectory = object({ stepNumber: number, occurredAt: text, stateVersionAf
   actionValidation: object({ status: text }), observation,
   executionMetadata: object({ provider: text, failureCode: text, recheckReason: text,
     nativeDiscoveryFunnel: object({ pagesRead: number, listingObservations: array(object({ sourceUrl: text, resultCount: number, parsedOutlets: number })) }),
-    providerAttempts: array(object({ candidateId: text, provider: text, outcome: text, failureCode: text })) }) });
+    providerAttempts: array(object({ candidateId: text, provider: text, outcome: text, failureCode: text })),
+    skippedSources: array(object({candidateId:text,provider:text,reason:text})) }) });
 const control = object({ structure: object({ name: text, radioGroupKey: text }), name: text, label: text, kind: text,
   checked: boolean, selected: boolean, calendarDate: text, visible: boolean, disabled: boolean, value: text, options: array(object({ selected: boolean, value: text, label: text })) });
 const tabelogSelection = object({ time: text, link: object({ rcd: text, member: text, visit_date: text, visit_time: text }) });

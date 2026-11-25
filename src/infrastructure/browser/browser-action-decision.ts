@@ -5,26 +5,63 @@ import { ModelGatewayError } from "../../core/model/errors.js";
 import type { BrowserCalendarMonth } from "./browser-runtime.js";
 
 /** Current observable controls and native public form ownership; no scripted site flow. */
-export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "4" } as const;
-export const BROWSER_READ_DECISION_PROMPT_VERSION = "22";
+export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "5" } as const;
+export const BROWSER_READ_DECISION_PROMPT_VERSION = "27";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "13",
+  version: "16",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
   type: "object",
   additionalProperties: false,
-  required: ["action", "targetRef", "authoritativeField", "requestedState", "reason"],
+  required: [
+    "action",
+    "targetRef",
+    "valueGroupRef",
+    "authoritativeField",
+    "requestedState",
+    "reason",
+  ],
   properties: {
     action: {
       type: "string",
-      enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
+      enum: [
+        "OPEN_LINK",
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE",
+        "CLICK_AUTHORITATIVE",
+        "FILL_AUTHORITATIVE",
+        "CHOOSE_OPTION",
+        "SET_CHECKED",
+        "ADJUST_RANGE",
+        "SCROLL_REGION",
+        "PRESS_ESCAPE",
+        "WAIT",
+        "COMPLETE",
+        "REQUEST_HUMAN_HELP",
+      ],
     },
     targetRef: { type: "string" },
-    authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"] },
-    requestedState: { type: "string", enum: ["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"] },
+    valueGroupRef: { type: "string", description: "For ADVANCE_TO_AUTHORITATIVE only: current group containing the requested field choices, which may differ from the advance control group. Empty string for all other actions." },
+    authoritativeField: { type: "string", enum: [
+        "NONE",
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+        "RETRIEVAL",
+        "LOCATION",
+      ] },
+    requestedState: { type: "string", enum: [
+        "NONE",
+        "CHECKED",
+        "UNCHECKED",
+        "INCREASE",
+        "DECREASE",
+        "UP",
+        "DOWN",
+      ] },
     reason: { type: "string" },
   },
 };
@@ -32,6 +69,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
 export type BrowserReadAction =
   | { type: "OPEN_LINK"; targetRef: string; reason: string }
   | { type: "CLICK"; targetRef: string; reason: string }
+  | { type: "ADVANCE_TO_AUTHORITATIVE"; targetRef: string; valueGroupRef: string; field: "DATE" | "PARTY_SIZE" | "TIME"; reason: string }
   | { type: "CLICK_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE"; reason: string }
   | { type: "FILL_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"; reason: string }
   | { type: "CHOOSE_OPTION"; targetRef: string; field: "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL"; reason: string }
@@ -41,7 +79,7 @@ export type BrowserReadAction =
   | { type: "PRESS_ESCAPE"; reason: string }
   /** Page-level wait: the strict wire retains an empty targetRef placeholder. */
   | { type: "WAIT"; reason: string }
-  | { type: "COMPLETE"; reason: string }
+  | { type: "COMPLETE"; scopeRef?: string; reason: string }
   | { type: "REQUEST_HUMAN_HELP"; reason: string };
 
 /**
@@ -57,6 +95,11 @@ export function browserReadActionTargetReplayFingerprint(target: Pick<BrowserRea
     type: target.type ?? null,
     formMethod: target.formMethod ?? null,
   })).digest("hex");
+}
+
+/** Hash only the semantic members of one observed group; never its revision-local ref. */
+export function browserReadGroupReplayFingerprint(targets: readonly BrowserReadActionTarget[]): string {
+  return createHash("sha256").update(JSON.stringify(targets.map(browserReadActionTargetReplayFingerprint).sort())).digest("hex");
 }
 
 export interface BrowserReadActionTarget {
@@ -140,6 +183,8 @@ export interface BrowserReadHistoryStep {
   outcome: "EXECUTED" | "REJECTED" | "NO_CHANGE" | "PAGE_CHANGED";
   reason?: string;
   urlChanged: boolean;
+  /** Actual URL/visible-control state change, independent of incidental prose. */
+  stateChanged?: boolean;
 }
 
 export interface BrowserReadActionDecisionPort {
@@ -158,6 +203,8 @@ export interface BrowserActionWireRecord {
   targetRef: string;
   authoritativeField: string;
   requestedState: string;
+  valueGroupRef?: string;
+  valueGroupFingerprint?: string;
   reason: "REDACTED";
   extras: Array<{ fieldPath: string; valueType: string }>;
 }
@@ -185,10 +232,46 @@ function nonBlank(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-const WIRE_FIELDS = ["action", "targetRef", "authoritativeField", "requestedState", "reason"] as const;
-const KNOWN_ACTIONS = new Set(["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"]);
-const KNOWN_FIELDS = new Set(["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"]);
-const KNOWN_STATES = new Set(["NONE", "CHECKED", "UNCHECKED", "INCREASE", "DECREASE", "UP", "DOWN"]);
+const WIRE_FIELDS = [
+  "action",
+  "targetRef",
+  "authoritativeField",
+  "requestedState",
+  "reason",
+  "valueGroupRef",
+] as const;
+const KNOWN_ACTIONS = new Set([
+        "OPEN_LINK",
+        "CLICK",
+        "ADVANCE_TO_AUTHORITATIVE",
+        "CLICK_AUTHORITATIVE",
+        "FILL_AUTHORITATIVE",
+        "CHOOSE_OPTION",
+        "SET_CHECKED",
+        "ADJUST_RANGE",
+        "SCROLL_REGION",
+        "PRESS_ESCAPE",
+        "WAIT",
+        "COMPLETE",
+        "REQUEST_HUMAN_HELP",
+      ]);
+const KNOWN_FIELDS = new Set([
+        "NONE",
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+        "RETRIEVAL",
+        "LOCATION",
+      ]);
+const KNOWN_STATES = new Set([
+        "NONE",
+        "CHECKED",
+        "UNCHECKED",
+        "INCREASE",
+        "DECREASE",
+        "UP",
+        "DOWN",
+      ]);
 
 function diagnosticPath(key: string): string {
   // Field names are normally harmless schema positions, but an arbitrary key
@@ -231,7 +314,7 @@ export function safeActionWireRecord(value: unknown, observedTargetRefs: Readonl
     ? Object.entries(value).filter(([key]) => !WIRE_FIELDS.includes(key as typeof WIRE_FIELDS[number]))
       .map(([key, entry]) => ({ fieldPath: diagnosticPath(key), valueType: entry === null ? "null" : Array.isArray(entry) ? "array" : typeof entry }))
     : [];
-  return { action, targetRef, authoritativeField, requestedState, reason: "REDACTED", extras };
+  return { action, targetRef, authoritativeField, requestedState, ...(typeof record.valueGroupRef === "string" && observedTargetRefs.has(record.valueGroupRef) ? {valueGroupRef:record.valueGroupRef} : {}), reason: "REDACTED", extras };
 }
 
 class BrowserActionWireError extends Error {
@@ -272,26 +355,50 @@ export function decodeBrowserReadActionWire(value: unknown, observedTargetRefs: 
     case "CLICK":
       targetRequired(value, observedTargetRefs);
       return { type: value.action, targetRef: value.targetRef, reason };
+    case "COMPLETE":
+      return {type:"COMPLETE",reason,...(observedTargetRefs.has(value.targetRef)?{scopeRef:value.targetRef}:{})};
     case "WAIT":
     case "PRESS_ESCAPE":
-    case "COMPLETE":
     case "REQUEST_HUMAN_HELP":
       // These page actions do not consume a control. A provider may retain a
       // stale/placeholder target or inert field/state metadata in its strict
       // envelope; canonicalize it rather than spend a decision on rejection.
       return { type: value.action, reason };
+    case "ADVANCE_TO_AUTHORITATIVE":
+      if (!nonBlank(value.valueGroupRef) || !observedTargetRefs.has(value.valueGroupRef)) return rejectWire(value,observedTargetRefs,"$.valueGroupRef",value.valueGroupRef,"INVALID_STATE");
+      if (!nonBlank(value.targetRef) || ![
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+      ].includes(value.authoritativeField)) {
+        return rejectWire(value, observedTargetRefs, "$.authoritativeField", value.authoritativeField, "INVALID_STATE");
+      }
+      return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME", valueGroupRef:value.valueGroupRef as string, reason };
     case "CLICK_AUTHORITATIVE":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE"].includes(value.authoritativeField)) {
+      if (!nonBlank(value.targetRef) || ![
+        "DATE",
+        "PARTY_SIZE",
+      ].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE", reason };
     case "CHOOSE_OPTION":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "TIME", "RETRIEVAL"].includes(value.authoritativeField)) {
+      if (!nonBlank(value.targetRef) || ![
+        "DATE",
+        "PARTY_SIZE",
+        "TIME",
+        "RETRIEVAL",
+      ].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "TIME" | "RETRIEVAL", reason };
     case "FILL_AUTHORITATIVE":
-      if (!nonBlank(value.targetRef) || !["DATE", "PARTY_SIZE", "RETRIEVAL", "LOCATION"].includes(value.authoritativeField)) {
+      if (!nonBlank(value.targetRef) || ![
+        "DATE",
+        "PARTY_SIZE",
+        "RETRIEVAL",
+        "LOCATION",
+      ].includes(value.authoritativeField)) {
         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.authoritativeField", !nonBlank(value.targetRef) ? value.targetRef : value.authoritativeField, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
       }
       return { type: value.action, targetRef: value.targetRef, field: value.authoritativeField as "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION", reason };
@@ -326,13 +433,13 @@ Observation context ${BROWSER_READ_CONTEXT_SCHEMA.name}@${BROWSER_READ_CONTEXT_S
 
 Choose one action only from the observed target references and their availableActions, except a listed pageActions action. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time.
 
-Choose each next action from the current visible text, accessible structure and native form association. There is no required menu, fill, suggestion, tag or submit sequence. formObservation identifies one native form and its public visible lines; hidden values are never model inputs. FILL_AUTHORITATIVE with LOCATION fills only goal.location.name; RETRIEVAL fills only the code-bound literal retrievalExpression and requires its authoritative source. A typed value is not proof that the website selected a place or that results are current. When the discovery goal has a location and the current page offers a way to set it, establish that location before submitting a search or adding a cuisine/name query to the same input. Confirm its effect in newly observed page text or a source-owned location summary. If the page still offers unrelated recommendations, do not open those as this query's results. Do not repeatedly fill or submit unchanged input when the history shows no progress; re-observe the visible alternatives. If the source explicitly reports that the authoritative location or query has no matching option, and the currently observed controls show no matching route, request human help rather than refill/resubmit or substitute another criterion into that field. That source limitation is not evidence that the restaurant does not exist or has no availability. An explicit no-match message for the unchanged authoritative input is not a cue to submit again. A submit control still being visible is not a new matching route. If history already submitted that query on the same visible state, do not submit it again; request human help unless the current observation exposes a different relevant route. COMPLETE requires visible evidence that the requested location is in effect, beyond an input value. Re-observe the effect of every chosen action. The source result, identity and coordinates remain code-verified. Never propose replacement words, URLs or free-text values. Source-bound exact document URLs and links actually observed in this read may be opened directly by the execution layer through the unchanged Guard; this does not permit URL construction or a model-generated URL.
+Choose each next action from the current visible text, accessible structure and native form association. There is no required menu, fill, suggestion, tag or submit sequence. formObservation identifies one native form and its public visible lines; hidden values are never model inputs. FILL_AUTHORITATIVE with LOCATION fills only goal.location.name; RETRIEVAL fills only the code-bound literal retrievalExpression and requires its authoritative source. A typed value is not proof that the website selected a place or that results are current. When the discovery goal has a location and the current page offers a way to set it, establish that location before submitting a search or adding a cuisine/name query to the same input. Confirm its effect in newly observed page text or a source-owned location summary. If the page still offers unrelated recommendations, do not open those as this query's results. Do not repeatedly fill or submit unchanged input when the history shows no progress; re-observe the visible alternatives. If the source explicitly reports that the authoritative location or query has no matching option, and the currently observed controls show no matching route, request human help rather than refill/resubmit or substitute another criterion into that field. That source limitation is not evidence that the restaurant does not exist or has no availability. An explicit no-match message for the unchanged authoritative input is not a cue to submit again. A submit control still being visible is not a new matching route. If history already submitted that query on the same visible state, do not submit it again; request human help unless the current observation exposes a different relevant route. When goal.location.addressComponents identifies a parent administrative area (such as administrative_area_level_1), choose location suggestions and directory links consistent with that parent area; avoid same-name suggestions that lack the parent-area qualification or point to another administrative area. If the resulting page breadcrumbs or title show a different parent area, prefer a currently visible filter-removal link or directory navigation link back toward the intended area before requesting human help. Use only observed links; do not construct a route. COMPLETE requires visible evidence that the requested location is in effect, beyond an input value. Re-observe the effect of every chosen action. The source result, identity and coordinates remain code-verified. Never propose replacement words, URLs or free-text values. Source-bound exact document URLs and links actually observed in this read may be opened directly by the execution layer through the unchanged Guard; this does not permit URL construction or a model-generated URL.
 
 A LINK can represent a same-page UI control when its observed href differs from the current document only by a fragment (including #). If its availableActions includes CLICK, use CLICK to expand or change that UI and re-observe. Ordinary public links continue to use OPEN_LINK. Use the visible control label and its page context to match the objective; an unrelated unlabeled button is not a substitute for a named category or filter control.
 
-OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. An OPTION marked outsideViewport is in the current open list but clipped by its scroll viewport. Choose it directly when its availableActions match the goal; the executor scrolls that list and verifies the option before clicking, without another model call.
+When both location and retrievalExpression are supplied, establish the location first, then use observed query controls or classification links to apply retrievalExpression to the whole list. A matching card or an intermediate broad category does not prove the result scope; inspect the source query, document title or primary heading before COMPLETE. Never construct a filter URL. OPEN_LINK is only for an observed public result link. Targeted actions are permitted only when their current availableActions explicitly list them. An installed isolated read boundary may expose ordinary public-query controls, including a submit-shaped query control, checkbox/radio, option, range, and region scroll after code has admitted the page's requests; it does not permit sensitive workflows. Login, registration, reservation, booking, checkout, payment, purchase, cancellation, deletion, and confirmation remain unavailable. Use a currently available direct authoritative choice or native value control whenever it already offers the requested value. Only when advancing an observed control is necessary to expose that value in the intended field scope, choose ADVANCE_TO_AUTHORITATIVE on an observed non-submit control and specify the authoritative field and valueGroupRef for the observed group containing the field choices. Its group may differ from the advance control group. Never infer shared ownership from equal group labels. The executor repeats that selected control within its step and operation budgets, observing after every click without intermediate model decisions, then returns the new observation when a matching choice appears. It never selects the revealed choice or establishes availability; choose the existing authoritative action afterwards. Do not request separate decisions for each intermediate advance. CLICK_AUTHORITATIVE must also match the exact DATE or PARTY_SIZE. An OPTION marked outsideViewport is in the current open list but clipped by its scroll viewport. Choose it directly when its availableActions match the goal; the executor scrolls that list and verifies the option before clicking, without another model call.
 
-CHOOSE_OPTION is the action for an observed native-select or parent-bound custom-list option; use TIME only inside the authoritative window. A unique exact retrieval suggestion may instead be exposed as a BUTTON offering CLICK under the installed read boundary: use that offered CLICK, then re-observe the destination and choose COMPLETE only for the settled source handoff. That exception does not permit other ownerless options. A label consisting only of digits is never sufficient for a date. SET_CHECKED selects one current permitted checkbox or radio with CHECKED; a radio must not be unset or selected by guessing a group. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. PRESS_ESCAPE closes one page layer then requires a fresh observation. WAIT waits for one bounded visible result change at page level. If no safe action is available, request human help. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
+CHOOSE_OPTION is the action for an observed native-select or parent-bound custom-list option; use TIME only inside the authoritative window. A unique exact retrieval suggestion may instead be exposed as a BUTTON offering CLICK under the installed read boundary: use that offered CLICK, then re-observe the destination and choose COMPLETE only for the settled source handoff. That exception does not permit other ownerless options. A label consisting only of digits is never sufficient for a date. SET_CHECKED selects one current permitted checkbox or radio with CHECKED; a radio must not be unset or selected by guessing a group. ADJUST_RANGE moves one observed slider by one safe keyboard step only. A slider's valueText is a page-displayed label, distinct from value/min/max positions. SCROLL_REGION moves one observed region by one bounded viewport. PRESS_ESCAPE closes one page layer then requires a fresh observation. WAIT waits for one bounded visible result change at page level. If no safe action is available, request human help. For area discovery COMPLETE, use targetRef to cite a currently visible control that states the current result-list scope. Cite what the page actually displays; a broad scope is not proof of the requested cuisine. If there is no such visible reference use an empty targetRef; the batch will be scope-unverified. COMPLETE only hands the page to deterministic verification; it does not claim identity, availability, or success.
 
 Return exactly the strict JSON object. For actions without a target, use an empty targetRef. For actions without an authoritative field, use NONE. For actions without a requested state, use NONE. Keep reason short and do not include hidden reasoning.`;
 }
@@ -394,7 +501,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       throw new BrowserReadDecisionError("MODEL_FAILURE", modelError.code);
     }
     if (response.finishReason !== "TOOL_CALLS") throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", `finish reason ${response.finishReason}`);
-    const observedTargetRefs = new Set(input.observation.targets.map(target => target.ref));
+    const observedTargetRefs = new Set([...input.observation.targets.map(target => target.ref),...(input.observation.controlGroups??[]).map(group=>group.ref)]);
     try {
       const wire = JSON.parse(response.outputText);
       this.lastWireRecord = safeActionWireRecord(wire, observedTargetRefs);

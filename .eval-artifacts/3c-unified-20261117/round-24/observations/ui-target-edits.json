@@ -1,0 +1,836 @@
+{
+  "head": "f036b7a0ea569ec41518837c4806b7b01f50578f",
+  "mode": "OFFLINE_HTTP_PGLITE_SHARED_JOURNEY_OBSERVATIONS",
+  "rows": [
+    {
+      "name": "Round24 UI: B4 390 beer-triple keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza"
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza",
+            {
+              "regex": "beer",
+              "flags": "i"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza",
+            {
+              "regex": "café",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza",
+            {
+              "regex": "outdoor seating",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza",
+            {
+              "regex": "wine",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "outdoor seating",
+              "serves wine"
+            ],
+            [
+              "outdoor seating",
+              "serves wine"
+            ]
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            0,
+            0
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 390 beer-double keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "café with outdoor seating in Ginza restaurant Ginza"
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "café with outdoor seating in Ginza restaurant Ginza",
+            {
+              "regex": "beer",
+              "flags": "i"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating in Ginza restaurant Ginza",
+            {
+              "regex": "café",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating in Ginza restaurant Ginza",
+            {
+              "regex": "outdoor seating",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            0,
+            0
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 390 japanese-niaru keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷"
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "渋谷",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "銀座",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 390 japanese-shuhen keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷"
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "渋谷",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "銀座",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 390 japanese-fukin keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷"
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "渋谷",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "銀座",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 390 japanese-compound-control keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "寿司店 東銀座駅近く in 渋谷 restaurant 渋谷"
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 東銀座駅近く in 渋谷 restaurant 渋谷",
+            {
+              "regex": "渋谷",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "寿司店 近く in 渋谷 restaurant 渋谷",
+            {
+              "regex": "銀座",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 東銀座駅近く in 渋谷 restaurant 渋谷",
+            {
+              "regex": "東銀座駅",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 1440 beer-triple keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza"
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza",
+            {
+              "regex": "beer",
+              "flags": "i"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza",
+            {
+              "regex": "café",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza",
+            {
+              "regex": "outdoor seating",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating and wine in Ginza restaurant Ginza",
+            {
+              "regex": "wine",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "outdoor seating",
+              "serves wine"
+            ],
+            [
+              "outdoor seating",
+              "serves wine"
+            ]
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            0,
+            0
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 1440 beer-double keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "café with outdoor seating in Ginza restaurant Ginza"
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "café with outdoor seating in Ginza restaurant Ginza",
+            {
+              "regex": "beer",
+              "flags": "i"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating in Ginza restaurant Ginza",
+            {
+              "regex": "café",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "café with outdoor seating in Ginza restaurant Ginza",
+            {
+              "regex": "outdoor seating",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            0,
+            0
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 1440 japanese-niaru keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷"
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "渋谷",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "銀座",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 1440 japanese-shuhen keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷"
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "渋谷",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "銀座",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 1440 japanese-fukin keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷"
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "渋谷",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "寿司店 in 渋谷 restaurant 渋谷",
+            {
+              "regex": "銀座",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: B4 1440 japanese-compound-control keeps unrevoked intent through the next Google request",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            200,
+            200
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            "寿司店 東銀座駅近く in 渋谷 restaurant 渋谷"
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 東銀座駅近く in 渋谷 restaurant 渋谷",
+            {
+              "regex": "渋谷",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "寿司店 近く in 渋谷 restaurant 渋谷",
+            {
+              "regex": "銀座",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "寿司店 東銀座駅近く in 渋谷 restaurant 渋谷",
+            {
+              "regex": "東銀座駅",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "AVAILABILITY",
+            "AVAILABILITY"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "OPEN_ENDED",
+            "OPEN_ENDED"
+          ]
+        }
+      ]
+    }
+  ]
+}

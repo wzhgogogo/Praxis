@@ -103,8 +103,29 @@ export interface RestaurantCaseSummary {
   status: CaseStatus;
   phase: RestaurantPhase;
   taskVersion: number;
+  readonly stopped?: boolean;
   pendingUserAction?: PendingUserAction;
   updatedAt: string;
+}
+
+export type WorkspaceCandidateChangeReason = "OVER_BUDGET" | "NEW_TIME_MISMATCH" | "NO_LONGER_MATCHES";
+export interface RestaurantWorkspaceReadProjection {
+  requirementRevision: number;
+  /** Completed questions from this Case's existing events, newest first. */
+  questionHistory: import("../domains/restaurant/page-question.js").RestaurantPageQuestionState[];
+  savedCandidates: Array<{ candidateId: string; outletName: string; current: boolean; reasonCode?: WorkspaceCandidateChangeReason }>;
+  revisionDiff?: {
+    fromRevision: number;
+    toRevision: number;
+    removed: Array<{ candidateId: string; outletName: string; reasonCode: WorkspaceCandidateChangeReason; sourceUrl?: string }>;
+    added: Array<{ candidateId: string; outletName: string }>;
+  };
+  readStatus: {
+    kind: "PENDING" | "RESULTS" | "NO_QUALIFIED_RESULTS" | "ALL_SOURCES_FAILED" | "MODEL_FAILURE" | "OTHER_FAILURE";
+    partialSourceFailure: boolean;
+    canContinue: boolean;
+    canRetry: boolean;
+  };
 }
 
 export interface RestaurantCaseView {
@@ -114,16 +135,19 @@ export interface RestaurantCaseView {
     id: string;
     messages: ConversationMessage[];
   };
-  restaurant: {
+  restaurant: RestaurantWorkspaceReadProjection & {
     /** Current task-local request projection; coordinates are only returned to its authenticated owner. */
     intentDraft?: import("../domains/restaurant/contracts.js").RestaurantIntentDraft;
     /** The source-observed center actually used; never a rewrite of the user's AREA. */
     searchLocation?: RestaurantSearchContinuation["locationContext"];
+    /** Current structured-state clarification, never a historical G1 answer. */
+    clarificationQuestion?: string;
     missingRequiredFields: string[];
-    requestRevision: number;
+    /** Search/page counter; requirementRevision tracks condition updates separately. */
+    searchRevision: number;
     /** Qualified from the current state, including results ready before the batch ends. */
     readyCandidateIds: string[];
-    progress: { active: boolean; stopped: boolean; discoveredCount?: number; checkedCount?: number };
+    progress: { stage?: 'UNDERSTANDING' | 'FINDING' | 'CHECKING'; active: boolean; stopped: boolean; discoveredCount?: number; checkedCount?: number };
     candidates: Array<RestaurantCandidate & { distanceObservation?: CandidateDistanceObservation }>;
     availability: Record<string, AvailabilityOffer[]>;
     availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
@@ -137,7 +161,7 @@ export interface RestaurantCaseView {
     currentFactEvidence: RestaurantReadEvidence[];
     pageQuestion?: import("../domains/restaurant/page-question.js").RestaurantPageQuestionState;
     /** Server projection of the authoritative investigation; never accepted from a client. */
-    sourceReadContext?: { runId: string; startedAt: string };
+    sourceReadContext?: { runId: string; startedAt: string; handleId?: string };
     presentedCandidateIds?: string[];
     conditionStates?: Record<string, import("../domains/restaurant/condition-states.js").RestaurantConditionState[]>;
     viewedCandidateIds?: string[];

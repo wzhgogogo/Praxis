@@ -1,0 +1,15 @@
+node:internal/fs/promises:640
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/heldout-evidence-05/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r1-retry1/p3b-holdout-01-r1-retry1/recordings/g6-p3b-holdout-01-r1-retry1-1794216269863-0/snapshot-0004.html'
+    at async open (node:internal/fs/promises:640:25)
+    at async readFile (node:internal/fs/promises:1277:14)
+    at async <anonymous> (/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/discovery-progress-20261110/extract-components.ts:15:15) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/heldout-evidence-05/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r1-retry1/p3b-holdout-01-r1-retry1/recordings/g6-p3b-holdout-01-r1-retry1-1794216269863-0/snapshot-0004.html'
+}
+
+Node.js v24.4.1

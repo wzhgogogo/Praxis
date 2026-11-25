@@ -1,0 +1,552 @@
+✖ Round24 U3 removed links require matching provider and nonempty entity IDs for borrowed identity (4.1625ms)
+✖ Round24 U1 every displayed quote carries its originating evidence ID (3.264917ms)
+✖ Round24 B4 revoking a comma-separated beer item preserves every other open-ended request (2.949541ms)
+✖ Round24 B4 area replacement removes standalone Japanese にある (0.370417ms)
+✖ Round24 B4 area replacement removes standalone Japanese 周辺の (0.091416ms)
+✖ Round24 B4 area replacement removes standalone Japanese 付近の (0.077417ms)
+✔ Round24 B5 negative dessert preference has punctuation-invariant grounding none (1.980791ms)
+✖ Round24 B5 negative dessert preference has punctuation-invariant grounding . (2.113167ms)
+✖ Round24 B5 negative dessert preference has punctuation-invariant grounding ! (0.878708ms)
+✖ Round24 B5 negative dessert preference has punctuation-invariant grounding ? (0.257666ms)
+✖ Round24 B5 local negation retains a later or earlier positive request: without outdoor seating I would like a dessert café in Ginza (0.120958ms)
+✖ Round24 B5 local negation retains a later or earlier positive request: no parking required and looking for a dessert café in Ginza (0.062875ms)
+✔ Round24 B5 local negation retains a later or earlier positive request: not too sweet, but specifically looking for a dessert café in Ginza (0.083167ms)
+✔ Round24 B5 local negation retains a later or earlier positive request: nothing too sweet, please find a dessert café in Ginza (0.060042ms)
+✔ Round24 B5 local negation retains a later or earlier positive request: a dessert café in Ginza without outdoor seating (0.06075ms)
+✖ Round24 U5 Q&A smoking states retain qualifiers and remove only their own same-reading header (1.735041ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 4
+ℹ fail 12
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 152.688709
+
+✖ failing tests:
+
+test at src/application/workspace-read-projection.test.ts:1:17154
+✖ Round24 U3 removed links require matching provider and nonempty entity IDs for borrowed identity (4.1625ms)
+  AssertionError [ERR_ASSERTION]: sameOriginOtherOutlet
+  + actual - expected
+  
+  + 'https://merchant.example/b'
+  - 'https://merchant.example/a'
+                              ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/workspace-read-projection.test.ts:181:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'https://merchant.example/b',
+    expected: 'https://merchant.example/a',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/condition-states.test.ts:1:11731
+✖ Round24 U1 every displayed quote carries its originating evidence ID (3.264917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   undefined,
+  +   undefined
+  -   'first',
+  -   'second'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/condition-states.test.ts:132:70)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ undefined, undefined ],
+    expected: [ 'first', 'second' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/domains/restaurant/open-ended-target.test.ts:1:5509
+✖ Round24 B4 revoking a comma-separated beer item preserves every other open-ended request (2.949541ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /\bbeer\b/i. Input:
+  
+  'café with outdoor seating, beer and wine in Ginza'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/open-ended-target.test.ts:75:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'café with outdoor seating, beer and wine in Ginza',
+    expected: /\bbeer\b/i,
+    operator: 'doesNotMatch'
+  }
+
+test at src/domains/restaurant/open-ended-target.test.ts:1:6559
+✖ Round24 B4 area replacement removes standalone Japanese にある (0.370417ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /銀座/. Input:
+  
+  '銀座にある寿司店 近く in 渋谷'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/open-ended-target.test.ts:80:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '銀座にある寿司店 近く in 渋谷',
+    expected: /銀座/,
+    operator: 'doesNotMatch'
+  }
+
+test at src/domains/restaurant/open-ended-target.test.ts:1:6559
+✖ Round24 B4 area replacement removes standalone Japanese 周辺の (0.091416ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /銀座/. Input:
+  
+  '銀座周辺の寿司店 近く in 渋谷'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/open-ended-target.test.ts:80:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '銀座周辺の寿司店 近く in 渋谷',
+    expected: /銀座/,
+    operator: 'doesNotMatch'
+  }
+
+test at src/domains/restaurant/open-ended-target.test.ts:1:6559
+✖ Round24 B4 area replacement removes standalone Japanese 付近の (0.077417ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /銀座/. Input:
+  
+  '銀座付近の寿司店 近く in 渋谷'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/open-ended-target.test.ts:80:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '銀座付近の寿司店 近く in 渋谷',
+    expected: /銀座/,
+    operator: 'doesNotMatch'
+  }
+
+test at src/domains/restaurant/read-grounding.test.ts:1:26102
+✖ Round24 B5 negative dessert preference has punctuation-invariant grounding . (2.113167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   accepted: true,
+  +   additionalEvidence: [
+  +     {
+  +       candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       claims: {
+  +         address: 'Ginza, Tokyo',
+  +         outletName: 'Age.3 GINZA',
+  +         placeId: 'age3-policy-observation'
+  +       },
+  +       entityMatch: {
+  +         confidence: 'HIGH',
+  +         matchedBy: [
+  +           'GOOGLE_PLACE_ID'
+  +         ]
+  +       },
+  +       evidenceId: 'evidence:restaurant:google-entity:9179cc1f0ea61024d7e8fab1',
+  +       kind: 'ENTITY_MATCH',
+  +       observedAt: '2026-08-05T09:00:00.000Z',
+  +       provider: 'GOOGLE_PLACES',
+  +       requestFingerprint: 'round20',
+  +       sourceEntityId: 'age3-policy-observation'
+  +     },
+  +     {
+  +       candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       claims: {
+  +         restaurantTypeFacts: [
+  +           'cafe',
+  +           'dessert restaurant',
+  +           'snack bar',
+  +           'sandwich shop',
+  +           'meal takeaway',
+  +           'restaurant'
+  +         ]
+  +       },
+  +       evidenceId: 'evidence:restaurant:google-facts:a4a21236140f708186fbbe3b',
+  +       kind: 'RESTAURANT_FACT',
+  +       observedAt: '2026-08-05T09:00:00.000Z',
+  +       provider: 'GOOGLE_PLACES',
+  +       requestFingerprint: 'round20',
+  +       sourceEntityId: 'age3-policy-observation'
+  +     }
+  +   ],
+  +   candidate: {
+  +     executionConfidence: 'LOW',
+  +     matchReasons: [],
+  +     restaurant: {
+  +       address: 'Ginza, Tokyo',
+  +       id: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       outletName: 'Age.3 GINZA',
+  +       provenance: {
+  +         address: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +         outletName: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +         sourceIds: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1'
+  +       },
+  +       sourceIds: {
+  +         googlePlaces: 'age3-policy-observation'
+  +       }
+  +     },
+  +     warnings: [
+  +       'Requested area Ginza is not explicitly supported by this discovery result.'
+  +     ]
+  +   },
+  +   evidence: {
+  +     candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +     claims: {
+  +       address: 'Ginza, Tokyo',
+  +       areaMatch: false,
+  +       areaQuery: 'Ginza',
+  +       outletName: 'Age.3 GINZA',
+  +       placeId: 'age3-policy-observation',
+  +       primaryType: 'cafe',
+  +       types: [
+  +         'cafe',
+  +         'dessert_restaurant',
+  +         'snack_bar',
+  +         'sandwich_shop',
+  +         'meal_takeaway',
+  +         'restaurant'
+  +       ]
+  +     },
+  +     evidenceId: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +     kind: 'DISCOVERY',
+  +     observedAt: '2026-08-05T09:00:00.000Z',
+  +     provider: 'GOOGLE_PLACES',
+  +     requestFingerprint: 'round20',
+  +     sourceEntityId: 'age3-policy-observation'
+  +   }
+  -   accepted: false,
+  -   reasonCode: 'GOOGLE_PLACE_TYPE_UNUSABLE'
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/read-grounding.test.ts:406:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { accepted: true, candidate: { restaurant: [Object], matchReasons: [], warnings: [Array], executionConfidence: 'LOW' }, evidence: { evidenceId: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1', kind: 'DISCOVERY', provider: 'GOOGLE_PLACES', candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9', sourceEntityId: 'age3-policy-observation', observedAt: '2026-08-05T09:00:00.000Z', requestFingerprint: 'round20', claims: [Object] }, additionalEvidence: [ [Object], [Object] ] },
+    expected: { accepted: false, reasonCode: 'GOOGLE_PLACE_TYPE_UNUSABLE' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/domains/restaurant/read-grounding.test.ts:1:26102
+✖ Round24 B5 negative dessert preference has punctuation-invariant grounding ! (0.878708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   accepted: true,
+  +   additionalEvidence: [
+  +     {
+  +       candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       claims: {
+  +         address: 'Ginza, Tokyo',
+  +         outletName: 'Age.3 GINZA',
+  +         placeId: 'age3-policy-observation'
+  +       },
+  +       entityMatch: {
+  +         confidence: 'HIGH',
+  +         matchedBy: [
+  +           'GOOGLE_PLACE_ID'
+  +         ]
+  +       },
+  +       evidenceId: 'evidence:restaurant:google-entity:9179cc1f0ea61024d7e8fab1',
+  +       kind: 'ENTITY_MATCH',
+  +       observedAt: '2026-08-05T09:00:00.000Z',
+  +       provider: 'GOOGLE_PLACES',
+  +       requestFingerprint: 'round20',
+  +       sourceEntityId: 'age3-policy-observation'
+  +     },
+  +     {
+  +       candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       claims: {
+  +         restaurantTypeFacts: [
+  +           'cafe',
+  +           'dessert restaurant',
+  +           'snack bar',
+  +           'sandwich shop',
+  +           'meal takeaway',
+  +           'restaurant'
+  +         ]
+  +       },
+  +       evidenceId: 'evidence:restaurant:google-facts:a4a21236140f708186fbbe3b',
+  +       kind: 'RESTAURANT_FACT',
+  +       observedAt: '2026-08-05T09:00:00.000Z',
+  +       provider: 'GOOGLE_PLACES',
+  +       requestFingerprint: 'round20',
+  +       sourceEntityId: 'age3-policy-observation'
+  +     }
+  +   ],
+  +   candidate: {
+  +     executionConfidence: 'LOW',
+  +     matchReasons: [],
+  +     restaurant: {
+  +       address: 'Ginza, Tokyo',
+  +       id: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       outletName: 'Age.3 GINZA',
+  +       provenance: {
+  +         address: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +         outletName: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +         sourceIds: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1'
+  +       },
+  +       sourceIds: {
+  +         googlePlaces: 'age3-policy-observation'
+  +       }
+  +     },
+  +     warnings: [
+  +       'Requested area Ginza is not explicitly supported by this discovery result.'
+  +     ]
+  +   },
+  +   evidence: {
+  +     candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +     claims: {
+  +       address: 'Ginza, Tokyo',
+  +       areaMatch: false,
+  +       areaQuery: 'Ginza',
+  +       outletName: 'Age.3 GINZA',
+  +       placeId: 'age3-policy-observation',
+  +       primaryType: 'cafe',
+  +       types: [
+  +         'cafe',
+  +         'dessert_restaurant',
+  +         'snack_bar',
+  +         'sandwich_shop',
+  +         'meal_takeaway',
+  +         'restaurant'
+  +       ]
+  +     },
+  +     evidenceId: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +     kind: 'DISCOVERY',
+  +     observedAt: '2026-08-05T09:00:00.000Z',
+  +     provider: 'GOOGLE_PLACES',
+  +     requestFingerprint: 'round20',
+  +     sourceEntityId: 'age3-policy-observation'
+  +   }
+  -   accepted: false,
+  -   reasonCode: 'GOOGLE_PLACE_TYPE_UNUSABLE'
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/read-grounding.test.ts:406:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { accepted: true, candidate: { restaurant: [Object], matchReasons: [], warnings: [Array], executionConfidence: 'LOW' }, evidence: { evidenceId: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1', kind: 'DISCOVERY', provider: 'GOOGLE_PLACES', candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9', sourceEntityId: 'age3-policy-observation', observedAt: '2026-08-05T09:00:00.000Z', requestFingerprint: 'round20', claims: [Object] }, additionalEvidence: [ [Object], [Object] ] },
+    expected: { accepted: false, reasonCode: 'GOOGLE_PLACE_TYPE_UNUSABLE' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/domains/restaurant/read-grounding.test.ts:1:26102
+✖ Round24 B5 negative dessert preference has punctuation-invariant grounding ? (0.257666ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   accepted: true,
+  +   additionalEvidence: [
+  +     {
+  +       candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       claims: {
+  +         address: 'Ginza, Tokyo',
+  +         outletName: 'Age.3 GINZA',
+  +         placeId: 'age3-policy-observation'
+  +       },
+  +       entityMatch: {
+  +         confidence: 'HIGH',
+  +         matchedBy: [
+  +           'GOOGLE_PLACE_ID'
+  +         ]
+  +       },
+  +       evidenceId: 'evidence:restaurant:google-entity:9179cc1f0ea61024d7e8fab1',
+  +       kind: 'ENTITY_MATCH',
+  +       observedAt: '2026-08-05T09:00:00.000Z',
+  +       provider: 'GOOGLE_PLACES',
+  +       requestFingerprint: 'round20',
+  +       sourceEntityId: 'age3-policy-observation'
+  +     },
+  +     {
+  +       candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       claims: {
+  +         restaurantTypeFacts: [
+  +           'cafe',
+  +           'dessert restaurant',
+  +           'snack bar',
+  +           'sandwich shop',
+  +           'meal takeaway',
+  +           'restaurant'
+  +         ]
+  +       },
+  +       evidenceId: 'evidence:restaurant:google-facts:a4a21236140f708186fbbe3b',
+  +       kind: 'RESTAURANT_FACT',
+  +       observedAt: '2026-08-05T09:00:00.000Z',
+  +       provider: 'GOOGLE_PLACES',
+  +       requestFingerprint: 'round20',
+  +       sourceEntityId: 'age3-policy-observation'
+  +     }
+  +   ],
+  +   candidate: {
+  +     executionConfidence: 'LOW',
+  +     matchReasons: [],
+  +     restaurant: {
+  +       address: 'Ginza, Tokyo',
+  +       id: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +       outletName: 'Age.3 GINZA',
+  +       provenance: {
+  +         address: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +         outletName: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +         sourceIds: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1'
+  +       },
+  +       sourceIds: {
+  +         googlePlaces: 'age3-policy-observation'
+  +       }
+  +     },
+  +     warnings: [
+  +       'Requested area Ginza is not explicitly supported by this discovery result.'
+  +     ]
+  +   },
+  +   evidence: {
+  +     candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9',
+  +     claims: {
+  +       address: 'Ginza, Tokyo',
+  +       areaMatch: false,
+  +       areaQuery: 'Ginza',
+  +       outletName: 'Age.3 GINZA',
+  +       placeId: 'age3-policy-observation',
+  +       primaryType: 'cafe',
+  +       types: [
+  +         'cafe',
+  +         'dessert_restaurant',
+  +         'snack_bar',
+  +         'sandwich_shop',
+  +         'meal_takeaway',
+  +         'restaurant'
+  +       ]
+  +     },
+  +     evidenceId: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1',
+  +     kind: 'DISCOVERY',
+  +     observedAt: '2026-08-05T09:00:00.000Z',
+  +     provider: 'GOOGLE_PLACES',
+  +     requestFingerprint: 'round20',
+  +     sourceEntityId: 'age3-policy-observation'
+  +   }
+  -   accepted: false,
+  -   reasonCode: 'GOOGLE_PLACE_TYPE_UNUSABLE'
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/read-grounding.test.ts:406:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { accepted: true, candidate: { restaurant: [Object], matchReasons: [], warnings: [Array], executionConfidence: 'LOW' }, evidence: { evidenceId: 'evidence:restaurant:google-discovery:9179cc1f0ea61024d7e8fab1', kind: 'DISCOVERY', provider: 'GOOGLE_PLACES', candidateId: 'praxis:restaurant:92caf4bfd66f61c7294942a9', sourceEntityId: 'age3-policy-observation', observedAt: '2026-08-05T09:00:00.000Z', requestFingerprint: 'round20', claims: [Object] }, additionalEvidence: [ [Object], [Object] ] },
+    expected: { accepted: false, reasonCode: 'GOOGLE_PLACE_TYPE_UNUSABLE' },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/domains/restaurant/read-grounding.test.ts:1:26917
+✖ Round24 B5 local negation retains a later or earlier positive request: without outdoor seating I would like a dessert café in Ginza (0.120958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/read-grounding.test.ts:410:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/read-grounding.test.ts:1:26917
+✖ Round24 B5 local negation retains a later or earlier positive request: no parking required and looking for a dessert café in Ginza (0.062875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/read-grounding.test.ts:410:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/web/citations.test.ts:1:2159
+✖ Round24 U5 Q&A smoking states retain qualifiers and remove only their own same-reading header (1.735041ms)
+  AssertionError [ERR_ASSERTION]: Designated smoking area (heated tobacco only)
+  + actual - expected
+  
+    [
+      {
+        readAt: '2026-11-21T08:04:00Z',
+  +     text: 'Non-smoking/smoking',
+  +     url: 'https://merchant.example/a'
+  +   },
+  +   {
+  +     readAt: '2026-11-21T08:04:00Z',
+        text: 'Designated smoking area (heated tobacco only)',
+        url: 'https://merchant.example/a'
+      }
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/web/citations.test.ts:27:86)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ { url: 'https://merchant.example/a', readAt: '2026-11-21T08:04:00Z', text: 'Non-smoking/smoking' }, { url: 'https://merchant.example/a', readAt: '2026-11-21T08:04:00Z', text: 'Designated smoking area (heated tobacco only)' } ],
+    expected: [ { url: 'https://merchant.example/a', readAt: '2026-11-21T08:04:00Z', text: 'Designated smoking area (heated tobacco only)' } ],
+    operator: 'deepStrictEqual'
+  }

@@ -1,0 +1,76 @@
+{
+  "sha": "0b7e9384439efad773a917d65ad7e229cd6188bf",
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    ".eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/reviewer-date-probe.mjs",
+    "--p1-only"
+  ],
+  "envLoaded": false,
+  "exitCode": 0,
+  "seconds": 2.8503547919999996,
+  "probeOrigin": "/private/tmp/praxis-round27-review.HNjA55/date-probe.mjs",
+  "probeSHA256": "f1b57981568382a238e771d85a1ec5d0df71fbf2dcfbd0e65e0aa5066201830a",
+  "rows": [
+    {
+      "case": "explicit calendar edit (control)",
+      "message": "\u6539\u621011\u670828\u65e5\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-28",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-28"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "explicit relative edit (control)",
+      "message": "\u6539\u6210\u5927\u540e\u5929\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-27",
+      "draftDate": "2026-11-27",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-27"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "reject old date, choose absolute date",
+      "message": "\u540e\u5929\u4e0d\u884c\uff0c\u6539\u621011\u670828\u65e5\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    },
+    {
+      "case": "ambiguous range with omitted DATE",
+      "message": "\u5927\u6982\u4e24\u4e09\u5929\u540e\u665a\u4e0a\u4e03\u70b9",
+      "expected": null,
+      "draftDate": "2026-11-27",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-27"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ]
+}

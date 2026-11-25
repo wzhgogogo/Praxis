@@ -1,0 +1,9 @@
+# Round25 unified source freeze — formal acceptance pending
+
+C1 slice bf2c3cfd3b6255bcdadc5349147c0ce32c75fe39 independently passed source4/4 and after-Build dist4/4. R1–R5 slice977800a940c1dae7869b8435a7c1737cb5dd5d81 targeted tests passed; final integration additionally prevents an old draining semantic continuation from reclaiming newer budget ownership. M/V development:69 component tests,17 targeted browser cases and274 separately checked fresh observations passed. Raw failed iterations retained; they are diagnostics, not current PASS evidence.
+
+This commit freezes all code/tests, source-only table/fake photo transports, observation collectors and independent assertions. Formal five gates, Build then distCDP, strict graph/asset comparison, Google21, history10 and three visual groups must all use this commit's clean HEAD/srcTree; source changes require a new freeze and complete rerun. New outputs are ignored and go only under Round25. Do not reuse any development PASS as formal acceptance.
+
+M2 full recovery: normal8/8 exact16 media, temporary5028/8 exact18media; persistent502 stops without budget reset and does not claim8 loaded images. Failed sole Details can use bound website fallback if available, never replenishes Google Details. ProxyHEAD returns bounded local last-status metadata without source fetch. Google no prefetch, website Lookahead1 preserved.
+
+Corresponding test helpers changed in addition to named production files: browser-read-test-fixtures.ts, fixtures/recorded-g1-query.ts and workspace-fixture-server.ts. Protection verification records their before/after hashes explicitly and does not claim these whole files unchanged. C1 helpers are new minimal isolation modules, no dependencies/config/schema changes. Native remoteCDP, iOS/Android keyboard/zoom, Live, realPG and4312 remain NOT_EVALUATED.

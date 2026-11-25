@@ -30,6 +30,7 @@ globalThis.fetch = async () => { externalCalls++; throw new Error("OFFLINE_FIXTU
 const stopped = new AbortController();
 const reference = new Date();
 const date = "2026-10-30", source = "https://www.tablecheck.com/en/fixture";
+const requestText = `Find restaurants nearby on ${date} at 7 pm for two.`;
 const html = '<h1>Fixture restaurant</h1><p class="address">1-1 Ginza, Chuo City, Tokyo</p><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-10-30" data-pax="2"><a href="/en/shops/fixture/reserve?start_date=2026-10-30&num_people=2&start_time=19:00">19:00</a></div>';
 const replayHarPath = join(root, "fixture-source.har");
 await writeFile(replayHarPath, replayHarPages({ [source]: html }));
@@ -74,7 +75,7 @@ const fixtureModel = async (request: ModelRequest) => {
   return response(JSON.stringify(strictAction("END_READ")), "end");
 };
 const result = await runHybridReadDiagnostic({
-  frozen: { id: "interruption-fixture", dataset: "synthetic-interruption@1", reference_time: reference.toISOString(), content: "Find restaurants nearby on October 30 at 7 pm for two.",
+  frozen: { id: "interruption-fixture", dataset: "synthetic-interruption@1", reference_time: reference.toISOString(), content: requestText,
     semantic: { target: { goal: "AVAILABILITY" }, date: { value: date }, time: { start: "19:00", end: "19:00" }, party_size: 2, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [] } as any },
   startedAt: reference, runtimeContext: { browserEngine: "LOCAL_CHROMIUM", mode: "OFFLINE_SYNTHETIC_SOURCE", realModelCalls: 0, ...(preflight?{preflight}:{}) },
   limits: { ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET }, packs: [googlePlacesDiscoveryPack], recordBrowser: true, recordDecisions: true,
@@ -124,7 +125,7 @@ if(process.argv.includes('--contradict-displayed-party')){
 }
 if (process.argv.includes("--capture-replay-fixture")) {
   const artifact = JSON.parse(await readFile(result.resultPath,"utf8"));
-  await writeFile(join(root,"replay-case.json"),JSON.stringify({frozen:{...artifact.materializedCase,content:"Find restaurants nearby on October 30 at 7 pm for two."},startedAt:reference.toISOString(),runtimeContext:{mode:"SYNTHETIC_REPLAY_FIXTURE"},limits:artifact.limits,evaluationLocation:artifact.resolvedEvalLocation,packIds:["google-places"],recordBrowser:false,recordDecisions:false}));
+  await writeFile(join(root,"replay-case.json"),JSON.stringify({frozen:{...artifact.materializedCase,content:requestText},startedAt:reference.toISOString(),runtimeContext:{mode:"SYNTHETIC_REPLAY_FIXTURE"},limits:artifact.limits,evaluationLocation:artifact.resolvedEvalLocation,packIds:["google-places"],recordBrowser:false,recordDecisions:false}));
 }
 process.send?.({ stage: "FINISHED", ...result });
 const forcedCode=process.argv.find(arg=>arg.startsWith('--fixture-exit-code='));

@@ -1,0 +1,38 @@
+✖ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (1028.78ms)
+✖ old HTTP location cannot write or abort the replacement read at the cancellation boundary (646.747791ms)
+✔ H002 persistent duplicate message delivery invokes the supplement once; completed retries and refresh do not invoke it (1069.369917ms)
+✔ HTTP stale refresh cannot target the next batch after its cancellation preflight (562.780458ms)
+✔ HTTP stale another-batch cannot target the next batch after its cancellation preflight (505.535ms)
+✔ HTTP duplicate refresh crossing the Runtime dispatch boundary starts exactly one read (523.655958ms)
+✔ HTTP next G1 question continues after prior G1 normal completion (559.427ms)
+✔ HTTP next G1 question continues after prior G1 cancellation (574.35375ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4290.800459
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:4321
+✖ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (1028.78ms)
+  TypeError [Error]: Body is unusable: Body has already been read
+      at consumeBody (node:internal/deps/undici/undici:6197:15)
+      at _Response.json (node:internal/deps/undici/undici:6152:18)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:117:68)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/application/persistent-read-preparation.test.ts:1:4321
+✖ old HTTP location cannot write or abort the replacement read at the cancellation boundary (646.747791ms)
+  TypeError [Error]: Body is unusable: Body has already been read
+      at consumeBody (node:internal/deps/undici/undici:6197:15)
+      at _Response.json (node:internal/deps/undici/undici:6152:18)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:117:68)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

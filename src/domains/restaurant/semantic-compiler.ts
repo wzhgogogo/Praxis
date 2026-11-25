@@ -10,6 +10,7 @@ import type {
   RestaurantSemanticProposal,
   RestaurantSemanticValue,
 } from "./semantic-proposal.js";
+import { bindRestaurantRelativeDate } from "./relative-date-binding.js";
 import { materializeRestaurantTemporalFacts } from "./temporal-materialization.js";
 
 export type RestaurantSemanticCompilation =
@@ -23,7 +24,7 @@ function semanticValueKey(value: RestaurantSemanticValue): string {
     case "AREA":
       return `${value.kind}:${value.query}`;
     case "DATE":
-      return `${value.kind}:${"value" in value ? value.value : "relativeDay" in value ? value.relativeDay : value.weekday}`;
+      return `${value.kind}:${"value" in value ? value.value : "relativeDay" in value ? value.relativeDay : "relativeOffsetDays" in value ? `OFFSET_DAYS:${value.relativeOffsetDays}` : value.weekday}`;
     case "PARTY_SIZE":
       return `${value.kind}:${value.value}`;
     case "TIME_WINDOW":
@@ -222,10 +223,15 @@ function compileFact(patch: RestaurantIntentPatch, fact: RestaurantSemanticFact)
 /** Pure Restaurant Domain translation from a valid semantic proposal to a state patch. */
 export function compileRestaurantSemanticProposal(
   proposal: RestaurantSemanticProposal,
-  temporalContext?: { referenceTime: string; timezone: "Asia/Tokyo" },
+  temporalContext?: { referenceTime: string; timezone: "Asia/Tokyo"; message?: string },
 ): RestaurantSemanticCompilation {
   const conflict = findConflict(proposal);
   if (conflict) return { status: "CONFLICT", conflict };
+  if (temporalContext?.message !== undefined) {
+    const bound = bindRestaurantRelativeDate(proposal, temporalContext.message, temporalContext);
+    if (bound.status === "CONFLICT") return bound;
+    proposal = bound.proposal;
+  }
 
   const patch: RestaurantIntentPatch = { schemaVersion: "3" };
   proposal.facts.forEach((fact) => compileFact(patch, fact));

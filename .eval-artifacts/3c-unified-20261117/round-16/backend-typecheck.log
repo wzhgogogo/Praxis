@@ -1,0 +1,6 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/eval/restaurant/agent-loop/hybrid-read-composition.ts(69,45): error TS2339: Property 'listEvents' does not exist on type 'InMemoryTaskRuntime<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome>'.
+src/harness/restaurant-harness.ts(132,50): error TS2339: Property 'listEvents' does not exist on type 'InMemoryTaskRuntime<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome>'.

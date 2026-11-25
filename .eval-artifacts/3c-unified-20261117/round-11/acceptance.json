@@ -1,0 +1,243 @@
+{
+  "testedSHA": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+      "exitCode": 0,
+      "seconds": 0.571382291,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+      "exitCode": 0,
+      "seconds": 0.24961862499999998,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+      "exitCode": 0,
+      "seconds": 70.0521835,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "test"
+      ],
+      "testSummaries": [
+        {
+          "tests": 1772,
+          "pass": 1772,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+      "exitCode": 0,
+      "seconds": 411.211494666,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "offline Fixture contracts; runner-replay children apply their own OS outbound denial; no outer sandbox",
+      "invocation": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "testSummaries": [
+        {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0
+        },
+        {
+          "tests": 437,
+          "pass": 437,
+          "fail": 0
+        },
+        {
+          "tests": 442,
+          "pass": 442,
+          "fail": 0
+        },
+        {
+          "tests": 159,
+          "pass": 159,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+      "exitCode": 0,
+      "seconds": 0.5775190420000058,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "build"
+      ],
+      "testSummaries": []
+    }
+  ],
+  "visualRuns": [
+    {
+      "suite": "formal",
+      "sha": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+      "exitCode": 0,
+      "seconds": 33.187311417000004,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/3c-unified-20261117/visual-smoke.mjs"
+      ],
+      "environment": {
+        "PRAXIS_VISUAL_SUBDIR": "round-11/formal"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    },
+    {
+      "suite": "style1",
+      "sha": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+      "exitCode": 0,
+      "seconds": 8.239400083999996,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^Round6 Style1",
+        "src/harness/browser/web-workspace-round6.test.ts"
+      ],
+      "environment": {
+        "PRAXIS_ROUND6_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-11/style1"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    },
+    {
+      "suite": "states",
+      "sha": "3e2d54a4d069fa1c82be55d83a50a53a321c2de6",
+      "exitCode": 0,
+      "seconds": 23.189022541000007,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^Round(8|10|11) UI:",
+        "src/harness/browser/web-workspace-round6.test.ts",
+        "src/harness/browser/web-workspace-round10.test.ts"
+      ],
+      "environment": {
+        "PRAXIS_ROUND8_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-11/states"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    }
+  ],
+  "formal": {
+    "passes": 16,
+    "viewportCounts": {
+      "390×844": 7,
+      "1440×900": 7,
+      "960×900": 2
+    },
+    "screenshots": 41
+  },
+  "supplemental": {
+    "style1": {
+      "tests": 6,
+      "screenshots": 6
+    },
+    "states": {
+      "tests": 22,
+      "screenshots": 15
+    }
+  },
+  "round4BrowserLifecycle": {
+    "phase": "remaining fixtures",
+    "event": "FILE_END",
+    "file": "src/harness/browser/web-workspace-round4.test.ts",
+    "elapsedMs": 22582.932333000004,
+    "passed": true
+  },
+  "inspection": {
+    "formal": "Every captured frame was reviewed in contact sheets; key frames were opened at larger scale.",
+    "supplemental": "Every Style 1 and new-state frame was individually inspected."
+  },
+  "liveCalls": 0,
+  "realPostgres": false
+}

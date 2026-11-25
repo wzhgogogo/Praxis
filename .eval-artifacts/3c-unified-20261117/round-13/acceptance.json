@@ -1,0 +1,244 @@
+{
+  "baselineSHA": "3f1a60cff5dbf59655808561ef3f1a2a8cb2de6d",
+  "testedSHA": "312d53531eaac915e15d4b32437a9158d36f1e70",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+      "exitCode": 0,
+      "seconds": 0.637954875,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+      "exitCode": 0,
+      "seconds": 0.206599541,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+      "exitCode": 0,
+      "seconds": 75.884113625,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "test"
+      ],
+      "testSummaries": [
+        {
+          "tests": 1775,
+          "pass": 1775,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+      "exitCode": 0,
+      "seconds": 418.895178584,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "offline Fixture contracts; runner-replay children apply their own OS outbound denial; no outer sandbox",
+      "invocation": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "testSummaries": [
+        {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0
+        },
+        {
+          "tests": 443,
+          "pass": 443,
+          "fail": 0
+        },
+        {
+          "tests": 448,
+          "pass": 448,
+          "fail": 0
+        },
+        {
+          "tests": 159,
+          "pass": 159,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+      "exitCode": 0,
+      "seconds": 0.5464859580000052,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "build"
+      ],
+      "testSummaries": []
+    }
+  ],
+  "visualRuns": [
+    {
+      "suite": "formal",
+      "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+      "exitCode": 0,
+      "seconds": 32.401813292,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/3c-unified-20261117/visual-smoke.mjs"
+      ],
+      "environment": {
+        "PRAXIS_VISUAL_SUBDIR": "round-13/formal"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    },
+    {
+      "suite": "style1",
+      "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+      "exitCode": 0,
+      "seconds": 7.759340207999998,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^Round6 Style1",
+        "src/harness/browser/web-workspace-round6.test.ts"
+      ],
+      "environment": {
+        "PRAXIS_ROUND6_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-13/style1"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    },
+    {
+      "suite": "states",
+      "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+      "exitCode": 0,
+      "seconds": 30.469385459,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^Round(8|10|11|12|13) UI:",
+        "src/harness/browser/web-workspace-round6.test.ts",
+        "src/harness/browser/web-workspace-round10.test.ts"
+      ],
+      "environment": {
+        "PRAXIS_ROUND8_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-13/states"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    }
+  ],
+  "formal": {
+    "passes": 16,
+    "viewportCounts": {
+      "390×844": 7,
+      "1440×900": 7,
+      "960×900": 2
+    },
+    "screenshots": 41
+  },
+  "supplemental": {
+    "style1": {
+      "tests": 6,
+      "screenshots": 6
+    },
+    "states": {
+      "tests": 28,
+      "screenshots": 22
+    }
+  },
+  "round13ChromiumPasses": 5,
+  "newVisuals": [
+    "round13-compact-source-categories",
+    "round13-optional-chip-remove",
+    "round13-question-history",
+    "round13-question-pending",
+    "round13-revision-above-card",
+    "round13-two-row-slot-grid"
+  ],
+  "visualInspection": "All formal, Style 1 and state shots inspected. New Round 13 shots opened individually.",
+  "liveCalls": 0,
+  "realPostgres": false,
+  "usedPort4312": false
+}

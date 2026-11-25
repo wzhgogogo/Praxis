@@ -55,6 +55,10 @@ function dateResolution(
     const date = addTokyoDays(reference.date, days);
     return { date, record: { expression: value.raw, resolvedDate: date, basis: value.relativeDay } };
   }
+  if ("relativeOffsetDays" in value) {
+    const date = addTokyoDays(reference.date, value.relativeOffsetDays);
+    return { date, record: { expression: value.raw, resolvedDate: date, basis: `RELATIVE_OFFSET_DAYS:${value.relativeOffsetDays}` } };
+  }
   const target = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"].indexOf(value.weekday);
   const date = addTokyoDays(reference.date, (target - reference.weekday + 7) % 7);
   return { date, record: { expression: value.raw, resolvedDate: date, basis: `WEEKDAY:${value.weekday}` } };

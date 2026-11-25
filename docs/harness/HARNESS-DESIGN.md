@@ -7,6 +7,10 @@
 - Related ADRs: [ADR-0001](../decisions/0001-general-task-runtime.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Golden Scenarios](GOLDEN-SCENARIOS.md), [Superseded Progressive Decision Eval](../superseded/harness/RESTAURANT-PROGRESSIVE-DECISION-EVAL.md), [Test Skill](../skills/test/SKILL.md)
 
+## 本地未集成：G1 与同控件查询回读（2026-11-16）
+
+`g1-content-recorded.test.ts` 用保存 DOM/CSS 经生产组装核对正文稳定与实时网络；`combobox-readback-recorded.test.ts` 核对同节点、菜单关闭与原生空 value；`tablecheck-query-readback.test.ts` 经真实组装、Domain 事件和 B1 校验串联构造库存。所有脚本化菜单/查询/库存和模型替身为 LOCAL_CONSTRUCTION；不证明线上 4 人库存。正例与错点顶部、播报区、冲突、PENDING / aged-fetch 反例分别验收，原生 form 外 select 保持回归。见[本轮简报](../reviews/G1-BODY-QUERY-READBACK-20261116.md)。
+
 ## Implementation Status
 
 Evaluation code is organized by evaluation boundary in [src/eval/README.md](../../src/eval/README.md).

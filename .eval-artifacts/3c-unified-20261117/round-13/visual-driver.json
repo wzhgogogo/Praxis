@@ -1,0 +1,64 @@
+[
+  {
+    "suite": "formal",
+    "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+    "exitCode": 0,
+    "seconds": 32.401813292,
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      ".eval-artifacts/3c-unified-20261117/visual-smoke.mjs"
+    ],
+    "environment": {
+      "PRAXIS_VISUAL_SUBDIR": "round-13/formal"
+    },
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  },
+  {
+    "suite": "style1",
+    "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+    "exitCode": 0,
+    "seconds": 7.759340207999998,
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=^Round6 Style1",
+      "src/harness/browser/web-workspace-round6.test.ts"
+    ],
+    "environment": {
+      "PRAXIS_ROUND6_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-13/style1"
+    },
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  },
+  {
+    "suite": "states",
+    "sha": "312d53531eaac915e15d4b32437a9158d36f1e70",
+    "exitCode": 0,
+    "seconds": 30.469385459,
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=^Round(8|10|11|12|13) UI:",
+      "src/harness/browser/web-workspace-round6.test.ts",
+      "src/harness/browser/web-workspace-round10.test.ts"
+    ],
+    "environment": {
+      "PRAXIS_ROUND8_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-13/states"
+    },
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback"
+  }
+]

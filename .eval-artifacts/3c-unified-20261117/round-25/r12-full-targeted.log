@@ -1,0 +1,79 @@
+✔ stale same-Case refresh, batch and location requests never cancel an active read (889.690375ms)
+✔ preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration (576.076959ms)
+✔ preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration (555.920708ms)
+✔ preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration (566.0955ms)
+✔ old HTTP refresh cannot write or abort the replacement read at the cancellation boundary (611.839416ms)
+✔ old HTTP location cannot write or abort the replacement read at the cancellation boundary (586.698834ms)
+✔ cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh (628.049916ms)
+✔ Exhausted third batch cannot project the six delivered outlets or their cross-source alias (619.015125ms)
+✔ Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias (567.887042ms)
+✔ Round15 Stop during preparation cancels before any new source call (533.403583ms)
+✔ Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version (517.46525ms)
+✔ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (499.8585ms)
+✔ Round16 first semantic preparation Stop cancels with zero source calls (467.522ms)
+✔ Round16 old prepared refresh never claims replacement preparation handle (584.14475ms)
+✔ Round16 About question preparing Stop returns HTTP 200 and zero question sources (519.690083ms)
+✔ Round17 first semantic commit: current persisted read ID cancels before handle identity catches up (488.864625ms)
+✔ Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up (546.441458ms)
+✔ Round17 preparation becomes active during Stop identity re-read without a false conflict (510.532208ms)
+✔ Round18 preparation publication gap never advertises an unowned Stop (462.317875ms)
+✖ Round18 persisted semantic winner regains preparation from an uncommitted contender (1692.767708ms)
+✔ Round18 Stop wins semantic dispatch CAS without rejecting the cancelled input (466.171792ms)
+✔ Round18 immutable handle cancels its active read after run ID and version advance (476.527833ms)
+✔ Round20 illegal terminal Cases reject page questions without source calls (937.669875ms)
+✔ Round22 accepted question handover: equivalent (503.719417ms)
+✔ Round22 accepted question handover: area (533.92425ms)
+✔ Round22 accepted question handover: model-failure (491.00125ms)
+✔ Round22 accepted question handover: second-question (519.901625ms)
+✔ Round22 accepted question handover: shortlist-wins (513.123917ms)
+✔ Round22 accepted question handover: system-answer-first (538.066917ms)
+✔ Round22 accepted question handover: conflict (498.889416ms)
+✔ Round22 accepted question handover: invalid-successor (517.711833ms)
+✔ Round22 accepted question ownership: before-handle-registration (525.115208ms)
+✔ Round22 accepted question ownership: non-replacing-edit (522.807375ms)
+✔ Round22 accepted successor keeps preparation while the prior question finishes (537.762042ms)
+✔ Round25 R1 committed successor stop across message (511.805917ms)
+✔ Round25 R1 committed successor edit across message (544.31875ms)
+✔ Round25 R1 committed successor stop across worker-cleanup (509.73725ms)
+✔ Round25 R1 committed successor edit across worker-cleanup (529.653958ms)
+✔ Round24 B1 pending question preserves recorded explicit selection and evidenced booking terms (1461.435166ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=default (1091.091792ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=true limit=default (1112.901709ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=false limit=6 (560.6875ms)
+✔ Round24 B2 selected edit reconciles actual model calls pending=true limit=6 (575.965667ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 0 shortlist changes (547.069167ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 1 shortlist changes (549.399166ms)
+✔ Round24 B3 answer commit preserves ANSWERED across 2 shortlist changes (560.696375ms)
+✔ Round24 B2 overlapping application edits keep the committed read budget after the late 409 (1097.524083ms)
+✔ Round24 B3 a stop transition rejects a stale answer instead of retrying (544.107167ms)
+✔ Round24 B3 a edit transition rejects a stale answer instead of retrying (1072.403958ms)
+✔ Round24 B3 a second-question transition rejects a stale answer instead of retrying (556.501333ms)
+✔ Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409 (527.815125ms)
+✔ whole-read model budget starts before semantic work, counts failed calls, and isolates concurrent runs (0.888375ms)
+✔ retained live work observes the original deadline even without another model call (21.873708ms)
+✔ independent question scopes isolate their own calls and deadline from a depleted search (0.7985ms)
+✔ late async work cannot start another model call after its original run closes (0.123916ms)
+✔ Round24 overlapping same-task scopes retain their own reserve and the committed winner export (0.242209ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 55
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24074.533792
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:25352
+✖ Round18 persisted semantic winner regains preparation from an uncommitted contender (1692.767708ms)
+  AssertionError [ERR_ASSERTION]: the committed winner must launch source work instead of becoming an orphan
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:419:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

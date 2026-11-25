@@ -1,0 +1,172 @@
+diff --git a/src/domains/restaurant/relative-date-binding.ts b/src/domains/restaurant/relative-date-binding.ts
+index 7625d2618..30cbe7479 100644
+--- a/src/domains/restaurant/relative-date-binding.ts
++++ b/src/domains/restaurant/relative-date-binding.ts
+@@ -1,7 +1,8 @@
+ import type { RestaurantSemanticConflict } from "./contracts.js";
+ import type { RestaurantSemanticProposal, RestaurantSemanticValue } from "./semantic-proposal.js";
+ 
+-type RelativeExpression = { raw: string; days: number; index: number };
++type DateMention = { raw: string; index: number };
++type RelativeExpression = DateMention & { days: number };
+ const englishNumbers: Readonly<Record<string, number>> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
+ function chineseNumber(text: string): number {
+   // Adjacent numerals such as 两三 express a range, not a positional integer.
+@@ -32,32 +33,56 @@ function excludedDate(text: string, index: number, raw: string): boolean {
+     || /^\s*(?:(?:晚上|早上|中午|下午|晚餐|午餐|evening|morning)\s*)?(?:不行|不可以|不能|不合适|不方便|没空|is not|doesn['’]t work|won['’]t work)/iu.test(text.slice(index + raw.length));
+ }
+ 
+-/** Recognize date-selection relations only; date interpretation stays in the materializer. */
+-function dateSelectionIsUncertain(message: string, relative: readonly RelativeExpression[]): boolean {
++/** Only explicitly linked alternatives share a date group; other dates keep their own context. */
++function dateGroups(message: string, relative: readonly RelativeExpression[]): DateMention[][] {
+   const named = /\b\d{4}-\d{2}-\d{2}\b|(?:\d{4}年)?\d{1,2}月\d{1,2}[日号]|\b\d{1,2}\/\d{1,2}\b|(?:这|本|下)?(?:个)?(?:周|星期|礼拜)[一二三四五六日天]|\b(?:(?:this|next)\s+)?(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/giu;
+   const dates = [...relative, ...[...message.matchAll(named)].map(match => ({ raw: match[0], index: match.index }))]
+-    .sort((a, b) => a.index - b.index);
+-  return dates.some((date, index) => {
+-    const before = message.slice(0, date.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "";
+-    const after = message.slice(date.index).split(/[，,;；。.!?\n]/u)[0]!;
+-    const next = dates[index + 1];
+-    return /(?:未定|没定|待定|不确定|尚未决定|还没决定|\bundecided\b|\bnot (?:decided|sure)\b|\bhaven['’]t decided\b)/iu.test(before + after)
+-      || !!next && /^[\s，,、]*(?:还是|或(?:者)?|要么|\bor\b|\/)[\s，,、]*$/iu.test(message.slice(date.index + date.raw.length, next.index));
+-  });
++    .filter(date => !excludedDate(message, date.index, date.raw)).sort((a, b) => a.index - b.index);
++  const groups: DateMention[][] = [];
++  for (const date of dates) {
++    const group = groups.at(-1), prior = group?.at(-1);
++    if (prior && /^[\s，,、]*(?:还是|或(?:者)?|要么|\bor\b(?:\s+the)?|\/)[\s，,、]*$/iu.test(message.slice(prior.index + prior.raw.length, date.index))) group!.push(date);
++    else groups.push([date]);
++  }
++  return groups;
++}
++
++function dateContext(message: string, group: readonly DateMention[]): { before: string; after: string } {
++  const first = group[0]!, last = group.at(-1)!;
++  return {
++    before: message.slice(0, first.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "",
++    after: message.slice(last.index + last.raw.length).split(/[，,;；。.!?\n]/u)[0]!,
++  };
++}
++
++/** Uncertainty must address the date itself, not another undecided part of dinner. */
++function dateSelectionIsUncertain(before: string, after: string): boolean {
++  return /(?:未定|没定|待定|不确定|尚未决定|还没决定|\bundecided\b|\bnot (?:decided|sure)\b|\bhaven['’]t decided\b)\s*(?:(?:on|about)\s+(?:the\s+)?(?:date|day))?\s*$/iu.test(before)
++    || /^\s*(?:(?:我(?:们)?|日期|日子|还|也|仍|is|still|I|we|it['’]s)\s*)*(?:未定|没定|待定|不确定|尚未决定|还没决定|\bundecided\b|\bnot (?:decided|sure)\b|\bhaven['’]t decided\b)/iu.test(after);
+ }
+ 
+ /** Omission repair requires a dining/date correction or a standalone temporal fragment. */
+-function selectsRelativeDiningDate(message: string, item: RelativeExpression, timeRaws: readonly string[]): boolean {
+-  const before = message.slice(0, item.index).split(/[，,;；。.!?\n]/u).at(-1) ?? "";
+-  const after = message.slice(item.index + item.raw.length).split(/[，,;；。.!?\n]/u)[0]!;
+-  if (/^\s*(?:改成|改为|改到|(?:change|move)\s+(?:it\s+)?to|make\s+it|(?:set|change)\s+(?:the\s+)?date\s+to)\s*$/iu.test(before)
++function selectsDiningDate(before: string, after: string, timeRaws: readonly string[]): boolean {
++  if (/^\s*(?:(?:(?:把)?日期)?(?:改成|改为|改到)|(?:change|move)\s+(?:it\s+)?to|make\s+it|(?:set|change)\s+(?:the\s+)?date\s+to)\s*$/iu.test(before)
+     || /^\s*(?:(?:so|then|please|just|only)\s+)*(?:make|find|book|have|plan|want|change)\s+(?:(?:a|the)\s+)?(?:dinner|lunch|breakfast|meal|table)\s*(?:for|on|to)?\s*$/iu.test(before)
+     || /^\s*(?:dinner|lunch|breakfast|meal|table)\s*(?:for|on)?\s*$/iu.test(before)
+     || /^\s*(?:把)?(?:晚餐|午餐|早餐|用餐)(?:日期|时间)?(?:改成|改为|改到|安排在|在)?\s*$/u.test(before)) return true;
+   if (!/^\s*(?:(?:大概|大约|大致|约莫|差不多|约|about|around|approximately|on|for)\s*)?$/iu.test(before)) return false;
+   let remainder = after.toLowerCase().replace(/\s+/gu, "");
+   for (const raw of timeRaws) remainder = remainder.replaceAll(raw.toLowerCase().replace(/\s+/gu, ""), "");
+-  return !remainder.replace(/\b(?:at|from)\b|左右|前后|上下|[\s.!?]/giu, "");
++  return !remainder.replace(/\b(?:at|from)\b|左右|前后|上下|[\s.!?]/giu, "")
++    || /^(?:晚上|早上|中午|下午|晚餐|午餐|evening|morning)/iu.test(after.trim());
++}
++
++function namedDateDirective(date: DateMention): Extract<RestaurantSemanticValue, { kind: "DATE" }> | undefined {
++  if (/^\d{4}-\d{2}-\d{2}$/u.test(date.raw)) return { kind: "DATE", value: date.raw, raw: date.raw };
++  const calendar = /^(\d{4})年(\d{1,2})月(\d{1,2})[日号]$/u.exec(date.raw);
++  if (calendar) return { kind: "DATE", value: `${calendar[1]}-${calendar[2]!.padStart(2, "0")}-${calendar[3]!.padStart(2, "0")}`, raw: date.raw };
++  const chinese = /(?:周|星期|礼拜)([一二三四五六日天])$/u.exec(date.raw);
++  const english = /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/iu.exec(date.raw);
++  const weekdays = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"] as const;
++  const weekday = chinese ? weekdays[Math.min("一二三四五六日天".indexOf(chinese[1]!), 6)] : weekdays.find(day => day === english?.[1]?.toUpperCase());
++  return weekday ? { kind: "DATE", weekday, raw: date.raw } : undefined;
+ }
+ 
+ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal, message: string):
+@@ -71,28 +96,57 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
+     && /\bkeep\s+(?:the\s+)?(?:same\s+)?date\b|\bdate\s+(?:unchanged|the same)\b|日期不变|日期照旧|保留(?:原|原来|原有)?日期/iu.test(message))
+     return { status: "BOUND", proposal };
+   const boundDates = dateFacts.flatMap(fact => {
+-    if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || fact.value?.kind !== "DATE") return [];
+-    const raw = fact.value.raw.normalize("NFKC").trim();
+-    const quoted = raw ? new RegExp(raw.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&"), "iu").exec(message) : null;
+-    return quoted && !excludedDate(message, quoted.index, quoted[0]) ? [{ raw: quoted[0], value: fact.value }] : [];
++    const value = fact.value;
++    if ((fact.operation !== "ASSERT" && fact.operation !== "CORRECT") || value?.kind !== "DATE") return [];
++    const raw = value.raw.normalize("NFKC").trim();
++    const quotes = raw ? [...message.matchAll(new RegExp(raw.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&"), "giu"))] : [];
++    return quotes.filter(quote => !excludedDate(message, quote.index, quote[0])).map(quote => ({ raw: quote[0], index: quote.index, value }));
+   });
+-  const boundDateRaws = boundDates.map(date => date.raw);
+-  const selectedDateRaws = boundDates.filter(date => ("value" in date.value || "weekday" in date.value) && !relativeExpressions(date.raw).length).map(date => date.raw);
+-  // A comma can connect date alternatives; retain it inside the selected sentence.
+-  const scopedSentences = message.split(/[;；。.!?\n]/u).filter(sentence => boundDateRaws.some(raw => sentence.includes(raw)));
+-  const selectionScopes = scopedSentences.length ? scopedSentences : [message];
+-  if (selectionScopes.some(scope => dateSelectionIsUncertain(scope, relativeExpressions(scope)))) return fail("Clarify the undecided or competing dining dates");
+-  // Bound calendar and weekday directives share the same selected-date priority.
+-  // Incidental relative mentions cannot replace either; alternatives above clarify.
+-  if (selectedDateRaws.length) return { status: "BOUND", proposal };
+-  const available = mentions.filter(item => !excludedDate(message, item.index, item.raw));
+-  const relativeDateRaws = boundDateRaws.filter(raw => relativeExpressions(raw).length);
+   const timeRaws = proposal.facts.flatMap(fact => fact.value?.kind === "TIME_WINDOW" && fact.value.raw ? [fact.value.raw.normalize("NFKC")] : []);
+-  const expressions = available.filter(item => relativeDateRaws.length
+-    ? relativeDateRaws.some(raw => { const index = message.indexOf(raw); return item.index >= index && item.index + item.raw.length <= index + raw.length; })
+-    : selectsRelativeDiningDate(message, item, timeRaws));
++  const groups = dateGroups(message, mentions);
++  const boundGroups = groups.filter(group => boundDates.some(quote => group.some(date => date.index >= quote.index && date.index + date.raw.length <= quote.index + quote.raw.length)));
++  const compact = (text: string) => text.toLowerCase().replace(/\s+/gu, "");
++  const timedGroups = boundGroups.filter(group => { const context = dateContext(message, group); return timeRaws.some(raw => compact(context.before + context.after).includes(compact(raw))); });
++  const contextualGroups = timedGroups.length ? timedGroups : boundGroups;
++  const diningGroups = contextualGroups.filter(group => /晚餐|午餐|早餐|用餐|\b(?:dinner|lunch|breakfast|meal|table)\b/iu.test(dateContext(message, group).before));
++  const selectedBoundGroups = diningGroups.length ? diningGroups : contextualGroups;
++  // The UI's Change <label> to <ISO> envelope gives an exact target position, even with a comma in the old label.
++  const structuredEdit = /^(\s*Change\s+.+?\s+to\s+)(\d{4}-\d{2}-\d{2})\s*$/iu.exec(message);
++  const structuredGroups = structuredEdit ? groups.filter(group => group.some(date => date.index === structuredEdit[1]!.length)) : [];
++  const explicitGroups = groups.filter(group => { const { before, after } = dateContext(message, group); return selectsDiningDate(before, after, timeRaws); });
++  const selectedGroups = structuredGroups.length ? structuredGroups : explicitGroups.length ? explicitGroups : selectedBoundGroups.length ? selectedBoundGroups : groups.filter(group => {
++    const { before, after } = dateContext(message, group);
++    return !before.trim() && dateSelectionIsUncertain(before, after);
++  });
++  if (selectedGroups.some(group => {
++    const { before, after } = dateContext(message, group);
++    return group.length > 1 || dateSelectionIsUncertain(before, after);
++  })) return fail("Clarify the undecided or competing dining dates");
++  if (selectedGroups.length && dateFacts.some(fact => fact.operation === "NEGATE" || fact.operation === "CONFIRM"))
++    return fail("Clarify whether to clear, retain or replace the dining date");
++  if (selectedGroups.length && structuredEdit && !dateFacts.length)
++    return fail("Confirm the explicit calendar date change before reading availability");
++  if (selectedGroups.flat().some(date => /^(?:[这本下](?:个)?(?:周|星期|礼拜)|(?:this|next)\s+)/iu.test(date.raw)))
++    return fail("Clarify the qualified dining week without dropping its scope");
++  // A recognized literal edit owns its target even when the model fabricates its quote.
++  const directives = selectedGroups.flat().map(namedDateDirective).filter(value => value !== undefined);
++  if (directives.length) {
++    if (new Set(directives.map(value => "value" in value ? value.value : "weekday" in value ? value.weekday : undefined)).size > 1)
++      return fail("Clarify one explicit dining date");
++    const directive = directives[0]!;
++    if ("value" in directive) {
++      const parsed = new Date(`${directive.value}T00:00:00.000Z`);
++      if (Number.isNaN(parsed.valueOf()) || parsed.toISOString().slice(0, 10) !== directive.value) return fail("Clarify a valid calendar dining date");
++    }
++    return { status: "BOUND", proposal: { ...proposal, facts: [
++      ...proposal.facts.filter(fact => fact.field !== "DATE"),
++      { field: "DATE", operation: dateFacts[0]?.operation ?? "ASSERT", value: directive },
++    ] } };
++  }
++  const available = mentions.filter(item => !excludedDate(message, item.index, item.raw));
++  const expressions = available.filter(item => selectedGroups.some(group => group.some(date => date.index === item.index)));
+   const offsets = new Set(expressions.map(item => item.days));
+-  if (offsets.size > 1 || (relativeDateRaws.length ? expressions : available).some(item => !Number.isInteger(item.days) || item.days < 0 || item.days > 365
++  if (offsets.size > 1 || expressions.some(item => !Number.isInteger(item.days) || item.days < 0 || item.days > 365
+     || /(?:大概|大约|大致|约莫|差不多|约|\babout|\baround|\bapproximately)\s*$/iu.test(message.slice(0, item.index))
+     || /^\s*(?:左右|前后|上下)/u.test(message.slice(item.index + item.raw.length))))
+     return fail("Clarify one supported relative dining date before reading availability");
+@@ -111,8 +165,6 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
+     })) return fail("Clarify whether the relative date applies to the dining time");
+     return { status: "BOUND", proposal };
+   }
+-  if (dateFacts.some(fact => fact.operation === "NEGATE" || fact.operation === "CONFIRM"))
+-    return fail("Clarify whether to clear, retain or replace the relative dining date");
+   const expression = expressions[0]!;
+   const value: Extract<RestaurantSemanticValue, { kind: "DATE" }> = expression.days < 2
+     ? { kind: "DATE", relativeDay: expression.days === 0 ? "TODAY" : "TOMORROW", raw: expression.raw }

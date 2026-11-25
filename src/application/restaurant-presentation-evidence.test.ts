@@ -394,6 +394,12 @@ test("Phase2c observed cuisine and approved price applicability reach Router to 
     const result=await router.execute({type:"PRESENT_RESULTS",candidateIds:original.candidateIds},state,original.presentedAt);
     assert.equal(result.event?.type,"RESULTS_PRESENTED");
     const shown=restaurantBookingTaskDefinition.transition(state,result.event!,ctx(original.presentedAt)).state.presentedResults!;
+    // Verify the new metadata independently, then retain every historical text/status comparison.
+    for(const [id,rows] of Object.entries(shown.conditionStates))for(const condition of rows)for(const quote of condition.sources){
+      assert.ok(quote.evidenceId,"every newly projected quote has source identity");
+      assert.ok(state.readEvidence.some(fact=>fact.evidenceId===quote.evidenceId&&fact.candidateId===id&&fact.sourceUrl===quote.sourceUrl&&fact.provider!=="MODEL_JUDGMENT"),"quote identity binds its own raw outlet/source");
+      delete quote.evidenceId;
+    }
     // User-approved 2026-11-03 contract sync: these existing MODEL_JUDGMENTs
     // cite merchant Motsu-nabe category fields. The hyphen spelling cannot
     // leave an otherwise qualified result displayed as NOT_CHECKED.

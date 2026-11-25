@@ -1,0 +1,708 @@
+{
+  "status": "ARCHIVED_REDACTED_HASH_VERIFIED",
+  "evidenceStatus": "EXPOSED_USER_LIVE_ARCHIVE_NOT_NEW_LIVE",
+  "originalFirstBatchManifest": "manifest.batch-1.json (frozen historical batch1)",
+  "runs": 11,
+  "files": 55,
+  "cases": [
+    "restaurant:44d9e0479bf52c24a27915d1",
+    "restaurant:3897d6b73c1b942e1ef58f1d",
+    "restaurant:c79a5c9bceb6a284eaa879e4",
+    "restaurant:d851345f47bb12e554341400"
+  ],
+  "configurationLoadedIntoEnvironment": false,
+  "credentialDictionaryUsedOnlyForRedaction": true,
+  "batches": [
+    {
+      "batch": 1,
+      "runs": 4,
+      "files": 20
+    },
+    {
+      "batch": 2,
+      "runs": 7,
+      "files": 35,
+      "runSummaries": [
+        {
+          "prefix": "2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+          "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+          "runId": "87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+          "status": "CANCELLED",
+          "phase": "FAILED",
+          "date": "2026-11-19",
+          "presented": 0,
+          "termination": {
+            "type": "AGENT_LOOP_TERMINATED",
+            "reason": "A browser read run is already active",
+            "termination": "EXECUTION_FAILURE"
+          }
+        },
+        {
+          "prefix": "2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930",
+          "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+          "runId": "d4d38b89-6cda-4df7-a01b-ba0087e77930",
+          "status": "FAILED",
+          "phase": "FAILED",
+          "date": "2026-11-20",
+          "presented": 0,
+          "termination": {
+            "type": "AGENT_LOOP_TERMINATED",
+            "reason": "A browser read run is already active",
+            "termination": "EXECUTION_FAILURE"
+          }
+        },
+        {
+          "prefix": "2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1",
+          "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+          "runId": "76c748d4-de4b-4b95-a400-f15395f337a1",
+          "status": "SUCCEEDED",
+          "phase": "PRESENT_RESULTS",
+          "date": "2026-11-20",
+          "presented": 3,
+          "termination": {
+            "type": "AGENT_LOOP_TERMINATED",
+            "reason": "The user changed the request, so the earlier read-only investigation was cancelled.",
+            "reasonCode": "AGENT_LOOP_CANCELLED",
+            "termination": "CANCELLED"
+          }
+        },
+        {
+          "prefix": "2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347",
+          "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+          "runId": "e025df76-5240-4601-88de-51e17be61347",
+          "status": "SUCCEEDED",
+          "phase": "PRESENT_RESULTS",
+          "date": "2026-12-09",
+          "presented": 3,
+          "termination": {
+            "type": "AGENT_LOOP_TERMINATED",
+            "reason": "The user changed the request, so the earlier read-only investigation was cancelled.",
+            "reasonCode": "AGENT_LOOP_CANCELLED",
+            "termination": "CANCELLED"
+          }
+        },
+        {
+          "prefix": "2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+          "caseId": "restaurant:d851345f47bb12e554341400",
+          "runId": "0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+          "status": "FAILED",
+          "phase": "NEEDS_INPUT",
+          "date": null,
+          "presented": 0,
+          "termination": null
+        },
+        {
+          "prefix": "2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+          "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+          "runId": "3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+          "status": "FAILED",
+          "phase": "FAILED",
+          "date": "2026-12-09",
+          "presented": 0,
+          "termination": {
+            "type": "AGENT_LOOP_TERMINATED",
+            "reason": "A browser read run is already active",
+            "termination": "EXECUTION_FAILURE"
+          }
+        },
+        {
+          "prefix": "2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+          "caseId": "restaurant:d851345f47bb12e554341400",
+          "runId": "d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+          "status": "SUCCEEDED",
+          "phase": "PRESENT_RESULTS",
+          "date": null,
+          "presented": 3,
+          "termination": null
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "738da746-6827-424e-a047-1104a104294f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.result.evaluation.37-1794973407537.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.result.evaluation.37-1794973407537.json",
+      "rawBytes": 11635,
+      "rawSHA256": "dc2e6265288d71442a1985451fafc80689781ed3edba67cd7fcaf906546f192d",
+      "sanitizedBytes": 11636,
+      "sanitizedSHA256": "4de900c826c30bba457b8caa7628829bcb090b669c0656707006ecd433858c91"
+    },
+    {
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "738da746-6827-424e-a047-1104a104294f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.result.evaluation.37-1794973407537.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.result.evaluation.37-1794973407537.json.diagnosis.json",
+      "rawBytes": 32010,
+      "rawSHA256": "351f223b9236ef1ac63734ab4fa6860afd79a327bbe09094b87267932fdf706c",
+      "sanitizedBytes": 32010,
+      "sanitizedSHA256": "351f223b9236ef1ac63734ab4fa6860afd79a327bbe09094b87267932fdf706c"
+    },
+    {
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "738da746-6827-424e-a047-1104a104294f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.result.evaluation.37-1794973407537.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.result.evaluation.37-1794973407537.json.diagnosis.md",
+      "rawBytes": 24721,
+      "rawSHA256": "aaf8f75ebd159888b671f15e65bd92006e0d496451f6d960983b6e3fcf6dea8e",
+      "sanitizedBytes": 24721,
+      "sanitizedSHA256": "aaf8f75ebd159888b671f15e65bd92006e0d496451f6d960983b6e3fcf6dea8e"
+    },
+    {
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "738da746-6827-424e-a047-1104a104294f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.result.json",
+      "rawBytes": 1079354,
+      "rawSHA256": "beb01393a113c5e11d5c0cb294075ff022813118152ce6f24f075fe0e002ac93",
+      "sanitizedBytes": 1079355,
+      "sanitizedSHA256": "9651c691e2eb74f9847c4597824b7174f7d4fb1e7fd384fcf4bac98cd9bc0dff"
+    },
+    {
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "738da746-6827-424e-a047-1104a104294f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f/2026-11-18T03-43-27-524Z-738da746-6827-424e-a047-1104a104294f.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "00f7afa52ffddd8e7d5fedf3b1104c15a6b154d281d67acadd4920f795832353",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "2bbb12ce33f4aa5bc202e35404e8d786efbfd18fbccadd559c73779e997504be"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "c72f75ef-8c2c-4cbf-a492-5662d3a078e8",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.result.evaluation.37-1794973743575.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.result.evaluation.37-1794973743575.json",
+      "rawBytes": 11224,
+      "rawSHA256": "b47a6f73433e0c9aee6e8194fe10cd45d00b8187a9966e4ef842d8a7169b55b9",
+      "sanitizedBytes": 11225,
+      "sanitizedSHA256": "6ed5392cfb50f03afc7c474cbb570396dce9f3ac5454e4194fbb7e6ccd4c16a5"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "c72f75ef-8c2c-4cbf-a492-5662d3a078e8",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.result.evaluation.37-1794973743575.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.result.evaluation.37-1794973743575.json.diagnosis.json",
+      "rawBytes": 27495,
+      "rawSHA256": "dc7e70f4909c8f668c25a8e9085d7a98dbb7544c984a8740a2c0d8f5c7193922",
+      "sanitizedBytes": 27495,
+      "sanitizedSHA256": "dc7e70f4909c8f668c25a8e9085d7a98dbb7544c984a8740a2c0d8f5c7193922"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "c72f75ef-8c2c-4cbf-a492-5662d3a078e8",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.result.evaluation.37-1794973743575.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.result.evaluation.37-1794973743575.json.diagnosis.md",
+      "rawBytes": 20902,
+      "rawSHA256": "aeb98e894915383106896bde8fb8da77c143a317a74e6056ffc8269979d8b2af",
+      "sanitizedBytes": 20902,
+      "sanitizedSHA256": "aeb98e894915383106896bde8fb8da77c143a317a74e6056ffc8269979d8b2af"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "c72f75ef-8c2c-4cbf-a492-5662d3a078e8",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.result.json",
+      "rawBytes": 14904,
+      "rawSHA256": "3e6e5f727f4c2bda07fddc01e852b81e7bfe8866f302cfdd17598cfadb886bf4",
+      "sanitizedBytes": 14905,
+      "sanitizedSHA256": "24917cd3fed36d153f7d25f80dd10e8707e0c79df9e676b8a43b534db8ad3806"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "c72f75ef-8c2c-4cbf-a492-5662d3a078e8",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8/2026-11-18T03-49-03-574Z-c72f75ef-8c2c-4cbf-a492-5662d3a078e8.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "42169f3595e4095fdaaf9e073bf9ef9b97afca5f5fc1431d879fe3f79a92dc19",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "612f9a7ce96d4072245b785b909e3351c03c717358a14c4c7798d040bba4afa1"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "d3f3998f-9edb-4ab2-93d4-b177a489299a",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.evaluation.37-1794973945374.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.evaluation.37-1794973945374.json",
+      "rawBytes": 20147,
+      "rawSHA256": "a60a2ed761271bf113b71cbfd12bdf930b8c3bc38e31eb8ddcc411bd3810e473",
+      "sanitizedBytes": 20148,
+      "sanitizedSHA256": "79bacb32e0bab9b8f100aff672ee085b6004594064fbe969587998418d73b6ba"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "d3f3998f-9edb-4ab2-93d4-b177a489299a",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.evaluation.37-1794973945374.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.evaluation.37-1794973945374.json.diagnosis.json",
+      "rawBytes": 49906,
+      "rawSHA256": "62ddb4b43a84116048cd4fe2caef23333c1fbdda6d1664ecaae7bc57d7b6b535",
+      "sanitizedBytes": 49906,
+      "sanitizedSHA256": "62ddb4b43a84116048cd4fe2caef23333c1fbdda6d1664ecaae7bc57d7b6b535"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "d3f3998f-9edb-4ab2-93d4-b177a489299a",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.evaluation.37-1794973945374.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.evaluation.37-1794973945374.json.diagnosis.md",
+      "rawBytes": 39353,
+      "rawSHA256": "c090af230eb800c49259706c3536373f96ee317cdd5198a76b04740cd84e2511",
+      "sanitizedBytes": 39353,
+      "sanitizedSHA256": "c090af230eb800c49259706c3536373f96ee317cdd5198a76b04740cd84e2511"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "d3f3998f-9edb-4ab2-93d4-b177a489299a",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.result.json",
+      "rawBytes": 427238,
+      "rawSHA256": "fa162d9f534d7cf7efb9f49adcbe86a84d6872c93764c59ee6de8151993e0ad9",
+      "sanitizedBytes": 427239,
+      "sanitizedSHA256": "1479c4e145fc66d32c53671971fd5e1844838775ea2e5f40e193270211021bd7"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "d3f3998f-9edb-4ab2-93d4-b177a489299a",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a/2026-11-18T03-52-25-365Z-d3f3998f-9edb-4ab2-93d4-b177a489299a.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "9c364abacaa6315e31c4e3ee6ec94ca18ac08597b19bd7bfd8e581add899f66b",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "f28b4a7a342f00f8264a60c56fc75d08e5484614f3fe694bea6dcdee9e376699"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "a46c169d-3ecc-4408-8953-a39b41fdb24f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.result.evaluation.37-1794974039105.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.result.evaluation.37-1794974039105.json",
+      "rawBytes": 20888,
+      "rawSHA256": "4f336bed8adc5217fa7b6f011cfa8b42dc1b02d363411f98a6cfe10a80fb4f4f",
+      "sanitizedBytes": 20889,
+      "sanitizedSHA256": "23b85012a931596d5e1bd87d2becc73badda6207a54ea516f1fc15c88d771924"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "a46c169d-3ecc-4408-8953-a39b41fdb24f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.result.evaluation.37-1794974039105.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.result.evaluation.37-1794974039105.json.diagnosis.json",
+      "rawBytes": 53113,
+      "rawSHA256": "e9d9ca098b938fcb61e48d352421ab0dfd4eb6db4b38449d3ecaf1af7e65b5f5",
+      "sanitizedBytes": 53113,
+      "sanitizedSHA256": "e9d9ca098b938fcb61e48d352421ab0dfd4eb6db4b38449d3ecaf1af7e65b5f5"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "a46c169d-3ecc-4408-8953-a39b41fdb24f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.result.evaluation.37-1794974039105.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.result.evaluation.37-1794974039105.json.diagnosis.md",
+      "rawBytes": 41679,
+      "rawSHA256": "5ea035b089688d253c7598ee71fab8837856dfb49bf31f88aa0e09ca1ad6c524",
+      "sanitizedBytes": 41679,
+      "sanitizedSHA256": "5ea035b089688d253c7598ee71fab8837856dfb49bf31f88aa0e09ca1ad6c524"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "a46c169d-3ecc-4408-8953-a39b41fdb24f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.result.json",
+      "rawBytes": 604869,
+      "rawSHA256": "6a12cb12eeeb104048611a927990cdce4902164f7d96bd12a6992be101e48d7e",
+      "sanitizedBytes": 604870,
+      "sanitizedSHA256": "fcc89b09f19ff6704bb3b927838a42277b28ff64d87507d2236c5ab0e1282a19"
+    },
+    {
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "a46c169d-3ecc-4408-8953-a39b41fdb24f",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f/2026-11-18T03-53-59-093Z-a46c169d-3ecc-4408-8953-a39b41fdb24f.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "1b0f496fc58ad42e2458d65e5cee4cdef1c5394ae2f1112019141fadfbf24ee1",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "68e7c7932d79747a46f8706b58eba176bc5f3e7b9825aab26fede0ea40cd6534"
+    },
+    {
+      "prefix": "2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json",
+      "rawBytes": 11709,
+      "rawSHA256": "6538c50182cd56dff75a1dd1b1bb86d26f10284c6e14ecaddabf057ef064279d",
+      "sanitizedBytes": 11710,
+      "sanitizedSHA256": "89922a626dbe5f94b4b8ac9f7839aa206ab700db3770152ebac9241e19947ffe"
+    },
+    {
+      "prefix": "2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json.diagnosis.json",
+      "rawBytes": 33560,
+      "rawSHA256": "7b64222cd29b939f4c643d9a0ba9efaa290bb5543f4b6f5fcb2bd338b2ddb11e",
+      "sanitizedBytes": 33560,
+      "sanitizedSHA256": "7b64222cd29b939f4c643d9a0ba9efaa290bb5543f4b6f5fcb2bd338b2ddb11e"
+    },
+    {
+      "prefix": "2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.evaluation.37-1794987721871.json.diagnosis.md",
+      "rawBytes": 25484,
+      "rawSHA256": "fffb805c7bdc0d40f4e6a2d6f0151713e41b476fbb7176fe9e18ea0c4d450654",
+      "sanitizedBytes": 25484,
+      "sanitizedSHA256": "fffb805c7bdc0d40f4e6a2d6f0151713e41b476fbb7176fe9e18ea0c4d450654"
+    },
+    {
+      "prefix": "2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.result.json",
+      "rawBytes": 1080577,
+      "rawSHA256": "7b617860ac8e9de0ab053ed9939bbfe7be02c2af72c10649a385b4d9226c2a10",
+      "sanitizedBytes": 1080578,
+      "sanitizedSHA256": "a5394c8665e120ab51fb1f3a12b31957a14393fb71007a5613ab4def21c50fc8"
+    },
+    {
+      "prefix": "2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "runId": "87ced0da-9c4e-47b8-ba92-6b4ed442852c",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-44d9e0479bf52c24a27915d1/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c/2026-11-18T07-42-01-848Z-87ced0da-9c4e-47b8-ba92-6b4ed442852c.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "a4e0a9e36216d23885b152c246b2aeab999fb4e364b1b8447f2df2b18778cc63",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "f6352a09db8f4216d85c6346bf8930deaf4aae56b672dc0efbf155dd5fd7a7bb"
+    },
+    {
+      "prefix": "2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+      "runId": "d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.result.evaluation.37-1794987751406.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-c79a5c9bceb6a284eaa879e4/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.result.evaluation.37-1794987751406.json",
+      "rawBytes": 37911,
+      "rawSHA256": "2912c8ebbe5430865e08bb8e25c0616e0f50183c7c011cd2597760d2a463d0ce",
+      "sanitizedBytes": 37912,
+      "sanitizedSHA256": "c196e7201e62964c8843a53164f8c413e56fd6e1fe0b727a24308e9f8cfbd652"
+    },
+    {
+      "prefix": "2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+      "runId": "d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.result.evaluation.37-1794987751406.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-c79a5c9bceb6a284eaa879e4/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.result.evaluation.37-1794987751406.json.diagnosis.json",
+      "rawBytes": 67107,
+      "rawSHA256": "223d16a20818e1eeb8873e58b7602f602c14602f0e7f4cc71af736a5ce564c02",
+      "sanitizedBytes": 67107,
+      "sanitizedSHA256": "223d16a20818e1eeb8873e58b7602f602c14602f0e7f4cc71af736a5ce564c02"
+    },
+    {
+      "prefix": "2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+      "runId": "d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.result.evaluation.37-1794987751406.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-c79a5c9bceb6a284eaa879e4/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.result.evaluation.37-1794987751406.json.diagnosis.md",
+      "rawBytes": 51978,
+      "rawSHA256": "56ea492b10ebadfa706ad88630751dd88a6d5ea0af7703d626840a8568933b69",
+      "sanitizedBytes": 51978,
+      "sanitizedSHA256": "56ea492b10ebadfa706ad88630751dd88a6d5ea0af7703d626840a8568933b69"
+    },
+    {
+      "prefix": "2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+      "runId": "d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-c79a5c9bceb6a284eaa879e4/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.result.json",
+      "rawBytes": 877526,
+      "rawSHA256": "5408401e2d410258a16880d22d0399bf0267695858710b831504e9b4bef90eec",
+      "sanitizedBytes": 877527,
+      "sanitizedSHA256": "9bceaf907a2d4d95cb2687d39f5779db0716162c2fd1798f1b1069cf48ad1ce4"
+    },
+    {
+      "prefix": "2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "caseId": "restaurant:c79a5c9bceb6a284eaa879e4",
+      "runId": "d4d38b89-6cda-4df7-a01b-ba0087e77930",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-c79a5c9bceb6a284eaa879e4/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930/2026-11-18T07-42-31-394Z-d4d38b89-6cda-4df7-a01b-ba0087e77930.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "9e91e28c30a399384ec14ca9d3802dcb958e90d49e9d72d357a619dec4d5956f",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "47591b4adf5b00e70523b3f08b20300f298cc92aa13863c75f5723d6fb1c570c"
+    },
+    {
+      "prefix": "2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "76c748d4-de4b-4b95-a400-f15395f337a1",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.evaluation.37-1794987762233.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.evaluation.37-1794987762233.json",
+      "rawBytes": 38209,
+      "rawSHA256": "46c76a4c528371bce431b5b1cd73d1a0968481a099f6b85163e9cc99b8224c50",
+      "sanitizedBytes": 38210,
+      "sanitizedSHA256": "689181372caf8f6a2041c773cf3d75659f2b65377e1ab046af42713271cd1496"
+    },
+    {
+      "prefix": "2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "76c748d4-de4b-4b95-a400-f15395f337a1",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.evaluation.37-1794987762233.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.evaluation.37-1794987762233.json.diagnosis.json",
+      "rawBytes": 58994,
+      "rawSHA256": "090ce1c6031359b1ff05d92db56e5d6be5ba001dd0ad1d41105adc376eb0a110",
+      "sanitizedBytes": 58994,
+      "sanitizedSHA256": "090ce1c6031359b1ff05d92db56e5d6be5ba001dd0ad1d41105adc376eb0a110"
+    },
+    {
+      "prefix": "2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "76c748d4-de4b-4b95-a400-f15395f337a1",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.evaluation.37-1794987762233.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.evaluation.37-1794987762233.json.diagnosis.md",
+      "rawBytes": 47539,
+      "rawSHA256": "15293f60b2292026b72a274ed56c0942da7f658e025890c1ae84d1a47f8d0e85",
+      "sanitizedBytes": 47539,
+      "sanitizedSHA256": "15293f60b2292026b72a274ed56c0942da7f658e025890c1ae84d1a47f8d0e85"
+    },
+    {
+      "prefix": "2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "76c748d4-de4b-4b95-a400-f15395f337a1",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.json",
+      "rawBytes": 1178741,
+      "rawSHA256": "7a1d18bc4677a3c23aa06e4b6c63a71375acd0e61aaa161aa9ab60d708189ca5",
+      "sanitizedBytes": 1178742,
+      "sanitizedSHA256": "edd385b117279de5d86dbbd97d34fa1d94badb6f6e940bde4887a5e9911b65c9"
+    },
+    {
+      "prefix": "2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "76c748d4-de4b-4b95-a400-f15395f337a1",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "5c28c025e9e93508a55bde6427cfc6b79ce1bedfe1689784c037239467f28af1",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "8595f224e04c3e94bc81a64a41fa80bc98410cd7ee19d78b7a05b43625ca2fd5"
+    },
+    {
+      "prefix": "2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "e025df76-5240-4601-88de-51e17be61347",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.evaluation.37-1794987900550.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.evaluation.37-1794987900550.json",
+      "rawBytes": 38329,
+      "rawSHA256": "c22f99de8c8f17eed96dbf726697ef3765a12d4f08a75ad1455ba68cbf93b78f",
+      "sanitizedBytes": 38330,
+      "sanitizedSHA256": "c2d360ec4e93ba7315561bbaa352457bf982f59203ce94e0175c274f777c2d1b"
+    },
+    {
+      "prefix": "2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "e025df76-5240-4601-88de-51e17be61347",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.evaluation.37-1794987900550.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.evaluation.37-1794987900550.json.diagnosis.json",
+      "rawBytes": 59784,
+      "rawSHA256": "33c72fb6bdc6a6d087f6a12a6cea16244cbd041c1ca639262bba2e8d497b276c",
+      "sanitizedBytes": 59784,
+      "sanitizedSHA256": "33c72fb6bdc6a6d087f6a12a6cea16244cbd041c1ca639262bba2e8d497b276c"
+    },
+    {
+      "prefix": "2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "e025df76-5240-4601-88de-51e17be61347",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.evaluation.37-1794987900550.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.evaluation.37-1794987900550.json.diagnosis.md",
+      "rawBytes": 48095,
+      "rawSHA256": "6d3980cc929c83811313c362cb8f8ac416a130eb013d73bd69445cddfc4f7bcd",
+      "sanitizedBytes": 48095,
+      "sanitizedSHA256": "6d3980cc929c83811313c362cb8f8ac416a130eb013d73bd69445cddfc4f7bcd"
+    },
+    {
+      "prefix": "2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "e025df76-5240-4601-88de-51e17be61347",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.result.json",
+      "rawBytes": 1619855,
+      "rawSHA256": "33ba15bad492d8e5935a4a630acb7e47fa535234f5d587fc4014bc7d20989ee5",
+      "sanitizedBytes": 1619856,
+      "sanitizedSHA256": "d05997ddbfc266d3db3d2937b2c321e77190ad385ee5170b40f60cdf20620e90"
+    },
+    {
+      "prefix": "2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "e025df76-5240-4601-88de-51e17be61347",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347/2026-11-18T07-45-00-528Z-e025df76-5240-4601-88de-51e17be61347.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "236ad0ff49675b9699a0187a2780a7ca296205e09f6fcf2403c094353f0320ad",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "4f672d4824cec6f402c54108c9618365e37bc250eda14e58a60c87b3d5af4144"
+    },
+    {
+      "prefix": "2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.result.evaluation.37-1794987923933.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.result.evaluation.37-1794987923933.json",
+      "rawBytes": 11365,
+      "rawSHA256": "c2bddb4246ef3f0da92dd3c9431641af87d1a14bcdd25bf90b4557b08ef02a34",
+      "sanitizedBytes": 11366,
+      "sanitizedSHA256": "c627a195b6849334b1b3b624b0778765cae9d892b38b6d7ab7c2537fe771d30b"
+    },
+    {
+      "prefix": "2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.result.evaluation.37-1794987923933.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.result.evaluation.37-1794987923933.json.diagnosis.json",
+      "rawBytes": 27765,
+      "rawSHA256": "3bffd90c4101343dbe6747fa5399ddf2edf94bc27913878745b37cf57b4df7cb",
+      "sanitizedBytes": 27765,
+      "sanitizedSHA256": "3bffd90c4101343dbe6747fa5399ddf2edf94bc27913878745b37cf57b4df7cb"
+    },
+    {
+      "prefix": "2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.result.evaluation.37-1794987923933.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.result.evaluation.37-1794987923933.json.diagnosis.md",
+      "rawBytes": 21031,
+      "rawSHA256": "230113173b8eba796bac1c10147be08bc6cc7a0c2c2951983339d9f86d40277d",
+      "sanitizedBytes": 21031,
+      "sanitizedSHA256": "230113173b8eba796bac1c10147be08bc6cc7a0c2c2951983339d9f86d40277d"
+    },
+    {
+      "prefix": "2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.result.json",
+      "rawBytes": 12934,
+      "rawSHA256": "c4fc1d60abce5255f1949389aaae3cf9a10394980bf833aa701ba01e51442514",
+      "sanitizedBytes": 12935,
+      "sanitizedSHA256": "3b24fa1101bae3b38a7eada0f07d9fe629f63af45fff6955cda68307790c3aea"
+    },
+    {
+      "prefix": "2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd/2026-11-18T07-45-23-928Z-0aa6f0ba-3a0d-4ca2-a298-35c25770bcdd.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "b2fc1b836c08d6275c8d40e51b756f07856fb8e2a55e8b752154049336ae4775",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "c8426bafd314bc20da2f02949e7dc974976b44e6fcb37904eb15ce7141c109bb"
+    },
+    {
+      "prefix": "2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.evaluation.37-1794988064161.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.evaluation.37-1794988064161.json",
+      "rawBytes": 33329,
+      "rawSHA256": "4e2c9e90fe8296653eae0a298bdb494e77da62a85083405f41f9b63e78c1ffda",
+      "sanitizedBytes": 33330,
+      "sanitizedSHA256": "12c1774be69341f67c120f8c079f0af130cd6cfd3425f2876c4c06bbf0f85547"
+    },
+    {
+      "prefix": "2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.evaluation.37-1794988064161.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.evaluation.37-1794988064161.json.diagnosis.json",
+      "rawBytes": 59921,
+      "rawSHA256": "8a44eeb82c651c91c02aa172c3f7034b6c15af2f7fb80fb806e1ee8c46834f3f",
+      "sanitizedBytes": 59921,
+      "sanitizedSHA256": "8a44eeb82c651c91c02aa172c3f7034b6c15af2f7fb80fb806e1ee8c46834f3f"
+    },
+    {
+      "prefix": "2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.evaluation.37-1794988064161.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.evaluation.37-1794988064161.json.diagnosis.md",
+      "rawBytes": 45674,
+      "rawSHA256": "b32d4893a6d87a7af364e7c4dd3fe37676bcde40e7c763d71ea91b532c69b7f2",
+      "sanitizedBytes": 45674,
+      "sanitizedSHA256": "b32d4893a6d87a7af364e7c4dd3fe37676bcde40e7c763d71ea91b532c69b7f2"
+    },
+    {
+      "prefix": "2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.result.json",
+      "rawBytes": 1616986,
+      "rawSHA256": "d33c5653089ecf92ca8986b616f2688ae5da76cdd469ab859c9e59f472e060c0",
+      "sanitizedBytes": 1616987,
+      "sanitizedSHA256": "2af180af8f49af03755988444b30dbac69622abe8b4016aa19d8b690a5c2be67"
+    },
+    {
+      "prefix": "2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "runId": "3ff51b8e-18c8-44de-ae9d-453aaf1c4245",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-3897d6b73c1b942e1ef58f1d/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245/2026-11-18T07-47-44-141Z-3ff51b8e-18c8-44de-ae9d-453aaf1c4245.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "93c9635d4b8c1b43fa052daa56f3dc75026cb846135bc8cd58ff0792d0c55594",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "ecf3745b265e7bebddabba908c35b5a09ddfd86b645a2b596e16e97d60adb9f0"
+    },
+    {
+      "prefix": "2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.evaluation.37-1794988123419.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.evaluation.37-1794988123419.json",
+      "rawBytes": 40508,
+      "rawSHA256": "f733b0eac47f7dd7052f93b2a70fae8934e4c3999c6db0b1aafe49a10848a252",
+      "sanitizedBytes": 40509,
+      "sanitizedSHA256": "dd1655c10504e640ae2a550bcec703f7ff582406014ca6d977ef3ced488082ba"
+    },
+    {
+      "prefix": "2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.evaluation.37-1794988123419.json.diagnosis.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.evaluation.37-1794988123419.json.diagnosis.json",
+      "rawBytes": 63226,
+      "rawSHA256": "2569c004e3d99b488d4aec9e326f8cb876c1b1e601bbe1f09d7a63ae25f1dc54",
+      "sanitizedBytes": 63226,
+      "sanitizedSHA256": "2569c004e3d99b488d4aec9e326f8cb876c1b1e601bbe1f09d7a63ae25f1dc54"
+    },
+    {
+      "prefix": "2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.evaluation.37-1794988123419.json.diagnosis.md",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.evaluation.37-1794988123419.json.diagnosis.md",
+      "rawBytes": 50546,
+      "rawSHA256": "35b49c410a52fd04c88dfc6987878d2f1513173075fa577e37a83bebc0b12f8c",
+      "sanitizedBytes": 50546,
+      "sanitizedSHA256": "35b49c410a52fd04c88dfc6987878d2f1513173075fa577e37a83bebc0b12f8c"
+    },
+    {
+      "prefix": "2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.result.json",
+      "rawBytes": 864232,
+      "rawSHA256": "9ca20c60b3e5bd7db1ae4cf231a4fcc1a2249115d8506ba541374786102b6cf4",
+      "sanitizedBytes": 864233,
+      "sanitizedSHA256": "6928b8676a03a5ef4183c373d686f6658f0f517e63fe948cd4b5db9f26d93ee3"
+    },
+    {
+      "prefix": "2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "caseId": "restaurant:d851345f47bb12e554341400",
+      "runId": "d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d",
+      "source": ".eval-artifacts/restaurant-web-read/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.started.json",
+      "path": ".eval-artifacts/3c-unified-20261117/user-live-20261118/restaurant-d851345f47bb12e554341400/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d/2026-11-18T07-48-43-404Z-d84cd4a7-1bbc-4356-8d87-e95fc5e4ca4d.started.json",
+      "rawBytes": 591,
+      "rawSHA256": "f84522bff0a3ae16e14d11b0218a1946feb201bd0b6b1f9611b6b403ee667bf2",
+      "sanitizedBytes": 592,
+      "sanitizedSHA256": "e58134f57a5ad218ced29908d85f2225bb61de8af4f34f0714794ef31c084f6a"
+    }
+  ]
+}

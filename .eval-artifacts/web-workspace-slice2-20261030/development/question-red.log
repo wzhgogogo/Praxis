@@ -1,0 +1,29 @@
+✖ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (228.114ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 540.572708
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-workspace.test.ts:1:5663
+✖ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (228.114ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Adjust anything?'
+  - 'Ask about this place'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/browser-read-workspace.test.ts:100:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Adjust anything?',
+    expected: 'Ask about this place',
+    operator: 'strictEqual'
+  }

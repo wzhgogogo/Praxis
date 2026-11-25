@@ -1,0 +1,33 @@
+SELECTION_STEP {"progress":"Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.","targets":[{"label":"Guests 1","actions":["CLICK"]},{"label":"Guests 2","actions":["CLICK"]},{"label":"Guests 3","actions":["CLICK"]},{"label":"Guests 4","actions":["CLICK"]},{"label":"Guests 5","actions":["CLICK"]},{"label":"Guests 6","actions":["CLICK"]},{"label":"Next month","actions":["CLICK"]},{"label":"More guests","actions":["CLICK"]}]}
+SELECTION_STEP {"progress":"Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.","targets":[{"label":"Date 2026-12-18","actions":["CLICK","CLICK_AUTHORITATIVE:DATE"]},{"label":"Guests 1","actions":["CLICK"]},{"label":"Guests 2","actions":["CLICK"]},{"label":"Guests 3","actions":["CLICK"]},{"label":"Guests 4","actions":["CLICK"]},{"label":"Guests 5","actions":["CLICK"]},{"label":"Guests 6","actions":["CLICK"]},{"label":"Next month","actions":["CLICK"]},{"label":"More guests","actions":["CLICK"]}]}
+SELECTION_STEP {"progress":"The previous CLICK_AUTHORITATIVE did not produce a visible change. Choose a current observed target that advances the goal. Wait only if the result is actually still loading.","targets":[{"label":"Guests 1","actions":["CLICK"]},{"label":"Guests 2","actions":["CLICK"]},{"label":"Guests 3","actions":["CLICK"]},{"label":"Guests 4","actions":["CLICK"]},{"label":"Guests 5","actions":["CLICK"]},{"label":"Guests 6","actions":["CLICK"]},{"label":"Next month","actions":["CLICK"]},{"label":"More guests","actions":["CLICK"]}]}
+SELECTION_STEP {"progress":"Both the requested calendar date and guest count must be selected; model completion alone does not confirm them.","targets":[{"label":"Date 2026-12-18","actions":["CLICK","CLICK_AUTHORITATIVE:DATE"]},{"label":"Guests 2","actions":["CLICK"]},{"label":"Guests 3","actions":["CLICK"]},{"label":"Guests 4","actions":["CLICK"]},{"label":"Guests 5","actions":["CLICK"]},{"label":"Guests 6","actions":["CLICK"]},{"label":"Guests 7","actions":["CLICK"]},{"label":"Next month","actions":["CLICK"]},{"label":"More guests","actions":["CLICK"]}]}
+✖ seed readiness Chromium: month and guest pagination EXACT_RESPONSE (2851.468625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3154.596208
+
+✖ failing tests:
+
+test at src/harness/browser/seed-readiness-selection.test.ts:1:845
+✖ seed readiness Chromium: month and guest pagination EXACT_RESPONSE (2851.468625ms)
+  AssertionError [ERR_ASSERTION]: {"events":[{"event":"POST_ACTION_VERIFIED","detail":"OBSERVED_CHANGE_AFTER_MODEL_ACTION"},{"event":"POST_ACTION_VERIFIED","detail":"NEW_OBSERVATION_AFTER_MODEL_ACTION"},{"event":"POST_ACTION_VERIFIED","detail":"ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION"},{"event":"METHOD_INCOMPLETE","detail":"ASYNC_RESULT_NOT_READY"},{"event":"POST_ACTION_VERIFIED","detail":"NEW_OBSERVATION_AFTER_MODEL_ACTION"},{"event":"POST_ACTION_VERIFIED","detail":"OBSERVED_CHANGE_AFTER_MODEL_ACTION"},{"event":"POST_ACTION_VERIFIED","detail":"NEW_OBSERVATION_AFTER_MODEL_ACTION"},{"event":"POST_ACTION_VERIFIED","detail":"ASYNC_RESULT_NOT_READY_AFTER_MODEL_ACTION"},{"event":"METHOD_INCOMPLETE","detail":"NO_PROGRESS"}],"status":"NO_SAFE_ACTION","responses":[],"diagnostics":[{"code":"BLOCKED_ENDPOINT","origin":"https://tabelog.com","pathname":"/en/booking/calendar/find_vacancy","method":"GET","resourceType":"fetch","queryKeys":["rst_id","svd","svps"],"queryValues":[{"queryKey":"rst_id","valueClass":"NUMERIC"},{"queryKey":"svd","valueClass":"NUMERIC"},{"queryKey":"svps","valueClass":"NUMERIC"}]},{"code":"BLOCKED_ENDPOINT","origin":"https://tabelog.com","pathname":"/en/booking/calendar/find_vacancy","method":"GET","resourceType":"fetch","queryKeys":["rst_id","svd","svps"],"queryValues":[{"queryKey":"rst_id","valueClass":"NUMERIC"},{"queryKey":"svd","valueClass":"NUMERIC"},{"queryKey":"svps","valueClass":"NUMERIC"}]}]}
+  + actual - expected
+  
+  + 'NO_SAFE_ACTION'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-readiness-fixes/src/harness/browser/seed-readiness-selection.test.ts:39:38)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_SAFE_ACTION',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }

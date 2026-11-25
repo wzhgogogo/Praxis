@@ -61,7 +61,7 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
       let status: RestaurantConditionStatus = observations.some(item => item.min <= high && item.max >= low) ? "MET" : "NOT_MET";
       if (criterion.polarity === "NEGATIVE") status = status === "MET" ? "NOT_MET" : "MET";
       const mixedTax = observations.some(item => item.tax === "INCLUDED") && observations.some(item => item.tax === "EXCLUDED");
-      return { ...base, status, evidenceIds: [...new Set(observations.map(item => item.evidenceId))], sources: observations.map(({ sourceUrl, quote }) => ({ sourceUrl, quote, field: "PRICE" as const })),
+      return { ...base, status, evidenceIds: [...new Set(observations.map(item => item.evidenceId))], sources: observations.map(({ sourceUrl, quote, evidenceId }) => ({ sourceUrl, quote, evidenceId, field: "PRICE" as const })),
         explanation: `Listed ${meal?.toLowerCase() ?? "meal"} prices ${status === "MET" ? "support" : "do not support"} this budget. ${mixedTax ? "Prices mix tax included and excluded; compared as listed without conversion." : "Tax treatment is retained as quoted; no conversion."} Listed-plan availability has not been verified.` };
     }
     const hardFacts = admittedFactIds ? facts.filter(f => admittedFactIds.includes(f.evidenceId)) : facts;
@@ -93,7 +93,7 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
       && (` ${literalText(q.quote)} `).includes(` ${key} `)
       && !(criterion.polarity === "POSITIVE" && /\bno\b|\bnot\b|without|not offered|提供していません/i.test(q.quote))
       && (!requestedCourseMeal || !q.meal || q.meal === "UNSPECIFIED" || q.meal === requestedCourseMeal));
-    const sources = accepted.map(({ evidenceId: _id, ...source }) => source);
+    const sources = accepted;
     if (accepted.length) {
       const meals = [...new Set(accepted.map(q => q.meal).filter(q => q && q !== "UNSPECIFIED"))];
       return { ...base, status: contradicted.length ? "NOT_MET" : "MET", evidenceIds: [...new Set([...applicable.map(e => e.evidenceId), ...accepted.map(q => q.evidenceId)])], sources,
@@ -102,8 +102,8 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
     if (hardSupport) return { ...base, status: "MET", evidenceIds: hardSupport.evidenceIds, sources: hardSupport.sources,
       explanation: `Based on ${hardSupport.basis.join("; ")}. Requested-time course availability has not been verified.` };
     const weak: RestaurantSourceFieldQuote[] = fieldQuotes.length ? fieldQuotes : sourceFacts.flatMap(fact => fact.sourceUrl && Array.isArray(fact.claims.restaurantTypeFacts)
-      ? (fact.claims.restaurantTypeFacts as string[]).map(quote => ({ field: "SOURCE_TEXT" as const, quote, sourceUrl: fact.sourceUrl! })) : []);
-    return { ...base, evidenceIds: applicable.map(e => e.evidenceId), sources: weak.slice(0, 3).map(({ field, quote, sourceUrl, meal }) => ({ field, quote, sourceUrl, ...(meal ? { meal } : {}) })),
+      ? (fact.claims.restaurantTypeFacts as string[]).map(quote => ({ field: "SOURCE_TEXT" as const, quote, sourceUrl: fact.sourceUrl!, evidenceId: fact.evidenceId })) : []);
+    return { ...base, evidenceIds: [...new Set([...applicable.map(e => e.evidenceId), ...weak.slice(0, 3).flatMap(q => q.evidenceId ? [q.evidenceId] : [])])], sources: weak.slice(0, 3).map(({ field, quote, sourceUrl, meal, evidenceId }) => ({ field, quote, sourceUrl, ...(evidenceId ? { evidenceId } : {}), ...(meal ? { meal } : {}) })),
       explanation: "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting." };
   });
 }

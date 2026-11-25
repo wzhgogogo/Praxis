@@ -22,19 +22,19 @@ export class RunBoundedModelGateway implements ModelGateway {
 
   constructor(private readonly delegate: ModelGateway, private readonly maxCalls: number, private readonly timeoutMs: number, private readonly now: () => number = Date.now) {}
 
-  async run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>, deadlineAt?: number): Promise<T> {
+  async run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>, deadlineAt?: number, publish = true): Promise<T> {
     const startedAt = this.now();
-    return this.withScope(taskId, { calls: 0, startedAt, deadlineAt: Math.min(startedAt + this.timeoutMs, deadlineAt ?? Infinity) }, work);
+    return this.withScope(taskId, { calls: 0, startedAt, deadlineAt: Math.min(startedAt + this.timeoutMs, deadlineAt ?? Infinity) }, work, publish);
   }
 
-  private async withScope<T>(taskId: string, previous: Pick<ModelRunUsage, "calls" | "startedAt" | "deadlineAt">, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
+  private async withScope<T>(taskId: string, previous: Pick<ModelRunUsage, "calls" | "startedAt" | "deadlineAt">, work: (signal: AbortSignal) => Promise<T>, publish: boolean): Promise<T> {
     const controller = new AbortController();
     const scope: ModelRunScope = {
       taskId, calls: previous.calls, startedAt: previous.startedAt, deadlineAt: previous.deadlineAt, controller,
       holds: 0, finished: false,
       timer: setTimeout(() => controller.abort(Object.assign(new Error("Read-run deadline reached"), { code: "RUN_DEADLINE_EXCEEDED" })), Math.max(0, previous.deadlineAt - this.now())),
     };
-    this.active.set(taskId, scope);
+    if (publish && !this.active.has(taskId)) this.active.set(taskId, scope);
     try {
       return await this.scopes.run(scope, () => work(controller.signal));
     } finally {
@@ -56,7 +56,20 @@ export class RunBoundedModelGateway implements ModelGateway {
     };
   }
 
+  /** A committed mutation owns the exported read budget, not a later conflicting contender. */
+  claim(): void {
+    const scope = this.scopes.getStore();
+    if (scope && !scope.finished) this.active.set(scope.taskId, scope);
+  }
+
   usage(taskId: string): ModelRunUsage | undefined {
+    const local = this.scopes.getStore();
+    const scope = local?.taskId === taskId ? local : this.active.get(taskId);
+    return scope ? { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) } : this.completed.get(taskId);
+  }
+
+  /** Export only committed/direct read work, never a tentative semantic scope. */
+  publishedUsage(taskId: string): ModelRunUsage | undefined {
     const scope = this.active.get(taskId);
     return scope ? { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) } : this.completed.get(taskId);
   }
@@ -69,8 +82,9 @@ export class RunBoundedModelGateway implements ModelGateway {
 
   /** Read-only view of the active task's shared budget, including failed calls. */
   remainingCalls(taskId: string): number | undefined {
-    const scope = this.active.get(taskId);
-    return scope ? Math.max(0, this.maxCalls - scope.calls) : undefined;
+    const local = this.scopes.getStore();
+    const scope = local?.taskId === taskId ? local : this.active.get(taskId);
+    return scope && !scope.finished ? Math.max(0, this.maxCalls - scope.calls) : undefined;
   }
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
@@ -86,7 +100,9 @@ export class RunBoundedModelGateway implements ModelGateway {
     if (scope.finished) return;
     scope.finished = true;
     clearTimeout(scope.timer);
-    if (this.active.get(scope.taskId) === scope) this.active.delete(scope.taskId);
-    this.completed.set(scope.taskId, { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) });
+    if (this.active.get(scope.taskId) === scope) {
+      this.active.delete(scope.taskId);
+      this.completed.set(scope.taskId, { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) });
+    }
   }
 }

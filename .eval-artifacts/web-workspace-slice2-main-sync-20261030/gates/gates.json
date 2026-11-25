@@ -1,0 +1,80 @@
+{
+  "sourceCommit": "55d7096353b270f4ac3765ede224f3e17c512991",
+  "main": "7c83e02ee78ccb18c9ddf6670a64823bb18a2c95",
+  "mergeCommit": "de9e73bc32937fabd9dfd5ff53a7ba11f56c9ec1",
+  "manifestSHA256": "daa036b03d8052492b1fe54b1498530931e097958ddc868edffc822a19c4df56",
+  "mode": "OFFLINE_AND_LOCAL_CHROMIUM_FIXTURE",
+  "realAPIRequests": 0,
+  "Holdout": "NOT_RUN",
+  "sourceGET": 0,
+  "Google": 0,
+  "externalWrites": 0,
+  "screenshotDirectory": "/private/tmp/praxis-slice2-main-sync-20261030-screens",
+  "frozenFilesUnchanged": 763,
+  "checks": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 634,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 248,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 31070,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 528,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 148923,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    }
+  ]
+}

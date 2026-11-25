@@ -1,0 +1,118 @@
+{
+  "sourceSHA": "52f6a11cb7228d12f4ea3f5182b91a1c64f1f574",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "sourceSHA": "52f6a11cb7228d12f4ea3f5182b91a1c64f1f574",
+      "startedAtUTC": "2026-11-09T14:29:50.450361+00:00",
+      "finishedAtUTC": "2026-11-09T14:29:50.930302+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "startedAtCET": "2026-11-09T15:29:50.450361+01:00",
+      "finishedAtCET": "2026-11-09T15:29:50.930302+01:00",
+      "summaries": []
+    },
+    {
+      "gate": "architecture",
+      "command": "npm run arch:check",
+      "sourceSHA": "52f6a11cb7228d12f4ea3f5182b91a1c64f1f574",
+      "startedAtUTC": "2026-11-09T14:29:51.022785+00:00",
+      "finishedAtUTC": "2026-11-09T14:29:51.212104+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "startedAtCET": "2026-11-09T15:29:51.022785+01:00",
+      "finishedAtCET": "2026-11-09T15:29:51.212104+01:00",
+      "summaries": []
+    },
+    {
+      "gate": "default",
+      "command": "npm test",
+      "sourceSHA": "52f6a11cb7228d12f4ea3f5182b91a1c64f1f574",
+      "startedAtUTC": "2026-11-09T14:29:51.304778+00:00",
+      "finishedAtUTC": "2026-11-09T14:30:46.212994+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "startedAtCET": "2026-11-09T15:29:51.304778+01:00",
+      "finishedAtCET": "2026-11-09T15:30:46.212994+01:00",
+      "summaries": [
+        "\u2139 tests 1553",
+        "\u2139 pass 1553",
+        "\u2139 fail 0",
+        "\u2139 duration_ms 54815.77275"
+      ]
+    },
+    {
+      "gate": "build",
+      "command": "npm run build",
+      "sourceSHA": "52f6a11cb7228d12f4ea3f5182b91a1c64f1f574",
+      "startedAtUTC": "2026-11-09T14:30:46.321983+00:00",
+      "finishedAtUTC": "2026-11-09T14:30:46.885824+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "startedAtCET": "2026-11-09T15:30:46.321983+01:00",
+      "finishedAtCET": "2026-11-09T15:30:46.885824+01:00",
+      "summaries": []
+    },
+    {
+      "gate": "browser",
+      "command": "npm run test:browser:fixture",
+      "sourceSHA": "52f6a11cb7228d12f4ea3f5182b91a1c64f1f574",
+      "startedAtUTC": "2026-11-09T14:30:46.981202+00:00",
+      "finishedAtUTC": "2026-11-09T14:34:18.377257+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "startedAtCET": "2026-11-09T15:30:46.981202+01:00",
+      "finishedAtCET": "2026-11-09T15:34:18.377257+01:00",
+      "summaries": [
+        "\u2139 tests 5",
+        "\u2139 pass 5",
+        "\u2139 fail 0",
+        "\u2139 duration_ms 24614.416917",
+        "\u2139 tests 263",
+        "\u2139 pass 263",
+        "\u2139 fail 0",
+        "\u2139 duration_ms 154197.179625",
+        "\u2139 tests 268",
+        "\u2139 pass 268",
+        "\u2139 fail 0",
+        "\u2139 duration_ms 178865.701",
+        "\u2139 tests 89",
+        "\u2139 pass 89",
+        "\u2139 fail 0",
+        "\u2139 duration_ms 32278.853292"
+      ]
+    },
+    {
+      "gate": "strict-g2",
+      "command": "PRAXIS_G2_REQUIRE_PASS=1 npm run test:dom-change",
+      "sourceSHA": "52f6a11cb7228d12f4ea3f5182b91a1c64f1f574",
+      "startedAtUTC": "2026-11-09T14:34:18.472706+00:00",
+      "finishedAtUTC": "2026-11-09T14:34:43.234382+00:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "startedAtCET": "2026-11-09T15:34:18.472706+01:00",
+      "finishedAtCET": "2026-11-09T15:34:43.234382+01:00",
+      "summaries": [
+        "\u2139 tests 5",
+        "\u2139 pass 5",
+        "\u2139 fail 0",
+        "\u2139 duration_ms 24666.703084"
+      ]
+    }
+  ],
+  "realCalls": {
+    "sourceGET": 0,
+    "models": 0,
+    "Live": 0
+  },
+  "mode": "LOCAL_CHROMIUM_AND_EXPOSED_COMPONENT_REPLAY",
+  "hardcodedScanMatches": 6,
+  "originalPreservation": "original-preservation.json"
+}

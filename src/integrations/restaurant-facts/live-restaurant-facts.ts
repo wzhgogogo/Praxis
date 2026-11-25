@@ -23,8 +23,9 @@ export function composeLiveRestaurantFactRead(
   now?: () => string,
   onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
   onSourcePage?: RestaurantFactPageObserver,
+  categoryQuotes?: (e: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence)=>string[],
 ): RestaurantCandidateFactPort {
-  const judgment = new ModelRestaurantFactJudgment(model, now);
+  const judgment = new ModelRestaurantFactJudgment(model, now,categoryQuotes);
   const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined;
   return new GoogleThenWebsiteFactRead(
     google,

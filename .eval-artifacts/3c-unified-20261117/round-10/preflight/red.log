@@ -1,0 +1,80 @@
+✖ Saved omits mismatch reasons for a qualified later-batch outlet after requirements change (2.376792ms)
+✖ Round10 UI: a delayed shortlist response stays with the earlier plan (1412.537833ms)
+✖ Round10 UI: unsent drafts stay with their plans and a sent draft clears only its own field (1367.124333ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3410.228709
+
+✖ failing tests:
+
+test at src/application/workspace-read-projection.test.ts:1:10534
+✖ Saved omits mismatch reasons for a qualified later-batch outlet after requirements change (2.376792ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      {
+        candidateId: 'later',
+        current: false,
+        outletName: 'later',
+  +     reasonCode: 'NO_LONGER_MATCHES'
+      },
+      {
+        candidateId: 'removed',
+        current: false,
+        outletName: 'removed',
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/workspace-read-projection.test.ts:116:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { candidateId: 'later', outletName: 'later', current: false, reasonCode: 'NO_LONGER_MATCHES' }, { candidateId: 'removed', outletName: 'removed', current: false, reasonCode: 'NO_LONGER_MATCHES' } ],
+    expected: [ { candidateId: 'later', outletName: 'later', current: false }, { candidateId: 'removed', outletName: 'removed', current: false, reasonCode: 'NO_LONGER_MATCHES' } ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:6593
+✖ Round10 UI: a delayed shortlist response stays with the earlier plan (1412.537833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:192:16)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:25:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:156:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:11922
+✖ Round10 UI: unsent drafts stay with their plans and a sent draft clears only its own field (1367.124333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + "A's unsent draft"
+  - ''
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:288:12)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:25:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:275:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "A's unsent draft",
+    expected: '',
+    operator: 'strictEqual'
+  }

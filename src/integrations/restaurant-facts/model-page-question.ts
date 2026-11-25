@@ -1,3 +1,5 @@
+import {createHash} from 'node:crypto';
+import {load} from 'cheerio';
 import { isRestaurantFactPageBound } from "./fact-page-binding.js";
 import type { ModelGateway, ModelUsage } from "../../core/model/contracts.js";
 import {
@@ -21,6 +23,27 @@ type CheckedPage = { url: string; readAt: string };
 export const RESTAURANT_PAGE_QUESTION_PROMPT_VERSION = "3";
 export const RESTAURANT_PAGE_QUESTION_SCHEMA_VERSION = "3";
 export const RESTAURANT_PAGE_QUESTION_LIMITS = Object.freeze({ maxStatementCharacters: 6_000, maxTotalCharacters: 60_000, maxStatements: 1_200 });
+
+function sourceRowProof(page: RestaurantFactPageObservation, quote: string): RestaurantPageCitation['sourceRow'] {
+  if (!page.snapshot.visibleHtml?.trim()) return undefined;
+  const normalize=(text:string)=>text.normalize('NFKC').replace(/\s+/g,' ').trim();
+  const $=load(page.snapshot.visibleHtml);
+  $('[hidden],[aria-hidden="true"],script,style,template,noscript').remove();
+  const lines=page.snapshot.text.split(/\r?\n/).map(normalize).filter(Boolean);
+  const proofs:Array<NonNullable<RestaurantPageCitation['sourceRow']>>=[];
+  $('tr').each((index,tr)=>{
+    const cells=$(tr).children('th,td');if(cells.length!==2||cells[0]!.tagName!=='th'||cells[1]!.tagName!=='td')return;
+    const header=normalize($(cells[0]!).text()),copy=$(cells[1]!).clone();copy.find('br').replaceWith('\n');copy.find('p,div,li').append('\n');
+    const value=copy.text().split(/\r?\n/).map(normalize).find(Boolean);
+    if(!value||!header||header.length>80||!/^(?:Available|Unavailable|Not available|Yes|No|あり|なし|有|無)$/i.test(value))return;
+    const headerCount=lines.filter(line=>line===header).length,valueCount=lines.filter(line=>line===value).length;
+    const adjacent=(headerCount===1&&valueCount===1&&lines[lines.indexOf(header)+1]===value)
+      ||(headerCount===0&&valueCount===0&&lines.filter(line=>line===`${header} ${value}`).length===1);
+    if(!adjacent||normalize(quote)!==header&&normalize(quote)!==value)return;
+    const id=createHash('sha256').update(JSON.stringify([page.snapshot.url,page.observedAt,index,header,value])).digest('hex');proofs.push({id,header,value});
+  });
+  return proofs.length===1?proofs[0]:undefined;
+}
 
 function record(value: unknown): Record<string, unknown> | undefined {
   return value !== null && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
@@ -188,7 +211,8 @@ export class ModelRestaurantPageQuestion {
         || document!.statements.find(source => source.id === statement.id)?.sourceRole === "USER_REVIEW") return reject("INVALID_MODEL_OUTPUT");
       selected.add(selection);
       const page = pages[index]!;
-      citations.push({ text: statement.text, url: page.snapshot.url, readAt: page.observedAt, identityEvidenceId: page.identity.evidenceId });
+      const sourceRow=sourceRowProof(page,statement.text);
+      citations.push({ text: statement.text, url: page.snapshot.url, readAt: page.observedAt, identityEvidenceId: page.identity.evidenceId, ...(sourceRow?{sourceRow}:{}) });
     }
     // Literal grounding is code-checked. Faithfulness and correct sensitivity
     // classification require independent real-model evaluation, not this guard.

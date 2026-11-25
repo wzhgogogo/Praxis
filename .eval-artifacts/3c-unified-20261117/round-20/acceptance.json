@@ -1,0 +1,300 @@
+{
+  "baselineSHA": "b019f368221581497d91f54c5b20eb959e90b5b9",
+  "testedSHA": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+  "slices": [
+    "da7bf5e4b3319e2f80aaf38bc2bdec7d73ed6dc8",
+    "13de7608891f5b817813c811b919a5f04d7f4463",
+    "5af7970180a92214b9eb210d95e0752b0ac7aa82"
+  ],
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+      "exitCode": 0,
+      "seconds": 1.09350675,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+      "exitCode": 0,
+      "seconds": 0.37228379199999995,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+      "exitCode": 0,
+      "seconds": 100.869010708,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "test"
+      ],
+      "testSummaries": [
+        {
+          "tests": 1820,
+          "pass": 1820,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+      "exitCode": 0,
+      "seconds": 424.69845083399997,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "offline Fixture contracts; runner-replay children apply their own OS outbound denial; no outer sandbox",
+      "invocation": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "testSummaries": [
+        {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0
+        },
+        {
+          "tests": 493,
+          "pass": 493,
+          "fail": 0
+        },
+        {
+          "tests": 498,
+          "pass": 498,
+          "fail": 0
+        },
+        {
+          "tests": 159,
+          "pass": 159,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+      "exitCode": 0,
+      "seconds": 0.5726457909998999,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "build"
+      ],
+      "testSummaries": []
+    }
+  ],
+  "visualRuns": [
+    {
+      "suite": "formal",
+      "sha": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+      "exitCode": 0,
+      "seconds": 31.995959125,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/3c-unified-20261117/visual-smoke.mjs"
+      ],
+      "environment": {
+        "PRAXIS_VISUAL_SUBDIR": "round-20/formal"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    },
+    {
+      "suite": "style1",
+      "sha": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+      "exitCode": 0,
+      "seconds": 7.790815166999998,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^Round6 Style1",
+        "src/harness/browser/web-workspace-round6.test.ts"
+      ],
+      "environment": {
+        "PRAXIS_ROUND6_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-20/style1"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    },
+    {
+      "suite": "states",
+      "sha": "5af7970180a92214b9eb210d95e0752b0ac7aa82",
+      "exitCode": 0,
+      "seconds": 99.55432474999999,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^Round(8|10|11|12|13|14|15|16|17|18|19|20) UI:",
+        "src/harness/browser/web-workspace-round6.test.ts",
+        "src/harness/browser/web-workspace-round10.test.ts"
+      ],
+      "environment": {
+        "PRAXIS_ROUND8_VISUAL_OUTPUT": "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-20/states"
+      },
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback"
+    }
+  ],
+  "formal": {
+    "passes": 16,
+    "screenshots": 41,
+    "viewportCounts": {
+      "390x844": 7,
+      "1440x900": 7,
+      "960x900": 2
+    }
+  },
+  "style1": {
+    "passes": 6,
+    "screenshots": 6
+  },
+  "states": {
+    "passes": 78,
+    "screenshots": 74
+  },
+  "preflight": {
+    "slice1-final-unit": 24,
+    "slice1-controls": 35,
+    "slice2-final-unit": 147,
+    "slice3-style-controls": 16,
+    "slice3-new-browser-green": 8,
+    "slice3-controls-fixed": 4,
+    "slice3-workspace-controls-green": 56,
+    "slice3-pure-final": 5
+  },
+  "newVisuals": [
+    "round20-1440-about-layers.png",
+    "round20-1440-aligned-card.png",
+    "round20-1440-batch-actions.png",
+    "round20-1440-different-reading.png",
+    "round20-1440-handoff-reading-groups.png",
+    "round20-1440-revision-mixed.png",
+    "round20-1440-same-reading.png",
+    "round20-1440-source-domains.png",
+    "round20-390-about-layers.png",
+    "round20-390-aligned-card.png",
+    "round20-390-batch-actions.png",
+    "round20-390-different-reading.png",
+    "round20-390-handoff-reading-groups.png",
+    "round20-390-revision-mixed.png",
+    "round20-390-same-reading.png",
+    "round20-390-source-domains.png",
+    "round20-desktop-finding-reconnected.png",
+    "round20-desktop-semantic-progress.png",
+    "round20-desktop-stopped-question-executing.png",
+    "round20-desktop-stopped-question-preparing.png",
+    "round20-desktop-stopped-question-reloaded.png",
+    "round20-mobile-finding-reconnected.png",
+    "round20-mobile-semantic-progress.png",
+    "round20-mobile-stopped-question-executing.png",
+    "round20-mobile-stopped-question-preparing.png",
+    "round20-mobile-stopped-question-reloaded.png"
+  ],
+  "humanVisualStatus": "ONE_DISPLAY_DEVIATION_OPEN",
+  "displayDeviation": {
+    "path": "states/round20-390-same-reading.png",
+    "description": "At390px, the answer-sheet citation footer is one source/time record but naturally wraps into two physical text lines. Different-reading groups likewise wrap. The literal single physical line presentation is not closed; browser assertions check footer count/timestamps, not physical line count. Source is frozen and has not been altered after acceptance.",
+    "severity": "presentation gap; no lost or merged timestamps"
+  },
+  "browserStrict": true,
+  "browserModules": 18,
+  "cycles": 0,
+  "tsxBuildIdenticalAssets": 19,
+  "protectedPriorFiles": 9208,
+  "protectedWalkthroughFiles": 110,
+  "authorizedIntentStateChange": {
+    "baselineSHA": "b019f368221581497d91f54c5b20eb959e90b5b9",
+    "file": "src/domains/restaurant/intent-state.ts",
+    "beforeSHA256": "79f7988b34c223366f7a0f82f5234022c22392e49166a1eca892e7caa1120f98",
+    "afterSHA256": "7d14bd2fb2a7d576893d51a2bb9fe7a38e37448c4ba02c84b58edd15f7ed51ab",
+    "unauthorizedTextIdentical": true,
+    "missingBlockingFieldsTextIdentical": true,
+    "allowedImport": "import {maintainOpenEndedTargetQuery} from './open-ended-target.js';",
+    "allowedFunctionInsertion": "maintainOpenEndedTargetQuery(current,next,patch);"
+  },
+  "liveCalls": 0,
+  "realPostgres": false,
+  "usedPort4312": false,
+  "independentLiveS0Review": "NOT_EVALUATED",
+  "closeoutGitUnavailableAtStart": true,
+  "closeoutVerification": "Exact prunable registry entry, absent .git and residual file/symlink inventory; no Git HEAD/index/status claim, no repair."
+}

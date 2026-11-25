@@ -1,0 +1,30 @@
+✖ Round4 390: About keeps timed condition evidence and one Source for all answer citations (11559.171875ms)
+✖ Round4 1280: About keeps timed condition evidence and one Source for all answer citations (11445.816125ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23535.577708
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round4.test.ts:1:9699
+✖ Round4 390: About keeps timed condition evidence and one Source for all answer citations (11559.171875ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at ready (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts:8:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts:70:270) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-round4.test.ts:1:9699
+✖ Round4 1280: About keeps timed condition evidence and one Source for all answer citations (11445.816125ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at ready (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts:8:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round4.test.ts:70:270) {
+    name: 'TimeoutError',
+    log: []
+  }

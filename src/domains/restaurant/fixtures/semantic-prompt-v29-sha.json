@@ -1,0 +1,78 @@
+{
+  "sourceCommit": "e3c48dbddd1f33a7ee4e7afe298067df61085d2e",
+  "promptVersion": "v29",
+  "sourceSHA256": "162fd5eee83cb9bafac4bdcb37f283e140355de4258e455af44e5780dc9bce40",
+  "rows": [
+    {
+      "input": {
+        "referenceTime": "2026-10-29T10:00:00.000Z",
+        "timezone": "Asia/Tokyo",
+        "retryAttempt": 1
+      },
+      "sha256": "a206f9319e982625b41e8b7ec9bd017890436516e89267e1210e4a59f3b33bd1"
+    },
+    {
+      "input": {
+        "referenceTime": "2026-10-29T10:00:00.000Z",
+        "timezone": "Asia/Tokyo",
+        "retryAttempt": 2
+      },
+      "sha256": "89559b8faedee09768596761f37f07af17943a517794b4c5cd8ff18d46c047ae"
+    },
+    {
+      "input": {
+        "referenceTime": "2026-10-29T10:00:00.000Z",
+        "timezone": "Asia/Tokyo",
+        "currentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          },
+          "date": "2026-11-02",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Tokyo"
+          }
+        },
+        "retryAttempt": 1
+      },
+      "sha256": "44bc0cae3dd499c67622e447fe524ffeafc2d0c697078627e34bc0a737c0963c"
+    },
+    {
+      "input": {
+        "referenceTime": "2026-10-29T10:00:00.000Z",
+        "timezone": "Asia/Tokyo",
+        "currentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          },
+          "date": "2026-11-02",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "partySize": 2,
+          "area": {
+            "query": "Tokyo"
+          }
+        },
+        "retryAttempt": 2
+      },
+      "sha256": "726e75171d16e149252a7dcb395ee575ff9112b63e11d7067760babfdd5625c8"
+    }
+  ],
+  "status": "current executable / frozen regression; replaces v26-only prompt byte pin"
+}

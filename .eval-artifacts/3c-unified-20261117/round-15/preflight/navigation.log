@@ -1,0 +1,67 @@
+✔ Workspace navigation 390: responsive single-node controls, sidebar and full-height Case (3282.373625ms)
+✔ Workspace navigation 960: responsive single-node controls, sidebar and full-height Case (2659.362125ms)
+✔ Workspace navigation 1440: responsive single-node controls, sidebar and full-height Case (2952.751583ms)
+GEOMETRY_FAILURE {"width":390,"stage":"saved","output":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-web-geometry-vzGgK3"}
+✖ Workspace geometry 390: shared grid, typography, pointer and keyboard invariants in every view (4069.518125ms)
+GEOMETRY_FAILURE {"width":960,"stage":"saved","output":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-web-geometry-tf5EiZ"}
+✖ Workspace geometry 960: shared grid, typography, pointer and keyboard invariants in every view (3901.47975ms)
+GEOMETRY_FAILURE {"width":1440,"stage":"saved","output":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-web-geometry-MyzGXC"}
+✖ Workspace geometry 1440: shared grid, typography, pointer and keyboard invariants in every view (4204.29475ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 3
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22206.286584
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-navigation.test.ts:1:20654
+✖ Workspace geometry 390: shared grid, typography, pointer and keyboard invariants in every view (4069.518125ms)
+  AssertionError [ERR_ASSERTION]: switching restaurants clears the previous slot choice
+  
+  '19:30' !== '19:00'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-navigation.test.ts:268:160)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '19:30',
+    expected: '19:00',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-navigation.test.ts:1:20654
+✖ Workspace geometry 960: shared grid, typography, pointer and keyboard invariants in every view (3901.47975ms)
+  AssertionError [ERR_ASSERTION]: switching restaurants clears the previous slot choice
+  
+  '19:30' !== '19:00'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-navigation.test.ts:268:160)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '19:30',
+    expected: '19:00',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-navigation.test.ts:1:20654
+✖ Workspace geometry 1440: shared grid, typography, pointer and keyboard invariants in every view (4204.29475ms)
+  AssertionError [ERR_ASSERTION]: switching restaurants clears the previous slot choice
+  
+  '19:30' !== '19:00'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-navigation.test.ts:268:160)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '19:30',
+    expected: '19:00',
+    operator: 'strictEqual'
+  }

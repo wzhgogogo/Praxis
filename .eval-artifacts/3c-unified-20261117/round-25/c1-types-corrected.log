@@ -1,0 +1,10 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/infrastructure/browser/cloudflare-browser-session.ts(31,14): error TS2322: Type '(endpoint: string | ConnectOverCDPTransport, options: ConnectOverCDPOptions | undefined) => Promise<Browser>' is not assignable to type '{ (endpointURL: string, options?: ConnectOverCDPOptions | undefined): Promise<Browser>; (transport: ConnectOverCDPTransport, options?: ConnectOverCDPOptions | undefined): Promise<...>; (options: ConnectOverCDPOptions & { ...; }): Promise<...>; }'.
+  Target signature provides too few arguments. Expected 2 or more, but got 1.
+src/infrastructure/browser/cloudflare-browser-session.ts(31,115): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type 'string | ConnectOverCDPTransport' is not assignable to parameter of type 'ConnectOverCDPTransport'.
+      Type 'string' is not assignable to type 'ConnectOverCDPTransport'.

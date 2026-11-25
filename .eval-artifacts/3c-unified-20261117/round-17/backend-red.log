@@ -1,0 +1,56 @@
+TAP version 13
+# Subtest: Round17 first semantic commit: current persisted read ID cancels before handle identity catches up
+not ok 1 - Round17 first semantic commit: current persisted read ID cancels before handle identity catches up
+  ---
+  duration_ms: 866.828917
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:19927'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"error":"Stale task version: expected 1, actual 1","actualVersion":1}
+    
+    409 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 409
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:358:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+  ...
+# Subtest: Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up
+not ok 2 - Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up
+  ---
+  duration_ms: 610.371083
+  type: 'test'
+  location: '/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:1:19927'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"error":"Stale task version: expected 7, actual 7","actualVersion":7}
+    
+    409 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 409
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:358:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2154.944875

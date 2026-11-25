@@ -1,0 +1,265 @@
+✔ Web refresh replaces commercial terms and cites the displayed fact source (588.566208ms)
+✔ workspace New plan survives a late initial case-list response (482.720667ms)
+✔ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (921.320084ms)
+✔ Round23 UI: R1 390 About placeholder follows outlet and preserves Adjust focus (2333.505417ms)
+✔ Round23 UI: R1 1440 About placeholder follows outlet and preserves Adjust focus (1339.597167ms)
+✔ Round23 UI: R3 removed names use verified human links and omit generic reason lines (1148.460416ms)
+✔ Round23 UI: R4 390 About separates category labels, original quotes and structured terms (1160.935875ms)
+✔ Round23 UI: R4 1440 About separates category labels, original quotes and structured terms (1123.248834ms)
+✔ Round23 UI: R5 390 Q&A-only smoking headers preserve prose and source times (1694.857417ms)
+✔ Round23 UI: R5 1440 Q&A-only smoking headers preserve prose and source times (1698.89725ms)
+✔ Round23 UI: R6 360 home title stays one physical centered line (941.527ms)
+✔ Round23 UI: R6 390 home title stays one physical centered line (877.066583ms)
+✔ Round23 UI: R6 1440 home title stays one physical centered line (801.354125ms)
+✖ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (1151.40875ms)
+✔ Round23 UI: R9 progress distinguishes undefined zero positive and preview discovery (1042.363042ms)
+✔ Round23 UI: R2 native SSE debounce, replacement ownership and CLOSED sidebar sync (1924.650334ms)
+✔ Round24 UI: U1/U2 390 dual-price readings legacy=false survive real snapshot reload (2036.2175ms)
+✔ Round24 UI: U1/U2 390 dual-price readings legacy=true survive real snapshot reload (1247.4735ms)
+✔ Round24 UI: U1/U2 1440 dual-price readings legacy=false survive real snapshot reload (1150.874625ms)
+✔ Round24 UI: U1/U2 1440 dual-price readings legacy=true survive real snapshot reload (1129.842834ms)
+✖ Round24 UI: U2 390 archived tabelog menu budget=false appears once per reading (1098.677167ms)
+✖ Round24 UI: U2 390 archived website menu budget=false appears once per reading (1144.074084ms)
+✖ Round24 UI: U2 390 archived tabelog menu budget=true appears once per reading (1116.630459ms)
+✖ Round24 UI: U2 390 archived website menu budget=true appears once per reading (1201.179125ms)
+✖ Round24 UI: U2 1440 archived tabelog menu budget=false appears once per reading (1144.375917ms)
+✖ Round24 UI: U2 1440 archived website menu budget=false appears once per reading (1110.2975ms)
+✖ Round24 UI: U2 1440 archived tabelog menu budget=true appears once per reading (1052.063583ms)
+✖ Round24 UI: U2 1440 archived website menu budget=true appears once per reading (1127.133083ms)
+✔ Round24 UI: U5 390 recorded designated-smoking qualifier stays intact in sheet and About history (1245.030166ms)
+✔ Round24 UI: U5 1440 recorded designated-smoking qualifier stays intact in sheet and About history (1201.240583ms)
+✔ Round6 390: Details and Handoff retain active reads, then leave failed or removed results (2442.891667ms)
+✔ Round6 1440: Details and Handoff retain active reads, then leave failed or removed results (2008.026208ms)
+✔ Round6: refresh labels use the whole presented batch, retry and goal rather than only the current outlet (1630.816041ms)
+✔ Round6 Style1 390x844 available: aligned condition rows and clean availability (1253.0085ms)
+✔ Round6 Style1 390x844 not-checked: aligned condition rows and clean availability (1182.023958ms)
+✔ Round6 Style1 768x1024 available: aligned condition rows and clean availability (1284.379792ms)
+✔ Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability (1176.587708ms)
+✔ Round6 Style1 1440x900 available: aligned condition rows and clean availability (1700.894542ms)
+✔ Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability (1719.424625ms)
+✔ Round8 UI: real Stop retains About and never offers an unavailable refresh (1228.97175ms)
+✔ Round8 UI: SSE switches the idle card to the eligible outlet and removes stale cards on empty results (1104.342917ms)
+✔ Round8 UI: the original request and later reply appear beside the current clarification and hide in other states (1038.95125ms)
+✔ Round8 UI: case list orders initial, new, and SSE-updated cases without replacing the focused row (1347.144083ms)
+✔ Round8 UI: a blocked booking popup cannot persist a departure or mark a return (834.148333ms)
+✖ Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries (920.273959ms)
+✖ Round20 UI: 1440 design rows, source equivalence, batch actions and revision summaries (1412.17125ms)
+✔ Round20 UI: 390 citation reading groups, About provenance and bilingual Handoff (1255.723083ms)
+✔ Round20 UI: 1440 citation reading groups, About provenance and bilingual Handoff (1786.846875ms)
+ℹ tests 48
+ℹ suites 0
+ℹ pass 37
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26191.496416
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round23.test.ts:1:16062
+✖ Round23 UI: R7 mobile visualViewport simulation protects headings and long About scroll (1151.40875ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"STOPPED","selector":"#case-title","top":-118,"bottom":-86.8125,"from":100,"to":600}
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:90:354)
+      at async projection (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:22:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round23.test.ts:83:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:6377
+✖ Round24 UI: U2 390 archived tabelog menu budget=false appears once per reading (1098.677167ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checked Nov 21/. Input:
+  
+  'Tabelog ↗ · Checked Nov 19'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:49:136)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:45:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Tabelog ↗ · Checked Nov 19',
+    expected: /Checked Nov 21/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:6377
+✖ Round24 UI: U2 390 archived website menu budget=false appears once per reading (1144.074084ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checked Nov 21/. Input:
+  
+  'gjna400.gorp.jp ↗ · Checked Nov 20'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:49:136)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:45:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'gjna400.gorp.jp ↗ · Checked Nov 20',
+    expected: /Checked Nov 21/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:6377
+✖ Round24 UI: U2 390 archived tabelog menu budget=true appears once per reading (1116.630459ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checked Nov 21/. Input:
+  
+  'Tabelog ↗ · Checked Nov 19'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:49:136)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:45:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Tabelog ↗ · Checked Nov 19',
+    expected: /Checked Nov 21/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:6377
+✖ Round24 UI: U2 390 archived website menu budget=true appears once per reading (1201.179125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checked Nov 21/. Input:
+  
+  'gjna400.gorp.jp ↗ · Checked Nov 20'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:49:136)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:45:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'gjna400.gorp.jp ↗ · Checked Nov 20',
+    expected: /Checked Nov 21/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:6377
+✖ Round24 UI: U2 1440 archived tabelog menu budget=false appears once per reading (1144.375917ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checked Nov 21/. Input:
+  
+  'Tabelog ↗ · Checked Nov 19'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:49:136)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:45:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Tabelog ↗ · Checked Nov 19',
+    expected: /Checked Nov 21/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:6377
+✖ Round24 UI: U2 1440 archived website menu budget=false appears once per reading (1110.2975ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checked Nov 21/. Input:
+  
+  'gjna400.gorp.jp ↗ · Checked Nov 20'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:49:136)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:45:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'gjna400.gorp.jp ↗ · Checked Nov 20',
+    expected: /Checked Nov 21/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:6377
+✖ Round24 UI: U2 1440 archived tabelog menu budget=true appears once per reading (1052.063583ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checked Nov 21/. Input:
+  
+  'Tabelog ↗ · Checked Nov 19'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:49:136)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:45:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Tabelog ↗ · Checked Nov 19',
+    expected: /Checked Nov 21/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:6377
+✖ Round24 UI: U2 1440 archived website menu budget=true appears once per reading (1127.133083ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Checked Nov 21/. Input:
+  
+  'gjna400.gorp.jp ↗ · Checked Nov 20'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:49:136)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:45:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'gjna400.gorp.jp ↗ · Checked Nov 20',
+    expected: /Checked Nov 21/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:28352
+✖ Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries (920.273959ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression / · Checked \d{2}:\d{2}$/. Input:
+  
+  'TableCheck · Checked Oct 29'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:392:222)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'TableCheck · Checked Oct 29',
+    expected: / · Checked \d{2}:\d{2}$/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:28352
+✖ Round20 UI: 1440 design rows, source equivalence, batch actions and revision summaries (1412.17125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression / · Checked \d{2}:\d{2}$/. Input:
+  
+  'TableCheck · Checked Oct 29'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:392:222)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'TableCheck · Checked Oct 29',
+    expected: / · Checked \d{2}:\d{2}$/,
+    operator: 'match'
+  }

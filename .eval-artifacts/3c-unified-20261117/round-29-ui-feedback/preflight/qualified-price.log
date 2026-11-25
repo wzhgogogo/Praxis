@@ -1,0 +1,136 @@
+✔ Web refresh replaces commercial terms and cites the displayed fact source (568.767375ms)
+✔ Round23 R4 / Round29: 390 About keeps detailed originals and structured terms (3017.489125ms)
+✔ Round23 R4 / Round29: 1440 About keeps detailed originals and structured terms (2252.995792ms)
+✔ Round29 About 390: Refresh keeps one identical reading and distinct price snapshots (1692.504875ms)
+✔ Round29 About 1440: Refresh keeps one identical reading and distinct price snapshots (1952.685917ms)
+✔ Round24 UI: U1/U2 390 dual-price readings legacy=false survive real snapshot reload (2849.164792ms)
+✔ Round24 UI: U1/U2 390 dual-price readings legacy=true survive real snapshot reload (2139.540959ms)
+✔ Round24 UI: U1/U2 1440 dual-price readings legacy=false survive real snapshot reload (1543.628125ms)
+✔ Round24 UI: U1/U2 1440 dual-price readings legacy=true survive real snapshot reload (1616.662667ms)
+✔ Round24 U2 / Round29: 390 archived tabelog menu budget=false keeps structured prices and hides raw menu text (1635.0345ms)
+✔ Round24 U2 / Round29: 390 archived website menu budget=false keeps structured prices and hides raw menu text (1563.320916ms)
+✔ Round24 U2 / Round29: 390 archived tabelog menu budget=true keeps structured prices and hides raw menu text (1186.215458ms)
+✔ Round24 U2 / Round29: 390 archived website menu budget=true keeps structured prices and hides raw menu text (984.4985ms)
+✔ Round24 U2 / Round29: 1440 archived tabelog menu budget=false keeps structured prices and hides raw menu text (981.881041ms)
+✔ Round24 U2 / Round29: 1440 archived website menu budget=false keeps structured prices and hides raw menu text (865.592875ms)
+✔ Round24 U2 / Round29: 1440 archived tabelog menu budget=true keeps structured prices and hides raw menu text (849.191125ms)
+✔ Round24 U2 / Round29: 1440 archived website menu budget=true keeps structured prices and hides raw menu text (883.083375ms)
+✔ Round28 follow-up / Round29: 390 About keeps a numeric course price and omits matching raw menu title (881.791833ms)
+✔ Round24 UI: U5 390 recorded designated-smoking qualifier stays intact in sheet and About history (1066.729125ms)
+✔ Round24 UI: U5 1440 recorded designated-smoking qualifier stays intact in sheet and About history (1117.574083ms)
+✔ Round29 UI: 390 neutral text and compact About category provenance (2778.543584ms)
+✔ Round29 UI: 1440 neutral text and compact About category provenance (2137.253542ms)
+✔ Round29 alert 390: Stop clears a prior failed Stop and preserves the draft (1448.673209ms)
+✔ Round29 alert 1440: Stop clears a prior failed Stop and preserves the draft (1679.055042ms)
+✔ Round29 alert: leaving a stale Handoff without cards does not show a stale slot notice (1503.542083ms)
+✔ Round4 390: About keeps timed condition evidence and one Source for all answer citations (3494.767167ms)
+
+
+#
+# Fatal error in , line 0
+# Check failed: end > addr.
+#
+#
+#
+#FailureMessage Object: 0x16ce0a708
+----- Native stack trace -----
+
+ 1: 0x1030f0a20 node::NodePlatform::GetStackTracePrinter()::$_0::__invoke() [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+ 2: 0x103d8aee0 V8_Fatal(char const*, ...) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+ 3: 0x1042cc6e4 v8::internal::ThreadIsolation::TryLookupJitPageLocked(unsigned long, unsigned long) (.cold.2) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+ 4: 0x1032991b0 v8::internal::ThreadIsolation::LookupJitPage(unsigned long, unsigned long) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+ 5: 0x103298f74 v8::internal::ThreadIsolation::LookupJitPageLocked(unsigned long, unsigned long) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+ 6: 0x1032991ec v8::internal::ThreadIsolation::LookupJitPage(unsigned long, unsigned long) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+ 7: 0x10329a080 v8::internal::ThreadIsolation::UnregisterWasmAllocation(unsigned long, unsigned long) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+ 8: 0x103a6827c v8::internal::wasm::WasmCodeAllocator::FreeCode(v8::base::Vector<v8::internal::wasm::WasmCode* const>) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+ 9: 0x103a90a64 v8::internal::wasm::WasmImportWrapperCache::Free(std::__1::vector<v8::internal::wasm::WasmCode*, std::__1::allocator<v8::internal::wasm::WasmCode*>>&) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+10: 0x103a87380 v8::internal::wasm::WasmEngine::FreeDeadCodeLocked(std::__1::unordered_map<v8::internal::wasm::NativeModule*, std::__1::vector<v8::internal::wasm::WasmCode*, std::__1::allocator<v8::internal::wasm::WasmCode*>>, std::__1::hash<v8::internal::wasm::NativeModule*>, std::__1::equal_to<v8::internal::wasm::NativeModule*>, std::__1::allocator<std::__1::pair<v8::internal::wasm::NativeModule* const, std::__1::vector<v8::internal::wasm::WasmCode*, std::__1::allocator<v8::internal::wasm::WasmCode*>>>>> const&, std::__1::vector<v8::internal::wasm::WasmCode*, std::__1::allocator<v8::internal::wasm::WasmCode*>>&) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+11: 0x103a87198 v8::internal::wasm::WasmEngine::FreeDeadCode(std::__1::unordered_map<v8::internal::wasm::NativeModule*, std::__1::vector<v8::internal::wasm::WasmCode*, std::__1::allocator<v8::internal::wasm::WasmCode*>>, std::__1::hash<v8::internal::wasm::NativeModule*>, std::__1::equal_to<v8::internal::wasm::NativeModule*>, std::__1::allocator<std::__1::pair<v8::internal::wasm::NativeModule* const, std::__1::vector<v8::internal::wasm::WasmCode*, std::__1::allocator<v8::internal::wasm::WasmCode*>>>>> const&, std::__1::vector<v8::internal::wasm::WasmCode*, std::__1::allocator<v8::internal::wasm::WasmCode*>>&) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+12: 0x103a671a8 v8::internal::wasm::WasmCode::DecrementRefCount(v8::base::Vector<v8::internal::wasm::WasmCode* const>) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+13: 0x103a6c518 v8::internal::wasm::WasmCodeRefScope::~WasmCodeRefScope() [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+14: 0x1039aecf0 v8::internal::Runtime_TierUpWasmToJSWrapper(int, unsigned long*, v8::internal::Isolate*) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+15: 0x103bca31c Builtins_WasmCEntry [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+16: 0x103bc0390 Builtins_WasmToJsWrapperCSA [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+17: 0x30c4d6efe6ac 
+18: 0x30c4d6959644 
+19: 0x30c4d69583e8 
+20: 0x30c4d7125b24 
+21: 0x30c4d6c8706c 
+22: 0x30c4d693f210 
+23: 0x30c4d6a9c14c 
+24: 0x30c4d6ce9174 
+25: 0x30c4d680e9c8 
+26: 0x30c4d6b95ac0 
+27: 0x103bbfca4 Builtins_JSToWasmWrapperAsm [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+28: 0x103c9423c Builtins_JSToWasmWrapper [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+29: 0x13602a148 
+30: 0x103bc09f0 Builtins_WasmToJsWrapperCSA [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+31: 0x30c4d6cc979c 
+32: 0x30c4d6821b24 
+33: 0x30c4d6820e60 
+34: 0x30c4d6820900 
+35: 0x103bbfca4 Builtins_JSToWasmWrapperAsm [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+36: 0x103c9423c Builtins_JSToWasmWrapper [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+37: 0x13601ea9c 
+38: 0x103bc09f0 Builtins_WasmToJsWrapperCSA [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+39: 0x30c4d681f4ec 
+40: 0x30c4d6bdf2c0 
+41: 0x103bbfca4 Builtins_JSToWasmWrapperAsm [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+42: 0x103c9423c Builtins_JSToWasmWrapper [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+43: 0x13601e800 
+44: 0x103bc09f0 Builtins_WasmToJsWrapperCSA [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+45: 0x30c4d6750eac 
+46: 0x30c4d64a8848 
+47: 0x103bbfca4 Builtins_JSToWasmWrapperAsm [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+48: 0x103c9423c Builtins_JSToWasmWrapper [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+49: 0x13602f7bc 
+50: 0x103b2cbec Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+51: 0x103b2cbec Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+52: 0x103b2cbec Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+53: 0x103bc09f0 Builtins_WasmToJsWrapperCSA [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+54: 0x30c4d772c8a4 
+55: 0x30c4d772c1cc 
+56: 0x30c4d771a8ac 
+57: 0x103bbfca4 Builtins_JSToWasmWrapperAsm [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+58: 0x103c9423c Builtins_JSToWasmWrapper [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+59: 0x103b2cbec Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+60: 0x103b2cbec Builtins_InterpreterEntryTrampoline [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+61: 0x103b6b648 Builtins_AsyncFunctionAwaitResolveClosure [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+62: 0x103c405f8 Builtins_PromiseFulfillReactionJob [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+63: 0x103b5aa50 Builtins_RunMicrotasks [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+64: 0x103b2a7b0 Builtins_JSRunMicrotasksEntry [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+65: 0x103308874 v8::internal::(anonymous namespace)::Invoke(v8::internal::Isolate*, v8::internal::(anonymous namespace)::InvokeParams const&) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+66: 0x103308f20 v8::internal::(anonymous namespace)::InvokeWithTryCatch(v8::internal::Isolate*, v8::internal::(anonymous namespace)::InvokeParams const&) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+67: 0x103309010 v8::internal::Execution::TryRunMicrotasks(v8::internal::Isolate*, v8::internal::MicrotaskQueue*) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+68: 0x10332dc0c v8::internal::MicrotaskQueue::RunMicrotasks(v8::internal::Isolate*) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+69: 0x10332da28 v8::internal::MicrotaskQueue::PerformCheckpointInternal(v8::Isolate*) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+70: 0x102ff0898 node::InternalCallbackScope::Close() [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+71: 0x102ff072c node::InternalCallbackScope::~InternalCallbackScope() [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+72: 0x1030eef8c node::PerIsolatePlatformData::RunForegroundTask(std::__1::unique_ptr<v8::Task, std::__1::default_delete<v8::Task>>) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+73: 0x1030edfcc node::PerIsolatePlatformData::FlushForegroundTasksInternal() [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+74: 0x10835a6bc uv__async_io [/opt/homebrew/Cellar/libuv/1.51.0/lib/libuv.1.dylib]
+75: 0x10836abd0 uv__io_poll [/opt/homebrew/Cellar/libuv/1.51.0/lib/libuv.1.dylib]
+76: 0x10835ab58 uv_run [/opt/homebrew/Cellar/libuv/1.51.0/lib/libuv.1.dylib]
+77: 0x102ff13ec node::SpinEventLoopInternal(node::Environment*) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+78: 0x1030cbf38 node::NodeMainInstance::Run(node::ExitCode*, node::Environment*) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+79: 0x1030cbccc node::NodeMainInstance::Run() [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+80: 0x103077808 node::Start(int, char**) [/opt/homebrew/Cellar/node/24.4.1/bin/node]
+81: 0x188b044e4 start [/usr/lib/dyld]
+✖ src/harness/browser/web-workspace-round4.test.ts (5559.720292ms)
+✔ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (4031.984625ms)
+✔ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (3086.722625ms)
+✔ B1 persistent HTTP composition projects a cached source link, rechecks it and isolates owners (1501.264875ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 29
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20958.890833
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round4.test.ts:1:1
+✖ src/harness/browser/web-workspace-round4.test.ts (5559.720292ms)
+  'test failed'

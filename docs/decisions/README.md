@@ -68,7 +68,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 | [0046](0046-observed-actions-and-source-quoted-answers.md) | **Accepted；用户2026-10-27批准revision 0.2文本** | 统一观察原则/G2验收/G1简短答案+引文合同；未接入口核心，不改变共享状态/权限 |
 | [0047](0047-g3-observed-task-behavior-acceptance.md) | Accepted；用户2026-10-28直接决定 | G3以严格DOM变异与真实任务行为验收，适配器行数仅参考；仅取代0046的行数门槛 |
 | [0048](0048-tabelog-calendar-response-evidence.md) | Accepted；独立复核2026-10-28、用户批准 | Tabelog日期状态只取自绑定的数据响应，class仅导航提示，无响应未知；A修订日历基线，B继续其它组 |
-| [0049](0049-source-bound-b1-booking-handoff.md) | Accepted; user2026-10-29; hint presentation partially superseded by ADR-0050 | B1 source-bound departure, parallel bilingual cancellation evidence, dated English fee policy and durable USER_REPORTED return feedback |
+| [0049](0049-source-bound-b1-booking-handoff.md) | Accepted, user 2026-10-29. Hint presentation updated by ADR-0050 and prompt scope updated by ADR-0054 | B1 source-bound departure, parallel bilingual cancellation evidence, dated English fee policy and durable USER_REPORTED return feedback |
 | [0050](0050-two-line-handoff-presentation.md) | Accepted; user2026-10-29 | 最多两行出发提示：选择项、核对项；取消冲突确认提醒靠近推荐卡片取消规定，B1链接/证据/自报规则不变 |
 
 ## 规则
@@ -90,3 +90,7 @@ Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) ad
 - [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)：Accepted1.1，20秒+动作中位数准入、原截止−20秒取消和完整子结果交接已接线；离线结果及Live缺口见实施报告。ADR-0044的批准与revision1.1修正已按用户直接确认整合，见上表。
 
 0047/0048 are reserved by B’s G3 branch. C’s reviewed0048 draft is renumbered0049 by user decision; original draft/report remain historical evidence at6b867b34.
+
+- [ADR-0052 Relative day offsets and current-message date binding](0052-relative-day-offset-and-date-binding.md): Accepted, user-directed Round27; supplements ADR-0024 with bounded DATE offsets and omission/wrong-date protection.
+- [ADR-0053 Structured date edits and DATE.raw consistency](0053-structured-date-edit-and-raw-consistency-guard.md): Accepted, user-directed Round28. Replaces ADR-0052’s free-text date inference rules.
+- [ADR-0054 Per-departure booking feedback](0054-per-departure-booking-feedback-prompt.md) is Accepted. It replaces ADR-0049's per-Case prompt limit.

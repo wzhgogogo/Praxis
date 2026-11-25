@@ -1,0 +1,7 @@
+# Slice B - targeted offline closure completed; unified frozen gates pending
+
+All15 new UI regression journeys pass, with old Round6/25 affected regressions53/53 combined. UI4 uses exact history absolute-top and sheet relative-top differences0; sheet growth remains allowed. UI5 owns a re-search request flag for existing-case submit, save/remove capsules, retry and batch, independent of sending=false. Initial new-case preview uses its existing pending-state lifecycle so empty states can appear after completion. Effective deferred SSE snapshots hide prior empty cards. Failed requests restore controls.
+
+UI6 revealed an actual pointer transition issue: focusing Stop on pointerdown blurred the composer and shifted the mobile layout before pointerup. Mobile Stop now preserves input focus through the click; the test pauses an actual active source read and checks the same handle, HTTP200, view.case.stopped:true and progress.stopped:true. Question Stop settles its current pageQuestion as CANCELLED rather than inventing a top-level stopped response field. The initial incorrect test-oracle field and initial request-flag bug remain in slice-b-browser.log; corrected tests15/15 and combined53/53 pass without weakening contract checks.
+
+New colors, pure-fact refresh removal, two Source geometry frames, mobile full-flow time/removable editor controls and three Categories rendering controls are covered. Source/type/architecture checks pass; formal source SHA and screenshots follow only after unified freeze. No historical artifacts changed, no Live/realPG/4312.

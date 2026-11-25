@@ -1,3 +1,6 @@
+import {recoverablePhotoFailure} from '../integrations/restaurant-photos/website-photos.js';
+import { workspaceAsset } from "../web/workspace-assets.js";
+import { GooglePlacesPhotos } from "../integrations/restaurant-photos/google-photos.js";
 import { withBookingHandoffs } from "../application/restaurant-booking-handoff.js";
 import { workspaceViewContext } from "../application/agent-workspace.js";
 import { readFile } from "node:fs/promises";
@@ -181,7 +184,7 @@ export interface LocalWebServerOptions {
   /** Optional diagnostic root. Omitting it keeps the server usable without filesystem output. */
   artifactDirectory?: string;
   /** The same production read assembly used by the persistent application. */
-  readAssembly?: Pick<ReturnType<typeof createLiveReadAssembly>, "bookingHandoffs">;
+  readAssembly?: Pick<ReturnType<typeof createLiveReadAssembly>, "bookingHandoffs" | "photos">;
   /** Explicit cache-only reader for isolated composition controls. */
   bookingHandoffs?: {
     readPrepared(view: RestaurantCaseView): readonly PreparedBookingHandoff[];
@@ -190,6 +193,10 @@ export interface LocalWebServerOptions {
 }
 
 export function createLocalWebServer(options: LocalWebServerOptions): Server {
+  const photos = options.readAssembly?.photos;
+  // Local failed-img classification; HEAD never downloads from a photo source.
+  const photoStatuses = new Map<string, number>();
+  const rememberPhotoStatus = (key:string,status:number) => {photoStatuses.set(key,status);while(photoStatuses.size>128)photoStatuses.delete(photoStatuses.keys().next().value!);};
   const bookingHandoffs = options.bookingHandoffs ?? options.readAssembly?.bookingHandoffs;
   const project = (view: RestaurantCaseView): RestaurantCaseView => bookingHandoffs
     ? withBookingHandoffs(view, bookingHandoffs.readPrepared(view), bookingHandoffs.now()) : view;
@@ -213,9 +220,13 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
     try {
       const method = request.method ?? "GET";
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
+      const script = workspaceAsset(url.pathname);
+      if(method === "GET" && script !== undefined){
+        response.writeHead(200,{"content-type":"text/javascript; charset=utf-8","x-content-type-options":"nosniff","cache-control":"no-store"});
+        response.end(script);return;
+      }
       const fontFiles: Record<string,string> = {
-        "/assets/geist.woff2":"geist/files/geist-latin-wght-normal.woff2",
-        "/assets/geist-mono.woff2":"geist-mono/files/geist-mono-latin-wght-normal.woff2",
+        "/assets/dm-sans.woff2":"dm-sans/files/dm-sans-latin-wght-normal.woff2",
       };
       if (method === "GET" && fontFiles[url.pathname]) {
         const font = await readFile(new URL("../../node_modules/@fontsource-variable/" + fontFiles[url.pathname], import.meta.url));
@@ -224,7 +235,8 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       if (method === "GET" && url.pathname === "/") {
         response.writeHead(200, {
           "content-type": "text/html; charset=utf-8",
-          "content-security-policy": "default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'",
+          "cache-control": "no-store",
+          "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'self'",
           "x-content-type-options": "nosniff",
         });
         response.end(LOCAL_WORKSPACE_PAGE);
@@ -266,6 +278,35 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         return;
       }
       const caseMatch = /^\/api\/cases\/([^/]+)$/.exec(url.pathname);
+      const photosMatch = /^\/api\/cases\/([^/]+)\/candidates\/([^/]+)\/photos(?:\/([a-f0-9]{32})\/content)?$/.exec(url.pathname);
+      if ((method === "GET" || method === "HEAD" && !!photosMatch?.[3]) && photosMatch) {
+        const view = await options.application.getCase(user.id, decodeURIComponent(photosMatch[1]!));
+        const candidateId = decodeURIComponent(photosMatch[2]!);
+        if (!view.restaurant.candidates.some(item => item.restaurant.id === candidateId)) { json(response,404,{error:"Not found"}); return; }
+        const allowedKeys = photosMatch[3] ? [] : ["scope"];
+        if ([...url.searchParams.keys()].some(key => !allowedKeys.includes(key)) || url.searchParams.getAll("scope").length > 1) { json(response,400,{error:"Invalid photo request"}); return; }
+        const scope = url.searchParams.get("scope") ?? "cover";
+        if (!photosMatch[3] && scope !== "cover" && scope !== "gallery") { json(response,400,{error:"Invalid photo scope"}); return; }
+        const controller = new AbortController();
+        response.on("close", () => { if (!response.writableEnded) controller.abort(); });
+        if (photosMatch[3]) {
+          const statusKey=JSON.stringify([user.id,url.pathname]);
+          if(method==='HEAD'){response.writeHead(photoStatuses.get(statusKey)??503,{'cache-control':'private, no-store'});response.end();return;}
+          try {
+            const image = await photos?.content(view,candidateId,photosMatch[3],controller.signal);
+            if (!image) {rememberPhotoStatus(statusKey,410);json(response,410,{error:"Photo unavailable"}); return; }
+            rememberPhotoStatus(statusKey,200);
+            response.writeHead(200,{"content-type":image.contentType,"cache-control":"private, no-store","x-content-type-options":"nosniff","content-security-policy":"default-src 'none'","content-length":String(image.body.byteLength)});
+            response.end(image.body);
+          } catch(error) {const status=recoverablePhotoFailure(error)?503:410;rememberPhotoStatus(statusKey,status);if (!response.destroyed) json(response,status,{error:status===503?"Photo temporarily unavailable":"Photo unavailable"}); }
+        } else {
+          try {const result = photos ? await photos.read(view,candidateId,scope as "cover"|"gallery",controller.signal,typeof request.headers["x-praxis-failed-photo"]==="string"&&/^[a-f0-9]{32}$/.test(request.headers["x-praxis-failed-photo"])?request.headers["x-praxis-failed-photo"]:undefined)
+            : {candidateId,status:"EMPTY",photos:[],expiresAt:new Date(Date.now()+600_000).toISOString()};
+          json(response,200,{...result},{"cache-control":"private, no-store"});
+          }catch(error){if(!recoverablePhotoFailure(error))throw error;json(response,503,{error:'Photo list temporarily unavailable'},{'cache-control':'private, no-store'});}
+        }
+        return;
+      }
       if (method === "GET" && caseMatch) {
         json(response, 200, {
           view: await options.application.getCase(user.id, decodeURIComponent(caseMatch[1]!)),
@@ -357,7 +398,12 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       }
       const cancelMatch = /^\/api\/cases\/([^/]+)\/run$/.exec(url.pathname);
       if (method === "DELETE" && cancelMatch) {
-        const view = await options.application.cancelCase(user.id, decodeURIComponent(cancelMatch[1]!));
+        const body = await readJson(request);
+        if (Object.keys(body).some(key => !["readRunId", "taskVersion", "handleId"].includes(key))) throw new Error("Stop request has unexpected fields");
+        const view = await options.application.cancelCase(user.id, decodeURIComponent(cancelMatch[1]!), {
+          readRunId: requireString(body, "readRunId"), expectedVersion: requireVersion(body),
+          ...(body.handleId!==undefined?{handleId:requireString(body,"handleId")} : {}),
+        });
         hub.publish(view);
         json(response, 200, { view });
         return;
@@ -406,6 +452,7 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       if (!response.headersSent) {
         json(response, errorStatus(error), {
           error: error instanceof Error ? error.message : "Request failed",
+          ...(error instanceof StaleTaskVersionError ? { actualVersion: error.actualVersion } : {}),
         });
       } else {
         response.end();
@@ -453,6 +500,7 @@ async function start(): Promise<void> {
   const model = new DeliveryReservedModelGateway(countedModel);
   const readAssembly = fixtureMode ? undefined : createLiveReadAssembly(LIVE_READ_DEBUG_INVESTIGATION_BUDGET, {
     model, clock: { now: () => new Date() },
+    googlePhotos: new GooglePlacesPhotos({apiKey:process.env.GOOGLE_MAPS_API_KEY??"",proxyServer:process.env.PRAXIS_GOOGLE_API_PROXY_SERVER}),
     google: new GooglePlacesClient({
       apiKey: process.env.GOOGLE_MAPS_API_KEY ?? "",
       proxyServer: process.env.PRAXIS_GOOGLE_API_PROXY_SERVER,

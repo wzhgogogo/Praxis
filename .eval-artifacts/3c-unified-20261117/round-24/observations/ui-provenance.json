@@ -1,0 +1,1222 @@
+{
+  "head": "f036b7a0ea569ec41518837c4806b7b01f50578f",
+  "mode": "OFFLINE_HTTP_PGLITE_SHARED_JOURNEY_OBSERVATIONS",
+  "rows": [
+    {
+      "name": "Round24 UI: U1/U2 390 dual-price readings legacy=false survive real snapshot reload",
+      "checks": [
+        {
+          "method": "ok",
+          "args": [
+            {
+              "readAt": "2026-11-21T08:04:00Z",
+              "sourceUrl": "https://merchant.example/venue",
+              "listedCourseDetails": [
+                "Dinner course: JPY 7000, tax included."
+              ],
+              "sourceFieldQuotes": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Dinner course: JPY 7000, tax included.",
+                  "sourceUrl": "https://merchant.example/venue",
+                  "meal": "DINNER"
+                }
+              ],
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "amount": 7000,
+                    "sourceUrl": "https://merchant.example/venue",
+                    "quote": "Dinner course: JPY 7000, tax included.",
+                    "tax": "INCLUDED",
+                    "meal": "DINNER",
+                    "kind": "MEAL"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "readAt": "2026-11-21T08:05:00Z",
+              "sourceUrl": "https://merchant.example/venue",
+              "listedCourseDetails": [
+                "Dinner course: JPY 8000, tax included."
+              ],
+              "sourceFieldQuotes": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Dinner course: JPY 8000, tax included.",
+                  "sourceUrl": "https://merchant.example/venue",
+                  "meal": "DINNER"
+                }
+              ],
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "amount": 8000,
+                    "sourceUrl": "https://merchant.example/venue",
+                    "quote": "Dinner course: JPY 8000, tax included.",
+                    "tax": "INCLUDED",
+                    "meal": "DINNER",
+                    "kind": "MEAL"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            2,
+            2
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "2026-11-21T08:04:00Z"
+            ],
+            [
+              "2026-11-21T08:04:00Z"
+            ]
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            0,
+            0
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "2026-11-21T08:05:00Z"
+            ],
+            [
+              "2026-11-21T08:05:00Z"
+            ]
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            0,
+            0
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U1/U2 390 dual-price readings legacy=true survive real snapshot reload",
+      "checks": [
+        {
+          "method": "ok",
+          "args": [
+            {
+              "readAt": "2026-11-21T08:04:00Z",
+              "sourceUrl": "https://merchant.example/venue",
+              "listedCourseDetails": [
+                "Dinner course: JPY 7000, tax included."
+              ],
+              "sourceFieldQuotes": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Dinner course: JPY 7000, tax included.",
+                  "sourceUrl": "https://merchant.example/venue",
+                  "meal": "DINNER"
+                }
+              ],
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "amount": 7000,
+                    "sourceUrl": "https://merchant.example/venue",
+                    "quote": "Dinner course: JPY 7000, tax included.",
+                    "tax": "INCLUDED",
+                    "meal": "DINNER",
+                    "kind": "MEAL"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "readAt": "2026-11-21T08:05:00Z",
+              "sourceUrl": "https://merchant.example/venue",
+              "listedCourseDetails": [
+                "Dinner course: JPY 8000, tax included."
+              ],
+              "sourceFieldQuotes": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Dinner course: JPY 8000, tax included.",
+                  "sourceUrl": "https://merchant.example/venue",
+                  "meal": "DINNER"
+                }
+              ],
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "amount": 8000,
+                    "sourceUrl": "https://merchant.example/venue",
+                    "quote": "Dinner course: JPY 8000, tax included.",
+                    "tax": "INCLUDED",
+                    "meal": "DINNER",
+                    "kind": "MEAL"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            2,
+            2
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://merchant.example/venue",
+                null
+              ],
+              "quotes": [
+                {
+                  "text": "Dinner course: JPY 7000, tax included.",
+                  "label": "Observed price:"
+                },
+                {
+                  "text": "Dinner course: JPY 8000, tax included.",
+                  "label": "Observed price:"
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗",
+              "href": "https://merchant.example/venue"
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://merchant.example/venue",
+            "https://merchant.example/venue"
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "Source page ↗",
+            {
+              "regex": "Checked|17:04|17:05",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            2,
+            2
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true,
+            "legacy price labels never borrow an earlier reading time"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U1/U2 1440 dual-price readings legacy=false survive real snapshot reload",
+      "checks": [
+        {
+          "method": "ok",
+          "args": [
+            {
+              "readAt": "2026-11-21T08:04:00Z",
+              "sourceUrl": "https://merchant.example/venue",
+              "listedCourseDetails": [
+                "Dinner course: JPY 7000, tax included."
+              ],
+              "sourceFieldQuotes": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Dinner course: JPY 7000, tax included.",
+                  "sourceUrl": "https://merchant.example/venue",
+                  "meal": "DINNER"
+                }
+              ],
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "amount": 7000,
+                    "sourceUrl": "https://merchant.example/venue",
+                    "quote": "Dinner course: JPY 7000, tax included.",
+                    "tax": "INCLUDED",
+                    "meal": "DINNER",
+                    "kind": "MEAL"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "readAt": "2026-11-21T08:05:00Z",
+              "sourceUrl": "https://merchant.example/venue",
+              "listedCourseDetails": [
+                "Dinner course: JPY 8000, tax included."
+              ],
+              "sourceFieldQuotes": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Dinner course: JPY 8000, tax included.",
+                  "sourceUrl": "https://merchant.example/venue",
+                  "meal": "DINNER"
+                }
+              ],
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "amount": 8000,
+                    "sourceUrl": "https://merchant.example/venue",
+                    "quote": "Dinner course: JPY 8000, tax included.",
+                    "tax": "INCLUDED",
+                    "meal": "DINNER",
+                    "kind": "MEAL"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            2,
+            2
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "2026-11-21T08:04:00Z"
+            ],
+            [
+              "2026-11-21T08:04:00Z"
+            ]
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            0,
+            0
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "2026-11-21T08:05:00Z"
+            ],
+            [
+              "2026-11-21T08:05:00Z"
+            ]
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            0,
+            0
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U1/U2 1440 dual-price readings legacy=true survive real snapshot reload",
+      "checks": [
+        {
+          "method": "ok",
+          "args": [
+            {
+              "readAt": "2026-11-21T08:04:00Z",
+              "sourceUrl": "https://merchant.example/venue",
+              "listedCourseDetails": [
+                "Dinner course: JPY 7000, tax included."
+              ],
+              "sourceFieldQuotes": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Dinner course: JPY 7000, tax included.",
+                  "sourceUrl": "https://merchant.example/venue",
+                  "meal": "DINNER"
+                }
+              ],
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "amount": 7000,
+                    "sourceUrl": "https://merchant.example/venue",
+                    "quote": "Dinner course: JPY 7000, tax included.",
+                    "tax": "INCLUDED",
+                    "meal": "DINNER",
+                    "kind": "MEAL"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "readAt": "2026-11-21T08:05:00Z",
+              "sourceUrl": "https://merchant.example/venue",
+              "listedCourseDetails": [
+                "Dinner course: JPY 8000, tax included."
+              ],
+              "sourceFieldQuotes": [
+                {
+                  "field": "COURSE_DESCRIPTION",
+                  "quote": "Dinner course: JPY 8000, tax included.",
+                  "sourceUrl": "https://merchant.example/venue",
+                  "meal": "DINNER"
+                }
+              ],
+              "priceFacts": {
+                "schemaVersion": "restaurant-price-facts@1",
+                "listedCoursePricesYen": [
+                  {
+                    "amount": 8000,
+                    "sourceUrl": "https://merchant.example/venue",
+                    "quote": "Dinner course: JPY 8000, tax included.",
+                    "tax": "INCLUDED",
+                    "meal": "DINNER",
+                    "kind": "MEAL"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            2,
+            2
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://merchant.example/venue",
+                null
+              ],
+              "quotes": [
+                {
+                  "text": "Dinner course: JPY 7000, tax included.",
+                  "label": "Observed price:"
+                },
+                {
+                  "text": "Dinner course: JPY 8000, tax included.",
+                  "label": "Observed price:"
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗",
+              "href": "https://merchant.example/venue"
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://merchant.example/venue",
+            "https://merchant.example/venue"
+          ]
+        },
+        {
+          "method": "doesNotMatch",
+          "args": [
+            "Source page ↗",
+            {
+              "regex": "Checked|17:04|17:05",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            2,
+            2
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true,
+            "legacy price labels never borrow an earlier reading time"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U2 390 archived tabelog menu budget=false appears once per reading",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "Menu\nFood\nBreakfast available"
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+                "2026-11-19T03:15:50.972Z"
+              ],
+              "quotes": [
+                {
+                  "text": "Menu\nFood\nBreakfast available",
+                  "label": null
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗ · Checked Thu, Nov 19 · 12:15 JST",
+              "href": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Thu, Nov 19 · 12:15 JST",
+            {
+              "regex": "Checked.*JST",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U2 390 archived website menu budget=false appears once per reading",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【7月限定早割！17時15分までの来店◆2時間飲み放題付】得々コース　3,800円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n3,800円 / 1名様"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【120分飲み放題付◆当店No.1人気！きりしまコース】全12品 5,500円\n飲み放題\n5,500円 / 1名様"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【180分飲み放題付◆おもてなしコース】全12品 7,000円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n7,000円 / 1名様"
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://gjna400.gorp.jp/",
+                "2026-11-20T02:58:14.691Z"
+              ],
+              "quotes": [
+                {
+                  "text": "【7月限定早割！17時15分までの来店◆2時間飲み放題付】得々コース　3,800円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n3,800円 / 1名様",
+                  "label": null
+                },
+                {
+                  "text": "【120分飲み放題付◆当店No.1人気！きりしまコース】全12品 5,500円\n飲み放題\n5,500円 / 1名様",
+                  "label": null
+                },
+                {
+                  "text": "【180分飲み放題付◆おもてなしコース】全12品 7,000円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n7,000円 / 1名様",
+                  "label": null
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗ · Checked Fri, Nov 20 · 11:58 JST",
+              "href": "https://gjna400.gorp.jp/"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Fri, Nov 20 · 11:58 JST",
+            {
+              "regex": "Checked.*JST",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://gjna400.gorp.jp/",
+            "https://gjna400.gorp.jp/"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U2 390 archived tabelog menu budget=true appears once per reading",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "Menu\nFood\nBreakfast available"
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+                "2026-11-19T03:15:50.972Z"
+              ],
+              "quotes": [
+                {
+                  "text": "Menu\nFood\nBreakfast available",
+                  "label": null
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗ · Checked Thu, Nov 19 · 12:15 JST",
+              "href": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Thu, Nov 19 · 12:15 JST",
+            {
+              "regex": "Checked.*JST",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U2 390 archived website menu budget=true appears once per reading",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【7月限定早割！17時15分までの来店◆2時間飲み放題付】得々コース　3,800円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n3,800円 / 1名様"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【120分飲み放題付◆当店No.1人気！きりしまコース】全12品 5,500円\n飲み放題\n5,500円 / 1名様"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【180分飲み放題付◆おもてなしコース】全12品 7,000円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n7,000円 / 1名様"
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://gjna400.gorp.jp/",
+                "2026-11-20T02:58:14.691Z"
+              ],
+              "quotes": [
+                {
+                  "text": "【7月限定早割！17時15分までの来店◆2時間飲み放題付】得々コース　3,800円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n3,800円 / 1名様",
+                  "label": null
+                },
+                {
+                  "text": "【120分飲み放題付◆当店No.1人気！きりしまコース】全12品 5,500円\n飲み放題\n5,500円 / 1名様",
+                  "label": null
+                },
+                {
+                  "text": "【180分飲み放題付◆おもてなしコース】全12品 7,000円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n7,000円 / 1名様",
+                  "label": null
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗ · Checked Fri, Nov 20 · 11:58 JST",
+              "href": "https://gjna400.gorp.jp/"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Fri, Nov 20 · 11:58 JST",
+            {
+              "regex": "Checked.*JST",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://gjna400.gorp.jp/",
+            "https://gjna400.gorp.jp/"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U2 1440 archived tabelog menu budget=false appears once per reading",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "Menu\nFood\nBreakfast available"
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+                "2026-11-19T03:15:50.972Z"
+              ],
+              "quotes": [
+                {
+                  "text": "Menu\nFood\nBreakfast available",
+                  "label": null
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗ · Checked Thu, Nov 19 · 12:15 JST",
+              "href": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Thu, Nov 19 · 12:15 JST",
+            {
+              "regex": "Checked.*JST",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U2 1440 archived website menu budget=false appears once per reading",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【7月限定早割！17時15分までの来店◆2時間飲み放題付】得々コース　3,800円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n3,800円 / 1名様"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【120分飲み放題付◆当店No.1人気！きりしまコース】全12品 5,500円\n飲み放題\n5,500円 / 1名様"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【180分飲み放題付◆おもてなしコース】全12品 7,000円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n7,000円 / 1名様"
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://gjna400.gorp.jp/",
+                "2026-11-20T02:58:14.691Z"
+              ],
+              "quotes": [
+                {
+                  "text": "【7月限定早割！17時15分までの来店◆2時間飲み放題付】得々コース　3,800円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n3,800円 / 1名様",
+                  "label": null
+                },
+                {
+                  "text": "【120分飲み放題付◆当店No.1人気！きりしまコース】全12品 5,500円\n飲み放題\n5,500円 / 1名様",
+                  "label": null
+                },
+                {
+                  "text": "【180分飲み放題付◆おもてなしコース】全12品 7,000円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n7,000円 / 1名様",
+                  "label": null
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗ · Checked Fri, Nov 20 · 11:58 JST",
+              "href": "https://gjna400.gorp.jp/"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Fri, Nov 20 · 11:58 JST",
+            {
+              "regex": "Checked.*JST",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://gjna400.gorp.jp/",
+            "https://gjna400.gorp.jp/"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U2 1440 archived tabelog menu budget=true appears once per reading",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "Menu\nFood\nBreakfast available"
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+                "2026-11-19T03:15:50.972Z"
+              ],
+              "quotes": [
+                {
+                  "text": "Menu\nFood\nBreakfast available",
+                  "label": null
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗ · Checked Thu, Nov 19 · 12:15 JST",
+              "href": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Thu, Nov 19 · 12:15 JST",
+            {
+              "regex": "Checked.*JST",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U2 1440 archived website menu budget=true appears once per reading",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【7月限定早割！17時15分までの来店◆2時間飲み放題付】得々コース　3,800円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n3,800円 / 1名様"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【120分飲み放題付◆当店No.1人気！きりしまコース】全12品 5,500円\n飲み放題\n5,500円 / 1名様"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1,
+            "【180分飲み放題付◆おもてなしコース】全12品 7,000円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n7,000円 / 1名様"
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            {
+              "key": [
+                "https://gjna400.gorp.jp/",
+                "2026-11-20T02:58:14.691Z"
+              ],
+              "quotes": [
+                {
+                  "text": "【7月限定早割！17時15分までの来店◆2時間飲み放題付】得々コース　3,800円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n3,800円 / 1名様",
+                  "label": null
+                },
+                {
+                  "text": "【120分飲み放題付◆当店No.1人気！きりしまコース】全12品 5,500円\n飲み放題\n5,500円 / 1名様",
+                  "label": null
+                },
+                {
+                  "text": "【180分飲み放題付◆おもてなしコース】全12品 7,000円\n飲み放題\nネット予約特典　ネット予約でポイント貯まる！\n7,000円 / 1名様",
+                  "label": null
+                }
+              ],
+              "values": [],
+              "footer": "Source page ↗ · Checked Fri, Nov 20 · 11:58 JST",
+              "href": "https://gjna400.gorp.jp/"
+            }
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Fri, Nov 20 · 11:58 JST",
+            {
+              "regex": "Checked.*JST",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "https://gjna400.gorp.jp/",
+            "https://gjna400.gorp.jp/"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U5 390 recorded designated-smoking qualifier stays intact in sheet and About history",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            "Designated smoking area (heated tobacco only)",
+            "Designated smoking area (heated tobacco only)"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "The page's \"Non-smoking/smoking\" field says: Designated smoking area (heated tobacco only)",
+            "The page's \"Non-smoking/smoking\" field says: Designated smoking area (heated tobacco only)"
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "Designated smoking area (heated tobacco only)"
+            ],
+            [
+              "Designated smoking area (heated tobacco only)"
+            ]
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Sat, Nov 21 · 17:04 JST",
+            {
+              "regex": "JST$",
+              "flags": ""
+            }
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "The page's \"Non-smoking/smoking\" field says: Designated smoking area (heated tobacco only)",
+            "The page's \"Non-smoking/smoking\" field says: Designated smoking area (heated tobacco only)"
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "Designated smoking area (heated tobacco only)"
+            ],
+            [
+              "Designated smoking area (heated tobacco only)"
+            ]
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "Non-smoking/smoking",
+              "Designated smoking area (heated tobacco only)"
+            ],
+            [
+              "Non-smoking/smoking",
+              "Designated smoking area (heated tobacco only)"
+            ],
+            "About condition originals retain both header and value"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            1,
+            1
+          ]
+        },
+        {
+          "method": "ok",
+          "args": [
+            true
+          ]
+        },
+        {
+          "method": "match",
+          "args": [
+            "Source page ↗ · Checked Sat, Nov 21 · 17:04 JST",
+            {
+              "regex": "JST$",
+              "flags": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round24 UI: U5 1440 recorded designated-smoking qualifier stays intact in sheet and About history",
+      "checks": [
+        {
+          "method": "equal",
+          "args": [
+            "Designated smoking area (heated tobacco only)",
+            "Designated smoking area (heated tobacco only)"
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "The page's \"Non-smoking/smoking\" field says: Designated smoking area (heated tobacco only)",
+            "The page's \"Non-smoking/smoking\" field says: Designated smoking area (heated tobacco only)"
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "Designated smoking area (heated tobacco only)"
+            ],
+            [
+              "Designated smoking area (heated tobacco only)"
+            ]
+          ]
+        },
+        {
+          "method": "equal",
+          "args": [
+            "The page's \"Non-smoking/smoking\" field says: Designated smoking area (heated tobacco only)",
+            "The page's \"Non-smoking/smoking\" field says: Designated smoking area (heated tobacco only)"
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "Designated smoking area (heated tobacco only)"
+            ],
+            [
+              "Designated smoking area (heated tobacco only)"
+            ]
+          ]
+        },
+        {
+          "method": "deepEqual",
+          "args": [
+            [
+              "Non-smoking/smoking",
+              "Designated smoking area (heated tobacco only)"
+            ],
+            [
+              "Non-smoking/smoking",
+              "Designated smoking area (heated tobacco only)"
+            ],
+            "About condition originals retain both header and value"
+          ]
+        }
+      ]
+    }
+  ]
+}

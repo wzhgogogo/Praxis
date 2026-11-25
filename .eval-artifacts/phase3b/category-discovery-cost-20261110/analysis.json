@@ -1,0 +1,1333 @@
+[
+  {
+    "id": "D01",
+    "resourceUsage": {
+      "elapsedMs": 33536,
+      "agentDecisions": 11,
+      "googleRequests": {
+        "limit": 40,
+        "total": 5,
+        "discovery": 1,
+        "placeDetails": 3,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 9
+    },
+    "modelCalls": 31,
+    "modelOutcomes": {
+      "SUCCEEDED": 31
+    },
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 5,
+        "elapsedMs": 21907
+      },
+      "TABELOG": {
+        "modelCalls": 3,
+        "elapsedMs": 32554
+      }
+    },
+    "searches": [
+      {
+        "sources": {
+          "google-places": 4
+        },
+        "count": 4,
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 25249,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 2,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 1
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 10,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 22889,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "FIRST_SOURCE_BATCH",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [
+              {
+                "sourceUrl": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=tokyo&LstPrf=A1305&LstAre=A130503&station_id=5779&area_datatype=RailroadStation&area_id=5779&genre_name=&sw=Spanish&search_mode=",
+                "parsedOutlets": 0
+              }
+            ],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          },
+          "supplementaryDiscovery": {
+            "status": "COMPLETED",
+            "sourceId": "google-places",
+            "candidateCount": 4
+          }
+        }
+      },
+      {
+        "sources": {
+          "UNKNOWN": 1
+        },
+        "count": 1,
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1378,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 0,
+            "placeDetails": 1,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "NAMED_OUTLET_UNIQUE",
+                "sourcePlaceId": "ChIJgTwGXjmNGGARl-LhNGEAQtc"
+              }
+            ],
+            "requestMode": "UNRESTRICTED",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "exactRadiusGate": "NOT_APPLICABLE"
+          }
+        }
+      }
+    ],
+    "candidates": [
+      {
+        "id": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+        "name": "LA CEPA",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 1,
+          "restaurant_fact_judgment": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 1
+        },
+        "factJudgmentCalls": 1,
+        "factJudgments": [
+          {
+            "sequence": 16,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:50a594b2887045c7e39c2b64",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "spanish restaurant",
+                  "european restaurant",
+                  "point of interest",
+                  "establishment"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [],
+              "judgments": [
+                {
+                  "criterion": "Spanish restaurant",
+                  "outcome": "SUPPORTED",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:google-facts:50a594b2887045c7e39c2b64"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:02:46.735Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+        "name": "バル014 馬場ワイン食堂",
+        "source": null,
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 2,
+          "restaurant_fact_judgment": 2,
+          "restaurant_page_question": 2
+        },
+        "browserCalls": {
+          "AVAILABILITY": 2
+        },
+        "factJudgmentCalls": 2,
+        "factJudgments": [
+          {
+            "sequence": 21,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "spanish restaurant",
+                  "bistro",
+                  "wine bar",
+                  "european restaurant",
+                  "bar",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              {
+                "evidenceId": "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513",
+                "provider": "TABELOG",
+                "typeFacts": [
+                  "Wine bar, Spanish, Bistro"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [],
+              "judgments": [
+                {
+                  "criterion": "Spanish restaurant",
+                  "outcome": "SUPPORTED",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:google-facts:9849160dec7a4d5ba6ecd822",
+                    "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "sequence": 28,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "spanish restaurant",
+                  "wine bar",
+                  "bistro",
+                  "bar",
+                  "european restaurant",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              {
+                "evidenceId": "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+                "provider": "TABELOG",
+                "typeFacts": [
+                  "Wine bar, Spanish, Bistro"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [],
+              "judgments": [
+                {
+                  "criterion": "Spanish restaurant",
+                  "outcome": "SUPPORTED",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+                    "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "categoryEvidence": [
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:74bd6f93bc36eccf01878513",
+            "provider": "TABELOG",
+            "quote": "Wine bar, Spanish, Bistro"
+          },
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+            "provider": "TABELOG",
+            "quote": "Wine bar, Spanish, Bistro"
+          }
+        ],
+        "availability": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-11-10T07:03:28.603Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:220e059b8c932b22a2db2fbb",
+            "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+            "evidence:restaurant:tabelog-availability:1fdf842fd7981d3197cc0474"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "displayExpiresAt": "2026-11-10T07:13:28.603Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        },
+        "conditions": [
+          {
+            "text": "Spanish restaurant",
+            "status": "MET",
+            "sources": [
+              {
+                "field": "GOOGLE_TYPE",
+                "quote": "spanish restaurant",
+                "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA"
+              },
+              {
+                "meal": "UNSPECIFIED",
+                "field": "CATEGORY",
+                "quote": "Wine bar, Spanish, Bistro",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+              }
+            ],
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "evidenceIds": [
+              "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:31.360Z:evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac,evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+              "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+              "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+            ],
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "criterionRef": "criterion:0"
+          }
+        ]
+      },
+      {
+        "id": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+        "name": "vivo daily stand 高田馬場店",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 1,
+          "restaurant_fact_judgment": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 1
+        },
+        "factJudgmentCalls": 1,
+        "factJudgments": [
+          {
+            "sequence": 17,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "wine bar",
+                  "coffee stand",
+                  "spanish restaurant",
+                  "snack bar",
+                  "bar",
+                  "meal takeaway",
+                  "european restaurant",
+                  "point of interest",
+                  "establishment"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [],
+              "judgments": [
+                {
+                  "criterion": "Spanish restaurant",
+                  "outcome": "SUPPORTED",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:google-facts:25c8e605076cfdcbae5cfd9f"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:02:53.455Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:f99903343f3a6b510d078be0",
+        "name": "ESTASI",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 1,
+          "restaurant_fact_judgment": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 1
+        },
+        "factJudgmentCalls": 1,
+        "factJudgments": [
+          {
+            "sequence": 18,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "italian restaurant",
+                  "bar and grill",
+                  "spanish restaurant",
+                  "bar",
+                  "european restaurant",
+                  "point of interest",
+                  "establishment"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [],
+              "judgments": [
+                {
+                  "criterion": "Spanish restaurant",
+                  "outcome": "SUPPORTED",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:google-facts:f147bd7ce75e95c4411dfc36"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:02:49.055Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      }
+    ],
+    "categoryEvidenceCandidates": 1,
+    "checkedCandidates": 4,
+    "turnBudgets": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794294122655,
+        "deadlineAtMs": 1794294622655,
+        "elapsedMs": 66920.11600000001,
+        "modelCalls": 22,
+        "googleRequests": 5,
+        "exceeded500Seconds": false
+      },
+      {
+        "id": "BOOK_FIRST",
+        "startedAtMs": 1794294189580,
+        "deadlineAtMs": 1794294689580,
+        "elapsedMs": 33550.04066700001,
+        "modelCalls": 9,
+        "googleRequests": 2,
+        "exceeded500Seconds": false
+      }
+    ],
+    "presented": {
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:220e059b8c932b22a2db2fbb",
+        "evidence:restaurant:google-discovery:bd37478b3a2dbe0d087478f1",
+        "evidence:restaurant:tabelog-availability:1fdf842fd7981d3197cc0474",
+        "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+        "evidence:restaurant:google-entity:bd37478b3a2dbe0d087478f1",
+        "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+        "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:31.360Z:evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac,evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+      ],
+      "presentedAt": "2026-11-10T07:03:32.744Z",
+      "candidateIds": [
+        "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+      ],
+      "conditionStates": {
+        "praxis:restaurant:f5bcca1e7bf7ddde44fe5925": [
+          {
+            "text": "Spanish restaurant",
+            "status": "MET",
+            "sources": [
+              {
+                "field": "GOOGLE_TYPE",
+                "quote": "spanish restaurant",
+                "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA"
+              },
+              {
+                "meal": "UNSPECIFIED",
+                "field": "CATEGORY",
+                "quote": "Wine bar, Spanish, Bistro",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/"
+              }
+            ],
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "evidenceIds": [
+              "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-10T07:03:31.360Z:evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac,evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+              "evidence:restaurant:google-facts:2c8770230c1ceeb30cb70eac",
+              "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971"
+            ],
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "criterionRef": "criterion:0"
+          }
+        ]
+      }
+    },
+    "NO_PROGRESS": 0,
+    "skippedSources": [
+      {
+        "reason": "TABLECHECK_NOT_EVIDENCED",
+        "provider": "TABLECHECK",
+        "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0"
+      },
+      {
+        "reason": "TABLECHECK_NOT_EVIDENCED",
+        "provider": "TABLECHECK",
+        "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae"
+      }
+    ],
+    "retryEvents": [],
+    "verdict": {
+      "status": "PENDING_REVIEW",
+      "qualified": null,
+      "outcome": null,
+      "s0": 0,
+      "s0Status": "NOT_EVALUATED",
+      "stopBatch": false
+    },
+    "qualificationClaims": [
+      {
+        "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+        "quotes": [
+          {
+            "text": "Wine bar, Spanish, Bistro",
+            "url": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+            "readAt": "2026-11-10T07:02:37.993Z",
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:068a0daa5b9f42a3bc593971",
+            "provider": "TABELOG",
+            "observedAt": "2026-11-10T07:03:28.603Z"
+          }
+        ]
+      }
+    ],
+    "recording": {
+      "pages": 29,
+      "pageStatuses": {
+        "REPLAYABLE": 25,
+        "NOT_REPLAYABLE": 4
+      }
+    }
+  },
+  {
+    "id": "D02",
+    "resourceUsage": {
+      "elapsedMs": 156533,
+      "agentDecisions": 7,
+      "googleRequests": {
+        "limit": 40,
+        "total": 4,
+        "discovery": 1,
+        "placeDetails": 2,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 47
+    },
+    "modelCalls": 47,
+    "modelOutcomes": {
+      "SUCCEEDED": 47
+    },
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 6,
+        "elapsedMs": 25632
+      },
+      "TABELOG": {
+        "modelCalls": 14,
+        "elapsedMs": 82522
+      }
+    },
+    "searches": [
+      {
+        "sources": {
+          "google-places": 9
+        },
+        "count": 9,
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 29080,
+          "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 3,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation yet; retrieve by the single HARD criterion keyword for Nakano City.",
+                "keyword": "robatayaki",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 2
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 20,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 26821,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          },
+          "supplementaryDiscovery": {
+            "status": "COMPLETED",
+            "sourceId": "google-places",
+            "candidateCount": 9
+          }
+        }
+      }
+    ],
+    "candidates": [
+      {
+        "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+        "name": "Nakano Robata Sumika",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 6,
+          "restaurant_fact_judgment": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 3,
+          "AVAILABILITY": 3
+        },
+        "factJudgmentCalls": 1,
+        "factJudgments": [
+          {
+            "sequence": 22,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:1e94308a652a7cf5f335d65c",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              {
+                "evidenceId": "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+                "provider": "TABELOG",
+                "typeFacts": [
+                  "Izakaya (Japanese style tavern), Robatayaki, Seafood"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [
+                {
+                  "documentId": "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+                  "statementIds": [
+                    "Izakaya (Japanese style tavern), Robatayaki, Seafood"
+                  ]
+                }
+              ],
+              "judgments": [
+                {
+                  "criterion": "robatayaki",
+                  "outcome": "SUPPORTED",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "categoryEvidence": [
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+            "provider": "TABELOG",
+            "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood"
+          }
+        ],
+        "availability": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-11-10T07:05:13.222Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:fec11d051ad31bd3bc3041bb",
+            "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+            "evidence:restaurant:tabelog-availability:58653b696c54a6beba6e45e7"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "displayExpiresAt": "2026-11-10T07:15:13.222Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        },
+        "conditions": [
+          {
+            "text": "robatayaki",
+            "status": "MET",
+            "sources": [
+              {
+                "meal": "UNSPECIFIED",
+                "field": "CATEGORY",
+                "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+              }
+            ],
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "evidenceIds": [
+              "fact-judgment:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-10T07:05:37.189Z:evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+              "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89"
+            ],
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "criterionRef": "criterion:0"
+          },
+          {
+            "text": "English menu available",
+            "status": "NOT_CHECKED",
+            "sources": [],
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "evidenceIds": [],
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "criterionRef": "criterion:1"
+          }
+        ]
+      },
+      {
+        "id": "praxis:restaurant:776889de3aaa5cc62164d040",
+        "name": "鉄板焼 奥里火",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 5,
+          "restaurant_fact_judgment": 2
+        },
+        "browserCalls": {
+          "AVAILABILITY": 3,
+          "FACTS": 2
+        },
+        "factJudgmentCalls": 2,
+        "factJudgments": [
+          {
+            "sequence": 23,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:94b88ff2334c3886c498c8ef",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              {
+                "evidenceId": "evidence:restaurant:tabelog-hard-criteria:013af8e8e0d6e3f5517a2d00",
+                "provider": "TABELOG",
+                "typeFacts": [
+                  "Teppanyaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [],
+              "judgments": [
+                {
+                  "criterion": "robatayaki",
+                  "outcome": "UNKNOWN",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:google-facts:94b88ff2334c3886c498c8ef",
+                    "evidence:restaurant:tabelog-hard-criteria:013af8e8e0d6e3f5517a2d00"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "sequence": 26,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:f41186e19af497837c9820c8",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "point of interest",
+                  "establishment"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [],
+              "judgments": [
+                {
+                  "criterion": "robatayaki",
+                  "outcome": "UNKNOWN",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:google-facts:f41186e19af497837c9820c8"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "categoryEvidence": [
+          {
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:013af8e8e0d6e3f5517a2d00",
+            "provider": "TABELOG",
+            "quote": "Teppanyaki, Okonomiyaki (Japanese savory pancake), Izakaya (Japanese style tavern)"
+          }
+        ],
+        "availability": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-11-10T07:05:31.466Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:20655abdd68c56985d53efd1",
+            "evidence:restaurant:tabelog-hard-criteria:013af8e8e0d6e3f5517a2d00",
+            "evidence:restaurant:tabelog-availability:38ce818829189b7ac50cc937"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "displayExpiresAt": "2026-11-10T07:15:31.466Z",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+        "name": "Okajoki",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 1,
+          "restaurant_fact_judgment": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 1
+        },
+        "factJudgmentCalls": 1,
+        "factJudgments": [
+          {
+            "sequence": 27,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:google-facts:4eaa24ff01c3a50f3af466f6",
+                "provider": "GOOGLE_PLACES",
+                "typeFacts": [
+                  "japanese izakaya restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "point of interest",
+                  "establishment"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [],
+              "judgments": [
+                {
+                  "criterion": "robatayaki",
+                  "outcome": "UNKNOWN",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:google-facts:4eaa24ff01c3a50f3af466f6"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:05:31.472Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:89d44e809dc2381f57193c6e",
+        "name": "Aburiya Nakano",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 2,
+          "restaurant_source_facts": 2,
+          "restaurant_fact_judgment": 2
+        },
+        "browserCalls": {
+          "DISCOVERY": 1,
+          "FACTS": 2
+        },
+        "factJudgmentCalls": 2,
+        "factJudgments": [
+          {
+            "sequence": 43,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:website-facts:165496e89af8a515980adfed",
+                "provider": "RESTAURANT_WEBSITE",
+                "typeFacts": [
+                  "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備!",
+                  "コースじゃなくてもok!こだわり料理と地酒を楽しむ大人の隠れ家",
+                  "料理"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [
+                {
+                  "documentId": "website-document:4dbfba800e204250a98bbe5d0a996acb0c13cbd2444b6faa274be7101e71f39d",
+                  "statementIds": [
+                    "13",
+                    "43",
+                    "53"
+                  ]
+                }
+              ],
+              "judgments": [
+                {
+                  "criterion": "robatayaki",
+                  "outcome": "UNKNOWN",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:website-facts:165496e89af8a515980adfed",
+                    "website-document:4dbfba800e204250a98bbe5d0a996acb0c13cbd2444b6faa274be7101e71f39d"
+                  ],
+                  "description": "The cited source describes fresh seafood, sashimi, sake, and counter seating with chef's work, but never states robatayaki (炉端焼き) or a robata grill; the name 'Aburiya' and '炙り' (searing) do not establish robatayaki."
+                }
+              ]
+            }
+          },
+          {
+            "sequence": 46,
+            "citedInputs": [
+              {
+                "evidenceId": "evidence:restaurant:website-facts:165496e89af8a515980adfed",
+                "provider": "RESTAURANT_WEBSITE",
+                "typeFacts": [
+                  "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備!",
+                  "コースじゃなくてもok!こだわり料理と地酒を楽しむ大人の隠れ家",
+                  "料理"
+                ]
+              },
+              {
+                "evidenceId": "evidence:restaurant:website-facts:55023481e6bde2933cbef615",
+                "provider": "RESTAURANT_WEBSITE",
+                "typeFacts": [
+                  "料理"
+                ]
+              }
+            ],
+            "response": {
+              "sourceSelections": [
+                {
+                  "documentId": "website-document:4dbfba800e204250a98bbe5d0a996acb0c13cbd2444b6faa274be7101e71f39d",
+                  "statementIds": [
+                    "13",
+                    "16",
+                    "43"
+                  ]
+                },
+                {
+                  "documentId": "website-document:acfa649a327ac56c263a1403626a7937954df655dd49d57362bf842ca1ade990",
+                  "statementIds": [
+                    "166",
+                    "167",
+                    "219"
+                  ]
+                }
+              ],
+              "judgments": [
+                {
+                  "criterion": "robatayaki",
+                  "outcome": "UNKNOWN",
+                  "scope": "RESTAURANT_CATEGORY_TYPE",
+                  "evidenceIds": [
+                    "evidence:restaurant:website-facts:165496e89af8a515980adfed",
+                    "evidence:restaurant:website-facts:55023481e6bde2933cbef615"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:05:49.159Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:c7ceea0792973fa81816746a",
+        "name": "Dai Ni Chikara Shu Zo",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 1
+        },
+        "factJudgmentCalls": 0,
+        "factJudgments": [],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:05:51.185Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:590f4111274e95419c2b2875",
+        "name": "本格地酒と旬の逸品 十七番地 中野レンガ坂",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 1
+        },
+        "factJudgmentCalls": 0,
+        "factJudgments": [],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:05:53.652Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+        "name": "中野製作所 まんてん別館",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 1
+        },
+        "factJudgmentCalls": 0,
+        "factJudgments": [],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:05:58.135Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+        "name": "最魚の晩餐～寿司と牡蠣と日本酒の裏切り～",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 1
+        },
+        "factJudgmentCalls": 0,
+        "factJudgments": [],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:06:00.685Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      },
+      {
+        "id": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+        "name": "Guttsu",
+        "source": "google-places",
+        "actualCandidateModelCalls": {
+          "browser_read_decide": 5,
+          "restaurant_named_source_query": 1
+        },
+        "browserCalls": {
+          "DISCOVERY": 5
+        },
+        "factJudgmentCalls": 0,
+        "factJudgments": [],
+        "categoryEvidence": [],
+        "availability": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-10T07:06:02.685Z",
+          "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "sourceProvider": "TABELOG"
+        },
+        "conditions": null
+      }
+    ],
+    "categoryEvidenceCandidates": 2,
+    "checkedCandidates": 9,
+    "turnBudgets": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794294248949,
+        "deadlineAtMs": 1794294748949,
+        "elapsedMs": 156538.03362499998,
+        "modelCalls": 47,
+        "googleRequests": 5,
+        "exceeded500Seconds": false
+      }
+    ],
+    "presented": {
+      "evidenceIds": [
+        "evidence:restaurant:tabelog-entity-match:fec11d051ad31bd3bc3041bb",
+        "evidence:restaurant:google-discovery:84e6bbddc06f47c64cfdb1be",
+        "evidence:restaurant:tabelog-availability:58653b696c54a6beba6e45e7",
+        "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+        "evidence:restaurant:google-entity:84e6bbddc06f47c64cfdb1be",
+        "evidence:restaurant:google-facts:1e94308a652a7cf5f335d65c",
+        "fact-judgment:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-10T07:05:37.189Z:evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89"
+      ],
+      "presentedAt": "2026-11-10T07:06:45.425Z",
+      "candidateIds": [
+        "praxis:restaurant:b8153abad1f84fa5c19c239f"
+      ],
+      "conditionStates": {
+        "praxis:restaurant:b8153abad1f84fa5c19c239f": [
+          {
+            "text": "robatayaki",
+            "status": "MET",
+            "sources": [
+              {
+                "meal": "UNSPECIFIED",
+                "field": "CATEGORY",
+                "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+              }
+            ],
+            "polarity": "POSITIVE",
+            "strength": "HARD",
+            "evidenceIds": [
+              "fact-judgment:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-10T07:05:37.189Z:evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+              "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89"
+            ],
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "criterionRef": "criterion:0"
+          },
+          {
+            "text": "English menu available",
+            "status": "NOT_CHECKED",
+            "sources": [],
+            "polarity": "POSITIVE",
+            "strength": "SOFT",
+            "evidenceIds": [],
+            "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+            "criterionRef": "criterion:1"
+          }
+        ]
+      }
+    },
+    "NO_PROGRESS": 2,
+    "skippedSources": [
+      {
+        "reason": "TABLECHECK_NOT_EVIDENCED",
+        "provider": "TABLECHECK",
+        "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b"
+      },
+      {
+        "reason": "TABLECHECK_NOT_EVIDENCED",
+        "provider": "TABLECHECK",
+        "candidateId": "praxis:restaurant:590f4111274e95419c2b2875"
+      },
+      {
+        "reason": "TABLECHECK_NOT_EVIDENCED",
+        "provider": "TABLECHECK",
+        "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d"
+      }
+    ],
+    "retryEvents": [],
+    "verdict": {
+      "status": "NO_EVALUATION",
+      "reason": "Frozen development witness GET ceiling reached before charging or transmission"
+    },
+    "qualificationClaims": [
+      {
+        "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+        "quotes": [
+          {
+            "text": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+            "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+            "readAt": "2026-11-10T07:04:59.816Z",
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:5959288d60671daf5948fa89",
+            "provider": "TABELOG",
+            "observedAt": "2026-11-10T07:05:13.222Z"
+          }
+        ]
+      }
+    ],
+    "recording": {
+      "pages": 55,
+      "pageStatuses": {
+        "REPLAYABLE": 50,
+        "NOT_REPLAYABLE": 5
+      }
+    }
+  }
+]

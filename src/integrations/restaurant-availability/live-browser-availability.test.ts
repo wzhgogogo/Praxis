@@ -33,7 +33,7 @@ test("production composition shares one literal-fragment model proposal across b
     return { invocationId: "fixture-query", provider: "FIXTURE", model: "fixture", outputText: '{"field":"name","fragment":"Dengana"}', finishReason: "TOOL_CALLS", latencyMs: 0 };
   } }, { browserBudget: budget, maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80, maxAutomaticElapsedMs: 30_000 });
   availability.beginReadRun();
-  const result = await availability.check({ candidateIds: [subject.restaurant.id], candidates: [subject], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  const result = await availability.check({ selectionScope:"SPECIFIC_OUTLET",candidateIds: [subject.restaurant.id], candidates: [subject], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
   assert.deepEqual([...session.queriesObserved,...other.queriesObserved],["Dengana Akabane","Dengana","Dengana Akabane","Dengana"],"Both sources expose original then fragment results; the source seed itself has no fabricated query");
   assert.equal(calls, 1); assert.equal(budget.totalModelCalls, calls+browserCalls);
   assert.equal(result.offers.length, 0, "same-outlet identity alone is not inventory");
@@ -71,7 +71,7 @@ const neverCalledModel: ModelGateway = {
 test("one-shot Live composition initializes each source context and closes both after fallback", async () => {
   const candidate = fixtureCandidates[0]!;
   const request: RestaurantAvailabilityRequest = {
-    candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date,
+    selectionScope:"SPECIFIC_OUTLET",candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date,
     timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: ["yakiniku"],
   };
   const empty = new Session([{ url: "https://www.tablecheck.com/en/japan/search", title: "Map Search", text: "No venues found", html: "<main>No venues found</main>" }]);
@@ -90,8 +90,8 @@ test("one-shot Live composition initializes each source context and closes both 
   assert.equal(session.closed, 1);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE",JSON.stringify({checks:result.availabilityChecks,events:diagnostics.filter(d=>["REJECTED","OPERATION_FAILED","METHOD_INCOMPLETE"].includes(d.event))}));
   assert.deepEqual(result.metadata.providerAttempts?.map((attempt) => attempt.provider), ["TABLECHECK", "TABELOG"]);
-  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_STARTED").map(item => item.source), ["TABLECHECK", "TABELOG"]);
-  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_FINISHED").map(item => item.lifecycle.outcome), ["FINISHED", "FINISHED"]);
+  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_STARTED").map(item => [item.source, item.stage]), [["TABLECHECK", "DISCOVERY"], ["TABELOG", "DISCOVERY"], ["TABELOG", "AVAILABILITY"]]);
+  assert.deepEqual(diagnostics.filter(item => item.event === "PROVIDER_FINISHED").map(item => item.lifecycle.outcome), ["FINISHED", "FINISHED", "FINISHED"]);
   assert.ok(diagnostics.filter(item => item.event === "OPERATION_STARTED").every(item => item.lifecycle.candidateRuntimeOperations >= item.lifecycle.providerRuntimeOperations));
 });
 
@@ -127,7 +127,7 @@ test("Live composition reuses a source-observed Hajime entrance across candidate
   let opens = 0;
   const runtime: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async () => [first, second][opens++]! };
   const availability = new LiveBrowserAvailability(fixtureGetRuntime(runtime), neverCalledModel, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80,alternativeSearch:async()=>undefined });
-  const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
+  const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ selectionScope:"SPECIFIC_OUTLET",candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
   availability.beginReadRun();
   await availability.check(toRequest(teppen), new AbortController().signal);
   const result = await availability.check(toRequest(hajime), new AbortController().signal);
@@ -164,7 +164,7 @@ test("Live composition clears observed TableCheck entrances when a read run ends
   const sourceSessions=[first,challenge(),second,challenge()];
   const runtime: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async () => sourceSessions[opens++]! };
   const availability = new LiveBrowserAvailability(fixtureGetRuntime(runtime), neverCalledModel, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80 });
-  const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
+  const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ selectionScope:"SPECIFIC_OUTLET",candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
   availability.beginReadRun();
   await availability.check(toRequest(teppen), new AbortController().signal);
   await availability.endReadRun();

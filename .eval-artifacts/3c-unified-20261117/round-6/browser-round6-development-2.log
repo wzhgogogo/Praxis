@@ -1,0 +1,166 @@
+✖ Round6 390: Details and Handoff retain active reads, then leave failed or removed results (1228.614375ms)
+✖ Round6 1440: Details and Handoff retain active reads, then leave failed or removed results (1432.806875ms)
+✔ Round6: refresh labels use the whole presented batch, retry and goal rather than only the current outlet (1434.06075ms)
+✖ Round6 Style1 390x844 available: aligned condition rows and clean availability (882.064083ms)
+✖ Round6 Style1 390x844 not-checked: aligned condition rows and clean availability (863.634292ms)
+✖ Round6 Style1 768x1024 available: aligned condition rows and clean availability (886.820958ms)
+✖ Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability (870.028625ms)
+✖ Round6 Style1 1440x900 available: aligned condition rows and clean availability (1405.423ms)
+✖ Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability (1089.96875ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 1
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10534.791584
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:529
+✖ Round6 390: Details and Handoff retain active reads, then leave failed or removed results (1228.614375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - "Couldn't complete this search. Please try again."
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:46:137)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: "Couldn't complete this search. Please try again.",
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:529
+✖ Round6 1440: Details and Handoff retain active reads, then leave failed or removed results (1432.806875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + ''
+  - "Couldn't complete this search. Please try again."
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:46:137)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: "Couldn't complete this search. Please try again.",
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:6657
+✖ Round6 Style1 390x844 available: aligned condition rows and clean availability (882.064083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   '401 /api/session',
+  +   'Failed to load resource: the server responded with a status of 401 (Unauthorized)'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:89:192)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '401 /api/session', 'Failed to load resource: the server responded with a status of 401 (Unauthorized)' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:6657
+✖ Round6 Style1 390x844 not-checked: aligned condition rows and clean availability (863.634292ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    status.getBoundingClientRect()
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:87:207)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:6657
+✖ Round6 Style1 768x1024 available: aligned condition rows and clean availability (886.820958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   '401 /api/session',
+  +   'Failed to load resource: the server responded with a status of 401 (Unauthorized)'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:89:192)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '401 /api/session', 'Failed to load resource: the server responded with a status of 401 (Unauthorized)' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:6657
+✖ Round6 Style1 768x1024 not-checked: aligned condition rows and clean availability (870.028625ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    status.getBoundingClientRect()
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:87:207)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:6657
+✖ Round6 Style1 1440x900 available: aligned condition rows and clean availability (1405.423ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   '401 /api/session',
+  +   'Failed to load resource: the server responded with a status of 401 (Unauthorized)'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:89:192)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ '401 /api/session', 'Failed to load resource: the server responded with a status of 401 (Unauthorized)' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round6.test.ts:9:6657
+✖ Round6 Style1 1440x900 not-checked: aligned condition rows and clean availability (1089.96875ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    status.getBoundingClientRect()
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round6.test.ts:87:207)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

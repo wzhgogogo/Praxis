@@ -1,4 +1,5 @@
 import { fixtureGoalBasis } from "../../../harness/restaurant-read-test-fixtures.js";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { runDiscoveryProbe } from "./discovery-probe.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -347,10 +348,10 @@ test("H001 native first batch presents three source-bound Tabelog results withou
     factChecks: result.state.factChecks, continuation: result.state.searchContinuation, navigations: result.navigations, purposes: result.model.purposes }));
   assert.equal(result.state.presentedResults?.candidateIds.every((id) => id.startsWith("tabelog:")), true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
-  assert.deepEqual(result.state.searchContinuation?.discoveryPlan?.entries.map((entry) => entry.sourceId), ["tabelog", "tablecheck", "google-places"], "the production composition retains the full three-pack plan while the first pack delivers");
+  assert.deepEqual(result.state.searchContinuation?.discoveryPlan?.entries.map((entry) => entry.sourceId), ["tabelog", "google-places", "tablecheck"], "the production composition retains the full three-pack plan while the first pack delivers");
   assert.equal(new Set(result.navigations.slice(0, 4).map((_url, index) => result.navigationSessionIds[index])).size, 1,
     "a healthy Tabelog list and its three details share one browser session");
-  assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
+  assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya", "omakase Shibuya"]);
   assert.ok(result.state.readEvidence.some(item => item.kind === "DISCOVERY" && item.provider === "TABELOG" && Array.isArray(item.claims.sourceCategories) && item.claims.sourceCategories.includes("Sushi")));
   const observed = result.trajectories.find(step => step.decisionContext?.candidates.length)?.decisionContext?.candidates;
   assert.ok(observed?.length);
@@ -566,13 +567,13 @@ test("H001 enters the observed named Shibuya directory with the authoritative ke
   assert.equal(result.navigations.some((url) => url.endsWith("/100/")), true);
 });
 
-test("native discovery adjusts a sparse keyword through an observed category without relaxing HARD facts", async () => {
+test("native discovery rejects a broader related category without current retrieval scope", async () => {
   const result = await runScenario("TABELOG_RETRIEVAL_CATEGORY_DELIVERS");
-  assert.deepEqual(result.state.presentedResults?.candidateIds, ["tabelog:tokyo/A1304/A130401/101"]);
+  assert.equal(result.state.presentedResults, undefined);
   assert.equal(result.navigations.includes("https://tabelog.com/en/tokyo/A1303/A130301/rstLst/sushi/"), true);
-  assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
+  assert.equal(result.navigations.some(url => /A130401\/10[0-2]\/$/.test(url)), false,
+    "removing the keyword leaves only the broader category; no card can certify the whole retrieval scope");
   assert.deepEqual(result.state.intent?.criteria, [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }]);
-  assert.equal(result.evaluation.execution.taskProducedQualifiedResult, "YES");
 });
 
 test("native discovery rejects a category result that leaves the observed regional listing root", async () => {
@@ -880,6 +881,47 @@ test("T1 Runner and Web assemblies expose equal effective limits and independent
   assert.equal(runner.router.browserReadTimeoutMs, runner.runCeilings.maxAutomaticBrowserMs);
 });
 
+test("one production assembly isolates concurrent Case sessions and budgets through loop return", {timeout:30_000}, async () => {
+  const owners = new AsyncLocalStorage<"A" | "B">();
+  const models = { A: new H001NativeModel("TABELOG_DELIVERS"), B: new H001NativeModel("TABELOG_DELIVERS") };
+  const opened = { A: [] as number[], B: [] as number[] }, closed = { A: [] as number[], B: [] as number[] };
+  const browsers = Object.fromEntries((["A", "B"] as const).map(id => [id,
+    sourcePages("TABELOG_DELIVERS", [], opened[id], [], closed[id], {guardedReadBoundary:true})])) as Record<"A" | "B", ReturnType<typeof sourcePages>>;
+  const assembly = createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {
+    model:{complete:request=>models[owners.getStore()!].complete(request)},
+    browser:{readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:input=>browsers[owners.getStore()!].openSession(input)},
+    google:new GooglePlacesClient({apiKey:"FIXTURE",fetchImplementation:async()=>new Response(JSON.stringify({places:[{id:"shibuya",displayName:{text:"Shibuya"},formattedAddress:"Shibuya, Tokyo",location:center,types:["locality","political"],addressComponents:[{longText:"Shibuya",types:["locality"]}]}]}),{status:200})}),
+    clock:{now:()=>reference},currentTaskId:()=>owners.getStore(),
+  });
+  const deferred = () => { let resolve!:()=>void; const promise=new Promise<void>(r=>{resolve=r;});return {promise,resolve}; };
+  const paused={A:deferred(),B:deferred()},resume={A:deferred(),B:deferred()},seen=new Set<string>();
+  const probes:Partial<Record<"A"|"B",{count:()=>number;atPause:number;live:number[]}>>={};
+  const check=assembly.availability.check.bind(assembly.availability);
+  assembly.availability.check=async(...args)=>{
+    const result=await check(...args),id=owners.getStore()!;
+    if(!seen.has(id)){seen.add(id);const restore=AsyncLocalStorage.snapshot();probes[id]={count:()=>restore(()=>assembly.browserBudget.totalModelCalls),atPause:assembly.browserBudget.totalModelCalls,live:opened[id].filter(n=>!closed[id].includes(n))};paused[id].resolve();await resume[id].promise;}
+    return result;
+  };
+  const run=(id:"A"|"B")=>owners.run(id,async()=>{
+    const composition=createHybridReadComposition({taskId:id,runId:"run:"+id,clock:{now:()=>reference},model:models[id],...assembly});
+    await composition.interpretAndDispatch({taskId:id,message:"Find omakase near Shibuya tonight for2",referenceTime:reference.toISOString(),timezone:"Asia/Tokyo"});
+    return composition.coordinator.withReadRun(async()=>{
+      await composition.coordinator.run(id);
+      assert.ok(assembly.browserBudget.totalModelCalls>0,"loop return must not clear the enclosing B1 supplement budget");
+      return composition.runtime.snapshot(id).domainState;
+    },id);
+  });
+  const a=run("A");void a.catch(()=>{});let b:ReturnType<typeof run>|undefined;
+  try{
+    await paused.A.promise;assert.ok(probes.A!.atPause>0);assert.ok(probes.A!.live.length>0,"A retains its source session");
+    b=run("B");void b.catch(()=>{});await paused.B.promise;assert.ok(probes.B!.atPause>0);assert.ok(probes.B!.live.length>0);
+    resume.A.resolve();const aState=await a;assert.equal(aState.phase,"PRESENT_RESULTS");
+    assert.equal(probes.B!.count(),probes.B!.atPause,"ending A must not clear B's consumed browser budget");
+    assert.ok(probes.B!.live.every(n=>!closed.B.includes(n)),"ending A cannot close B's source sessions");
+    resume.B.resolve();assert.equal((await b).phase,"PRESENT_RESULTS");
+  }finally{resume.A.resolve();resume.B.resolve();await Promise.allSettled([a,...(b?[b]:[])]);}
+});
+
 
 test("P21 discovery probe uses production assembly/Guard for one first batch and never availability",async()=>{
  const navigations:string[]=[],networkRequests:BrowserReadNetworkObservation[]=[];
@@ -910,7 +952,7 @@ test("P21 failed model calls count toward the shared probe ceiling; later source
    browser:sourcePages("TABELOG_DELIVERS",[],[],[],[],{guardedReadBoundary:true}),clock:{now:()=>reference}});
  assert.equal(result.resources.modelCalls,1);assert.equal(calls,1);
  assert.equal(result.terminationReason,"MODEL_CALL_BUDGET_EXHAUSTED");
- assert.deepEqual(result.unattemptedSourceIds,["tablecheck","google-places"]);
+ assert.deepEqual(result.unattemptedSourceIds,["google-places","tablecheck"]);
  assert.equal(result.witnessInListing,false);
 });
 
@@ -946,7 +988,7 @@ test('P21 native venue and Google entries reuse one initial text retrieval propo
  assert.equal(googleRequests.length,1);
  assert.ok(googleRequests[0]!.url.endsWith('/places:searchText'),'shared keyword must select the text transport');
  assert.equal(googleRequests[0]!.body.textQuery,'omakase Shibuya');
- assert.deepEqual(result.attemptedSourceIds,['tabelog','tablecheck','google-places']);
+ assert.deepEqual(result.attemptedSourceIds,['tabelog','google-places','tablecheck']);
  const initialTextPlans=model.requests.filter(r=>r.purpose==='restaurant_discovery_retrieval'&&JSON.parse(r.messages.find(m=>m.role==='user')!.content).observation===null);
  assert.equal(initialTextPlans.length,1);assert.ok(result.resources.modelCalls<=15);
 });
@@ -1006,7 +1048,7 @@ test('H002 without positive HARD uses general shared retrieval and Google nearby
 
 // Full production interpreter -> compiler -> Router -> events/Reducer -> output.
 // Only model and source transport are local constructed; no prefilled evidence.
-test("F5c observed source choice precedes TableCheck 2 and Google 26 pending candidates", async () => {
+test("F5c observed source correction precedes Google26 pending candidates and defers reservation-only discovery", async () => {
   const directory=await mkdtemp(resolve('.eval-artifacts','flow-decision-capture-'));
   const recording=new BrowserReadRecording({directory,runId:'browser'});
   const capture=createHybridDecisionCapture(resolve(directory,'offline.result.json'),recording);
@@ -1014,15 +1056,15 @@ test("F5c observed source choice precedes TableCheck 2 and Google 26 pending can
   const result = await runScenario("F5_PENDING_CORRECTION", {packs: restaurantDiscoveryPacks,decisionCapture:capture});
   const decisions = result.model.requests.filter(request => request.purpose === "restaurant_agent_decide")
     .map(request => JSON.parse(request.messages.find(message => message.role === "user")!.content).context);
-  const pending = decisions.find(context => context.candidates?.length === 28);
-  assert.ok(pending, "the real Agent must observe all 2 TableCheck + 26 Google candidates");
-  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 2);
+  const pending = decisions.find(context => context.candidates?.length === 26);
+  assert.ok(pending, "the real Agent observes all26 Google candidates before reservation-only fallback");
+  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 0);
   assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.sourceIds.googlePlaces).length, 26);
   assert.equal(pending.searchAvailability.reason, "NATIVE_FIRST_BATCH_PENDING");
   assert.equal(pending.legalActions.search, false, "retain production SEARCH gating rather than bypassing it");
   const alternate = result.navigations.indexOf("https://tabelog.com/en/tokyo/A1323/");
   assert.ok(alternate >= 0, "F5c: correction must happen before the root Agent can queue other sources");
-  assert.ok(alternate < result.navigations.findIndex(url => url.includes("tablecheck.com")), "correction belongs to the first Tabelog source invocation");
+  assert.equal(result.navigations.some(url=>url.includes("tablecheck.com")),false,"Pending primary candidates must be investigated before reservation-only discovery");
   const firstCall = result.trajectories[0]!.executionMetadata!.nativeDiscoveryFunnel!;
   assert.equal(firstCall.sourceDetailAttempts,3,"the fixture model chose the alternate's three actual merchant links; no fixed two-sample correction remains");
   assert.ok(firstCall.retrieval!.regionPages<=4);
@@ -1126,7 +1168,7 @@ test('F6 reserve search hands completed Native and Google children through SEARC
   }});
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:source==='native'?[tabelogDiscoveryPack]:[googlePlacesDiscoveryPack]}, {model,browser,google,clock:{now:()=>reference}});
   const composition=createHybridReadComposition({taskId:'f6-search-'+source,runId:'f6-search-'+source,clock:{now:()=>reference},model,...assembly});
-  await composition.interpretAndDispatch({taskId:'f6-search-'+source,message:'Find omakase in Shibuya for two at 7pm.',referenceTime:reference.toISOString(),timezone:'Asia/Tokyo'},{...center,radiusMeters:1000,label:'Local Shibuya circle',source:'LOCAL_CONSTRUCTED'});
+  await composition.interpretAndDispatch({taskId:'f6-search-'+source,message:'Find omakase in Shibuya for two tonight at 7pm.',referenceTime:reference.toISOString(),timezone:'Asia/Tokyo'},{...center,radiusMeters:1000,label:'Local Shibuya circle',source:'LOCAL_CONSTRUCTED'});
   const before=composition.runtime.snapshot('f6-search-'+source);
   const router=new RestaurantExecutionRouter(assembly.search,assembly.availability,assembly.router,assembly.facts);
   const result=await router.execute({type:'SEARCH_RESTAURANTS'},before.domainState,reference.toISOString(),'f6-search-'+source,controller.signal);

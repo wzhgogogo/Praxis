@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: stale same-Case refresh, batch and location requests never cancel an active read
+ok 1 - stale same-Case refresh, batch and location requests never cancel an active read
+  ---
+  duration_ms: 820.200541
+  type: 'test'
+  ...
+# Subtest: preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration
+ok 2 - preparing refresh: concurrent getCase cannot fail the persisted preparation gap before read registration
+  ---
+  duration_ms: 577.752166
+  type: 'test'
+  ...
+# Subtest: preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration
+ok 3 - preparing batch: concurrent getCase cannot fail the persisted preparation gap before read registration
+  ---
+  duration_ms: 521.924417
+  type: 'test'
+  ...
+# Subtest: preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration
+ok 4 - preparing location: concurrent getCase cannot fail the persisted preparation gap before read registration
+  ---
+  duration_ms: 590.082958
+  type: 'test'
+  ...
+# Subtest: old HTTP refresh cannot write or abort the replacement read at the cancellation boundary
+ok 5 - old HTTP refresh cannot write or abort the replacement read at the cancellation boundary
+  ---
+  duration_ms: 675.273
+  type: 'test'
+  ...
+# Subtest: old HTTP location cannot write or abort the replacement read at the cancellation boundary
+ok 6 - old HTTP location cannot write or abort the replacement read at the cancellation boundary
+  ---
+  duration_ms: 873.608791
+  type: 'test'
+  ...
+# Subtest: cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh
+ok 7 - cached another-batch skips the cross-source copy of a delivered restaurant and preserves original-batch refresh
+  ---
+  duration_ms: 803.632583
+  type: 'test'
+  ...
+# Subtest: Exhausted third batch cannot project the six delivered outlets or their cross-source alias
+ok 8 - Exhausted third batch cannot project the six delivered outlets or their cross-source alias
+  ---
+  duration_ms: 823.014833
+  type: 'test'
+  ...
+# Subtest: Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias
+ok 9 - Searching and stopped next batch keep new verified outlets while excluding delivered outlets and their alias
+  ---
+  duration_ms: 630.265333
+  type: 'test'
+  ...
+# Subtest: Round15 Stop during preparation cancels before any new source call
+ok 10 - Round15 Stop during preparation cancels before any new source call
+  ---
+  duration_ms: 588.937416
+  type: 'test'
+  ...
+# Subtest: Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version
+ok 11 - Round15 Stop keeps CANCELLED after a concurrent shortlist advances the version
+  ---
+  duration_ms: 570.198584
+  type: 'test'
+  ...
+# Subtest: Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch
+ok 12 - Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch
+  ---
+  duration_ms: 554.973833
+  type: 'test'
+  ...
+# Subtest: Round16 first semantic preparation Stop cancels with zero source calls
+ok 13 - Round16 first semantic preparation Stop cancels with zero source calls
+  ---
+  duration_ms: 526.8075
+  type: 'test'
+  ...
+# Subtest: Round16 old prepared refresh never claims replacement preparation handle
+ok 14 - Round16 old prepared refresh never claims replacement preparation handle
+  ---
+  duration_ms: 643.912417
+  type: 'test'
+  ...
+# Subtest: Round16 About question preparing Stop returns HTTP 200 and zero question sources
+ok 15 - Round16 About question preparing Stop returns HTTP 200 and zero question sources
+  ---
+  duration_ms: 588.508083
+  type: 'test'
+  ...
+# Subtest: Round17 first semantic commit: current persisted read ID cancels before handle identity catches up
+ok 16 - Round17 first semantic commit: current persisted read ID cancels before handle identity catches up
+  ---
+  duration_ms: 544.067041
+  type: 'test'
+  ...
+# Subtest: Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up
+ok 17 - Round17 edit semantic commit: current persisted read ID cancels before handle identity catches up
+  ---
+  duration_ms: 599.828625
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11553.773458

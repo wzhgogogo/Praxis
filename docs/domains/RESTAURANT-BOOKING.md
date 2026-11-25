@@ -412,3 +412,20 @@ The user separately approved the exact two provider stop patches (9008f7bb); oth
 ## Observable location suggestions (2026-11-04; offline candidate)
 
 When the directory lacks the explicit location, an observed source search home may expose a current public location input and suggestions. Source-owned exact full-name/station/region checks must identify exactly one place; merchant, foreign, ambiguous or semantically unsupported choices fall back within the same remaining budgets. Current source links and owned non-submit options are the only choices, with fresh observation after fill and positive option confirmation before any observed GET submit. The existing coordinate/radius, Guard, identity, cancellation and conclusion reserve still control all reads; no place alias or station URL is invented. This internal source shortcut changes no model protocol or persistent version. [Offline report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).
+
+
+## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
+
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+
+
+## 前端第2段的显式只读续查（2026-10-30）
+
+用户批准TaskDefinition22→23，State24形状、Prompt和Proposal不变。NO_VERIFIED_RESULT只有必要条件齐全且服务端能证明池内未调查候选或现有同条件搜索游标/计划仍有未查工作时，才接受NEXT_BATCH_REPLENISHMENT_REQUESTED并投影canContinue=true；保留检查/游标/备选，在Context及Validator排除上一轮已调查对象，不重新读取失败或不合格的店。无观察游标、游标耗尽/条件不符、缺字段或全部来源失败时不允许续查。清除上一轮收尾窗口后复用原有界读取、版本、requestId幂等、取消和迟到控制，不重置来源计划或新增条件修改事件。
+
+全部来源失败由逐店显式FAILED尝试证明，UNKNOWN/未查/缺少attempt不作为全失败。Try again单独复用refresh及AVAILABILITY_REFRESH_REQUESTED，限已确认全部失败的候选；原有展示结果刷新不变。无语义调用或外部提交。生产来源Adapter、B搜索/G3和G1执行规则未改；本地Fixture证据见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，不代表Live验收。
+
+
+### 2026-11-18 — Specific serving claims from category evidence
+
+Draft / not integrated; offline Round6 verified. Positive HARD serving claims must pass positiveHardSourceSupport on both bare restaurantTypeFacts and CATEGORY/GOOGLE_TYPE quotations. Generic/retail metadata cannot establish service. For serves beer, only explicit beer-serving dining categories (brewpub, beer bar/hall/garden/restaurant) or the existing merchant/menu text rules qualify; bar/pub/izakaya/liquor store/beer store are insufficient. SOURCE_TEXT/course/explicit-name rules and Prompt15 are unchanged. This constrains new admission, not stored historical presentedResults.conditionStates.

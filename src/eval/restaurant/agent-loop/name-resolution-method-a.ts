@@ -24,18 +24,17 @@ type Ports={runtime:BrowserRuntime;decision?:BrowserReadActionDecisionPort;signa
 export async function runNameResolutionMethodA(id:string,platform:NameResolutionPlatform,subject:NameResolutionSubject,ports:Ports){
  if(ports.mode==='LIVE')assertNameResolutionLiveAdmission(ports.admission,platform);
  const started=Date.now(),pages:BrowserSnapshot[]=[],diagnostics:unknown[]=[],trace:BrowserExecutionDiagnostic[]=[];
- let identityStop=false,formStop=false;
+ let formStop=false;
  const noForm=(url:string)=>{if(/\/(?:reserve|booking|checkout|payment|cancel)(?:\/|[?#]|$)/i.test(new URL(url).pathname)){formStop=true;throw Error('BENCHMARK_FORM_BOUNDARY');}};
- const identityOnly=()=>{if(identityStop)throw Error('BENCHMARK_IDENTITY_COMPLETE');};
  const runtime:BrowserRuntime={...(ports.runtime.readNetworkBoundaryCapability?{readNetworkBoundaryCapability:ports.runtime.readNetworkBoundaryCapability}:{}),openSession:async input=>{
   const session=await ports.runtime.openSession(input);
   return new Proxy(session,{get(target,key){
-   if(key==='snapshot')return async()=>{identityOnly();const page=await target.snapshot();pages.push(structuredClone(page));return page;};
+   if(key==='snapshot')return async()=>{const page=await target.snapshot();pages.push(structuredClone(page));return page;};
    if(key==='navigate'||key==='prepareNavigation'||key==='prepareObservedNavigation'){
-    const original=target[key];return original?async(url:string,options?:never)=>{identityOnly();noForm(url);await original.call(target,url,options);}:undefined;
+    const original=target[key];return original?async(url:string,options?:never)=>{noForm(url);await original.call(target,url,options);}:undefined;
    }
-   if(key==='openLink'&&target.openLink)return async(ref:string,href?:string,options?:never)=>{identityOnly();if(!href)throw Error('Unbound public link');noForm(href);await target.openLink!(ref,href,options);};
-   const value=Reflect.get(target,key);return typeof value==='function'?((...args:unknown[])=>{if(key!=='close')identityOnly();return value.apply(target,args);}):value;
+   if(key==='openLink'&&target.openLink)return async(ref:string,href?:string,options?:never)=>{if(!href)throw Error('Unbound public link');noForm(href);await target.openLink!(ref,href,options);};
+   const value=Reflect.get(target,key);return typeof value==='function'?((...args:unknown[])=>{return value.apply(target,args);}):value;
   }});
  }};
  const executor=new BrowserTaskExecutor(runtime,{maxAutomaticElapsedMs:300_000,maxOperationsPerCandidate:24,maxModelCallsPerCandidate:3,maxModelCallsTotal:3,
@@ -47,12 +46,12 @@ export async function runNameResolutionMethodA(id:string,platform:NameResolution
    if('field' in action&&['DATE','PARTY_SIZE','TIME'].includes(action.field))throw new BrowserReadDecisionError('INVALID_MODEL_OUTPUT','Name benchmark prohibits request-control actions');
    return action;
   },...(ports.decision.takeLastWireRecord?{takeLastWireRecord:()=>ports.decision!.takeLastWireRecord!()}:{} )}}:{}),
-  onDiagnostic:diagnostic=>{trace.push(structuredClone(diagnostic));if(diagnostic.stage==='AVAILABILITY'&&diagnostic.event==='OPERATION_STARTED'){identityStop=true;throw Error('BENCHMARK_IDENTITY_COMPLETE');}},
+  onDiagnostic:diagnostic=>{trace.push(structuredClone(diagnostic));},
  });
  const candidate:RestaurantCandidate={restaurant:{id:'name-benchmark:'+id,outletName:subject.name,address:subject.address,coordinates:{lat:subject.coordinates.lat,lng:subject.coordinates.lng},sourceIds:{phone:subject.phone},provenance:{outletName:'benchmark-input',address:'benchmark-input',sourceIds:'benchmark-input'}},matchReasons:[],warnings:[],executionConfidence:'LOW'};
- const options={...(ports.networkPolicy?{networkPolicy:ports.networkPolicy}:{}),onIdentityDiagnostic:(d:unknown)=>diagnostics.push(structuredClone(d))};
+ const options={identityOnly:true,...(ports.networkPolicy?{networkPolicy:ports.networkPolicy}:{}),onIdentityDiagnostic:(d:unknown)=>diagnostics.push(structuredClone(d))};
  const provider=platform==='TABELOG'?new TabelogBrowserAvailability(executor,undefined,5,options):new TableCheckBrowserAvailability(executor,undefined,options);
- // Adapter DTO fields are unreachable after the identity stop and are hidden
+ // Adapter DTO fields have no identity-only meaning and are hidden
  // from the decision. No requested availability is being evaluated here.
  let read:Awaited<ReturnType<typeof provider.check>>|undefined,error:string|undefined;
  try{read=await provider.check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:'1970-01-01',partySize:1,timeWindow:{earliest:'00:00',latest:'00:00'},hardCriteria:[]},ports.signal);}
@@ -71,6 +70,6 @@ export async function runNameResolutionMethodA(id:string,platform:NameResolution
   searchCompleted:searchCompleted&&!busy,elapsedMs:Date.now()-started,modelCalls:trace.filter(d=>d.event==='MODEL_DECISION_STARTED').length,
   ...(entity?.sourceUrl?{returnedUrl:entity.sourceUrl}:{}),...(raw?{rawSelectedPageUrl:raw.url}:{}),
   ...(!entity?{failure:busy?'SOURCE_BUSY':formStop?'BENCHMARK_FORM_BOUNDARY':traceFailure??error??lastDiagnostic?.resolution?.reason??read?.metadata.failureCode??'IDENTITY_NOT_ACCEPTED'}:{})};
- return {observation:result,pages,diagnostics,trace,boundary:{identityStop,formStop,availabilityEvaluated:false},
+ return {observation:result,pages,diagnostics,trace,boundary:{identityOnly:true,formStop,availabilityEvaluated:false},
   methodB:{status:'NOT_ENABLED',reason:'Conditional on A evidence and separate frozen autonomous-query implementation; no B calls in this batch'}};
 }

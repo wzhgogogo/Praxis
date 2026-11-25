@@ -1,3 +1,5 @@
+import { isSensitiveGenericReadUrl, isSensitiveWorkflowUrl } from "./browser-read-policy.js";
+import {observeNodeRead} from './playwright-node-read-progress.js';
 import {PlaywrightEntryNavigation} from "./playwright-entry-navigation.js";
 import {createHash} from "node:crypto";
 import {normalizedTextKey} from "../../core/text-key.js";
@@ -96,13 +98,15 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
 export class PlaywrightReadNetworkGuard {
   readonly forms = new PlaywrightObservedGetForms();
   private readonly entries=new WeakMap<Page,PlaywrightEntryNavigation>();
+  private readonly documentAttemptTimeouts=new WeakMap<Page,number>();
   private readonly abortedForEntry=new WeakSet<Request>();
   private readonly nodeTransports=new Map<Request,AbortController>();
   entryNavigationEvents(page:Page) {return this.entries.get(page)?.events??[];}
   entryInteraction(page:Page):void {this.entries.get(page)?.interaction();}
-  async navigateEntry(page:Page,url:string,options:{waitUntil?:"domcontentloaded"|"load";timeoutMs?:number}):Promise<void> {
+  async navigateEntry(page:Page,url:string,options:{waitUntil?:"domcontentloaded"|"load";timeoutMs?:number},initialAction?:(timeoutMs:number)=>Promise<void>):Promise<void> {
     const entry=this.entries.get(page);
-    if(entry)await entry.navigate(url,options);
+    if(entry)try{await entry.navigate(url,options,initialAction);}finally{this.documentAttemptTimeouts.delete(page);}
+    else if(initialAction)await initialAction(options.timeoutMs??5_000);
     else await page.goto(url,{waitUntil:options.waitUntil??"domcontentloaded",...(options.timeoutMs===undefined?{}:{timeout:options.timeoutMs})});
   }
   private abortEntryTransports(page:Page):void {
@@ -214,10 +218,11 @@ export class PlaywrightReadNetworkGuard {
   private readonly popupBootstraps = new Set<string>();
   private readonly redirectTimers = new Set<ReturnType<typeof setTimeout>>();
 
-  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void, private readonly admittedGetTransport: BrowserReadTransportProfile = "NODE_FETCH") { this.requestTimeoutMs = requestTimeoutMs; }
+  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void, private readonly admittedGetTransport: BrowserReadTransportProfile = "NODE_FETCH", private readonly onResponseHeaders?: (response:{url:string;resourceType:string;status:number;mainDocument:boolean})=>void) { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
     this.context = context;
+    context.on?.("response",response=>{const request=response.request();let mainDocument=false;try{mainDocument=request.resourceType()==="document"&&request.frame()===request.frame().page().mainFrame();}catch{/* detached */}this.onResponseHeaders?.({url:response.url(),resourceType:request.resourceType(),status:response.status(),mainDocument});});
     context.on?.("response",response=>{const current=this.dynamicReads.get(response.request());if(current)current.status=response.status();try{this.entries.get(response.request().frame().page())?.responseStatus(response.status());}catch{/* worker without an owning frame */}});
     context.on?.("requestfinished",request=>{const current=this.dynamicReads.get(request);if(current?.status===200)current.observation.dynamicRead={...current.receipt,status:current.status,completedAt:Date.now()};this.dynamicReads.delete(request);});
     context.on?.("requestfailed",request=>{this.dynamicReads.delete(request);});
@@ -320,8 +325,8 @@ export class PlaywrightReadNetworkGuard {
     const session = await context.newCDPSession(page);
     await session.send("Page.enable");
     const rootFrameId = (await session.send("Page.getFrameTree")).frameTree.frame.id;
-    const entry=!replay&&this.admittedGetTransport==="REVIEWED_STATIC_BROWSER"
-      ?new PlaywrightEntryNavigation(page,session,()=>this.abortEntryTransports(page),(url,remaining)=>this.prepareNavigation(url,remaining)):undefined;
+    const entry=!replay
+      ?new PlaywrightEntryNavigation(page,session,()=>this.abortEntryTransports(page),(url,remaining)=>this.prepareNavigation(url,remaining),timeout=>{this.documentAttemptTimeouts.set(page,timeout);}):undefined;
     if(entry)this.entries.set(page,entry);
     session.on("Page.frameNavigated",event=>{if(event.frame.id===rootFrameId)this.forms.clearObservedPageValues(page);});
     session.on("Page.windowOpen", event => {
@@ -335,7 +340,7 @@ export class PlaywrightReadNetworkGuard {
     type Send = CDPSession["send"];
     type On = (method: string, handler: (params: any) => void) => void;
     let sequence = 0;
-    const configure = async (send: Send, on: On, sendRoot=false): Promise<void> => {
+    const configure = async (send: Send, on: On, root = false): Promise<void> => {
       const formNavigations = new Map<string, { evidence: Promise<ObservedGetFormSubmission | undefined>; startedAt: number }>();
       on("Page.frameRequestedNavigation", event => {
         if (event.reason !== "formSubmissionGet" && event.reason !== "formSubmissionPost") return;
@@ -459,9 +464,10 @@ export class PlaywrightReadNetworkGuard {
           chains.set(event.requestId, expected ?? { hops: previous ? previous.hops + 1 : isRedirect ? 1 : 0, started: previous?.started ?? Date.now() });
           // An admitted unrecognized/initial request also traverses the normal route.
           if (!isRedirect && method !== "OPTIONS") {
-            if(sendRoot && entry && event.networkId && method==="GET" && ["script","stylesheet","font","image"].includes(type)
-              &&!this.queryMetadata(url).queryValues.some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT"].includes(field.valueClass))
+            if(root&&entry&&event.networkId&&method==='GET'&&['script','stylesheet','font','image'].includes(type)
+              &&!this.queryMetadata(url).queryValues.some(f=>['EQUALS_AUTHORITATIVE_INPUT','PREFIX_OF_AUTHORITATIVE_INPUT'].includes(f.valueClass))
               &&(await Promise.all(this.policy.staticResources.map(rule=>allows(rule,request,url,method,type,this.queryMetadata(url).queryValues)))).some(Boolean))entry.eligible(event.networkId);
+
             await send("Fetch.continueRequest", { requestId: event.requestId }); return;
           }
           const chain = chains.get(event.requestId)!;
@@ -489,7 +495,7 @@ export class PlaywrightReadNetworkGuard {
       await send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
       await send("Target.setAutoAttach", { autoAttach: true, waitForDebuggerOnStart: true, flatten: false });
     };
-    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); },true);
+    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); }, true);
   }
 
   private async admitsPreflight(url: URL, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
@@ -611,7 +617,9 @@ export class PlaywrightReadNetworkGuard {
       } catch { /* Unobserved frames do not receive form permission. */ }
     }
     const observedForm = Boolean(formSubmission && !this.sensitiveWorkflow(url));
-    const remainingRequestMs = formStartedAt === undefined ? this.requestTimeoutMs : this.requestTimeoutMs - (Date.now() - formStartedAt);
+    const documentAttemptMs=type==='document'&&method==='GET'&&requestPage?this.documentAttemptTimeouts.get(requestPage):undefined;
+    const requestTimeoutMs=this.requestTimeoutMs;
+    const remainingRequestMs = formStartedAt === undefined ? requestTimeoutMs : requestTimeoutMs - (Date.now() - formStartedAt);
     if (remainingRequestMs <= 0) {
       this.blocked("READ_TIMEOUT", url, method, type);
       await route.abort("timedout"); return;
@@ -673,7 +681,14 @@ export class PlaywrightReadNetworkGuard {
       }
       const controller=new AbortController();this.nodeTransports.set(request,controller);
       let response: Awaited<ReturnType<Route["fetch"]>>;
-      try{response=await route.fetch({ maxRedirects: 0, timeout: remainingRequestMs,signal:controller.signal });}
+      try{
+        let mainDocument=false;try{mainDocument=type==="document"&&method==="GET"&&requestPage!==undefined&&request.frame()===requestPage.mainFrame();}catch{/* Detached/unowned frames cannot supply document progress. */}
+        if(mainDocument)response=await observeNodeRead(url,controller.signal,progress=>{
+          this.entries.get(requestPage!)?.documentProgress(url.toString(),progress);
+          if(progress.status!==undefined&&progress.receivedBodyBytes===0&&!progress.finished)this.onResponseHeaders?.({url:url.toString(),resourceType:type,status:progress.status,mainDocument:true});
+        },()=>route.fetch({maxRedirects:0,timeout:remainingRequestMs,signal:controller.signal}),documentAttemptMs);
+        else response=await route.fetch({maxRedirects:0,timeout:remainingRequestMs,signal:controller.signal});
+      }catch(error){if(type==="document"&&requestPage)await this.entries.get(requestPage)?.documentFailure(url.toString(),error);throw error;}
       finally{this.nodeTransports.delete(request);}
       try{this.entries.get(request.frame().page())?.responseStatus(response.status());}catch{/* detached frame */}
       if (response.status() >= 300 && response.status() < 400) {
@@ -703,7 +718,7 @@ export class PlaywrightReadNetworkGuard {
       const code = error instanceof Error && error.name === "TimeoutError" ? "READ_TIMEOUT" : "READ_REQUEST_FAILED";
       this.blocked(code, url, method, type, error);
       this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", error: browserTransportError(error), origin: url.origin, pathname: url.pathname, method, resourceType: type, transport:native?"BROWSER_GET_HEAD":"NODE_FETCH",...staticAdmission,resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url) };
-      await route.abort("failed");
+      try{await route.abort("failed");}catch(abortError){if(!this.abortedForEntry.has(request))throw abortError;}
     }
   }
 
@@ -716,20 +731,10 @@ export class PlaywrightReadNetworkGuard {
   private sensitiveGenericRead(url: URL): boolean {
     if(this.policy.dynamicReads.some(rule=>url.origin===rule.origin&&matchesPath(rule,url)
       &&rule.strictQueryKeys?.some(key=>url.searchParams.has(key))))return true;
-    return this.sensitiveWorkflow(url) || [...url.searchParams.keys()].some(key => /(?:email|e-mail|phone|tel|address|name|password|passcode|token|secret|cookie|api_?key|card|payment|credit)/i.test(key));
+    return isSensitiveGenericReadUrl(url);
   }
 
   private sensitiveWorkflow(url: URL): boolean {
-    const path = url.pathname.toLowerCase();
-    // Explicit sensitive segments always win, including below a public
-    // calendar namespace. Only the booking/reserve container itself gets the
-    // narrow public-query exception below.
-    if (/(?:^|\/)(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm)(?:\/|$)/.test(path)) return true;
-    // A booking namespace can still expose public calendars and vacancy lists.
-    // Keep those read-shaped descendants in Generic GET admission; other
-    // booking/reserve descendants remain fail-closed.
-    const publicQueryNamespace = /\/(?:booking|reserve)\/(?:calendar|availability|vacancy|status|search|list)(?:\/|$)/.test(path);
-    if (!publicQueryNamespace && /(?:^|\/)(?:booking|reserve)(?:\/|$)/.test(path)) return true;
-    return [...url.searchParams].some(([key, value]) => /^(?:action|cmd|command|operation)$/i.test(key) && /^(?:cancel|delete|remove|confirm|purchase|pay|book|reserve)$/i.test(value));
+    return isSensitiveWorkflowUrl(url);
   }
 }

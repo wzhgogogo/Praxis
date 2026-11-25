@@ -1,0 +1,202 @@
+TAP version 13
+# Subtest: Round14 UI: About refresh requires explicit slot reselection
+ok 1 - Round14 UI: About refresh requires explicit slot reselection
+  ---
+  duration_ms: 1574.154459
+  type: 'test'
+  ...
+# Subtest: Round14 UI: Handoff Back refresh requires explicit slot reselection
+ok 2 - Round14 UI: Handoff Back refresh requires explicit slot reselection
+  ---
+  duration_ms: 1248.424709
+  type: 'test'
+  ...
+# Subtest: Round14 UI: other tab refresh requires explicit slot reselection
+ok 3 - Round14 UI: other tab refresh requires explicit slot reselection
+  ---
+  duration_ms: 1901.076917
+  type: 'test'
+  ...
+# Subtest: Round14 UI: renewal refresh rebinds the same time
+ok 4 - Round14 UI: renewal refresh rebinds the same time
+  ---
+  duration_ms: 1585.03675
+  type: 'test'
+  ...
+# Subtest: Round14 UI: delayed Stop is harmless after delivery
+ok 5 - Round14 UI: delayed Stop is harmless after delivery
+  ---
+  duration_ms: 1115.965958
+  type: 'test'
+  ...
+# Subtest: Round14 UI: delayed Stop does not stop the replacement read
+ok 6 - Round14 UI: delayed Stop does not stop the replacement read
+  ---
+  duration_ms: 1164.622209
+  type: 'test'
+  ...
+# Subtest: Round14 UI: late About acceptance clears only the sent draft
+ok 7 - Round14 UI: late About acceptance clears only the sent draft
+  ---
+  duration_ms: 1408.535291
+  type: 'test'
+  ...
+# Subtest: Round14 UI: late About acceptance preserves a replacement draft
+ok 8 - Round14 UI: late About acceptance preserves a replacement draft
+  ---
+  duration_ms: 1400.534583
+  type: 'test'
+  ...
+# Subtest: Round14 UI: an exhausted revised batch hides stale additions after reload
+ok 9 - Round14 UI: an exhausted revised batch hides stale additions after reload
+  ---
+  duration_ms: 1531.356791
+  type: 'test'
+  ...
+# Subtest: Round14 UI: a claimed return prompt survives switching plans and is answered once
+ok 10 - Round14 UI: a claimed return prompt survives switching plans and is answered once
+  ---
+  duration_ms: 1565.088833
+  type: 'test'
+  ...
+# Subtest: Round15 UI: explicit 19:30 survives failed refresh
+ok 11 - Round15 UI: explicit 19:30 survives failed refresh
+  ---
+  duration_ms: 1327.272042
+  type: 'test'
+  ...
+# Subtest: Round15 UI: explicit 19:30 survives other tab Back
+ok 12 - Round15 UI: explicit 19:30 survives other tab Back
+  ---
+  duration_ms: 1871.393708
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab next preserves this tab's missing 19:30 choice
+ok 13 - Round16 UI: other tab next preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1628.320083
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab Back preserves this tab's missing 19:30 choice
+ok 14 - Round16 UI: other tab Back preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1672.104792
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab Saved preserves this tab's missing 19:30 choice
+ok 15 - Round16 UI: other tab Saved preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1631.731542
+  type: 'test'
+  ...
+# Subtest: Round16 UI: other tab Find more preserves this tab's missing 19:30 choice
+ok 16 - Round16 UI: other tab Find more preserves this tab's missing 19:30 choice
+  ---
+  duration_ms: 1743.252042
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop Handoff SSE distinguishes changed conditions from another tab's slot
+ok 17 - Round17 UI: desktop Handoff SSE distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1950.437334
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop Handoff reload distinguishes changed conditions from another tab's slot
+ok 18 - Round17 UI: desktop Handoff reload distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1967.475667
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop Handoff same-revision choice distinguishes changed conditions from another tab's slot
+ok 19 - Round17 UI: desktop Handoff same-revision choice distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1636.880625
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile Handoff SSE distinguishes changed conditions from another tab's slot
+ok 20 - Round17 UI: mobile Handoff SSE distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1301.964542
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile Handoff reload distinguishes changed conditions from another tab's slot
+ok 21 - Round17 UI: mobile Handoff reload distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1344.667459
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile Handoff same-revision choice distinguishes changed conditions from another tab's slot
+ok 22 - Round17 UI: mobile Handoff same-revision choice distinguishes changed conditions from another tab's slot
+  ---
+  duration_ms: 1253.485875
+  type: 'test'
+  ...
+# Subtest: Round17 UI: desktop superseded semantic edit returns 409 and keeps its draft
+ok 23 - Round17 UI: desktop superseded semantic edit returns 409 and keeps its draft
+  ---
+  duration_ms: 1342.805333
+  type: 'test'
+  ...
+# Subtest: Round17 UI: mobile superseded semantic edit returns 409 and keeps its draft
+ok 24 - Round17 UI: mobile superseded semantic edit returns 409 and keeps its draft
+  ---
+  duration_ms: 1048.77875
+  type: 'test'
+  ...
+# Subtest: Round18 UI: desktop explicit next restaurant change clears reconfirmation and own card edit stays ordinary
+ok 25 - Round18 UI: desktop explicit next restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 1426.413417
+  type: 'test'
+  ...
+# Subtest: Round18 UI: desktop explicit Saved restaurant change clears reconfirmation and own card edit stays ordinary
+ok 26 - Round18 UI: desktop explicit Saved restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 1631.888708
+  type: 'test'
+  ...
+# Subtest: Round18 UI: desktop explicit own edit restaurant change clears reconfirmation and own card edit stays ordinary
+ok 27 - Round18 UI: desktop explicit own edit restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 1424.448292
+  type: 'test'
+  ...
+# Subtest: Round18 UI: mobile explicit next restaurant change clears reconfirmation and own card edit stays ordinary
+ok 28 - Round18 UI: mobile explicit next restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 1214.188
+  type: 'test'
+  ...
+# Subtest: Round18 UI: mobile explicit Saved restaurant change clears reconfirmation and own card edit stays ordinary
+ok 29 - Round18 UI: mobile explicit Saved restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 1328.495542
+  type: 'test'
+  ...
+# Subtest: Round18 UI: mobile explicit own edit restaurant change clears reconfirmation and own card edit stays ordinary
+ok 30 - Round18 UI: mobile explicit own edit restaurant change clears reconfirmation and own card edit stays ordinary
+  ---
+  duration_ms: 1247.657167
+  type: 'test'
+  ...
+# Subtest: Round18 UI: desktop delayed version0 Stop cannot cancel a replacement version0 preparation
+ok 31 - Round18 UI: desktop delayed version0 Stop cannot cancel a replacement version0 preparation
+  ---
+  duration_ms: 1572.012042
+  type: 'test'
+  ...
+# Subtest: Round18 UI: mobile delayed version0 Stop cannot cancel a replacement version0 preparation
+ok 32 - Round18 UI: mobile delayed version0 Stop cannot cancel a replacement version0 preparation
+  ---
+  duration_ms: 1149.160291
+  type: 'test'
+  ...
+1..32
+# tests 32
+# suites 0
+# pass 32
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 47824.7455

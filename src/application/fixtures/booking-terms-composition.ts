@@ -154,10 +154,10 @@ export async function bookingTermsComposition(options:Options={}){
     }else if(continuity&&request.purpose==="restaurant_party_size_supplement"){
       rawOutput=realD6.get(10)!;body=JSON.parse(rawOutput);
     }else if(request.purpose==="restaurant_semantic_interpret"){
-      const raw=JSON.parse(request.messages.find(m=>m.role==="user")!.content.slice("User restaurant message as JSON string: ".length));
+      const raw=JSON.parse(request.messages.find(m=>m.role==="user")!.content.slice("User restaurant message as JSON string: ".length)) as string;
       body={schemaVersion:"4",facts:[
         {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:"AVAILABILITY",query:turn==="INITIAL"?"restaurant in Shibuya":source.outlet.name,selectionScope:turn==="INITIAL"?"OPEN_ENDED":"SPECIFIC_OUTLET",...(turn==="INITIAL"?{requestedResultCount:1}:{}),goalBasis:{type:"BOOKING_WORDING",reason:"Constructed explicit restaurant selection",quotes:[raw]}}},
-        {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:source.date,raw:"November 11, 2026"}},
+        ...(raw.includes("November 11, 2026") ? [{field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:source.date,raw:"November 11, 2026"}}] : []),
         {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:00",raw:"7 PM"}},
         {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2,source:"EXPLICIT"}},
         {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Shibuya"}}]};
@@ -341,7 +341,7 @@ if(options.namedWithoutArea){
     async party(){if(continuity)clock.advance(1000);turn="ADD_PARTY";await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"party:"+version,expectedVersion:version,message:continuity?continuity.messages[2]:source.partyReply}));return project();},
     async others(){assert.ok(continuity);clock.advance(1000);turn="OTHERS";await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"others:"+version,expectedVersion:version,message:"Please show me two other nearby restaurants for the same date and guests."}));return project();},
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
-    project,omitTerms(){omit=true;},async cancel(){return app.cancelCase("terms-user",caseId);},
+    project,omitTerms(){omit=true;},async cancel(){const view=await project();return app.cancelCase("terms-user",caseId,{readRunId:view.restaurant.sourceReadContext!.runId,expectedVersion:view.case.taskVersion});},
     async close(){await app.stopActiveReads();await db.close();if(folder)await rm(folder,{recursive:true,force:true});},
     artifact:async()=>{const raw=await app.getCase("terms-user",caseId),prepared=assembly.bookingHandoffs.readPrepared(raw);return {requests,sourceCalls,sourcePages,googleWires,browserDiagnostics,
       view:withBookingHandoffs(raw,prepared,clock.now().toISOString()),prepared,timeline,run:counted.usage(caseId),execution:await app.exportReadArtifact(caseId),realCalls:0};},

@@ -39,6 +39,7 @@ import { startDiagnosticRun } from "../../shared/diagnostic-run.js";
 import { compileRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-compiler.js";
 import type { RestaurantIntentDraft } from "../../../domains/restaurant/contracts.js";
 import { applyRestaurantIntentPatch } from "../../../domains/restaurant/intent-state.js";
+import { materializeRestaurantTemporalFacts } from "../../../domains/restaurant/temporal-materialization.js";
 import { validateRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-proposal.js";
 import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { snapshotRecord } from "./runners/browser-case-slice-evidence.js";
@@ -2244,4 +2245,42 @@ test('independent native GET audit binds actual form data and authority rather t
  for(const patch of [{method:'POST'},{matches:2}])assert.equal(audit(patch).status,'PRESENT');
  assert.equal(audit({documentOrigin:'https://other.example'}).status,'NOT_EVALUATED');
  assert.equal(auditReadOnlyTrace([{kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}}] as any,[request],false).status,'NOT_EVALUATED','a production receipt alone is insufficient');
+});
+
+test("independent hours oracle accepts the actual materialized AFTER_WORK broad window", () => {
+  const request = materializeRestaurantTemporalFacts({
+    date: { kind: "DATE", value: "2026-11-20", raw: "2026-11-20" },
+    timeWindow: { kind: "TIME_WINDOW", daypart: "AFTER_WORK", raw: "after work" },
+    referenceTime: "2026-11-18T03:52:25.365Z", timezone: "Asia/Tokyo",
+  });
+  assert.deepEqual(request.timeWindow, { earliest: "17:30", latest: "22:00" });
+  assert.equal(request.temporalResolution?.timeWindow?.basis, "DAYPART:AFTER_WORK_BROAD_WINDOW");
+  assert.equal(evaluateSourceOpeningHours(["Friday: 11:00 AM – 8:00 PM"], request.date!,
+    request.timeWindow!, "Asia/Tokyo", request.temporalResolution?.timeWindow?.basis), "OPEN");
+});
+
+test("independent hours oracle retains explicit-window strictness and accepts only a single positive DAYPART intersection", () => {
+  const hours = ["Friday: 11:00 AM – 10:00 PM"], window = { earliest: "18:00", latest: "23:00" };
+  assert.equal(evaluateSourceOpeningHours(hours, "2026-11-20", window, "Asia/Tokyo"), "CLOSED");
+  assert.equal(evaluateSourceOpeningHours(hours, "2026-11-20", window, "Asia/Tokyo", "DAYPART:EVENING"), "OPEN");
+  assert.equal(evaluateSourceOpeningHours(["Friday: 11:00 AM – 6:00 PM"], "2026-11-20", window, "Asia/Tokyo", "DAYPART:EVENING"), "CLOSED");
+});
+
+test("recorded MIRAI DAYPART counterfactual is independently checked without an opening-hours conflict", async () => {
+  const recorded = JSON.parse(await readFile(new URL("../../../harness/fixtures/daypart-mirai-recorded.json", import.meta.url), "utf8"));
+  const state = recorded.state, id = state.candidates[0].restaurant.id;
+  // Explicit expected counterfactual, independently verified from the unmodified recorded source hours.
+  for (const fact of state.readEvidence.filter((e: any) => e.kind === "RESTAURANT_FACT" && e.provider === "GOOGLE_PLACES")) {
+    assert.equal(evaluateSourceOpeningHours(fact.claims.regularOpeningHours, state.intentDraft.date, state.intentDraft.timeWindow, "Asia/Tokyo", state.intentDraft.temporalResolution.timeWindow.basis), "OPEN");
+    fact.claims.openingHoursMatch = true; fact.claims.openingHoursMatchedWindow = ["18:00", "22:00"];
+  }
+  state.phase = "PRESENT_RESULTS";
+  state.presentedResults = { candidateIds: [id], evidenceIds: state.readEvidence.map((e: any) => e.evidenceId), presentedAt: recorded.provenance.clock, conditionStates: {} };
+  const artifact = { ...completeArtifact(), caseId: "recorded-mirai-daypart-counterfactual", finishedAt: recorded.provenance.clock,
+    materializedCase: { semantic: recorded.semantic }, finalSnapshot: { domainState: state }, trajectories: [], diagnostics: {} };
+  const result = evaluateRestaurantHybridLiveArtifact(artifact, { path: recorded.provenance.source, sha256: recorded.provenance.sourceSHA256 });
+  assert.doesNotMatch(JSON.stringify(result.findings), /opening-hours conclusion conflicts|independently parseable source opening hours|applicable opening-hours fact/);
+  // Negative control proves this full evaluator path actually inspects the same hours.
+  delete state.intentDraft.temporalResolution.timeWindow;
+  assert.match(JSON.stringify(evaluateRestaurantHybridLiveArtifact(artifact, source).findings), /opening-hours conclusion conflicts/);
 });

@@ -1,0 +1,17 @@
+node:internal/fs/promises:640
+  return new FileHandle(await PromisePrototypeThen(
+                        ^
+
+Error: ENOENT: no such file or directory, open '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-D02-reviewed-recovery-cv5wdS/D02/execution.result.json'
+    at async open (node:internal/fs/promises:640:25)
+    at async readFile (node:internal/fs/promises:1277:14)
+    at async supplementRecordedQualification (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/recorded-qualification.ts:13:29)
+    at async reviewHoldoutAttempt (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/holdout-review.ts:95:9)
+    at async <anonymous> (/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/heldout-r2-preparation-20261110/review-D02.ts:11:14) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-D02-reviewed-recovery-cv5wdS/D02/execution.result.json'
+}
+
+Node.js v24.4.1

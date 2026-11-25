@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.33
-- Last updated: 2026-11-03
+- Document revision: 0.41
+- Last updated: 2026-11-21
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Visual Direction](VISUAL-DIRECTION.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -158,7 +158,7 @@ Independent review of the original 102 model answers was reported by the user: z
 
 ## G5 B1 approved follow-up
 
-Current source-bound slot → two server URL checks → explicit Book/Continue click → persist Case departure → user-owned source tab. On return/focus or reload, atomically claim at most one feedback prompt per Case; respond Yes/No/Skip without follow-ups. Duplicate requests, unanswered prompts and restarts do not re-ask; only USER_REPORTED feedback changes, not booking state. Cancellation conflicts show Japanese and English originals with their paraphrases/citations and ask the user to confirm on the website. The first TableCheck Live must be checked by the user for actual date/time/guests, with num_people and encoded start_time=19%3A00; this is a checklist, not run evidence. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
+Current source-bound slot → two server URL checks → explicit Book/Continue click → persist Case departure → user-owned source tab. On return/focus or reload, atomically claim the latest explicit departure once under [ADR-0054](../decisions/0054-per-departure-booking-feedback-prompt.md). Two departures before returning yield only the latest prompt. Another Continue can produce another prompt in the same Case. Yes, No and Skip are optional USER_REPORTED feedback with no follow-up or change to booking status. Refresh and restart keep previously claimed prompts closed. Cancellation conflicts show Japanese and English originals with their paraphrases/citations and ask the user to confirm on the website. The first TableCheck Live must be checked by the user for actual date/time/guests, with num_people and encoded start_time=19%3A00; this is a checklist, not run evidence. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
 
 
 ## B1 G3 wiring preparation branch (2026-10-30 CET)
@@ -194,3 +194,162 @@ If the user books a displayed restaurant and then supplies the party size or ano
 ## 2026-11-03 near-name branch investigation (offline implementation candidate)
 
 For an explicit full outlet name with multiple possible branches, Praxis can investigate the first three in source order within the current read's budget. One full source name match after all three identity checks permits the existing availability → presentation → B1 flow; zero/multiple matches keep the clarification prompt. The remaining candidates are not alternatives offered without user agreement. Selected-outlet policy capture observes bounded page readiness before asking the two G1 questions. Missing or unverified policy text stays absent; a still-valid B1 link is unaffected, with task/run-bound omission diagnostics available outside the user's Task State.
+
+## 来源分类对照（2026-11-11，工作分支候选）
+
+候选卡片并列显示Google及已核对来源页的当前分类原文和来源链接；两者不同也分别呈现，不合并成一个结论，不因此改变HARD资格判断。结果回复说明找到几家及来源时段，避免把内部状态名当作用户文案。当前只经本地Fixture浏览器验证，待种子前修复复核。
+
+
+## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
+
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+
+前端第一段已复核并快进合main4cbc521b，接通了本节的外壳、当前指代、逐家候选和B1呈现；本地Fixture两尺寸浏览器链路、五门禁与视觉证据见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.
+
+## 第2段：问答、条件、变化与收尾
+
+主输入框由视图确定路由：DETAILS发往已有单店questions接口并绑定当前展示候选；CANDIDATES/CONVERSATION发往需求消息。回答底部面板不重排当前卡片或清除草稿，外点/下滑收起。You asked按当前店显示持久事件已有的历史，最新在上，保留原引文与敏感确认；没有新增问答存储或修改G1执行规则。
+
+条件胶囊点击只聚焦预填Change <condition> to，按原消息链调整；只有明确来源标记的推测条件才带问号。新批完成后的removed/added、移除原因和不符合新条件的备选均来自服务端投影；移除和新增均0时隐藏整行，任一非0仍显示。不把搜索页数当需求版本，不从前端缓存或自由文本猜原因。
+
+翻过最后候选显示Any of these work?，Saved/Adjust为文字动作，Find more调用原another-batch，返回仍是最后候选。来源读取失败但有合格结果时继续展示，末尾短提示；模型理解失败保留输入，断线Reconnecting自动恢复，明确过期的交接调用原refresh。没有合格结果只写Nothing matched yet.，不能写附近没店/没有空位。
+
+按用户2026-10-30批准，TaskDefinition22→23（State24形状不变）：NO_VERIFIED_RESULT只有服务端证明池内尚未调查的候选或既有同条件搜索续接仍有工作，且必要条件齐全时，canContinue才为true，显示Find more；否则只显示Adjust。使用原NEXT_BATCH_REPLENISHMENT_REQUESTED，保留检查/游标/备选，不重新调查已失败或不合格的店；版本、requestId幂等、预算、Stop和迟到丢弃沿用原路径。全部来源失败不使用续查，Try again复用refresh和显式刷新事件，仅重查确认失败的候选，不跑语义。工作分支验证状态见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，不是Live能力。
+
+
+## 2026-11-11 CET 用户追加：条件原位修改
+
+当前胶囊点击后在原位编辑，最长30字符；Save/Enter确认、Cancel/Escape取消，实时显示字数。确认沿已有需求messages入口，详情视图中也不走G1；不向底部输入框写入修改提示或清除原草稿。替代旧历史“底部预填”交互，结构化修改事件仍draft，未新增。
+
+
+## 无变化的条件编辑与重申（2026-11-13）
+
+地点、日期、时间窗、人数胶囊均在原位编辑。Save/Enter时若规范化后的值未改变，收起编辑器并保留底部草稿，不发送消息；人数按数值比较（2与2.0相同）。实际改变仍经原有Change消息、语义编译和Runtime更新，再读取新条件下的结果；不新增结构化修改事件。
+
+服务端需求版本按应用patch后的完整草稿是否实际改变划分；草稿完全相同的重申保留现有展示集合及最近一次真实变更差异，不制造“所有餐厅不再匹配”。真实值、推测来源等元数据改变仍形成新版本；新条件确实无合格结果时，仍可显示原批次的移除项。备选与另一批流程继续按原合同处理。
+
+
+### Round-4 workspace refinement (2026-11-18, draft / not integrated)
+
+A Saved item remains clickable while its card is presented, including after availability expiry; booking refreshes evidence before handoff. Interrupted revised searches never claim that Saved places no longer match. Revised plan headings and My plans reflect current structured conditions. Main progress, empty/error notices and search messages appear only with candidate browsing; changing requirements hides old messages immediately. About owns full condition quotations, source links and Read at timestamps; cards show concise conclusions. Each Q&A answer uses one Source disclosure preserving every quotation and observation time, with source-page URLs deduplicated. Adjust focuses the composer with temporary guidance without moving the page or clearing a draft.
+
+
+## 2026-11-18 — Refresh and result explanations
+
+Draft / not integrated. About shows refresh only for PRESENT_RESULTS. An active/blocked refresh is disabled with Refreshing… feedback, retaining current photos and unsent text. The batch label is Refresh availability when retrying source failures, any shown outlet has offers/AVAILABLE, or the goal is AVAILABILITY; an entirely fact-only recommendation batch uses Refresh details. Active work stays in About/Handoff. Inactive failure, no verified results or removal of the current outlet returns to the main workspace and closes answer/photo overlays.
+
+Card availability is explicitly Availability not checked (or Availability expired), independent of condition evidence. Conditions use Confirmed / Not a match / Unverified with name left and status right, and the same words in About. Generic bar/pub/izakaya and retail categories cannot establish serves beer: new assessment needs explicit merchant/menu prose or an explicitly beer-serving dining category. Stored historical presentedResults.conditionStates are not rewritten; the historical Mikkeller Case therefore still projects Confirmed.
+
+The first actual delivery has no change summary, including after NEEDS_INPUT. Later diffs hide each zero side. An added-only N new is static, without an empty removal disclosure. Real completed empty revisions still form the next comparison baseline.
+
+### 2026-11-19 — Round 8 workspace feedback
+
+My plans orders cases by latest activity and names progress, ready, clarification, no results, stopped and failed states. While an eligible card is visible, the progress message and Stop searching control stay together. Partial source failures appear at the batch end.
+
+Cards omit unverified preferences. About keeps their evidence and status, and the card still shows unverified hard conditions. If the browser blocks the booking tab, the user sees the popup message before any departure is saved.
+
+### 2026-11-19 — Round 9 workspace feedback
+
+A clarification shows the latest user message beside the current question, starting with the request that first needs clarification. On mobile, the stop notice fits above the fixed composer when a ready card is retained.
+
+When the request cannot be parsed, saved restaurants remain visible and their rows cannot reopen the previous results. A stopped card can open a current booking handoff. When its availability expires, the refresh action follows the current Case permissions, and Handoff can still show a safe source link when one is available.
+
+
+### 2026-11-19 — Round 10 workspace behavior
+
+My plans updates in the background while a different plan is open. The composer keeps a separate unsent draft per plan while the page is open. Nearby requests without coordinates offer device location and accept a typed station, address or district if permission is denied.
+
+For the same restaurant and plan revision, availability updates from the card, About, Handoff or another tab keep the chosen date, time and party size when a current offer matches. If fresh inventory has different times, the card requires a new choice. Handoff returns to the card in that case, even if a refresh completed after Back. Saved keeps a qualified restaurant from a later batch without a mismatch label.
+
+### 2026-11-19 — Round 11 workspace closure
+
+If a refreshed booking time disappears and new times are available, the card requires an explicit time selection before booking can continue. The workspace brings its error notice above the fixed composer. After a confirmed departure, its source tab can finish opening while the user switches plans. A claimed booking feedback prompt stays with its original plan while the page is open. It can still be answered after switching back to that plan. Reloading or reopening the page never repeats a claimed prompt. A delayed Stop affects only the read shown when it was pressed. If that read has already finished, the latest Case remains visible.
+
+
+## 2026-11-20 — Tab-local time choices and changed plan conditions
+
+User decision; work-branch implementation and offline evidence are recorded in STATUS. An explicit time choice belongs to one browser tab, authenticated user, plan, requirement revision and restaurant. sessionStorage stores the chosen date/time/party separately from page position. Another tab choosing a different slot, browsing, Back, Saved or Find more does not overwrite that choice. If B merely chooses 19:00 under the same plan revision, A remains on its own 19:30 Handoff. Shared localStorage choice synchronization is not used.
+
+Authoritative plan conditions remain shared. A new requirementRevision (guests, date, time, area or other plan conditions) cancels pending Handoff preparation and clears this tab's old selected-slot projection. An already open Handoff immediately returns to Candidates with “Plan conditions changed. Confirm the time again.” The user must explicitly confirm the new conditions/time before opening another Handoff; the old page cannot silently become a departure for the new first offer. Saved page position carries its requirement revision: reload or plan restoration rejects an old-revision Handoff too. Same-revision refresh and offer-ID replacement preserve this tab's still-valid explicit time; a disappeared time keeps the existing reselection lock.
+
+Concurrent uncommitted message edits are not acknowledged as accepted. The displaced request returns 409 with the current task version; the workspace synchronizes the latest plan, keeps that tab's rejected message text and shows the conflict. Explicit Stop remains cancellation, with zero subsequent source work after a stopped preparation. A current Stop may reference the newly persisted read identity before preparation has received that identity back; a genuinely obsolete Stop still cannot cancel a replacement read.
+
+
+## 2026-11-21 — Persistent reconfirmation and exact Stop ownership
+
+Time intent is tab-local and has three states: ordinary browsing with no explicit choice, SELECTED date/time/party, and RECONFIRM. Exiting an old Handoff because plan conditions changed writes RECONFIRM under one user / plan key in sessionStorage. Searching/result frames, passive navigation, missed later condition revisions and any reload keep it until explicitly resolved. SELECTED remains scoped by user / plan / revision / restaurant. No time is highlighted, Let's book is disabled and “Plan conditions changed. Confirm the time again.” stays inside the slot area. A transient error notice or page position is not the authority for this lock. Explicitly clicking a time records SELECTED and removes the lock; deliberately choosing another restaurant via paging or Saved clears it. A successful condition edit submitted from this tab's Candidates page starts ordinary browsing under the new revision. Another tab's choice in the same revision still cannot change this tab's selected time or Handoff.
+
+Each cancellable read has a globally unique immutable handleId through semantic preparation, persistence and execution. Stop carries it beside the existing readRunId and taskVersion. A stale handle cannot cancel a replacement, even if both uncommitted preparations share version0 and the same readRunId. Without a registered cancellable owner, progress does not expose Stop. A committed semantic winner retains read ownership over an uncommitted contender. If Stop writes cancellation before that semantic dispatch, the cancelled request ends quietly with no source work; genuine competing input still conflicts instead of being silently dropped. This remains a read-only cancellation, never a cancellation of a real reservation.
+
+
+## 2026-11-21 — Unresolved Case reconfirmation across missed revisions (Round 19)
+
+RECONFIRM uses one tab-local user / plan key, independent of requirement revision and restaurant. It survives Candidates, About and Saved restoration, returning from another plan, missed remote condition edits and reload. The slot-area hint and booking lock remain until an explicit time click, a deliberate change to another restaurant, or a successful condition edit submitted from this tab's Candidates page advances the revision. Choosing the same Saved restaurant, About/Back, Find more, cancelled reads/questions, model failure, conflicts and logout/login do not resolve it. Other accounts/plans are isolated. Resolving the single key leaves no older revision lock to revive; normal browsing in a later revision can again use the first current time. No old revision-key compatibility path is used.
+
+
+## 2026-11-21 — Round20 stopped About and real progress
+
+About may ask a page question for a currently presented restaurant or an openable verified restaurant from an explicitly stopped search. Other failure/no-result/unknown-outcome states cannot ask. The same About page shows pending question text and Stop for its exact read handle. Preparation/active cancellation records a cancelled question without restarting the stopped search; answers and history survive reload. Saving after Stop remains disabled; unavailable refresh stays hidden. Search progress follows authoritative semantic/search events: Understanding before semantic commit, Request understood + Finding places before the first completed search, then Checking.
+
+
+## 2026-11-21 — Round20 revised search intent and result differences
+
+Removing/replacing criteria or changing area maintains an inherited OPEN_ENDED query deterministically: revoked terms/old area leave it, valid general intent remains, and the query stays nonempty. Explicit targets and named outlets are unchanged. General dinner discovery excludes dessert/takeaway light-food types unless the current request calls for them; named-outlet lookup retains its explicit exception. Google normal, named and detail admission use the same intent context. Change summaries compare with the last revision that actually searched/presented/ended empty, skipping clarification-only revisions but keeping a real empty search.
+
+
+## 2026-11-21 — Source reading groups and card hierarchy (Round20)
+
+Card sources show clean names/domains and only genuine category disagreements; About keeps original category wording and complete addresses. Availability and condition statuses form right-aligned columns; the batch end offers equal Adjust / Find more actions, with Saved in the header. Change summaries put new places before removals and clear obsolete disclosure contents.
+
+About, question history, answer sheet and Handoff group citations only when both URL and reading timestamp match. Each reading keeps its own Checked Tokyo date/time; originals and Handoff bilingual/context labels remain associated. About separates address, conditions, commercial text, categories and source footnotes. The answer sheet repeats the submitted question under the place header, has a close button plus retained mobile drag dismissal, and uses the same collapsible source groups. This is presentation of received evidence, not additional verification or new source access.
+
+
+## 2026-11-23 — Round23 UI presentation contract
+
+Draft / not integrated. About's single composer says Ask about <current restaurant>, including after blur or an accepted question; Candidates and Home have no placeholder. Adjust temporarily guides an empty focused composer until blur. Mobile focus/visualViewport changes keep the top bar, heading, conditions and composer within the visible viewport while preserving the About scroller and unsent draft. Chromium viewport simulations do not establish real-phone keyboard support.
+
+Reconnecting appears only after one continuous five-second native SSE CONNECTING interval. Repeated errors do not restart it; open, CLOSED or leaving the plan clears it. Events from a replaced connection cannot affect the current timer; sidebar synchronization remains independent. Removed-result names link only to the candidate's own high-confidence human-readable HTTPS evidence or its known website/Maps URL, never a Google API endpoint or low-confidence branch identity. Generic removal reasons are not repeated below names.
+
+About removes generic Google categories and synonymous duplicates while retaining original merchant category wording. Structured course amounts and commercial terms stay ordinary prose with their associated source URL and exact reading time; only actual source quotations enter blockquotes. Q&A alone omits a recognized smoking header when the same URL/readAt group also contains an explicit smoking value. Answer prose, unrelated fields, different readings, About conditions and Handoff terms remain unchanged.
+
+Horizontal image gestures flip photos in About and the viewer. About vertical scrolling, the next ordinary tap and all attribution links remain available; closing the viewer returns to About. Zero or unknown discovery count remains Finding places with no checking stage outside the existing preview. Landing-only light covers lower/edge regions in both WebGL and static fallback; the converged search orb retains its existing formulas and behavior. These are UI contracts only: Round22 independently reproduced backend defects remain pending a separate backend slice.
+
+
+## 2026-11-23 — Pending edits and exact source readings (Round 24)
+
+Editing a request while an About question is pending settles the old question only when the successor edit commits. Explicit outlet selection and guest provenance survive, and the subsequent read captures the same source-bound cancellation/card terms as an ordinary selection. A shortlist-only concurrent update does not cancel an already generated answer. Each overlapping edit has its own model budget; a rejected edit cannot replace the committed read's accounting.
+
+About quotes carry their own source evidence identity. A persisted quote without that identity displays a read time only when the candidate, source URL and supporting evidence identify one time. Ambiguous old quotes keep their verbatim text and source link without a guessed timestamp. Within one source reading, identical menu/price text appears once, retaining the observed-price label; structured terms without quotations keep their source footer. Removed-place links require their own HIGH identity or a same-provider, nonempty matching outlet identity, before falling back to a safe Google link.
+
+Q&A keeps the original answer text and removes a smoking-field header only beside an explicit smoking status in the same source reading, including parenthesized qualifiers. About keeps source originals. Photo gestures allow native pinch zoom and vertical scrolling; any multi-pointer gesture suppresses gallery paging until every pointer ends. Desktop image dragging pages the gallery without native drag-and-drop taking over. These are offline Chromium contracts; real phone pinch and keyboard behavior require separate acceptance.
+
+### Round25 read continuity and presentation (current implementation)
+
+A committed pending-question edit publishes its successor read handle before message writes or old-worker cleanup; newer edits/Stop use that exact owner and old Stop remains409. Tentative semantic work keeps its own budget but cannot replace the last committed exported ledger; refresh, batch and location publish normally. Independent drink deletion does not remove compound dishes or venue phrases. Soft condition quotes retain their actual merchant evidence IDs.
+
+Photo album/list transport interruptions stay recoverable rather than becoming ten-minute empty/failed images. The local proxy returns503 for transient transport failures and410 for permanent invalid/missing content; authenticated HEAD only reports the last local content status, with no upstream fetch. Reconnection retries only the current visible album, at most two retries per display entry; Google stays demand-loaded and website Lookahead1 remains. Complete Google recovery requires already acquired references and remaining media allowance (Details1/media20, website pages2/images10). Interrupted first Details cannot be reread from a spent allowance; website fallback may be available, without a promise of eight Google images. Budget exhaustion remains closed and successful cached images remain readable. Native device behavior is still pending.
+
+Round25 recovery refinement: a local proxy200 only establishes that the server obtained bytes; without a completed browser200, an interrupted browser download stays recoverable and retains the reference/count. Permanent invalid source bytes/types are rejected by the real adapter/decoder and mapped to410. A proxy200 means valid cached source bytes exist; an interrupted/once-corrupted browser transfer stays bounded and retryable without deleting that reference. The current album's two-retry ceiling still applies. Focus reveal is only for NEEDS_INPUT clarification, never a stopped-card status message.
+
+
+## Round 27 relative-day correction boundary
+
+Round 27 (free-text binding superseded by ADR-0053 below): Under ADR-0052, current-message explicit relative dates were bound before compilation. Today/tomorrow remain directives; day after tomorrow and bounded N-day offsets use the trusted Tokyo natural day. A missing or incorrectly calculated model DATE cannot retain an old plan date against an unambiguous current-message offset. Conflicting dates require clarification and cause no availability query. A time-only edit keeps the prior dining date. This does not add a general natural-language date parser or change booking authorization.
+
+
+## Round27 workspace presentation refinements
+
+Pure fact recommendations no longer expose Refresh details; presented availability and slot-capable recommendations keep Refresh availability. Re-search requests, including saving/removing capsules, hide a prior empty-state card immediately, including deferred SSE running snapshots; failure restores available retry/continue/adjust controls. Mobile editors occupy their own flow row and focused progress keeps the current read Stop accessible. A Stop test must cancel a known active read and observe stopped:true, rather than infer cancellation from HTTP200 alone. Source expansion does not move its summary within the history/sheet coordinate frame. Categories are suppressed only against a visible matching CATEGORY quotation; source-footnote-only categories keep their label text.
+
+### Round 28 date edits and booking presentation
+
+The calendar capsule uses the selected valid date. If the semantic response omits the date or confirms or rejects the old choice, the workspace asks for clarification and waits. Free text lets the model choose whether and which date to edit. Emitted dates pass a literal quote and consistency check using trusted Tokyo time. An ordinary Friday must match the full date resolved by the Tokyo materializer. Background travel and alternative dates remain semantic evaluation cases. See [ADR-0053](../decisions/0053-structured-date-edit-and-raw-consistency-guard.md).
+
+A single-channel booking handoff names the source on the departure button and keeps the verified prefill hints. About shows source quotes behind Source, with compact footers for groups that have no quote. The visible category summary omits only individual items already covered by visible condition rows. On mobile an open editor sits below the capsule buttons, and tapping a second capsule switches directly to its editor.
+
+### 2026-11-25 — About sources and workspace alerts
+
+About shows structured dinner and lunch budgets when available, course prices and known cancellation or no-show terms. Ordinary conditions and prices use a compact source link with the recorded check date. Source expands for a detailed original that differs from its visible summary. Identical readings from the same URL keep the latest check date. Readings with changed prices or terms retain their own provenance.
+
+On a requirement change, the candidate card carries any required slot-reconfirmation notice. Stop clears an earlier workspace error. Current errors align with the messages above the composer.

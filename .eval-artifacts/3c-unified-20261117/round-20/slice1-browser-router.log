@@ -1,0 +1,54 @@
+✔ Round20 UI: desktop stopped About supports preparation Stop, execution Stop, answer and reload (2227.377042ms)
+✔ Round20 UI: mobile stopped About supports preparation Stop, execution Stop, answer and reload (1366.640833ms)
+✖ Round20 UI: desktop semantic and discovery barriers project real progress through reconnect and Stop (1221.994667ms)
+✖ Round20 UI: mobile semantic and discovery barriers project real progress through reconnect and Stop (1010.610958ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6493.946917
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:76677
+✖ Round20 UI: desktop semantic and discovery barriers project real progress through reconnect and Stop (1221.994667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CHECKING'
+  - 'FINDING'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1406:11)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1399:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CHECKING',
+    expected: 'FINDING',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:76677
+✖ Round20 UI: mobile semantic and discovery barriers project real progress through reconnect and Stop (1010.610958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CHECKING'
+  - 'FINDING'
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1406:11)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1399:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CHECKING',
+    expected: 'FINDING',
+    operator: 'strictEqual'
+  }

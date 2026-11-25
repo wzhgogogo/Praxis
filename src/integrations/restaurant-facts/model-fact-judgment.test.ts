@@ -34,6 +34,37 @@ function model(output: unknown): ModelGateway {
   }) };
 }
 
+for (const format of ["bare", "GOOGLE_TYPE", "CATEGORY"] as const) for (const type of ["bar", "pub", "izakaya", "liquor store", "beer store", "restaurant", "point of interest", "brewpub", "beer bar", "beer hall", "beer garden", "beer restaurant"])
+  test(`beer service admission ${format}: ${type}`, async () => {
+    const raw:RestaurantReadEvidence={...sourceEvidence[0]!,sourceUrl:"https://venue.example/",claims:{restaurantTypeFacts:[type]},
+      ...(format!=="bare"?{sourceFieldQuotes:[{field:format,quote:type,sourceUrl:"https://venue.example/"}]}:{})};
+    const ordinary = ["brewpub","beer bar","beer hall","beer garden","beer restaurant"].includes(type);
+    const criteria = ["brewpub","beer bar"].includes(type)
+      ? ["serves beer","beer","ビール","啤酒","serves non-alcoholic beer","serves gluten-free beer"]
+      : ["serves beer"];
+    for (const criterion of criteria) {
+      const beerIntent = {...positiveIntent,criteria:[{text:criterion,polarity:"POSITIVE" as const,strength:"HARD" as const}]};
+      const result = await new ModelRestaurantFactJudgment(model({judgments:[{criterion,outcome:"SUPPORTED",scope:"RESTAURANT_CATEGORY_TYPE",evidenceIds:[raw.evidenceId]}]}))
+        .judge({candidate,intent:beerIntent,evidence:[raw]});
+      const expected = ordinary && !/non-alcoholic|gluten-free/.test(criterion) ? "MET" : "NOT_CHECKED";
+      assert.equal(assessRestaurantConditions(beerIntent,[raw,...result.evidence])[0]?.status,expected,criterion);
+      const previouslyJudged:RestaurantReadEvidence = {...raw,evidenceId:"judged",provider:"MODEL_JUDGMENT",claims:{
+        verifiedHardCriteria:[criterion],supportingEvidenceIds:[raw.evidenceId],
+      }};
+      assert.equal(assessRestaurantConditions(beerIntent,[raw,previouslyJudged])[0]?.status,expected,`previous judgment: ${criterion}`);
+    }
+  });
+
+for (const beer of ["beer","non-alcoholic beer","gluten-free beer"]) test(`explicit merchant source text supports ${beer}`, async()=>{
+  const quote = `We serve ${beer} with our meals.`;
+  const criterion = `serves ${beer}`;
+  const raw:RestaurantReadEvidence = {...sourceEvidence[0]!,provider:"RESTAURANT_WEBSITE",sourceUrl:"https://venue.example/menu",claims:{restaurantTypeFacts:[quote]},
+    sourceFieldQuotes:[{field:"SOURCE_TEXT",quote,sourceUrl:"https://venue.example/menu"}]};
+  const beerIntent = {...positiveIntent,criteria:[{text:criterion,polarity:"POSITIVE" as const,strength:"HARD" as const}]};
+  const result = await new ModelRestaurantFactJudgment(model({judgments:[{criterion,outcome:"SUPPORTED",scope:"OTHER",evidenceIds:[raw.evidenceId]}]})).judge({candidate,intent:beerIntent,evidence:[raw]});
+  assert.equal(assessRestaurantConditions(beerIntent,[raw,...result.evidence])[0]?.status,"MET");
+});
+
 for (const control of [
   { name: "observed name explicitly includes type", field: "NAME", quote: "Kaga Kaiseki", supported: true },
   { name: "name without requested type", field: "NAME", quote: "Kaga", supported: false },
@@ -230,7 +261,7 @@ test("a locality-cuisine UNKNOWN remains unverified while receiving authoritativ
     evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["Tokyo regional cuisine restaurant"] } }],
   });
   assert.deepEqual(result.evidence, []);
-  assert.equal(calls[0]?.promptVersion, "14");
+  assert.equal(calls[0]?.promptVersion, "15");
   assert.match(calls[0]?.messages[0]?.content ?? "", /direct textual entailment/i);
   assert.match(calls[0]?.messages[0]?.content ?? "", /destination's native culinary context/i);
   assert.match(calls[0]?.messages[0]?.content ?? "", /broader national or destination-compatible cuisine does not establish that narrower condition/i);

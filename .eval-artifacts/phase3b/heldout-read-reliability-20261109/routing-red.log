@@ -1,0 +1,24 @@
+✖ exposed01/02 recorded area candidates omit unevidenced TableCheck and retain the recorded avoided-cost denominator (2.494625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 118.295458
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/heldout-read-reliability.test.ts:1:319
+✖ exposed01/02 recorded area candidates omit unevidenced TableCheck and retain the recorded avoided-cost denominator (2.494625ms)
+  AssertionError [ERR_ASSERTION]: 01-r1-retry1 バル014 馬場ワイン食堂
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/heldout-read-reliability.test.ts:18:11)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

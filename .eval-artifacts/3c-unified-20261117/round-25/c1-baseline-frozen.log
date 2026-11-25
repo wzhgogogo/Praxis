@@ -1,0 +1,46 @@
+✖ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (1793.006458ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2072.790167
+
+✖ failing tests:
+
+test at src/harness/browser/cloudflare-cdp-isolation.test.ts:1:2612
+✖ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (1793.006458ms)
+  Error: HTTP host failed: /private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:463
+      throw new Error(message || "Assertion error");
+            ^
+  
+  Error: Duplicate target 4F0727EA808ADA59CDD62AA382ED59D3
+      at assert (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:463:11)
+      at _CRBrowser._onAttachedToTarget (/private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:38185:9)
+      at _CRSession.emit (node:events:507:28)
+      at /private/tmp/praxis-3c-unified/node_modules/playwright-core/lib/coreBundle.js:34805:18
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+  
+  Node.js v24.4.1
+  
+      at Object.read (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:11:836)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:13:241)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    [cause]: TypeError [Error]: fetch failed
+        at node:internal/deps/undici/undici:15422:13
+        at async Object.read (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:11:672)
+        at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:13:241)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+      [cause]: Error: read ECONNRESET
+          at TCP.onStreamRead (node:internal/stream_base_commons:216:20) {
+        errno: -54,
+        code: 'ECONNRESET',
+        syscall: 'read'
+      }
+    }
+  }

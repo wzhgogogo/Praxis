@@ -1,0 +1,422 @@
+{
+  "mode": "WEB_READ",
+  "caseId": "restaurant:3897d6b73c1b942e1ef58f1d",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@37",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@32"
+  },
+  "requestMetadata": {
+    "sha256": "5830e93b2e249e5b6e10384419acf3fe066bff77cf75e496658802f97bc13921"
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "schemaVersion": "1",
+  "runId": "c72f75ef-8c2c-4cbf-a492-5662d3a078e8",
+  "status": "CANCELLED",
+  "stage": "AGENT_LOOP",
+  "materializedCase": {
+    "semantic": {
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "sushi restaurants in Tokyo",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": {
+        "value": "2026-11-20"
+      },
+      "party_size": 6,
+      "party_size_source": "EXPLICIT",
+      "time": {
+        "start": "18:00",
+        "end": "23:00"
+      },
+      "location": {
+        "value": "Tokyo",
+        "relation": "NEAR"
+      },
+      "criteria": [
+        {
+          "value": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    }
+  },
+  "events": [
+    {
+      "id": "event:user:802533dd2f600e24606aeb0ef90fd1e0",
+      "taskId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "area": {
+            "query": "Tokyo"
+          },
+          "date": "2026-11-20",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "sushi restaurants in Tokyo",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 6,
+          "timeWindow": {
+            "latest": "23:00",
+            "earliest": "18:00"
+          },
+          "addCriteria": [
+            {
+              "text": "sushi",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "schemaVersion": "3",
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "WEEKDAY:FRIDAY",
+              "expression": "friday",
+              "resolvedDate": "2026-11-20"
+            },
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "basis": "DAYPART:EVENING",
+              "expression": "evening",
+              "resolvedTimeWindow": {
+                "latest": "23:00",
+                "earliest": "18:00"
+              }
+            },
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-18T03:48:36.022Z"
+          }
+        },
+        "partySizeSourceMessageRequestId": "user:5603d486-03a3-4e59-97d0-d7ed8dd0014f"
+      },
+      "occurredAt": "2026-11-18T03:48:40.026Z",
+      "trace": {
+        "actor": "USER",
+        "runId": "run:restaurant:3897d6b73c1b942e1ef58f1d",
+        "correlationId": "event:user:802533dd2f600e24606aeb0ef90fd1e0",
+        "schemaVersion": "1"
+      }
+    },
+    {
+      "id": "event:restaurant-agent:9f7eba3f-a2cb-4c6e-9276-b6d257c3b391",
+      "taskId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "event": {
+        "type": "AGENT_LOOP_TERMINATED",
+        "reason": "The user changed the request, so the earlier read-only investigation was cancelled.",
+        "reasonCode": "AGENT_LOOP_CANCELLED",
+        "termination": "CANCELLED"
+      },
+      "occurredAt": "2026-11-18T03:49:03.548Z",
+      "trace": {
+        "actor": "SYSTEM",
+        "runId": "run:restaurant:3897d6b73c1b942e1ef58f1d",
+        "correlationId": "event:restaurant-agent:9f7eba3f-a2cb-4c6e-9276-b6d257c3b391",
+        "schemaVersion": "1"
+      }
+    }
+  ],
+  "trajectories": [
+    {
+      "id": "trajectory:restaurant:3897d6b73c1b942e1ef58f1d:1",
+      "taskId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "stepNumber": 1,
+      "occurredAt": "2026-11-18T03:48:42.283Z",
+      "stateVersionBefore": 1,
+      "stateHashBefore": "b7cd5a21806eb128ad7f32c56234b69c5e0371ce0576a841911c646752f2011f",
+      "causalRefs": {
+        "eventIds": [
+          "event:restaurant-agent:9f7eba3f-a2cb-4c6e-9276-b6d257c3b391"
+        ],
+        "attemptIds": [],
+        "commandIds": [],
+        "evidenceIds": []
+      },
+      "capabilities": [
+        {
+          "name": "ANSWER_PAGE_QUESTION",
+          "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+          "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+          "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+          "importantConstraints": [
+            "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+          ]
+        },
+        {
+          "name": "ASK_USER",
+          "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+          "inputSchema": "question, optional relatedFields",
+          "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+          "importantConstraints": [
+            "Do not claim a booking or availability result."
+          ]
+        },
+        {
+          "name": "SEARCH_RESTAURANTS",
+          "purpose": "Discover matching restaurant outlets.",
+          "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+          "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+          "importantConstraints": [
+            "Cannot modify, repeat, or loosen authoritative user constraints."
+          ]
+        },
+        {
+          "name": "INVESTIGATE_CANDIDATE_FACTS",
+          "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+          "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+          "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+          "importantConstraints": [
+            "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+          ]
+        },
+        {
+          "name": "CHECK_AVAILABILITY",
+          "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+          "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+          "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+          "importantConstraints": [
+            "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+          ]
+        },
+        {
+          "name": "END_READ",
+          "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+          "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+          "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+          "importantConstraints": [
+            "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+          ]
+        },
+        {
+          "name": "PRESENT_RESULTS",
+          "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+          "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+          "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+          "importantConstraints": [
+            "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+          ]
+        },
+        {
+          "name": "SELECT_CANDIDATE",
+          "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+          "inputSchema": "candidateId, optional offerId",
+          "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+          "importantConstraints": [
+            "A selected offer must belong to the selected candidate."
+          ]
+        },
+        {
+          "name": "BOOK_RESERVATION",
+          "purpose": "Request a booking proposal for one selected fresh offer.",
+          "inputSchema": "candidateId, offerId",
+          "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+          "importantConstraints": [
+            "Cannot authorize, commit, or claim success."
+          ]
+        }
+      ],
+      "contextSchemaVersion": "17",
+      "decisionContext": {
+        "now": "2026-11-18T03:48:40.037Z",
+        "phase": "UNDERSTANDING",
+        "candidates": [],
+        "readBudget": {
+          "remainingMs": 495983,
+          "conclusionReserveMs": 20000
+        },
+        "intentDraft": {
+          "area": {
+            "query": "Tokyo"
+          },
+          "date": "2026-11-20",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "sushi restaurants in Tokyo",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "criteria": [
+            {
+              "text": "sushi",
+              "polarity": "POSITIVE",
+              "strength": "HARD"
+            }
+          ],
+          "timezone": "Asia/Tokyo",
+          "partySize": 6,
+          "timeWindow": {
+            "latest": "23:00",
+            "earliest": "18:00"
+          },
+          "schemaVersion": "3",
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "WEEKDAY:FRIDAY",
+              "expression": "friday",
+              "resolvedDate": "2026-11-20"
+            },
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "basis": "DAYPART:EVENING",
+              "expression": "evening",
+              "resolvedTimeWindow": {
+                "latest": "23:00",
+                "earliest": "18:00"
+              }
+            },
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-18T03:48:36.022Z"
+          }
+        },
+        "availability": {},
+        "legalActions": {
+          "search": true,
+          "endRead": false,
+          "presentResults": [],
+          "checkAvailability": [],
+          "answerPageQuestion": false,
+          "investigateCandidateFacts": []
+        },
+        "presentation": [],
+        "schemaVersion": "17",
+        "readCompletion": {
+          "reason": "No actual source investigation is recorded",
+          "allowed": false,
+          "investigationRecorded": false,
+          "unresolvedCandidateIds": []
+        },
+        "availabilityChecks": {},
+        "searchAvailability": {
+          "available": true
+        },
+        "missingBlockingFields": []
+      },
+      "stateVersionAfter": 2,
+      "stateHashAfter": "07a10031db7d1e7e4b7786e3e34a0246032f1f20eaca13d86560ceb16fd6586c",
+      "stepOutcome": "CANCELLED"
+    }
+  ],
+  "finalSnapshot": {
+    "id": "restaurant:3897d6b73c1b942e1ef58f1d",
+    "runId": "run:restaurant:3897d6b73c1b942e1ef58f1d",
+    "taskType": "restaurant.booking",
+    "definitionVersion": "24",
+    "lifecycleState": "FAILED",
+    "domainState": {
+      "phase": "FAILED",
+      "failure": {
+        "code": "AGENT_LOOP_CANCELLED",
+        "message": "The user changed the request, so the earlier read-only investigation was cancelled."
+      },
+      "candidates": [],
+      "factChecks": {},
+      "intentDraft": {
+        "area": {
+          "query": "Tokyo"
+        },
+        "date": "2026-11-20",
+        "target": {
+          "goal": "RECOMMENDATION",
+          "query": "sushi restaurants in Tokyo",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "criteria": [
+          {
+            "text": "sushi",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "timezone": "Asia/Tokyo",
+        "partySize": 6,
+        "timeWindow": {
+          "latest": "23:00",
+          "earliest": "18:00"
+        },
+        "schemaVersion": "3",
+        "partySizeSource": "EXPLICIT",
+        "temporalResolution": {
+          "date": {
+            "basis": "WEEKDAY:FRIDAY",
+            "expression": "friday",
+            "resolvedDate": "2026-11-20"
+          },
+          "timezone": "Asia/Tokyo",
+          "timeWindow": {
+            "basis": "DAYPART:EVENING",
+            "expression": "evening",
+            "resolvedTimeWindow": {
+              "latest": "23:00",
+              "earliest": "18:00"
+            }
+          },
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-11-18T03:48:36.022Z"
+        }
+      },
+      "availability": {},
+      "readEvidence": [],
+      "schemaVersion": "25",
+      "searchRevision": 0,
+      "availabilityChecks": {},
+      "investigationRevision": 1
+    },
+    "outcome": {
+      "reason": "The user changed the request, so the earlier read-only investigation was cancelled.",
+      "status": "FAILED"
+    },
+    "version": 2,
+    "createdAt": "2026-11-18T03:48:36.015Z",
+    "updatedAt": "2026-11-18T03:49:03.548Z"
+  },
+  "loop": {
+    "status": "CANCELLED"
+  },
+  "resourceUsage": {
+    "elapsedMs": 27554,
+    "agentDecisions": 0,
+    "modelCallsStarted": 6
+  },
+  "resourceAccounting": {
+    "browserModelCalls": "UNKNOWN",
+    "cost": "UNKNOWN"
+  },
+  "bookingTermsDiagnostics": [
+    {
+      "at": "2026-11-18T03:49:03.571Z",
+      "rootTaskId": "restaurant:3897d6b73c1b942e1ef58f1d",
+      "readRunId": "run:restaurant:3897d6b73c1b942e1ef58f1d:investigation:1",
+      "reason": "NOT_SELECTED"
+    }
+  ],
+  "limits": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 100,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 90000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "startedAt": "2026-11-18T03:49:03.574Z",
+  "finishedAt": "2026-11-18T03:49:03.574Z"
+}

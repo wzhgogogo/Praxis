@@ -66,7 +66,18 @@ export async function reviewHoldoutAttempt(attempt:HoldoutAttempt,option:Holdout
  if(document.schema!=='phase3b-holdout-review@1'||document.attemptKey!==attempt.key||Object.keys(document).some(k=>!['schema','attemptKey','annotations'].includes(k))
   ||!document.annotations||typeof document.annotations!=='object'||Array.isArray(document.annotations)||Object.keys(document.annotations).some(k=>!['qualificationOracles','questions','priceOracles'].includes(k)))throw Error('HOLDOUT_REVIEW_INVALID');
  if(!attempt.review){attempt.review={file,sha256,evidenceSHA256:await evidenceHash(slot)};await save();}
- const prior=await checkSavedReview(attempt);if(prior)return prior;
+ const finish=async(evaluation:G6Evaluation)=>{
+  // A late review updates the entire development G6 batch, including slots
+  // completed after this one. The immutable original evaluation is untouched.
+  const path=join(attempt.path,'batch.json'),batch=await readJSON<{schemaVersion:string;status?:string;stopReason:string|null;pendingReviewCount?:number;passRateReportable?:boolean;slots:Array<{id:string;status:string}>}>(path);
+  if(batch?.schemaVersion==='phase3b-g6-batch@1'){
+   if(evaluation.verdict.s0){batch.status='FAILED_S0';batch.stopReason='S0_STOP';}
+   else if(!evaluation.verdict.stopBatch&&evaluation.verdict.status==='EVALUATED'){const slot=batch.slots.find(r=>r.id===attempt.key);if(slot)slot.status='EVALUATED_BY_REVIEW';if(batch.stopReason==='INDEPENDENT_EVIDENCE_REVIEW_REQUIRED'&&!batch.slots.some(r=>r.status==='STOPPED'))batch.stopReason=null;}
+   batch.pendingReviewCount=batch.slots.filter(r=>r.status==='PENDING_REVIEW').length;batch.passRateReportable=batch.pendingReviewCount===0&&batch.status!=='FAILED_S0'&&!batch.stopReason&&batch.slots.every(r=>['EVALUATED','EVALUATED_BY_REVIEW'].includes(r.status));await atomicJSON(path,transform(batch));
+  }
+  return evaluation;
+ };
+ const prior=await checkSavedReview(attempt);if(prior)return finish(prior);
  const original=await readJSON<G6Evaluation>(join(slot,'evaluation.json'));
  if(original?.verdict.s0)throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
  let input=await readJSON<G6EvaluationInput>(join(slot,original?'evaluation.input.json':'failure.evaluation.input.json'));
@@ -88,5 +99,5 @@ export async function reviewHoldoutAttempt(attempt:HoldoutAttempt,option:Holdout
  const output=join(slot,'evaluation.supplement.json'),outputBytes=JSON.stringify(transform(evaluation),null,2)+'\n';
  attempt.review.evaluationSHA256=holdoutHash(outputBytes);await save();
  await writeFile(output,outputBytes,{flag:'wx',mode:0o600});
- return evaluation;
+ return finish(evaluation);
 }

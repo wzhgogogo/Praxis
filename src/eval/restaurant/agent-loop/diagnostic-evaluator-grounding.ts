@@ -45,7 +45,7 @@ export function loadPostDeliveryTabelogObservation(metadataPath: string, bodyPat
 /** Independent minimal English weekly-hours grammar. Unsupported prose is UNKNOWN.
  * This intentionally does not infer previous-day overnight carry or merge split shifts.
  */
-export function evaluateSourceOpeningHours(lines: string[], date: string, window: { earliest: string; latest: string }, timezone: string): "OPEN" | "CLOSED" | "UNKNOWN" {
+export function evaluateSourceOpeningHours(lines: string[], date: string, window: { earliest: string; latest: string }, timezone: string, timeWindowBasis?: string): "OPEN" | "CLOSED" | "UNKNOWN" {
   try { new Intl.DateTimeFormat("en", { timeZone: timezone }); } catch { return "UNKNOWN"; }
   const day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][new Date(`${date}T12:00:00Z`).getUTCDay()];
   const entries = lines.filter(line => line.split(":", 1)[0]?.trim().toLowerCase() === day?.toLowerCase());
@@ -64,8 +64,11 @@ export function evaluateSourceOpeningHours(lines: string[], date: string, window
   const start = minute(window.earliest), end = minute(window.latest);
   if (start === undefined || end === undefined || start > end) return "UNKNOWN";
   const ranges = value.split(/\s*[,;]\s*/).map(range => range.split(/\s*[–-]\s*/).map(minute));
-  if (ranges.some(range => range.length !== 2 || range.some(value => value === undefined) || range[0]! >= range[1]!)) return "UNKNOWN";
-  return ranges.some(([open, close]) => open! <= start && end < close!) ? "OPEN" : "CLOSED";
+  const daypart = /^(?:DAYPART:EVENING|DAYPART:AFTERNOON|DAYPART:AFTER_WORK(?:_BROAD_WINDOW)?)$/.test(timeWindowBasis ?? "");
+  if (ranges.some(range => range.length !== 2 || range.some(value => value === undefined) || (daypart ? range[0] === range[1] : range[0]! >= range[1]!))) return "UNKNOWN";
+  return ranges.some(([open, close]) => daypart
+    ? Math.max(open!, start) < Math.min(close! < open! ? close! + 1440 : close!, end)
+    : open! <= start && end < close!) ? "OPEN" : "CLOSED";
 }
 
 export function assessRawTabelog(input: { root: RunRecord; evidence: EvidenceRecord[]; request: ReadRequest; times: string[]; postDelivery: PostDeliveryTabelogObservation[]; expected?: "AVAILABLE" | "EMPTY" }): IndependentSourceAssessment | undefined {

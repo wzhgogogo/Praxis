@@ -1,152 +1,86 @@
-# Praxis 视觉方向
+# Praxis visual direction
 
-- Status: Draft
-- Document revision: 0.8
-- Last updated: 2026-10-30
-- Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
+- Status: Accepted
+- Document revision: 0.18
+- Last updated: 2026-11-24
+- Source of truth for: current English Web presentation; product behavior and safety remain governed by accepted PRD and ADRs
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
-- Related documents: [MVP PRD](MVP-PRD.md), [User Flows](USER-FLOWS.md), [Agent Gateway and Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Booking Design Draft](BOOKING-DESIGN-DRAFT.md)
-- Evidence status: 第0步已复核；第一段工作分支离线实现与五门禁已通过，独立视觉复核待用户，不是Live能力证据；截图见[报告](../reviews/WEB-WORKSPACE-SLICE1-20261030.md)
+- Related documents: [User flows](USER-FLOWS.md), [Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [integration plan](../WEB-PHOTOS-UNIFIED-PLAN.md)
+- Evidence status: work branch implementation; acceptance results are recorded in STATUS and TEST-LOG, not inferred from this specification.
 
-用户 2026-10-29 选定“合并版”：白底，柔和阴影分层，实心群青胶囊按钮。[画布](https://claude.ai/artifact/VniECP5jzidQmknLSFyryM)是虚构示例，早于视觉规则0.2的收紧；冲突时以本文视觉规则为准。参考“合并版3候选 / 4订法”；开始、查找中及侧栏参考“群青 · Wabi式”和“A2安排列表”，不能据画布推断真实照片、进度数字、条款或预约能力。
+## Typography and navigation
 
-来源为`codex/docs-frontend-design-inputs`提交`947e741b093eecd0035ebbe9401195db029920eb`的视觉原稿0.2，原`design/VISUAL-DIRECTION-20261029.md`已归到本文件。本文0.5在第1步开工时将范围和验收移至独立切片计划，0.6仅同步离线实现状态；第0步复核小修继续有效，颜色、字体与分层规则沿用0.2，出发提示与证据文案按本轮决定及ADR-0050更新。用户在本轮明确确认：等宽字体只用于logo，信息用间距分隔；任务指令中数字/来源/进度使用Mono及文案中的中圆点不沿用。
+Use locally served DM Sans throughout, including logo and numbers. White surfaces, ink #15172B, secondary #5F6275 and brand #3D5AFE; use spacing for information hierarchy. New plan, Saved and About › are transparent, borderless actions. Main action is Let's book. Sidebar changes at 960px and can collapse; keyboard arrows browse candidates outside inputs and dialogs.
 
-界面语言：英文（第一版）。
+## Progress and editing
 
-## 原则
+The orb has three beats (understanding, finding, presenting), with the logo cursor breathing in sync. Reduced-motion preference is respected. One composer routes plan changes to messages and current-restaurant questions to questions. Native date/time/number editors operate in place; saving a condition preserves the unsent composer draft. An expired card can refresh into Handoff, governed by the server's existing qualification and B1 checks.
 
-- 页面文字只留做决定必须的。能用位置、结构表达的，不写说明。
-- 每屏只有一个群青实心块，就是主动作。
-- 颜色来自照片；界面本身只有白、蓝黑字和群青。
-- 科技感来自 Praxis 工作时的动效和精确的数字，不来自装饰。
-- 细节宁少勿多：一个元素只用一种分层手段。
+## Times and photos
 
-## 颜色
+Time options are 8px corner tiles; the chosen tile uses 16% brand blue. Card photo boxes are 16:9 on desktop and a compact 2.2:1 treatment on mobile, with a frosted bookmark control. The single cover renderer uses authenticated Case/candidate photo endpoints; About offers up to eight distinct photos and a full-screen photo-viewer. An unobtrusive line icon is the no-photo placeholder. Photo failure must not change search results, G1 or B1.
 
-| 用途 | 值 |
-|---|---|
-| 底色 | `#FFFFFF` |
-| 文字 | `#15172B` |
-| 次要文字 | `#5F6275` |
-| 页内浅底 | `#F5F6F9` |
-| 群青：主按钮、logo 光标、进行中、推荐 | `#3D5AFE` |
+## Image source and attribution
 
-已排除：暖白陶土与杏色（像 Claude）、朱红与珊瑚红（撞 Airbnb）、明黄（撞美团）、天青（冷）、紫和紫色渐变（AI 通用）、淡金暗金（按钮弱、像酒店）。
+Google images always display the complete label Google Maps and every applicable returned author attribution alongside each image, including cover, About and full-screen viewer. Author links use returned author URIs; the Maps link reuses the candidate's existing Google Maps URI. Website images display their explicit credit, or Source: <domain>. Do not invent a copyright template or truncate attribution.
 
-## 字体与字号
+Short credits sit at the lower corner on a small translucent background. If actual rendered content would overflow the image, place the full credit directly below the image in compact type; allow wrapping when needed to retain all names. No character-count threshold, ellipsis or large white capsule.
 
-- 字体：Geist；中文回退 Noto Sans SC。
-- 等宽字体只用于 logo。价格、时间等数字用 Geist 的等宽数字（`font-variant-numeric: tabular-nums`）。
-- 字号只用四种，最小 13：
+## Addresses
 
-| 字号 | 用途 |
-|---|---|
-| 24 | 页面标题、店名、首页问题 |
-| 17 | 方案名等卡片内标题 |
-| 15 | 正文、按钮、输入框 |
-| 13 | 次要信息、来源与时间 |
+The backend address and About text remain complete. Only the address item in key-facts clamps to two lines; distance and price stay separate and visible. Card display may remove a leading Japan, and a leading Japanese postal code. Text after ※ or 【 remains part of the address, with no length-based removal.
 
-- 字重只用 400 和 600。
-- 不用斜体，不用全大写，不用 Emoji。
-
-## 分层、线条与圆角
-
-- 卡片、输入框、照片用单层柔和阴影；不同时加边框。主按钮不加阴影。
-
-| 对象 | 阴影 |
-|---|---|
-| 卡片 | `0 8px 24px rgba(21,23,43,.08)` |
-| 输入框 | `0 6px 20px rgba(21,23,43,.08)` |
-| 照片 | `0 8px 24px rgba(21,23,43,.10)` |
-| 小胶囊 | `0 2px 8px rgba(21,23,43,.08)` |
-
-- 需要分隔线时统一 0.5px `#E3E5EC`；能用间距分开的不加线。
-- 不用半透明叠色、毛玻璃、背景渐变。
-- 圆角：照片 20，卡片 24，按钮、输入框、小胶囊为胶囊。嵌套时用同心圆角：内层圆角 = 外层圆角 − 内边距（卡片 24、内边距 16 时，内部块为 8）。
-- 图标统一 1.5px 线宽。
-
-## 组件
-
-- Logo：`praxis`（Geist Mono 600）+ 群青方块光标；Praxis 工作时光标闪动，其余时间静止。
-- 主按钮：群青实心胶囊，白字，高 52。
-- 发送按钮：深色圆形。
-- 备选：照片右上角白色圆形书签图标。
-- 证据：已查实用实心小方块，后面是来源与查看时间；未查用空心小方块；进行中用群青竖块。只在有证据时显示。
-- 条件：只在需求刚被理解时显示为可点的小胶囊；确认后收成一行普通文字。推测的条件写作 “Evening?”。
-- 无照片：浅底 + 店名首字 + “No photo”。
-- 并列信息用间距分开，不用中圆点或竖线当分隔符。
-
-## 文案
-
-- 平实、短，用常用词，不造词，不拟人化，不写营销口吻。
-- 不加眉标、章节编号、面包屑、解释性副标题。
-- 按钮写动作本身：“Choose this”“Continue on TableCheck”。
-- 遵守预约草案的措辞：只写 “filled in”，不写 “selected”“booked”。
-
-## 动效
-
-- 只在状态变化时出现：进度逐条出现、数字更新、结果卡片出现、光标闪动。
-- 时长 150–250ms，ease-out；不做页面滚动触发的动效，不做弹跳。
-
-## 不做
-
-- 斜体、全大写小标题、眉标、章节编号、代码面包屑
-- Instrument Serif、Space Grotesk、Bricolage Grotesque
-- 等宽字体用于 logo 以外
-- 多层阴影、边框加阴影、半透明叠色、毛玻璃
-- 紫色渐变
-- 卡片左边缘的彩色竖线
-- 中圆点分隔符
-- 下拉小箭头
-- Emoji
-- 超过四种字号、小于 13 的字
-- 首页超大标题
-- 堆砌说明文字、详细过头的图表
-
-## 待验证
-
-- 真实来源照片（偏暗、杂乱、缺图）下的效果；画布上有模拟的压力测试。
-- 英文文案下的排版。
-- 夜间模式、桌面布局。
-- 回答浮层、备选列表、比较页。
+[Previous visual specification](../history/VISUAL-DIRECTION-BEFORE-DM-SANS-20261117.md) is archived as one historical document and does not define current typography, copy, placeholder or CSS.
 
 
+## 2026-11-18 — Style 1 condition rows
 
-## 英文文案
+User-approved / implementation in Round 6, draft / not integrated. Round20 supersedes the availability row: left Availability is 13px #15172B; right date is 13px 600 #15172B, Not checked / Expired is 13px 500 #5F6275, without a dot. Time controls retain 8px gaps. Empty slots/recommendation occupy no space. Conditions have 10px top margin, 6px row gap, 13px/1.45 text. Each row aligns baselines with space-between and 12px gap: capitalized name (#15172B, min-width:0), nonshrinking status (Confirmed #364B8A; Not a match / Unverified #5F6275; weight500). Status words are Confirmed / Not a match / Unverified, without dash or internal enum terms; About uses the same words. Added-only change summaries are static and hide zero counts.
 
-以下保留用户指定的英文语义。信息间用布局间距分开，表内`/`只区分阶段或可选回答，不作为实际界面分隔符；不用中圆点、竖线或斜体。店名、时间、数量、来源、价格及方案均是条件化示例，必须替换为真实状态或Fixture明确提供的值。
+Round 7 places at least 12px between the bottom of the condition list and the booking button, including cards with an empty recommendation.
 
-| 位置 | 文案 |
-| --- | --- |
-| 首页标题 | What do you want to plan? |
-| 首页占位 | A quiet dinner with friends in Shibuya on Saturday |
-| 工作区输入框 | Adjust anything? |
-| 抽屉标题 / 新建 | My plans / New plan |
-| 推测的条件 | Evening? |
-| 进度 | Finding places / Places found / Checking availability 1 checked；查找中不显示候选总数，结束后卡片显示1 of 3 |
-| 停止 | Stop |
-| 备选 | Saved；有备选时显示Saved加间距和数字，数字为#5F6275；0不显示数字。书签aria-label：Save for later |
-| 主按钮 | Choose this |
-| 证据 / 未查状态 | 第一行：Available Mon, Nov 2 19:00；第二行：TableCheck, checked 14:32；未查：Not checked |
-| 推荐 | Recommended（群青）加间距加TableCheck（正文色#15172B） |
-| 出发按钮 | Continue on TableCheck ↗ / Date, time, 3 guests filled in |
-| 提示 | Pick Omakase Nigiri ¥9,800 and Counter |
-| 返回 | Did you get the booking? — Yes / Not yet |
-| 无照片 | No photo |
 
-来源与查看时间只有在对应证据存在时才出现。`Not checked`是诚实的未查状态，不附虚构来源或时间；不能伪装为已查实证据。来源原始引文可保留原语言，其标签和解释使用英文。
+## 2026-11-21 — Round20 card and source presentation
 
-出发按钮的第二行描述同一按钮已带入的字段，不是另一个操作；只有通过ADR-0049校验的字段才可出现。不能用URL参数推断来源页面实际已选中方案/座位，出发按钮和提示不使用`selected`或`booked`。
+User-approved / work-branch implementation, draft / not integrated. Availability and conditions use baseline-aligned space-between columns with 12px minimum gap, right-aligned with About. Let’s book has 16px top / 2px bottom margin; slots and conditions own 10px top margin, source categories 12px. Empty recommendation blocks reserve no height; text still clamps to two lines. A hidden progress counter keeps its layout width. Card addresses remove optional Japanese postal prefixes; About retains the complete source address. Batch-end Adjust and Find more are equal-width adjacent 48px-minimum buttons; Saved remains in the workspace header.
 
-表内`Pick ... and Counter`仅在对应同店同渠道原文支持时显示，独占选择项一行；TableCheck的`Check date and guests`独占核对项一行。两行均按适用证据显示，不填空白占位；出发提示不使用`selected`或`booked`。日英取消冲突的`Confirm cancellation terms on the website`移到推荐卡片的取消规定旁，与两种原文和英文转述一起显示，不再占出发提示行。此呈现变更见ADR-0050，来源、证据和不裁决严格程度的边界仍按ADR-0049。
+Source labels use Google Maps, Tabelog, TableCheck or the observed website hostname, with no raw provider enums. Short source categories compare normalized meaning (parenthetical glosses and generic modifiers removed); overlapping categories are not a conflict. Genuine disagreement uses light source/domain links. About retains original categories. Revision changes show added count first, followed by removed count and a disclosure arrow; added-only summaries are static “N new place(s)”. No-change hidden content is cleared.
 
-2026-10-30用户复核小修：日期统一`Mon, Nov 2`格式；取消冲突仅保留确认提醒，去掉`Cancellation terms differ…`展示行，原双语条款/原文保留。工作区底部按固定输入框的实际高度及底部间距留白，滚动安全区同样避开输入框，长条款下两个出发入口必须完整可见、可点。
+Q&A, About and Handoff share citation grouping by exact (URL, readAt). Same-reading excerpts share a white bordered block with individual left rules and one site ↗ · Checked month/day footer (Asia/Tokyo; no weekday or clock). Different readings retain their exact internal ISO timestamps and separate groups; unknown time is not promoted to another reading. Handoff preserves each bilingual term’s label/original association and cancellation conflict notice. About layers source/time, full address divider, conditions, commercial terms, original categories and source footnotes, then quiet Refresh. Answer sheet retains its mobile drag handle, adds place/close header and the question above the answer, and reserves 28px plus safe-area inset at the bottom. Existing tokens, responsive widths, keyboard and touch controls remain.
 
-详情中的旧`Ask about this restaurant`输入框暂留；下一段并入主输入框，以当前查看对象隐式指代。本段不改这条单店问答路径。
 
-## 实施计划
+## 2026-11-23 — Round23 nine UI refinements
 
-<a id="第一段验收与停止点"></a>
+Draft / not integrated. Home title is one centered physical line with nowrap and clamp(20px, 5.6vw, 28px), including 360px. Reconnecting uses a centered sticky compact pill: #F5F6F9 surface, #5F6275 text, 999px radius, 6px/14px padding, 13px/500/1.4 type and a subtle shadow; it waits five continuous disconnected seconds. About uses the current restaurant name in its composer hint; a focused Adjust hint persists until blur.
 
-第一段范围、验收与停止条件已移至[Web Workspace Slice 1 Plan](../WEB-WORKSPACE-SLICE1-PLAN.md)。本文只维护视觉规则和英文文案；保留本锚点供历史复核链接定位。
+Source blockquotes use a 2px rgba(61,90,254,.38) left rule. Open Q&A Source disclosures have transparent backgrounds with no nested horizontal padding; at 390px the answer sheet and About source footers retain one physical line through JST. Commercial display prose is distinct from quoted originals and has an attached source/time row even when no original quotation is present. Categories avoid generic Google labels and synonymous duplication. Revision removal names use human-readable verified links and omit redundant generic reason sublines.
+
+Mobile composer focus anchors the top bar and workspace to the visual viewport without resetting the internal About reading scroll. Image surfaces permit native vertical scrolling plus horizontal photo gestures; attribution links and the next normal tap remain usable. Landing WebGL and static gradients cover lower and side regions; focus=1 converged light geometry, edge fade and breathing remain unchanged. Real phone soft keyboards remain NOT_EVALUATED pending device verification.
+
+
+### Round 24 source and photo presentation
+
+Group quotations by exact source reading, de-duplicate equal text in that group and retain observed-price context. When an old quotation has ambiguous provenance, show its original and source link without a guessed Checked time. Keep unquoted structured terms as text with their source footer. Q&A-only smoking-field cleanup preserves parenthesized status qualifiers and answer prose. At1× photo surfaces use `pan-y pinch-zoom` with touch-only horizontal swipes; above1.02× they allow native horizontal/vertical panning and JS never changes the photo. Mouse dragging never flips or opens the viewer; arrows, keyboard and ordinary clicks remain available. Native phone validation remains separate from Chromium simulation.
+
+## Round25 display and keyboard contract (current implementation)
+
+On widths below960px composer and condition-editor text inputs use16px. The visualViewport and measured composer determine clearance; focus may reveal the clarification ending once, including the keyboard resize, without pulling back subsequent user scroll. About focus preserves reading position/draft. Reconnecting has equal vertical breathing space between topbar and title. Native mobile keyboard/zoom remain NOT_EVALUATED until device testing.
+
+About condition quotes exactly equal to their normalized labels retain only a compact provenance footer. Longer originals retain white blocks. Citation links show Tabelog / TableCheck / Google Maps or a merchant domain without www, falling back to Open page. Display only Checked Nov21-style Tokyo dates; retain exact URL/ISO grouping and omit dates for ambiguous legacy evidence. Q&A joins header/value only with unique source-row proof from production extraction; crossed rows, repeated values and no-proof DTOs stay separate and answer prose is untouched. Round 27 used the following functional accents, superseded by Round 28 below: #3D5AFE remains on2px quote rules, main actions, active progress marks, saved bookmark fill/stroke, selected-slot pale backgrounds and Handoff Recommended. Confirmed is plain #364B8A text at500, with no badge/background; About is ink#15172B and source/merchant links are secondary#5F6275 with their underline and arrow. Base ink/gray/white/DM Sans remain.
+
+
+## Round27 question, empty-state and mobile editing contract
+
+Pending Q&A places Checking the page and its underlined transparent Stop on one baseline row with distinct clickable space. Source disclosures keep history summary absolute top fixed; a bottom sheet can grow upward while summary top relative to sheet top stays fixed. Open details add no top padding, and summary tap highlight is transparent.
+
+Pure fact recommendations hide Refresh details; only slot-capable recommendations and availability results expose Refresh availability. About Categories summaries are omitted only when their entire normalized text already appears as an actually rendered CATEGORY blockquote. A same-text quote reduced to a source footer does not count; extra Google categories retain the summary.
+
+Prior empty results disappear immediately on message/capsule save/remove, Find more or Try again requests, independently of the composer sending spinner; deferred running SSE snapshots use the same effective view as progress. Failures restore the original empty actions. Mobile focused progress is compact and its active Stop stays above measured composer clearance without locking user scroll. Below960px open condition editors take a full flow row with flexible16px inputs and fixed action buttons; desktop overlays keep their existing dimensions. Native device behavior remains NOT_EVALUATED until device testing.
+
+## Round 28 final workspace treatment
+
+Confirmed and Not checked use secondary gray #5F6275. About and handoff text use #15172B, with source links in #5F6275. Blue remains on the logo cursor, quote rule, progress mark, saved bookmark, primary action and the pale selected time surface and outline. Card times use a compact grid with 5px by 10px button padding and 8px corners. The booking feedback title shares a row with the upper-right close control. Yes and Not yet sit centered below.
+
+Source disclosures keep their horizontal and vertical origin when opened, measured relative to the sheet for the bottom dialog. Quotation groups own the visible frame and padding. About starts with Source collapsed. Mobile capsule editors appear after the capsule buttons, with snap disabled while the editor is open.
+
+Booking feedback centers its title above centered Yes and Not yet controls with upper-right ×. About Refresh availability is shown on demand only when the selected restaurant's availability is expired, absent, or retryable.

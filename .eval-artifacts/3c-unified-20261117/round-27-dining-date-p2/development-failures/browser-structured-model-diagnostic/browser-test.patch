@@ -1,0 +1,36 @@
+diff --git a/src/harness/browser/web-workspace-round27.test.ts b/src/harness/browser/web-workspace-round27.test.ts
+index 8c74866b2..e1b825f00 100644
+--- a/src/harness/browser/web-workspace-round27.test.ts
++++ b/src/harness/browser/web-workspace-round27.test.ts
+@@ -11,6 +11,31 @@ import {startWorkspaceFixture} from '../workspace-fixture-server.js';
+ import {questionRowFixture} from '../question-row-fixture.js';
+ 
+ type Host=Awaited<ReturnType<typeof startWorkspaceFixture>>;
++
++for(const width of [390,1440])test(`Round27 DATE: ${width} structured date editor rejects contradictory CONFIRM`,{timeout:35000},async()=>{
++ const seed='Find a table for two in Tokyo on 2026-11-26 at 18:00',edit='Change Thu, Nov 26 to 2026-11-28';
++ const host=await startWorkspaceFixture({semanticProposal(message):RestaurantSemanticProposal{
++  if(message===seed)return{schemaVersion:'4',facts:[
++   {field:'TARGET',operation:'ASSERT',value:{kind:'TARGET',goal:'AVAILABILITY',query:'dinner in Tokyo',selectionScope:'OPEN_ENDED',goalBasis:{type:'BOOKING_WORDING',reason:'User requests a table',quotes:['Find a table']}}},
++   {field:'DATE',operation:'ASSERT',value:{kind:'DATE',value:'2026-11-26',raw:'2026-11-26'}},
++   {field:'TIME_WINDOW',operation:'ASSERT',value:{kind:'TIME_WINDOW',earliest:'18:00',latest:'18:00',raw:'18:00'}},
++   {field:'PARTY_SIZE',operation:'ASSERT',value:{kind:'PARTY_SIZE',value:2}},
++   {field:'AREA',operation:'ASSERT',value:{kind:'AREA',query:'Tokyo'}},
++  ]};
++  assert.equal(message,edit);return{schemaVersion:'4',facts:[{field:'DATE',operation:'CONFIRM'}]};
++ }});
++ host.clock.advance(Date.parse('2026-11-24T10:00:00+09:00')-host.clock.now().valueOf());
++ const browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:width===390,reducedMotion:'reduce'}),errors:string[]=[];
++ await context.route('**/*',route=>new URL(route.request().url()).origin===host.baseUrl?route.continue():route.abort());const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',error=>errors.push(error.message));
++ try{
++  await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();
++  await page.locator('#message').fill(seed);const created=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/cases'));await page.locator('#send').click();const response=await created;assert.equal(response.status(),201);const id=((await response.json()).view as RestaurantCaseView).case.caseId;
++  await settled(host,id);await page.locator('#candidate-panel').waitFor();const before=host.providerCalls.length;assert.ok(before);
++  await page.getByRole('button',{name:'Thu, Nov 26',exact:true}).click();await page.getByLabel('Edit Thu, Nov 26',{exact:true}).fill('2026-11-28');const posted=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/messages'));await page.getByRole('button',{name:'Save',exact:true}).click();const edited=await posted;
++  assert.equal(edited.request().postDataJSON()?.message,edit);assert.equal(edited.status(),200);const view=await settled(host,id);assert.equal(view.case.phase,'NEEDS_INPUT');assert.ok(view.restaurant.clarificationQuestion);assert.equal(host.providerCalls.length,before);await page.locator('#messages').waitFor();assert.deepEqual(errors,[]);await capture(page,`round27-date-${width}-structured-confirm`);
++ }finally{await context.close();await browser.close();await host.close();}
++});
++
+ const latch=()=>{let release!:()=>void;const promise=new Promise<void>(r=>release=r);return{release,promise};};
+ async function until(read:()=>Promise<boolean>|boolean){const end=Date.now()+12000;while(!await read()){if(Date.now()>end)throw Error('Round27 boundary timeout');await new Promise(r=>setTimeout(r,10));}}
+ async function capture(page:Page,name:string){const root=process.env.PRAXIS_ROUND27_VISUAL_OUTPUT;if(root){await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});const observed=await page.evaluate(async()=>{const path='/assets/workspace/runtime.js';const {state}=await import(path);const [stop,composer,editor]=['#stop','#workspace-composer','.condition-editor'].map(selector=>{const n=document.querySelector(selector);if(!n)return null;const r=n.getBoundingClientRect();return{top:r.top,bottom:r.bottom,left:r.left,right:r.right};});return{phase:state.view?.case.phase,effectivePhase:state.deferredView?.view.case.phase??state.view?.case.phase,sending:state.sending??false,researching:state.researching,progressHidden:document.getElementById('progress')!.hidden,emptyHidden:document.getElementById('empty-state')!.hidden,stop,composer,summary:[...document.querySelectorAll('#asked-history summary,#question-result summary')].map(n=>({top:n.getBoundingClientRect().top,sheetTop:document.getElementById('answer-sheet')!.getBoundingClientRect().top,open:(n.parentElement as HTMLDetailsElement).open})),editor};});await writeFile(join(root,name+'.json'),JSON.stringify({sha:process.env.PRAXIS_ROUND27_SHA??'UNFROZEN_DEVELOPMENT',viewport:page.viewportSize(),...observed},null,2)+'\n');}}

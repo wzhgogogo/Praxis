@@ -1,0 +1,61 @@
+{
+  "sha": "6ba08830bf13a87656ccf563d4c4485bccfe749a",
+  "envLoaded": false,
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    ".eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/reviewer-weekday-probe.mjs"
+  ],
+  "exitCode": 0,
+  "seconds": 2.409766333,
+  "origin": "/private/tmp/praxis-round27-review.HNjA55/date-probe-weekday.mjs",
+  "inputSHA256": "961e331069059639b632ae5b9638f908016117b3f19ce29c7fc423399bdf9f97",
+  "rows": [
+    {
+      "case": "weekday edit control",
+      "message": "\u6539\u6210\u5468\u516d\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-28",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-28"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": true
+    },
+    {
+      "case": "weekday edit with excluded date mentioned",
+      "message": "\u540e\u5929\u6211\u6ca1\u7a7a\uff0c\u6539\u6210\u5468\u516d\u665a\u4e0a\u4e03\u70b9",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    },
+    {
+      "case": "unselected weekday alternative",
+      "message": "\u540e\u5929\u8fd8\u662f\u5468\u516d\u665a\u4e0a\u4e03\u70b9",
+      "expected": null,
+      "draftDate": "2026-11-26",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-26"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "pass": false
+    }
+  ]
+}

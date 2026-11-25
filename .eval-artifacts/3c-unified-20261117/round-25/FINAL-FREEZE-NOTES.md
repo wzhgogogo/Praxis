@@ -1,0 +1,7 @@
+# Current final candidate (this commit) — offline acceptance pending
+
+Freeze cc93d15dd6bcffbf969a1fc4781260b692a43316 is superseded. Type/arch/default1932PASS; Browser G2 5PASS + Chromium575/576; G6/Build did not run. Failure is a protocol-fixture identity bug: its last root Target.attachedToTarget could belong to the parallel context, yielding UNEXPECTED_SUCCESS. Exact raw logs retained under failures/cc93d15dd-cdp-target-binding/ and c1-second-freeze-isolated-diagnostic.log. No product assertion removed or loosened.
+
+The fixture now maps native root attachment packets by CDP sessionId and injects the exact packet for the held Runtime.callFunctionOn's session. Both read-fault journeys assert/print matching held/duplicate sessionId + targetId; direct failure must carry actual Duplicate target in BrowserRuntimeError.cause. All4 source tests PASS in c1-session-binding-proof.log. Product isolation code is unchanged from the accepted C1 slice. A fresh formal dist probe remains after this candidate's Build.
+
+List-interruption photo fixture now uses eight valid images and walks8/8 after reconnect (exact16media), alongside502 recovery18media, three cached-byte local interruption/corruption controls16media and bounded persistent502. Permanent404/invalid-source controls remain unchanged. This commit freezes all source/tests/collectors/inputs; every formal result must bind its full HEAD and srcTree. No Live, realPG or4312.

@@ -1,0 +1,272 @@
+{
+  "mode": "UNFROZEN_DEVELOPMENT_CHECK",
+  "envLoaded": false,
+  "pass": true,
+  "rowCount": 19,
+  "seconds": 14.526043584,
+  "groups": [
+    {
+      "script": "reviewer-date-probe.mjs",
+      "rows": [
+        {
+          "case": "explicit calendar edit (control)",
+          "message": "\u6539\u621011\u670828\u65e5\u665a\u4e0a\u4e03\u70b9",
+          "expected": "2026-11-28",
+          "draftDate": "2026-11-28",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-28"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "explicit relative edit (control)",
+          "message": "\u6539\u6210\u5927\u540e\u5929\u665a\u4e0a\u4e03\u70b9",
+          "expected": "2026-11-27",
+          "draftDate": "2026-11-27",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-27"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "reject old date, choose absolute date",
+          "message": "\u540e\u5929\u4e0d\u884c\uff0c\u6539\u621011\u670828\u65e5\u665a\u4e0a\u4e03\u70b9",
+          "expected": "2026-11-28",
+          "draftDate": "2026-11-28",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-28"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "ambiguous range with omitted DATE",
+          "message": "\u5927\u6982\u4e24\u4e09\u5929\u540e\u665a\u4e0a\u4e03\u70b9",
+          "expected": null,
+          "draftDate": "2026-11-26",
+          "phase": "NEEDS_INPUT",
+          "dates": [],
+          "times": [],
+          "pass": true
+        },
+        {
+          "case": "reject old date with normal subject",
+          "message": "\u540e\u5929\u6211\u6ca1\u7a7a\uff0c\u6539\u621011\u670828\u65e5\u665a\u4e0a\u4e03\u70b9",
+          "expected": "2026-11-28",
+          "draftDate": "2026-11-28",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-28"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "relative and calendar date both undecided",
+          "message": "\u540e\u5929\u8fd8\u662f11\u670828\u65e5\u6211\u8fd8\u6ca1\u5b9a\uff0c\u665a\u4e0a\u4e03\u70b9",
+          "expected": null,
+          "draftDate": "2026-11-26",
+          "phase": "NEEDS_INPUT",
+          "dates": [],
+          "times": [],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "script": "reviewer-weekday-probe.mjs",
+      "rows": [
+        {
+          "case": "weekday edit control",
+          "message": "\u6539\u6210\u5468\u516d\u665a\u4e0a\u4e03\u70b9",
+          "expected": "2026-11-28",
+          "draftDate": "2026-11-28",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-28"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "weekday edit with excluded date mentioned",
+          "message": "\u540e\u5929\u6211\u6ca1\u7a7a\uff0c\u6539\u6210\u5468\u516d\u665a\u4e0a\u4e03\u70b9",
+          "expected": "2026-11-28",
+          "draftDate": "2026-11-28",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-28"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "unselected weekday alternative",
+          "message": "\u540e\u5929\u8fd8\u662f\u5468\u516d\u665a\u4e0a\u4e03\u70b9",
+          "expected": null,
+          "draftDate": "2026-11-26",
+          "phase": "NEEDS_INPUT",
+          "dates": [],
+          "times": [],
+          "pass": true
+        },
+        {
+          "case": "unselected weekday alternative with omitted DATE",
+          "message": "\u540e\u5929\u8fd8\u662f\u5468\u516d\u665a\u4e0a\u4e03\u70b9",
+          "expected": null,
+          "draftDate": "2026-11-26",
+          "phase": "NEEDS_INPUT",
+          "dates": [],
+          "times": [],
+          "pass": true
+        },
+        {
+          "case": "unselected weekday alternative in reverse order",
+          "message": "\u5468\u516d\u8fd8\u662f\u540e\u5929\u665a\u4e0a\u4e03\u70b9",
+          "expected": null,
+          "draftDate": "2026-11-26",
+          "phase": "NEEDS_INPUT",
+          "dates": [],
+          "times": [],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "script": "reviewer-contextual-date.mjs",
+      "rows": [
+        {
+          "case": "tonight control",
+          "message": "Make it tonight at 7 pm.",
+          "expected": "2026-11-24",
+          "draftDate": "2026-11-24",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-24"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "tonight with background travel date",
+          "message": "I'm flying out tomorrow, so make dinner tonight at 7 pm.",
+          "expected": "2026-11-24",
+          "draftDate": "2026-11-24",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-24"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "time-only control",
+          "message": "Keep the date, just change dinner to 7 pm.",
+          "expected": "2026-11-26",
+          "draftDate": "2026-11-26",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-26"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "time-only edit with background travel date",
+          "message": "I land in Tokyo tomorrow. Keep the date, just change dinner to 7 pm.",
+          "expected": "2026-11-26",
+          "draftDate": "2026-11-26",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-26"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "script": "reviewer-alternatives.mjs",
+      "rows": [
+        {
+          "case": "competition without comma",
+          "message": "\u540e\u5929\u8fd8\u662f\u5468\u516d\u665a\u4e0a\u4e03\u70b9\uff1f",
+          "expected": null,
+          "draftDate": "2026-11-26",
+          "phase": "NEEDS_INPUT",
+          "dates": [],
+          "times": [],
+          "pass": true
+        },
+        {
+          "case": "competition with comma",
+          "message": "\u540e\u5929\uff0c\u8fd8\u662f\u5468\u516d\u665a\u4e0a\u4e03\u70b9\uff1f",
+          "expected": null,
+          "draftDate": "2026-11-26",
+          "phase": "NEEDS_INPUT",
+          "dates": [],
+          "times": [],
+          "pass": true
+        }
+      ]
+    },
+    {
+      "script": "reviewer-omitted-edit.mjs",
+      "rows": [
+        {
+          "case": "explicit date without DATE control",
+          "message": "Make it tomorrow at 7 pm.",
+          "expected": "2026-11-25",
+          "draftDate": "2026-11-25",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-25"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        },
+        {
+          "case": "explicit move with omitted DATE",
+          "message": "Move it to tomorrow at 7 pm.",
+          "expected": "2026-11-25",
+          "draftDate": "2026-11-25",
+          "phase": "PRESENT_RESULTS",
+          "dates": [
+            "2026-11-25"
+          ],
+          "times": [
+            "19:00"
+          ],
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

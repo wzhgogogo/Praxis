@@ -1,0 +1,26 @@
+✔ Google display uses IDs-only details once, original decoded bytes and complete authors, with no credentials on CDN or DTO (149.688791ms)
+✔ All eight Google gallery images load exactly once: one Details and sixteen media/CDN dispatches (109.495917ms)
+✔ Google CDN redirects consume the twenty-dispatch budget; the twenty-first send is refused while prior images stay readable (69.326ms)
+✔ Google cover-download-fails falls back through the existing bound website source (81.382334ms)
+✔ Google cover-decode-fails falls back through the existing bound website source (83.554292ms)
+✔ Google empty falls back through the existing bound website source (78.449416ms)
+✔ Google unavailable falls back through the existing bound website source (77.415875ms)
+✔ Google no-id falls back through the existing bound website source (72.674458ms)
+✔ Individual gallery corruption is isolated, budgets include media/CDN hops and both-source failure is honest (110.638209ms)
+✔ A changed candidate binding cannot reset the one-Details budget (36.738875ms)
+✔ Photos retain only the owning Restaurant metadata, main photos, declared responsive/lazy URLs and source credit (10.050708ms)
+✔ An OG-only image, unsafe URLs, opaque backgrounds and foreign album links do not produce a restaurant photo (0.808541ms)
+✔ Observed public CDN renditions keep the larger exact URL and prefer a counted main gallery over menu photos (2.212458ms)
+✔ Photo URL admission refuses local, special, credentialled and sensitive targets including encoded IPs (4.642333ms)
+✔ Only the exact reviewed image transform permits its publicly observed signature; document/API/other tokens remain blocked (0.4455ms)
+✔ Photo HTTP pins the validated DNS address and rejects private DNS and redirect destinations before another dispatch (1.843959ms)
+✔ Photo cache isolates Cases, deduplicates concurrent content, expires and refuses an old source binding (77.477125ms)
+✔ Photo failures retain safe transport name/cause code and never expose the original message (0.353042ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1119.794417

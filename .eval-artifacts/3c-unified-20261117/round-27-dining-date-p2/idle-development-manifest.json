@@ -1,0 +1,62 @@
+[
+  {
+    "name": "targeted-idle-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.683287334
+  },
+  {
+    "name": "targeted-idle-green",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/domains/restaurant/relative-date-binding.test.ts",
+      "src/application/restaurant-relative-date.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 32.0923435
+  },
+  {
+    "name": "targeted-idle-browser-date",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=Round27 DATE:",
+      "src/harness/browser/web-workspace-round27.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 4.564501165999999
+  },
+  {
+    "name": "independent46-targeted",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/run-reviewer-probe.py"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 32.307911417
+  },
+  {
+    "name": "targeted-idle-arch",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.20985704099999225
+  }
+]

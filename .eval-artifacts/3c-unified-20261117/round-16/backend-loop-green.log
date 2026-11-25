@@ -1,0 +1,44 @@
+{"fixture":"P1-F-B-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+{"fixture":"P1-G-h001","phaseBefore":"SEARCHING","failureBefore":null,"events":["AGENT_LOOP_TERMINATED"],"phaseAfter":"NO_VERIFIED_RESULT"}
+✔ P1-G2 actual P1-F-B-h001 stop returns a user-facing outcome (6.169125ms)
+✔ P1-G2 actual P1-G-h001 stop returns a user-facing outcome (2.481458ms)
+✔ P1-G2 REJECTION_LIMIT retains BROWSER_RUNTIME_FAILED as a scoped reason (3.300333ms)
+✔ P1-G2 NO_PROGRESS retains GOOGLE_LOCATION_UNRESOLVED as a scoped reason (2.917ms)
+✔ P1-G2 STEP_LIMIT retains AVAILABILITY_FAILED as a scoped reason (2.974917ms)
+✔ P1-G2 actual PROVIDER_REJECTED stays FAILED (17.432417ms)
+✔ P1-G2 actual UNCAUGHT_EXCEPTION stays FAILED (16.536792ms)
+✔ P1-G2 AUTHORIZATION_INVALID cannot become a business completion (1.39875ms)
+✔ P1-G2 SIDE_EFFECT_UNCERTAIN cannot become a business completion (1.366875ms)
+{"decisionCalls":0,"phase":"NO_VERIFIED_RESULT","events":["AGENT_LOOP_TERMINATED"]}
+✔ P2-0 actual h001 step-six exhausted state stops before another model proposal (1.21875ms)
+✔ P2-0 bounded timeout returns a truthful user result (2.32175ms)
+✔ P2-0 SEARCH_RESTAURANTS rejects a known exhausted budget before source work (0.365333ms)
+✔ P2-0 INVESTIGATE_CANDIDATE_FACTS rejects a known exhausted budget before source work (0.308625ms)
+✔ P2-0 CHECK_AVAILABILITY rejects a known exhausted budget before source work (0.301167ms)
+✔ P2-0 failed executions do not reset consecutive no-progress accounting (3.550709ms)
+✔ P2-0 system-ended no-result records structured business termination (0.839333ms)
+✔ P2-0 failure classification is exhaustive across typed model/browser/Google contracts (1.017167ms)
+✔ P2-0 an unrecognized persisted failure cannot default to business (0.245625ms)
+✔ F6 slot3 26.596 seconds blocks the original availability action and ends honestly (8.752292ms)
+✔ first short batch still delivers 1 qualified restaurants after saving a card (1.312208ms)
+✔ first short batch still delivers 2 qualified restaurants after saving a card (0.571958ms)
+✔ previously delivered restaurants cannot open a first-batch short delivery window (0.039833ms)
+✔ budget exhaustion delivers only three qualified first-batch restaurants (1.049125ms)
+✔ budget exhaustion delivers only three qualified new restaurants (1.387458ms)
+✔ expired read-end deadline with unread sources resolves without reopening a short window (0.314583ms)
+✔ expired read-end deadline with exhausted sources resolves without reopening a short window (0.36075ms)
+✔ the real Reducer accepts short delivery at the deadline even after the clock advances before dispatch (0.5065ms)
+✔ another batch continues past a cross-source duplicate, ends when exhausted, and delivers a genuinely new outlet (0.790417ms)
+✔ Round14 loop: main presentation dispatch shares the validated instant at a one-millisecond boundary (0.470042ms)
+✔ Round14 loop: whole-read deadline blocks fallback after expiry without an open read-end window (0.099959ms)
+✔ Round14 loop: whole-read deadline blocks fallback after expiry with an open read-end window (0.069625ms)
+✔ Round14 loop: fallback before the whole-read deadline cannot extend its delivery window (0.251958ms)
+✔ Round14 loop: aliases from a delivered batch leave the four closing calls protected (2.270041ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 232.608958

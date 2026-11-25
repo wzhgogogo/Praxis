@@ -1,0 +1,9 @@
+# Round 27 plan - current offline development / not integrated
+
+Slice A: accepted ADR-0052 supplements ADR-0024. Add bounded relativeOffsetDays DATE directives and model/raw/current-message binding at the pure compiler boundary, including omission. Correct a single explicit unambiguous relative expression from the trusted Tokyo clock; reject conflicting/ambiguous date expressions before any availability call. Keep time-only edits inheriting the prior date. Verify real interpreter + persistent message entry + source-port query dates with a fake model and loopback/PGlite only. No intent-state/fingerprint/missingBlockingFields changes.
+
+Slice B: implement UI1-7 and four user addenda. Regression assertions use actual DOM geometry and requests: history Source absolute top, sheet Source relative top; capsule save/remove request state independent of sending; active read Stop HTTP200 and stopped:true. Preserve single-tab slots, browser strict DAG and existing Stop ownership.
+
+Freeze all source/tests/scripts/inputs in one final code commit after targeted slice checks. On that same clean SHA run Typecheck, Arch, Build, default tests, Browser Fixture G2/Chromium/G6, then newly built dist C1; never outer-sandbox the Browser Fixture runner. Offline OS loopback-only isolation where compatible, no .env. Verify19JS+HTML parity, graph, critical390/1440 PNG/test inventory and inspect originals. Retain any first failure and refreeze/restart as needed.
+
+Protect all existing round archives and restaurant-web-read bytes; retain known137 missing originals without pretending protection is complete. No Live, remote providers/CDP, real PostgreSQL,4312, push or main merge. Update ledgers and report only after actual results; archive locally and leave clean tree. Evaluator scoring policy unchanged except DATE value identity must distinguish offsets.

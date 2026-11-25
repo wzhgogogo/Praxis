@@ -5,20 +5,22 @@ import { test } from "node:test";
 import { chromium, type Page } from "playwright-core";
 import type { RestaurantCaseView } from "../../application/agent-workspace.js";
 import type { RestaurantTaskState } from "../../domains/restaurant/contracts.js";
-import { startWorkspaceFixture } from "../workspace-fixture-server.js";
+import { datedWorkspaceRequest, startWorkspaceFixture } from "../workspace-fixture-server.js";
 
 // Real browser -> HTTP/SSE -> application, interpreter/compiler, Router, reducer and PGlite.
 // Only model and source transports are synthetic. This is not a model or live-site evaluation.
-const sizes=[{name:"mobile",width:390,height:844},{name:"desktop",width:1280,height:900}];
+const sizes=[{name:"mobile",width:390,height:844},{name:"desktop",width:1440,height:900}];
 async function capture(page:Page,name:string,scrollTarget?:string){
-  const folder=process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!folder)return;
+  const folder=(name.startsWith("round29-")?process.env.PRAXIS_ROUND29_VISUAL_OUTPUT:undefined)??process.env.PRAXIS_ROUND28_HANDOFF_VISUAL_OUTPUT??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!folder)return;
   await mkdir(folder,{recursive:true});await page.evaluate(()=>{window.scrollTo(0,0);return document.fonts.ready.then(()=>undefined);});
-  await page.evaluate(()=>Promise.all(document.getAnimations().filter(a=>a.effect?.getTiming().iterations!==Infinity).map(a=>a.finished)));
+  const interrupted=await page.evaluate(async()=>{const finite=document.getAnimations().filter(a=>a.effect?.getTiming().iterations!==Infinity),settled=await Promise.allSettled(finite.map(a=>a.finished));return settled.flatMap((r,i)=>r.status==='rejected'?[{kind:finite[i]!.constructor.name,error:String(r.reason?.name)}]:[]);});
+  assert.deepEqual(interrupted.filter(row=>row.error!=='AbortError'),[],"only a natively cancelled visual transition may settle without finishing");
+  if(interrupted.length)console.log('VISUAL_TRANSITION_INTERRUPTED '+JSON.stringify(interrupted));
   if(scrollTarget)await page.locator(scrollTarget).scrollIntoViewIfNeeded();
-  await page.screenshot({path:join(folder,name+".png"),fullPage:false});
+  await page.screenshot({path:join(folder,name+".png"),fullPage:false,animations:"disabled"});
 }
 async function createPlan(page:Page,message:string){
-  await page.locator("#message").fill(message);
+  await page.locator("#message").fill(datedWorkspaceRequest(message));
   const reply=page.waitForResponse(r=>new URL(r.url()).pathname==="/api/cases"&&r.request().method()==="POST");
   await page.locator("#send").click();const response=await reply;assert.equal(response.status(),201);
   return (await response.json()).view as RestaurantCaseView;
@@ -68,8 +70,9 @@ for(const size of sizes){
       await host.waitForCheck();
       await page.getByRole("heading",{name:"Fixture Sushi",exact:true}).waitFor();
       assert.equal(await page.locator("#card-counter").isVisible(),false,"candidate totals are hidden until the investigation finishes");
-      assert.equal(await page.locator("#card-counter").textContent(),"");
-      assert.match(await page.locator("#stages").innerText(),/Checking availability\s+1 checked/);
+      assert.equal(await page.locator("#card-counter").evaluate(n=>getComputedStyle(n).visibility),"hidden");
+      assert.ok((await page.locator("#card-counter").boundingBox())!.width>0,"hidden counter retains pagination spacing");
+      assert.match(await page.locator("#stages").innerText(),/Looking for more options\s*·\s*1 checked/);
       assert.equal((await current(page,plan.case.caseId)).restaurant.progress.discoveredCount,3);
       assert.equal(host.providerCalls[1]?.completed,false);
       await capture(page,size.name+"-searching");
@@ -95,24 +98,26 @@ for(const size of sizes){
       assert.equal(await page.locator("#candidate-card").getAttribute("data-candidate-id"),second);
       await page.locator("#previous").click();
       const mutationsBefore=writes.length;await page.locator("#choose").click();
-      assert.equal(writes.length,mutationsBefore,"Choose this opens preparation without submitting any request");
+      assert.equal(writes.length,mutationsBefore,"Let's book opens preparation without submitting any request");
       await page.locator("#departure").waitFor({state:"visible"});
       assert.equal(destinationRequests,0);await noSelection(host,plan.case.caseId);
       assert.match(await page.locator("#handoff").innerText(),/Omakase Nigiri ¥9,800[\s\S]*Same-day cancellation costs 100%[\s\S]*Card required/);
       assert.equal(await page.locator("#selection-hint").innerText(),"Pick Omakase Nigiri ¥9,800");
-      assert.equal(await page.locator("#verification-hint").innerText(),"Check date and guests");
+      assert.equal(await page.locator("#verification-hint").innerText(),"Check date and guests on the website");
       assert.match(await page.locator("#request-conditions").innerText(),/Mon, Nov 2/);
-      assert.equal(await page.locator("#handoff-provider-name").evaluate(n=>getComputedStyle(n).color),"rgb(21, 23, 43)");
-      assert.equal(await page.locator("#handoff-recommended").evaluate(n=>getComputedStyle(n).color),"rgb(61, 90, 254)");
+      assert.equal(await page.locator("#handoff-provider").isVisible(),false);
       const departureText=await page.locator("#departure").innerText();
-      assert.match(departureText,/Date, time, 2 guests filled in/);
-      assert.match(departureText,/Continue on TableCheck[\s\S]*2 guests filled in/);
+      assert.match(departureText,/^Continue on TableCheck ↗$/);
+      assert.equal(await page.locator("#departure-fields").innerText(),"Date, time, 2 guests filled in");
+      assert.equal(await page.locator("#departure #departure-fields").count(),0);
+      assert.equal(await page.locator("#verification-hint").isVisible(),false);
       assert.doesNotMatch(departureText+" "+await page.locator("#selection-hint").innerText()+" "+await page.locator("#verification-hint").innerText(),/\bselected\b|\bbooked\b/i);
       const quote=page.locator("#handoff-terms details").first();await quote.locator("summary").click();
+      assert.match(await quote.innerText(),/Checked Oct 29/);
       // A real persisted shortlist update emits SSE while the current source disclosure stays open.
       const latest=await current(page,plan.case.caseId);
       const saveReply=await page.request.post("/api/cases/"+encodeURIComponent(plan.case.caseId)+"/shortlist",{data:{candidateId:second,shortlisted:true,taskVersion:latest.case.taskVersion,requestId:"expand-"+size.name}});
-      assert.equal(saveReply.status(),200);await page.getByRole("button",{name:"Saved 2",exact:true}).waitFor();
+      assert.equal(saveReply.status(),200);await page.waitForFunction(()=>document.getElementById("saved-count")?.textContent==="2");assert.equal(await page.locator(".workspace-conditions").isVisible(),false);
       assert.equal(await quote.getAttribute("open"),"");await quote.locator("summary").click();
       await capture(page,size.name+"-handoff");
       const popupPromise=page.waitForEvent("popup");await page.locator("#departure").click();const popup=await popupPromise;
@@ -120,9 +125,48 @@ for(const size of sizes){
       assert.equal(destinationRequests,1);await popup.close();await page.bringToFront();
       // Chromium headless focus is explicit, using the real window focus event consumed by the client.
       await page.evaluate(()=>window.dispatchEvent(new Event("focus")));
-      await page.getByText("Did you get the booking?",{exact:true}).waitFor();await capture(page,size.name+"-feedback");
+      await page.getByText("Did you get the booking?",{exact:true}).waitFor();
+      const feedbackLayout = await page.locator("#feedback").evaluate(root => {
+        const headRect = root.querySelector(".feedback-head")!.getBoundingClientRect();
+        const title = root.querySelector(".feedback-head p")!.getBoundingClientRect();
+        const close = root.querySelector("#feedback-dismiss")!.getBoundingClientRect();
+        const yes = root.querySelector('[data-answer="YES"]')!.getBoundingClientRect();
+        const no = root.querySelector('[data-answer="NO"]')!.getBoundingClientRect();
+        const answers = root.querySelector(".answers")!.getBoundingClientRect();
+        return { head: headRect.right, headCenter: (headRect.left + headRect.right) / 2, titleRight: title.right, titleCenter: (title.left + title.right) / 2, titleMiddle: (title.top + title.bottom) / 2,
+          closeLeft: close.left, closeRight: close.right, closeHeight: close.height, closeBottom: close.bottom, closeMiddle: (close.top + close.bottom) / 2,
+          answersCenter: (answers.left + answers.right) / 2, buttonsCenter: (yes.left + no.right) / 2, buttonTop: Math.min(yes.top, no.top) };
+      });
+      assert.equal(feedbackLayout.closeRight, feedbackLayout.head);
+      assert.ok(Math.abs(feedbackLayout.closeMiddle - feedbackLayout.titleMiddle) < 1);
+      assert.ok(Math.abs(feedbackLayout.headCenter - feedbackLayout.titleCenter) < 1);
+      assert.ok(feedbackLayout.closeLeft > feedbackLayout.titleRight && feedbackLayout.closeHeight >= 44);
+      assert.ok(feedbackLayout.buttonTop >= feedbackLayout.closeBottom);
+      assert.ok(Math.abs(feedbackLayout.answersCenter - feedbackLayout.buttonsCenter) < 1);
+      await capture(page,size.name+"-feedback");
+      // The first prompt remains unanswered when the user explicitly leaves again.
+      host.clock.advance(1000);
+      const claim = page.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/booking-feedback/claim"),{timeout:8000});
+      const secondPopupPromise=page.waitForEvent("popup");
+      await page.locator("#departure").click();
+      const secondPopup=await secondPopupPromise;
+      await secondPopup.getByRole("heading",{name:"Fixture destination",exact:true}).waitFor();
+      assert.equal(destinationRequests,2);
+      await secondPopup.close();
+      await page.bringToFront();
+      await page.evaluate(()=>window.dispatchEvent(new Event("focus")));
+      const secondPrompt=(await (await claim).json()).prompt;
+      const departures=await host.database.query<{id:string;prompted_at:unknown}>(
+        "SELECT id,prompted_at FROM restaurant_booking_departures WHERE conversation_id=$1 ORDER BY departed_at,id",
+        [plan.conversation.id],
+      );
+      assert.equal(departures.rows.length,2);
+      assert.ok(departures.rows.every(row=>row.prompted_at));
+      assert.equal(secondPrompt?.departure.id,departures.rows[1]!.id);
+      await capture(page,"round29-"+size.width+"-second-feedback","#feedback");
       await page.getByRole("button",{name:"Not yet",exact:true}).click();
       await page.locator("#feedback").waitFor({state:"hidden"});
+      assert.equal(writes.filter(item=>item.path.endsWith("/booking-feedback")).at(-1)?.body.departureId,secondPrompt.departure.id);
       await page.reload();await page.locator("#handoff").waitFor({state:"visible"});
       await page.evaluate(()=>window.dispatchEvent(new Event("focus")));
       assert.equal(await page.locator("#feedback").isVisible(),false,"a claimed prompt never reappears after reload");
@@ -130,13 +174,14 @@ for(const size of sizes){
       const other=await createPlan(page,"A second plan");await ready(page);
       assert.equal(await page.locator("#saved").getAttribute("aria-label"),"Saved");
       assert.equal(await page.locator("#saved-count").isVisible(),false);
+      assert.equal(await page.locator("#saved-count").textContent(),"0");
       await page.locator("#bookmark").click();await page.getByRole("button",{name:"Saved 1",exact:true}).waitFor();
       assert.equal((await current(page,plan.case.caseId)).restaurant.shortlistCandidateIds?.length,2);
       assert.equal((await current(page,other.case.caseId)).restaurant.shortlistCandidateIds?.length,1);
       await openPlan(page,plan.case.caseId);
       assert.equal(await page.locator("#saved").getAttribute("aria-label"),"Saved 2");
       assert.equal(await page.locator("#saved-count").evaluate(n=>getComputedStyle(n).color),"rgb(95, 98, 117)");
-      if(size.name==="mobile"){await page.locator("#menu").click();await capture(page,"mobile-drawer");await page.locator("#menu").click();}
+      if(size.name==="mobile"){await page.locator("#menu").click();await capture(page,"mobile-drawer");await page.locator("#collapse-plans").click();}
       await page.locator("#handoff-back").click();await page.locator("#next").click();
       const viewedId=await page.locator("#candidate-card").getAttribute("data-candidate-id");
       await page.locator("#message").fill("Check this one");
@@ -192,7 +237,7 @@ for(const size of sizes){
       host.release();await ready(page);await assertEventually(()=>oldCall.completed);
       const view=await current(page,edited.case.caseId);
       assert.equal(view.restaurant.intentDraft?.partySize,3);
-      assert.ok(view.restaurant.requestRevision>edited.restaurant.requestRevision);
+      assert.ok(view.restaurant.searchRevision>edited.restaurant.searchRevision);
       const offers=Object.values(view.restaurant.availability).flat();
       assert.equal(offers.length,3);assert.ok(offers.every(o=>o.partySize===3),"old two-guest offers must not enter the new revision");
       assert.equal(view.restaurant.progress.active,false);
@@ -201,7 +246,7 @@ for(const size of sizes){
     }finally{host.release();await browser.close();await host.close();}
   });
 }
-for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms keep both source actions above the composer",{timeout:25_000},async()=>{
+for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms keep the departure visible without a duplicate source action",{timeout:25_000},async()=>{
   const host=await startWorkspaceFixture({provider:"TABELOG",cancellationConflict:true});
   const browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:size.width,height:size.height}}),page=await context.newPage();
   let departures=0;
@@ -209,6 +254,8 @@ for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms ke
   try{
     await signIn(page,host.baseUrl,host.clock.now());await createPlan(page,"Dinner and booking terms");await ready(page);
     await page.locator("#choose").click();await page.locator("#departure").waitFor({state:"visible"});
+    assert.equal(await page.locator("#handoff-provider").isVisible(),false);
+    assert.equal(await page.locator("#departure").innerText(),"Continue on Tabelog ↗");
     const conflict=page.locator('[data-kind="cancellation-conflict"]');
     assert.match(await conflict.innerText(),/English page: Same-day cancellation costs 100%[\s\S]*Confirm cancellation terms on the website/);
     assert.doesNotMatch(await page.locator("#handoff").innerText(),/Cancellation terms differ/);
@@ -217,32 +264,46 @@ for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms ke
     assert.equal(await page.locator("#verification-hint").isVisible(),false);
     assert.doesNotMatch(await page.locator("#selection-hint").innerText(),/cancellation|selected|booked/i);
     for(const summary of await page.locator("#handoff-terms summary").all())await summary.click();
-    await page.locator("#direct-source").scrollIntoViewIfNeeded();
-    await aboveComposer(page,["departure","direct-source"]);
-    await capture(page,size.name+"-cancellation-actions","#direct-source");
-    for(const id of ["departure","direct-source"]){
+    await page.locator("#departure").scrollIntoViewIfNeeded();
+    assert.equal(await page.locator("#direct-source").isVisible(),false);
+    await aboveComposer(page,["departure"]);
+    await capture(page,size.name+"-cancellation-actions","#departure");
+    for(const id of ["departure"]){
       await page.locator("#"+id).scrollIntoViewIfNeeded();await aboveComposer(page,[id]);
       const popupPromise=page.waitForEvent("popup");await page.locator("#"+id).click();const popup=await popupPromise;
       await popup.getByRole("heading",{name:"Fixture destination",exact:true}).waitFor();await popup.close();await page.bringToFront();
     }
-    assert.equal(departures,2,"both explicit actions must reach only the local source receiver");
+    assert.equal(departures,1,"the single departure must reach only the local source receiver");
     await capture(page,size.name+"-cancellation-conflict");
   }finally{await context.close();await browser.close();await host.close();}
 });
 
 async function aboveComposer(page:Page,ids:string[]){
-  await page.waitForFunction(ids=>{
-    const composer=document.getElementById("workspace-composer")!.getBoundingClientRect();
+  try{await page.waitForFunction(ids=>{
+    const host=document.getElementById("workspace-composer")!,composer=host.getBoundingClientRect(),bottom=host.hidden?document.getElementById("case-workspace")!.getBoundingClientRect().bottom:composer.top;
     return ids.every(id=>{
       const n=document.getElementById(id)!,r=n.getBoundingClientRect();
-      return r.top>=0&&r.bottom<=composer.top-8&&r.left>=0&&r.right<=innerWidth&&[
+      return r.top>=0&&r.bottom<=bottom-(host.hidden?0:8)&&r.left>=0&&r.right<=innerWidth&&[
         [(r.left+r.right)/2,r.top+2],[(r.left+r.right)/2,r.bottom-2],[(r.left+r.right)/2,(r.top+r.bottom)/2],
       ].every(([x,y])=>n.contains(document.elementFromPoint(x!,y!)));
     });
-  },ids,{timeout:5_000});
+  },ids,{timeout:5_000});}catch(error){console.log('ACTION_VISIBILITY '+JSON.stringify(await page.evaluate(ids=>({scroll:document.getElementById('case-workspace')!.getBoundingClientRect().toJSON(),composerHidden:document.getElementById('workspace-composer')!.hidden,buttons:ids.map(id=>{const n=document.getElementById(id)!,r=n.getBoundingClientRect();return{id,box:r.toJSON(),topHit:document.elementFromPoint(r.x+r.width/2,r.y+2)?.outerHTML,bottomHit:document.elementFromPoint(r.x+r.width/2,r.bottom-2)?.outerHTML};})}),ids)));throw error;}
 }
 
 async function assertEventually(predicate:()=>boolean){
   const deadline=Date.now()+5_000;
   while(!predicate()){if(Date.now()>deadline)assert.fail("fixture source transition did not complete");await new Promise(resolve=>setTimeout(resolve,10));}
 }
+
+for(const size of sizes)test('Workspace '+size.name+': cuisine source disagreement remains visible without changing qualification',{timeout:60_000},async()=>{
+  const host=await startWorkspaceFixture({provider:'TABELOG',cuisineDisagreement:true});const browser=await chromium.launch({headless:true});
+  const context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:size.width,height:size.height}});const page=await context.newPage();
+  try{await signIn(page,host.baseUrl,host.clock.now());const plan=await createPlan(page,'Dinner with friends');await ready(page);
+    const statements=page.locator('#source-categories');await statements.waitFor({state:'visible'});
+    assert.match(await statements.innerText(),/Google Maps ↗\s*cantonese restaurant, dim sum restaurant/);
+    assert.match(await statements.innerText(),/Tabelog ↗\s*Chinese, Dumpling, Izakaya/);
+    assert.equal(await statements.locator('a').count(),2);
+    assert.equal((await current(page,plan.case.caseId)).case.phase,'PRESENT_RESULTS');
+    await capture(page,size.name+'-source-categories');
+  }finally{await context.close();await browser.close();await host.close();}
+});

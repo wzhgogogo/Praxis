@@ -1,0 +1,5 @@
+# Superseded25db4b5e3 scope-completeness diagnostic
+
+All10 configured stages passed: default1975, G2 5, Chromium593, G6 159, dist C1 4 and19 user-independent probes. This does not close three same-P1 author-constructed diagnostics: Dinner tonight with omittedDATE queriedold11/26; unresolved arrival-vs-dinner date/time also queriedold11/26 rather than clarifying; a descriptive other dinner event overwrote current-plan date with11/25. Supplemental scopes are author-constructed, not additional user-independent cases. Exact inputs and raw failures preserved.
+
+Allow the entire frozen run to finish unchanged. Then keep omission recovery limited to explicit edits, imperative dining requests and standalone dining/temporal fragments. Descriptive subjects must not imply a current-plan date. A relative day and the edited clock quoted in the same clause, with no clear dining-date selection, must clarify rather than silently reuse the prior date. No event-word blacklist, general-language parser or model call. Refreeze and restart complete acceptance after targeted checks.

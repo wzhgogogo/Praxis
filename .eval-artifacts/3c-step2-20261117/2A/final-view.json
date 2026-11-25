@@ -1,0 +1,525 @@
+{
+  "mode": "FIXTURE",
+  "case": {
+    "caseId": "restaurant:b14026df5952165e2f383ecd",
+    "conversationId": "conversation:b14026df5952165e2f383ecd",
+    "rootTaskId": "restaurant:b14026df5952165e2f383ecd",
+    "title": "Need a table tonight at 7pm near Shinjuku for two, yakiniku, around 5…",
+    "status": "NEEDS_YOU",
+    "phase": "AWAITING_AUTHORIZATION",
+    "taskVersion": 5,
+    "pendingUserAction": "AUTHORIZE",
+    "updatedAt": "2026-11-17T03:08:38.692Z"
+  },
+  "conversation": {
+    "id": "conversation:b14026df5952165e2f383ecd",
+    "messages": [
+      {
+        "id": "message:0:7bc53ea5f97c33da7751cfd4",
+        "role": "USER",
+        "content": "Need a table tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen",
+        "createdAt": "2026-11-17T03:08:38.667Z"
+      },
+      {
+        "id": "message:1:7bc53ea5f97c33da7751cfd4",
+        "role": "ASSISTANT",
+        "content": "A booking proposal for Fixture Yakiniku Shinjuku 1 is ready. Your one-time authorization is required before any booking attempt.",
+        "createdAt": "2026-11-17T03:08:38.706Z"
+      }
+    ]
+  },
+  "restaurant": {
+    "requirementRevision": 1,
+    "questionHistory": [],
+    "savedCandidates": [],
+    "readStatus": {
+      "kind": "PENDING",
+      "partialSourceFailure": false,
+      "canContinue": false,
+      "canRetry": false
+    },
+    "intentDraft": {
+      "area": {
+        "query": "Shinjuku"
+      },
+      "date": "2026-08-05",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "find a bookable table"
+      },
+      "criteria": [
+        {
+          "text": "yakiniku",
+          "polarity": "POSITIVE",
+          "strength": "UNSPECIFIED"
+        }
+      ],
+      "timezone": "Asia/Tokyo",
+      "partySize": 2,
+      "timeWindow": {
+        "latest": "19:30",
+        "earliest": "19:00"
+      },
+      "schemaVersion": "3",
+      "budgetPerPerson": {
+        "max": 5000,
+        "currency": "JPY"
+      },
+      "partySizeSource": "EXPLICIT",
+      "temporalResolution": {
+        "date": {
+          "basis": "EXPLICIT_DATE",
+          "expression": "2026-08-05",
+          "resolvedDate": "2026-08-05"
+        },
+        "timezone": "Asia/Tokyo",
+        "timeWindow": {
+          "basis": "EXPLICIT_CLOCK",
+          "expression": "19:00-19:30",
+          "resolvedTimeWindow": {
+            "latest": "19:30",
+            "earliest": "19:00"
+          }
+        },
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-11-17T03:08:38.652Z"
+      }
+    },
+    "missingRequiredFields": [],
+    "searchRevision": 1,
+    "readyCandidateIds": [],
+    "progress": {
+      "active": false,
+      "stopped": false,
+      "discoveredCount": 3,
+      "checkedCount": 3
+    },
+    "bookingFeedbackAvailable": false,
+    "candidates": [
+      {
+        "warnings": [
+          "Fixture data only — availability is not real."
+        ],
+        "restaurant": {
+          "id": "fixture-restaurant-1",
+          "address": "1-1 Shinjuku, Tokyo",
+          "sourceIds": {
+            "fixture": "fixture-1"
+          },
+          "outletName": "Fixture Yakiniku Shinjuku 1",
+          "provenance": {
+            "address": "fixture",
+            "outletName": "fixture"
+          },
+          "coordinates": {
+            "lat": 35.690999999999995,
+            "lng": 139.701
+          }
+        },
+        "matchReasons": [
+          "Fixture match for the requested area"
+        ],
+        "executionConfidence": "LOW"
+      },
+      {
+        "warnings": [
+          "Fixture data only — availability is not real."
+        ],
+        "restaurant": {
+          "id": "fixture-restaurant-2",
+          "address": "2-1 Shinjuku, Tokyo",
+          "sourceIds": {
+            "fixture": "fixture-2"
+          },
+          "outletName": "Fixture Yakiniku Shinjuku 2",
+          "provenance": {
+            "address": "fixture",
+            "outletName": "fixture"
+          },
+          "coordinates": {
+            "lat": 35.692,
+            "lng": 139.702
+          }
+        },
+        "matchReasons": [
+          "Fixture match for the requested area"
+        ],
+        "executionConfidence": "LOW"
+      },
+      {
+        "warnings": [
+          "Fixture data only — availability is not real."
+        ],
+        "restaurant": {
+          "id": "fixture-restaurant-3",
+          "address": "3-1 Shinjuku, Tokyo",
+          "sourceIds": {
+            "fixture": "fixture-3"
+          },
+          "outletName": "Fixture Yakiniku Shinjuku 3",
+          "provenance": {
+            "address": "fixture",
+            "outletName": "fixture"
+          },
+          "coordinates": {
+            "lat": 35.693,
+            "lng": 139.70299999999997
+          }
+        },
+        "matchReasons": [
+          "Fixture match for the requested area"
+        ],
+        "executionConfidence": "LOW"
+      }
+    ],
+    "availability": {
+      "fixture-restaurant-1": [
+        {
+          "id": "fixture-offer-fixture-restaurant-1",
+          "price": {
+            "basis": "PER_PERSON",
+            "amount": 4400,
+            "currency": "JPY"
+          },
+          "source": "fixture",
+          "seating": "TABLE",
+          "dateTime": "2026-08-05T19:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-08-19T09:00:00.000Z",
+          "expiresAt": "2026-12-31T23:59:00.000Z",
+          "partySize": 2,
+          "bookingMode": "INSTANT",
+          "restaurantId": "fixture-restaurant-1",
+          "executionMode": "DEEPLINK",
+          "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+          "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+        }
+      ],
+      "fixture-restaurant-2": [
+        {
+          "id": "fixture-offer-fixture-restaurant-2",
+          "price": {
+            "basis": "PER_PERSON",
+            "amount": 4400,
+            "currency": "JPY"
+          },
+          "source": "fixture",
+          "seating": "TABLE",
+          "dateTime": "2026-08-05T19:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-08-19T09:00:00.000Z",
+          "expiresAt": "2026-12-31T23:59:00.000Z",
+          "partySize": 2,
+          "bookingMode": "INSTANT",
+          "restaurantId": "fixture-restaurant-2",
+          "executionMode": "DEEPLINK",
+          "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+          "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+        }
+      ],
+      "fixture-restaurant-3": [
+        {
+          "id": "fixture-offer-fixture-restaurant-3",
+          "price": {
+            "basis": "PER_PERSON",
+            "amount": 4400,
+            "currency": "JPY"
+          },
+          "source": "fixture",
+          "seating": "TABLE",
+          "dateTime": "2026-08-05T19:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-08-19T09:00:00.000Z",
+          "expiresAt": "2026-12-31T23:59:00.000Z",
+          "partySize": 2,
+          "bookingMode": "INSTANT",
+          "restaurantId": "fixture-restaurant-3",
+          "executionMode": "DEEPLINK",
+          "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+          "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+        }
+      ]
+    },
+    "availabilityChecks": {
+      "fixture-restaurant-1": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-08-19T09:00:00.000Z",
+        "expiresAt": "2026-12-31T23:59:00.000Z",
+        "evidenceIds": [],
+        "sourceProvider": "FIXTURE",
+        "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+        "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+      },
+      "fixture-restaurant-2": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-08-19T09:00:00.000Z",
+        "expiresAt": "2026-12-31T23:59:00.000Z",
+        "evidenceIds": [],
+        "sourceProvider": "FIXTURE",
+        "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+        "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+      },
+      "fixture-restaurant-3": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-08-19T09:00:00.000Z",
+        "expiresAt": "2026-12-31T23:59:00.000Z",
+        "evidenceIds": [],
+        "sourceProvider": "FIXTURE",
+        "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+        "requestFingerprint": "{\"date\":\"2026-08-05\",\"timeWindow\":{\"latest\":\"19:30\",\"earliest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    "readEvidence": [],
+    "currentFactEvidence": [],
+    "sourceReadContext": {
+      "runId": "run:restaurant:b14026df5952165e2f383ecd:investigation:1",
+      "startedAt": "2026-11-17T03:08:38.648Z"
+    },
+    "selectedCandidateId": "fixture-restaurant-1"
+  },
+  "artifacts": [
+    {
+      "artifactId": "artifact:candidates:restaurant:b14026df5952165e2f383ecd:1",
+      "caseId": "restaurant:b14026df5952165e2f383ecd",
+      "domain": "restaurant",
+      "type": "CANDIDATES",
+      "sourceVersion": 5,
+      "data": {
+        "candidates": [
+          {
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "restaurant": {
+              "id": "fixture-restaurant-1",
+              "address": "1-1 Shinjuku, Tokyo",
+              "sourceIds": {
+                "fixture": "fixture-1"
+              },
+              "outletName": "Fixture Yakiniku Shinjuku 1",
+              "provenance": {
+                "address": "fixture",
+                "outletName": "fixture"
+              },
+              "coordinates": {
+                "lat": 35.690999999999995,
+                "lng": 139.701
+              }
+            },
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "executionConfidence": "LOW"
+          },
+          {
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "restaurant": {
+              "id": "fixture-restaurant-2",
+              "address": "2-1 Shinjuku, Tokyo",
+              "sourceIds": {
+                "fixture": "fixture-2"
+              },
+              "outletName": "Fixture Yakiniku Shinjuku 2",
+              "provenance": {
+                "address": "fixture",
+                "outletName": "fixture"
+              },
+              "coordinates": {
+                "lat": 35.692,
+                "lng": 139.702
+              }
+            },
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "executionConfidence": "LOW"
+          },
+          {
+            "warnings": [
+              "Fixture data only — availability is not real."
+            ],
+            "restaurant": {
+              "id": "fixture-restaurant-3",
+              "address": "3-1 Shinjuku, Tokyo",
+              "sourceIds": {
+                "fixture": "fixture-3"
+              },
+              "outletName": "Fixture Yakiniku Shinjuku 3",
+              "provenance": {
+                "address": "fixture",
+                "outletName": "fixture"
+              },
+              "coordinates": {
+                "lat": 35.693,
+                "lng": 139.70299999999997
+              }
+            },
+            "matchReasons": [
+              "Fixture match for the requested area"
+            ],
+            "executionConfidence": "LOW"
+          }
+        ],
+        "availability": {
+          "fixture-restaurant-1": [
+            {
+              "id": "fixture-offer-fixture-restaurant-1",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "source": "fixture",
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-08-19T09:00:00.000Z",
+              "expiresAt": "2026-12-31T23:59:00.000Z",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "restaurantId": "fixture-restaurant-1",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+              "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+            }
+          ],
+          "fixture-restaurant-2": [
+            {
+              "id": "fixture-offer-fixture-restaurant-2",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "source": "fixture",
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-08-19T09:00:00.000Z",
+              "expiresAt": "2026-12-31T23:59:00.000Z",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "restaurantId": "fixture-restaurant-2",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+              "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+            }
+          ],
+          "fixture-restaurant-3": [
+            {
+              "id": "fixture-offer-fixture-restaurant-3",
+              "price": {
+                "basis": "PER_PERSON",
+                "amount": 4400,
+                "currency": "JPY"
+              },
+              "source": "fixture",
+              "seating": "TABLE",
+              "dateTime": "2026-08-05T19:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-08-19T09:00:00.000Z",
+              "expiresAt": "2026-12-31T23:59:00.000Z",
+              "partySize": 2,
+              "bookingMode": "INSTANT",
+              "restaurantId": "fixture-restaurant-3",
+              "executionMode": "DEEPLINK",
+              "displayExpiresAt": "2026-08-19T09:10:00.000Z",
+              "cancellationTerms": "Fixture only — no real reservation or cancellation terms."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "artifactId": "artifact:authorization:proposal:9cd00e74-ee37-4357-80fe-26601de9dbea",
+      "caseId": "restaurant:b14026df5952165e2f383ecd",
+      "domain": "restaurant",
+      "type": "AUTHORIZATION_REQUEST",
+      "sourceVersion": 5,
+      "data": {
+        "proposal": {
+          "id": "proposal:9cd00e74-ee37-4357-80fe-26601de9dbea",
+          "actionType": "BOOK",
+          "targetName": "Fixture Yakiniku Shinjuku 1",
+          "termsHash": "59c59286d88fb0de3f1886b78543223d651b33c25c67ffca4193f381b483bfee"
+        },
+        "note": "Display only. Stage 2B does not accept authorization or perform booking."
+      }
+    }
+  ],
+  "activities": [
+    {
+      "activityId": "activity:event:user:5cbd9c3dd4517ab3968ee1707e8c567b",
+      "caseId": "restaurant:b14026df5952165e2f383ecd",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:user:5cbd9c3dd4517ab3968ee1707e8c567b"
+      },
+      "type": "SEMANTIC_PROPOSAL_COMPILED",
+      "display": {
+        "title": "Request updated",
+        "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+      },
+      "occurredAt": "2026-11-17T03:08:38.662Z"
+    },
+    {
+      "activityId": "activity:event:restaurant-agent:d62e5e1b-1075-42cd-9da2-0a9eea5251c0",
+      "caseId": "restaurant:b14026df5952165e2f383ecd",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:restaurant-agent:d62e5e1b-1075-42cd-9da2-0a9eea5251c0"
+      },
+      "type": "SEARCH_COMPLETED",
+      "display": {
+        "title": "Restaurant search completed",
+        "detail": "3 discovery candidate(s) are ready for evidence checks."
+      },
+      "occurredAt": "2026-11-17T03:08:38.673Z"
+    },
+    {
+      "activityId": "activity:event:restaurant-agent:de989115-ee14-4f60-b20d-f5f344f47ea0",
+      "caseId": "restaurant:b14026df5952165e2f383ecd",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:restaurant-agent:de989115-ee14-4f60-b20d-f5f344f47ea0"
+      },
+      "type": "AVAILABILITY_CHECKED",
+      "display": {
+        "title": "Availability checked",
+        "detail": "3 evidence-grounded availability offer(s) were observed."
+      },
+      "occurredAt": "2026-11-17T03:08:38.680Z"
+    },
+    {
+      "activityId": "activity:event:restaurant-agent:9310e08a-58bf-4077-bede-a2e97837e72d",
+      "caseId": "restaurant:b14026df5952165e2f383ecd",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:restaurant-agent:9310e08a-58bf-4077-bede-a2e97837e72d"
+      },
+      "type": "CANDIDATE_SELECTED",
+      "display": {
+        "title": "Candidate selected",
+        "detail": "fixture-restaurant-1"
+      },
+      "occurredAt": "2026-11-17T03:08:38.686Z"
+    },
+    {
+      "activityId": "activity:event:restaurant-agent:72665f45-96ce-4c0a-94fd-0c824ba0ddb8",
+      "caseId": "restaurant:b14026df5952165e2f383ecd",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:restaurant-agent:72665f45-96ce-4c0a-94fd-0c824ba0ddb8"
+      },
+      "type": "BOOKING_PROPOSED",
+      "display": {
+        "title": "Authorization requested",
+        "detail": "A deterministic booking proposal is ready."
+      },
+      "occurredAt": "2026-11-17T03:08:38.692Z"
+    }
+  ],
+  "note": "Fixture mode only. No real model, live availability, authorization, notification, or reservation is performed."
+}

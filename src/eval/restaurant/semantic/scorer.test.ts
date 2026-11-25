@@ -205,3 +205,13 @@ for (const category of ["GRAY", "A", "B"] as const) {
     assert.equal(scoreRestaurantSemanticTurn(input).status, "FAIL");
   });
 }
+
+
+test("ADR-0052 scorer must distinguish plus-two and plus-three DATE directives", () => {
+  const proposal = (days: number): RestaurantSemanticProposal => ({ schemaVersion: "4", facts: [{ field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeOffsetDays: days, raw: `in ${days} days` } }] });
+  const actualDraft: RestaurantIntentDraft = { schemaVersion: "3", timezone: "Asia/Tokyo", criteria: [] };
+  assert.equal(scoreRestaurantSemanticTurn({ actualProposal: proposal(2), expectedProposal: proposal(2), actualDraft, expectedDraft: actualDraft }).status, "PASS");
+  const result = scoreRestaurantSemanticTurn({ actualProposal: proposal(2), expectedProposal: proposal(3), actualDraft, expectedDraft: actualDraft });
+  assert.equal(result.status, "FAIL");
+  if (result.status === "FAIL") assert.equal(result.firstFailureStage, "SEMANTIC_INTERPRETER");
+});

@@ -35,7 +35,7 @@ class SearchSession implements BrowserSession {
 const limits={maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:20,maxModelCallsTotal:120,maxOperationsPerCandidate:80};
 function request(name:string):RestaurantAvailabilityRequest{
   const c=structuredClone(fixtureCandidates[0]!);c.restaurant.id=name;c.restaurant.outletName=name;c.restaurant.sourceIds={googlePlaces:name};
-  return {candidateIds:[name],candidates:[c],date:fixtureIntent.date,timeWindow:fixtureIntent.timeWindow,partySize:fixtureIntent.partySize,hardCriteria:[]};
+  return {selectionScope:"SPECIFIC_OUTLET",candidateIds:[name],candidates:[c],date:fixtureIntent.date,timeWindow:fixtureIntent.timeWindow,partySize:fixtureIntent.partySize,hardCriteria:[]};
 }
 test("one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions",async()=>{
   const sessions:SearchSession[]=[];
@@ -59,7 +59,7 @@ test("missing observed search controls never construct a query URL and retain ho
   availability.beginReadRun();
   try{for(const name of ["Alpha Sushi","Beta Sushi","Gamma Sushi"]){const r=await availability.check(request(name),new AbortController().signal);assert.equal(r.availabilityChecks[name]?.status,"UNKNOWN");}}
   finally{await availability.endReadRun();}
-  assert.equal(sessions.length,2);assert.equal(sessions.flatMap(s=>s.navigations).length,2);
+  assert.equal(sessions.length,2);assert.equal(sessions.flatMap(s=>s.navigations).length,6,"each query reopens the reviewed entrance if search controls are absent");
   assert.equal(sessions.flatMap(s=>s.submissions).length,0);
 });
 
@@ -108,6 +108,7 @@ test("ordinary assembly retains correct source identities while a reused search 
   const root="https://tabelog.com/en/tokyo/rstLst/";
   const detail=(id:string)=>`https://tabelog.com/en/tokyo/A1304/A130401/${id}/`;
   class IdentitySession extends SearchSession {
+    override async observeControls(){return rows.some(r=>detail(r.id)===this.url)?[]:super.observeControls();}
     override async click(){this.url=root+"?sw="+encodeURIComponent(this.query);this.submissions.push(this.query);}
     override async snapshot():Promise<BrowserSnapshot>{
       const u=new URL(this.url),row=rows.find(r=>detail(r.id)===this.url);
@@ -118,9 +119,9 @@ test("ordinary assembly retains correct source identities while a reused search 
       return {url:this.url,title:row?.name??"Restaurant search",html,text:html.replace(/<[^>]*>/g," ")};
     }
   }
-  const sessions:IdentitySession[]=[];let sourceModelCalls=0;
+  const sessions:IdentitySession[]=[];let sourceModelCalls=0,browserCalls=0;const costs:Array<{name:string;calls:number;elapsedMs:number}>=[];
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {
-    model:{complete:async(request)=>{const observed=scriptedBrowserObservation(request);if(observed)return observed;sourceModelCalls++;return {invocationId:"declined-fragment",provider:"FIXTURE",model:"fixture",outputText:'{"field":"name","fragment":""}',finishReason:"STOP",latencyMs:0};}},
+    model:{complete:async(request)=>{if(request.purpose==="browser_read_decide")browserCalls++;const observed=scriptedBrowserObservation(request);if(observed)return observed;sourceModelCalls++;return {invocationId:"declined-fragment",provider:"FIXTURE",model:"fixture",outputText:'{"field":"name","fragment":""}',finishReason:"STOP",latencyMs:0};}},
     browser:{readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new IdentitySession();sessions.push(s);return fixtureGetSession(s);}},
     google:new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async()=>{throw new Error("Google not authorized");}}),
     clock:{now:()=>new Date()},
@@ -129,17 +130,41 @@ test("ordinary assembly retains correct source identities while a reused search 
   const conclusions=[];
   try{
     for(const [name,phone,expected] of [["Alpha Sushi","03-1111-1111","COMPLETED"],["Beta Sushi","03-2222-2222","COMPLETED"],["Wrong Sushi","03-9999-9999","UNKNOWN"],["Ambiguous Sushi","03-3333-3333","UNKNOWN"]] as const){
-      const r=request(name);r.candidates[0]!.restaurant.sourceIds.phone=phone;
+      const started=performance.now(),before=browserCalls;const r=request(name);r.candidates[0]!.restaurant.sourceIds.phone=phone;
       const read=await assembly.facts.inspectFacts({candidateIds:r.candidateIds,candidates:r.candidates,intent:fixtureIntent,readRunId:"identity-reuse"},new AbortController().signal,true);
-      assert.equal(read.factChecks[name]?.status,expected);conclusions.push({name,status:read.factChecks[name]?.status});
+      costs.push({name,calls:browserCalls-before,elapsedMs:performance.now()-started});assert.equal(read.factChecks[name]?.status,expected);conclusions.push({name,status:read.factChecks[name]?.status});
       if(expected==="COMPLETED")assert.ok(read.evidence.some(e=>e.kind==="ENTITY_MATCH"&&e.candidateId===name&&e.entityMatch?.confidence==="HIGH"));
       else assert.equal(read.evidence.some(e=>e.kind==="ENTITY_MATCH"),false);
       assert.equal(read.evidence.some(e=>e.kind==="AVAILABILITY"),false,"identity investigation never claims inventory");
     }
   }finally{await assembly.availability.endReadRun();}
   assert.equal(sessions.length,1);assert.equal(sessions[0]!.closed,1);
-  assert.equal(sessions[0]!.navigations.filter(u=>u==="https://tabelog.com/en/").length,1);
+  assert.equal(sessions[0]!.navigations.filter(u=>u==="https://tabelog.com/en/").length,4);
   assert.ok(sessions[0]!.submissions.includes("Beta Sushi"));
   assert.equal(sourceModelCalls,2,"only the unchanged fragment fallback for the two unresolved identities");
-  if(process.env.PRAXIS_SESSION_REUSE_CAPTURE==="1")console.log("SESSION_REUSE_RESULT "+JSON.stringify({conclusions,sessionOpens:sessions.length,entranceNavigations:1,submissions:sessions[0]!.submissions,sourceModelCalls,externalCalls:0}));
+  if(process.env.PRAXIS_SESSION_REUSE_CAPTURE==="1")console.log("SESSION_REUSE_RESULT "+JSON.stringify({mode:"LOCAL_CONSTRUCTION_PRODUCTION_FACT_COMPOSITION",costs,conclusions,sessionOpens:sessions.length,entranceNavigations:4,submissions:sessions[0]!.submissions,sourceModelCalls,externalCalls:0}));
+});
+
+test("recorded R2-07 stale detail and absent search each return to the reviewed entrance before the next named query",async()=>{
+  const {readFile}=await import('node:fs/promises');
+  const home=await readFile('src/harness/fixtures/seed-readiness/search-entrance.html','utf8'),detail=await readFile('src/harness/fixtures/seed-readiness/prior-detail.html','utf8');
+  const controls=JSON.parse(await readFile('src/harness/fixtures/seed-readiness/search-controls.json','utf8')) as BrowserPageControl[];
+  const initialUrls:string[]=[];
+  class RecordedSession extends SearchSession {
+    override async snapshot(){return {url:this.url,title:'Recorded source',html:this.url==='https://tabelog.com/en/'?home:detail,text:'Recorded DOM; entry-only component replay'};}
+    override async observeControls(){return this.url==='https://tabelog.com/en/'?controls:[];}
+  }
+  const session=new RecordedSession();const {BrowserTaskExecutor}=await import('../../infrastructure/browser/browser-task-executor.js');
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{...limits,modelDecision:{decide:async input=>{initialUrls.push(input.observation.url);return {type:'REQUEST_HUMAN_HELP',reason:'LOCAL_CONSTRUCTION: record the first observed page only'};}}});
+  const signal=new AbortController().signal;executor.beginCandidate('fixture');executor.beginProvider('fixture','TABELOG');
+  const {tabelogPublicReadNetworkPolicy}=await import('../tabelog/tabelog-public-query.js');
+  const acquired=await executor.acquire(signal,'TABELOG','DISCOVERY',tabelogPublicReadNetworkPolicy);
+  try{
+    for(const [i,url] of ['about:blank','https://tabelog.com/en/tokyo/A1319/A131904/13231218/','https://tabelog.com/en/tokyo/rstLst/?sw=prior'].entries()){
+      session.url=url;executor.beginCandidate('fixture-'+i);executor.beginProvider('fixture-'+i,'TABELOG');
+      await executor.search({source:'TABELOG',signal,allowedOrigins:['https://tabelog.com'],session:acquired,url:'https://tabelog.com/en/',query:'Fictional outlet '+i,completion:()=>({complete:false,reason:'Observe the query entry'})});
+    }
+    assert.deepEqual(initialUrls,Array(3).fill('https://tabelog.com/en/'));
+    assert.equal(session.navigations.length,3);
+  }finally{await executor.closeAll();}
 });

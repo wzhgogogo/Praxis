@@ -1,0 +1,115 @@
+{
+  "mode": "LIVE_READ",
+  "case": {
+    "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+    "conversationId": "conversation:44d9e0479bf52c24a27915d1",
+    "rootTaskId": "restaurant:44d9e0479bf52c24a27915d1",
+    "title": "Table for 2 in Ginza on 2026-11-19 at 20:00 for sushi",
+    "status": "ACTIVE",
+    "phase": "UNDERSTANDING",
+    "taskVersion": 1,
+    "updatedAt": "2026-11-17T03:09:43.395Z"
+  },
+  "conversation": {
+    "id": "conversation:44d9e0479bf52c24a27915d1",
+    "messages": [
+      {
+        "id": "message:0:f56daee685b0406512ead37b",
+        "role": "USER",
+        "content": "Table for 2 in Ginza on 2026-11-19 at 20:00 for sushi",
+        "createdAt": "2026-11-17T03:09:43.401Z"
+      }
+    ]
+  },
+  "restaurant": {
+    "requirementRevision": 1,
+    "questionHistory": [],
+    "savedCandidates": [],
+    "readStatus": {
+      "kind": "PENDING",
+      "partialSourceFailure": false,
+      "canContinue": false,
+      "canRetry": false
+    },
+    "intentDraft": {
+      "area": {
+        "query": "Ginza"
+      },
+      "date": "2026-11-19",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Sushi restaurant in Ginza",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "criteria": [
+        {
+          "text": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "timezone": "Asia/Tokyo",
+      "partySize": 2,
+      "timeWindow": {
+        "latest": "20:00",
+        "earliest": "20:00"
+      },
+      "schemaVersion": "3",
+      "partySizeSource": "EXPLICIT",
+      "temporalResolution": {
+        "date": {
+          "basis": "EXPLICIT_DATE",
+          "expression": "2026-11-19",
+          "resolvedDate": "2026-11-19"
+        },
+        "timezone": "Asia/Tokyo",
+        "timeWindow": {
+          "basis": "EXPLICIT_CLOCK",
+          "expression": "at 20:00",
+          "resolvedTimeWindow": {
+            "latest": "20:00",
+            "earliest": "20:00"
+          }
+        },
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-11-17T03:09:39.719Z"
+      }
+    },
+    "missingRequiredFields": [],
+    "searchRevision": 0,
+    "readyCandidateIds": [],
+    "progress": {
+      "active": true,
+      "stopped": false
+    },
+    "bookingFeedbackAvailable": false,
+    "candidates": [],
+    "availability": {},
+    "availabilityChecks": {},
+    "readEvidence": [],
+    "currentFactEvidence": [],
+    "sourceReadContext": {
+      "runId": "run:restaurant:44d9e0479bf52c24a27915d1:investigation:1",
+      "startedAt": "2026-11-17T03:09:39.714Z"
+    },
+    "bookingHandoffs": []
+  },
+  "artifacts": [],
+  "activities": [
+    {
+      "activityId": "activity:event:user:53dc0b4eb47e38c6baa25b60cb5f5638",
+      "caseId": "restaurant:44d9e0479bf52c24a27915d1",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:user:53dc0b4eb47e38c6baa25b60cb5f5638"
+      },
+      "type": "SEMANTIC_PROPOSAL_COMPILED",
+      "display": {
+        "title": "Request updated",
+        "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+      },
+      "occurredAt": "2026-11-17T03:09:43.395Z"
+    }
+  ],
+  "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+}

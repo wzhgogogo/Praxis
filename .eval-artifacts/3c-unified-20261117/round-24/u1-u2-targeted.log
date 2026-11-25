@@ -1,0 +1,90 @@
+✖ Round24 UI: U1/U2 390 dual-price readings legacy=false survive real snapshot reload (17846.386ms)
+✖ Round24 UI: U1/U2 390 dual-price readings legacy=true survive real snapshot reload (795.921334ms)
+✖ Round24 UI: U1/U2 1440 dual-price readings legacy=false survive real snapshot reload (772.842ms)
+✖ Round24 UI: U1/U2 1440 dual-price readings legacy=true survive real snapshot reload (788.091416ms)
+✔ Round24 UI: U2 390 archived tabelog menu budget=false appears once per reading (920.263125ms)
+✔ Round24 UI: U2 390 archived website menu budget=false appears once per reading (908.282417ms)
+✔ Round24 UI: U2 390 archived tabelog menu budget=true appears once per reading (908.57025ms)
+✔ Round24 UI: U2 390 archived website menu budget=true appears once per reading (889.993667ms)
+✔ Round24 UI: U2 1440 archived tabelog menu budget=false appears once per reading (892.682417ms)
+✔ Round24 UI: U2 1440 archived website menu budget=false appears once per reading (856.940167ms)
+✔ Round24 UI: U2 1440 archived tabelog menu budget=true appears once per reading (858.954125ms)
+✔ Round24 UI: U2 1440 archived website menu budget=true appears once per reading (875.997916ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 8
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27881.550792
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:4397
+✖ Round24 UI: U1/U2 390 dual-price readings legacy=false survive real snapshot reload (17846.386ms)
+  AssertionError [ERR_ASSERTION]: undefined == true
+      at priceFact (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:28:110)
+      at async Promise.all (index 0)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:33:114)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:32:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:4397
+✖ Round24 UI: U1/U2 390 dual-price readings legacy=true survive real snapshot reload (795.921334ms)
+  AssertionError [ERR_ASSERTION]: undefined == true
+      at priceFact (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:28:110)
+      at async Promise.all (index 0)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:33:114)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:32:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:4397
+✖ Round24 UI: U1/U2 1440 dual-price readings legacy=false survive real snapshot reload (772.842ms)
+  AssertionError [ERR_ASSERTION]: undefined == true
+      at priceFact (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:28:110)
+      at async Promise.all (index 0)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:33:114)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:32:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:4397
+✖ Round24 UI: U1/U2 1440 dual-price readings legacy=true survive real snapshot reload (788.091416ms)
+  AssertionError [ERR_ASSERTION]: undefined == true
+      at priceFact (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:28:110)
+      at async Promise.all (index 0)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:33:114)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:32:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }

@@ -1,0 +1,77 @@
+✖ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (764.800875ms)
+✖ Round16 first semantic preparation Stop cancels with zero source calls (517.374583ms)
+✖ Round16 old prepared refresh never claims replacement preparation handle (511.980458ms)
+✖ Round16 About question preparing Stop returns HTTP 200 and zero question sources (521.117ms)
+✖ src/application/persistent-read-preparation.test.ts (44400.148084ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44402.806292
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:14174
+✖ Round16 Stop retries CANCELLED when shortlist races between snapshot and dispatch (764.800875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:265:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:15405
+✖ Round16 first semantic preparation Stop cancels with zero source calls (517.374583ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:279:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:16349
+✖ Round16 old prepared refresh never claims replacement preparation handle (511.980458ms)
+  Error: Refresh requires currently presented read-only results
+      at PersistentRestaurantAgentApplication.refreshAvailability (/private/tmp/praxis-3c-unified/src/application/persistent-restaurant-agent.ts:783:52)
+
+test at src/application/persistent-read-preparation.test.ts:1:18037
+✖ Round16 About question preparing Stop returns HTTP 200 and zero question sources (521.117ms)
+  AssertionError [ERR_ASSERTION]: {"error":"Event AGENT_LOOP_TERMINATED is invalid while restaurant task is PRESENT_RESULTS"}
+  
+  400 !== 200
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:319:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 200,
+    operator: 'strictEqual'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:1
+✖ src/application/persistent-read-preparation.test.ts (44400.148084ms)
+  'Promise resolution is still pending but the event loop has already resolved'

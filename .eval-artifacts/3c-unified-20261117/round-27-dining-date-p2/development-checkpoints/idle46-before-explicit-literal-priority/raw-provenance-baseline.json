@@ -1,0 +1,65 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/reviewer-raw-provenance.mjs"
+  ],
+  "envLoaded": false,
+  "exitCode": 0,
+  "seconds": 2.3848570409999996,
+  "bindingBlob": "da8d4a881d931189dfa188c477226ccca42ac81c",
+  "rows": [
+    {
+      "case": "structured date editor ignores fabricated DATE raw",
+      "message": "Change Thu, Nov 26 to 2026-11-28",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-27",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-27"
+      ],
+      "times": [
+        "18:00"
+      ],
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "pass": false
+    },
+    {
+      "case": "explicit typed ISO edit ignores fabricated DATE raw",
+      "message": "\u6539\u62102026-11-28\u665a\u4e0a7\u70b9",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-27",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-27"
+      ],
+      "times": [
+        "19:00"
+      ],
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "pass": false
+    },
+    {
+      "case": "structured date editor exact raw control",
+      "message": "Change Thu, Nov 26 to 2026-11-28",
+      "expected": "2026-11-28",
+      "draftDate": "2026-11-28",
+      "phase": "PRESENT_RESULTS",
+      "dates": [
+        "2026-11-28"
+      ],
+      "times": [
+        "18:00"
+      ],
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "pass": true
+    }
+  ]
+}

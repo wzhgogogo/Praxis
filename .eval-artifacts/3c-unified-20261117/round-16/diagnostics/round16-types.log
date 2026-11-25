@@ -1,0 +1,223 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/web/browser/composer.ts(4,28): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/entry.ts(66,28): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/web/browser/entry.ts(71,39): error TS7006: Parameter 'message' implicitly has an 'any' type.
+src/web/browser/entry.ts(74,60): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/web/browser/entry.ts(80,25): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/web/browser/entry.ts(80,71): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/web/browser/entry.ts(89,31): error TS7006: Parameter 'button' implicitly has an 'any' type.
+src/web/browser/entry.ts(89,38): error TS7006: Parameter 'label' implicitly has an 'any' type.
+src/web/browser/entry.ts(89,44): error TS7006: Parameter 'kind' implicitly has an 'any' type.
+src/web/browser/entry.ts(89,49): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/entry.ts(89,55): error TS7006: Parameter 'removable' implicitly has an 'any' type.
+src/web/browser/entry.ts(110,26): error TS7006: Parameter 'message' implicitly has an 'any' type.
+src/web/browser/entry.ts(110,34): error TS7006: Parameter 'button' implicitly has an 'any' type.
+src/web/browser/entry.ts(144,41): error TS7006: Parameter 'message' implicitly has an 'any' type.
+src/web/browser/entry.ts(166,12): error TS2304: Cannot find name 'previewPace'.
+src/web/browser/entry.ts(235,51): error TS2538: Type 'null' cannot be used as an index type.
+src/web/browser/entry.ts(238,2): error TS2322: Type '{ id: string | null; nav: number; caseId: string; revision: number; }' is not assignable to type '{ id: string; nav: number; caseId: string; revision: number; }'.
+  Types of property 'id' are incompatible.
+    Type 'string | null' is not assignable to type 'string'.
+      Type 'null' is not assignable to type 'string'.
+src/web/browser/entry.ts(243,67): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/web/browser/entry.ts(251,5): error TS7034: Variable 'answerDragY' implicitly has type 'any' in some locations where its type cannot be determined.
+src/web/browser/entry.ts(252,44): error TS7005: Variable 'answerDragY' implicitly has an 'any' type.
+src/web/browser/entry.ts(252,78): error TS7005: Variable 'answerDragY' implicitly has an 'any' type.
+src/web/browser/entry.ts(266,30): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/web/browser/entry.ts(291,76): error TS2339: Property 'onclick' does not exist on type 'Element'.
+src/web/browser/entry.ts(292,86): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/web/browser/entry.ts(295,133): error TS2339: Property 'dataset' does not exist on type 'Element'.
+src/web/browser/entry.ts(296,33): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/web/browser/entry.ts(307,84): error TS2345: Argument of type 'EventTarget | null' is not assignable to parameter of type 'Node | null'.
+  Type 'EventTarget' is missing the following properties from type 'Node': baseURI, childNodes, firstChild, isConnected, and 43 more.
+src/web/browser/entry.ts(307,123): error TS2345: Argument of type 'EventTarget | null' is not assignable to parameter of type 'Node | null'.
+  Type 'EventTarget' is missing the following properties from type 'Node': baseURI, childNodes, firstChild, isConnected, and 43 more.
+src/web/browser/entry.ts(308,47): error TS2345: Argument of type 'EventTarget | null' is not assignable to parameter of type 'Node | null'.
+  Type 'EventTarget' is missing the following properties from type 'Node': baseURI, childNodes, firstChild, isConnected, and 43 more.
+src/web/browser/entry.ts(348,29): error TS7006: Parameter 'user' implicitly has an 'any' type.
+src/web/browser/entry.ts(349,229): error TS18046: 'error' is of type 'unknown'.
+src/web/browser/format.ts(2,28): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/format.ts(2,42): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ TABLECHECK: string; TABELOG: string; GOOGLE_PLACES: string; FIXTURE: string; fixture: string; }'.
+src/web/browser/format.ts(3,26): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/format.ts(4,22): error TS7006: Parameter 'label' implicitly has an 'any' type.
+src/web/browser/format.ts(4,28): error TS7006: Parameter 'url' implicitly has an 'any' type.
+src/web/browser/format.ts(5,23): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/format.ts(6,29): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/format.ts(7,29): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/format.ts(8,24): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/format.ts(9,34): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/format.ts(10,30): error TS7006: Parameter 'value' implicitly has an 'any' type.
+src/web/browser/format.ts(11,27): error TS7006: Parameter 'summary' implicitly has an 'any' type.
+src/web/browser/navigation.ts(25,25): error TS7006: Parameter 'view' implicitly has an 'any' type.
+src/web/browser/navigation.ts(27,32): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/navigation.ts(48,26): error TS7006: Parameter 'delta' implicitly has an 'any' type.
+src/web/browser/navigation.ts(49,75): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/web/browser/photos.ts(12,31): error TS7006: Parameter 'key' implicitly has an 'any' type.
+src/web/browser/photos.ts(12,35): error TS7006: Parameter 'photos' implicitly has an 'any' type.
+src/web/browser/photos.ts(13,27): error TS7006: Parameter 'entry' implicitly has an 'any' type.
+src/web/browser/photos.ts(13,95): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/web/browser/photos.ts(14,31): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/photos.ts(14,34): error TS7006: Parameter 'photo' implicitly has an 'any' type.
+src/web/browser/photos.ts(14,40): error TS7006: Parameter 'key' implicitly has an 'any' type.
+src/web/browser/photos.ts(14,44): error TS7006: Parameter 'loaded' implicitly has an 'any' type.
+src/web/browser/photos.ts(14,51): error TS7006: Parameter 'failed' implicitly has an 'any' type.
+src/web/browser/photos.ts(19,43): error TS2533: Object is possibly 'null' or 'undefined'.
+src/web/browser/photos.ts(24,38): error TS7006: Parameter 'key' implicitly has an 'any' type.
+src/web/browser/photos.ts(24,42): error TS7006: Parameter 'entry' implicitly has an 'any' type.
+src/web/browser/photos.ts(24,48): error TS7006: Parameter 'photo' implicitly has an 'any' type.
+src/web/browser/photos.ts(38,35): error TS7006: Parameter 'key' implicitly has an 'any' type.
+src/web/browser/photos.ts(38,39): error TS7006: Parameter 'entry' implicitly has an 'any' type.
+src/web/browser/photos.ts(40,14): error TS7006: Parameter 'photo' implicitly has an 'any' type.
+src/web/browser/photos.ts(54,24): error TS2533: Object is possibly 'null' or 'undefined'.
+src/web/browser/photos.ts(61,32): error TS7006: Parameter 'host' implicitly has an 'any' type.
+src/web/browser/photos.ts(66,35): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/photos.ts(66,38): error TS7006: Parameter 'photo' implicitly has an 'any' type.
+src/web/browser/photos.ts(86,72): error TS2533: Object is possibly 'null' or 'undefined'.
+src/web/browser/photos.ts(88,15): error TS2339: Property 'candidateId' does not exist on type 'ApiResponse'.
+src/web/browser/photos.ts(92,27): error TS7006: Parameter 'delta' implicitly has an 'any' type.
+src/web/browser/position.ts(3,21): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/position.ts(5,33): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/position.ts(7,40): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/web/browser/preview.ts(7,34): error TS7006: Parameter 'view' implicitly has an 'any' type.
+src/web/browser/preview.ts(10,35): error TS7006: Parameter 'view' implicitly has an 'any' type.
+src/web/browser/preview.ts(10,40): error TS7006: Parameter 'startedAt' implicitly has an 'any' type.
+src/web/browser/preview.ts(16,83): error TS18048: 'next' is possibly 'undefined'.
+src/web/browser/queries.ts(6,27): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/queries.ts(7,122): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/web/browser/selected-slot.ts(4,29): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/selected-slot.ts(5,38): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/selected-slot.ts(6,37): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/selected-slot.ts(10,26): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/selected-slot.ts(16,89): error TS2345: Argument of type '{ userId: string; caseId: string; revision: number; candidateId: string | null; }' is not assignable to parameter of type 'SelectionScope'.
+  Types of property 'candidateId' are incompatible.
+    Type 'string | null' is not assignable to type 'string'.
+      Type 'null' is not assignable to type 'string'.
+src/web/browser/selected-slot.ts(22,28): error TS7006: Parameter 'offer' implicitly has an 'any' type.
+src/web/browser/selected-slot.ts(23,38): error TS2345: Argument of type '{ userId: string; caseId: string; revision: number; candidateId: string | null; }' is not assignable to parameter of type 'SelectionScope'.
+  Types of property 'candidateId' are incompatible.
+    Type 'string | null' is not assignable to type 'string'.
+      Type 'null' is not assignable to type 'string'.
+src/web/browser/selected-slot.ts(28,46): error TS2345: Argument of type '{ userId: string; caseId: string; revision: number; candidateId: string | null; }' is not assignable to parameter of type 'SelectionScope'.
+  Types of property 'candidateId' are incompatible.
+    Type 'string | null' is not assignable to type 'string'.
+      Type 'null' is not assignable to type 'string'.
+src/web/browser/session.ts(11,30): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/transport.ts(9,26): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/transport.ts(10,29): error TS7006: Parameter 'nav' implicitly has an 'any' type.
+src/web/browser/transport.ts(10,33): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/transport.ts(11,29): error TS7006: Parameter 'summary' implicitly has an 'any' type.
+src/web/browser/transport.ts(18,59): error TS2339: Property 'dataset' does not exist on type 'Element'.
+src/web/browser/transport.ts(19,60): error TS2339: Property 'onclick' does not exist on type 'Element'.
+src/web/browser/transport.ts(22,3): error TS18047: 'button.firstChild' is possibly 'null'.
+src/web/browser/transport.ts(22,68): error TS2339: Property 'title' does not exist on type 'Element'.
+src/web/browser/transport.ts(22,88): error TS18047: 'button.lastChild' is possibly 'null'.
+src/web/browser/transport.ts(25,37): error TS2339: Property 'dataset' does not exist on type 'Element'.
+src/web/browser/transport.ts(26,59): error TS18048: 'other' is possibly 'undefined'.
+src/web/browser/transport.ts(27,64): error TS18048: 'other' is possibly 'undefined'.
+src/web/browser/transport.ts(32,23): error TS2339: Property 'focus' does not exist on type 'Element'.
+src/web/browser/transport.ts(44,39): error TS2322: Type 'null' is not assignable to type 'number | undefined'.
+src/web/browser/transport.ts(51,3): error TS2322: Type 'null' is not assignable to type 'number | undefined'.
+src/web/browser/transport.ts(61,28): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/transport.ts(61,35): error TS7006: Parameter 'nav' implicitly has an 'any' type.
+src/web/browser/transport.ts(70,29): error TS7006: Parameter 'view' implicitly has an 'any' type.
+src/web/browser/transport.ts(70,34): error TS7006: Parameter 'nav' implicitly has an 'any' type.
+src/web/browser/transport.ts(70,38): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/transport.ts(84,28): error TS7006: Parameter 'nav' implicitly has an 'any' type.
+src/web/browser/transport.ts(84,32): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/transport.ts(89,39): error TS7006: Parameter 'error' implicitly has an 'any' type.
+src/web/browser/transport.ts(89,45): error TS7006: Parameter 'nav' implicitly has an 'any' type.
+src/web/browser/transport.ts(89,49): error TS7006: Parameter 'caseId' implicitly has an 'any' type.
+src/web/browser/transport.ts(102,24): error TS7006: Parameter 'view' implicitly has an 'any' type.
+src/web/browser/views.ts(24,55): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(24,66): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(24,165): error TS18047: 'r' is possibly 'null'.
+src/web/browser/views.ts(26,157): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(30,80): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(30,99): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(33,61): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(33,123): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(34,52): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(35,15): error TS18047: 'r' is possibly 'null'.
+src/web/browser/views.ts(35,30): error TS18047: 'r' is possibly 'null'.
+src/web/browser/views.ts(35,52): error TS18047: 'r' is possibly 'null'.
+src/web/browser/views.ts(36,83): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(36,103): error TS18047: 'p' is possibly 'null'.
+src/web/browser/views.ts(40,56): error TS2339: Property 'dataset' does not exist on type 'Element'.
+src/web/browser/views.ts(41,8): error TS2339: Property 'hidden' does not exist on type 'Element'.
+src/web/browser/views.ts(41,21): error TS18047: 'node.lastChild' is possibly 'null'.
+src/web/browser/views.ts(41,36): error TS2551: Property 'replaceChildren' does not exist on type 'ChildNode'. Did you mean 'replaceChild'?
+src/web/browser/views.ts(41,76): error TS2345: Argument of type 'string | number | boolean | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/web/browser/views.ts(41,107): error TS18047: 'node.lastChild' is possibly 'null'.
+src/web/browser/views.ts(41,122): error TS2339: Property 'append' does not exist on type 'ChildNode'.
+src/web/browser/views.ts(43,46): error TS2339: Property 'hidden' does not exist on type 'Element'.
+src/web/browser/views.ts(43,83): error TS2339: Property 'dataset' does not exist on type 'Element'.
+src/web/browser/views.ts(45,26): error TS7006: Parameter 'container' implicitly has an 'any' type.
+src/web/browser/views.ts(45,36): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/web/browser/views.ts(45,41): error TS7006: Parameter 'index' implicitly has an 'any' type.
+src/web/browser/views.ts(46,33): error TS7006: Parameter 'target' implicitly has an 'any' type.
+src/web/browser/views.ts(46,40): error TS7006: Parameter 'build' implicitly has an 'any' type.
+src/web/browser/views.ts(47,40): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/views.ts(70,30): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/web/browser/views.ts(70,199): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ MET: string; NOT_MET: string; NOT_CHECKED: string; }'.
+src/web/browser/views.ts(75,823): error TS2339: Property 'focus' does not exist on type 'Element'.
+src/web/browser/views.ts(77,67): error TS2538: Type 'null' cannot be used as an index type.
+src/web/browser/views.ts(78,12): error TS7006: Parameter 'item' implicitly has an 'any' type.
+src/web/browser/views.ts(86,151): error TS7006: Parameter 'target' implicitly has an 'any' type.
+src/web/browser/views.ts(88,20): error TS7006: Parameter 'url' implicitly has an 'any' type.
+src/web/browser/views.ts(88,24): error TS7006: Parameter 'quote' implicitly has an 'any' type.
+src/web/browser/views.ts(88,30): error TS7006: Parameter 'readAt' implicitly has an 'any' type.
+src/web/browser/views.ts(98,30): error TS7006: Parameter 'target' implicitly has an 'any' type.
+src/web/browser/views.ts(98,37): error TS7006: Parameter 'result' implicitly has an 'any' type.
+src/web/browser/views.ts(110,29): error TS7006: Parameter 'id' implicitly has an 'any' type.
+src/web/browser/views.ts(112,36): error TS18048: 'r.pageQuestion' is possibly 'undefined'.
+src/web/browser/views.ts(114,44): error TS18048: 'r.pageQuestion' is possibly 'undefined'.
+src/web/browser/views.ts(122,12): error TS2339: Property 'area' does not exist on type '{}'.
+src/web/browser/views.ts(122,79): error TS2339: Property 'area' does not exist on type '{}'.
+src/web/browser/views.ts(123,12): error TS2339: Property 'date' does not exist on type '{}'.
+src/web/browser/views.ts(123,47): error TS2339: Property 'date' does not exist on type '{}'.
+src/web/browser/views.ts(123,72): error TS2339: Property 'date' does not exist on type '{}'.
+src/web/browser/views.ts(124,12): error TS2339: Property 'timeWindow' does not exist on type '{}'.
+src/web/browser/views.ts(124,41): error TS2339: Property 'timeWindow' does not exist on type '{}'.
+src/web/browser/views.ts(124,68): error TS2339: Property 'timeWindow' does not exist on type '{}'.
+src/web/browser/views.ts(124,94): error TS2339: Property 'timeWindow' does not exist on type '{}'.
+src/web/browser/views.ts(124,124): error TS2339: Property 'timeWindow' does not exist on type '{}'.
+src/web/browser/views.ts(124,165): error TS2339: Property 'timeWindow' does not exist on type '{}'.
+src/web/browser/views.ts(125,12): error TS2339: Property 'partySize' does not exist on type '{}'.
+src/web/browser/views.ts(125,40): error TS2339: Property 'partySize' does not exist on type '{}'.
+src/web/browser/views.ts(125,66): error TS2339: Property 'partySizeSource' does not exist on type '{}'.
+src/web/browser/views.ts(125,123): error TS2339: Property 'partySize' does not exist on type '{}'.
+src/web/browser/views.ts(126,12): error TS2339: Property 'budgetPerPerson' does not exist on type '{}'.
+src/web/browser/views.ts(126,52): error TS2339: Property 'budgetPerPerson' does not exist on type '{}'.
+src/web/browser/views.ts(127,32): error TS2339: Property 'criteria' does not exist on type '{}'.
+src/web/browser/views.ts(135,30): error TS7006: Parameter 'code' implicitly has an 'any' type.
+src/web/browser/views.ts(135,43): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ OVER_BUDGET: string; NEW_TIME_MISMATCH: string; NO_LONGER_MATCHES: string; }'.
+src/web/browser/views.ts(140,245): error TS18047: 'summary' is possibly 'null'.
+src/web/browser/views.ts(140,301): error TS18047: 'summary' is possibly 'null'.
+src/web/browser/views.ts(140,333): error TS18047: 'summary' is possibly 'null'.
+src/web/browser/views.ts(153,33): error TS7006: Parameter 'end' implicitly has an 'any' type.
+src/web/browser/views.ts(183,40): error TS7006: Parameter 'target' implicitly has an 'any' type.
+src/web/browser/views.ts(207,125): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/web/browser/views.ts(211,341): error TS18047: 'conditionRow' is possibly 'null'.
+src/web/browser/views.ts(212,106): error TS2339: Property 'dataset' does not exist on type 'Element'.
+src/web/browser/views.ts(226,95): error TS18047: 'conditionRow' is possibly 'null'.
+src/web/browser/views.ts(226,121): error TS18047: 'conditionRow' is possibly 'null'.
+src/web/browser/views.ts(232,36): error TS2345: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+src/web/browser/views.ts(242,252): error TS18047: 'conditionRow' is possibly 'null'.
+src/web/browser/views.ts(242,307): error TS18047: 'conditionRow' is possibly 'null'.
+src/web/browser/views.ts(257,73): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.

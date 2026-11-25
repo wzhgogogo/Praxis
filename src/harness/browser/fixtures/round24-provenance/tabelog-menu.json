@@ -1,0 +1,76 @@
+{
+  "source": ".eval-artifacts/restaurant-web-read/2026-11-19T03-16-48-841Z-b1e5a5d6-fc84-4482-a27d-ef52c7499ae6.result.json",
+  "sourceSHA256": "ca8f52ec0dd9f7eb1a4f09c58ba4f4053be0f54a0378e9b2d3839349a234ee6f",
+  "evidenceId": "evidence:restaurant:tabelog-hard-criteria:e20c70185753d810632071a6",
+  "fact": {
+    "kind": "RESTAURANT_FACT",
+    "claims": {
+      "listedCourseDetails": [
+        "Menu\nFood\nBreakfast available"
+      ],
+      "verifiedHardCriteria": []
+    },
+    "provider": "TABELOG",
+    "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+    "evidenceId": "evidence:restaurant:tabelog-hard-criteria:e20c70185753d810632071a6",
+    "observedAt": "2026-11-19T03:15:50.972Z",
+    "candidateId": "praxis:restaurant:41fa24607e9b3db9d5bde401",
+    "entityMatch": {
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "confidence": "HIGH"
+    },
+    "sourceEntityId": "en/tokyo/A1303/A130301/13093998",
+    "sourceFieldQuotes": [
+      {
+        "field": "CATEGORY",
+        "quote": "Categories：\nHotel",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+      },
+      {
+        "field": "CATEGORY",
+        "quote": "Categories\tHotel",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+      },
+      {
+        "meal": "UNSPECIFIED",
+        "field": "COURSE_DESCRIPTION",
+        "quote": "Menu\nFood\nBreakfast available",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+      }
+    ],
+    "requestFingerprint": "d0606637f2164375dd31533436601b351e4f31a10b99c419c8c1031adea8f0e1"
+  },
+  "matchingQuotes": [
+    "Menu\nFood\nBreakfast available"
+  ],
+  "mode": "RECORDED_COMPONENT; only candidateId remapped to local Fixture outlet",
+  "identity": {
+    "kind": "ENTITY_MATCH",
+    "claims": {
+      "outletName": "Shibuya Excel Hotel Tokyu",
+      "observedOutletName": "SHIBUYA EXCEL HOTEL TOKYU"
+    },
+    "provider": "TABELOG",
+    "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/",
+    "evidenceId": "evidence:restaurant:tabelog-entity-match:4a56ee207b9b9185af100d58",
+    "observedAt": "2026-11-19T03:15:59.922Z",
+    "candidateId": "praxis:restaurant:41fa24607e9b3db9d5bde401",
+    "entityMatch": {
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "confidence": "HIGH"
+    },
+    "sourceEntityId": "en/tokyo/A1303/A130301/13093998",
+    "sourceFieldQuotes": [
+      {
+        "field": "NAME",
+        "quote": "SHIBUYA EXCEL HOTEL TOKYU",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13093998/"
+      }
+    ],
+    "requestFingerprint": "43314897edb20e29a9533e045de7aad69caa22ea5a442c31279e48d530955e2a"
+  }
+}

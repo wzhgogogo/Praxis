@@ -1,0 +1,18 @@
+{
+  "baseline": "678a177391ce3b3b65a620e2521428f36c683274",
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "src/domains/restaurant/relative-date-binding.test.ts",
+    "src/application/restaurant-relative-date.test.ts"
+  ],
+  "envLoaded": false,
+  "exitCode": 1,
+  "seconds": 19.246460375,
+  "newTestsOnUnmodifiedProduction": true
+}

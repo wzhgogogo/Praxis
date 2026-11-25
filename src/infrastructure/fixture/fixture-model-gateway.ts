@@ -32,10 +32,10 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
   }
 
   if (normalized.includes("tonight") || normalized.includes("2026-08-05")) {
-    add({ field: "DATE", operation, value: { kind: "DATE", value: REFERENCE_DATE, raw: REFERENCE_DATE } });
+    add({ field: "DATE", operation, value: { kind: "DATE", value: REFERENCE_DATE, raw: normalized.includes("tonight") ? "tonight" : REFERENCE_DATE } });
   }
   if (normalized.includes("tomorrow") || normalized.includes("2026-08-06")) {
-    add({ field: "DATE", operation, value: { kind: "DATE", value: "2026-08-06", raw: "2026-08-06" } });
+    add({ field: "DATE", operation, value: { kind: "DATE", value: "2026-08-06", raw: normalized.includes("tomorrow") ? "tomorrow" : "2026-08-06" } });
   }
   if (normalized.includes("7pm") || normalized.includes("7 pm") || normalized.includes("19:00")) {
     add({

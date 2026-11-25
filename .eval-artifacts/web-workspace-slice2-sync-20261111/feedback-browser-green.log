@@ -1,0 +1,78 @@
+✔ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2548.119042ms)
+✔ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (4268.892791ms)
+✔ Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (2214.889958ms)
+✔ Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh (4350.230375ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons structured (1133.613875ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons missing (1115.437458ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons structured (1132.354958ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons missing (1134.365041ms)
+✔ Workspace slice2 mobile: empty result copy is honest empty (765.209042ms)
+✔ Workspace slice2 mobile: empty result copy is honest all-sources-failed (831.986958ms)
+✔ Workspace slice2 mobile: semantic model failure retains the submitted text and current card, then accepts rephrasing (882.852167ms)
+✔ Workspace slice2 mobile: partial source failure keeps qualified results and places the notice at the batch end (799.799708ms)
+✔ Workspace slice2 desktop: empty result copy is honest empty (768.915958ms)
+✔ Workspace slice2 desktop: empty result copy is honest all-sources-failed (836.025583ms)
+✔ Workspace slice2 desktop: semantic model failure retains the submitted text and current card, then accepts rephrasing (946.051083ms)
+✔ Workspace slice2 desktop: partial source failure keeps qualified results and places the notice at the batch end (820.4095ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (826.741958ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (800.223375ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (855.079542ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (883.380875ms)
+✔ Workspace slice2 mobile: Stop during empty continuation discards the late source card (860.102709ms)
+✔ Workspace slice2 desktop: Stop during empty continuation discards the late source card (870.1195ms)
+✔ Workspace 3c mobile: each observed booking slot retains its own departure link (862.236625ms)
+✔ Workspace 3c desktop: each observed booking slot retains its own departure link (865.921625ms)
+✖ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (2351.798209ms)
+✔ Workspace mobile: stop and request revision discard late source responses (1246.390834ms)
+✖ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (1821.549875ms)
+✔ Workspace desktop: stop and request revision discard late source responses (1129.329875ms)
+✔ Workspace B1 mobile: long conflict terms keep the departure visible without a duplicate source action (1213.359833ms)
+✔ Workspace B1 desktop: long conflict terms keep the departure visible without a duplicate source action (1364.049916ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 28
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31822.607625
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace.test.ts:1:2930
+✖ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (2351.798209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Check date and guests on the website'
+  - 'Check date and guests'
+                          ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace.test.ts:103:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Check date and guests on the website',
+    expected: 'Check date and guests',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:2930
+✖ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (1821.549875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'Check date and guests on the website'
+  - 'Check date and guests'
+                          ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace.test.ts:103:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Check date and guests on the website',
+    expected: 'Check date and guests',
+    operator: 'strictEqual'
+  }

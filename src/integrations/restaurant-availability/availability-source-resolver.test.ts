@@ -10,7 +10,7 @@ import { tableCheckDiscoveryPack, tabelogDiscoveryPack } from "../restaurant-sea
 
 const candidate = fixtureCandidates[0]!;
 const request: RestaurantAvailabilityRequest = {
-  candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date,
+  selectionScope:"SPECIFIC_OUTLET",candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date,
   timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: ["yakiniku"],
 };
 
@@ -43,7 +43,7 @@ function resolver(tableCheck: RestaurantAvailabilityProvider, tabelog: Restauran
   return new AvailabilitySourceResolver([{ pack: tableCheckDiscoveryPack, provider: tableCheck }, { pack: tabelogDiscoveryPack, provider: tabelog }]);
 }
 
-test("source resolver always prefers TableCheck and does not call Tabelog after a conclusive read", async () => {
+test("named-source resolver prefers TableCheck and does not call Tabelog after a conclusive read", async () => {
   const calls: string[] = [];
   const result = await resolver(
     provider("TABLECHECK", { status: "AVAILABLE" }, calls),
@@ -172,4 +172,11 @@ test("group-window: one unsupported source does not erase another source's UNKNO
  const calls:string[]=[];
  const result=await resolver(provider("TABLECHECK",{status:"UNKNOWN",reasonCode:"REQUEST_UNCONFIRMED"},calls),provider("TABELOG",{status:"SOURCE_UNSUPPORTED",reasonCode:"SOURCE_UNSUPPORTED"},calls)).check(request,new AbortController().signal);
  assert.deepEqual(calls,["TABLECHECK","TABELOG"]);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"UNKNOWN");assert.equal(result.offers.length,0);
+});
+
+for(const mode of ['NONE','DIRECT','NAMED','SEARCH'] as const)test(`TableCheck path-cost skip is not a failed attempt: ${mode}`,async()=>{
+ const calls:string[]=[],copy=structuredClone(candidate);copy.restaurant.sourceIds=mode==='DIRECT'?{googleWebsiteUri:'https://www.tablecheck.com/en/observed-venue'}:mode==='SEARCH'?{googleWebsiteUri:'https://www.tablecheck.com/en/japan/search'}:{};
+ const result=await resolver(provider('TABLECHECK',{status:'AVAILABLE'},calls),provider('TABELOG',{status:'AVAILABLE'},calls)).check({...request,candidates:[copy],selectionScope:mode==='NAMED'?'SPECIFIC_OUTLET':'OPEN_ENDED'},new AbortController().signal);
+ const skip=mode!=='DIRECT'&&mode!=='NAMED';assert.deepEqual(calls,[skip?'TABELOG':'TABLECHECK']);assert.equal(result.metadata.providerAttempts!.length,1);assert.equal(result.metadata.skippedSources!.length,skip?1:0);
+ assert.ok(!result.metadata.providerAttempts?.some(a=>a.outcome==='PROVIDER_FAILURE'));assert.equal(result.metadata.failureCode,undefined);
 });

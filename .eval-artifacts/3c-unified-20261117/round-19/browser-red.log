@@ -1,0 +1,177 @@
+✖ Round19 UI: desktop candidates restores only unresolved Case reconfirmation (10418.975542ms)
+✖ Round19 UI: desktop About restores only unresolved Case reconfirmation (10000.76175ms)
+✖ Round19 UI: desktop Saved restores only unresolved Case reconfirmation (10009.712417ms)
+✖ Round19 UI: desktop other-plan restores only unresolved Case reconfirmation (9811.360958ms)
+✖ Round19 UI: desktop resolved-old-lock-after-away-revision restores only unresolved Case reconfirmation (1701.337792ms)
+✖ Round19 UI: mobile candidates restores only unresolved Case reconfirmation (9391.941292ms)
+✖ Round19 UI: mobile About restores only unresolved Case reconfirmation (9545.001416ms)
+✖ Round19 UI: mobile Saved restores only unresolved Case reconfirmation (9532.80025ms)
+✖ Round19 UI: mobile other-plan restores only unresolved Case reconfirmation (9623.129708ms)
+✖ Round19 UI: mobile resolved-old-lock-after-away-revision restores only unresolved Case reconfirmation (1520.793542ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 0
+ℹ fail 10
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82296.584208
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: desktop candidates restores only unresolved Case reconfirmation (10418.975542ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+  
+      at assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1348:10)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible" ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: desktop About restores only unresolved Case reconfirmation (10000.76175ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+  
+      at assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1348:10)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible" ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: desktop Saved restores only unresolved Case reconfirmation (10009.712417ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+  
+      at assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1348:10)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible" ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: desktop other-plan restores only unresolved Case reconfirmation (9811.360958ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+  
+      at assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1348:10)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible" ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: desktop resolved-old-lock-after-away-revision restores only unresolved Case reconfirmation (1701.337792ms)
+  AssertionError [ERR_ASSERTION]: consumption must leave no revision orphan
+  + actual - expected
+  
+  + [
+  +   'praxis:slot-reconfirm:["workspace-user","restaurant:19d384a18b6219f4e672e174",2]'
+  + ]
+  - []
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1339:130)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'praxis:slot-reconfirm:["workspace-user","restaurant:19d384a18b6219f4e672e174",2]' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: mobile candidates restores only unresolved Case reconfirmation (9391.941292ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+  
+      at assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1348:10)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible" ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: mobile About restores only unresolved Case reconfirmation (9545.001416ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+  
+      at assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1348:10)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible" ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: mobile Saved restores only unresolved Case reconfirmation (9532.80025ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible
+  
+      at assertReconfirmation (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1239:115)
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1348:10)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for locator('#delivery-slots').getByText('Plan conditions changed. Confirm the time again.', { exact: true }) to be visible" ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: mobile other-plan restores only unresolved Case reconfirmation (9623.129708ms)
+  locator.waitFor: Timeout 8000ms exceeded.
+  Call log:
+    - waiting for locator('#case-list .case-link[data-case-id="restaurant:afa54a42bdcbcc686d27af87"]').and(locator('.active')) to be visible
+      19 × locator resolved to hidden <button class="case-link active" data-case-id="restaurant:afa54a42bdcbcc686d27af87" title="Tokyo · 2026-11-02 · 19:00–19:30 · 4 guests">…</button>
+  
+      at openPlan (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1302:91)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1328:28)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2) {
+    name: 'TimeoutError',
+    log: [ `  - waiting for locator('#case-list .case-link[data-case-id="restaurant:afa54a42bdcbcc686d27af87"]').and(locator('.active')) to be visible`, '    19 × locator resolved to hidden <button class="case-link active" data-case-id="restaurant:afa54a42bdcbcc686d27af87" title="Tokyo · 2026-11-02 · 19:00–19:30 · 4 guests">…</button>' ]
+  }
+
+test at src/harness/browser/web-workspace-round10.test.ts:1:67759
+✖ Round19 UI: mobile resolved-old-lock-after-away-revision restores only unresolved Case reconfirmation (1520.793542ms)
+  AssertionError [ERR_ASSERTION]: consumption must leave no revision orphan
+  + actual - expected
+  
+  + [
+  +   'praxis:slot-reconfirm:["workspace-user","restaurant:2f2de6dea576bc5e2b8b8f1a",2]'
+  + ]
+  - []
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1339:130)
+      at async fixture (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:27:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round10.test.ts:1316:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'praxis:slot-reconfirm:["workspace-user","restaurant:2f2de6dea576bc5e2b8b8f1a",2]' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

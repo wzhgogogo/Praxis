@@ -3,12 +3,16 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import { RestaurantAgentLoopCoordinator } from "./restaurant-agent-loop.js";
+import { DeliveryReservedModelGateway } from "./delivery-reserved-model-gateway.js";
 import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
 import type { TaskSnapshot } from "../core/task-runtime/contracts.js";
-import type { RestaurantAgentLoopTermination, RestaurantOutcome, RestaurantTaskState, RestaurantEvent } from "../domains/restaurant/contracts.js";
+import { restaurantSearchIntentFingerprint, type RestaurantAgentLoopTermination, type RestaurantOutcome, type RestaurantTaskState, type RestaurantEvent } from "../domains/restaurant/contracts.js";
 import { ScriptedRestaurantAgentDecisionPort, type RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
-import { validateRestaurantAction } from "../domains/restaurant/action-validator.js";
-import { assessRestaurantRead } from "../domains/restaurant/read-assessment.js";
+import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
+import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "../domains/restaurant/action-validator.js";
+import { assessRestaurantRead, discoveryShortBatchDeliveryReady } from "../domains/restaurant/read-assessment.js";
+import { projectRestaurantAgentContext } from "../domains/restaurant/agent-context.js";
+import { completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import { restaurantBookingTaskDefinition as definition } from "../domains/restaurant/task-definition.js";
 import { InMemoryRestaurantAgentTrajectoryStore } from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 
@@ -18,9 +22,9 @@ const fixtures = JSON.parse(await readFile(new URL("./fixtures/p1-g2-h001-termin
 // A real saved state is explicitly injected for terminal-path regression only.
 // This is not an end-to-end discovery claim; the separate native composition
 // tests retain the production Guard, network policy and evidence-producing path.
-async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "FAILED_SEARCH") {
+async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermination = "REJECTION_LIMIT", runFailure?: "PROVIDER_REJECTED" | "UNCAUGHT_EXCEPTION" | "EXHAUSTED_BROWSER" | "EXHAUSTED_MODEL" | "FAILED_SEARCH", timing?: { now: () => Date; deadlineAt?: Date; afterPresentation?: (presentationTime: string) => void; decisions?: RestaurantAgentAction[]; router?: RestaurantExecutionRouter; remainingModelCalls?: () => number }) {
   let ticks = 0;
-  const clock = { now: () => new Date(Date.parse(fixture.now) + ticks++) };
+  const clock = { now: timing?.now ?? (() => new Date(Date.parse(fixture.now) + ticks++)) };
   let current: TaskSnapshot<RestaurantTaskState, RestaurantOutcome> = {
     id: "saved-h001", runId: "saved-h001", taskType: definition.type, definitionVersion: definition.version,
     domainState: structuredClone(fixture.state), lifecycleState: definition.getLifecycleState(fixture.state),
@@ -29,14 +33,27 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
   };
   const initial = structuredClone(current);
   const events: string[] = [];
+  const emitted: RestaurantEvent[] = [];
   const trajectories = new InMemoryRestaurantAgentTrajectoryStore();
-  const router = new RestaurantExecutionRouter(
+  const router = timing?.router ?? new RestaurantExecutionRouter(
     { executionRoute: "STRUCTURED_ADAPTER", async search() { throw new Error("No network allowed"); } },
     { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("No network allowed"); } }, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000 },
   );
+  const afterPresentation = timing?.afterPresentation;
+  if (afterPresentation) {
+    const execute = router.execute.bind(router);
+    router.execute = async (action, state, now) => {
+      const result = await execute(action, state, now);
+      if (result.event?.type === "RESULTS_PRESENTED") {
+        assert.ok(now);
+        afterPresentation(now);
+      }
+      return result;
+    };
+  }
   let decisionCalls = 0;
-  const decision = new ScriptedRestaurantAgentDecisionPort((runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") ? Array.from({length:12},()=>({type:"SEARCH_RESTAURANTS" as const})) : runFailure === "UNCAUGHT_EXCEPTION"
-    ? [{ type: "CHECK_AVAILABILITY", candidateIds: assessRestaurantRead(fixture.state, fixture.now).checkableCandidateIds.slice(0, 1) }] : []);
+  const decision = new ScriptedRestaurantAgentDecisionPort(timing?.decisions ?? ((runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") ? Array.from({length:12},()=>({type:"SEARCH_RESTAURANTS" as const})) : runFailure === "UNCAUGHT_EXCEPTION"
+    ? [{ type: "CHECK_AVAILABILITY", candidateIds: assessRestaurantRead(fixture.state, fixture.now).checkableCandidateIds.slice(0, 1) }] : []));
   if (runFailure === "PROVIDER_REJECTED") decision.decide = async () => ({ status: "MODEL_FAILURE", errorCode: "PROVIDER_REJECTED", retryable: false });
   if (runFailure === "EXHAUSTED_BROWSER" || runFailure === "FAILED_SEARCH") {
     const code = runFailure === "FAILED_SEARCH" ? "SEARCH_FAILED" : "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED";
@@ -44,8 +61,12 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
     decision.decide = async input => { decisionCalls++; return originalDecide(input); };
     router.execute = async () => ({ event: {type:"SEARCH_FAILED",code,reason:"Scripted failed search"}, observation: {type:"DISCOVERY_FAILED",detail:"No model budget"}, failure: {source:"PROVIDER",scope:"PROVIDER",code,reason:"Scripted failed search",terminal:false} });
   }
+  if (runFailure === "EXHAUSTED_MODEL") decision.decide = async () => {
+    throw new Error("Budget exhaustion must deliver without a model call");
+  };
   if (runFailure === "UNCAUGHT_EXCEPTION") router.execute = async () => { throw new Error("Uncaught router exception"); };
   const coordinator = new RestaurantAgentLoopCoordinator({
+    listEvents: async () => [],
     async snapshot() { return current; },
     async dispatch(envelope, expectedVersion) {
       assert.equal(expectedVersion, current.version);
@@ -53,20 +74,23 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
         taskId: current.id, runId: current.runId, now: envelope.occurredAt, createId: prefix => prefix,
       });
       events.push(envelope.event.type);
+      emitted.push(envelope.event);
       current = { ...current, domainState: result.state, version: current.version + 1,
         lifecycleState: definition.getLifecycleState(result.state), outcome: definition.evaluateOutcome(result.state), updatedAt: envelope.occurredAt };
       return { snapshot: current, commands: [], duplicateEvent: false };
     },
-  }, decision, router, trajectories, clock, { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 500_000 });
+  }, decision, router, trajectories, clock, { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 500_000,
+    ...(runFailure === "EXHAUSTED_MODEL" ? { remainingModelCalls: () => 0 } : timing?.remainingModelCalls ? { remainingModelCalls: timing.remainingModelCalls } : {}),
+  });
   // Deliberately exercise the same internal stop boundary as the recorded
   // trajectory, with a monotonically advancing clock rather than frozen time.
-  if (runFailure) await coordinator.run(current.id);
-  else await Reflect.get(coordinator, "terminate").call(coordinator, current, {
+  if (runFailure || timing?.decisions) await coordinator.run(current.id, undefined, timing?.deadlineAt);
+  else await Reflect.get(coordinator, "terminate").call(coordinator, current, timing?.deadlineAt ?? new Date(Date.parse(fixture.now)+500_000), {
     id: "stop", taskId: current.id, stepNumber: 1, occurredAt: fixture.now,
     stateVersionBefore: current.version, stateHashBefore: "saved-state",
     causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] }, capabilities: [],
   }, termination, fixture.reason);
-  return { initial, current, events, trajectories, decisionCalls };
+  return { initial, current, events, emitted, trajectories, decisionCalls };
 }
 
 for (const fixture of fixtures.states) test(`P1-G2 actual ${fixture.name} stop returns a user-facing outcome`, async () => {
@@ -178,7 +202,7 @@ test('F6 slot3 26.596 seconds blocks the original availability action and ends h
   {executionRoute:'STRUCTURED_ADAPTER',async check(request){sourceCalls++;return {offers:[],evidence:[],availabilityChecks:Object.fromEntries(request.candidateIds.map(id=>[id,{status:'UNKNOWN' as const,checkedAt:localClock.now().toISOString(),evidenceIds:[]}])),metadata:{provider:'FIXTURE',route:'STRUCTURED_ADAPTER',latencyMs:0}};}},{structuredReadTimeoutMs:8000,browserReadTimeoutMs:500000});
  const scripted=new ScriptedRestaurantAgentDecisionPort([f.action,f.action,f.action]);
  const decision:RestaurantAgentDecisionPort={decide:async input=>{observedContexts.push(input.context);return scripted.decide(input);}};
- const coordinator=new RestaurantAgentLoopCoordinator({snapshot:async()=>current,dispatch:async(envelope,version)=>{
+ const coordinator=new RestaurantAgentLoopCoordinator({listEvents:async()=>[],snapshot:async()=>current,dispatch:async(envelope,version)=>{
   assert.equal(version,current.version);const changed=definition.transition(current.domainState,envelope.event,{taskId:current.id,runId:current.runId,now:envelope.occurredAt,createId:p=>p});events.push(envelope.event);
   current={...current,domainState:changed.state,version:current.version+1,lifecycleState:definition.getLifecycleState(changed.state),outcome:definition.evaluateOutcome(changed.state),updatedAt:envelope.occurredAt};return {snapshot:current,commands:[],duplicateEvent:false};
  }},decision,router,trajectories,localClock,{maxSteps:4,maxRejectedActions:3,timeoutMs:f.maxAutomaticMs,remainingModelCalls:()=>f.remainingModelCalls});
@@ -189,4 +213,270 @@ test('F6 slot3 26.596 seconds blocks the original availability action and ends h
  assert.ok(current.domainState.noVerifiedResult?.remainingGaps.some(gap=>/time|reserve|未|UNKNOWN|NOT_CHECKED/i.test(gap)));
  assert.equal(current.domainState.searchContinuation?.exhausted,f.state.searchContinuation?.exhausted,'closure cannot manufacture source exhaustion');
  assert.equal(events.filter(e=>e.type==='AVAILABILITY_CHECKED').length,0);
+});
+
+function qualifiedBudgetFixture(count: number): SavedState {
+  const now = "2026-11-19T09:00:00.000Z";
+  const candidates: RestaurantTaskState["candidates"] = Array.from({length:count}, (_, index) => {
+    const id = String(index+1);
+    return {
+      restaurant:{id,outletName:"Fixture "+id,address:"Shinjuku "+id,sourceIds:{googlePlaces:"place-"+id},provenance:{}},
+      matchReasons:[],warnings:[],executionConfidence:"HIGH",
+    };
+  });
+  const readEvidence: RestaurantTaskState["readEvidence"] = candidates.flatMap(({restaurant:{id}}) => {
+    const binding = {candidateId:id,sourceEntityId:"place-"+id,provider:"GOOGLE_PLACES" as const,observedAt:now,requestFingerprint:"fixture"};
+    return [
+      {...binding,evidenceId:"area-"+id,kind:"DISCOVERY" as const,claims:{areaQuery:"Shinjuku",areaMatch:true}},
+      {...binding,evidenceId:"entity-"+id,kind:"ENTITY_MATCH" as const,claims:{},entityMatch:{confidence:"HIGH" as const,matchedBy:["FIXTURE"]}},
+      {...binding,evidenceId:"fact-"+id,kind:"RESTAURANT_FACT" as const,claims:{}},
+    ];
+  });
+  return {
+    name:"qualified-budget",now,reason:"Model calls exhausted",source:{stateVersionBefore:10},
+    state:{
+      schemaVersion:"25",phase:"SEARCHING",pendingResultBatchTarget:3,searchRevision:1,
+      intentDraft:{schemaVersion:"3",timezone:"Asia/Tokyo",target:{goal:"RECOMMENDATION",query:"restaurants",selectionScope:"OPEN_ENDED"},
+        area:{query:"Shinjuku"},criteria:[]},
+      candidates,readEvidence,availability:{},availabilityChecks:{},
+    },
+  };
+}
+
+for (const count of [1,2]) test(`first short batch still delivers ${count} qualified restaurants after saving a card`,async()=>{
+  const fixture = qualifiedBudgetFixture(count);
+  fixture.state = definition.transition(fixture.state,{type:"SHORTLIST_UPDATED",candidateId:"1",shortlisted:true},
+    {taskId:"fixture",runId:"fixture",now:fixture.now,createId:prefix=>prefix}).state;
+  assert.deepEqual(fixture.state.selectionSession?.deliveredCandidateIds,[]);
+  assert.deepEqual(fixture.state.selectionSession?.shortlistCandidateIds,["1"]);
+  const result = await stop(fixture,"NO_PROGRESS","EXHAUSTED_MODEL");
+  assert.equal(result.current.domainState.phase,"PRESENT_RESULTS");
+  assert.deepEqual(result.current.domainState.presentedResults?.candidateIds,count===1?["1"]:["1","2"]);
+  assert.ok(result.events.includes("DEFAULT_BATCH_DELIVERY_WINDOW_OPENED"));
+  assert.deepEqual(result.current.domainState.selectionSession?.shortlistCandidateIds,["1"]);
+});
+
+test("previously delivered restaurants cannot open a first-batch short delivery window",()=>{
+  const {state,now} = qualifiedBudgetFixture(2);
+  state.selectionSession = {deliveredCandidateIds:["earlier"],viewedCandidateIds:[],shortlistCandidateIds:["1"]};
+  assert.deepEqual(defaultBatchDeliveryCandidateIds(state,now),[]);
+});
+
+for (const continuing of [false,true]) test(`budget exhaustion delivers only three qualified ${continuing?"new":"first-batch"} restaurants`,async()=>{
+  const fixture = qualifiedBudgetFixture(continuing?8:5);
+  if (continuing) fixture.state.selectionSession = {deliveredCandidateIds:["1","2","3"],viewedCandidateIds:[],shortlistCandidateIds:[]};
+  assert.equal(assessRestaurantRead(fixture.state,fixture.now).presentation.filter(item=>item.eligible).length,continuing?8:5);
+  const result = await stop(fixture,"NO_PROGRESS","EXHAUSTED_MODEL");
+  assert.equal(result.current.domainState.phase,"PRESENT_RESULTS");
+  assert.deepEqual(result.current.domainState.presentedResults?.candidateIds,continuing?["4","5","6"]:["1","2","3"]);
+  assert.deepEqual(result.events,["RESULTS_PRESENTED"]);
+});
+
+for (const exhausted of [false, true]) test(`expired read-end deadline with ${exhausted ? "exhausted" : "unread"} sources resolves without reopening a short window`, async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const { state, now } = fixture;
+  state.readEndWindow = {
+    reason: "DELIVERY_TIME", openedAt: new Date(Date.parse(now) - 1000).toISOString(), deadlineAt: now,
+  };
+  state.searchContinuation = { intentFingerprint: "recorded", usedPageTokens: [], pagesRead: 1, exhausted };
+  if (exhausted) state.factChecks = { "1": { status: "COMPLETED", checkedAt: now, evidenceIds: ["fact-1"] } };
+  const afterDeadline = new Date(Date.parse(now) + 1);
+  const assessment = assessRestaurantRead(state, afterDeadline.toISOString());
+  assert.deepEqual(assessment.factInvestigableCandidateIds, exhausted ? [] : ["1"]);
+  assert.deepEqual(assessment.checkableCandidateIds, []);
+  const { current, events, trajectories } = await stop(fixture, "NO_PROGRESS", "EXHAUSTED_MODEL", { now: () => afterDeadline });
+  assert.equal(current.domainState.phase, exhausted ? "PRESENT_RESULTS" : "NO_VERIFIED_RESULT");
+  assert.deepEqual(events, [exhausted ? "RESULTS_PRESENTED" : "AGENT_LOOP_TERMINATED"]);
+  assert.equal((await trajectories.list(current.id)).at(-1)?.stepOutcome, "TERMINAL");
+});
+
+test("the real Reducer accepts short delivery at the deadline even after the clock advances before dispatch", async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const atDeadline = Date.parse(fixture.now);
+  fixture.state.readEndWindow = { reason: "MODEL_CALL", openedAt: new Date(atDeadline - 1000).toISOString(), deadlineAt: fixture.now };
+  let instant = atDeadline;
+  let routed = false;
+  const { current, events } = await stop(fixture, "NO_PROGRESS", undefined, {
+    now: () => new Date(instant),
+    afterPresentation(presentationTime) {
+      assert.equal(presentationTime, fixture.now);
+      routed = true;
+      instant += 1;
+    },
+  });
+  assert.equal(routed, true);
+  assert.equal(instant, atDeadline + 1);
+  assert.equal(current.updatedAt, fixture.now);
+  assert.equal(current.domainState.phase, "PRESENT_RESULTS");
+  assert.deepEqual(events, ["DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", "RESULTS_PRESENTED"]);
+});
+
+test("another batch continues past a cross-source duplicate, ends when exhausted, and delivers a genuinely new outlet", async () => {
+  const { state, now } = qualifiedBudgetFixture(3);
+  const [a, alias, b] = state.candidates;
+  a!.restaurant.sourceIds.discoverySourceId = "tabelog";
+  alias!.restaurant.sourceIds.discoverySourceId = "tablecheck";
+  alias!.restaurant.outletName = a!.restaurant.outletName;
+  alias!.restaurant.address = a!.restaurant.address;
+  b!.restaurant.sourceIds.discoverySourceId = "google-places";
+  state.candidates = [a!, alias!];
+  state.selectionSession = { deliveredCandidateIds: ["1"], viewedCandidateIds: [], shortlistCandidateIds: [] };
+  state.factChecks = Object.fromEntries(["1", "2", "3"].map(id => [id, { status: "COMPLETED", checkedAt: now, evidenceIds: ["fact-" + id] }]));
+  const entries = ["tabelog", "tablecheck", "google-places"].map(sourceId => ({
+    sourceId, query: { positiveCriteria: [], category: "restaurant",
+      location: { latitude: 35.69, longitude: 139.7, radiusMeters: 1000, label: "Shinjuku", areaMatchBasis: "TASK_LOCATION_RADIUS" as const } },
+  }));
+  state.searchContinuation = {
+    intentFingerprint: restaurantSearchIntentFingerprint(completeRestaurantSearchIntent(state.intentDraft)!),
+    usedPageTokens: [], pagesRead: 2, exhausted: false, discoveryPlan: { entries, cursor: 2 },
+    currentDiscoveryBatch: { sourceId: "tablecheck", candidateIds: ["2"] },
+  };
+  const context = projectRestaurantAgentContext(state, now);
+  assert.equal(assessRestaurantRead(state, now).presentation.find(item => item.candidateId === "2")?.eligible, true);
+  assert.deepEqual(context.legalActions.presentResults, []);
+  assert.equal(context.legalActions.search, true);
+  assert.equal(discoveryShortBatchDeliveryReady(state, now), false);
+  for (const candidateId of ["1", "2"]) {
+    const result = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, now);
+    assert.equal(result.status, "REJECTED");
+    assert.equal("code" in result && result.code, "PRESENTATION_EVIDENCE_MISSING");
+  }
+  for (const reason of ["DELIVERY_TIME", "MODEL_CALL"] as const) {
+    assert.equal(assessRestaurantRead({ ...state, readEndWindow: { reason, openedAt: now, deadlineAt: now } }, now).canEndRead, true);
+  }
+
+  const exhausted: RestaurantTaskState = { ...state, searchContinuation: { ...state.searchContinuation, exhausted: true, discoveryPlan: { entries, cursor: 3 } } };
+  const assessment = assessRestaurantRead(exhausted, now);
+  assert.deepEqual(assessment.factInvestigableCandidateIds, []);
+  assert.deepEqual(assessment.checkableCandidateIds, []);
+  assert.equal(assessment.canEndRead, true);
+
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() { throw new Error("No source calls expected"); } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("No source calls expected"); } },
+    { structuredReadTimeoutMs: 8000, browserReadTimeoutMs: 20_000 },
+  );
+  const reduce = (snapshot: RestaurantTaskState, event: RestaurantEvent) =>
+    definition.transition(snapshot, event, { taskId: "batch", runId: "batch", now, createId: prefix => prefix }).state;
+  const end = { type: "END_READ" as const };
+  assert.equal(validateRestaurantAction(exhausted, end, now).status, "ALLOWED");
+  const ended = await router.execute(end, exhausted, now);
+  assert.equal(ended.event?.type, "READ_ENDED_NO_VERIFIED_RESULT");
+  assert.equal(reduce(exhausted, ended.event!).phase, "NO_VERIFIED_RESULT");
+
+  const withNew: RestaurantTaskState = {
+    ...exhausted, candidates: [a!, alias!, b!],
+    searchContinuation: { ...exhausted.searchContinuation!, currentDiscoveryBatch: { sourceId: "google-places", candidateIds: ["3"] } },
+  };
+  assert.deepEqual(projectRestaurantAgentContext(withNew, now).legalActions.presentResults, ["3"]);
+  const present = { type: "PRESENT_RESULTS" as const, candidateIds: ["3"] };
+  assert.equal(validateRestaurantAction(withNew, present, now).status, "ALLOWED");
+  const presented = await router.execute(present, withNew, now);
+  assert.equal(presented.event?.type, "RESULTS_PRESENTED");
+  const delivered = reduce(withNew, presented.event!);
+  assert.deepEqual(delivered.presentedResults?.candidateIds, ["3"]);
+  assert.deepEqual(delivered.selectionSession?.deliveredCandidateIds, ["1", "3"]);
+});
+
+test("Round14 loop: main presentation dispatch shares the validated instant at a one-millisecond boundary", async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const edge = Date.parse(fixture.now);
+  fixture.state.defaultBatchDeliveryWindow = { openedAt: new Date(edge - 1000).toISOString(), deadlineAt: fixture.now };
+  let instant = edge;
+  let executions = 0;
+  const result = await stop(fixture, "NO_PROGRESS", undefined, {
+    now: () => new Date(instant),
+    decisions: [{ type: "PRESENT_RESULTS", candidateIds: ["1"] }],
+    afterPresentation(time) {
+      assert.equal(time, fixture.now);
+      executions++;
+      instant++;
+    },
+  });
+  assert.equal(executions, 1);
+  assert.equal(result.current.domainState.phase, "PRESENT_RESULTS");
+  assert.equal(result.current.updatedAt, fixture.now);
+  assert.deepEqual(result.events, ["RESULTS_PRESENTED"]);
+});
+
+for (const opened of [false, true]) test(`Round14 loop: whole-read deadline blocks fallback after expiry ${opened ? "with" : "without"} an open read-end window`, async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const deadline = new Date(fixture.now);
+  if (opened) fixture.state.readEndWindow = {
+    reason: "DELIVERY_TIME",
+    openedAt: new Date(deadline.valueOf() - 1000).toISOString(),
+    deadlineAt: new Date(deadline.valueOf() + 1000).toISOString(),
+  };
+  const { current, events } = await stop(fixture, "TIMEOUT", undefined, {
+    now: () => new Date(deadline.valueOf() + 1), deadlineAt: deadline,
+  });
+  assert.equal(current.domainState.phase, "NO_VERIFIED_RESULT");
+  assert.deepEqual(events, ["AGENT_LOOP_TERMINATED"]);
+  assert.equal(current.domainState.presentedResults, undefined);
+});
+
+test("Round14 loop: fallback before the whole-read deadline cannot extend its delivery window", async () => {
+  const fixture = qualifiedBudgetFixture(1);
+  const deadline = new Date(Date.parse(fixture.now) + 5000);
+  const { emitted, events } = await stop(fixture, "NO_PROGRESS", undefined, {
+    now: () => new Date(fixture.now), deadlineAt: deadline,
+  });
+  assert.deepEqual(events, ["DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", "RESULTS_PRESENTED"]);
+  const window = emitted.find(event => event.type === "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED");
+  assert.equal(window?.deadlineAt, deadline.toISOString());
+});
+
+test("Round14 loop: aliases from a delivered batch leave the four closing calls protected", async () => {
+  const fixture = qualifiedBudgetFixture(2);
+  const {state, now} = fixture;
+  const [delivered, alias] = state.candidates;
+  delivered!.restaurant.sourceIds.discoverySourceId = "tabelog";
+  alias!.restaurant.sourceIds.discoverySourceId = "tablecheck";
+  alias!.restaurant.outletName = delivered!.restaurant.outletName;
+  alias!.restaurant.address = delivered!.restaurant.address;
+  state.selectionSession = { deliveredCandidateIds: ["1"], viewedCandidateIds: [], shortlistCandidateIds: [] };
+  state.factChecks = Object.fromEntries(["1", "2"].map(id => [id, { status: "COMPLETED", checkedAt: now, evidenceIds: ["fact-" + id] }]));
+  state.searchContinuation = {
+    intentFingerprint: restaurantSearchIntentFingerprint(completeRestaurantSearchIntent(state.intentDraft)!),
+    usedPageTokens: [], pagesRead: 2, exhausted: false,
+    discoveryPlan: {
+      entries: ["tabelog", "tablecheck", "google-places"].map(sourceId => ({
+        sourceId, query: { positiveCriteria: [], category: "restaurant", location: {
+          latitude: 35.69, longitude: 139.7, radiusMeters: 1000, label: "Shinjuku", areaMatchBasis: "TASK_LOCATION_RADIUS",
+        } },
+      })),
+      cursor: 2,
+    },
+    currentDiscoveryBatch: { sourceId: "tablecheck", candidateIds: ["2"] },
+  };
+  assert.equal(assessRestaurantRead(state, now).presentation.find(item => item.candidateId === "2")?.eligible, true);
+  assert.equal(projectRestaurantAgentContext(state, now).legalActions.search, true);
+  assert.deepEqual(projectRestaurantAgentContext(state, now).legalActions.presentResults, []);
+  let remaining = 5, delegated = 0, sourceAttempts = 0;
+  const reserve = new DeliveryReservedModelGateway({
+    async complete() { delegated++; throw new Error("Unexpected nested model call"); },
+  });
+  const router = new RestaurantExecutionRouter(
+    { executionRoute: "STRUCTURED_ADAPTER", async search() {
+      sourceAttempts++;
+      remaining = 4;
+      await reserve.complete({
+        taskId: "fixture", purpose: "fixture-nested-read", promptVersion: "fixture", messages: [],
+        responseFormat: "TEXT", outputSchema: { name: "fixture", version: "1" }, timeoutMs: 1000, fallback: "FAIL_CLOSED",
+      });
+      throw new Error("The reserved call must be rejected");
+    } },
+    { executionRoute: "STRUCTURED_ADAPTER", async check() { throw new Error("Unexpected availability check"); } },
+    { structuredReadTimeoutMs: 8000, browserReadTimeoutMs: 20_000, modelReadReserve: reserve },
+  );
+  const { current, events } = await stop(fixture, "NO_PROGRESS", undefined, {
+    now: () => new Date(now), router, remainingModelCalls: () => remaining,
+    decisions: [{ type: "SEARCH_RESTAURANTS" }, { type: "END_READ" }],
+  });
+  assert.equal(sourceAttempts, 1);
+  assert.equal(delegated, 0);
+  assert.ok(events.includes("READ_END_WINDOW_OPENED"), events.join(", "));
+  assert.equal(current.domainState.readEndWindow?.reason, "MODEL_CALL");
+  assert.equal(current.domainState.phase, "NO_VERIFIED_RESULT");
+  assert.equal(current.domainState.presentedResults, undefined);
 });

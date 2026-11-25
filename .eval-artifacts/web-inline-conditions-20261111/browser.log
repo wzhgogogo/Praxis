@@ -1,0 +1,60 @@
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":6,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (12258.629667ms)
+✔ Workspace slice2 mobile: native SSE reconnect preserves the draft and expired handoff uses refresh (4283.588ms)
+{"slice2Failure":{"phase":"PRESENT_RESULTS","progress":{"active":false,"stopped":false,"discoveredCount":6,"checkedCount":3},"presented":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"ready":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"],"readStatus":{"kind":"RESULTS","partialSourceFailure":false,"canContinue":false,"canRetry":false},"checks":[{"id":"fixture:outlet","status":"AVAILABLE"},{"id":"fixture-restaurant-2","status":"AVAILABLE"},{"id":"fixture-restaurant-3","status":"AVAILABLE"}],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]},{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (11961.536916ms)
+✔ Workspace slice2 desktop: native SSE reconnect preserves the draft and expired handoff uses refresh (4268.609833ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons structured (1162.9465ms)
+✔ Workspace slice2 mobile: server revision differences and saved reasons missing (1116.78775ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons structured (1129.486541ms)
+✔ Workspace slice2 desktop: server revision differences and saved reasons missing (1121.549291ms)
+✔ Workspace slice2 mobile: empty result copy is honest empty (794.338209ms)
+✔ Workspace slice2 mobile: empty result copy is honest all-sources-failed (853.623ms)
+✔ Workspace slice2 mobile: semantic model failure retains the submitted text and current card, then accepts rephrasing (948.60075ms)
+✔ Workspace slice2 mobile: partial source failure keeps qualified results and places the notice at the batch end (817.759625ms)
+✔ Workspace slice2 desktop: empty result copy is honest empty (802.555292ms)
+✔ Workspace slice2 desktop: empty result copy is honest all-sources-failed (868.612875ms)
+✔ Workspace slice2 desktop: semantic model failure retains the submitted text and current card, then accepts rephrasing (928.543708ms)
+✔ Workspace slice2 desktop: partial source failure keeps qualified results and places the notice at the batch end (790.341ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (809.103834ms)
+✔ Workspace slice2 mobile: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (833.341333ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread pool, is idempotent and never rereads rejected outlets (868.773208ms)
+✔ Workspace slice2 desktop: empty continuation uses proven unread search, is idempotent and never rereads rejected outlets (819.328625ms)
+✔ Workspace slice2 mobile: Stop during empty continuation discards the late source card (859.983958ms)
+✔ Workspace slice2 desktop: Stop during empty continuation discards the late source card (869.462416ms)
+✔ Workspace 3c mobile: each observed booking slot retains its own departure link (928.857917ms)
+✔ Workspace 3c desktop: each observed booking slot retains its own departure link (922.700584ms)
+✔ Workspace inline condition mobile: capped local edit survives SSE and routes changes without touching composer (1197.165167ms)
+✔ Workspace inline condition desktop: capped local edit survives SSE and routes changes without touching composer (1220.07225ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 24
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 53933.067083
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:1549
+✖ Workspace slice2 mobile: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (12258.629667ms)
+  locator.evaluate: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for getByRole('textbox', { name: 'Edit 4 guests', exact: true })[22m
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace-slice2.test.ts:96:111) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for getByRole('textbox', { name: 'Edit 4 guests', exact: true })" ]
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:1549
+✖ Workspace slice2 desktop: one composer routes by view, keeps answers isolated, edits marked conditions and reaches another batch (11961.536916ms)
+  locator.evaluate: Timeout 10000ms exceeded.
+  Call log:
+  [2m  - waiting for getByRole('textbox', { name: 'Edit 4 guests', exact: true })[22m
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace-slice2.test.ts:96:111) {
+    name: 'TimeoutError',
+    log: [ "  - waiting for getByRole('textbox', { name: 'Edit 4 guests', exact: true })" ]
+  }

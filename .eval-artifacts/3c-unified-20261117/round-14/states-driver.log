@@ -1,0 +1,46 @@
+✔ Round10 UI: handoff refresh requires a new choice when 19:30 is gone (1571.127125ms)
+✔ Round10 UI: card refresh requires a new choice when 19:30 is gone (1178.648875ms)
+✔ Round10 UI: renewed refresh retains a verified 19:30 (1151.583667ms)
+✔ Round10 UI: a delayed shortlist response stays with the earlier plan (1419.773458ms)
+✔ Round10 UI: a delayed questions response stays with the earlier plan (1362.95975ms)
+✔ Round10 UI: plan creation uses an RFC 4122 request ID without crypto.randomUUID (1035.450125ms)
+✔ Round10 UI: nearby accepts device coordinates (903.824542ms)
+✔ Round10 UI: nearby recovers from denied location with a typed area (953.744334ms)
+✔ Round10 UI: unsent drafts stay with their plans and a sent draft clears only its own field (1617.732333ms)
+✔ Round10 UI: a saved later-batch outlet still qualified under the new party size has no mismatch label (1608.653125ms)
+✔ Round10 UI: a background case updates My plans at Home and polling stops when it is ready (1080.772667ms)
+✔ Round10 UI: actual 409 recovers the deferred SSE snapshot (1169.790542ms)
+✔ Round10 UI: actual 409 recovers the latest Case after an intermediate SSE and disconnect (1196.365916ms)
+✔ Round11 UI: prior-batch outlets still qualified for three guests appear in Find more without a removal label (1282.025542ms)
+✔ Round11 UI: a late submission clears the sent draft from its original plan (1298.909625ms)
+✔ Round11 UI: a late submission preserves a replacement draft (1283.524375ms)
+✔ Round11 UI: a persisted departure opens its own source tab after the main tab changes plans (1524.562208ms)
+✔ Round12 UI: an exhausted next batch stays empty after reload and keeps the old Saved row read-only (1358.072166ms)
+✔ Round13 UI: optional condition chips can be removed without touching the draft (1648.961042ms)
+✔ Round13 UI: the card shows short source labels and About keeps the original excerpt (1135.207042ms)
+✔ Round13 UI: selected slot keeps its place in the two-row mobile grid (833.578875ms)
+✔ Round13 UI: the revision summary expands above the result card (1138.320791ms)
+✔ Round13 UI: About shows pending and newest-first answers and keeps rejected questions (1487.168875ms)
+✔ Round14 UI: About refresh requires explicit slot reselection (1141.132958ms)
+✔ Round14 UI: Handoff Back refresh requires explicit slot reselection (1113.927292ms)
+✔ Round14 UI: other tab refresh requires explicit slot reselection (1862.406959ms)
+✔ Round14 UI: renewal refresh rebinds the same time (1508.611709ms)
+✔ Round14 UI: delayed Stop is harmless after delivery (1039.125583ms)
+✔ Round14 UI: delayed Stop does not stop the replacement read (1073.067792ms)
+✔ Round14 UI: late About acceptance clears only the sent draft (1378.1445ms)
+✔ Round14 UI: late About acceptance preserves a replacement draft (1348.522875ms)
+✔ Round14 UI: an exhausted revised batch hides stale additions after reload (1577.919667ms)
+✔ Round14 UI: a claimed return prompt survives switching plans and is answered once (1596.440083ms)
+✔ Round8 UI: real Stop retains About and never offers an unavailable refresh (1518.4955ms)
+✔ Round8 UI: SSE switches the idle card to the eligible outlet and removes stale cards on empty results (1000.579541ms)
+✔ Round8 UI: the original request and later reply appear beside the current clarification and hide in other states (1132.556042ms)
+✔ Round8 UI: case list orders initial, new, and SSE-updated cases without replacing the focused row (1525.723334ms)
+✔ Round8 UI: a blocked booking popup cannot persist a departure or mark a return (975.234834ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 43370.046083

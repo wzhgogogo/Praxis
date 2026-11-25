@@ -1,3 +1,4 @@
+import {maintainOpenEndedTargetQuery} from './open-ended-target.js';
 import type {
   RestaurantBookingIntent,
   RestaurantBlockingField,
@@ -124,6 +125,18 @@ export function applyRestaurantIntentPatch(
     if (patch.temporalResolution === null) delete next.temporalResolution;
     else if (patch.temporalResolution) next.temporalResolution = structuredClone(patch.temporalResolution);
   }
+  if (!patch.temporalResolution?.timeWindow) {
+    if (hasOwn(patch, "timeWindow")) {
+      // An explicit replacement/clear without new interpretation must not inherit a DAYPART basis.
+      if (next.temporalResolution) delete next.temporalResolution.timeWindow;
+    } else if (current?.temporalResolution?.timeWindow) {
+      if (!next.temporalResolution) {
+        const { policyVersion, referenceTime, timezone } = current.temporalResolution;
+        next.temporalResolution = { policyVersion, referenceTime, timezone };
+      }
+      next.temporalResolution.timeWindow = structuredClone(current.temporalResolution.timeWindow);
+    }
+  }
   if (hasOwn(patch, "partySize")) {
     if (patch.partySize === null) {
       delete next.partySize;
@@ -150,6 +163,7 @@ export function applyRestaurantIntentPatch(
     patch.replaceCriteria,
   );
 
+  maintainOpenEndedTargetQuery(current,next,patch);
   return next;
 }
 
@@ -170,6 +184,7 @@ export function completeRestaurantIntent(
     ...(draft.target ? { target: structuredClone(draft.target) } : {}),
     date: draft.date,
     timeWindow: structuredClone(draft.timeWindow),
+    ...(draft.temporalResolution?.timeWindow ? { timeWindowBasis: draft.temporalResolution.timeWindow.basis } : {}),
     ...(draft.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(draft.permittedAlternativeTimeWindow) } : {}),
     partySize: draft.partySize,
     ...(draft.area ? {area: structuredClone(draft.area)} : {}),
@@ -192,6 +207,7 @@ export function completeRestaurantSearchIntent(
     ...(draft.target ? { target: structuredClone(draft.target) } : {}),
     ...(draft.date ? { date: draft.date } : {}),
     ...(draft.timeWindow ? { timeWindow: structuredClone(draft.timeWindow) } : {}),
+    ...(draft.temporalResolution?.timeWindow ? { timeWindowBasis: draft.temporalResolution.timeWindow.basis } : {}),
     ...(draft.permittedAlternativeTimeWindow ? { permittedAlternativeTimeWindow: structuredClone(draft.permittedAlternativeTimeWindow) } : {}),
     ...(draft.partySize ? { partySize: draft.partySize } : {}),
     ...(draft.area ? {area: structuredClone(draft.area)} : {}),

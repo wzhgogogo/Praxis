@@ -614,3 +614,59 @@ test("saved successful geographic observations retain their source coordinates a
     assert.equal(result.location?.longitude, previous.longitude, previous.query);
   }
 });
+
+test('Round20 Google ordinary, named and detail entries carry the same intent/type gate',async()=>{
+ const place={id:'age3-test',displayName:{text:'Age.3 GINZA'},formattedAddress:'Ginza, Tokyo',location:{latitude:35.6,longitude:139.7},primaryType:'cafe',types:['cafe','dessert_restaurant','snack_bar','sandwich_shop','meal_takeaway','restaurant']};
+ const client=new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async(_url,init)=>new Response(JSON.stringify(init?.method==='POST'?{places:[place]}:place))});
+ const adapter=new GooglePlacesRestaurantSearch(client,()=> '2026-11-21T08:00:00Z',10,{maxRequests:12});
+ const generic={...fixtureIntent,criteria:[],timeWindow:{earliest:'19:00',latest:'20:00'},target:{goal:'RECOMMENDATION' as const,selectionScope:'OPEN_ENDED' as const,query:'restaurant in Ginza'}};
+ const signal=new AbortController().signal;
+ assert.equal((await adapter.search({intent:generic,readRunId:'round20-generic'},signal)).candidates.length,0);
+ const named=await adapter.search({intent:{...generic,target:{...generic.target,selectionScope:'SPECIFIC_OUTLET',query:'Age.3 GINZA'}},readRunId:'round20-named'},signal);assert.equal(named.candidates.length,1);
+ const detail=await adapter.inspectFacts({intent:generic,candidateIds:[named.candidates[0]!.restaurant.id],candidates:named.candidates,readRunId:'round20-details'},signal);
+ assert.equal(detail.factChecks[named.candidates[0]!.restaurant.id]!.reasonCode,'GOOGLE_PLACE_TYPE_UNUSABLE');
+ assert.equal((await adapter.search({intent:{...generic,target:{...generic.target,query:'dessert cafe'}},readRunId:'round20-cafe'},signal)).candidates.length,1);
+});
+
+test("Round21 all Google entries distinguish whole-category exclusions from sweet-menu preferences", async () => {
+  const base = {id:"dessert-fixture",displayName:{text:"Dessert Fixture"},formattedAddress:"Ginza, Tokyo",
+    location:{latitude:35.6,longitude:139.7},types:["dessert_shop","food"]};
+  let place: typeof base & {primaryType?: string} = {...base,primaryType:"dessert_shop"};
+  const client = new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async(_url,init)=>
+    new Response(JSON.stringify(init?.method === "POST" ? {places:[place]} : place))});
+  const adapter = new GooglePlacesRestaurantSearch(client,()=> "2026-11-21T08:00:00Z",10,{maxRequests:12});
+  const signal = new AbortController().signal;
+  const open = {...fixtureIntent,criteria:[],target:{goal:"RECOMMENDATION" as const,selectionScope:"OPEN_ENDED" as const,query:"dessert shop in Ginza"}};
+  const named = {...open,target:{...open.target,selectionScope:"SPECIFIC_OUTLET" as const,query:"Dessert Fixture"}};
+  const {candidates} = await adapter.search({intent:open,readRunId:"seed"},signal);
+  assert.equal(candidates.length,1);
+  const candidateId = candidates[0]!.restaurant.id;
+  let i = 0;
+  for (const primaryType of ["dessert_shop",undefined]) {
+    place = primaryType ? {...base,primaryType} : base;
+    for (const [text,strength,rejected] of [
+      ["overly sweet desserts","SOFT",false],
+      ["overly sweet desserts","HARD",false],
+      ["dessert restaurants with overly sweet menus","HARD",false],
+      ["no dessert shops","UNSPECIFIED",false],
+      ["no dessert shops","HARD",true],
+    ] as const) {
+      const criteria = [{text,polarity:"NEGATIVE" as const,strength}];
+      for (const intent of [open,named]) {
+        const result = await adapter.search({intent:{...intent,criteria},readRunId:"negative-search-"+i++},signal);
+        assert.equal(result.candidates.length,rejected?0:1,JSON.stringify({primaryType,text,strength,intent:intent.target}));
+        if (!rejected) {
+          assert.ok(result.evidence.some(e => e.kind === "RESTAURANT_FACT"),"fixture returns facts");
+          assert.ok(result.evidence.every(e => e.claims.violatedNegativeCriteria === undefined),"type cannot prove sweetness");
+        }
+        const details = await adapter.inspectFacts({intent:{...intent,criteria},candidateIds:[candidateId],candidates,readRunId:"negative-detail-"+i++},signal);
+        if (rejected) assert.equal(details.factChecks[candidateId]!.reasonCode,"GOOGLE_PLACE_TYPE_UNUSABLE");
+        else {
+          assert.equal(details.factChecks[candidateId]!.status,"COMPLETED");
+          assert.ok(details.evidence.some(e => e.kind === "RESTAURANT_FACT"),"detail returns facts");
+          assert.ok(details.evidence.every(e => e.claims.violatedNegativeCriteria === undefined),"detail cannot prove sweetness");
+        }
+      }
+    }
+  }
+});

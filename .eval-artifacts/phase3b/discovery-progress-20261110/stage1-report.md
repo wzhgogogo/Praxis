@@ -1,0 +1,1 @@
+Stage1 current baseline: source61f2552d. Eval-only health monitor completed; all six clean-tree gates PASS, hardcoded scan0. No real calls, product0 changes. Three rounds/15min remains planned, not executed. Next: seven-run recorded diagnosis before product edits.

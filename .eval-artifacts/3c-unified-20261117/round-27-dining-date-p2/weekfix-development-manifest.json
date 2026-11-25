@@ -1,0 +1,76 @@
+[
+  {
+    "name": "weekfix-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.712368708
+  },
+  {
+    "name": "weekfix-current-h001-h005",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=current H001-H005 raw requests",
+      "src/eval/restaurant/agent-loop/current-development-offline.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.577513667
+  },
+  {
+    "name": "weekfix-targeted",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/domains/restaurant/relative-date-binding.test.ts",
+      "src/application/restaurant-relative-date.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 34.533966459
+  },
+  {
+    "name": "weekfix-browser-date",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=Round27 DATE:",
+      "src/harness/browser/web-workspace-round27.test.ts"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 8.224812667000002
+  },
+  {
+    "name": "weekfix-independent49",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/run-reviewer-probe.py"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 34.55781004199999
+  },
+  {
+    "name": "weekfix-arch",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 0.20773145900000145
+  }
+]

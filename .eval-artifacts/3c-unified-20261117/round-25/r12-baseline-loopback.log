@@ -1,0 +1,90 @@
+✖ Round25 R1 committed successor stop across message (924.066708ms)
+✖ Round25 R1 committed successor edit across message (559.779125ms)
+✖ Round25 R1 committed successor stop across worker-cleanup (541.687417ms)
+✖ Round25 R1 committed successor edit across worker-cleanup (530.428917ms)
+✖ Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409 (922.135833ms)
+ℹ Error: Test "Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409" at src/application/restaurant-pending-edit.test.ts:1:9465 generated asynchronous activity after the test ended. This activity created the error "AssertionError [ERR_ASSERTION]: Missing expected rejection (StaleTaskVersionError)." and would have caused the test to fail, but instead triggered an unhandledRejection event.
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3208.107417
+
+✖ failing tests:
+
+test at src/application/persistent-read-preparation.test.ts:1:41167
+✖ Round25 R1 committed successor stop across message (924.066708ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection (StaleTaskVersionError).
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:607:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:41167
+✖ Round25 R1 committed successor edit across message (559.779125ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection (StaleTaskVersionError).
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:607:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:41167
+✖ Round25 R1 committed successor stop across worker-cleanup (541.687417ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection (StaleTaskVersionError).
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:607:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at src/application/persistent-read-preparation.test.ts:1:41167
+✖ Round25 R1 committed successor edit across worker-cleanup (530.428917ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection (StaleTaskVersionError).
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/persistent-read-preparation.test.ts:607:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at src/application/restaurant-pending-edit.test.ts:1:9465
+✖ Round25 R2 a tentative edit losing to shortlist preserves completed usage while waiting and after 409 (922.135833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   calls: 0,
+  +   deadlineAt: 1795446324613,
+  +   elapsedMs: 0,
+  +   startedAt: 1795445824613
+  -   calls: 4,
+  -   deadlineAt: 1795446324542,
+  -   elapsedMs: 62,
+  -   startedAt: 1795445824542
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-pending-edit.test.ts:93:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { calls: 0, startedAt: 1795445824613, deadlineAt: 1795446324613, elapsedMs: 0 },
+    expected: { calls: 4, startedAt: 1795445824542, deadlineAt: 1795446324542, elapsedMs: 62 },
+    operator: 'deepStrictEqual'
+  }

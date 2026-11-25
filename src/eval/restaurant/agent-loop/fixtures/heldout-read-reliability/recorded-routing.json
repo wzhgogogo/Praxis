@@ -1,0 +1,1279 @@
+{
+  "status": "frozen regression / exposed development components",
+  "sourceCommit": "445603c7",
+  "note": "Actual public candidates, scoped source evidence projection and original provider lifecycle records. Private request/criteria omitted. Synthetic request parameters in component test are LOCAL_CONSTRUCTION, not a held-out rerun. Savings are observed avoided provider attempts, not predicted whole-run outcomes.",
+  "runs": [
+    {
+      "id": "01-r1-retry1",
+      "sourceExecutionSHA256": "27a705f1d2d6999d4c7c510bcc4471ea4f195f209d41c15e5b52c80c624f5951",
+      "sourceDiagnosticsSHA256": "e40345b5a277cfcc7696ba40ee469bab4ea4e911399bd773ba89b0a8f198f292",
+      "readStartedAt": "2026-11-09T09:24:39.501Z",
+      "items": [
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+              "sourceIds": {
+                "phone": "03-6205-6517",
+                "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "バル014 馬場ワイン食堂",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:76faae59e38a068c4ac4b30c",
+                "sourceIds": "evidence:restaurant:google-discovery:76faae59e38a068c4ac4b30c",
+                "outletName": "evidence:restaurant:google-discovery:76faae59e38a068c4ac4b30c"
+              },
+              "coordinates": {
+                "lat": 35.712308,
+                "lng": 139.70521499999998
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:76faae59e38a068c4ac4b30c",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:25:59.950Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "バル014 馬場ワイン食堂",
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:76faae59e38a068c4ac4b30c",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:25:59.950Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "バル014 馬場ワイン食堂",
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:1f32cc499c018755aa4335c3",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:25:59.950Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/"
+              }
+            }
+          ],
+          "providerFinished": {
+            "sequence": 402,
+            "at": "2026-11-09T09:27:06.769Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 151241,
+            "lifecycle": {
+              "outcome": "ABANDONED",
+              "candidateElapsedMs": 65124,
+              "providerElapsedMs": 45001,
+              "candidateModelCalls": 11,
+              "providerModelCalls": 11,
+              "candidateRuntimeOperations": 46,
+              "providerRuntimeOperations": 45,
+              "runModelCalls": 25,
+              "reason": "DEADLINE_EXCEEDED"
+            },
+            "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "operation": "PROVIDER_SCOPE"
+          }
+        },
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan",
+              "sourceIds": {
+                "phone": "03-3371-9633",
+                "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "LA CEPA",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:e8d8e78e649bc25eba17056c",
+                "sourceIds": "evidence:restaurant:google-discovery:e8d8e78e649bc25eba17056c",
+                "outletName": "evidence:restaurant:google-discovery:e8d8e78e649bc25eba17056c"
+              },
+              "coordinates": {
+                "lat": 35.7126334,
+                "lng": 139.7001464
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:e8d8e78e649bc25eba17056c",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:25:59.950Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "LA CEPA",
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:e8d8e78e649bc25eba17056c",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:25:59.950Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "LA CEPA",
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:642f664328fd9513e3fad46c",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:25:59.950Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            }
+          ],
+          "providerFinished": {
+            "sequence": 586,
+            "at": "2026-11-09T09:27:51.786Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 196258,
+            "lifecycle": {
+              "outcome": "ABANDONED",
+              "candidateElapsedMs": 45002,
+              "providerElapsedMs": 45002,
+              "candidateModelCalls": 11,
+              "providerModelCalls": 11,
+              "candidateRuntimeOperations": 45,
+              "providerRuntimeOperations": 45,
+              "runModelCalls": 37,
+              "reason": "DEADLINE_EXCEEDED"
+            },
+            "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "operation": "PROVIDER_SCOPE"
+          }
+        }
+      ],
+      "estimatedAvoidedProviderMs": 90003,
+      "estimatedAvoidedModelCalls": 22
+    },
+    {
+      "id": "01-r2",
+      "sourceExecutionSHA256": "862d69cb648147114ab3f6ab96834c2e8e1c1b45218d558f5da9131605ce663e",
+      "sourceDiagnosticsSHA256": "1771a51d046c25515878ebe0f375163b2680c2efe6120c77ac4c776235d14393",
+      "readStartedAt": "2026-11-09T09:28:41.707Z",
+      "items": [
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い",
+              "sourceIds": {
+                "phone": "03-6205-6517",
+                "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "バル014 馬場ワイン食堂",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:c3b86ceea9b53af3f1409dfe",
+                "sourceIds": "evidence:restaurant:google-discovery:c3b86ceea9b53af3f1409dfe",
+                "outletName": "evidence:restaurant:google-discovery:c3b86ceea9b53af3f1409dfe"
+              },
+              "coordinates": {
+                "lat": 35.712308,
+                "lng": 139.70521499999998
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:c3b86ceea9b53af3f1409dfe",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:30:25.873Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "バル014 馬場ワイン食堂",
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:c3b86ceea9b53af3f1409dfe",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:30:25.873Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "バル014 馬場ワイン食堂",
+                "address": "Japan, 〒169-0075 Tokyo, Shinjuku City, Takadanobaba, 1-chōme−27−１ ファインテックビル 高田馬場1-27-1ファインテックビ1F 幼稚園の向い"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:e5599d517b42beadc6b52a60",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "sourceEntityId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+              "sourceUrl": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:30:25.873Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/"
+              }
+            }
+          ],
+          "providerFinished": {
+            "sequence": 598,
+            "at": "2026-11-09T09:31:32.741Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 174863,
+            "lifecycle": {
+              "outcome": "ABANDONED",
+              "candidateElapsedMs": 65127,
+              "providerElapsedMs": 45001,
+              "candidateModelCalls": 10,
+              "providerModelCalls": 10,
+              "candidateRuntimeOperations": 41,
+              "providerRuntimeOperations": 40,
+              "runModelCalls": 39,
+              "reason": "DEADLINE_EXCEEDED"
+            },
+            "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "operation": "PROVIDER_SCOPE"
+          }
+        },
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan",
+              "sourceIds": {
+                "phone": "03-3371-9633",
+                "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "LA CEPA",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:fa4246940b8efe2a2d65e78c",
+                "sourceIds": "evidence:restaurant:google-discovery:fa4246940b8efe2a2d65e78c",
+                "outletName": "evidence:restaurant:google-discovery:fa4246940b8efe2a2d65e78c"
+              },
+              "coordinates": {
+                "lat": 35.7126334,
+                "lng": 139.7001464
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:fa4246940b8efe2a2d65e78c",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:30:25.873Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "LA CEPA",
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:fa4246940b8efe2a2d65e78c",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:30:25.873Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "LA CEPA",
+                "address": "3-chōme-12-10 Takadanobaba, Shinjuku City, Tokyo 169-0075, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:e07c83e04cda97c900d23069",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "sourceEntityId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+              "sourceUrl": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T09:30:25.873Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            }
+          ],
+          "providerFinished": {
+            "sequence": 677,
+            "at": "2026-11-09T09:31:58.963Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 201085,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 26203,
+              "providerElapsedMs": 26203,
+              "candidateModelCalls": 3,
+              "providerModelCalls": 3,
+              "candidateRuntimeOperations": 21,
+              "providerRuntimeOperations": 21,
+              "runModelCalls": 42,
+              "reason": "ADAPTER_RETURNED"
+            },
+            "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "operation": "PROVIDER_SCOPE"
+          }
+        }
+      ],
+      "estimatedAvoidedProviderMs": 71204,
+      "estimatedAvoidedModelCalls": 13
+    },
+    {
+      "id": "02-r1",
+      "sourceExecutionSHA256": "579e0323c83d3f23c07ba150f5df84100db7793de2dffeb466e6dc139c839e37",
+      "sourceDiagnosticsSHA256": "686d97da6976dbf39e6c61232e9e23a85372178fe0537ac1df31dd2274dbfe8b",
+      "readStartedAt": "2026-11-09T10:48:18.335Z",
+      "items": [
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+              "sourceIds": {
+                "phone": "03-4400-3404",
+                "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "Nakano Robata Sumika",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:70d69848a34adaa65f4507ce",
+                "sourceIds": "evidence:restaurant:google-discovery:70d69848a34adaa65f4507ce",
+                "outletName": "evidence:restaurant:google-discovery:70d69848a34adaa65f4507ce"
+              },
+              "coordinates": {
+                "lat": 35.708869,
+                "lng": 139.6661176
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:70d69848a34adaa65f4507ce",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Nakano Robata Sumika",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:70d69848a34adaa65f4507ce",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Nakano Robata Sumika",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:51f0855c2352196b15ea811c",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "websiteUri": "https://babytattoo.jp/robata?_src=gbp"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:1b53a4012da78a5757727cee",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "observedAt": "2026-11-09T10:51:30.013Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Nakano Robata Sumika"
+              }
+            }
+          ],
+          "providerFinished": {
+            "sequence": 404,
+            "at": "2026-11-09T10:50:54.624Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 160285,
+            "lifecycle": {
+              "outcome": "ABANDONED",
+              "candidateElapsedMs": 45001,
+              "providerElapsedMs": 45001,
+              "candidateModelCalls": 11,
+              "providerModelCalls": 11,
+              "candidateRuntimeOperations": 48,
+              "providerRuntimeOperations": 48,
+              "runModelCalls": 26,
+              "reason": "DEADLINE_EXCEEDED"
+            },
+            "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "operation": "PROVIDER_SCOPE"
+          }
+        },
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+              "sourceIds": {
+                "phone": "03-3228-1230",
+                "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "Okajoki",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:87924a314f158fa2603de315",
+                "sourceIds": "evidence:restaurant:google-discovery:87924a314f158fa2603de315",
+                "outletName": "evidence:restaurant:google-discovery:87924a314f158fa2603de315"
+              },
+              "coordinates": {
+                "lat": 35.707592999999996,
+                "lng": 139.6660992
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:87924a314f158fa2603de315",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Okajoki",
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:87924a314f158fa2603de315",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Okajoki",
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:452f32caf8f930e1b4ad0aa0",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            }
+          ],
+          "providerFinished": {
+            "sequence": 622,
+            "at": "2026-11-09T10:51:56.264Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 221925,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 26249,
+              "providerElapsedMs": 26249,
+              "candidateModelCalls": 5,
+              "providerModelCalls": 5,
+              "candidateRuntimeOperations": 22,
+              "providerRuntimeOperations": 22,
+              "runModelCalls": 38,
+              "reason": "ADAPTER_RETURNED"
+            },
+            "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "operation": "PROVIDER_SCOPE"
+          }
+        },
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan",
+              "sourceIds": {
+                "phone": "03-5318-2538",
+                "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "Guttsu",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:ab24c6e8eeea1bcc679e1b91",
+                "sourceIds": "evidence:restaurant:google-discovery:ab24c6e8eeea1bcc679e1b91",
+                "outletName": "evidence:restaurant:google-discovery:ab24c6e8eeea1bcc679e1b91"
+              },
+              "coordinates": {
+                "lat": 35.70658280000001,
+                "lng": 139.6670285
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:ab24c6e8eeea1bcc679e1b91",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Guttsu",
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:ab24c6e8eeea1bcc679e1b91",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Guttsu",
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:44886f510eb394b349c3666b",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:50:07.334Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            }
+          ],
+          "providerFinished": {
+            "sequence": 666,
+            "at": "2026-11-09T10:52:01.877Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 227538,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 3332,
+              "providerElapsedMs": 3332,
+              "candidateModelCalls": 2,
+              "providerModelCalls": 2,
+              "candidateRuntimeOperations": 6,
+              "providerRuntimeOperations": 6,
+              "runModelCalls": 42,
+              "reason": "ADAPTER_RETURNED"
+            },
+            "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+            "operation": "PROVIDER_SCOPE"
+          }
+        }
+      ],
+      "estimatedAvoidedProviderMs": 74582,
+      "estimatedAvoidedModelCalls": 18
+    },
+    {
+      "id": "02-r2",
+      "sourceExecutionSHA256": "3924d728f002451dc47da1ccb07ea0eeac39f99fb87fdee9a19ffd0da95dc9cf",
+      "sourceDiagnosticsSHA256": "a398031973dd809e1fc932f3eadd8274f29dbb9cdeba4c5e10f58bc52fd9f3d5",
+      "readStartedAt": "2026-11-09T10:52:26.452Z",
+      "items": [
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+              "sourceIds": {
+                "phone": "03-3228-1230",
+                "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "Okajoki",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:4eb65c6d151825b55e15877f",
+                "sourceIds": "evidence:restaurant:google-discovery:4eb65c6d151825b55e15877f",
+                "outletName": "evidence:restaurant:google-discovery:4eb65c6d151825b55e15877f"
+              },
+              "coordinates": {
+                "lat": 35.707592999999996,
+                "lng": 139.6660992
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:4eb65c6d151825b55e15877f",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Okajoki",
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:4eb65c6d151825b55e15877f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Okajoki",
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:4bea2a7ef4767aea1543ac7e",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            },
+            {
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:d19e67ed92acbafba5fede63",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13000216",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13000216/",
+              "observedAt": "2026-11-09T10:55:14.952Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Okajoki"
+              }
+            }
+          ],
+          "providerFinished": {
+            "sequence": 480,
+            "at": "2026-11-09T10:54:43.054Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 140942,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 32741,
+              "providerElapsedMs": 32741,
+              "candidateModelCalls": 7,
+              "providerModelCalls": 7,
+              "candidateRuntimeOperations": 30,
+              "providerRuntimeOperations": 30,
+              "runModelCalls": 32,
+              "reason": "ADAPTER_RETURNED"
+            },
+            "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "operation": "PROVIDER_SCOPE"
+          }
+        },
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+              "sourceIds": {
+                "phone": "03-4400-3404",
+                "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "Nakano Robata Sumika",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:ba814d24b6cb359ad32f4a93",
+                "sourceIds": "evidence:restaurant:google-discovery:ba814d24b6cb359ad32f4a93",
+                "outletName": "evidence:restaurant:google-discovery:ba814d24b6cb359ad32f4a93"
+              },
+              "coordinates": {
+                "lat": 35.708869,
+                "lng": 139.6661176
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:ba814d24b6cb359ad32f4a93",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Nakano Robata Sumika",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:ba814d24b6cb359ad32f4a93",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Nakano Robata Sumika",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:4984bc236ce3122bcfec3a74",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "websiteUri": "https://babytattoo.jp/robata?_src=gbp"
+              }
+            }
+          ],
+          "providerFinished": {
+            "sequence": 618,
+            "at": "2026-11-09T10:55:21.214Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 179102,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 6260,
+              "providerElapsedMs": 6260,
+              "candidateModelCalls": 3,
+              "providerModelCalls": 3,
+              "candidateRuntimeOperations": 10,
+              "providerRuntimeOperations": 10,
+              "runModelCalls": 40,
+              "reason": "ADAPTER_RETURNED"
+            },
+            "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "operation": "PROVIDER_SCOPE"
+          }
+        },
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan",
+              "sourceIds": {
+                "phone": "03-5318-2538",
+                "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "Guttsu",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:72a9f10c0a44d358468c06a6",
+                "sourceIds": "evidence:restaurant:google-discovery:72a9f10c0a44d358468c06a6",
+                "outletName": "evidence:restaurant:google-discovery:72a9f10c0a44d358468c06a6"
+              },
+              "coordinates": {
+                "lat": 35.70658280000001,
+                "lng": 139.6670285
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:72a9f10c0a44d358468c06a6",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Guttsu",
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:72a9f10c0a44d358468c06a6",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Guttsu",
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:28b0d6f4e3a3dbf55a762d99",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:54:07.985Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            }
+          ],
+          "providerFinished": {
+            "sequence": 649,
+            "at": "2026-11-09T10:55:23.944Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 181832,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 182,
+              "providerElapsedMs": 182,
+              "candidateModelCalls": 1,
+              "providerModelCalls": 1,
+              "candidateRuntimeOperations": 3,
+              "providerRuntimeOperations": 3,
+              "runModelCalls": 42,
+              "reason": "ADAPTER_RETURNED"
+            },
+            "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+            "operation": "PROVIDER_SCOPE"
+          }
+        }
+      ],
+      "estimatedAvoidedProviderMs": 39183,
+      "estimatedAvoidedModelCalls": 11
+    },
+    {
+      "id": "02-r3",
+      "sourceExecutionSHA256": "ccbcac79944c59e8013e868a5589fd2fb47ab4808aaa4ba46dac289edf200420",
+      "sourceDiagnosticsSHA256": "1ecdc10faf71d744b64f4c72f1c7bb30ae588162b212b555119a7c597465ca3d",
+      "readStartedAt": "2026-11-09T10:55:42.211Z",
+      "items": [
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+              "sourceIds": {
+                "phone": "03-4400-3404",
+                "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "Nakano Robata Sumika",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:4a18d6805fe12a5b95d47d59",
+                "sourceIds": "evidence:restaurant:google-discovery:4a18d6805fe12a5b95d47d59",
+                "outletName": "evidence:restaurant:google-discovery:4a18d6805fe12a5b95d47d59"
+              },
+              "coordinates": {
+                "lat": 35.708869,
+                "lng": 139.6661176
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:4a18d6805fe12a5b95d47d59",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:57:39.578Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Nakano Robata Sumika",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:4a18d6805fe12a5b95d47d59",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:57:39.578Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Nakano Robata Sumika",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:96e781af6dcad4b4e4797960",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:57:39.578Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "websiteUri": "https://babytattoo.jp/robata?_src=gbp"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:3579eb8ef24edc35fe8ba523",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "observedAt": "2026-11-09T10:58:59.966Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Nakano Robata Sumika"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:dc497fb2e727afbb48b634a9",
+              "kind": "RESTAURANT_FACT",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "observedAt": "2026-11-09T10:58:59.966Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            },
+            {
+              "evidenceId": "evidence:restaurant:tabelog-availability:04c415d7a25c0299d53f1123",
+              "kind": "AVAILABILITY",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "observedAt": "2026-11-09T10:58:59.966Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            }
+          ],
+          "providerFinished": {
+            "sequence": 532,
+            "at": "2026-11-09T10:58:25.797Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 168099,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 44097,
+              "providerElapsedMs": 44097,
+              "candidateModelCalls": 12,
+              "providerModelCalls": 12,
+              "candidateRuntimeOperations": 50,
+              "providerRuntimeOperations": 50,
+              "runModelCalls": 34,
+              "reason": "ADAPTER_RETURNED"
+            },
+            "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "operation": "PROVIDER_SCOPE"
+          }
+        },
+        {
+          "candidate": {
+            "restaurant": {
+              "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+              "sourceIds": {
+                "phone": "03-3228-1230",
+                "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "Okajoki",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:4bc62351be3d7d73a81a3b9a",
+                "sourceIds": "evidence:restaurant:google-discovery:4bc62351be3d7d73a81a3b9a",
+                "outletName": "evidence:restaurant:google-discovery:4bc62351be3d7d73a81a3b9a"
+              },
+              "coordinates": {
+                "lat": 35.707592999999996,
+                "lng": 139.6660992
+              }
+            },
+            "matchStatus": "CANDIDATE"
+          },
+          "evidence": [
+            {
+              "evidenceId": "evidence:restaurant:google-discovery:4bc62351be3d7d73a81a3b9a",
+              "kind": "DISCOVERY",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:57:39.578Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Okajoki",
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-entity:4bc62351be3d7d73a81a3b9a",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:57:39.578Z",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {
+                "outletName": "Okajoki",
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "evidenceId": "evidence:restaurant:google-facts:bccbb07729e1a342626a06a7",
+              "kind": "RESTAURANT_FACT",
+              "provider": "GOOGLE_PLACES",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "observedAt": "2026-11-09T10:57:39.578Z",
+              "requestFingerprint": "PRIVATE_REQUEST_OMITTED",
+              "claims": {}
+            }
+          ],
+          "providerFinished": {
+            "sequence": 684,
+            "at": "2026-11-09T10:59:02.095Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "PROVIDER_FINISHED",
+            "elapsedMs": 204397,
+            "lifecycle": {
+              "outcome": "FINISHED",
+              "candidateElapsedMs": 2120,
+              "providerElapsedMs": 2120,
+              "candidateModelCalls": 2,
+              "providerModelCalls": 2,
+              "candidateRuntimeOperations": 7,
+              "providerRuntimeOperations": 7,
+              "runModelCalls": 42,
+              "reason": "ADAPTER_RETURNED"
+            },
+            "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "operation": "PROVIDER_SCOPE"
+          }
+        }
+      ],
+      "estimatedAvoidedProviderMs": 46217,
+      "estimatedAvoidedModelCalls": 14
+    }
+  ]
+}

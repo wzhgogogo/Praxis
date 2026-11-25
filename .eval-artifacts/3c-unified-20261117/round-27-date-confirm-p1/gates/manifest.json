@@ -1,0 +1,265 @@
+[
+  {
+    "name": "typecheck",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "exitCode": 0,
+    "seconds": 0.7272712920000001,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "arch-check",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "exitCode": 0,
+    "seconds": 0.20757658300000004,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "build",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "seconds": 0.6178240419999999,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "test",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "npm",
+      "test"
+    ],
+    "exitCode": 0,
+    "seconds": 88.833340125,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": [
+      {
+        "tests": 1981,
+        "pass": 1981,
+        "fail": 0
+      }
+    ]
+  },
+  {
+    "name": "browser-fixture",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "invocation": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "exitCode": 0,
+    "seconds": 505.39308250000005,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "Fixture-only; Replay children enforce their own OS sandbox; no outer sandbox",
+    "testSummaries": [
+      {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0
+      },
+      {
+        "tests": 593,
+        "pass": 593,
+        "fail": 0
+      },
+      {
+        "tests": 598,
+        "pass": 598,
+        "fail": 0
+      },
+      {
+        "tests": 159,
+        "pass": 159,
+        "fail": 0
+      }
+    ]
+  },
+  {
+    "name": "c1-built",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-c1-built.py"
+    ],
+    "invocation": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-c1-built.py"
+    ],
+    "exitCode": 0,
+    "seconds": 13.357277457999999,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "Fixture-only; Replay children enforce their own OS sandbox; no outer sandbox",
+    "testSummaries": []
+  },
+  {
+    "name": "reviewer-probe",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-reviewer-probe.py"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/run-reviewer-probe.py"
+    ],
+    "exitCode": 0,
+    "seconds": 17.147572749999995,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "assets",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/verify-build-assets.mjs"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/verify-build-assets.mjs"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2057634999999891,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "graph",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/inspect-browser-graph.py"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/inspect-browser-graph.py"
+    ],
+    "exitCode": 0,
+    "seconds": 0.04604791600002045,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  },
+  {
+    "name": "protection",
+    "sha": "ffafb73cb8e277e86fe0537aaf508c8c304b50e4",
+    "sourceTree": "7f893aa7aa514010e51033524fd18776053c4ee5",
+    "command": [
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/verify-protection.py"
+    ],
+    "invocation": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "python3",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/verify-protection.py"
+    ],
+    "exitCode": 0,
+    "seconds": 3.4722211250000328,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS deny non-loopback outbound",
+    "testSummaries": []
+  }
+]

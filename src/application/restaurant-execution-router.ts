@@ -1,3 +1,5 @@
+import {canSettlePageQuestion} from '../domains/restaurant/read-assessment.js';
+import { AsyncLocalStorage } from "node:async_hooks";
 import type { RestaurantPageQuestionPort } from "../domains/restaurant/page-question.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../domains/restaurant/failure-codes.js";
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
@@ -17,7 +19,7 @@ import type {
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { restaurantSearchIntentFingerprint } from "../domains/restaurant/contracts.js";
-import { assessRestaurantRead, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import {restaurantReserveCancelled,RESTAURANT_READ_CANCEL_SETTLE_MS} from "../domains/restaurant/read-time-reserve.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
@@ -38,6 +40,7 @@ export interface RestaurantAvailabilityPort {
   browserModelBudgetExhausted?(): boolean;
   beginReadRun?(): void;
   endReadRun?(): void | Promise<void>;
+  withReadRun?<T>(read: () => Promise<T>, scopeId?: string): Promise<T>;
   check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead>;
 }
 
@@ -108,15 +111,15 @@ function checkpointMetadata(reads: Array<{metadata: RestaurantReadExecutionMetad
   return metadata;
 }
 
-function mergedFacts(completed: Array<{candidateId:string;read:RestaurantCandidateFactRead}>, request: RestaurantCandidateFactRequest, fallback: RestaurantReadExecutionMetadata, now: string, reserve?: "MODEL_CALL"|"DELIVERY_TIME"): RestaurantCandidateFactRead {
+function mergedFacts(completed: Array<{candidateId:string;read:RestaurantCandidateFactRead}>, request: RestaurantCandidateFactRequest, fallback: RestaurantReadExecutionMetadata, now: string, reserve?: "MODEL_CALL"|"DELIVERY_TIME", failureCode?: RestaurantFailureCode): RestaurantCandidateFactRead {
   const reads=completed.map(x=>x.read), metadata=checkpointMetadata(reads,fallback);
   const factChecks: RestaurantCandidateFactRead["factChecks"]=Object.fromEntries(reads.flatMap(read=>Object.entries(read.factChecks).map(([id,check])=>[id,{
     ...check, ...(!check.evidenceIds.length && !check.sourceProvider && !check.sourceAttempts ? {sourceProvider:read.metadata.provider} : {}),
   }])));
-  if(reserve){
-    for(const id of request.candidateIds) if(!completed.some(x=>x.candidateId===id)) factChecks[id]={status:"UNKNOWN",checkedAt:now,evidenceIds:[],reasonCode:"RESERVE_REACHED"};
-    metadata.failureCode=reserve==="MODEL_CALL"?"BUDGET_RESERVED_FOR_DELIVERY":"DELIVERY_RESERVE_REACHED";
-    metadata.reserveReached={reason:reserve,completedCandidateIds:completed.map(x=>x.candidateId)};
+  if(reserve || failureCode){
+    for(const id of request.candidateIds) if(!completed.some(x=>x.candidateId===id)) factChecks[id]={status:"UNKNOWN",checkedAt:now,evidenceIds:[],reasonCode:reserve?"RESERVE_REACHED":failureCode!};
+    metadata.failureCode=failureCode ?? (reserve==="MODEL_CALL"?"BUDGET_RESERVED_FOR_DELIVERY":"DELIVERY_RESERVE_REACHED");
+    if(reserve) metadata.reserveReached={reason:reserve,completedCandidateIds:completed.map(x=>x.candidateId)};
   }
   return {evidence:reads.flatMap(x=>x.evidence),factChecks,metadata,...(reads.some(x=>x.sourceDocuments)?{sourceDocuments:reads.flatMap(x=>x.sourceDocuments??[])}:{})};
 }
@@ -169,6 +172,7 @@ function authoritativeAvailabilityRequest(
   const verifiedOutletPages=verifiedOutletPagesForAvailability(state,candidateIds);
   return {
     candidateIds: [...candidateIds],
+    ...(intent.target?.selectionScope?{selectionScope:intent.target.selectionScope}:{}),
     ...(verifiedOutletPages.length?{verifiedOutletPages}:{}),
     candidates: candidateIds.map((candidateId) => {
       const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);
@@ -209,6 +213,7 @@ function immediateAvailabilityFailure(
  * to the Agent and deliberately has no direct Commit implementation.
  */
 export class RestaurantExecutionRouter {
+  private readonly readScopes = new AsyncLocalStorage<string | symbol>();
   readBudgetStatus() { return { browserModelBudgetExhausted: this.availability.browserModelBudgetExhausted?.() === true }; }
 
   private readonly structuredReadTimeoutMs: number;
@@ -230,6 +235,16 @@ export class RestaurantExecutionRouter {
 
   async endReadRun(): Promise<void> { await this.availability.endReadRun?.(); }
 
+  async withReadRun<T>(read: () => Promise<T>, scopeId?: string): Promise<T> {
+    const active = this.readScopes.getStore();
+    if (active && (scopeId === undefined || active === scopeId)) return read();
+    return this.readScopes.run(scopeId ?? Symbol("restaurant-read"), async () => {
+      if (this.availability.withReadRun) return this.availability.withReadRun(read, scopeId);
+      this.beginReadRun();
+      try { return await read(); } finally { await this.endReadRun(); }
+    });
+  }
+
   async execute(
     action: RestaurantAgentAction,
     state: Readonly<RestaurantTaskState>,
@@ -247,10 +262,10 @@ export class RestaurantExecutionRouter {
     switch (action.type) {
       case "ANSWER_PAGE_QUESTION": {
         const q = state.pageQuestion;
-        if (!q || q.result || q.readRunId !== readRunId) throw new Error("Question run does not match the authoritative task read");
+        if (!q || !readRunId || !canSettlePageQuestion(state, q, readRunId)) throw new Error("Question run does not match the authoritative task read");
         const candidate = state.candidates.find(c => c.restaurant.id === q.candidateId);
         const intent = completeRestaurantSearchIntent(state.intentDraft);
-        if (!candidate || !intent || !state.presentedResults?.candidateIds.includes(q.candidateId)) throw new Error("Question outlet is not in the presented batch");
+        if (!candidate || !intent) throw new Error("Question outlet is not in the presented batch");
         const result = this.questions ? await this.withProviderReadDeadline("Restaurant page question", this.browserReadTimeoutMs,
           signal => this.questions!.answerQuestion({requestId:q.requestId,question:q.question,candidate:structuredClone(candidate),intent,
             readContext:{runId:q.readRunId,startedAt:q.readStartedAt,deadlineAt:q.deadlineAt}},signal),true,parentSignal)
@@ -324,6 +339,7 @@ export class RestaurantExecutionRouter {
         const intent = completeRestaurantSearchIntent(state.intentDraft);
         if (!intent) throw new Error("Validated candidate fact read requires a complete authoritative search intent");
         const request: RestaurantCandidateFactRequest = {
+          sourceEvidence: action.candidateIds.flatMap(id=>[...restaurantCurrentFactEvidence(state,id),...state.readEvidence.filter(e=>e.candidateId===id&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH")]).filter(e=>[e.expiresAt,e.displayExpiresAt,e.sourceExpiresAt].every(t=>!t||Date.parse(t)>Date.parse(now))),
           candidateIds: [...action.candidateIds],
           candidates: action.candidateIds.map((candidateId) => {
             const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);
@@ -373,17 +389,16 @@ export class RestaurantExecutionRouter {
           if (parentSignal?.aborted || (error && typeof error === "object" && "code" in error && (error.code === "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED" || error.code === "BROWSER_RUNTIME_UNAVAILABLE" || error.code === "MODEL_CALL_BUDGET_EXHAUSTED"))) throw error;
           const reason = error instanceof Error ? error.message : "Unknown candidate fact investigation failure";
           const code = stableFailureCode(error, "FACT_INVESTIGATION_FAILED");
+          const read=mergedFacts(completed,request,{...fallback,...googleUsageMetadata(this.facts,readRunId)},now,undefined,code);
           return {
             route: this.facts.executionRoute,
             event: {
               type: "CANDIDATE_FACTS_CHECKED",
               request,
-              evidence: [],
-              factChecks: Object.fromEntries(request.candidateIds.map((candidateId) => [candidateId, { status: "UNKNOWN" as const, checkedAt: now, evidenceIds: [], reasonCode: code }])),
-              metadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...googleUsageMetadata(this.facts, readRunId), ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
+              ...read,
             },
-            observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason, candidateIds: request.candidateIds },
-            executionMetadata: { provider: "GOOGLE_PLACES", route: this.facts.executionRoute, latencyMs: 0, failureCode: code, ...googleUsageMetadata(this.facts, readRunId), ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
+            observation: { type: "CANDIDATE_FACTS_UNKNOWN", detail: reason, candidateIds: request.candidateIds, evidenceIds: read.evidence.map(evidence=>evidence.evidenceId) },
+            executionMetadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
             failure: { source: "PROVIDER", code, reason, scope: "PROVIDER" },
           };
         }

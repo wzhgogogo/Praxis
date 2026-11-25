@@ -1,0 +1,11 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.web.json
+
+src/application/restaurant-pending-edit.test.ts(24,28): error TS2341: Property 'runtime' is private and only accessible within class 'PersistentRestaurantAgentApplication'.
+src/application/restaurant-pending-edit.test.ts(39,57): error TS2341: Property 'runtime' is private and only accessible within class 'PersistentRestaurantAgentApplication'.
+src/application/restaurant-pending-edit.test.ts(39,85): error TS2341: Property 'runtime' is private and only accessible within class 'PersistentRestaurantAgentApplication'.
+src/application/restaurant-pending-edit.test.ts(41,9): error TS2341: Property 'runtime' is private and only accessible within class 'PersistentRestaurantAgentApplication'.
+src/application/restaurant-pending-edit.test.ts(45,77): error TS2341: Property 'runtime' is private and only accessible within class 'PersistentRestaurantAgentApplication'.
+src/application/restaurant-pending-edit.test.ts(46,35): error TS18048: 'final.restaurant.shortlistCandidateIds' is possibly 'undefined'.
+src/application/restaurant-pending-edit.test.ts(47,17): error TS2341: Property 'runtime' is private and only accessible within class 'PersistentRestaurantAgentApplication'.

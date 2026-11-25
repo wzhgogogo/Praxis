@@ -1,0 +1,94 @@
+[
+  {
+    "gate": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "exitCode": 0,
+    "seconds": 4.918430375,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "counts": null
+  },
+  {
+    "gate": "arch-check",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "exitCode": 0,
+    "seconds": 0.8023981670000007,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "counts": null
+  },
+  {
+    "gate": "test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "exitCode": 0,
+    "seconds": 59.834271959000006,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "counts": {
+      "tests": 1663,
+      "pass": 1663,
+      "fail": 0
+    }
+  },
+  {
+    "gate": "browser-fixture",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "exitCode": 1,
+    "seconds": 306.095588292,
+    "cleanBefore": true,
+    "cleanAfter": true,
+    "envLoaded": false,
+    "network": "OS outbound denied except loopback",
+    "counts": {
+      "G2": {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "seconds": 25.035658792
+      },
+      "Chromium": {
+        "tests": 346,
+        "pass": 335,
+        "fail": 11,
+        "seconds": 280.880372708
+      },
+      "combined": {
+        "tests": 351,
+        "pass": 340,
+        "fail": 11
+      },
+      "G6": "NOT_RUN"
+    }
+  },
+  {
+    "gate": "build",
+    "sha": "4ff189db2c3ebab938508d5b3e0c93b47d103f8e",
+    "status": "NOT_RUN",
+    "reason": "Stopped after browser-fixture exit 1"
+  }
+]

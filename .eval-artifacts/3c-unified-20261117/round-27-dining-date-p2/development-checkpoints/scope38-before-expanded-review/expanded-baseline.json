@@ -1,0 +1,178 @@
+[
+  {
+    "script": "reviewer-scope-boundaries.mjs",
+    "sourceBlob": "0bb3efc35970cf6ec294354ef1e6bd617ebf8b02",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/reviewer-scope-boundaries.mjs"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 5.437002167,
+    "rows": [
+      {
+        "case": "explicit ISO date control",
+        "message": "\u628a\u65e5\u671f\u6539\u52302026-11-28\uff0c\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-28",
+        "draftDate": "2026-11-28",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-28"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "explicit ISO edit with contradictory CONFIRM",
+        "message": "\u628a\u65e5\u671f\u6539\u52302026-11-28\uff0c\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-28",
+        "draftDate": "2026-11-26",
+        "phase": "NEEDS_INPUT",
+        "dates": [],
+        "times": [],
+        "pass": true
+      },
+      {
+        "case": "explicit weekday control",
+        "message": "\u6539\u6210\u5468\u4e94\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-27",
+        "draftDate": "2026-11-27",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-27"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "explicit weekday edit with contradictory CONFIRM",
+        "message": "\u6539\u6210\u5468\u4e94\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-27",
+        "draftDate": "2026-11-26",
+        "phase": "NEEDS_INPUT",
+        "dates": [],
+        "times": [],
+        "pass": true
+      },
+      {
+        "case": "budget undecided, dining date fixed",
+        "message": "I haven't decided how much to spend on dinner tomorrow. Make it 7 pm.",
+        "expected": "2026-11-25",
+        "draftDate": "2026-11-25",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-25"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": true
+      },
+      {
+        "case": "dining date genuinely undecided",
+        "message": "Dinner tomorrow or the day after tomorrow at 7 pm.",
+        "expected": null,
+        "draftDate": "2026-11-26",
+        "phase": "NEEDS_INPUT",
+        "dates": [],
+        "times": [],
+        "pass": true
+      },
+      {
+        "case": "ISO raw and model value disagree",
+        "message": "\u628a\u65e5\u671f\u6539\u52302026-11-28\uff0c\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-28",
+        "draftDate": "2026-11-27",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-27"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": false
+      },
+      {
+        "case": "weekday raw and model target disagree",
+        "message": "\u6539\u6210\u5468\u4e94\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-27",
+        "draftDate": "2026-11-28",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-28"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "pass": false
+      },
+      {
+        "case": "same date appears in a travel choice and a separate fixed dinner",
+        "message": "\u6211\u670b\u53cb\u660e\u5929\u6216\u540e\u5929\u5230\u4e1c\u4eac\uff0c\u4e0d\u8fc7\u6211\u81ea\u5df1\u7684\u665a\u9910\u5c31\u8ba2\u660e\u5929\u665a\u4e0a7\u70b9",
+        "expected": "2026-11-25",
+        "draftDate": "2026-11-26",
+        "phase": "NEEDS_INPUT",
+        "dates": [],
+        "times": [],
+        "pass": false
+      }
+    ]
+  },
+  {
+    "script": "reviewer-browser-date.mjs",
+    "sourceBlob": "0bb3efc35970cf6ec294354ef1e6bd617ebf8b02",
+    "command": [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+      "node",
+      "--import",
+      "tsx",
+      "/private/tmp/praxis-3c-unified/.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/reviewer-browser-date.mjs"
+    ],
+    "envLoaded": false,
+    "exitCode": 0,
+    "seconds": 2.4596533330000003,
+    "rows": [
+      {
+        "case": "browser: repeated tomorrow confirms the selected dinner time",
+        "width": 390,
+        "message": "\u4e0d\u8981\u660e\u5929\u4e2d\u5348\uff0c\u6211\u4eec\u660e\u5929\u665a\u4e0a7\u70b9\u53bb\u5403\u5bff\u559c\u9505",
+        "expected": "2026-11-25",
+        "phase": "PRESENT_RESULTS",
+        "dates": [
+          "2026-11-25"
+        ],
+        "times": [
+          "19:00"
+        ],
+        "calls": 3,
+        "status": 200,
+        "resultingUI": true,
+        "pass": true
+      },
+      {
+        "case": "browser: explicit date editor ignores contradictory CONFIRM",
+        "width": 1440,
+        "message": "Change Thu, Nov 26 to 2026-11-28",
+        "expected": "2026-11-28",
+        "phase": "PRESENT_RESULTS",
+        "dates": [],
+        "times": [],
+        "calls": 0,
+        "status": 200,
+        "resultingUI": false,
+        "pass": false
+      }
+    ]
+  }
+]

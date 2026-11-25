@@ -1,5 +1,122 @@
 2026-11-13 Asia/Shanghai — local main integrated / not pushed：仅稀疏入口、合同测试、样本白名单和指引，自原main4256303d集成，src及历史.eval diff0，轨迹分支独立。冻结源码1b1f1f6d净树type/arch/入口合同/default1546/build全绿；从实际main802f5b8c直接create默认新本地main，首次0→489文件/372426952字节，省略34969文件/5016494496字节；新树继承入口与复用指引，无.env/node_modules复制。按需取回14文件/1341382字节，全部503展开文件逐Git blob一致；验收树正常移除。新chat/eval/补证据优先复用，只有并行代码或另一版本验证才新建。D8固定原425提交与文件/暂存/配置，主草稿、入口原分支15cee837及轨迹34a6504保留；不推送，0Live/0模型/0来源GET。
 
+<a id="g1-window-media-closeout-20261116"></a>
+
+2026-11-16 — 待以本次复核提交整合 main；已完成离线与本地 Chromium 验证，D8 线上 Live 待冻结主线 SHA 后验证。本轮源码/测试冻结 `a5c4597b0031881e8e765888451a22785a32fb98`：实时快照刷新本次正文变化，G1 500ms 窗口不再继承旧 wait 标志；静态明确标记当前变化仍拒答。导航后不用旧 URL previous；显式 ARIA 忙态与混合图文条款卡片保留阻断。真实 Nakamata 包间原句引用验收，旧不透明地图与 8 个淡出图片骨架通用契约保持。0 Live / 0 网站 GET / 0 真实模型调用；旧批次原报告不改写。[本次简报](reviews/G1-WINDOW-MEDIA-CLOSEOUT-20261116.md)。
+
+<a id="g1-query-readback-20261116"></a>
+
+2026-11-16 — draft / not integrated：G1 当前正文/全部在途请求复检与同控件选项回读两项离线修复。保留原生 value、Guard 3 秒规则和 B1 身份/请求/库存双校验；真实 Nakamata DOM/CSS 结合明确构造交互，经生产组装验证。线上库存未验证；0 Live / 0 网站 GET / 0 真实模型。五项净树门禁及保护哈希以本批次原始日志为准；仅本地提交，不推送、不合 main。[简报](reviews/G1-BODY-QUERY-READBACK-20261116.md)。
+
+<a id="observed-suggestions-20261116"></a>
+
+2026-11-16 CET — Observed ownerless suggestions: protected Discovery exposes visible, enabled, unobstructed non-submitting options. Equal normalized full labels in the same list group suppress all duplicates; hidden/disabled/obstructed copies do not suppress a unique usable option. Owned combobox rules remain unchanged. Same-tab path change + current post-action reviewed GET200 receipt + SETTLED permits handoff only; adapter identity still requires HIGH. Two downstream branch counterexamples pass; 17 Tabelog messages remain byte-identical. Original duplicate failure is preserved. Main/date message hashes remain identical; raw-control suffix construction renumbers opaque refs, so its old hash is not claimed unchanged. Corrected duplicate and suffix serialize identically: the fifth real DeepSeek call chose Search and passed Schema16 for that exact input. Total model calls5/5, website GET0, Live0. Full clean-tree gates and one authorized D8 Live (1Live/8GET/50model/0rerun) remain the release gate.
+
+<a id="pre-merge-scope-behavior-20261115"></a>
+
+2026-11-15 CET — 浏览器 Prompt 27 / Wire Schema 16。Tabelog 在地点、检索词和结果均已确认时结束当前查询，明确零结果也可结束。真实 DeepSeek 七帧抽检全部通过，含常规发现、分类下钻、两个列表完成正例及 TableCheck 日期控件。TableCheck 人数和时间的真实模型选择帧仍缺。既有 D02-V 独立补评为 QUALIFIED_DELIVERY、qualified=true、S0=0，382/382 项通过。本次抽检新增模型 7 次，累计 9/10，网站 GET 与 Live 均为 0。[抽检简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/pre-merge-scope-behavior-20261115/report.md) · [原九帧](https://github.com/wzhgogogo/Praxis/blob/27bdb97a0c69d5c9c43a98ff4fe355deeee66067/.eval-artifacts/phase3b/category-guidance-recorded-20261113/model-pass-01/results.json) · [D02-V 补评](https://github.com/wzhgogogo/Praxis/blob/0065675a5be24231251d013d3b382a3cfbb9cc67/.eval-artifacts/phase3b/category-guidance-live-20261114/live/runtime/dev-d02v-category-guidance-20261114/evaluation.supplement.json)。
+
+<a id="terminal-observe-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：终端snapshot-only完成与Skill引导四文件修复，源码67a949d7净树全门禁PASS：type/arch/build、默认1644、Chromium287、G6 159，0跳过；含web-skills的双完整SHA与增量新增产品扫描0。9856真实DOM/HAR红→绿，终端扫描1→0且20:30原响应提取成立；PENDING稳定/未确认控件/默认控件检查保持，最终来源谓词与整列表范围逐字不变。分类/动作文案只验证接线，不声称真实模型导航已修。首次稀疏检出缺材料失败原样保留，恢复同提交材料后全绿。主草稿/四账本/9856证据哈希一致；0Live/0GET/0真实模型，仅分支待复核，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/terminal-observe-20261113/report.md)。
+
+<a id="party-category-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：人数来源响应独立进度与分类objective四文件最小修复。原可见选态解析逐字导出复用；最终库存complete、CapturedSlots、observedDate、ground及整列表范围校验不变。源码ea93f6c4净树全门禁PASS：type/arch/build、默认1632、Chromium286、G6 159；定向26与真实两店组件2通过，双完整SHA及增量新增产品扫描0。真实DOM/HAR先红后绿，人数确认后转日历，未构造未来日期/库存；objective仅请求输入验证，真实模型遵循待验。主草稿及6账本哈希不变，0Live/0GET/0真实模型；不合main、不跑held-out。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/party-category-20261113/report.md)。
+
+<a id="browser-strict-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：浏览器严格schema16修复fd5597fe，valueGroupRef列入required并约定非推进空字符串；gateway实际序列化合同先红后绿。净树全门禁PASS（默认1628、Chromium284、G6 159），双完整SHA新增产品扫描0，动作/Guard/身份/G1/时限/预算不变。旧失败/账本/主草稿保留，用户批准新独立单次Live，结果另录；未合main。[报告](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/browser-strict-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：浏览器严格wire schema16补齐valueGroupRef required，非推进动作用空字符串；未改动作选择/Guard/身份/G1/时限/预算。通过实际gateway序列化的独立strict合同先红后绿，定向23项通过；待同SHA全门禁后按用户新增额度一次D02-V Live。旧失败和四账本/主草稿保留，尚无新增真实调用。
+
+<a id="r2-scope-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/r2-scope-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：r2请求范围修复候选，承接通用推进a9b1fad8。发现完成只接受当前来源query、document.title或可见h1的整列表菜系证据，无query不再自动通过，单卡/菜单文字不作列表范围；无菜系目录行为不变。r2/B真实DOM定向31项通过，精确目录产出来源直达URI且查位不重做名称搜索。Prompt27，无站点规则/URL构造/强制动作序列；45/90s、权限与预算不变，0外部调用，待完整门禁。[计划](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/r2-scope-20261112/plan.md)。
+
+2026-11-12 CET — draft / not integrated：通用权威控件推进源码b18a6343净树全门禁PASS（默认1621、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA扫描0。模型一次选择控件/字段/值域，执行器只推进同一稳定控件并逐步Guard/settle/观察，无中间模型，不自动选中或声明有位。真实录制人数/跨组日历通过；D02V组件5→4次、44.508→41.870秒，人数r1避免1次原17,215token/4.698s调用，日历单步无节省；均为投影非Live。0Live/0GET/0真实模型，主草稿/四账本不变，评价器/历史评价不改。新Prompt真实模型采用率待验，仅工作分支、不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/advance-control-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：通用权威控件推进。模型选择推进控件、权威字段和值域组，执行器在原操作/45秒窗口内重绑同一稳定控件并click→settle→观察，中间无模型；跨组日历不再按Calendar标签并组，目标出现交还模型。D02V真实DOM人数/日历初步回归绿，人数少1次调用/原延迟投影4.698s，日历单步无节省；待同SHA全门禁，不作为Live。[计划](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/advance-control-20261112/plan.md)。
+
+2026-11-12 CET — 用户批准同店来源身份合并修复整合main，仅src/docs及src录制Fixture，main新增.eval-artifacts为0。完整净树门禁后冻结，再使用r4剩余1Live/9GET/73模型执行最后D02-V r2；r1独立补评合格且重复展示缺陷已在修复中关闭。03/07按已复核切片各2/2；r2尚未运行。运行不改代码、遇安全缺证或异常停止，不追加、不开held-out。
+
+2026-11-12 CET — draft / not integrated：同店候选合并源码cff31e94净树完整门禁type/arch/build、默认1610、Chromium281、G6 159及D4/D8/D02-V通过；双基线ead28945/105a8b0a新增产品写死0。既有合并改用本次详情经原身份核对器得到的HIGH同provider/sourceEntityId，无证/LOW/冲突不合并；保留原生导航与Google佐证，不新增I/O。r1组件由两候选两查询变为一候选一次查询一B1；03r1/r2及07r1/r3候选池与交付不变。独立补评三项B1/身份/原响应核对成立，资格两项旧评测器重评PASS，补评QUALIFIED_DELIVERY/qualified=true/s0=0并保留重复展示产品缺陷；原自动评价/评价器不改，自动别名B1缺证结果另存不伪装为自动PASS。0Live/0GET/0模型，主草稿及三旧+r4账本哈希一致，r4余1/9/73。仅工作分支、不合main、不跑r2。[简报](https://github.com/wzhgogogo/Praxis/blob/4eb7900d7345e3cbb6d990477fecaaedc624b033/.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
+
+2026-11-12 CET — D02-V r4 main整合准备：用户已复核批准0f8fcfa7，仅src/docs按内容整合；本次main新增.eval-artifacts为0。完整净树门禁后发布冻结SHA，再在独立证据分支提交2Live/20GET/120模型/0环境重跑的新账本和编排，D02-V两次不追加重试。03按用户指定验收口径2/2，07为2/2；D02-V本轮尚未运行，旧录制不改。
+
+2026-11-12 CET — draft / not integrated，D02-V权威地点与名称搜索快照修复：源码冻结5a2ec0742e78e4c7e3c0ae6b24e692999d1779cf。label填写/queryLabel目录绑定、Prompt25父行政区一致与可见回退、searched.snapshot复用。66项定向修前3红/修后全绿；净树type/arch/build、默认1598、Chromium281+G6 159，D4/D8及D02-V组件全绿。用户改定双基线ead289450092ccc30798b754d1e0771462bf08bd和ca4deca1d67bd6ce795f31d55757583f7bb09258，新增产品写死均0。满天8人计时44.508s为组件投影；Sumika录制仅2人，8人不确认。0模型/0网站GET/0Live，主草稿与旧账本哈希不变；仅推工作分支，不合main。[一页简报](https://github.com/wzhgogogo/Praxis/blob/0f8fcfa7b3973450b0992ba46ed66285128ef6bb/.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
+
+2026-11-11 CET — seed r3 integration preparation：用户批准只将bd01a402的src/docs合入main（不含新.eval-artifacts），PENDING结算复用/queryLabel/文本查询范围/分类相关度导航修复进入主线；修后新Live尚未验证。旧07-r1已独立补评QUALIFIED_DELIVERY/s0=0，原证据在bd01a402分支。仅eval同步新账本校验43Live/235GET/2800模型/4环境。净树门禁后冻SHA，按D02-V两次→07-r3一次串行验证；07-r3为新单次批次逻辑名，内部槽位仍07-r1，旧目录不动。所有新计划/门禁/产物留独立证据分支，不合入main；旧账本及主工作区草稿不变。
+
+2026-11-11 CET — draft / not integrated，种子发现与settle复用修复：PENDING先结算后唯一控件扫描；来源绑定queryLabel保留原始地名；来源包文本查询需体现权威检索词，目录浏览不受影响。真实Nakano列表Sumika第12，故以来源分类字面相关度排序详情读取，原5/10上限及HARD门槛不变。07-r2 Google实际HTTP200空对象，非跳过；其列表DOM被旧Recorder拒录，组件构造与真实D02 DOM分开。07-r1独立来源分类/完整地址及502m半径补评已按reviewHoldoutAttempt收口QUALIFIED_DELIVERY/qualified=true/s0=0，原评价保留。0模型/0Live/0网站GET；85a72f2d净树门禁type/arch/build、默认1596、Chromium281+G6 159全绿，D4/D8及录制回归保持；新增产品扫描0。推送后停，不合main。[计划](https://github.com/wzhgogogo/Praxis/blob/bd01a4024b7475b2464785eea42cb490771933d2/.eval-artifacts/phase3b/seed-discovery-settle-20261111/plan.md)。
+
+2026-11-11 CET — seed post-fix preparation / verified：用户接受前三项修复并要求回退地区发现Prompt；两文件恢复ead28945、浏览器Prompt24，Agent32保持。仅eval把Live40及新07-only前序校验接好；旧种子账本281条和所有计数不变，派生新账本继承并清除旧输出绑定。源码ae851693净树门禁type/arch/build、默认1590、Chromium281+G6 159全绿，产品扫描新增0；下一步独立净树合入origin/main、冻结，再跑07两次与D02-V最多两次；S0/环境/未知异常立即停。见 [计划](../.eval-artifacts/phase3b/seed-post-fix-preparation-20261111/plan.md)。
+
+<a id="seed-root-causes-20261111"></a>
+
+2026-11-11 CET — draft / not integrated：07/D02-V通用根因修复候选，基线main ead28945并吸收bb55aa4d体检修补。普通单店事实失败保留批处理中已完成候选与证据；Agent优先补齐已有请求匹配AVAILABLE候选的必查事实，地区发现先应用仍可操作的retrievalExpression（仅Prompt）；新增来源确认字段视为进展，复用同会话观察及完成快照。07-r2真实组件红绿两家恢复可交付，D02-V真实DOM/HAR组件在原45s窗内44.508s完成12-10/8人/20:30；最后扫描耗时复用同店上一录制值，不能代表新Live。真实网站0Live/0GET；纯模型共3次：07首轮仍CHECK，Prompt32澄清后转为FACTS；D02转More filters而非COMPLETE，完整筛选仍未验证。首轮结果保留。源码6ca80a4c同版本完整门禁通过：type/arch/build、默认1590、Chromium281及G6 158，D4/D8回归保持；相对ead28945新增产品写死命中0。strict G2全12 PASS。仅工作分支候选，待复核，不合main。
+
+2026-11-11 CET — 种子前开发检查运行准备：仅src/eval增加正式--cases与--repetitions，整份承诺校验不变；计划哈希固定续跑，虚构2例×2次/排除其他槽位/计划漂移拒绝通过。源码b8af6960净树type/arch/default1588/build/G6 154全绿，扫描0；产品及前端代码相对已合入1bc8ec31无改动。原R2原文件/清单仅运行器--validate-only核对，8bf81a78…/e0aabdf1…一致，03/07各2次计划已冻结。独立开发账本初始SHA4f5e7af8，继承30Live/154GET/2092模型，旧R2账本不改；发布main后立即运行，不另取探查。本条时点新增真实调用0。
+
+2026-11-11 CET — 用户复核接受种子前A1–A4工作分支84d70fb2（源码f385191e）：允许从main249826cc快进合入；产品源码不改，原同SHA完整门禁1586/Chromium279+G6 154/strictG2全12复用。下一步仅eval选择03/07各2次开发检查，旧R2结果/账本保持；新账本继承30/154/2092，剩余6Live/66GET/708模型，其中2Live留D02。前端slice2需同步main并重跑冒烟。真实调用尚未新增。
+
+2026-11-11 CET — 用户03:28 CET签收3b：R2标准1查位、2 B1、4安全通过，标准3 G1未达，列为种子用户前阻塞；R2结果完整保留在证据分支codex/heldout-r2-evidence-09@ac980ef2，18次最终均已评价、s0=0（9合格交付/3交付不合格/3诚实无结果/3能力未命中，严格按冻结标准）。七用例已暴露，可用录制开发，私有题面仍不人工读。当前工作分支候选A1–A4：核对入口重置、同run HIGH唯一已读来源页进入G1、响应确认日期/人数后避免重复选择、自然结果摘要/官网HTTPS优先/来源分类并列。仅组件/本地Chromium验证，不代表修后Live成本或真实10人已通过；源码f385191e同SHA净树全门禁通过（默认1586/Chromium279+G6 154/strictG2全12），扫描9条均通用或夹具，待复核，不合main、不调用真实来源。余额6Live/66GET/708模型不动。[本轮报告](../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
+
+2026-11-10 CET — 源码50bd3349全门禁通过：用户确认跨午夜含义并授权转换，eval认证保留营业日/原始时间并派生实际日期时间，24:30→次日00:30，不能算原日00:30。07原录制正常同日19:00离线认证true，六证书离线重解释符合05=false其余true，旧证书不改，不冒充新GET。62项转换/反例/真实回归绿，Evaluator@9；type/arch/default1572/build/Chromium274+G6 126/strictG2全12通过，scan0，产品diff0。仅eval、真实调用0，原a91执行工作区/425和账本保持。[报告](../.eval-artifacts/phase3b/calendar-day-normalization-20261110/report.md)。
+
+2026-11-10 CET — R2准备源码3eb7bea2净树全门禁PASS：type/arch/default1572/build/Chromium274+G6 115/strictG2全12，scan0，产品diff0。仅eval核对用户新额度36Live/220GET/2800模型/4环境；后续批准的轮间随机120–240秒外层等待已日志化/持久化，产品时限不变。D02补评QUALIFIED_DELIVERY/s0=0、用户D01/D02浏览器B1均核对正确。main发布后新私有R2账本继承12/86/1410，6GET预认证符合（05=false其余true）则立即正式开跑，用户已撤销等11-11；私有原文只交运行器，不人工读，原425/旧账本不动。当前新增真实调用0。[计划](../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
+
+2026-11-10 CET — R2准备draft：仅eval CLI额度核对改为用户批准2800模型/220GET/36Live/4环境，其他原规则不变；后续用户明确预认证符合后立即开跑，另批准轮间随机120–240秒外层冷却，首轮不等、完成时间/抽样/实际等待持久化，产品时限不变。25项CLI/认证/续跑/pacing夹具通过。D02 review bacd6391补评QUALIFIED_DELIVERY/s0=0，用户真实浏览器核对D01/D02两个B1正确。冻结门禁与main后新外部R2账本继承12/86/1410，以baseLedger/SHA保留旧审计，新R2 entries为空，原425/旧账本不改。私有原文/清单只核SHA未人工读取；下一步6GET预认证，05=false其余true才立即正式执行。[计划](../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
+
+2026-11-10 CET — R2承诺已按用户提供JSON逐字节入库：`.eval-artifacts/phase3b-holdout/commitment-r2.json`，JSON SHAb81d83eee099a351fa24fc2efa942800eafd0cd84b6422596e353244206756ee。03/04a/04b/05沿用哈希不变，新增06/07只登记哈希，六例顺序固定；旧承诺保持，不读私有题目/清单。后续显式--commitment选R2，原默认不改；未认证/体检/运行，新增真实调用0、原425/账本不动。B1修复已在main69e0e5ed，D02待资格补评；停止等待。[登记报告](../.eval-artifacts/phase3b/heldout-round2-commitment-20261110/report.md)。
+
+2026-11-10 CET — B1多时段评测修复e373d557净树全门禁PASS：type/arch/default1571/build/Chromium274+G6 115/strictG2全12、scan0、产品diff0。按offerId或精确日期/时间/人数唯一配对，重复/伪造原链接仍S0；来源日历按店/日/人数及原返回链接核对。D02离线recovery-2为PENDING_REVIEW/s0=0/stopBatch=false，仅资格注释待复核；5B1均逐字存在svt1900/6人原响应。D01/D8结论不变，旧failure/s0=9保留；真实调用0，原425/账本保持。先main发布再按用户文件原样入库R2承诺，停止不跑held-out。[报告](../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。
+
+2026-11-10 CET — draft / not integrated：Evaluator@8修同店多时段B1一对一配对，优先真实offerId，历史缺ID用日期/时间/人数，重复/错配仍S0；来源响应店/日/人数绑定并逐字核对应时段原链接，svt不再逐offer相等。D02原录制+两后验重评PENDING_REVIEW/s0=0/stopBatch=false，原failure和s0=9保留；svt1900的6人响应确有5B1。D01/D8真实结论不变，虚构51项通过。仅eval代码、真实调用0，待完整门禁/main，再原样入库R2承诺，不读题目原文。[报告](../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。
+
+2026-11-10 CET — eval后验分组源码f215d59d净树全门禁通过：type/arch/default1571/build/Chromium274+G6 107/strictG2全12，写死扫描0、产品diff0。店/日/人数每组1GET，最多2；第三NOT_EXECUTED而非异常，缺证仍不伪造PASS。D01审核072ddab5补评QUALIFIED_DELIVERY/s0=0；D02两份原响应离线恢复5后验PASS，但旧B1多时段绑定仍报9项S0检查，NOT_EVALUATED/stopBatch=true，原failure保留、未改合同消除报错，停止等待复核。新真实调用0，开发账本12/86/1410与原425/871文件均未变。[一页报告](../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
+
+2026-11-10 CET — draft / not integrated：eval后验按店/日/人数分组、首时间svt、最多2组，第三NOT_EXECUTED而非运行器异常；未执行库存仍缺证，认证/SOURCE_CAPTURE严格时段绑定不变。虚构分组与G6组装47+项绿，Evaluator@7。D01审核SHA072ddab5补评合格/s0=0，原评价保留；D02原响应离线恢复5后验PASS，但B1多时段配对/来源svt绑定使原检查s0=9、NOT_EVALUATED，独立边界200PASS；未放宽/伪造以消除，停止补评，不追加真实调用。待完整门禁/main。[报告](../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
+
+2026-11-10 CET — 三卡点修复后main38479f8b开发检查已结束：D01首轮22模型/66.9秒交付Bar014+B1、追问9/33.6保留，PENDING_REVIEW；D02决策22以Sumika自己的Robatayaki分类引用完成HARD，47/156.5秒交付同店5时段+B1，但后验循环第三时段触及每例3GET上限，发送前拒绝，FAILED/无正式评价。未补读/补评/重跑，不报通过率。独立边界128/128、200/200通过；原生候选均0，核对成本改善仅组件验证。新增2Live/13GET/78模型，累计12/26、86/126、1410/2500，原425/871文件/账本未变；停止不进held-out。[一页报告](../.eval-artifacts/phase3b/category-discovery-cost-20261110/report.md)。
+
+2026-11-10 CET — 源码8ca251f8净树全门禁PASS：默认1571、Chromium274+G6 103、strictG2全12及type/arch/build；D4/D8回归保持。CATEGORY同源HIGH逐字证明进入原语义判断，实际引用带evidenceId/provider/observedAt进入独立评测；独立frame readAt保持，首轮D4时间绑定失败原样保留并修复。可见列表范围引用、Google同批补充/保守去重/菜系线索优先、已有分类免重复FACTS及一次菜单交接已组件验证，真实改善待本轮D01/D02各一次。扫描3条通用归一化，无站点/菜系写死。预算/身份/Guard/G1不变，原425暂停状态保持；新增真实调用0。按授权main发布后冻结运行。[报告](../.eval-artifacts/phase3b/category-discovery-cost-20261110/offline-report.md)。
+
+2026-11-10 CET — draft / not integrated：同店同次读取HIGH且逐字存在于捕获页的CATEGORY进入同一语义判断，引用原evidenceId并进入独立qualificationClaims；无菜系词表。原生发现可引用当前可见范围控件，未引用仍可用但后排；原生批次后立即补计划中的Google来源，保守去重，代码按来源菜系线索排序。已有分类可免重复FACTS浏览；未核身份的菜单路由只交接、不产生事实并停止重复跳转。记录组件绿，预算/Guard/G1/身份不变；待冻结完整门禁与D01/D02各一次，原425暂停状态保持。[计划](../.eval-artifacts/phase3b/category-discovery-cost-20261110/plan.md)。
+
+
+2026-11-10 CET — discovery-progress ordered slice draft: stage1 adds eval-only --health-only (PENDING/custom commitment already integrated), no product edits yet. Diagnostics monitor3 rounds/15min, each both scripts twice/10s, failure retained/remaining scheduled checks continue, <=12GET and0model/Live. Full gates/main before seven-run recorded diagnosis and product repair. Ledger starts8/49/1239, approved increments+2Live/<=26GET, no rollback to stale43; original425 preserved.
+
+
+2026-11-10 CET — Main65b28412 D02一次完成：164.26s/47模型，未交付，EVALUATED/CAPABILITY_MISS/s0=0、102边界PASS，见证前后仍有位；skip1、11入口成功/两种重试0，英文菜单未核对。Sumika库存与Robatayaki原文已有但HARD仍未核验，官网身份未核后到MODEL_CALL_RESERVE，未修/未追加Live。D01 bf1fc489补评已合格、原评价保留。Pending0；Eval@6新规则与自定义承诺/时段区间均已门禁1557/270+101/strictG2全12/scan0。D02增量Live1/GET6/模型47，当前后继账本8/26、49/126、1239/2500；原425/871文件/暂停账本保持。不启动held-out。 [报告](../.eval-artifacts/phase3b/pending-review-d02-20261110/report.md).
+
+
+2026-11-10 CET — pending-review preparation freeze1ab409e8 clean full gates PASS: type/arch/default1557/build/Chromium270+G6 101/strictG2 all12; scan0. Eval@6 narrow qualification-only pending, no provisional qualification/S0 pass, missing other evidence/S0 stops; G6/private pending reuse and late S0 sticky FAILED_S0 verified. Custom commitment default/whole file/preamble/segments unchanged, commitment SHA bound on resume. D02 independent PARTY_TIME now checks frozen18:00..20:00 closed interval, exact-time unchanged. D01 review EVALUATED/qualified/s0=0 saved, original preserved. Product0 changes; publish main then one D02 only, no private original/manifest read.
+
+
+2026-11-10 CET — draft / not integrated: evaluator@6 narrow PENDING_REVIEW for only missing independent qualification annotation with all other checks PASS; pending slots completed/no replacement, late S0 marks whole batch FAILED_S0. Custom commitment optional with unchanged verifier and resume SHA binding; old private files not read. D01 user-supplied review bf1fc489… applied via existing immutable supplement path, qualified=true/s0=0, original unchanged. Fictional pending/resume/review/commitment tests pass; full gates pending. Then frozen-main D02 once, <=7GET/1Live, no D01 rerun, old425 state preserved.
+
+
+2026-11-09 CET — D01/D02 development stopped on4b0536c6: D01 delivered Tabelog13198396 Nov18 19:00/2 with B1 and cited terms after followup,192.03s/43+9 models; skip2,13 successful entries/no retry event.228 boundary checks PASS, S0 incidents0 but complete qualification NOT_EVALUATED (quotes[]/no frozen oracle), so G6 stopBatch retained and D02 NOT_RUN. Same-run independent raw review primitives (Spanish category/234.58m) saved, not a supplement or acceptance. NewLive1/GET6/model52; child cumulative7/26,43/126,1192/2500, original425/871 files/parent ledger preserved. Product0 changes; tests00d06819 full gates1553/270+89/strictG2 all12/scan0. [One-page report](../.eval-artifacts/phase3b/d01-d02-development-20261109/report.md).
+
+
+2026-11-09 CET — D01/D02 preparation frozen00d06819: clean same-SHA full gates PASS(type/arch/default1553/build/Chromium270+G6 89/strictG2 all12); production diff0, hardcoded scan0. POST BLOCKED with sourcePOST0 and no ZERO_BYTE_TIMEOUT/IDLE_ABORT in both constructions. Public packs/acceptance/orchestration hashes frozen; independent qualification never inferred from product eligibility. Publish main then one serial D01/D02 attempt only, <=14GET/2Live, child budget26/126/2500, original paused425 state intact. Real execution not started yet.
+
+
+2026-11-09 CET — D01/D02 exposed development preparation (draft / not integrated): product0 changes; add POST blocked/no-retry controls for NO_HEADERS and IDLE_ABORT. Clarify removed intermediate65ba functions observedSourceEntrance/observedLinks in723191af, not original425 capability. Frozen public G6 packs + external orchestration, health/witness/post<=14GET/2Live, child budget26/126/2500 inherited6/37/1140, original paused ledger/workspace unchanged. D02 interval judged separately against frozen acceptance; no evaluator relaxation. Full gates and main publication before real calls. [Plan](../.eval-artifacts/phase3b/d01-d02-development-20261109/plan.md).
+
+2026-11-09 CET — 修复2/3最终冻结52f6a11c净树全门禁PASS：默认1553、Chromium268+G6 89、严格G2全12及type/arch/build；扫描6条通用边界/批准元数据，无业务写死。文档首10秒只等头，15秒/10MB资源完整收到，静态IDLE与NO_HEADERS共用一次重试、总20秒。地区NAME_RESOLUTION只记skippedSources，不算失败/attempt；页面链接本轮不做，有意降低TableCheck按名字查找的覆盖率。逐条19候选无已证明仅TC可订者，未知不当无位。原4256303d/871文件/账本未变，真实GET/模型/Live0，发布main后停下。[最终报告](../.eval-artifacts/phase3b/heldout-refinement-20261109/report.md)。下列draft/cfd描述为已替代历史。
+
+2026-11-09 CET — 修复2/3补充候选：首10秒只等文档响应头，已获头部不截断；NO_HEADERS与既有静态IDLE_ABORT共用一次重试、总20秒，初始资源prepareNavigation仍20秒。地区候选仅按Pack candidatePath=NAME_RESOLUTION跳过TableCheck；跳过只入skippedSources、不算attempt/失败，本轮不采集页面链接，有意降低TableCheck按名字查找的覆盖率。01/02逐一19条无仅TC可订的已证明候选，UNKNOWN不当无位；本地针对性通过，待同SHA全门禁。原4256303d及账本不动，真实调用0。[补充报告](../.eval-artifacts/phase3b/heldout-refinement-20261109/report.md)。此条替代下列cfd5a5ce实现中的重试/页面链接描述，历史验证原样保留。
+
+2026-11-09 — held-out三处离线修复完成，源码cfd5a5ce净树全门禁PASS：默认1559、Chromium263+G6 89、严格G2全部12页及type/arch/build；扫描5条均为既有通用边界或批准元数据，无业务写死。原4256303d工作区、871份运行文件与账本哈希不变，未执行新来源GET/模型/Live。按批准发布main后停下，等待复核者决定下一轮组成与时间。
+
+2026-11-09 — held-out 暂停、不作废：原4256303d工作区/运行目录/账本保持，01/02结果作为改进前基线且标为已暴露开发回归。独立工作区实现体检阶段/HTTP诊断、仅零正文文档超时同URL最多重试一次（10秒×2、总20秒）、地区候选缺来源TableCheck证据则NOT_EVIDENCED跳过；指定店名、身份/Guard/G1及45秒/500秒/50模型上限不变。真实超时没有Node字节证据，恢复测试为录制DOM/JSON组件加构造传输，不宣称Live恢复；401仅虚构测试。全套冻结门禁待执行，之后按用户批准合入main并停下，旧批次不续跑。[报告](../.eval-artifacts/phase3b/heldout-read-reliability-20261109/report.md)。
+
 2026-11-09 CET — 显式已知无位见证源码a002b037全门禁PASS：默认1546、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0，源码仅src/eval。实际false+标记诊断、实际true标准；负见证不作正向可行证据，独立评分/身份/Guard/G1/时限均不改。内外batch标声明与实际模式，计划仍18次。按用户授权发布main后v3只认证03一次，true才同SHA完整运行，所有非体检停批等复核，体检恢复最多2次。实现真实调用0，原文/清单未查看。[报告](../.eval-artifacts/phase3b/heldout-known-unavailable-20261109/report.md)。
 
 2026-11-09 CET — draft / not integrated：显式已知无位见证候选，仅src/eval变化；清单允许true标记，详情页认证仍拒绝，未标记false仍拒开跑。实际false+标记记NO_POSITIVE_WITNESS_DIAGNOSTIC，实际true记STANDARD_G6，负见证不作正向可行证据，原评分不变。内外batch/执行/失败区分声明策略与实际结果；针对性29通过，待全门禁后发布main。v3仅核SHA未查看，用户授权仅认证03一次，true才同SHA完整18次正式运行；其他停批等待，体检恢复最多2次。[计划](../.eval-artifacts/phase3b/heldout-known-unavailable-20261109/plan.md)。
@@ -171,6 +288,7 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-11-02 CET：C开始用户已批准的B1投影修复：PRESENT_RESULTS只认已展示集合，其他阶段只认就绪集合；selected不绕过集合，准备缓存保留。普通组装+HTTP先红后绿，正控制覆盖SEARCHING就绪、展示及用户选店条款；A/B受保护文件与版本不动，真实调用0。门禁全绿后按授权同步main、合入推送并通知A。 [计划](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
 
 # Praxis 当前状态
+
 
 2026-11-02 CET：C 用户预订选择 ec93c249 已获独立复核及合入批准。原 main549061e8 的1351/187/严格G2全绿证据原样保留；A随后发布fixture生命周期修复，439fceeb同步main31d482aa并保留双方五处文档记录，恰两份fixture文件与主线原字节一致。最终冻结881项，九步前后净树：默认1351/1351、Chromium188/188、严格G2 5/5及12页PASS，独立九份组装产物PASS，无超时/重试。选店产品/State/TaskDefinition/Prompt/Schema/条款逻辑与复核源不变，95份旧产物保留，账本570条保留原569条及累计数，本次真实调用0、不读.env。按用户批准正常合入并推送main，以Git合并和ls-remote为最终SHA凭据，随后通知A、C待命。全名相等之外的部分名/跨语言名称仍交Agent，保持已批准的保守限制。 [Report](../.eval-artifacts/phase3b/user-booking-selection-main-20261102/report.md)
 
@@ -410,8 +528,8 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.474
-- Last updated: 2026-11-02
+- Document revision: 4.476
+- Last updated: 2026-11-11 CET
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-28 CET：3b C批次3完成，停止待复核。** main基线90b464d8；29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。G2仅两原页地址获批更新；17保存检索及4个UNKNOWN控制、12片段定位通过，7/8为历史混合探针，新Prompt2真实质量未评。只推C分支，申请复核通过后合main，B随后开始G3。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。
@@ -1116,3 +1234,304 @@ terminal-observe-fix 逐文件 SHA256/Git blob 审计，25,013个待收起独立
 本轮源码与收起后实际默认回归的最终验证见 TEST-LOG；恢复映射、逐文件前清单、配置备份、Git恢复核验和原日志存于本机 worktree-sparse-guard-20261114 证据目录。原路径与分支保留，可按精确文件命令恢复；恢复历史冻结版本优先Git show到独立输出，不另展开全档案。
 
 本轮最终验收：入口源码48949bef净树typecheck/arch/test:worktree/default1546/build通过；main直接create首次489样本，精确恢复仅新增指定1文件。terminal收起后原默认1644/1644通过；旧树绝对路径精确文件入口保持516文件与Git干净。ignored本地材料保护合同通过。最终测试/文档补记不改入口和白名单；未推送，活跃category树继续保留。
+
+2026-11-10 CET — draft/current candidate discovery progress: recorded diagnosis before repair, generic visible controls no-progress2, authoritative filled input preservation, area reservation-only discovery after directory/Google; SPECIFIC_OUTLET and numeric reserves unchanged. Component D01 17→12,02r2 18→10,01r1 DOM gap/no saving claim; D8 valid window retained; optional qualification quote plumbing deferred. Full clean gates pending, then frozen-main one D01/one D02 and3 health rounds15min. Evidence discovery-progress-20261110/offline-report.md.
+
+2026-11-10 CET — Source12deae74 discovery repair full clean gates PASS:1559/274+103/strictG2 all12, scan1 technical wire-key exclusion. Generic NO_PROGRESS2 closes source without BUSINESS failure/requeue; same request retains candidates across JSON key-order changes, changed party resets. D4/D8 regressions green; original425/871files/ledger unchanged. Publish candidate plus frozen D01/D02 packs, then one each and3 health rounds15min; no actual calls yet.
+
+2026-11-10 CET — main9572d99b（产品12deae74）D01/D02各一次结束：均EVALUATED/CAPABILITY_MISS/qualified=false/s0=0，无交付；46调用189.8s、47调用156.8s，93次API均返回。原生发现5调用30.4s/5候选、7调用29.9s/0候选；TC地区均未执行。查位5/6家，各2家AVAILABLE但HARD未闭合；skips各2；通用NO_PROGRESS 0/2；两类入口重试均0。发现成本降，交付未改善；不追加Live。三轮health-only实际15分钟间隔，12/12均200且<10s。新增2Live/24GET/93模型，累计10/26、73/126、1332/2500。原425/871files/账本保持，held-out仍暂停。来源/限制和网络表：[一页报告](../.eval-artifacts/phase3b/discovery-progress-20261110/report.md)。
+
+<a id="category-guidance-recorded-20261113"></a>
+## 2026-11-13 CET — 分类入口与权威值组引导（工作分支，未合 main）
+
+保留67a949d7终端跳过控件扫描；产品只改web-skills/tabelog/SKILL.md，恢复可见分类入口/父类重开、禁止额外筛选替代分类树，并明确推进动作必须引用实际日期/人数组。Okajoki没有这些组时请求帮助，不补造valueGroupRef。原生objective、执行器、Guard、G1、评价器、45/90秒均未改。
+
+真实DeepSeek对9个冻结公开录制帧逐帧9/9命中（见 [.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/category-guidance-recorded-20261113/frame-comparison.md)）；9模型、0网站GET、0Live，独立16调用上限余额7不使用。旧失败与旧账本保留。该结果不证明端到端网站导航/45秒交付；录制精确分类目录确有Sumika直达链接，仍须真实身份/查位才能交付。验证SHA `463f9aeb0016e46f699ce6f63d8131c41275cd6e`：typecheck、arch:check、build PASS；默认1644/1644、本地Chromium287/287、G6 159/159，0 skip，全部同SHA净树。两历史基线和5f8增量扫描0。 原门禁措辞断言失败已保留，仅同步相关测试的一条文案断言，未删除断言。
+
+<a id="disabled-party-phase-window-20261114"></a>
+## 2026-11-14 CET - disabled requested party and phase-window candidate (not integrated)
+
+User explicitly authorized three product files. Advance stops on an observed disabled requested count; date proof reuses the Adapter's existing confirmedFields.DATE or original public selected-date state. Ordinary controls do not add completion calls. Adapter retains PARTY_SIZE_NOT_SELECTABLE; Domain excludes futile FACTS only for the same request fingerprint and AVAILABILITY goal. Inventory remains UNKNOWN; recommendation/changed requests remain readable. After actual name search, finish its scope and start a fresh45s AVAILABILITY phase inside unchanged90s candidate/model/operation limits. Direct/identityOnly paths unchanged. Prompt/Skill/Guard/G1/evaluator unchanged.
+
+Actual630a DOM26->28->29...44 Chromium component: original17 advances/80 operations; fixed2 advances/20 operations, stops at DOM29. Original HAR45 carries date proof; native clicks then recorded DOM swap, no reconstruction of stripped site listeners or full-site replay claim. Eight targeted unit cases and both recorded components pass. 源码冻结4b4b56d2541a3039cecdce468d11e2072cf08429同SHA净树产品门禁全绿：typecheck、arch:check、默认1652/1652、build、Chromium289/289、G6 159/159，0跳过；后两者由test:browser:fixture串行执行。三基线ead28945/32b97ed8/27bdb97a新增产品扫描均0。原失败日志保留：默认首次1650/1652暴露重复完成谓词及旧阶段计数，已修复；沙箱本地监听EPERM独立记录，授权离线夹具运行后全绿。旧全量树管理check仍需维护保全审计，未重配，不能报告为已通过。 New external calls0/0/0. Separate evidence branch0065675a closed D02V independent qualification: QUALIFIED_DELIVERY,382/382 PASS, s0Status PASS; original383 conditional quote check disappears under the complete oracle. Original evaluation and241 runtime files unchanged.
+
+验证与报告：[disabled-party / phase-window 本轮简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/disabled-party-phase-window-20261114/report.md)。本次除原3份相关测试外，更新已有Live-composition测试的阶段诊断断言：搜索与查位分别结束；原provider尝试数量、结果和累计操作约束断言保留。最终归档提交只追加文档与本批次日志，不改冻结源码/Fixture。
+
+<a id="pre-merge-recorded-model-regression-20261115"></a>
+
+## 2026-11-15 CET — 合入前真实DeepSeek跨场景抽检：首失败停止（draft / not integrated）
+
+用户确认实际D01/07/D8，冻结04947d51；产品4b4b56d2、Prompt27/Schema16未改。7帧计划仅调用2次后停止：D01首页权威LOCATION输入PASS；原D01 #8的Takadanobaba+Spanish显式0结果页，当前来源完成谓词true，但模型点击All继续分类而非冻结预期COMPLETE，语义FAIL，wire两次均PASS。0Live/0网站GET/2模型，07/D8余5帧未跑、不重试；旧D02-V九帧不能抵消本次偏离，单帧不足以断言死循环或相对main的因果退化。未执行Test Skill1.9、main整合或发布门禁；主草稿/9历史账本不变。[本批简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/pre-merge-recorded-model-regression-20261115/report.md)。
+
+
+<!-- slice2 historical additions retained during 3C sync; frozen regression, not current validation -->
+2026-11-11 CET — 按用户新决定完成胶囊原地30字符编辑，替代底部预填；Save/Enter确认、Cancel/Escape取消，SSE及底部草稿保留，详情明确走原messages路径。源码e0575552净树五门禁1591/305+G6 154全绿，真实调用0，本地commit、未推送/合main；原3c Replay与设备门槛保持。[报告](reviews/WEB-INLINE-CONDITIONS-20261111.md)。
+
+2026-11-11 CET — 3c同步分支本地实现与设备反馈已更新，未合main/推送。main249826cc进slice2，State25/TaskDefinition24；源码45eb89b4净树五门禁1591/303+G6 154及strict G2全绿。Logo/对齐/胶囊/来源入口和多时段B1已接；写死扫描0，保护源码不变。D01/D02原样Replay因输入匹配/页面覆盖未闭环均不完整；R2由复核者私有环境跑，手机两端未分别签收，已再次同步A/main1bc8ec31，不以Fixture替代。[报告](reviews/WEB-WORKSPACE-SLICE2-SYNC-20261111.md)。
+
+## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
+
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+
+- **2026-10-30 第2段合入前同步/小修复验通过，待合入复核：** 用户通过9ca34bea后，de9e73bc将main7c83e02e/G3合入工作分支，四份冲突文档保留双方正文，6文件/两父12项核对缺失0；共享read-assessment精确等于main加既有续查排除行。0/0变化行隐藏，原反例2红→相关6绿，0/3及2/1仍显示。最终冻结55d70963、763 SHA不变，五门禁默认1246/1246、Chromium208/208全绿，各项前后净树；390×844与1280×900本段十项、追加五项、第1段十一项及零变化行均通过。63图校验尺寸/SHA：59与前轮相同、2批末更新、2零变化新增，四图已自查。结构化条件方案仍draft无实施，TaskDefinition23/State24不变；相对main未改G3/集成/评测或phase3b证据。真实模型/Google/来源GET/Live/Holdout0，只推工作分支交合入复核，本轮未更新main，后续ff-only。[计划](WEB-WORKSPACE-SLICE2-PLAN.md) · [报告与截图](reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+
+
+- **2026-10-30 第1段已合main，第2段本地Fixture验收通过、待复核：** 按批准将main404a766e快进至4cbc521bb9e4fb177e247266561bd90eb5d34e3f并回读一致，无新合并/内容或为快进重跑门禁；STATUS只随第2段更新。codex/feat-web-workspace-slice2已完成唯一输入框/完整问答历史、条件胶囊、服务端差异/备选原因、批末及六种短状态。用户批准的canContinue仅放行已知未查工作，保留检查/游标、不重查失败/不合格店；全部失败Try again单走refresh。TaskDefinition23/State24。最终冻结cbcd667b、742 SHA不变，五门禁1215默认/203 Chromium全绿、六步前后净树；390×844与1280×900十项/新增五项及第1段十一项通过，40张新画面加21张回归图。截图自查发现的失败提示首屏不可见以两尺寸红→绿关闭。不改A评测/B搜索G3/C客户端/G1/B1执行，无新条件事件或问答存储。真实模型/Google/来源GET/Live/Holdout0，工作分支交复核、不合main。[计划](WEB-WORKSPACE-SLICE2-PLAN.md) · [报告与截图](reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+
+
+<a id="3c-closeout-20261116"></a>
+
+## 2026-11-16 — 3C 第一步主线同步（待验）
+
+独立树 `/private/tmp/praxis-3c-closeout`、分支 `codex/feat-web-workspace-3c-closeout`，slice2 738c2c1ea 与 origin/main dbc2d9c55 合并；4 文档冲突保留主线正文并追加 slice2 原始历史，read-assessment 两项行为同时保留。五门禁、双尺寸实际 HTTP/SSE Fixture、D01/D02 Replay 待同提交验证；无真实外部调用，不加载 .env，不推送/合 main。证据与停止条件见 [.eval-artifacts/3c-closeout-20261116/plan.md](../.eval-artifacts/3c-closeout-20261116/plan.md)。
+
+
+<a id="3c-closeout-stop-20261116"></a>
+
+## 2026-11-16 — 3C 第一步门禁失败停止（draft / not integrated）
+
+五门禁实际SHA 4ff189db2c3ebab938508d5b3e0c93b47d103f8e：typecheck/arch/default1663通过；browser退出1，G2 5/5、其余Chromium335/346（7缺材料、4嵌套sandbox错误），G6/build及独立双尺寸HTTP/SSE、PostgreSQL服务入口、D01/D02 Replay未运行。33个必要材料已从本树HEAD精确恢复且哈希一致，未重跑；271项原Replay输入哈希一致。真实外部调用0、不读.env，仅本地提交，不合main/推送。 [完整报告](../.eval-artifacts/3c-closeout-20261116/report.md)。
+
+
+<a id="3c-offline-closeout-20261117"></a>
+
+## 2026-11-17 — 3C 第一步剩余离线验证（local / not integrated）
+
+本轮只修外层离线编排，产品/测试断言不改。冻结bd9fa5c8cda3787b3928eafc2d86f137c390f08b同一净树五门禁全绿：默认1663/1663、G2 5/5、其余Chromium346/346、G6 159/159及type/arch/build。首次G6 8个ENOENT保留，按HEAD精确恢复21文件后全套重跑；原33+83材料保持。390×844/1280×900独立HTTP/SSE完整Fixture均PASS、每尺寸10条SSE、第二时段B1刷新/SQL出发记录与外链拦截成立；12图（10流程+2滚动补证）。D01/D02 OS全断网原样Replay均FAILED/REPLAY_INCOMPLETE，已定位Spanish联想参数差异、D02结果页与两份Google详情缺口。真实外部调用0、不读.env、不连接/写PostgreSQL，不推送/合main；等用户确认第2步LIVE_READ。 [完整证据报告](../.eval-artifacts/3c-closeout-20261117/report.md)。
+
+
+<a id="3c-step2-preflight-blocked-20261117"></a>
+
+## 2026-11-17 — 3C第2步数据库目标预检停止
+
+3C第2步只读.env预检发现DATABASE_URL为非本机https URL，不满足用户“确认为127.0.0.1:5432才盘点”的前置条件。未建立任何PostgreSQL/代理/模型/Google/网站连接，未盘点/建库/迁移，2A/2B均未启动、预算未消耗；不修改主.env、产品、组装或测试断言。等待用户授权仅子进程覆盖本地目标或自行修正配置；上轮离线证据保持。 [脱敏报告](../.eval-artifacts/3c-closeout-20261117/step2-preflight/report.md)。
+
+
+<a id="3c-step2-cli-live-20261117"></a>
+
+## 2026-11-17 — 3C第2步真实PostgreSQL入口与单次Live（local / not integrated）
+
+用户批准本机系统账户覆盖后，选空业务praxis_smoke（praxis_web历史保留）；父环境DATABASE_URL/TEST URL在Node --env-file后仍为127.0.0.1:5432专库。执行SHA9201d40bf5eb2e895041a25f6d15628dd6791415：2A原PostgreSQL烟测和FIXTURE CLI通过，终态AWAITING_AUTHORIZATION/SSE终态1条；首轮Markdown归档错误保留，零外调重做后完整归档。2B唯一Live需求自然PRESENT_RESULTS/1店：agentDecisions7、modelCallsStarted47、Google5、elapsedMs266828；一次G1 ANSWERED，回答modelUsage1，B1未过期、departure201与拦截URL及SQL三项绑定成立。0补问/刷新/续查/Live重跑。自动评价NOT_EVALUATED、S0未评价、S1 PRESENT（缺独立来源支撑），不报QUALIFIED_DELIVERY/S0=0；externalSideEffectCount NOT_MEASURED、后端网站总请求未测得。服务/DB连接关闭，临时CLI产物归档清空，主目录/.env/产品/断言不改，不合main/推送，停等复核。 [完整报告](../.eval-artifacts/3c-step2-20261117/report.md)。
+
+
+## 2026-11-17 — Web photos unified (draft / not integrated)
+
+727b8a812 business baseline retained; f134cb750 visual interactions and bf8046ae9 website photos integrated narrowly with IDs-only, on-demand Google photos. No persisted photo or search-field change. Unified authenticated photo endpoints, full attribution and address presentation are under offline acceptance. Plan: [Web photos unified](WEB-PHOTOS-UNIFIED-PLAN.md). No new Live has run; five clean-commit gates and three-size Fixture evidence must pass first. Only local branch commits, no merge/push.
+
+
+## 2026-11-17 — Web photos unified: offline gate blocked
+
+Draft / not integrated. Frozen53bbbdc8f6b0a243a44e9c65cf31901e528104ae passed typecheck/arch/default1679; browser G2 5/5, Chromium388/392 failed four equivalent-condition scenarios (phantom NO_LONGER_MATCHES diff and reaffirmation revision6 versus5, both sizes). Per user stop condition, no post-failure product/assertion changes, no G6/build/formal visual/Live, no .env or PostgreSQL access. Development three-size preflight16/16 is provisional pre-freeze evidence, not accepted current baseline. [Full local report](../.eval-artifacts/3c-unified-20261117/REPORT.md). Main/original3C tree unchanged; local branch only.
+
+
+## 2026-11-17 — Unified round 2: reviewed projection repair
+
+User-approved continuation: equivalent-draft projection and unit coverage copied from872785522/f134cb750;727 Domain/search/router and browser assertions retained. Preflight projection+outer contracts22/22 and the original four browser failures4/4 pass offline. Old failure evidence is unchanged. New round-2 five gates, formal16 visual cases and conditional single Live await the new frozen commit.
+
+
+## 2026-11-17 - Unified round 2: offline all green, bounded Live observed
+
+Frozen `ea7b20c6eaf842a3d365784f529b543f23218ed2`: original equivalent-draft projector closes all four browser failures without changing727 Domain/router/search or assertions. Type/arch/default1689/G2 5/Chromium392/G6 159/build and formal three-size16 cases all pass. One public Live presents Gaen Shinjuku:Google list8/actually loaded HTTP200 photos1, photoDetails1+media/CDN2; G1 ANSWERED/model1; B1 local201/SQL match/navigation blocked. Three old Cases preserved. CLI outcome/S0 three dimensions NOT_EVALUATED; S1 PRESENT for missing independent source support. No independent qualified-delivery or Clean Baseline signoff. Ten CLI artifacts archived; connections/services closed; original trees/.env/old failures unchanged. [Round-2 report](../.eval-artifacts/3c-unified-20261117/round-2/REPORT.md). Local branch only.
+
+
+## 2026-11-17 - Unified round 3 offline-only photo closure
+
+Google media cap20 supports8 demand-loaded photos at16 API/CDN dispatches. Only explicit WEBSITE next photos may warm once after the visible main image loads in About/open viewer; no card/Google/unknown-provider prefetch, callback cascade or early failure/counter mutation. Preflight photo contracts18/18 and two new real-Chromium journeys2/2 pass; full frozen gates/16 visual cases pending round-3. No Live or PG this round. Previous ea7b20c6e ANSWERED clause "up to 20 people" was not present in its three citation texts and is not citation-verified. Round-2 remains unchanged.
+
+
+## 2026-11-17 - Unified round 3 offline photo acceptance
+
+Frozen `98a6dc4b1d449880af6f92fdb098f3364299c75a` passes type/arch/default1691/G2 5/Chromium394/G6 159/build and original three-size16/16. Google normal8/8 has exact Details1/media16; CDN boundary refuses send21 at20 while prior6 images remain readable. Website Lookahead1 source download once, corrupt warm-up leaves current/counter untouched until selection, unknown providers never warm. All11 photo browser tests including the2 new journeys pass. No Live/.env configuration/PG this round; old125 evidence files and original trees unchanged. Prior ea7b20c6e ANSWERED clause "up to 20 people" is not verified by its three citation texts; round-2 unchanged. [Round-3 report](../.eval-artifacts/3c-unified-20261117/round-3/REPORT.md).
+
+
+2026-11-18 — draft / not integrated: unified round-4 Domain change retains active DAYPART interpretation across date/party patches and grounds a single positive source-hours intersection for EVENING/AFTERNOON/AFTER_WORK; explicit numeric windows retain strict full coverage. Recorded MIRAI historical-clock counterfactual and independent diagnostic controls pass. No new Live/PG. Web/Application closure and clean frozen full gates remain pending.
+
+
+2026-11-18 — draft / not integrated: round-4 Web/Application closure follows the separate Domain commit. Saved/current and stopped qualification, state/view-isolated messaging, authoritative revised titles, compact cards and timed About/Q&A evidence are implemented. New dual-size Fixture regressions and existing browser contracts are being verified; same-SHA full offline gates/16 visual matrix are the final acceptance. No new Live or PostgreSQL.
+
+
+2026-11-18 — draft / not integrated: unified round-4 offline closure PASS at frozen 60a4e962e4804ee80f43a7b4b1f245061c6a5ca7. Two implementation commits separate Domain6933f4a20 and Web/Application60a4e962e. Default1704, G2 5, Chromium404, G6 159 and build pass; original three-size16 visual scenarios and ten new dual-size workspace regressions pass. Twenty user Live files archived/redacted/hash-verified; no new Live/PG command, no push/main merge. Prior batches and main/env/closeout checks unchanged; own services/browsers closed. [Report](../.eval-artifacts/3c-unified-20261117/round-4/REPORT.md).
+
+
+2026-11-18 — draft / not integrated, unified round-5: two-line DAYPART enum alignment accepts the real AFTER_WORK_BROAD_WINDOW materialization plus AFTER_WORK; existing-Case submit failure now clears busy state and re-renders controls/current clarification, restoring only an emptied draft. Search-intent fingerprint and old-state compatibility are unchanged. Targeted materialization2/2 and dual-size failed-submit2/2 pass; frozen five gates and original16 visual scenes pending in round-5. No new Live/PG.
+
+
+2026-11-18 — draft / not integrated, unified round-5 PASS: frozen 08dbec05e95793d9f94440afb083d4dfc71c0522, product changes limited to two hours-regex lines and one submit-failure reset/render line. Fingerprint contracts blob unchanged, no old-state compatibility. Five gates pass: default1706/G2 5/Chromium406/G6 159/build; original16 visual scenes pass. No new Live/PG; all prior batch hashes and main/env/closeout protection checks unchanged. [Report](../.eval-artifacts/3c-unified-20261117/round-5/REPORT.md).
+
+
+2026-11-18 — draft / not integrated, focus feedback: remove the global blue textarea focus outline per user screenshot; retain composer focus shadow, caret and Adjust focus/draft behavior. Existing local user artifacts show Dec9 recommendation completed (3 results), then a later fact refresh failed with an already-active browser read and cleared presentation. Beer met is only a model judgment over generic bar/liquor-store categories, not explicit beer evidence; availability is unqueried. First-result revision diff0 removed/3 new is a confusing comparison label. These three findings are diagnosis, not fixes or new Live validation.
+
+
+2026-11-18 — draft / not integrated, unified round-6 implementation: per-run browser budget/session isolation now spans the persistent Agent loop and B1; same-Case version/preparation protection closes orphan projection gaps. Details follows active/terminal state and batch refresh routing. New beer evidence admission rejects generic/retail categories, Prompt15 remains unchanged; Style1 conditions and first-delivery/zero-count diffs are updated. Seven existing user Live groups35 files archived into the combined11-run55-file index, not newly executed Live. Frozen full offline gates and16+6 visual acceptance remain pending under round-6. Historical stored Mikkeller Confirmed remains unchanged.
+
+
+2026-11-18 — draft / not integrated, unified round-6 PASS at ddd9eda8d04b304f09b3629bb0d64828645c5789: full-read ALS/B1 isolation, stale/preparing protection, terminal Details/Handoff recovery, specific beer evidence admission, Style1 and first-delivery/zero diffs. Five clean gates pass: default1750/G2 5/Chromium415/G6 159/build; original16 visuals plus6 Style1 combinations PASS. Two prior failed freezes retain diagnostics (new test-oracle errors only). Existing user Live batch2 archived7/35, combined11/55; no new Live/PG, Prompt15 unchanged. Historical Mikkeller stored Confirmed unchanged. All prior batches/main/env/closeout protection checks pass; original4312 PIDs unchanged, own browser resources closed. [Report](../.eval-artifacts/3c-unified-20261117/round-6/REPORT.md).
+
+2026-11-19 — Unified Round 7，draft / not integrated。冻结 `30a90301df8212e4ff128ef88d04df3653018a7f` 通过五门禁和 16+6 视觉验收。纯事实刷新实际重查原批次，过期并发请求返回 409 且不影响接手读取，原请求重试返回 200。啤酒证据保留限定词，风格 1 的预约按钮间距实测 12px。 [报告及 Round 6 勘误](../.eval-artifacts/3c-unified-20261117/round-7/REPORT.md)
+
+2026-11-19 — Unified Round 8，draft / not integrated。冻结 `1e191c0bca458887bba653208341976681685f44` 完成首轮短批次和预算收尾、Google 主类型、工作区状态、澄清回显、进度与条件显示、侧栏及弹窗拦截修复。五门禁全绿，正式视觉 16/16，风格 1 6/6，新增状态回归 5/5。 [报告](../.eval-artifacts/3c-unified-20261117/round-8/REPORT.md)
+
+2026-11-19 — Unified Round 9，draft / not integrated。冻结 `1929ff88c5bb1849e4f9ac2a29e59c49de9fc318` 修复截止瞬间交付、跨来源下一批去重、解析失败的 Saved、停止态过期刷新、首条澄清回显及手机停止提示。五门禁、正式视觉 16/16 和补测均通过。 [报告](../.eval-artifacts/3c-unified-20261117/round-9/REPORT.md)
+
+2026-11-19 — Unified Round 10，draft / not integrated。冻结 `9933ad36eece414f2d37e85710ad825f52dfa16a` 完成工作区九项修复。五门禁全绿，正式视觉 16/16、Style 1 6/6、状态 17/17。 [报告](../.eval-artifacts/3c-unified-20261117/round-10/REPORT.md)
+
+2026-11-19 — Unified Round 11，draft / not integrated。冻结 `3e2d54a4d069fa1c82be55d83a50a53a321c2de6` 验证显式时段重选、错误提示可见性、409 最新版本恢复、合格后续批次、迟到草稿及独立来源页。五门禁通过。默认 1772/1772、G2 5/5、Chromium 437/437、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 22/22。 [报告](../.eval-artifacts/3c-unified-20261117/round-11/REPORT.md)
+
+2026-11-19 — Unified Round 12，draft / not integrated。冻结 `0d354f1e85cb95992dc63cbe05241960b78ea2b5`，换批耗尽及刷新均保持空态，检索中和 Stop 排除已交付餐厅与别名。五门禁通过。默认 1775/1775、G2 5/5、Chromium 438/438、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 23/23。 [报告](../.eval-artifacts/3c-unified-20261117/round-12/REPORT.md)
+
+2026-11-20 — Unified Round 13，draft / not integrated。净树 `312d53531eaac915e15d4b32437a9158d36f1e70`。Typecheck、Arch Guard 和 Build 通过。默认 1775/1775、G2 5/5、Chromium 443/443、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 28/28。 [报告](../.eval-artifacts/3c-unified-20261117/round-13/REPORT.md)
+
+2026-11-20 — Unified Round 14，draft / not integrated。净树 `ca2e0cd1ee3028982e149a3361635c7788df1268`。Typecheck、Arch Guard 和 Build 通过。默认 1780/1780、G2 5/5、Chromium 453/453、G6 159/159。正式视觉 16/16、Style 1 6/6、状态 38/38。 [报告](../.eval-artifacts/3c-unified-20261117/round-14/REPORT.md)
+
+2026-11-20 — Round 15，draft / not integrated。冻结 `8af0ec2a5991f7462ab352261e6371b1c476aaaa`。五门禁通过，默认 1784，G2 5、Chromium 455、G6 159 全通过。正式视觉 16/16、Style 1 6/6、状态 40/40。 客户端模块已接入 DOM 类型检查。迁移接线仍保留宽松参数推断。 [报告](../.eval-artifacts/3c-unified-20261117/round-15/REPORT.md)
+
+Round 16 backend slice (local work branch): request-owned preparation handles and bounded same-read Stop retries implemented; 15/15 PGlite preparation and 33/33 Agent Loop regressions pass. Frontend strict DAG and tab-local selection are pending; no Live or real PostgreSQL.
+
+Round 16 frontend slice (local / not integrated): browser strict:true, 16-module static import DAG and tab-isolated sessionStorage choices implemented. Preparation15, AgentLoop33, browser controls16 and pure contracts3 pass before freeze. Full five gates and formal/Style1/state suites pending at the next frozen SHA. Round15 cross-tab selection storage-event synchronization is replaced by tab isolation.
+
+<a id="unified-round16-final-20261120"></a>
+
+2026-11-20 — Unified Round 16, draft / not integrated. Stop slice d4c847ea2; strict DAG + tab-local slots frozen `1e8fbfb7051204a77b14c273f120bf41f7d8e5e2`. All clean-tree gates PASS: default1789, G2 5, Chromium459, G6 159, build; formal16, Style1 6, states44 and73 inspected images PASS. browserStrict:true,16 singleton SCCs,0 cycles,17 tsx/build assets identical. Protection hashes unchanged;0 Live/real PG/4312. [Full report](../.eval-artifacts/3c-unified-20261117/round-16/REPORT.md).
+
+Round 17 (draft / not integrated): tab-local slots remain sessionStorage; changed requirement revisions now exit open/restored Handoff with a confirmation hint. Current persisted preparation identities may be stopped before handle handback; superseded uncommitted messages now conflict instead of acknowledging dropped input. Pre-freeze preparation18/18, browser controls24/24 and strict web contracts3/3 pass. Frozen five gates/visuals pending.
+
+<a id="unified-round17-final-20261120"></a>
+
+2026-11-20 — Unified Round17, draft / not integrated. Frozen `256415a046ed948955b235bfe6b8805c607236bb` closes revised-condition Handoff/restoration, current semantic-commit Stop and displaced uncommitted input409. Single-tab sessionStorage choices remain isolated. Clean five gates: default1792, G2 5, Chromium467, G6 159, build PASS. Formal16, Style1 6, states52;79 screenshots inspected. strict:true,16 singleton SCCs,0 cycles,17 identical tsx/build assets. Main/env/closeout and4694 prior files protected;0 Live/real PG/4312. [Report](../.eval-artifacts/3c-unified-20261117/round-17/REPORT.md).
+
+Round18 (draft / not integrated): persisted revision-scoped RECONFIRM blocks implicit time/default Handoff across source frames and reload. Immutable read-handle identity closes version0 Stop aliasing; preparation gaps hide unowned Stop, committed winners retain ownership, stopped CAS losers end quietly. Pre-freeze backend22, web contracts4 and retained browser controls32 pass. Full frozen acceptance pending; closeout was already missing .git and is audited by residual/registration hashes without repair.
+
+<a id="unified-round18-final-20261121"></a>
+
+2026-11-21 — Unified Round18, draft / not integrated. Frozen `77f5b9bc2e242f1fbcd6e8f508fff140c88d732c` closes persistent tab-local RECONFIRM (SSE/reload/F5), version0 stale Stop via immutable handleId, preparation publication/CAS ownership/Stop races. Clean five gates: default1797, G2 5, Chromium475, G6 159, build PASS. Formal16, Style1 6, states60;85 screenshots inspected. strict:true,16 singleton SCCs,0 cycles,17 identical assets. Main/env and6176 prior files protected; closeout already missing.git, unchanged registry/residual audit only.0 Live/real PG/4312. [Report](../.eval-artifacts/3c-unified-20261117/round-18/REPORT.md).
+
+Round19 (draft / not integrated): RECONFIRM now uses a tab-local user/Case key across missed revisions and passive restores; SELECTED stays revision/restaurant scoped. Transport no longer copies revision-local lock state. Backend and protected sources unchanged. Targeted and frozen acceptance are recorded in the new round-19 directory; full gates pending.
+
+<a id="unified-round19-final-20261121"></a>
+
+2026-11-21 — Unified Round19, draft / not integrated. Frozen `9542dacca067849d00312ee5d346e95d759ebcf9` closes the missed-revision RECONFIRM restore P1 using one user/Case sessionStorage key, safe recognition and no revision copying. Four restore entrances plus resolved-lock controls pass at desktop/mobile. Five gates all PASS: default1797, G2 5, Chromium485, G6 159; formal16, Style1 6, states70;95 images inspected. strict:true,16 singleton SCCs,0 cycles,17 identical assets. Backend/protection hashes unchanged;0 Live/real PG/4312. [Report](../.eval-artifacts/3c-unified-20261117/round-19/REPORT.md).
+
+Round20 slice1 (draft / not integrated): stopped About eligibility is shared through reducer/validation/execution/application, with exact-handle inline Stop and persistent answer history. Event-bound server progress replaces stale semantic-stage display; busy requests render authoritative SSE progress. Targeted24 unit +35 browser controls pass, including Round19. Full unified acceptance pending.
+
+Round20 slice2 (draft / not integrated): inherited OPEN_ENDED query cleanup, contextual Google type admission in all three entries and clarification-skipping result differences pass147 targeted regressions plus type/architecture. intent-state.ts has an explicitly authorized import + applyRestaurantIntentPatch call; all remaining text including missingBlockingFields is identical. Full unified acceptance pending.
+
+
+Round20 slice3 (draft / not integrated): clean source/domain labels, aligned availability/conditions, compact card spacing, equal batch actions, revised changes, shared exact URL/time citation groups and layered About/answer sheet. New dual-size UI8/8 and pure contracts5/5 pass; related workspace controls56/56 and corrected focused controls4/4 pass; full unified frozen acceptance follows. No Live/real PG/4312.
+
+
+<a id="unified-round20-final-20261121"></a>
+
+2026-11-21 — Unified Round20, draft / not integrated. Three slices commit stopped About eligibility/execution/Stop/history + event-bound progress, inherited OPEN_ENDED query / three-entry Google admission / clarification-aware diff, and shared exact-reading citation/card/About presentation. Frozen `5af7970180a92214b9eb210d95e0752b0ac7aa82` passes one clean five-gate run: default1820, G2 5, Chromium493, G6 159, build PASS. Round19 ten restore controls retained. Formal16, Style1 6, states78;121 images inspected plus26 new frames individually. strict:true,18 singleton SCCs,0 cycles,19 identical JS assets and identical HTML/CSS. intent-state.ts has an explicitly authorized one-import/one-call change; missingBlockingFields and all other text identical.9208 prior evidence +110 walkthrough hashes and main/env preserved; closeout already missing.git audited by registry/residuals. **One visual gap remains:**390px answer-source footer wraps to two physical lines; one footer/read time per group is correct, literal physical single-line requirement remains open. No src changes after freeze;0 Live/real PG/4312/push/main merge. [Report](../.eval-artifacts/3c-unified-20261117/round-20/REPORT.md).
+
+
+2026-11-22 — Unified Round 21 (draft / not integrated). Frozen `0d269703b3251b35039fe33c07076b222d87e716`. An admitted About question can finish after inventory expires and keeps its own read identity. Search edits remove only the revoked phrase. Google uses hard whole-category exclusions for type rejection. At 390px each citation footer fits on one physical line. All five offline gates pass with 1,823 default tests, G2 5, Chromium 499 and G6 159. Formal 16, Style 1 six and states 84 pass. Recoverable macOS worktree cleanup and locked dependency reinstallation are documented. [Round 21 report](../.eval-artifacts/3c-unified-20261117/round-21/REPORT.md).
+
+
+### Round 22 — 2026-11-22（draft / not integrated）
+
+已受理问答的原子结算/合法取代与查询、Google 店型过滤五项收口；三条生命周期交错与系统版本对照保留。冻结 `a3d8412bade34c7018fcdfeb8768fdc974395515`：默认1835/1835，G2 5/5、Chromium501/501、G6 159/159，typecheck/arch/build PASS；正式16/16、Style1 6/6、状态86/86，原人工顺序10/10。首次默认测试3项失败日志保留，修复后全套重跑。仅离线 Fixture / PGlite / Chromium；保护面比对通过，0 Live/真实 PostgreSQL/4312，不推送不合main。[Round 22报告](../.eval-artifacts/3c-unified-20261117/round-22/REPORT.md)。
+
+
+### Round 24 — 2026-11-23（draft / not integrated；待统一冻结验收）
+
+B1–B3 定向关闭待答编辑的选店/条款丢失、预算漏计与并发覆盖、收藏冲突取消已生成答案。B4–B5 与 U1–U5 定向验证查询编辑、否定分句、精确引用归属与去重、门店身份外链、原生缩放/多指与鼠标拖图、吸烟限定语。独立采集先落新观测再断言；统一离线门禁、历史十路径和视觉结果将在 [Round 24 报告](../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md) 记录。未运行 Live、真实 PostgreSQL 或4312；未推送/合main，真机软键盘/缩放未验收。
+
+
+### Round 24 — 2026-11-23（frozen offline regression / draft, not integrated）
+
+冻结 `f036b7a0ea569ec41518837c4806b7b01f50578f` 完成B1–B5与六项UI/投影机制的离线收口。五门禁：默认1881/1881，G2 5/5、Chromium554/554、G6 159/159，typecheck/arch/build PASS。正式16/16、Style1 6/6、状态139/139；历史十路径、新采集后独立断言、严格TS/DAG及19资产一致性通过。截图加载等待补强后从新SHA完整重跑，首冻结全绿门禁原件保留。历史11413/保护853、主目录/env、closeout950现存材料未变。0 Live/真实PG/4312/推送/合main；真机键盘与缩放NOT_EVALUATED。 [Round24报告](../.eval-artifacts/3c-unified-20261117/round-24/REPORT.md)。
+
+
+2026-11-23 — Round25 C1 slice (draft / not integrated): remote CDP sessions are isolated in workers, no host-wide uncaught exception swallowing. Real local CDP duplicate-root-event reproduction and source/dist HTTP/PGlite controls pass; seven old component assertions remain. R1–R5 and M/V work plus unified frozen acceptance still pending. No Live/native PG/4312/push/main merge.
+
+
+## 2026-11-24 — Round 25 离线功能通过，历史保护待恢复
+
+冻结源码 `6202c1164aab14bec1a7353eadc8e5a522a3d259`（src tree `6453345249c5a2ebea1c6d5af3b2d2f14b283944`，frozen offline regression / draft, not integrated）完成C1 worker隔离、R1–R5和M1–M3/V1–V4。五门禁全绿：默认1932/1932，G2 5/5、Chromium576/576、G6 159/159；同SHA构建后C1 dist4/4（源码4/4已入正式套件）。独立观察先采集再断言353/353、Google原矩阵21/21、历史用户十路径10/10；严格TS/18模块0环、19JS及HTML/CSS一致。正式16/16、Style1 6/6、状态157/157，313PNG经37联系表及15关键原图目检。Google正常8张精确16media，短暂502恢复18；完整恢复受已有清单和剩余预算限制，Details1不重置。
+
+**整体保护签收仍阻塞**：00:00临时目录清理后，718份已跟踪文件按当前HEAD精确恢复并重新全量验收；12638份历史基线中12487匹配、151份未跟踪复核原件缺失（当前HEAD不可恢复），现存历史内容变更0，未伪造替代。保护脚本保留exit1；等待同哈希原件备份。主目录/env、closeout950现存文件、稀疏配置不变；848保护文件中845不变，3份获准测试辅助修改明确列前后哈希。失败与重冻原件均保留。0 Live/真实PG/4312/推送/合main；真实远程CDP、真机键盘与缩放NOT_EVALUATED。详见 [Round 25报告](../.eval-artifacts/3c-unified-20261117/round-25/REPORT.md) 与 [原始五门禁清单](../.eval-artifacts/3c-unified-20261117/round-25/gates/manifest.json)。
+
+
+### 2026-11-24 - Round25 authorized historical14-path recovery
+
+Restored14/14 historical paths from explicitly authorized same-worktree copies, baselineSHA256 checked before write, O_EXCL no-overwrite, all target hashes match and12 unique sources unchanged. Original151-item gap list/failure logs retained; now12501/12638 historical matches,137 missing, protection still BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS (exit1). No source/test/input edits or new gate runs; functional results remain frozen at6202c1164aab14bec1a7353eadc8e5a522a3d259. Main/env, closeout and sparse unchanged;0Live/realPG/4312/remote writes. [Recovery report](../.eval-artifacts/3c-unified-20261117/round-25/recovery-14-20261124/REPORT.md).
+
+### 2026-11-24 - Round 26 offline P2 fixes & 5-gate verification
+
+Fixed 5 P2 findings from Round 25 independent review (`V3`, `R1`, `M2`, `R3`, `R4`) on `codex/feat-web-photos-unified`, frozen at code SHA `6a5f782979054c3d04e01655b73e10cb1ef1c694` (`src/` tree `34b625c0810d5b0bb780bd8902da8d3c6ff889bb`, `envLoaded: false`). All 5 offline gates passed: `typecheck` / `arch:check` (`0` violations) / `build` / `npm test` (`1941/1941`) / `test:browser:fixture` (`G2 5/5`, `Chromium 578/578`, `G6 assembly 159/159`), plus built-dist `C1` (`4/4`) and `19/19` JS + HTML asset parity. Protection verification: `12501/12638` historical paths matched, `0` changed existing files, same `137` OS-cleaned early untracked files missing; Round 25 archive (`698/698`) and recovery (`44/44`) unchanged; main repo, `.env` and sparse rules unchanged. Live, real PostgreSQL, remote CDP, real mobile viewport/gestures, standalone visual/repro scripts and port `4312` remain `NOT_EVALUATED`; no remote push or merge to `main`. [Round 26 报告](../.eval-artifacts/3c-unified-20261117/round-26/REPORT.md).
+
+
+<a id="unified-round27-final-20261124"></a>
+
+### 2026-11-24 — Round 27 相对日绑定与七项 UI 离线收口
+
+冻结 `937d44be67fb8f5b735743bc1666040cc6c551b7`（src tree `69da89954e4c74c0d08b6956219c05d3fb1d0679`，frozen offline regression / draft, not integrated）：ADR-0052、DATE offset2..365、Prompt29及当前消息绑定关闭错误/遗漏DATE；实际消息组合四种后天回包均查11月26日，歧义NEEDS_INPUT且0查位，时间单改保留11月25日。七项UI含胶囊保存/删除重搜态、Source双坐标零漂移、真实活动Stop200+stopped:true、390px流式编辑均离线通过。
+
+五门禁PASS：默认1951/1951，G2 5/5、Chromium593/593、G6 159/159；Build后dist C1 4/4，19JS+HTML/CSS一致、strict18模块零环。新增UI15条、34PNG/JSON及4联系表/18关键原图目检完成。两次中间冻结失败及测试输入/时序修正原件保留；最终SHA重新全套通过。主目录/env、closeout950现存材料与稀疏规则不变；12380现存本轮保护项匹配，原历史表12501/12638、137既有原件缺失，整体历史签收仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。无Live/真实PG/远端CDP/4312/推送/合main，真机键盘未验。[报告](../.eval-artifacts/3c-unified-20261117/round-27/REPORT.md)。
+
+
+<a id="unified-round27-date-selection-p1-20261124"></a>
+
+### 2026-11-24 — Round 27 日期选择 P1 独立复核收口
+
+冻结 `5d6d683f13ee1247910f08651ec1e1ec35b58a9c`（src tree `2e6d4725953ba1107a2437dda269ecd891c6b4d0`，frozen offline regression / draft, not integrated）。仅绑定器和两份对应测试发生源码变化：原文绑定的日历/weekday DATE共用选择优先级，不被其他相对词覆盖；日期选择关系集中从原文检查，中英文weekday正反序及模型漏DATE仍澄清、0查位；两三天近似不再折单值。保留原明确后天四组纠偏/补漏和时间继承。
+
+最终五门禁全绿：默认1963/1963，G2 5/5、Chromium593/593、G6 159/159；独立6+5探针11/11、定向21/21、Build后dist C1 4/4，strict18模块零环。17组实际持久消息中10组按明确日期查位、7组澄清且0查位。原UI源码零差异，19JS及HTML/CSS与原Round27字节相同，新34图目检保留。5969部分候选与6ba安全检查点中断原件保留，不冒充最终签收。13635现存历史保护匹配含原Round27全295文件，主/env/closeout/稀疏不变；137既有缺件继续阻塞整体历史签收。无Live/真实PG/远端CDP/4312/推送/合main，待独立复核。[报告](../.eval-artifacts/3c-unified-20261117/round-27-date-binding-p1/REPORT.md)。
+
+
+<a id="unified-round27-dining-date-context-p1-20261124"></a>
+
+### 2026-11-24 — Round27 用餐日期上下文 P1
+
+最终冻结 `e68ed2a51baf19380dbca276e9b2651d6dc4e408`（src tree `71a58ad60ab47e73b94112121e82e8a92fa9ec58`，frozen offline regression / draft, not integrated）。仅日期绑定器、对应两份测试和F6构造输入补tonight一行变化；断言不放宽，UI/Loop/Reducer/Prompt/评分不变。绑定当前用餐DATE原文，背景日期不覆盖；tonight查11/24，keep/time-only沿用11/26，Make/Move/Change遗漏DATE查11/25，后天四种回包查11/26；未定日期NEEDS_INPUT且0查位。31组实际消息=22组查位+9组澄清，作者补充3例与用户独立19例分开。
+
+五门禁全绿：默认1978/1978，G2 5/5、Chromium593/593、G6 159/159；dist C1 4/4、独立19/19、定向36/36及兼容5/5。strict18模块零环/any/抑制，19JS+HTML/CSS与原Round27逐字一致；UI15/15，新34PNG/JSON、4联系表及6关键原图目检，Source四组坐标差0。 13883现存历史保护匹配，原Round27及前P1目录不变，主/env/closeout950/稀疏/八配置不变；137既有缺件仍BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS。08c五失败/安全中断与25db门禁绿但作者3例失败原件保留，不替代最终验收。无Live/真实PG/4312/推送/合main，真机键盘与真实来源S0未评。 [报告](../.eval-artifacts/3c-unified-20261117/round-27-dining-date-context-p1/REPORT.md)。
+
+
+<a id="unified-round27-date-confirm-p1-20261124"></a>
+
+### 2026-11-24 — Round27 DATE CONFIRM P1 离线闭环
+
+最终冻结 `ffafb73cb8e277e86fe0537aaf508c8c304b50e4`（src tree `7f893aa7aa514010e51033524fd18776053c4ee5`，frozen offline regression / draft, not integrated）。只移除纯DATE CONFIRM无条件提前返回，原文明确保留日期仍沿用旧日；明确改后天却CONFIRM时走ADR-0052已有CONFLICT/NEEDS_INPUT且0查位，正常CORRECT仍查11/26、保留日期仍查11/28。仅绑定器及对应两份测试变化，不扩日期语法，不改UI/Loop/Reducer/Prompt/评分。
+
+默认1981/1981，G2 5/5、Chromium593/593、G6 159/159；Build后distC1 4/4、独立22/22、定向39/39；34正式消息=24查位+10澄清0查位。strict18模块零环/any/抑制、19JS+HTML/CSS与原Round27一致，UI15/15，新34图/JSON已核验。 首轮cd7资产脚本误写上一批SHA字段，净树检查立即停止；原文件按Git原文恢复并核对SHA256，保留错误产物/差异/回执，修正输出目录后新SHA全套重跑，源码未再改。14144现存历史保护匹配，主/env/closeout950/稀疏/八配置不变；137既有缺件仍阻塞整体历史签收。无Live/真实PG/4312/推送/合main；真机及真实来源S0未评。 [报告](../.eval-artifacts/3c-unified-20261117/round-27-date-confirm-p1/REPORT.md)。
+
+
+<a id="unified-round27-dining-date-p1-p2-20261125"></a>
+
+### 2026-11-25 — Round27 用餐日期P1/P2：功能通过、历史保护阻塞
+
+冻结`98b35466bd0f37f662eabb5750b2f9c43e95fd04`（src`a2e7df8b08e6bae1031e8dcba6f37ea7afa8764c`，frozen offline regression / draft, not integrated）。日期组按原文位置绑定，结构化目标/明确改期优先，背景到离/预算未定不误拦，保留周限定；补Loop semanticConflict等待。实际Chromium证明旧首次NEEDS_INPUT并非停读，此处更正前P1将首帧0查位推断为最终0查位，旧报告不改。65实际消息=44查位+17语义澄清零决策/搜索/查位+2推荐+1no-op+1普通ASK_USER；日期editor双尺寸8/8。默认2013、G2 5、Chromium601、G6 159、type/arch/build全通过，distC1 4/4、独立49/49、strict18模块0环/any/抑制，19JS+HTML/CSS与原Round27一致；原UI15及42PNG/JSON核对目检。
+
+**最终执行器exit1：保护失败**。14370历史现存10846匹配、现存变更0，缺3524=652已登记受跟踪+另发现2872未跟踪，加137旧缺件总3661。运行前后Git仅652历史删除，源码/42输入干净，不是净树；不改保护断言、不暂存删除、不伪造恢复。主/env/closeout950/稀疏/八配置不变；整体BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS，已请求原始备份。e1默认4失败、原SHA SCRIPT隔离1/1与最终完整复跑保留，SCRIPT首次根因未定。0Live/真实PG/4312/推送/合main，真机/真实来源S0及P3未测/未修。 [报告](../.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/REPORT.md)。
+
+
+<a id="unified-round28-final-offline-20261125"></a>
+
+### 2026-11-25 — Round 28 3C 终稿离线验收
+
+冻结 `5f8d4344018b9acae8352cd3fa0757f6dad10d2d`（src `8e119ea69672583714a46cd0493dc1559a68df5b`）。ADR-0053 将自由文本日期选择交回模型。普通星期复用东京物化并比较完整日期，11 月 24 日的周五为 11 月 27 日，12 月 4 日错配在实际读轮结束后查位 0。结构化日期 8/8，首页 no-store，七项工作区细节完成双尺寸离线回归。默认 1984/1984，G2 5/5，Chromium 603/603，G6 159/159，dist C1 4/4。Typecheck、Arch 和 Build 通过，19 JS 与 HTML/CSS parity、strict 18 模块 0 环。既有 652 受跟踪删除及 2872+137 未跟踪缺件原样保留，历史完整性阻塞。无 Live、真实PG、远端CDP、4312 和真机验收。 [Round 28 报告](../.eval-artifacts/3c-unified-20261117/round-28/REPORT.md)。
+
+
+<a id="unified-round28-date-raw-about-follow-up-20261125"></a>
+
+### 2026-11-25 — Round 28 DATE.raw 与 About 定向复核
+
+冻结 `d2ec1b51971deac6f269e07e9d289ff8cd1cb2cc`。按既有日期词重叠区间校验较长 DATE.raw，保留原引文。东京 11 月 24 日的错标 TOMORROW 实际查位 11 月 26 日 19:00，另五条读轮结束后查位 0。About 的同名套餐摘要默认可见，原文在 Source。默认 1992/1992，G2 5/5，Chromium 604/604，G6 159/159，dist C1 4/4。五门禁、构建资产、严格浏览器模块图与历史增量保护核验通过，历史原件完整性仍阻塞。 [报告](../.eval-artifacts/3c-unified-20261117/round-28-follow-up/REPORT.md)
+
+
+<a id="unified-round28-qualified-weekday-20261125"></a>
+
+### 2026-11-25 — Round 28 周限定星期接线
+
+冻结 `f681133e8bb648bb6be7709161ef42a90bb537ec`。Prompt v29 的完整周限定 weekday 指令按东京偏移绑定。D04 原回包从冲突变为 2026-12-04 19:00，十句离线回放 10/10，新增真实请求 0。实际消息入口正例查位成功，坏绝对日期和错星期读轮结束后查位 0。默认 1995/1995，G2 5/5，Chromium 604/604，G6 159/159，dist C1 4/4。首个候选的 Typecheck 失败已归档。冻结后的九项原有门禁及日期回放通过，历史完整性仍阻塞。 [报告](../.eval-artifacts/3c-unified-20261117/round-28-qualified-weekday/REPORT.md)
+
+
+<a id="unified-round29-ui-feedback-20261125"></a>
+
+### 2026-11-25 — Round 29 UI 与预约反馈离线验收
+
+About 同源相同内容合并到最新读取，保留不同报价和条款，显示结构化价位与紧凑出处。ADR-0054 和迁移 0011 改为每次明确离开后返回至多一次反馈，只领取最新离开记录。Stop 清理旧提示，Handoff 确认回到候选卡片。
+
+冻结 `f800ae00d9109a66831acf75297ed88cb46f09be` 的五道离线门禁通过。默认 1,995/1,995、G2 5/5、Chromium 609/609、G6 159/159、dist C1 4/4。390×844 与 1440×900 共 16 张截图通过核对，19 个资产一致，18 模块零环。历史完整性仍受既有原件缺失阻塞。 [报告](../.eval-artifacts/3c-unified-20261117/round-29-ui-feedback/REPORT.md)

@@ -43,7 +43,7 @@ test('offline schedule cancels before Live on health failure, immediately stops 
   try{const result=await runPrivateHoldout(manifest,{manifestSHA256:holdoutHash(bytes(manifest)),originalSHA256:holdoutHash(original),sourceSHA:holdoutHash('fictional-source')},join(dir,'runs'),{g6:{budgetPath,witnessFetch:async()=>{throw Error('Not used');},transports:async()=>{throw Error('Not used');}},wait:async()=>{},health:async(_spec,beforeGET)=>{await beforeGET('tablecheck',1);return {passed:mode!=='HEALTH_FAIL',observations:[]};},execute:async(pack,_deps,out)=>{
    assert.equal(active,0);active++;started++;assert.equal(pack.recording.googleResponses,true);const path=join(out,pack.cases[0]!.id);await mkdir(path,{recursive:true});
    const evaluation={verdict:{s0:mode==='S0'?1:0,stopBatch:mode==='S0'}};await writeFile(join(path,'evaluation.json'),JSON.stringify(evaluation));active--;
-   return {schemaVersion:'phase3b-g6-batch@1',serial:true,witnessGETs:1,stopReason:mode==='S0'?'S0_STOP':null,slots:[{id:pack.cases[0]!.id,status:'EVALUATED',path}]};
+   return {schemaVersion:'phase3b-g6-batch@1',serial:true,pendingReviewCount:0,passRateReportable:true,witnessGETs:1,stopReason:mode==='S0'?'S0_STOP':null,slots:[{id:pack.cases[0]!.id,status:'EVALUATED',path}]};
   }});
   assert.equal(started,mode==='HEALTH_FAIL'?0:mode==='S0'?1:3);assert.equal(result.stopReason,mode==='HEALTH_FAIL'?'NETWORK_HEALTH_FAILED':mode==='S0'?'S0_STOP':null);
   const audit=await readFile(join(dir,'runs/input-hashes.json'),'utf8');assert.ok(!audit.includes('Fiction Harbor'));
@@ -66,7 +66,7 @@ test('fictional held-out batch separates allowed negative policy from actual neg
  try{const result=await runPrivateHoldout(m,{manifestSHA256:holdoutHash(bytes(m)),originalSHA256:holdoutHash(original),sourceSHA:holdoutHash('fictional')},join(dir,'runs'),{g6:{budgetPath,witnessFetch:async()=>{throw Error('No network');},transports:async()=>{throw Error('No clients');}},wait:async()=>{},health:async()=>({passed:true,observations:[]}),execute:async(pack,_deps,out)=>{
   n++;const id=pack.cases[0]!.id,path=join(out,id);await mkdir(path);
   await writeFile(join(path,'execution.result.json'),JSON.stringify({certificationMode:n===1?'NO_POSITIVE_WITNESS_DIAGNOSTIC':'STANDARD_G6',witnessExists:n!==1}));
-  await writeFile(join(path,'evaluation.json'),JSON.stringify({verdict:{s0:0,stopBatch:false}}));return {schemaVersion:'phase3b-g6-batch@1',serial:true,witnessGETs:0,stopReason:null,slots:[{id,status:'EVALUATED',path}]};
+  await writeFile(join(path,'evaluation.json'),JSON.stringify({verdict:{s0:0,stopBatch:false}}));return {schemaVersion:'phase3b-g6-batch@1',serial:true,pendingReviewCount:0,passRateReportable:true,witnessGETs:0,stopReason:null,slots:[{id,status:'EVALUATED',path}]};
  }});assert.deepEqual(result.witnessPolicies,[{id:m.cases[0]!.id,policy:'ALLOW_KNOWN_UNAVAILABLE'}]);assert.equal(result.receipts.length,3);assert.equal(result.receipts[0]!.certificationMode,'NO_POSITIVE_WITNESS_DIAGNOSTIC');assert.equal(result.receipts[0]!.witnessExists,false);assert.equal(result.receipts[1]!.certificationMode,'STANDARD_G6');assert.equal(result.receipts[1]!.witnessExists,true);
  }finally{await rm(dir,{recursive:true,force:true});}
 });

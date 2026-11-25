@@ -1,0 +1,60 @@
+{
+  "slice2Failure": {
+    "phase": "PRESENT_RESULTS",
+    "progress": {
+      "active": false,
+      "stopped": false
+    },
+    "presented": [
+      "fixture:outlet",
+      "fixture-restaurant-2",
+      "fixture-restaurant-3"
+    ],
+    "ready": [
+      "fixture:outlet",
+      "fixture-restaurant-2",
+      "fixture-restaurant-3"
+    ],
+    "readStatus": {
+      "kind": "RESULTS",
+      "partialSourceFailure": false,
+      "canContinue": false,
+      "canRetry": false
+    },
+    "checks": [
+      {
+        "id": "fixture:outlet",
+        "status": "AVAILABLE"
+      },
+      {
+        "id": "fixture-restaurant-2",
+        "status": "AVAILABLE"
+      },
+      {
+        "id": "fixture-restaurant-3",
+        "status": "AVAILABLE"
+      }
+    ],
+    "events": [
+      {
+        "type": "RESULTS_PRESENTED",
+        "evidenceIds": [
+          "evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184",
+          "area:fixture:outlet",
+          "evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429",
+          "evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2",
+          "area:fixture-restaurant-2",
+          "evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12",
+          "evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7",
+          "area:fixture-restaurant-3",
+          "evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5"
+        ],
+        "candidateIds": [
+          "fixture:outlet",
+          "fixture-restaurant-2",
+          "fixture-restaurant-3"
+        ]
+      }
+    ]
+  }
+}

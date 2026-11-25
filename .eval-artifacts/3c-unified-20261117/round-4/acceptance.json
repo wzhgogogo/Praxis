@@ -1,0 +1,235 @@
+{
+  "frozenSHA": "60a4e962e4804ee80f43a7b4b1f245061c6a5ca7",
+  "domainCommit": "6933f4a20c841ca73a07b279a3b29ce1ac3e42eb",
+  "webApplicationCommit": "60a4e962e4804ee80f43a7b4b1f245061c6a5ca7",
+  "status": "PASS",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "60a4e962e4804ee80f43a7b4b1f245061c6a5ca7",
+      "exitCode": 0,
+      "seconds": 0.5177792080000001,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "60a4e962e4804ee80f43a7b4b1f245061c6a5ca7",
+      "exitCode": 0,
+      "seconds": 0.20042104100000002,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "testSummaries": []
+    },
+    {
+      "gate": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "60a4e962e4804ee80f43a7b4b1f245061c6a5ca7",
+      "exitCode": 0,
+      "seconds": 61.31193879200001,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "test"
+      ],
+      "testSummaries": [
+        {
+          "tests": 1704,
+          "pass": 1704,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "60a4e962e4804ee80f43a7b4b1f245061c6a5ca7",
+      "exitCode": 0,
+      "seconds": 388.456404167,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "offline Fixture contracts; runner-replay children apply their own OS outbound denial; no outer sandbox",
+      "invocation": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "testSummaries": [
+        {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0
+        },
+        {
+          "tests": 404,
+          "pass": 404,
+          "fail": 0
+        },
+        {
+          "tests": 409,
+          "pass": 409,
+          "fail": 0
+        },
+        {
+          "tests": 159,
+          "pass": 159,
+          "fail": 0
+        }
+      ]
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "60a4e962e4804ee80f43a7b4b1f245061c6a5ca7",
+      "exitCode": 0,
+      "seconds": 0.5291605000000459,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "envLoaded": false,
+      "network": "OS outbound denied except loopback",
+      "invocation": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+        "npm",
+        "run",
+        "build"
+      ],
+      "testSummaries": []
+    }
+  ],
+  "visual": {
+    "tests": 16,
+    "pass": 16,
+    "sizes": [
+      {
+        "width": 390,
+        "height": 844,
+        "pass": 7
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "pass": 7
+      },
+      {
+        "width": 960,
+        "height": 900,
+        "pass": 2
+      }
+    ]
+  },
+  "newBrowserRegressions": {
+    "tests": 10,
+    "pass": 10,
+    "records": [
+      "\u2714 Round4 390: expired Saved opens the exact presented card and refreshes before booking (2033.006042ms)",
+      "\u2714 Round4 390: interrupted revision hides old answers, syncs title and never infers Saved removal (1673.477667ms)",
+      "\u2714 Round4 390: About keeps timed condition evidence and one Source for all answer citations (1511.795ms)",
+      "\u2714 Round4 390: exhausted empty state has a full-width Adjust with transient focus guidance (1288.176167ms)",
+      "\u2714 Round4 1280: expired Saved opens the exact presented card and refreshes before booking (2103.1625ms)",
+      "\u2714 Round4 1280: interrupted revision hides old answers, syncs title and never infers Saved removal (1840.175833ms)",
+      "\u2714 Round4 1280: About keeps timed condition evidence and one Source for all answer citations (1671.345916ms)",
+      "\u2714 Round4 1280: exhausted empty state has a full-width Adjust with transient focus guidance (1491.552041ms)",
+      "\u2714 Round4 390: current state alone selects clarification/retry messages and suppresses historical answers (1560.630834ms)",
+      "\u2714 Round4 1280: current state alone selects clarification/retry messages and suppresses historical answers (1962.281542ms)"
+    ]
+  },
+  "integrity": {
+    "gates": {
+      "unchanged": true,
+      "files": 5
+    },
+    "failures": {
+      "unchanged": true,
+      "files": 12
+    },
+    "round-2": {
+      "unchanged": true,
+      "files": 108
+    },
+    "round-3": {
+      "unchanged": true,
+      "files": 77
+    },
+    "main": {
+      "gitStatusAndDiffUnchanged": true,
+      "headUnchanged": true
+    },
+    "closeout": {
+      "gitStatusAndDiffUnchanged": true,
+      "headUnchanged": true
+    },
+    "mainEnv": {
+      "sha256Unchanged": true,
+      "configurationLoaded": false
+    },
+    "userLiveArchive": {
+      "groups": 4,
+      "files": 20,
+      "cases": 2,
+      "sanitizedHashesVerified": 20,
+      "temporaryDirectoryEmpty": true
+    },
+    "failedFreezed04b6b096": {
+      "allRecordedHashesUnchanged": true
+    },
+    "failedFreeze6387eb21c": {
+      "allRecordedHashesUnchanged": true
+    },
+    "port4312": {
+      "listeners": 0
+    }
+  },
+  "newLive": 0,
+  "postgresqlAccess": false
+}

@@ -1,0 +1,95 @@
+✔ Round24 UI: U2 390 archived tabelog menu budget=false appears once per reading (1739.413541ms)
+✔ Round24 UI: U2 390 archived website menu budget=false appears once per reading (1016.177584ms)
+✔ Round24 UI: U2 390 archived tabelog menu budget=true appears once per reading (947.735791ms)
+✔ Round24 UI: U2 390 archived website menu budget=true appears once per reading (910.839792ms)
+✔ Round24 UI: U2 1440 archived tabelog menu budget=false appears once per reading (951.693375ms)
+✔ Round24 UI: U2 1440 archived website menu budget=false appears once per reading (883.862708ms)
+✔ Round24 UI: U2 1440 archived tabelog menu budget=true appears once per reading (842.994167ms)
+✔ Round24 UI: U2 1440 archived website menu budget=true appears once per reading (839.474709ms)
+✖ Round25 UI: M2 390 current album recovers through real proxy list (4743.650833ms)
+✖ Round25 UI: M2 390 current album recovers through real proxy transient (4500.917417ms)
+✖ Round25 UI: M2 390 current album recovers through real proxy persistent (4323.36875ms)
+✔ Round20 UI: 390 design rows, source equivalence, batch actions and revision summaries (2052.453792ms)
+✔ Round20 UI: 1440 design rows, source equivalence, batch actions and revision summaries (1741.253292ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 10
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14262.242583
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round25.test.ts:1:12071
+✖ Round25 UI: M2 390 current album recovers through real proxy list (4743.650833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   {
+  +     status: 401,
+  +     url: 'http://127.0.0.1:64625/api/session'
+  +   }
+  + ]
+  - []
+  
+      at journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:23:182)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:69:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { url: 'http://127.0.0.1:64625/api/session', status: 401 } ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round25.test.ts:1:12071
+✖ Round25 UI: M2 390 current album recovers through real proxy transient (4500.917417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   {
+  +     status: 401,
+  +     url: 'http://127.0.0.1:64685/api/session'
+  +   }
+  + ]
+  - []
+  
+      at journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:23:182)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:69:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { url: 'http://127.0.0.1:64685/api/session', status: 401 } ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/harness/browser/web-workspace-round25.test.ts:1:12071
+✖ Round25 UI: M2 390 current album recovers through real proxy persistent (4323.36875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   {
+  +     status: 401,
+  +     url: 'http://127.0.0.1:64716/api/session'
+  +   }
+  + ]
+  - []
+  
+      at journey (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:23:182)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round25.test.ts:69:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ { url: 'http://127.0.0.1:64716/api/session', status: 401 } ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }

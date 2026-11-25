@@ -65,7 +65,8 @@ export function planDiscoverySources(
     .filter((pack) => pack.capabilities.includes("DISCOVERY"))
     .filter((pack) => intent.target?.goal !== "RECOMMENDATION" || !pack.reservationOnly)
     .map((pack) => ({ pack, score: pack.basePriority + (sameDay && pack.supportsSameDay ? 10 : 0) }))
-    .sort((left, right) => right.score - left.score || left.pack.id.localeCompare(right.pack.id));
+    .sort((left, right) => (intent.target?.selectionScope !== "SPECIFIC_OUTLET" ? Number(left.pack.reservationOnly) - Number(right.pack.reservationOnly) : 0)
+      || right.score - left.score || left.pack.id.localeCompare(right.pack.id));
   return {
     entries: candidates.map(({ pack }) => ({ sourceId: pack.id, query: { category, positiveCriteria:positiveDiscoveryCriteria(intent), location: { ...location } } })),
     cursor: 0,

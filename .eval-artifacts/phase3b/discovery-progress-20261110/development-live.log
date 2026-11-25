@@ -1,0 +1,13 @@
+/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/budget.ts:15
+  if(ledger.entries.some(e=>e.id===id))throw Error("Duplicate budget attempt id; no request was sent");
+                                             ^
+
+
+Error: Duplicate budget attempt id; no request was sent
+    at appendCharge (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/budget.ts:15:46)
+    at async chargeG6 (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/budget.ts:11:14)
+    at async Object.beforeGET (/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/discovery-progress-20261110/run-development.ts:27:179)
+    at async checkHoldoutNetwork (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/holdout-health.ts:12:3)
+    at async <anonymous> (/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/discovery-progress-20261110/run-development.ts:27:15)
+
+Node.js v24.4.1

@@ -1,0 +1,165 @@
+{
+  "sha": "5d6d683f13ee1247910f08651ec1e1ec35b58a9c",
+  "log": "gates/test.log",
+  "envLoaded": false,
+  "rowCount": 17,
+  "clarificationsWithZeroAvailability": 7,
+  "rows": [
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "correct offset",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "wrong tomorrow",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "wrong calendar",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "omitted DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "ambiguous dates",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "time only carries date",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "explicit calendar correction control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "excluded relative day preserves calendar correction",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "approximate day range with omitted DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "incidental relative mention preserves selected calendar DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "undecided relative and calendar dates with omitted DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "competing relative and calendar dates despite modeled DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "weekday correction control",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "incidental relative mention preserves selected weekday DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "competing relative and weekday dates despite modeled DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "competing relative and weekday dates with omitted DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "competing weekday then relative date with omitted DATE",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-26",
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    }
+  ]
+}

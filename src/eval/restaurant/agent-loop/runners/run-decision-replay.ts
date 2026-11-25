@@ -97,7 +97,7 @@ function userInput(row: CapturedDecision): BrowserReadDecisionInput {
   return JSON.parse(row.messages.find(message => message.role === "user")!.content) as BrowserReadDecisionInput;
 }
 function browserLabel(text: string, input: BrowserReadDecisionInput): ActionLabel {
-  const action = decodeBrowserReadActionWire(JSON.parse(text), new Set(input.observation.targets.map(target => target.ref)));
+  const action = decodeBrowserReadActionWire(JSON.parse(text), new Set([...input.observation.targets.map(target => target.ref),...(input.observation.controlGroups??[]).map(group=>group.ref)]));
   const target = "targetRef" in action ? input.observation.targets.find(target => target.ref === action.targetRef) : undefined;
   return { type: action.type, ...("field" in action ? { field: action.field } : {}), ...("direction" in action ? { direction: action.direction } : {}),
     ...(target ? { targetLabel: target.label, targetKind: target.kind } : {}) };

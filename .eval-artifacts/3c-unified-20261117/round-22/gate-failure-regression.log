@@ -1,0 +1,40 @@
+✔ Round22 accepted question handover: equivalent (1341.274167ms)
+✔ Round22 accepted question handover: area (671.016167ms)
+✔ Round22 accepted question handover: model-failure (550.814541ms)
+✔ Round22 accepted question handover: second-question (558.99575ms)
+✔ Round22 accepted question handover: shortlist-wins (533.911833ms)
+✔ Round22 accepted question handover: system-answer-first (556.18525ms)
+✔ Round22 accepted question handover: conflict (526.5915ms)
+✔ Round22 accepted question handover: invalid-successor (546.571542ms)
+✔ B1 reuses the actual admitted G1 cancellation answer without another model call, before or after selection (2010.758ms)
+✖ HTTP next G1 question continues after prior G1 normal completion (1320.253708ms)
+✔ HTTP next G1 question continues after prior G1 cancellation (649.13825ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11015.979417
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:3:49113
+✖ HTTP next G1 question continues after prior G1 normal completion (1320.253708ms)
+  AssertionError [ERR_ASSERTION]: "Stale task version: expected 4, actual 5"
+  
+  409 !== 200
+  
+      at <anonymous> (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:2289:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:252:5)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/server/local-web-server.test.ts:2228:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 409,
+    expected: 200,
+    operator: 'strictEqual'
+  }

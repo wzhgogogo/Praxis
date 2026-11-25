@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
+import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint, type RestaurantTaskState } from "./contracts.js";
+import { canContinueRestaurantRead, failedSourceRetryCandidateIds } from "./read-continuation.js";
 import { MAX_AVAILABILITY_CHECK_BATCH, validateRestaurantAction } from "./action-validator.js";
 import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { applyRestaurantIntentPatch, missingBlockingFields } from "./intent-state.js";
@@ -32,6 +33,45 @@ const discoveryPlan = (cursor: number) => ({
     query: { positiveCriteria:[], category: "restaurant", location: { latitude: 35.658, longitude: 139.7, radiusMeters: 1_000, label: "Shibuya", areaMatchBasis: "TASK_LOCATION_RADIUS" as const } },
   })),
   cursor,
+});
+
+test("Empty continuation requires complete inputs and proven unread work, never an absent or exhausted cursor", () => {
+  const { budgetPerPerson: _budget, ...rest } = fixtureIntent;
+  const intent = { ...rest, criteria: [] };
+  const base: RestaurantTaskState = { ...incompleteState, phase: "NO_VERIFIED_RESULT", searchRevision: 1,
+    intentDraft: { ...intent, schemaVersion: "3" }, intent, candidates: fixtureCandidates.slice(0, 2) };
+  assert.equal(canContinueRestaurantRead(base, now), true, "unread pool candidates are known work");
+  const { timeWindow: _time, ...missingTime } = base.intentDraft!;
+  assert.equal(canContinueRestaurantRead({ ...base, intentDraft: missingTime }, now), false);
+  const empty = { ...base, candidates: [] };
+  assert.equal(canContinueRestaurantRead(empty, now), false, "an unstarted search is not an observed continuation");
+  const cursor = { intentFingerprint: restaurantSearchIntentFingerprint(intent), nextPageToken: "observed-next", usedPageTokens: [], pagesRead: 1, exhausted: false };
+  assert.equal(canContinueRestaurantRead({ ...empty, searchContinuation: cursor }, now), true);
+  for (const bad of [{ ...cursor, exhausted: true }, { ...cursor, usedPageTokens: ["observed-next"] }, { ...cursor, intentFingerprint: "different conditions" }]) {
+    assert.equal(canContinueRestaurantRead({ ...empty, searchContinuation: bad }, now), false);
+  }
+  assert.throws(() => restaurantBookingTaskDefinition.transition(empty, { type: "NEXT_BATCH_REPLENISHMENT_REQUESTED", targetCandidateCount: 3 },
+    { taskId: "task", runId: "run", now, createId: prefix => prefix }), /proven unread work/);
+});
+
+test("Empty continuation preserves failed checks and rejects cross-purpose rereads; explicit all-failed retry stays separate", () => {
+  const { budgetPerPerson: _budget, ...rest } = fixtureIntent;
+  const intent = { ...rest, criteria: [] }, [a,b] = fixtureCandidates;
+  const failed = { status: "UNKNOWN" as const, checkedAt: now, evidenceIds: [], sourceAttempts: [{ source: "TABLECHECK" as const, outcome: "FAILED" as const }] };
+  const base: RestaurantTaskState = { ...incompleteState, phase: "NO_VERIFIED_RESULT", searchRevision: 1,
+    intentDraft: { ...intent, schemaVersion: "3" }, intent, candidates: [a!,b!], availabilityChecks: { [a!.restaurant.id]: failed },
+    noVerifiedResult: { termination: { type: "END_READ", reasonCode: "AGENT_END_READ", isSystemReason: false, initiator: "AGENT" }, endedAt: now, investigatedCandidateIds: [a!.restaurant.id], unresolvedCandidateIds: [b!.restaurant.id], remainingGaps: [] } };
+  const resumed = restaurantBookingTaskDefinition.transition(base, { type: "NEXT_BATCH_REPLENISHMENT_REQUESTED", targetCandidateCount: 3 },
+    { taskId: "task", runId: "run", now, createId: prefix => prefix }).state;
+  assert.deepEqual(resumed.availabilityChecks, base.availabilityChecks);
+  assert.equal(validateRestaurantAction(resumed, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: [a!.restaurant.id] }, now).status, "REJECTED");
+  assert.equal(validateRestaurantAction(resumed, { type: "CHECK_AVAILABILITY", candidateIds: [a!.restaurant.id] }, now).status, "REJECTED");
+  const allFailed = { ...base, availabilityChecks: { ...base.availabilityChecks, [b!.restaurant.id]: failed } };
+  assert.equal(canContinueRestaurantRead(allFailed, now), false);assert.deepEqual(failedSourceRetryCandidateIds(allFailed, now), [a!.restaurant.id,b!.restaurant.id]);
+  const refreshed = restaurantBookingTaskDefinition.transition(allFailed, { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: [a!.restaurant.id,b!.restaurant.id] },
+    { taskId: "task", runId: "run", now, createId: prefix => prefix }).state;
+  assert.equal(refreshed.phase, "SEARCHING");assert.equal(refreshed.noVerifiedResult, undefined);
+  assert.deepEqual(refreshed.refreshRequestedCandidateIds, [a!.restaurant.id,b!.restaurant.id]);
 });
 
 test("Reducer derives missing fields and accumulates a criterion correction deterministically", () => {
@@ -528,6 +568,7 @@ test("PRESENT_RESULTS fails closed until area, HARD criterion, identity, and ava
     domainState: defaultBatch, outcome: null, version: 1, createdAt: now, updatedAt: now,
   };
   const coordinator = new RestaurantAgentLoopCoordinator({
+    listEvents: async () => [],
     async snapshot() { return current; },
     async dispatch(envelope, expectedVersion) {
       assert.equal(expectedVersion, current.version);
@@ -870,4 +911,22 @@ test("ADR0045 median admission uses the same inclusive thresholds in context and
       if (verdict.status === "REJECTED") assert.equal(verdict.code, "READ_TIME_RESERVED");
     }
   }
+});
+
+
+test("3c explicit empty continuation preserves source exhaustion and every later read still passes the ordinary budget and evidence guards",()=>{
+ const {budgetPerPerson:_budget,...intent}=fixtureIntent;
+ const state:RestaurantTaskState={...incompleteState,phase:"NO_VERIFIED_RESULT",searchRevision:1,
+  intentDraft:{...intent,schemaVersion:"3",criteria:[]},intent:{...intent,criteria:[]},
+  candidates:fixtureCandidates.slice(0,1),sourceReadState:{googlePlacesSearchBudget:"EXHAUSTED"}};
+ const before=structuredClone(state);assert.equal(canContinueRestaurantRead(state,now),true);
+ assert.deepEqual(state,before,"projection alone cannot resume or schedule a read");
+ const resumed=restaurantBookingTaskDefinition.transition(state,{type:"NEXT_BATCH_REPLENISHMENT_REQUESTED",targetCandidateCount:3},{taskId:"explicit-more",runId:"same-run",now,createId:p=>p});
+ assert.deepEqual(resumed.commands,[]);assert.deepEqual(resumed.state.sourceReadState,state.sourceReadState);
+ assert.equal(validateRestaurantAction(resumed.state,{type:"SEARCH_RESTAURANTS"},now).status,"REJECTED");
+ const read={type:"CHECK_AVAILABILITY" as const,candidateIds:[fixtureCandidates[0]!.restaurant.id]};
+ for(const budget of [{remainingModelCalls:0},{browserModelBudgetExhausted:true},{remainingAutomaticMs:0}]){
+  assert.equal(validateRestaurantAction(resumed.state,read,now,budget).status,"REJECTED");
+ }
+ assert.equal(validateRestaurantAction(resumed.state,{type:"PRESENT_RESULTS",candidateIds:read.candidateIds},now).status,"REJECTED","continuation grants no TableCheck identity or inventory evidence");
 });

@@ -415,3 +415,54 @@ test("a telephone-link-bound page retains source statements without claiming the
     assert.equal(read.evidence.some(e => e.claims.verifiedHardCriteria), false);
   }
 });
+
+// Transport fixture only: no external website is requested.
+for(const secure of ['OK','NETWORK_ERROR','HTTP_403','GUARD_BLOCKED'] as const)test('official HTTP-listed website tries HTTPS first: '+secure,async()=>{
+  const navigated:string[]=[];let current='';
+  const base=multiCandidateRuntime({},navigated);const original=await base.openSession({signal:new AbortController().signal});
+  const browser:BrowserRuntime={openSession:async()=>({...original,navigate:async(url:string)=>{
+    navigated.push(url);current=url;
+    if(url.startsWith('https:')&&secure!=='OK')throw new Error(secure==='NETWORK_ERROR'?'net::ERR_CONNECTION_REFUSED':secure==='HTTP_403'?'HTTP 403':'GUARD_ROUTE_BLOCK');
+  },snapshot:async()=>({url:current,title:'Cafe A',text:'Cafe A\n1 Ginza, Tokyo',html:'<h1>Cafe A</h1><p>1 Ginza, Tokyo</p>'})})};
+  const input=structuredClone(request);input.capturePagesOnly=true;input.candidates[0]!.restaurant.sourceIds.googleWebsiteUri='http://cafe.example/about';
+  await reader(browser).inspectFacts(input,new AbortController().signal);
+  assert.deepEqual(navigated,secure==='NETWORK_ERROR'?['https://cafe.example/about','http://cafe.example/about']:['https://cafe.example/about']);
+});
+
+test('HTTPS connection fallback retains the candidate operation ceiling and provider clock',async t=>{
+  t.mock.timers.enable({apis:['Date'],now:Date.parse('2026-11-11T02:30:00Z')});
+  for(const maxOperationsPerCandidate of [1,24]){
+    const urls:string[]=[],events:import('../../infrastructure/browser/browser-task-executor.js').BrowserExecutionDiagnostic[]=[];
+    let current='';const base=multiCandidateRuntime({},[]),original=await base.openSession({signal:new AbortController().signal});
+    const browser:BrowserRuntime={openSession:async()=>({...original,navigate:async url=>{urls.push(url);current=url;if(url.startsWith('https:')){t.mock.timers.tick(10_000);throw new Error('net::ERR_CONNECTION_REFUSED');}},snapshot:async()=>({url:current,title:'Cafe A',html:'<h1>Cafe A</h1><p>1 Ginza, Tokyo</p>',text:'Cafe A\n1 Ginza, Tokyo'})})};
+    const input=structuredClone(request);input.capturePagesOnly=true;input.candidates[0]!.restaurant.sourceIds.googleWebsiteUri='http://cafe.example/about';
+    const facts=new GoogleListedWebsiteFactRead({maxAutomaticElapsedMs:300_000,maxElapsedMsPerProvider:45_000,maxOperationsPerCandidate,maxModelCallsPerCandidate:6,maxModelCallsTotal:12},browser,fixtureJudgment,()=>new Date().toISOString(),undefined,undefined,e=>events.push(e));
+    await facts.inspectFacts(input,new AbortController().signal);
+    assert.deepEqual(urls,maxOperationsPerCandidate===1?['https://cafe.example/about']:['https://cafe.example/about','http://cafe.example/about']);
+    const restarted=events.filter(e=>e.event==='PROVIDER_STARTED')[1];assert.ok(restarted&&restarted.lifecycle!.providerElapsedMs>=10_000,'fallback never resets the elapsed provider clock');
+  }
+});
+
+for(const failure of ['OTHER_DOCUMENT','STATIC_RESOURCE','GUARD_BLOCKED'] as const)test('HTTPS fallback ignores unrelated or rejected TLS diagnostics: '+failure,async()=>{
+  const {BrowserRuntimeError}=await import('../../infrastructure/browser/browser-runtime-errors.js');
+  const urls:string[]=[],original=await multiCandidateRuntime({},[]).openSession({signal:new AbortController().signal});
+  const browser:BrowserRuntime={openSession:async()=>({...original,navigate:async url=>{urls.push(url);throw new BrowserRuntimeError('BROWSER_RUNTIME_FAILED','page.goto net::ERR_FAILED',undefined,undefined,[{outcome:failure==='GUARD_BLOCKED'?'BLOCKED':'FAILED',method:'GET',resourceType:failure==='STATIC_RESOURCE'?'script':'document',origin:'https://cafe.example',pathname:failure==='OTHER_DOCUMENT'?'/different':'/about',queryKeys:[],error:{name:'Error',message:'route.fetch: write EPROTO:SSL routines:tls_validate_record_header:wrong version number:'}}]);}})};
+  const input=structuredClone(request);input.capturePagesOnly=true;input.candidates[0]!.restaurant.sourceIds.googleWebsiteUri='http://cafe.example/about';
+  await reader(browser).inspectFacts(input,new AbortController().signal);assert.deepEqual(urls,['https://cafe.example/about']);
+});
+
+test("a sufficient Google DAYPART hours fact does not open the listed website", async () => {
+  const { groundGoogleDiscovery } = await import("../../domains/restaurant/read-grounding.js");
+  const intent = { ...request.intent, date: "2026-11-20", timeWindow: { earliest: "18:00", latest: "23:00" }, timeWindowBasis: "DAYPART:EVENING" };
+  const grounded = groundGoogleDiscovery({ placeId: "daypart-cafe", displayName: "Cafe A", formattedAddress: "1 Ginza, Tokyo", types: ["cafe"], websiteUri: "https://cafe.example/", regularOpeningHours: ["Friday: 11:00 AM – 10:00 PM"] },
+    { timezone: intent.timezone, requestFingerprint: "daypart", areaQuery: "Ginza", observedAt: "2026-11-18T03:52:25.365Z", requestedDate: intent.date, requestedTimeWindow: intent.timeWindow, requestedTimeWindowBasis: intent.timeWindowBasis, requiredTypeCriteria: ["cafe"] });
+  assert.ok(grounded.accepted); if (!grounded.accepted) return;
+  const id = grounded.candidate.restaurant.id;
+  let websiteCalls = 0;
+  const result = await new GoogleThenWebsiteFactRead({ executionRoute: "STRUCTURED_ADAPTER", async inspectFacts() {
+    return { evidence: [grounded.evidence, ...grounded.additionalEvidence], factChecks: { [id]: { status: "COMPLETED", checkedAt: "2026-11-18T03:52:25.365Z", evidenceIds: grounded.additionalEvidence.map(e => e.evidenceId) } }, metadata: { provider: "GOOGLE_PLACES", route: "STRUCTURED_ADAPTER", latencyMs: 0 } };
+  } }, { executionRoute: "GENERIC_BROWSER", async inspectFacts() { websiteCalls++; throw new Error("sufficient Google facts must end the chain"); } })
+    .inspectFacts({ candidateIds: [id], candidates: [grounded.candidate], intent }, new AbortController().signal);
+  assert.equal(websiteCalls, 0);
+  assert.equal(result.evidence.find(e => e.kind === "RESTAURANT_FACT")?.claims.openingHoursMatch, true);
+});

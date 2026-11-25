@@ -1,0 +1,90 @@
+✔ G6 D4 original five-parameter source capture proves the exact B1 URL without relaxing the four-parameter post witness (59.304541ms)
+✖ G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0 (72.826834ms)
+✔ G6 source-capture unknown shape stays unassessed while a contradictory slot link fails (1.110875ms)
+✔ G6 safety-only batch stop preserves every historical D3 score (0.973958ms)
+✔ G6 safety-only batch stop preserves every historical D1 score (7.679292ms)
+✔ G6 independent evaluator accepts original slot/link/identity/page binding and never consults production eligibility (0.203208ms)
+✔ G6 independent deadline applies to each user turn while the slot can legitimately exceed 500 seconds (0.242834ms)
+✔ G6 independent S0 control: post-run slot absent (0.104583ms)
+✔ G6 independent S0 control: workflow URL (0.076084ms)
+✔ G6 independent S0 control: booked copy (0.167875ms)
+✔ G6 independent S0 control: invented date (0.081125ms)
+✔ G6 independent S0 control: other branch (0.070125ms)
+✔ G6 independent S0 control: other outlet quote (0.076708ms)
+✔ G6 independent S0 control: previous run quote (0.052917ms)
+✔ G6 independent S0 control: review quote (0.048834ms)
+✔ G6 independent S0 control: uncited yes (0.049708ms)
+✔ G6 independent S0 control: allergy guarantee (0.147708ms)
+✔ G6 independent S0 control: unauthorized actual request (0.059375ms)
+✔ G6 independent S0 control: unsupported SOFT satisfaction (0.06225ms)
+✔ G6 missing recording/witness is NOT_EVALUATED, not a fabricated-claim verdict or a zero-S0 certification (0.057ms)
+✔ G6 novel paraphrase cannot earn zero-S0 certification solely by citing a correct sentence (0.047125ms)
+✔ G6 independent HARD price control: wrong date (0.126791ms)
+✔ G6 independent HARD price control: wrong partySize (0.054834ms)
+✔ G6 independent HARD price control: wrong meal (0.048167ms)
+✔ G6 independent no-delivery repeats the witness and records a still-available witness as a capability miss (0.066209ms)
+✔ G6 independent script request boundary: LEGITIMATE (0.119542ms)
+✔ G6 independent script request boundary: UNKNOWN_METHOD (0.054375ms)
+✔ G6 independent script request boundary: UNKNOWN_FIELD (0.049ms)
+✔ G6 independent script request boundary: WORKFLOW (0.042625ms)
+✔ G6 complete-request qualification remains independent: QUALIFIED (0.078625ms)
+✔ G6 complete-request qualification remains independent: WRONG_HARD (0.04175ms)
+✔ G6 complete-request qualification remains independent: OUTSIDE_AREA (0.045125ms)
+✔ G6 complete-request qualification remains independent: MISSING_GOLD (0.069042ms)
+✔ PENDING_REVIEW qualification exception is narrow: ANNOTATION_ONLY (0.070708ms)
+✔ PENDING_REVIEW qualification exception is narrow: BOUNDARY_MISSING (0.048834ms)
+✔ PENDING_REVIEW qualification exception is narrow: S0 (0.042125ms)
+✔ PENDING_REVIEW qualification exception is narrow: SOURCE_MISSING (0.039334ms)
+✔ PENDING_REVIEW qualification exception is narrow: OTHER_UNKNOWN (0.045542ms)
+✔ independent request time window includes boundaries: 17:59 (0.098875ms)
+✔ independent request time window includes boundaries: 18:00 (0.058416ms)
+✔ independent request time window includes boundaries: 19:00 (0.039541ms)
+✔ independent request time window includes boundaries: 20:00 (0.047666ms)
+✔ independent request time window includes boundaries: 20:01 (0.036208ms)
+✔ CLI custom fictional commitment uses unchanged file/preamble/case hashes, default still refuses different original (11.861125ms)
+✔ resume preserves evaluated slots, only one health per case, and refuses original/manifest/source/ledger mismatches (15.58475ms)
+✔ health cancellation resumes the same planned slot with fresh health, no duplicate Live, original health evidence retained (10.700792ms)
+✔ environment failure replacement is charged on resumed Live only, stored separately and stops before a fifth replacement (22.76725ms)
+✔ successful environment replacement completes later slots, without rerunning prior Live or repeating case health (11.35125ms)
+✔ S0 forbids resume even if a checkpoint did not record the stop; evaluation after a crash is recovered without another Live (11.709625ms)
+✔ already charged unknown interruption cannot silently spend another Live; plan and append-only ledger guards reject before transmission (10.886042ms)
+✔ resume denies simultaneous writers; independent cases each get one health, and rules cannot be supplied privately (10.863125ms)
+✔ a prepaid environment ticket survives interruption before Live without being charged twice (13.150542ms)
+✔ six cases keep eighteen planned slots and admit four replacements within fullLive22 and GET126 (62.281292ms)
+✔ a ledger symlink resolves to one canonical file for health, Live charges and resume (7.366209ms)
+✔ resume restores the last charged GET time before sending its first health request (7.478ms)
+✔ STOPPED independent evidence can be supplemented, original stays immutable, reviewed slot counts once and review hash cannot change (21.465542ms)
+✔ supplement S0 remains stopped and is sticky even without another --review (10.378667ms)
+✔ charged product failure is independently audited and graded as one failed plan, with no replacement or environment ticket (10.9745ms)
+✔ ungraded failure with independent boundary violation or missing evidence cannot be supplemented past the stop (13.79325ms)
+✔ pending slot completes without rerun, late review PENDING (17.28675ms)
+✔ pending slot completes without rerun, late review PENDING_S0 (12.178042ms)
+✔ commitment bytes SHA is part of resume identity (6.040958ms)
+ℹ tests 62
+ℹ suites 0
+ℹ pass 61
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 772.196083
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/evaluator.test.ts:1:3902
+✖ G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0 (72.826834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_EVALUATED'
+  - 'PASS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/evaluator.test.ts:60:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_EVALUATED',
+    expected: 'PASS',
+    operator: 'strictEqual'
+  }

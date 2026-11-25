@@ -1,3 +1,55 @@
+<a id="g1-window-media-closeout-20261116"></a>
+
+2026-11-16 — 待以本次复核提交整合 main；已完成离线与本地 Chromium 验证，D8 线上 Live 待冻结主线 SHA 后验证。本轮源码/测试冻结 `a5c4597b0031881e8e765888451a22785a32fb98`：实时快照刷新本次正文变化，G1 500ms 窗口不再继承旧 wait 标志；静态明确标记当前变化仍拒答。导航后不用旧 URL previous；显式 ARIA 忙态与混合图文条款卡片保留阻断。真实 Nakamata 包间原句引用验收，旧不透明地图与 8 个淡出图片骨架通用契约保持。0 Live / 0 网站 GET / 0 真实模型调用；旧批次原报告不改写。[本次简报](../reviews/G1-WINDOW-MEDIA-CLOSEOUT-20261116.md)。
+
+<a id="g1-query-readback-20261116"></a>
+
+2026-11-16 — draft / not integrated：G1 当前正文/全部在途请求复检与同控件选项回读两项离线修复。保留原生 value、Guard 3 秒规则和 B1 身份/请求/库存双校验；真实 Nakamata DOM/CSS 结合明确构造交互，经生产组装验证。线上库存未验证；0 Live / 0 网站 GET / 0 真实模型。五项净树门禁及保护哈希以本批次原始日志为准；仅本地提交，不推送、不合 main。[简报](../reviews/G1-BODY-QUERY-READBACK-20261116.md)。
+
+<a id="terminal-observe-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：终端snapshot-only完成与Skill引导四文件修复，源码67a949d7净树全门禁PASS：type/arch/build、默认1644、Chromium287、G6 159，0跳过；含web-skills的双完整SHA与增量新增产品扫描0。9856真实DOM/HAR红→绿，终端扫描1→0且20:30原响应提取成立；PENDING稳定/未确认控件/默认控件检查保持，最终来源谓词与整列表范围逐字不变。分类/动作文案只验证接线，不声称真实模型导航已修。首次稀疏检出缺材料失败原样保留，恢复同提交材料后全绿。主草稿/四账本/9856证据哈希一致；0Live/0GET/0真实模型，仅分支待复核，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/terminal-observe-20261113/report.md)。
+
+<a id="party-category-20261113"></a>
+
+2026-11-13 CET — draft / not integrated：人数来源响应独立进度与分类objective四文件最小修复。原可见选态解析逐字导出复用；最终库存complete、CapturedSlots、observedDate、ground及整列表范围校验不变。源码ea93f6c4净树全门禁PASS：type/arch/build、默认1632、Chromium286、G6 159；定向26与真实两店组件2通过，双完整SHA及增量新增产品扫描0。真实DOM/HAR先红后绿，人数确认后转日历，未构造未来日期/库存；objective仅请求输入验证，真实模型遵循待验。主草稿及6账本哈希不变，0Live/0GET/0真实模型；不合main、不跑held-out。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/party-category-20261113/report.md)。
+
+<a id="r2-scope-20261112"></a>
+
+2026-11-12 CET — draft / not integrated：r2请求范围修复源码e4cfacac净树门禁全绿（默认1627、Chromium284、G6 159，含D4/D8/D02V/同店合并）；双完整SHA产品扫描0。地点/父类/单卡/菜单不能证明请求菜系已作用于整列表，仅当前query/title/可见h1可接纳；Prompt27不指定分类路径。真实r2+B录制红绿、精确列表→原身份→来源直达→查位组件通过；跨录制组件不冒充完整Replay/Live。承接通用推进a9b1fad8，原45/90s与权限/预算不变；0外部调用，主草稿/四账本不变。真实模型导航稳定性与净成本待验证；原r2失败/评价保留，不合main。[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/r2-scope-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：请求菜系发现必须有整个结果范围的query/title/visible h1证据；仅地点、单卡分类或展开菜单不再完成。B真实精确目录→NativeSearch→原身份核对→直达URI/零名称检索组件通过，跨录制/构造导航边界明确，不作Live验收。推进能力沿用前一候选，原生目录空位表单接线未扩展；待全门禁复核。
+
+2026-11-12 CET — draft / not integrated：通用推进动作允许模型指定独立值域组，复用既有权威动作匹配，中间无模型、无自动选择/完成。真实D02V人数与日历组件验证；事件监听器缺失处仅加载原动作对应的下一原始DOM，不造响应，未证明当前网站稳定性。Guard/身份/库存/G1不变，0Live/0GET/0真实模型。源码b18a6343净树type/arch/build及默认1621、Chromium284/G6 159全绿，双基线扫描0。D02V原DOM/HAR计时5→4模型、44.508→41.870秒仅组件投影，真实模型/新Live待验证。记录索引：[manifest](../../src/harness/browser/fixtures/advance-control/manifest.json)，[简报](https://github.com/wzhgogogo/Praxis/blob/f8484fd32050fb47a9e577dd8b70c640839851ca/.eval-artifacts/phase3b/advance-control-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：原生/Google候选在既有发现入口复用已读详情的原身份核对器，仅HIGH同来源店铺标识且无冲突才合并；保留来源佐证，不新增请求。r1真实组件证明一次库存/一候选/一B1，03/07候选池回归不变；完整门禁通过但修后无新Live。r1独立补评通过、重复展示缺陷保留，原自动评价未覆盖。[简报](https://github.com/wzhgogogo/Praxis/blob/4eb7900d7345e3cbb6d990477fecaaedc624b033/.eval-artifacts/phase3b/seed-same-outlet-merge-20261112/report.md)。
+
+2026-11-12 CET — draft / not integrated：同店候选合并修复。既有发现去重未使用来源身份核对；新路径复用本次已解析详情和来源包原身份核对器，双方HIGH且同provider/sourceEntityId、无已核实身份冲突才合并，原生导航及Google佐证保留；无额外网络/模型。r1真实候选/详情投影组件修前5红、修后初步全绿；03r1/r2、07r1/r3合并步骤组件原交付保留。待同SHA全门禁与独立r1补评，不合main、不跑r2。
+
+2026-11-12 CET — draft / not integrated：名称搜索复用COMPLETED快照，非busy结果不重复采样；LOCATION填写权威label、queryLabel保留目录锚定，Prompt25补通用父区一致与可见回退。仅离线组件及全门禁验证；Sumika8人仍未验证，满天8人计时为组件投影；无新增Live能力结论。见[简报](https://github.com/wzhgogogo/Praxis/blob/0f8fcfa7b3973450b0992ba46ed66285128ef6bb/.eval-artifacts/phase3b/seed-d02v-location-snapshot-20261112/report.md)。
+
+2026-11-11 CET — 用户批准seed discovery/settle代码整合主线；离线组件证据见bd01a402分支。新的D02-V 8人翻页/直达及07重验尚待本轮Live，不把组件通过当作当前来源已验收。
+
+2026-11-11 CET — draft / not integrated：Tabelog原生目录完整录制上，queryLabel补齐地名锚定，分类字面相关度排序后Sumika在原上限内保留已观察直达URI；PENDING身份页至查位仅一次控件扫描。仅离线组件，当前日期/8人/20:30修后Live仍未验证。07纯地点关键字结果的范围拒绝只有元数据构造组件（原DOM拒录）；不冒充真实DOM回放。
+
+> 2026-11-11 CET draft / not integrated：Tabelog观察复用候选仅经真实DOM/HAR组件回放；45s不变，Manten12-10/8人/20:30组件完成；Sumika真实部分录制仍不满足8人，保持UNKNOWN。未新增Live能力结论。
+
+2026-11-11 CET — 用户复核接受种子前A1–A4工作分支84d70fb2（源码f385191e）：允许从main249826cc快进合入；产品源码不改，原同SHA完整门禁1586/Chromium279+G6 154/strictG2全12复用。下一步仅eval选择03/07各2次开发检查，旧R2结果/账本保持；新账本继承30/154/2092，剩余6Live/66GET/708模型，其中2Live留D02。前端slice2需同步main并重跑冒烟。真实调用尚未新增。
+
+2026-11-11 CET — 用户03:28 CET签收3b：R2标准1查位、2 B1、4安全通过，标准3 G1未达，列为种子用户前阻塞；R2结果完整保留在证据分支codex/heldout-r2-evidence-09@ac980ef2，18次最终均已评价、s0=0（9合格交付/3交付不合格/3诚实无结果/3能力未命中，严格按冻结标准）。七用例已暴露，可用录制开发，私有题面仍不人工读。当前工作分支候选A1–A4：核对入口重置、同run HIGH唯一已读来源页进入G1、响应确认日期/人数后避免重复选择、自然结果摘要/官网HTTPS优先/来源分类并列。仅组件/本地Chromium验证，不代表修后Live成本或真实10人已通过；源码f385191e同SHA净树全门禁通过（默认1586/Chromium279+G6 154/strictG2全12），扫描9条均通用或夹具，待复核，不合main、不调用真实来源。余额6Live/66GET/708模型不动。[本轮报告](../../.eval-artifacts/phase3b/seed-readiness-20261111/report.md)。
+
+2026-11-10 CET — 用户真实浏览器核对D01 Bar014与D02 Sumika的B1均正确；D01/D02独立补评均QUALIFIED_DELIVERY/s0=0，D02五时段经同源原链接/后验和资格审查。仅作为已暴露开发检查，不代表Clean Holdout通过。R2尚未运行。
+
+2026-11-10 CET — B1多时段评测修复e373d557净树全门禁PASS：type/arch/default1571/build/Chromium274+G6 115/strictG2全12、scan0、产品diff0。按offerId或精确日期/时间/人数唯一配对，重复/伪造原链接仍S0；来源日历按店/日/人数及原返回链接核对。D02离线recovery-2为PENDING_REVIEW/s0=0/stopBatch=false，仅资格注释待复核；5B1均逐字存在svt1900/6人原响应。D01/D8结论不变，旧failure/s0=9保留；真实调用0，原425/账本保持。先main发布再按用户文件原样入库R2承诺，停止不跑held-out。[报告](../../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。
+
+2026-11-10 CET — eval后验分组源码f215d59d净树全门禁通过：type/arch/default1571/build/Chromium274+G6 107/strictG2全12，写死扫描0、产品diff0。店/日/人数每组1GET，最多2；第三NOT_EXECUTED而非异常，缺证仍不伪造PASS。D01审核072ddab5补评QUALIFIED_DELIVERY/s0=0；D02两份原响应离线恢复5后验PASS，但旧B1多时段绑定仍报9项S0检查，NOT_EVALUATED/stopBatch=true，原failure保留、未改合同消除报错，停止等待复核。新真实调用0，开发账本12/86/1410与原425/871文件均未变。[一页报告](../../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
+
+2026-11-10 CET — 三卡点修复后main38479f8b开发检查已结束：D01首轮22模型/66.9秒交付Bar014+B1、追问9/33.6保留，PENDING_REVIEW；D02决策22以Sumika自己的Robatayaki分类引用完成HARD，47/156.5秒交付同店5时段+B1，但后验循环第三时段触及每例3GET上限，发送前拒绝，FAILED/无正式评价。未补读/补评/重跑，不报通过率。独立边界128/128、200/200通过；原生候选均0，核对成本改善仅组件验证。新增2Live/13GET/78模型，累计12/26、86/126、1410/2500，原425/871文件/账本未变；停止不进held-out。[一页报告](../../.eval-artifacts/phase3b/category-discovery-cost-20261110/report.md)。
+
+2026-11-10 CET — 源码8ca251f8净树全门禁PASS：默认1571、Chromium274+G6 103、strictG2全12及type/arch/build；D4/D8回归保持。CATEGORY同源HIGH逐字证明进入原语义判断，实际引用带evidenceId/provider/observedAt进入独立评测；独立frame readAt保持，首轮D4时间绑定失败原样保留并修复。可见列表范围引用、Google同批补充/保守去重/菜系线索优先、已有分类免重复FACTS及一次菜单交接已组件验证，真实改善待本轮D01/D02各一次。扫描3条通用归一化，无站点/菜系写死。预算/身份/Guard/G1不变，原425暂停状态保持；新增真实调用0。按授权main发布后冻结运行。[报告](../../.eval-artifacts/phase3b/category-discovery-cost-20261110/offline-report.md)。
+
+2026-11-10 CET — draft / not integrated：同店同次读取HIGH且逐字存在于捕获页的CATEGORY进入同一语义判断，引用原evidenceId并进入独立qualificationClaims；无菜系词表。原生发现可引用当前可见范围控件，未引用仍可用但后排；原生批次后立即补计划中的Google来源，保守去重，代码按来源菜系线索排序。已有分类可免重复FACTS浏览；未核身份的菜单路由只交接、不产生事实并停止重复跳转。记录组件绿，预算/Guard/G1/身份不变；待冻结完整门禁与D01/D02各一次，原425暂停状态保持。[计划](../../.eval-artifacts/phase3b/category-discovery-cost-20261110/plan.md)。
+
 2026-11-09 — G1一次观察修复c0b5e4f4全门禁通过，按本轮授权纳入main；初次语言读取与reserve规则保留，未完成采集保留PENDING再观察一次，随后G1按原规则拒答或引用。真实D4/D8 DOM仅组件回归，刷新完整性与模型是LOCAL_CONSTRUCTION；真实问答/条款能力仍未验证，历史失败保留。[报告](../../.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/report.md)。
 
 2026-11-09 — draft / not integrated：G1页面提问与条款现在可对不完整的原生店页缓存重新观察一次；同页零导航，否则只读取绑定URL并重新核对实体，不改变Guard、时限和完整性判定。D4 PRIVATE_ROOM真实DOM组件给出逐字引用，D8条款真实DOM组件完整时NOT_STATED，仍PENDING无模型答复；完整性刷新/时钟/会话/回答均LOCAL_CONSTRUCTION，实际来源问答/条款Live仍未验证，不关闭历史失败。待全门禁。[本轮计划](../../.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/plan.md)。
@@ -136,10 +188,10 @@ The dated rows below are retrospective checkpoints; superseded shortcut/URL beha
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.130
+- Document revision: 1.131
 
 
-- Last updated: 2026-11-04
+- Last updated: 2026-11-21
 - Source of truth for: 外部平台可用能力、证据和限制
 
 2026-11-06 CET — draft / not integrated query-evidence repair: named searches bind their current guarded GET receipt to the result document and normalized query, including script-populated hidden fields; visible-input names are not authority. The observation loop stops at lists. TableCheck identity retrieval receives accepted full target wording and may advance only its existing single fragment alternative; source/identity/detail/time limits unchanged. G1 refreshes pending caches within its original question budget. Real recorded-observation component red/green passes; full result HTML is absent, broader replays have recording gaps and the first actual model validation failed NETWORK. No new Live capability claim. [Candidate report](../../.eval-artifacts/phase3b/d8-query-receipts-20261106/report.md).
@@ -197,6 +249,24 @@ P2-1第一段增加 eval-only 首批发现探测入口，真实来源观察、�
 |---|---|---|---|---|---|---|---|
 | DeepSeek API | — | — | Tool Call提议 | — | 仅辅助抽取 | — | `verified`连接；Semantic与Agent使用Beta strict function。strict wire object的所有字段均为required并关闭additional properties，Domain再恢复canonical可选字段；non-blank等其余规则由本地Validator保证。安全诊断保留status/request ID/code/type/脱敏message；传输错误仅保留已知cause code（不保留原始异常文本），正文读取失败与JSON格式失败分开，模型不直接执行工具或写状态 |
 | Google Places API (New) | Live Text／Nearby Search Discovery（10月8日开发矩阵读取）；已知Place ID的Place Details事实重读（代码实现；尚待本切片Live实测） | 无库存；可返回常规营业时段及网站指针 | 否 | 否 | 否 | 否 | `verified`官方HTTP/FieldMask契约；Praxis只请求最小字段、结构化address components、电话、类型、`regularOpeningHours`及Place Details的`websiteUri`。命名“附近”地点先在同一run额度内解析坐标，再以记录的半径距离判断；只有多个同名坐标结果才请求消歧。事实重读只用已保存Place ID，不以名称再次搜索；命名地点解析、Discovery和Details在同一持久task run累计请求且按三类导出，失败的已发送请求也计数，不同task run隔离。调试用本地请求上限不等于Google账户配额：本地耗尽、429限流、403配额或权限拒绝及网络失败以不同稳定码保存。`websiteUri`只是Google列出的网站指针，不是Google Maps URL、更不是官方事实或页面内容。UNKNOWN不会变成无位；常规营业时段不能表示当前营业、特殊日期营业或有桌；内容保存和展示仍受Google政策限制 |
+
+### On-demand candidate display photos (work branch, 2026-11-17)
+
+Round-3 current offline contract:Google is strictly demand-loaded, never prefetched. Card views read cover only. About/open viewer may warm exactly the next photo only when its DTO explicitly says provider=WEBSITE and the current main image has loaded; unknown providers fail closed. Warm-up callbacks cannot cascade or change failure/counter state, and stale/closed views cannot start another warm-up. Google media cap20 covers all8 images at16 API+CDN dispatches, with4 spare for redirects/bad-image isolation; Details1/website pages2/images10 are unchanged. This round runs only offline contracts, Chromium and Fixture visuals; no new Live capability claim. Prior G1's "up to 20 people" clause was not present in its three citation texts and remains unverified by them.
+
+Round-3 frozen evidence `98a6dc4b1d449880af6f92fdb098f3364299c75a`:all five offline gates,18 photo contracts,11 photo Chromium tests (including the2 new journeys), and original16 visual cases pass. Normal Google8/8 uses exact Details1/media16; redirect send21 is refused at20; website source next-image download once and failed warm-up isolation pass. No Live rerun. [Offline report](../../.eval-artifacts/3c-unified-20261117/round-3/REPORT.md).
+
+
+
+Round-2 evidence (work branch `ea7b20c6eaf842a3d365784f529b543f23218ed2`, not Clean Baseline):all five offline gates and16 formal visual cases pass. A single public Shinjuku Live candidate displays one Google Maps photo with complete returned author credit in cover/About/viewer; gallery lists8, actual distinct contentHTTP200 images1. PhotoDetails1/media includingCDN2/website fallbackpages0/images0, separate from searchGoogle3/model15 and G1model1. Tabelog supplies G1/B1; departure201/SQL matches and real booking navigation is blocked. Website-photo fallback and other gallery items were not Live-loaded. CLI independent qualification/S0 remain NOT_EVALUATED and S1 PRESENT for missing independent source support; no broader source-quality claim. [Report](../../.eval-artifacts/3c-unified-20261117/round-2/REPORT.md).
+
+
+Search `GOOGLE_PLACES_RESTAURANT_FIELD_MASK` is unchanged and never requests `places.photos`. An authenticated Case/candidate `/photos?scope=cover|gallery` read can use only its existing `sourceIds.googlePlaces`; there is no name-based photo search. Separate Place Details requests exactly `id,photos` ([official field/SKU matrix](https://developers.google.com/maps/documentation/places/web-service/data-fields)). Existing `googleMapsUri` is reused and all returned author attributions accompany each displayed image. Sized Media reads use `maxWidthPx=1600` and `skipHttpRedirect=true`; the API key stays on the Google API origin and is never sent to the returned CDN. Both API and CDN dispatches use the configured Google API proxy. [Official photo contract](https://developers.google.com/maps/documentation/places/web-service/place-photos).
+
+Material is ephemeral, Case/candidate-scoped memory for the current display, shared by cover/gallery; not State, PostgreSQL or disk, and not a shared cross-candidate Google cache. Google bytes are decoded for validation and served in the original JPEG/PNG/WebP format. Missing ID, empty list, read error or actual cover download/decode failure invokes the existing bound `RestaurantWebsitePhotos` source selection. Website reads retain their identity binding, public-address/DNS checks, validated WebP output and maximum eight distinct images; no new serial provider retry chain. Individual gallery errors are isolated.
+
+Per display hard dispatch ceilings, including redirects: Details 1, Google media/API/CDN 20, website pages 2, website image GETs 10. These counters are separate from search Google/model/browser budgets and cannot assert total backend website traffic or real side effects. Endpoints authenticate ownership before reading, accept no arbitrary source URL and serve image bytes only through the local server. Harness: `restaurant-photos/display-photos.test.ts`, `public-photo-http.test.ts`, `website-photos.test.ts`; real Chromium HTTP/SSE: `harness/browser/restaurant-photos.test.ts` and the frozen unified visual smoke. These are offline synthetic contract evidence; actual source availability and quality require the separately bounded Live case.
+
 | Cloudflare Browser Run | 浏览器基础设施（代码实现；一次live会话建立失败已记录） | 通过受限Browser Executor读取 | 否 | 否 | 否 | 否 | CDP远程浏览器；Kitesurf为首选Beta引擎，发生一次兼容/运行时失败才回退Chromium；不绕过bot challenge。会话未建立的稳定失败为`BROWSER_RUNTIME_FAILED`/`BROWSER_TIMEOUT`，不得伪报为目标网页或门店identity事实 |
 | Local Playwright Chromium | 仅开发/eval浏览器基础设施 | 通过同一受限Browser Executor读取 | 否 | 否 | 否 | 否 | 仅当`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择；不访问Cloudflare、不读取其凭证、不改变Cloudflare AUTO。要求本机已安装Playwright Chromium binary；缺失时稳定`BROWSER_RUNTIME_UNAVAILABLE`，不回退远端Provider。两个eval-only interactive gate同时开启时，headed `launchPersistentContext`固定使用gitignored `.eval-artifacts/local-chromium-profile`，人手验证期间保留同一page/context/browser；正常结束只关闭session，不自动删除profile。共享`browser_read_action@7`可在同一会话回读观察到的 checkbox、range、region scroll、已观察选项和公开搜索输入的精确retrieval expression；等待同时观察可见文本及可见控件的 value/selected/disabled/checked，隐藏分析字段不构成进展；唤醒后仍须重新观察并由来源Adapter绑定结果。modal 背景目标不可执行；已观察`target=_blank`公开链接在同一context切换active page后必须重新观察。选项及导航故障隔离目前只经真实本地Chromium Fixture覆盖，不代表真实来源identity、slot或availability已验证 |
 | Tabelog Web | 来源页；原生发现按受控 Executor 操作，在每个五详情工作块后保留同源未处理入口至十详情／七列表文档／90秒来源上限（地区最多四页，检索最多三页；改写与翻页共享原额度） | 只读开发期Availability Executor（代码实现；页面兼容性部分实测） | 否 | 否 | 否 | Eval-only terminal pause | 仅限Tabelog域名；结果页只接受可识别的restaurant-result链接，relative/canonical outlet URL在门店页补全身份，只有exact phone或name+address可HIGH匹配，已知电话号码冲突直接拒绝；日本显式`+81`号码与国内格式规范后才比较。只接受明确标记available的slot控件。实体非HIGH、CAPTCHA/`Just a moment...` challenge、页面异常、未确认的日期/人数、超时或外部跳转均不是`UNAVAILABLE`；challenge先于identity归类为`BOT_CHALLENGE`。模型的`COMPLETE`仅是请求：来源完成谓词未满足时，Executor在同一会话和原预算内反馈缺口；重复未变化的请求才无进展停止。2026-09-07 H001已读到真实详情，Sushisho Isseki Sancho以exact phone达HIGH，但其availability转至当前不支持的外部预约Provider，因此没有slot或Offer。仅在显式local interactive eval中，adapter发送脱敏`USER_INTERVENTION_REQUIRED`、终端等待用户手动完成站点验证并仅snapshot同一页面；没有CAPTCHA自动化、stealth、自动retry或cookie/token记录。历史eval identity artifact不保存整页HTML；当前受控浏览器诊断仅保存脱敏预约区域结构、完整脱敏控件和被动库存响应允许字段，不保存整页评论/个人资料。Browser会话建立失败不构成实体不确定。生产适用性须经兼容性、可靠性和法律约束单独验证 |
@@ -340,6 +410,8 @@ DeepSeek标准JSON Output只保证生成合法JSON，不接收完整`json_schema
 公开API文档主要覆盖Discovery和Master数据，不能据此声称可查实时空位或直接预约。
 
 ### TableCheck
+
+具名发现时，模型可点击由已安装的只读网络边界保护、可见且可用的无主建议项。标签保留商家、地区和菜系，模型只选择能唯一识别请求门店的一项。点击成功后，须同时满足同标签页路径变化、当前读取范围内动作边界之后完成的已审核动态 GET 回执（HTTP 200）、页面已 SETTLED，才允许交给详情解析。pageId 用于核对同一标签页，不能单独证明同文档 SPA 跳转。Adapter 核实页面身份达到 HIGH 后才进入该店查位。
 
 2026-09-24独立审查补充：已接纳的英文、日文及无语言前缀预约表单统一核对实时日期/人数；控件更新本身不证明库存更新。表单库存仅复用既有同店且绑定日期、人数、时段的来源链接/控件证据，不以合成结果容器属性声明真实站点能力。旧请求、加载中、仅范围外时段或无法证明完整时段的空结果保持UNKNOWN。Adapter回归和真实Chromium本地异步Fixture通过；真实库存及整单仍未证明。[审查](../history/LIVE-PLAYBOOK-INDEPENDENT-REVIEW-2026-09-24.md)。
 
@@ -625,3 +697,51 @@ Status: draft / not integrated. User-approved destination-only NAMESPACED_TOKEN 
 Actual frozen93965f14 source read: catalog200, q/name GET200, destination NAMESPACED_TOKEN admitted, CORS0; one exact full-name option plus two suffixed branches and a listbox. The diagnostic actor incorrectly used substring matching and stopped at4 controls; fixed by exact actionable matching with real-record red4vs1 then green. Original failed execution remains. Newly authorized frozen92e985bc rerun then failed at unchanged20s ENTRY readiness, main script fetch pending/no status; no retry or selected-shop navigation. No source-side cause is established. Text search handoff, dynamic/direct binding and TableCheck B1 remain unverified; no identity/availability/D8 claim.
 
 Recorder now records nonliteral omission reasons and preserves independently sanitized non-document components without upgrading full Replay. First real response gaps: catalog/name/q JSON rejected by unchanged sensitive-key rules, larger legacy JSON by unchanged200000-character cap; OPTIONS remain outside GET/HEAD capture. Three real diagnostic DOMs plus components.har are available; full Replay still `UNCAPTURED_DYNAMIC_RESPONSE`. [Current evidence](../../.eval-artifacts/phase3b/tablecheck-destination-20261107/report.md). New pageGET2 (initial allocation1 plus explicitly approved extra1), model0/Live0; cumulativeGET353/464. D8GET3/Live1 and held-out108GET/18Live untouched. Wait for review and additional source authorization; no main integration or held-out start.
+
+## 2026-11-09 — offline read reliability candidate / held-out paused (CET)
+
+User-approved main integration, sourcecfd5a5ce clean full gates PASS (default1559, Chromium263+G6 89, strictG2 all12, type/arch/build): area candidates omit TableCheck unless a current, same-outlet Google/source-page link points to an existing-pack outlet/entry URL. TABLECHECK_NOT_EVIDENCED consumes no TableCheck operations/models and is a skip. SPECIFIC_OUTLET search and source identity/inventory/B1 checks remain unchanged. Browser entry now permits one retry only for an observed zero-body document transport timeout,10s per document attempt/20s total; partial-static whole-entry reload is superseded. Health retains10s and reports startup/navigation/script phase, document/script status and scrubbed navigation error. Guard methods/origins/paths/headers/admission and G1 remain unchanged. D8 user-verified TableCheck B1 and D4 delivery are historical Live evidence; this candidate has only offline/real-loopback/component coverage, not new current-source certification. Original4256303d held-out state and01/02 baseline retained; next held-out composition requires reviewer decision. [Evidence](../../.eval-artifacts/phase3b/heldout-read-reliability-20261109/report.md).
+
+## 2026-11-09 CET — repair2/3 refinement (current offline baseline)
+
+Final source52f6a11c: clean full gates PASS, default1553/Chromium268+G6 89/strictG2 all12/type/arch/build;10,485,782-byte script completes after15s without10s resource truncation. Supersedes the cfd5a5ce retry/area-routing implementation above. NO_HEADERS (no response headers or body) and existing successful-static5s IDLE_ABORT share one slot, at most2 document requests and20s total. First10s is headers-only;15s body/script loading remains possible under the original20s resource budget. Area candidates skip only existing pack candidatePath NAME_RESOLUTION; SPECIFIC_OUTLET and bound outlet paths retained. TABLECHECK_NOT_EVIDENCED is skippedSources diagnostic, never a provider attempt/failure. No page-link observation in this slice: 有意降低 TableCheck 按名字查找的覆盖率.19 recorded candidate/run rows contain no proven TableCheck-only booking; unknown/notchecked remain unknown. Current-source recovery/coverage improvement unverified; only local Chromium and exposed-record component regressions, original D4/D8 Live evidence unchanged. [Audit/report](../../.eval-artifacts/phase3b/heldout-refinement-20261109/report.md).
+
+## 2026-11-09 CET — exposed D01 runtime check / qualification review stop
+
+Main4b0536c6, product unchanged from accepted52f6a11c. Health four200 completions<10s,13 entry navigations all succeeded/no retry events; live retry recovery remains unobserved. Two unevidenced area candidates skipped TableCheck with skippedSources diagnostics/no provider attempt. D01 Tabelog13198396 date/time/party/B1/terms after followup and228 boundary checks pass, but complete-request independent qualification missing (quotes[]), original G6 NOT_EVALUATED retained. Same-run raw independent review input includes Spanish category and234.58m, not a signed qualification oracle. D02 not executed because frozen G6 stopBatch requires independent review. Original01(1/3)/02(0/3) baseline unchanged, no new qualified-rate claim. Product0 changes; POST no-retry tests and full gates pass, additionalLive1/GET6/models52. [Report](../../.eval-artifacts/phase3b/d01-d02-development-20261109/report.md).
+
+## 2026-11-10 CET — exposed development D01 reviewed / D02 capability miss
+
+D01 same-run reviewer annotations bf1fc489… produce qualified=true/QUALIFIED_DELIVERY/s0=0; original retained. Frozen65b28412 D02 one run has no delivery, independent CAPABILITY_MISS/s0=0,102 boundary PASS, witness before/after available. Area evidence gate skips1 TableCheck name lookup;11 entry successes/no retry event, so no new Live proof of retry recovery. Sumika provides6-person stock18:00..20:00 andCATEGORY Robatayaki, but complete HARD fact proof remains unverified after official-site identity failure; reserve ends read. English menu unverified. No new Live or product fix. Evaluator@6 pending is not qualification; all pending reviews required before aggregate rates; late S0 fails whole batch. Custom commitment and independent interval checks validated, default commitment unchanged. Current descendant budget8/26,49/126,1239/2500; original held-out preserved. [Report](../../.eval-artifacts/phase3b/pending-review-d02-20261110/report.md).
+
+2026-11-10 CET — draft / not integrated: area discovery uses Pack reservationOnly to defer reservation-only discovery until directory/Google batches and existing fact/slot/delivery/reserve gates. Intentionally lower TableCheck area coverage; named-outlet unchanged. Generic no-progress two visible-state stalls ends source incomplete. Offline component evidence only; new D01/D02 Live pending.
+
+2026-11-10 CET — source12deae74 offline checks passed, pending reviewer acceptance: no-progress2/source cursor, stable fields, area ordering and D4/D8 regressions PASS; actual new D01/D02 checks pending. Same-request structural comparison preserves prior checked candidates across deferred empty source batches; identity/availability/G1 thresholds unchanged.
+
+2026-11-10 CET — actual development source12deae74/run9572d99b: area reservation-only discovery deferred in both D01/D02; native directory5/7 model calls (5/0 candidates), generic NO_PROGRESS observed0/2, no entry retries; both failed complete-request delivery despite two AVAILABLE candidates each, s0=0. D01 broad Western list completed before Spanish selection; D02 robatayaki evidence unresolved. Source coverage/cost changed, qualified delivery not improved. Old D4/D8 capabilities remain their historical Live/fixture evidence, not revalidated Live here. Health-only3 real rounds15min apart12/12 complete200<10s. Further held-out remains paused for reviewer decision; no new Live.
+
+### 2026-11-14 CET - disabled-party/phase-window candidate (not integrated)
+
+Actual Saigyo DOM/HAR Chromium component stops at the observed disabled requested count after2 advances, preserves the source-control-limit reason and avoids same-request facts. Date proof uses existing code-confirmed fields, no private-class rule. Non-direct name search and availability each retain45s phases inside one90s candidate with shared model/operation budgets. Direct/identityOnly unchanged. Offline candidate only,0 new external calls; no post-fix Live acceptance claim. Harness: disabled-party-recorded.test.ts, adapter phase/propagation and Domain request-binding regressions.
+
+2026-11-16 CET — Observed ownerless suggestions: protected Discovery exposes visible, enabled, unobstructed non-submitting options. Equal normalized full labels in the same list group suppress all duplicates; hidden/disabled/obstructed copies do not suppress a unique usable option. Owned combobox rules remain unchanged. Same-tab path change + current post-action reviewed GET200 receipt + SETTLED permits handoff only; adapter identity still requires HIGH. Two downstream branch counterexamples pass; 17 Tabelog messages remain byte-identical. Original duplicate failure is preserved. Main/date message hashes remain identical; raw-control suffix construction renumbers opaque refs, so its old hash is not claimed unchanged. Corrected duplicate and suffix serialize identically: the fifth real DeepSeek call chose Search and passed Schema16 for that exact input. Total model calls5/5, website GET0, Live0. Full clean-tree gates and one authorized D8 Live (1Live/8GET/50model/0rerun) remain the release gate.
+
+
+2026-11-18 — draft / not integrated, offline DAYPART grounding: Google discovery/Place Details and identity-bound website facts consume the same current time basis. EVENING/AFTERNOON/AFTER_WORK need a positive intersection with one explicit source interval and record only the supported subset; explicit numeric times retain start<=requestedStart and end>requestedEnd. Sufficient Google hours plus other required facts end the chain without a website fallback. Recorded MIRAI historical-clock counterfactual is exposed development regression, not a new Live claim.
+
+
+### 2026-11-18 — Shared live-read assembly ownership (offline verified)
+
+Draft / not integrated. The same production factory now isolates each Case read with AsyncLocalStorage: Native discovery/retrieval/facts, source availability and post-loop B1 share one run budget; availability executor/ledger/named queries belong to that run. Explicit G1 remains independent and distinct factory instances remain isolated. Same-assembly fixed-transport concurrency and actual persistent B1 composition pass in Round6. This is offline assembly evidence, not new platform Live capability; no new external model/Google/site call or real PostgreSQL connection. [Report](../../.eval-artifacts/3c-unified-20261117/round-6/REPORT.md).
+
+
+### Round20 — Google type admission context (work branch, offline verified)
+
+Normal search, named-outlet lookup and details recheck share selection scope, target query, positive/negative criteria and requested time/basis. Open-ended generic discovery rejects the specified dessert/takeaway/snack/drink-only types without matching intent, including primary/suffix/fallback paths. Mixed dessert/sandwich/takeaway cafes are not generic evening dinners; explicit cafe/dessert requests and specific-outlet lookup remain available. Negative dessert intent is tested separately. Source extraction, request fields/budgets and credentials are unchanged. Harness: read-grounding restricted-type table and observed Age.3 type combination, plus Google adapter normal/named/detail fixture test; no Live claim.
+
+
+### 2026-11-23 — Remote CDP assertion isolation (Round25 offline candidate)
+
+Cloudflare Browser Run now owns each real remote Playwright connection in a separate worker, including context/Guard initialization and all page operations. A malformed duplicate root Target.attachedToTarget terminates that worker and becomes a bounded BrowserRuntimeError; AUTO initialization may open the existing Chromium fallback once. No host uncaughtException handler is installed, no source/network policy is widened, and unrelated host exceptions retain normal fatal behavior. Current inner-session component fixtures share the same Guard/control implementation; the actual worker path is separately exercised by real Playwright against a controlled loopback CDP endpoint, through createLocalWebServer/PGlite in source and freshly built dist hosts. Dist runs after build; CLI FIXTURE startup is not used as evidence. Real remote Cloudflare/CDP and source compatibility remain NOT_EVALUATED.
+
+Round25 photo recovery: production Google media transport distinguishesHTTP404/410 from transient408/429/5xx and invalid formats. Retryable errors do not permanently remove reference IDs; requests still charge before dispatch againstDetails1/media20 and website pages2/images10. Source ref list plus remaining budget are prerequisites for full recovery. A spent failed Details call is not replenished. Local proxy503/410 and metadata-only HEAD support bounded current-album reconnect recovery; no Google prefetch. Harness covers real adapters with fake transport502/404/type failures, persistent-budget stop, successful-cache reads, actual HTTP proxy +Chromium and old bad-image/Lookahead controls.

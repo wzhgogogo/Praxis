@@ -1,0 +1,95 @@
+{
+  "mode": "EXPOSED_DEVELOPMENT_NOT_HOLDOUT",
+  "executionSHA": "65b28412b60862a939298570c5421a77e8890758",
+  "evaluatorSchema": "phase3b-g6-evaluation@6",
+  "D01Supplement": {
+    "status": "EVALUATED",
+    "qualified": true,
+    "outcome": "QUALIFIED_DELIVERY",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "D02": {
+    "verdict": {
+      "status": "EVALUATED",
+      "qualified": false,
+      "outcome": "CAPABILITY_MISS",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "elapsedMs": 164261.14333299999,
+    "turnBudgets": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794275544126,
+        "deadlineAtMs": 1794276044126,
+        "elapsedMs": 163547.80179199998,
+        "modelCalls": 47,
+        "googleRequests": 8,
+        "exceeded500Seconds": false
+      }
+    ],
+    "skippedSources": [
+      {
+        "reason": "TABLECHECK_NOT_EVIDENCED",
+        "provider": "TABLECHECK",
+        "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e"
+      }
+    ],
+    "skippedCount": 1,
+    "entryEventCounts": {
+      "STARTED": 11,
+      "SUCCEEDED": 11
+    },
+    "retryEvents": [],
+    "pendingReviewCount": 0,
+    "softEnglishMenu": "NOT_CHECKED",
+    "witnesses": [
+      {
+        "kind": "BEFORE",
+        "exists": true,
+        "checkedAt": "2026-11-10T01:52:23.418Z"
+      },
+      {
+        "kind": "NO_DELIVERY_AFTER",
+        "exists": true,
+        "checkedAt": "2026-11-10T01:55:08.476Z"
+      }
+    ],
+    "boundaryChecksPassed": 102,
+    "nonPassChecks": [
+      {
+        "rule": "NO_DELIVERY_WITNESS",
+        "status": "FAIL",
+        "severity": "CAPABILITY",
+        "subject": "witness-D02",
+        "reason": "Independently qualified witness still has the slot",
+        "evidenceRefs": [
+          "/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/pending-review-d02-20261110/runtime/D02/D02/witness/002-vacancy.body"
+        ]
+      }
+    ]
+  },
+  "usageIncrement": {
+    "fullLive": 1,
+    "evaluationPublicGET": 6,
+    "realModelCalls": 47
+  },
+  "cumulative": {
+    "fullLive": 8,
+    "evaluationPublicGET": 49,
+    "realModelCalls": 1239,
+    "environmentReruns": 0,
+    "googleRequests": 32,
+    "restaurantWebsiteRequests": 1806
+  },
+  "limits": {
+    "fullLive": 26,
+    "evaluationPublicGET": 126,
+    "realModelCalls": 2500,
+    "environmentReruns": 4
+  },
+  "originalD01EvaluationUnchanged": true
+}

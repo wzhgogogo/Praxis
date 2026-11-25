@@ -1,0 +1,2 @@
+{"case":"explicit date without DATE control","message":"Make it tomorrow at 7 pm.","expected":"2026-11-25","draftDate":"2026-11-25","phase":"PRESENT_RESULTS","dates":["2026-11-25"],"times":["19:00"],"pass":true}
+{"case":"explicit move with omitted DATE","message":"Move it to tomorrow at 7 pm.","expected":"2026-11-25","draftDate":"2026-11-26","phase":"PRESENT_RESULTS","dates":["2026-11-26"],"times":["19:00"],"pass":false}

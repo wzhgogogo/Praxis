@@ -1,0 +1,11 @@
+# 2026-11-09 — held-out read reliability
+
+Status: draft / not integrated. Base main4256303d. Offline only; no source/model/Live calls. User pauses the original held-out batch without invalidating it. Original checkout/run directory/ledger remain byte-identical. Exposed01/02 traces are development regression inputs; no private original or manifest is read or copied, and this work does not restore their clean status.
+
+Slice: make the existing10s health gate diagnose session/navigation/script failures; allow at most one same-URL retry only for a provably zero-body document transport timeout,10s per attempt/20s total; omit unevidenced TableCheck attempts for area candidates while retaining SPECIFIC_OUTLET routing. Identity/Guard/G1 and provider45s/turn500s/50model limits remain unchanged. No alternate provider or speculative health threshold change.
+
+Evidence: actual01-r1/r2 and02-r1..r3 components from evidence05@445603c7; replay retry success uses a same-page recorded response explicitly as a component construction, not observed retry success. Existing D4 delivery/D8 B1 regressions remain mandatory. Missing historical byte observations are UNKNOWN, never proof of zero bytes.401 is investigated as an evidence question separately from its fictional regression fixture.
+
+Coverage: five health phase scenarios incl hanging open and late-session cleanup; actual Chromium zero-byte timeout retry with abort-before-retry, exact URL/two attempts and recording; reject4xx/5xx,partial body,Guard rejection,cancellation and nontransport errors; region candidates without source-bound links skip TableCheck, evidenced and named paths continue. Compare original provider attempt elapsed/model counts per exposed run without claiming end-to-end savings or rerun scores.
+
+Validation: targeted red before implementation, green after; typecheck/architecture/default suite/build/browser fixture/G6/strictG2 and scan-hardcoded.sh. Preserve first failures. Freeze clean source for full gates. Update STATUS/DEVLOG/TEST-LOG/capability matrix and monthly navigation; sync latest main and publish a fast-forward candidate without moving original held-out HEAD. Stop after one-page report; no held-out resume or actual connections.

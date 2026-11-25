@@ -1,0 +1,6 @@
+src/domains/restaurant/contracts.ts:555 [ SITE-BRANCH ]   skippedSources?: Array<{candidateId:string;provider:'TABLECHECK'|'TABELOG';reason:'TABLECHECK_NOT_EVIDENCED'}>;
+src/infrastructure/browser/playwright-entry-navigation.ts:23 [ WORDLIST ]   cdp.on('Network.requestWillBeSent',e=>{if(!this.active)return;this.pending.add(e.requestId);if(!['GET','HEAD','OPTIONS'].includes(e.request.method)||e.redirectResponse)this.unsaf
+src/infrastructure/browser/playwright-entry-navigation.ts:32 [ REGEX ]   if(!this.active||url!==this.currentUrl||!(error instanceof Error)||!/TimeoutError|Timeout .*exceeded|timed out/i.test(error.name+' '+error.message))return;
+src/infrastructure/browser/playwright-read-network-guard.ts:466 [ WORDLIST ]             if(root&&entry&&event.networkId&&method==='GET'&&['script','stylesheet','font','image'].includes(type)
+src/infrastructure/browser/playwright-read-network-guard.ts:467 [ WORDLIST ]               &&!this.queryMetadata(url).queryValues.some(f=>['EQUALS_AUTHORITATIVE_INPUT','PREFIX_OF_AUTHORITATIVE_INPUT'].includes(f.valueClass))
+src/integrations/restaurant-search/source-packs.ts:99 [ SITE-BRANCH ]     areaEvidenceRequired?: {notEvidencedReason: 'TABLECHECK_NOT_EVIDENCED'};

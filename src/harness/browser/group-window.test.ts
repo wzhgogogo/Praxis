@@ -17,7 +17,8 @@ import {tabelogQueryControlHints} from "../../integrations/tabelog/tabelog-query
 const guide="https://www.tablecheck.com/en/window-fixture";
 const identity='<h1>Window fixture</h1><p class="address">1-1 Fixture Street</p><a href="tel:03-1111-2222">Call</a>';
 const candidate={restaurant:{id:"tablecheck:window-fixture",outletName:"Window fixture",address:"1-1 Fixture Street",sourceIds:{tablecheck:"window-fixture",tablecheckNativeGuideUri:guide},provenance:{}},matchReasons:[],warnings:[],executionConfidence:"HIGH" as const};
-const request={candidateIds:[candidate.restaurant.id],candidates:[candidate],date:"2026-11-06",partySize:6,timeWindow:{earliest:"18:00",latest:"20:00"},hardCriteria:[]};
+// A direct named-outlet widget control, not an area-discovery scenario.
+const request={selectionScope:"SPECIFIC_OUTLET" as const,candidateIds:[candidate.restaurant.id],candidates:[candidate],date:"2026-11-06",partySize:6,timeWindow:{earliest:"18:00",latest:"20:00"},hardCriteria:[]};
 async function fixture(html:string, source=guide, extraPages:Record<string,string>={}){
  const directory=await mkdtemp(join(tmpdir(),"praxis-group-window-")),har=join(directory,"source.har");
  await writeFile(har,JSON.stringify({log:{version:"1.2",creator:{name:"offline-group-window",version:"1"},entries:Object.entries({[source]:html,...extraPages}).map(([url,body])=>({startedDateTime:"2026-10-22T00:00:00Z",request:{method:"GET",url,headers:[],queryString:[],cookies:[],httpVersion:"HTTP/1.1",headersSize:-1,bodySize:-1},response:{status:200,statusText:"OK",httpVersion:"HTTP/1.1",headers:[{name:"content-type",value:body.startsWith('{')?"application/json":"text/html"}],content:{text:body,mimeType:body.startsWith('{')?"application/json":"text/html",size:Buffer.byteLength(body)},cookies:[],redirectURL:"",headersSize:-1,bodySize:Buffer.byteLength(body)},cache:{},timings:{send:0,wait:0,receive:0}}))}}));

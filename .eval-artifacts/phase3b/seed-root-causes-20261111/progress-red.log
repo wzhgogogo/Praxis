@@ -1,0 +1,29 @@
+✖ new completion confirmation is verified progress even when DOM and controls are unchanged (18.553708ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 153.344041
+
+✖ failing tests:
+
+test at src/infrastructure/browser/browser-task-executor.test.ts:1:89149
+✖ new completion confirmation is verified progress even when DOM and controls are unchanged (18.553708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-seed-root-cause-fixes/src/infrastructure/browser/browser-task-executor.test.ts:1269:564)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }

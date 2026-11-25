@@ -1,0 +1,549 @@
+{
+  "executionSHA": "9201d40bf5eb2e895041a25f6d15628dd6791415",
+  "sourceVerificationSHA": "bd9fa5c8cda3787b3928eafc2d86f137c390f08b",
+  "stages": {
+    "2A": {
+      "status": "PASS",
+      "terminalPhase": "AWAITING_AUTHORIZATION",
+      "resourceUsage": {
+        "elapsedMs": 44,
+        "agentDecisions": 4
+      },
+      "modelCallsStarted": "NOT_RECORDED_IN_FIXTURE_CLI",
+      "googleRequests": "NO_REAL_GOOGLE_CALLS_FIXTURE_OS_ISOLATED",
+      "sseMessages": 1,
+      "intermediateSseObserved": false,
+      "counts": {
+        "userDemands": 1,
+        "questions": 0,
+        "departures": 0,
+        "refreshes": 0
+      },
+      "wallMs": 1637.269542,
+      "g1Status": "NOT_REQUIRED_FIXTURE_CLI",
+      "g1ReportedModelCalls": null,
+      "g1NewPages": "NOT_MEASURED",
+      "g1CompletionObservedMs": null,
+      "departureStatus": "NOT_REQUIRED",
+      "persistedCaseRows": 1,
+      "eventTypeCounts": [
+        {
+          "event_type": "AVAILABILITY_CHECKED",
+          "count": 1
+        },
+        {
+          "event_type": "BOOKING_PROPOSED",
+          "count": 1
+        },
+        {
+          "event_type": "CANDIDATE_SELECTED",
+          "count": 1
+        },
+        {
+          "event_type": "SEARCH_COMPLETED",
+          "count": 1
+        },
+        {
+          "event_type": "SEMANTIC_PROPOSAL_COMPILED",
+          "count": 1
+        }
+      ],
+      "unexpectedHttp": [],
+      "pageErrors": [],
+      "expectedBootstrap401": 1,
+      "serverShutdown": [
+        0,
+        null
+      ]
+    },
+    "2B": {
+      "status": "PASS",
+      "terminalPhase": "PRESENT_RESULTS",
+      "resourceUsage": {
+        "elapsedMs": 266828,
+        "agentDecisions": 7,
+        "googleRequests": {
+          "limit": 100,
+          "total": 5,
+          "discovery": 2,
+          "placeDetails": 2,
+          "namedPlaceResolution": 1,
+          "reverseAddressObservation": 0
+        },
+        "modelCallsStarted": 47
+      },
+      "modelCallsStarted": 47,
+      "googleRequests": {
+        "limit": 100,
+        "total": 5,
+        "discovery": 2,
+        "placeDetails": 2,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "sseMessages": 12,
+      "intermediateSseObserved": true,
+      "counts": {
+        "userDemands": 1,
+        "questions": 1,
+        "departures": 1,
+        "refreshes": 0
+      },
+      "wallMs": 272042.397084,
+      "g1Status": "ANSWERED",
+      "g1ReportedModelCalls": 1,
+      "g1NewPages": "NOT_MEASURED",
+      "g1CompletionObservedMs": 2339,
+      "departureStatus": "RECORDED_AND_INTERCEPTED",
+      "persistedCaseRows": 1,
+      "eventTypeCounts": [
+        {
+          "event_type": "AVAILABILITY_CHECKED",
+          "count": 3
+        },
+        {
+          "event_type": "CANDIDATE_FACTS_CHECKED",
+          "count": 1
+        },
+        {
+          "event_type": "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED",
+          "count": 1
+        },
+        {
+          "event_type": "PAGE_QUESTION_COMPLETED",
+          "count": 1
+        },
+        {
+          "event_type": "PAGE_QUESTION_REQUESTED",
+          "count": 1
+        },
+        {
+          "event_type": "RESULTS_PRESENTED",
+          "count": 1
+        },
+        {
+          "event_type": "SEARCH_COMPLETED",
+          "count": 1
+        },
+        {
+          "event_type": "SEMANTIC_PROPOSAL_COMPILED",
+          "count": 1
+        }
+      ],
+      "unexpectedHttp": [],
+      "pageErrors": [],
+      "expectedBootstrap401": 1,
+      "serverShutdown": [
+        0,
+        null
+      ],
+      "presentation": [
+        {
+          "candidateId": "praxis:restaurant:fc747ae09de4b8ce5f0f69d3",
+          "name": "Sushi Tempura iwai in Ginza",
+          "offers": [
+            {
+              "id": "offer:tabelog:praxis:restaurant:fc747ae09de4b8ce5f0f69d3:2026-11-19:20:00:2",
+              "source": "TABELOG",
+              "dateTime": "2026-11-19T20:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-11-17T03:14:00.114Z",
+              "expiresAt": "2026-11-17T03:14:00.114Z",
+              "partySize": 2,
+              "bookingMode": "REQUEST",
+              "restaurantId": "praxis:restaurant:fc747ae09de4b8ce5f0f69d3",
+              "executionMode": "BROWSER",
+              "displayExpiresAt": "2026-11-17T03:24:00.114Z",
+              "bookingRecheckRequired": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "safety": {
+    "externalSideEffectCount": "NOT_MEASURED",
+    "backendWebsiteRequests": "NOT_MEASURED",
+    "independentS0": "NOT_EVALUATED"
+  },
+  "artifactDiagnostics": [
+    {
+      "stage": "2A",
+      "file": "2026-11-17T03-08-38-698Z-67fda421-c981-4959-8963-aaa543748f48.result.evaluation.37-1794884918702.json",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "No qualified delivery or independently sufficient no-result/cause oracle; no witness means no CAPABILITY_MISS."
+        ],
+        "evidenceRefs": [
+          "trajectories",
+          "finalSnapshot"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Saved final state and executed trajectories record no positive restaurant delivery claim.",
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState",
+            "trajectories",
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No independently established unmet user-need conclusion."
+          ],
+          "evidenceRefs": []
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "ABSENT",
+          "reasons": [
+            "Saved final state and executed trajectories record no positive restaurant delivery claim."
+          ],
+          "evidenceRefs": [
+            "finalSnapshot.domainState",
+            "trajectories"
+          ]
+        },
+        "S0_BOUNDARY": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": [
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "run",
+              "missing": [
+                "network request records"
+              ],
+              "evidenceRefs": [
+                "browserTrace.networkRequests"
+              ]
+            },
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "session",
+              "missing": [
+                "recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "browserTrace.SESSION_OPENED"
+              ]
+            }
+          ]
+        }
+      },
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "stage": "2B",
+      "file": "2026-11-17T03-14-06-545Z-b755c98a-9a7f-4ac7-a35e-1cecfa55a150.result.evaluation.37-1794885246561.json",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Displayed claim lacks complete independent request/source/execution support.",
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "PRESENT",
+          "reasons": [
+            "A displayed MET condition lacks independent source evidence; this is S1, not an independently established S0."
+          ],
+          "evidenceRefs": [
+            "presentedResults.conditionStates"
+          ]
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Displayed claim lacks complete independent request/source/execution support."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_BOUNDARY": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": [
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "run",
+              "missing": [
+                "network request records"
+              ],
+              "evidenceRefs": [
+                "browserTrace.networkRequests"
+              ]
+            },
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "session",
+              "missing": [
+                "recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "browserTrace.SESSION_OPENED"
+              ]
+            }
+          ]
+        }
+      },
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    },
+    {
+      "stage": "2B",
+      "file": "2026-11-17T03-14-10-103Z-9732d011-1e4a-448a-9308-0550609c953f.result.evaluation.37-1794885250119.json",
+      "outcome": {
+        "type": "NOT_EVALUATED",
+        "reasons": [
+          "Presentation exists but request equivalence or original support is not independently evaluated."
+        ],
+        "evidenceRefs": [
+          "loop",
+          "finalSnapshot.domainState.presentedResults",
+          "finalSnapshot.domainState.availability",
+          "finalSnapshot.domainState.readEvidence"
+        ],
+        "capabilityDenominator": "NOT_EVALUATED",
+        "userGoalComplete": "NOT_EVALUATED"
+      },
+      "severity": {
+        "S0": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Displayed claim lacks complete independent request/source/execution support.",
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ]
+        },
+        "S1": {
+          "status": "PRESENT",
+          "reasons": [
+            "A displayed MET condition lacks independent source evidence; this is S1, not an independently established S0."
+          ],
+          "evidenceRefs": [
+            "presentedResults.conditionStates"
+          ]
+        },
+        "S2": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "No valid independent feasible witness supplied."
+          ],
+          "evidenceRefs": []
+        },
+        "S3": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Experience/latency thresholds belong to E2; not scored here."
+          ],
+          "evidenceRefs": []
+        },
+        "S4": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "User-invisible retry effects are not independently established."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_DECLARATION": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "Displayed claim lacks complete independent request/source/execution support."
+          ],
+          "evidenceRefs": []
+        },
+        "S0_BOUNDARY": {
+          "status": "NOT_EVALUATED",
+          "reasons": [
+            "EVIDENCE_GAP: run: missing network request records",
+            "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "docs/decisions/0036-generic-public-read-network-policy.md",
+            "docs/decisions/0035-browser-read-network-boundary.md"
+          ],
+          "gaps": [
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "run",
+              "missing": [
+                "network request records"
+              ],
+              "evidenceRefs": [
+                "browserTrace.networkRequests"
+              ]
+            },
+            {
+              "kind": "EVIDENCE_GAP",
+              "request": "session",
+              "missing": [
+                "recorded network-boundary installation"
+              ],
+              "evidenceRefs": [
+                "browserTrace.SESSION_OPENED"
+              ]
+            }
+          ]
+        }
+      },
+      "unassessedDimensions": [
+        "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+        "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+        "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+        "Cost is not inferred without explicit configured price inputs.",
+        "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "path": ".eval-artifacts/3c-step2-20261117/2A/01-authenticated.png",
+      "sha256": "e848920c871d1ba8e83e210d209edaf5a0717203566e023d379842352a4114ea",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "path": ".eval-artifacts/3c-step2-20261117/2A/02-request-started.png",
+      "sha256": "a263154879a8d2d37bb4dd220617d4ebf297d54a90aca76b95865263f97d75ad",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "path": ".eval-artifacts/3c-step2-20261117/2A/03-search-finished.png",
+      "sha256": "a263154879a8d2d37bb4dd220617d4ebf297d54a90aca76b95865263f97d75ad",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "path": ".eval-artifacts/3c-step2-20261117/2B/01-authenticated.png",
+      "sha256": "484aef9cbd89c26e4b8582fd379950429810b9fe499e41a24cd705839aa46aee",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "path": ".eval-artifacts/3c-step2-20261117/2B/02-request-started.png",
+      "sha256": "e2e6ba50d00f266541b518f6a9962b187a5bc6c771143973323f8f42bc1f323f",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "path": ".eval-artifacts/3c-step2-20261117/2B/03-search-finished.png",
+      "sha256": "860e462af2faafdf05d38548abf25dcf57275c817bb104e6078d0334cca7141b",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "path": ".eval-artifacts/3c-step2-20261117/2B/04-g1-answer.png",
+      "sha256": "307ca28e8f3cfaecb0bff5c4e3f5aec9007c2b9b9036e376c57a08aaeab771bc",
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "path": ".eval-artifacts/3c-step2-20261117/2B/05-handoff.png",
+      "sha256": "624397129774ecce219d2300d50a3055b3a7dbe72ee39ea4f31ec5ef95e752e4",
+      "width": 1280,
+      "height": 900
+    }
+  ]
+}

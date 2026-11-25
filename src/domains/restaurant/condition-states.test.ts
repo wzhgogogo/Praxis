@@ -38,7 +38,7 @@ test("structured per-person cap has a HARD condition row with current quoted pri
  const conditions=assessRestaurantConditions(capped,[priced(7000)]);
  assert.equal(conditions.length,2,"a structured cap must not disappear outside intent.criteria");
  const budget=conditions[1]!;assert.equal(budget.criterionRef,"criterion:1");assert.equal(budget.strength,"HARD");assert.equal(budget.polarity,"POSITIVE");assert.equal(budget.status,"MET");
- assert.deepEqual(budget.sources,[{field:"PRICE",quote:"Dinner course JPY 7000 including tax",sourceUrl:url}]);
+ assert.deepEqual(budget.sources,[{field:"PRICE",quote:"Dinner course JPY 7000 including tax",sourceUrl:url,evidenceId:"merchant"}]);
  assert.equal(assessRestaurantConditions(capped,[priced(9000)])[1]?.status,"NOT_MET");
  assert.equal(assessRestaurantConditions(capped,[priced()])[1]?.status,"NOT_CHECKED");
  assert.equal(assessRestaurantConditions(capped,[priced(2000,"LUNCH")])[1]?.status,"NOT_CHECKED","a lunch price cannot establish a dinner cap");
@@ -59,7 +59,7 @@ test("a generic food descriptor uses the same explicit merchant category without
  const current=fact([source("CATEGORY","Regional, Noodles")],"regional food");
  const shown=assessRestaurantConditions({...intent,criteria},[current])[0]!;
  assert.equal(shown.status,"MET");
- assert.deepEqual(shown.sources,[source("CATEGORY","Regional, Noodles")],"display the actual merchant field, never a quote assembled from the request");
+ assert.deepEqual(shown.sources,[{...source("CATEGORY","Regional, Noodles"),evidenceId:"merchant"}],"display the actual merchant field, never a quote assembled from the request");
  for(const field of ["NAME","CUSTOMER_REVIEW"]){
   assert.equal(assessRestaurantConditions({...intent,criteria},[fact([source(field,"Regional")],"regional food")])[0]?.status,field === "NAME" ? "MET" : "NOT_CHECKED");
  }
@@ -125,4 +125,19 @@ test("quoted budget applicability keeps request-bound party, meal, weekday/date 
  assert.equal(assessRestaurantConditions(withoutTime, [priced("")])[0]?.status, "NOT_CHECKED", "a meal-labelled price needs a requested meal");
  assert.equal(assessRestaurantConditions(request, [priced("For parties of 4 or more."), priced("")])[0]?.status, "MET", "an independent applicable price is retained");
  assert.equal(assessRestaurantConditions(request, [priced("For parties of 4 or more."), priced("", 9000)])[0]?.status, "NOT_MET", "the inapplicable cheap quote cannot override an applicable over-cap quote");
+});
+
+test('Round24 U1 every displayed quote carries its originating evidence ID',()=>{
+ const first={...fact([source('COURSE_TITLE','Omakase dinner course')]),evidenceId:'first'},second={...fact([source('COURSE_TITLE','Omakase tasting course')]),evidenceId:'second'};
+ const rows=assessRestaurantConditions(intent,[first,second]);assert.deepEqual(rows[0]!.sources.map(q=>Reflect.get(q,'evidenceId')),['first','second']);
+ const price={...fact([]),evidenceId:'price-evidence',priceFacts:{schemaVersion:'restaurant-price-facts@1' as const,listedCoursePricesYen:[{amount:8000,kind:'MEAL' as const,meal:'DINNER' as const,tax:'INCLUDED' as const,quote:'Dinner course JPY 8000',sourceUrl:url}]}};
+ const budget=assessRestaurantConditions({...intent,criteria:[],budgetPerPerson:{max:9000,currency:'JPY'}},[price]);assert.equal(Reflect.get(budget[0]!.sources[0]!,'evidenceId'),'price-evidence');
+ const weak=assessRestaurantConditions({...intent,criteria:[{text:'unrecorded',strength:'SOFT',polarity:'POSITIVE'}]},[{...first,claims:{verifiedHardCriteria:['unrecorded']}}]);assert.deepEqual(weak[0]!.sources.map(q=>Reflect.get(q,'evidenceId')),['first']);
+});
+
+test('Round25 R5 weak merchant quotes carry their actual evidence IDs through model indirection',()=>{
+ const merchant={...fact([source('SOURCE_TEXT','Small dining room.')],'quiet'),claims:{}};
+ const model:RestaurantReadEvidence={...merchant,evidenceId:'judgment',provider:'MODEL_JUDGMENT',sourceFieldQuotes:[],claims:{verifiedHardCriteria:['quiet'],supportingEvidenceIds:[merchant.evidenceId]}};
+ const [row]=assessRestaurantConditions({criteria:[{text:'quiet',polarity:'POSITIVE',strength:'SOFT'}]},[merchant,model]);
+ assert.equal(row!.status,'NOT_CHECKED');assert.equal(row!.sources[0]!.quote,'Small dining room.');assert.equal(row!.sources[0]!.evidenceId,'merchant');assert.ok(row!.evidenceIds.includes('merchant'));assert.ok(row!.evidenceIds.includes('judgment'));
 });

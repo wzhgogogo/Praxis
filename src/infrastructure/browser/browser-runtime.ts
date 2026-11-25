@@ -110,10 +110,14 @@ export interface BrowserSettlementDiagnostics {
   oldestPendingMs: number;
   blockingDataRequests: number;
   busySelectors: string[];
+  /** Current full-DOM blockers of merchant prose; preview-only decoration is excluded before truncation. */
+  contentBusySelectors?: string[];
   visibleTextChanging: boolean;
 }
 
 export interface BrowserSnapshot {
+  /** Passive rendered image attributes; never a fact or availability claim. */
+  images?: Array<{src:string;srcset:string;lazySrc:string;currentSrc:string;width:number;height:number}>;
   /** Runtime-owned loading feedback; PENDING is never inventory completion evidence. */
   settlement?: "SETTLED" | "PENDING";
   /** Current URL categories from this read, including authoritative-value collisions. */
@@ -212,6 +216,8 @@ export interface BrowserPageControl {
   /** A custom role=option is actionable only when bound to an observed combobox. */
   optionOwnerId?: string;
   controlledListboxId?: string;
+  /** Public state of this same DOM combobox; native value is never replaced. */
+  selectionReadback?: {menuClosed: boolean; displayRequired?: true; displayText?: string};
 }
 
 export interface BrowserCalendarMonth {
@@ -238,13 +244,14 @@ export interface BrowserActionOptions { timeoutMs?: number; inputSource?: Browse
 
 export interface BrowserEntryNavigationEvent {
   attempt:1|2;retryCount:0|1;
-  event:"STARTED"|"IDLE_ABORT"|"ABORTED"|"SUCCEEDED"|"FAILED";
-  elapsedMs:number;idleMs?:number;status?:number;resourceType?:string;
+  event:"STARTED"|"IDLE_ABORT"|"ZERO_BYTE_TIMEOUT"|"ABORTED"|"SUCCEEDED"|"FAILED";
+  elapsedMs:number;status?:number;resourceType?:string;
+  receivedBodyBytes?:number;bytesObserved?:boolean;attemptTimeoutMs?:number;
 }
 
 export interface BrowserSession {
   readonly metadata: BrowserSessionMetadata;
-  /** Value-free first-entry attempts, including failures before any snapshot. */
+  /** Value-free document attempts, including failures before any snapshot. */
   entryNavigationEvents?(): readonly BrowserEntryNavigationEvent[];
   /** Runtime-owned lifecycle fact; a failed page control does not imply this. */
   isClosed?(): boolean;
@@ -295,6 +302,8 @@ export interface BrowserRuntime {
     networkPolicy?: BrowserReadNetworkPolicy;
     /** Receives an in-memory admitted public response for an optional sanitized Record artifact. */
     recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void;
+    /** Passive status at headers, before body completion; never an admission input. */
+    onResponseHeaders?: (response: {url:string;resourceType:string;status:number;mainDocument:boolean}) => void;
     /** A caller-provided, already sanitized HAR. Local replay never falls back to live network. */
     replayHarPath?: string;
   }): Promise<BrowserSession>;

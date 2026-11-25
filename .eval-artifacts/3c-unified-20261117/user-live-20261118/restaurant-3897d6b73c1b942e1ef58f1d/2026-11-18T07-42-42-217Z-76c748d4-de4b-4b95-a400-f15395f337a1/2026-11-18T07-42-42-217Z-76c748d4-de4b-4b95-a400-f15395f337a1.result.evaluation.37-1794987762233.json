@@ -1,0 +1,838 @@
+{
+  "outcome": {
+    "type": "QUALIFIED_DELIVERY",
+    "reasons": [
+      "Actual terminal presentation is supported by frozen request and candidate-bound original observations."
+    ],
+    "evidenceRefs": [
+      "loop",
+      "finalSnapshot.domainState.presentedResults",
+      "finalSnapshot.domainState.availability",
+      "finalSnapshot.domainState.readEvidence"
+    ],
+    "capabilityDenominator": "INCLUDED",
+    "userGoalComplete": "YES"
+  },
+  "severity": {
+    "S0": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately.",
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ]
+    },
+    "S1": {
+      "status": "PRESENT",
+      "reasons": [
+        "A displayed MET condition lacks independent source evidence; this is S1, not an independently established S0."
+      ],
+      "evidenceRefs": [
+        "presentedResults.conditionStates"
+      ]
+    },
+    "S2": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "No valid independent feasible witness supplied."
+      ],
+      "evidenceRefs": []
+    },
+    "S3": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "Experience/latency thresholds belong to E2; not scored here."
+      ],
+      "evidenceRefs": []
+    },
+    "S4": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "User-invisible retry effects are not independently established."
+      ],
+      "evidenceRefs": []
+    },
+    "S0_DECLARATION": {
+      "status": "ABSENT",
+      "reasons": [
+        "Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."
+      ],
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "EVIDENCE_GAP: run: missing network request records",
+        "EVIDENCE_GAP: session: missing recorded network-boundary installation"
+      ],
+      "evidenceRefs": [
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": [
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "run",
+          "missing": [
+            "network request records"
+          ],
+          "evidenceRefs": [
+            "browserTrace.networkRequests"
+          ]
+        },
+        {
+          "kind": "EVIDENCE_GAP",
+          "request": "session",
+          "missing": [
+            "recorded network-boundary installation"
+          ],
+          "evidenceRefs": [
+            "browserTrace.SESSION_OPENED"
+          ]
+        }
+      ]
+    }
+  },
+  "goldCorrection": null,
+  "conditionStates": [
+    {
+      "candidateId": "praxis:restaurant:937185e79ded5eb101b4f437",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ec036607c87219494336442f",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:20caaa7d78277e53f8ad31ac",
+      "criteria": [
+        {
+          "goldIndex": 0,
+          "text": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD",
+          "supportObservation": "NOT_ESTABLISHED",
+          "evidenceRefs": [],
+          "status": "NOT_CHECKED",
+          "basis": [
+            "No artifact-bound independent HARD HTML/witness input."
+          ],
+          "supportDiagnostics": []
+        }
+      ]
+    }
+  ],
+  "conditionStateComparisons": [
+    {
+      "candidateId": "praxis:restaurant:937185e79ded5eb101b4f437",
+      "text": "sushi",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "MET",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "S1_UNSUPPORTED"
+    },
+    {
+      "candidateId": "praxis:restaurant:ec036607c87219494336442f",
+      "text": "sushi",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "MET",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "S1_UNSUPPORTED"
+    },
+    {
+      "candidateId": "praxis:restaurant:20caaa7d78277e53f8ad31ac",
+      "text": "sushi",
+      "criterionRef": "criterion:0",
+      "matchMethod": "NORMALIZED_TEXT",
+      "displayed": "MET",
+      "independent": "NOT_CHECKED",
+      "supportObservation": "NOT_ESTABLISHED",
+      "assessment": "S1_UNSUPPORTED"
+    }
+  ],
+  "conditionEvidenceFindings": [],
+  "softPreferenceObservations": null,
+  "witnessFunnel": [],
+  "investigationMetrics": {
+    "status": "OBSERVED",
+    "rejectedActions": 0,
+    "maxConsecutiveNoNewObservation": 2,
+    "noNewObservationRuns": [
+      {
+        "key": "1ea63addc427a70f",
+        "steps": [
+          10,
+          11
+        ]
+      }
+    ],
+    "sameFailureRuns": [],
+    "sameTermRuns": [],
+    "urls": {
+      "status": "NOT_EVALUATED",
+      "scope": "REDACTED_PATHS_ONLY",
+      "loads": []
+    },
+    "violations": [],
+    "unassessed": [
+      "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures."
+    ]
+  },
+  "effectiveResources": {
+    "status": "NOT_EVALUATED",
+    "scope": "RECORDED_EXECUTOR_LIMITS",
+    "scopes": [],
+    "declarationDifferences": [],
+    "violations": [],
+    "unassessed": [
+      "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+    ]
+  },
+  "recordReadIssues": [],
+  "criterionCorrespondence": {
+    "path": "/private/tmp/praxis-3c-unified/src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+    "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c",
+    "schema": "artifact-criterion-correspondence@1",
+    "matches": [
+      {
+        "goldIndex": 0,
+        "actualIndex": 0,
+        "method": "NORMALIZED_TEXT",
+        "refs": []
+      }
+    ]
+  },
+  "pendingCriterionWordings": [],
+  "schemaVersion": "1",
+  "evaluatorVersion": "restaurant-hybrid-read-diagnostic-evaluator@37",
+  "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@32",
+  "rubricStatus": "DRAFT_DIAGNOSTIC_ONLY",
+  "sourceArtifact": {
+    "path": "/private/tmp/praxis-3c-unified/.eval-artifacts/restaurant-web-read/2026-11-18T07-42-42-217Z-76c748d4-de4b-4b95-a400-f15395f337a1.result.json",
+    "sha256": "7a1d18bc4677a3c23aa06e4b6c63a71375acd0e61aaa161aa9ab60d708189ca5",
+    "runId": "76c748d4-de4b-4b95-a400-f15395f337a1",
+    "caseId": "restaurant:3897d6b73c1b942e1ef58f1d"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "taskProducedQualifiedResult": "YES",
+    "systemBehavior": "NOT_EVALUATED",
+    "externalConditions": "OBSERVED",
+    "evidenceSufficiency": "SUFFICIENT_FOR_PRESENTED_RESULT",
+    "completion": "PRESENTATION_RECORDED"
+  },
+  "candidateSummaries": [
+    {
+      "candidateId": "praxis:restaurant:5cb6217229b1da72feb64613",
+      "outletName": "Sushi Ginza Onodera Musuko Umeda",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e162abe821e3f0806ae7b262]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e162abe821e3f0806ae7b262]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:52635122b3fd1ace99a440e2]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:8cc60ad70ded054e8252b2c0",
+      "outletName": "Osaka Izumisano Port Katsu Sushi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:f01646ae0222765eb7964b57]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:f01646ae0222765eb7964b57]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:0045068fcb51fa6fc6b7e05c]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:9be955459fda72fb21e8baf7",
+      "outletName": "Nawa Sushi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b598b70687c02abf78be3c0f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b598b70687c02abf78be3c0f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:076d40731a4bcec1bc160399]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:666b16d26cefb1834b715ca8",
+      "outletName": "Nono Umeda Ohatsu Tenjin",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:492849ec1c007bd7c980c4ec]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:492849ec1c007bd7c980c4ec]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:ed34bfe4cd29062123a9c308]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:168178877a91cdc0482eae6e",
+      "outletName": "Sushi Sakaba Sashisu KITTE Osaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:4f3e3b8d5cf05e85d3090676]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:4f3e3b8d5cf05e85d3090676]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:cd53838dae429855faf5a9ab]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:937185e79ded5eb101b4f437",
+      "outletName": "Sushi Ayatsuki Osaka Umeda-ten",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b341ed64c20da44da4428e90]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b341ed64c20da44da4428e90]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:671aa1de3ad7968084bb75ff]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:f57e4cef94a1b6aa8920e3e3]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:62e9fb292cdbc45b6bd84ae0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:937185e79ded5eb101b4f437:2026-11-18T07:42:24.018Z:evidence:restaurant:google-facts:62e9fb292cdbc45b6bd84ae0]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:ec036607c87219494336442f",
+      "outletName": "Umeda Sushi Tsugu",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:82d6e7d2c535869af0f1e385]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:82d6e7d2c535869af0f1e385]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:ecbeae35deaed1071aee2b02]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:fb1dda9fbe8e4869450811f9]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2c22a14476f02cc1584910e7]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:ec036607c87219494336442f:2026-11-18T07:42:30.560Z:evidence:restaurant:google-facts:2c22a14476f02cc1584910e7]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:1130bf4b0b7118ef476f821a",
+      "outletName": "北新地鮨言｜sushi gon",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:4b9bd72d0c9959427f1f0a41]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:4b9bd72d0c9959427f1f0a41]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:488be4e86d5d5adba11ada81]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:9de2e7a355c7e52e1ffd0474",
+      "outletName": "Kitasushi honten",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:831528d73e769ff4ea5b8b9a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:831528d73e769ff4ea5b8b9a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:5e065f642342141d7f9082a9]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:a3c6b8dab05da38f009a50c2",
+      "outletName": "桐紋",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:db482f5ae06b8359e818fca2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:db482f5ae06b8359e818fca2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:02ea6b6a7100210e73440e52]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:d3a7bdaf805fc4a826760976",
+      "outletName": "Tenjin Sushi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3d21b24052a2fd0fe9307d02]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3d21b24052a2fd0fe9307d02]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:d623dc7a274b5a310ba30df4]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:c6c2f9170498bda572038425",
+      "outletName": "Sushi to Shabushabu No.8 umeda store",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:fce220567daa39ff354ea8f6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:fce220567daa39ff354ea8f6]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:ee90ac067e25ad2b5612c8a7]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:903e19c844ead08435e8de4e",
+      "outletName": "Sushi Uroko",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:63a81741b80b581022e0729a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:63a81741b80b581022e0729a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:6db1506f370be7a3f25981e7]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:b08a5900a7122254441b0958",
+      "outletName": "Sushi Tsuu Kitashinchi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:90227db9fa1fa37c5a6b9acb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:90227db9fa1fa37c5a6b9acb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:7992dcc7d778f12d12b383ba]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:2988f06bd1c911ee4d517f13",
+      "outletName": "Kura Sushi Umeda OS Building",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b77705f37687baa5da8dbc82]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b77705f37687baa5da8dbc82]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:fdcb135a50389932cd6bf2c7]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:fe16a5c303d97cfad4c4f918",
+      "outletName": "Sushi Sora",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:600c7ceeb74ec05c36a971e2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:600c7ceeb74ec05c36a971e2]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:17bebb30425d460d393bb517]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:25ee284d2bdb88aad4d188cf",
+      "outletName": "Sushi Nakamise",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3bd0e9f7295420a15ce01f8f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3bd0e9f7295420a15ce01f8f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4f5fbe94693c7ecc238b2fe9]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:9e697fed02d7722bca8cc98a",
+      "outletName": "Kitarozushi Ohatsutenjin",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:76ed718cbc851e4a08c95810]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:76ed718cbc851e4a08c95810]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:37696b971dccb5347f5c3f4a]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:98caeda9dfac627fa608fe6d",
+      "outletName": "Sushitosake 【kinga】 Osaka 3 Bldg | Tachimomi Sushi",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:99465619cc2a85592759ddda]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:99465619cc2a85592759ddda]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:d58fba9d872409279726fa8d]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:86e32b41dfbabdad7590a550",
+      "outletName": "Kanazawa Maimon Sushi Lucua Osaka Branch",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:f1ddc5ff467f114dcad9741f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:f1ddc5ff467f114dcad9741f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:5ceb784490cbb39697745f81]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:3c0d11abf5413b1bcd83cdae",
+      "outletName": "The original butchikiri sushi Uoshin Umeda branch",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:6a4cbc345eb67a168d815ad4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:6a4cbc345eb67a168d815ad4]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:7abfe74c85258922f60c4f9e]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:fd15eccb062eb19c3738e78a",
+      "outletName": "Sushi Ōhata",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:521002e95f10d39b62c3e087]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:521002e95f10d39b62c3e087]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:aaf9828409087a7518b0b1f3]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:23b2539d9d36cc7ab875f638",
+      "outletName": "Sushi-ya Noda Osaka Ekimae Daisan Bldg. Ten",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:e6dd3a8e6eb1534f5af0cfba]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:e6dd3a8e6eb1534f5af0cfba]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:a6cde2511e5627c8932a45f8]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:93523a8e2fbd0c1886150823",
+      "outletName": "Sushi Dokorokazu",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:5c5d5828876087f329ea531d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:5c5d5828876087f329ea531d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:296069830b2fd4fc7b9bc1ba]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:690be1785a78de326c95fa65",
+      "outletName": "Sushi Sōgorō",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:91d2aa1d253cd127aad81dea]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:91d2aa1d253cd127aad81dea]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:6a883c17c51bd68a225b58db]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:1f7da8dd6bd50ec3e4f9810b",
+      "outletName": "Ganso Butchikiri Sushi Uoshin main store",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:a78b4bfa8d2923715679738c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:a78b4bfa8d2923715679738c]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:f74ae0e6b47765364b2dcda7]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:f20ff6e6d01ea272193fcc2a",
+      "outletName": "Hakodate Gourmet Kaiten Sushi Kantaro KITTE Osaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:90fff366188752394e6d994f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:90fff366188752394e6d994f]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:1f649966c505790a611ceb43]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:036c3ac67a3e035d0b80b29e",
+      "outletName": "Kaitenzushi Ganko Eki Marche Osaka",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:2cea4e72f1524660fbfb2276]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:2cea4e72f1524660fbfb2276]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:364a0bcfbd6139f63bcbba68]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:b227f023ac765240952869f7",
+      "outletName": "肉屋のすし酒場 肉寿司本家 お初天神店",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:c32120cae7005c6cf377972a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:c32120cae7005c6cf377972a]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:f79e5dd0ee363c5d8afb8ce8]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:2816a9478c5db26363c48d73",
+      "outletName": "Aka to Shiro",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:24ffff3b1a58c0f1e6809bbb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:24ffff3b1a58c0f1e6809bbb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:b3d04a9df294b8a6452a8f9d]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:20caaa7d78277e53f8ad31ac",
+      "outletName": "Sushi Akazu",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:67a29e2aeb8a2833f7cbea73]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:67a29e2aeb8a2833f7cbea73]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:87f8fe521932048a060a1d51]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:927d81925cfbb59dc4d7a554]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2a1e995483629ccdbb750a5d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:20caaa7d78277e53f8ad31ac:2026-11-18T07:42:38.314Z:evidence:restaurant:google-facts:2a1e995483629ccdbb750a5d]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:f1c3be34df9f0d3d9ab59719",
+      "outletName": "Sushi Kazuma",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:3114502099bc4baa1050dbb0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:3114502099bc4baa1050dbb0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:6c1b592104c9c55feec6c55b]"
+      ]
+    },
+    {
+      "candidateId": "praxis:restaurant:5a6e0192a118bfd12226ca5f",
+      "outletName": "Sushi Shioya",
+      "providers": [],
+      "providerAttempts": [],
+      "result": "NOT_CHECKED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:713168b0ca344925fdd0ac04]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:713168b0ca344925fdd0ac04]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:4caaa0a140e8ddb8cd154981]"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "dimension": "AUTHORITATIVE_CONDITIONS",
+      "status": "SATISFIED",
+      "stage": "SEMANTIC_TO_FINAL_STATE",
+      "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+      "observations": [
+        "All independently readable applicable request fields match."
+      ],
+      "directCause": "No conflict observed.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "materializedCase.semantic",
+        "finalSnapshot.domainState.intentDraft"
+      ],
+      "downstreamImpact": "Grounding can be evaluated against one request."
+    },
+    {
+      "dimension": "REQUIRED_EVIDENCE",
+      "status": "SATISFIED",
+      "stage": "GROUNDING",
+      "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+      "observations": [
+        "candidate=praxis:restaurant:937185e79ded5eb101b4f437",
+        "citedEvidence=4",
+        "offers=0",
+        "candidate=praxis:restaurant:ec036607c87219494336442f",
+        "citedEvidence=4",
+        "offers=0",
+        "candidate=praxis:restaurant:20caaa7d78277e53f8ad31ac",
+        "citedEvidence=4",
+        "offers=0"
+      ],
+      "directCause": "Every presented candidate has independently linked evidence.",
+      "rootCauseHypothesis": "Execution artifact or accepted evidence contract lacks required detail.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:b341ed64c20da44da4428e90]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:b341ed64c20da44da4428e90]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:62e9fb292cdbc45b6bd84ae0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:937185e79ded5eb101b4f437:2026-11-18T07:42:24.018Z:evidence:restaurant:google-facts:62e9fb292cdbc45b6bd84ae0]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:82d6e7d2c535869af0f1e385]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:82d6e7d2c535869af0f1e385]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2c22a14476f02cc1584910e7]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:ec036607c87219494336442f:2026-11-18T07:42:30.560Z:evidence:restaurant:google-facts:2c22a14476f02cc1584910e7]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:67a29e2aeb8a2833f7cbea73]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:67a29e2aeb8a2833f7cbea73]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2a1e995483629ccdbb750a5d]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:praxis:restaurant:20caaa7d78277e53f8ad31ac:2026-11-18T07:42:38.314Z:evidence:restaurant:google-facts:2a1e995483629ccdbb750a5d]"
+      ],
+      "downstreamImpact": "The presentation is independently supported."
+    },
+    {
+      "dimension": "INVESTIGATION_BEHAVIOR",
+      "status": "SATISFIED",
+      "stage": "AGENT_LOOP",
+      "requirement": "Cited presentation evidence must originate in actually executed same-candidate observations for the applicable request; duplicate fact/availability reads remain checked without requiring either action type.",
+      "observations": [
+        "executedObservations=13",
+        "applicableObservations=3",
+        "executedInvestigationVisits=17",
+        "authorizedRechecks=none",
+        "duplicates=none",
+        "rejectedActions=0",
+        "maxConsecutiveNoNewObservation=2"
+      ],
+      "directCause": "Executed observations are attributable without a duplicate fact/availability read.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "trajectories[1].observation",
+        "trajectories[2].observation",
+        "trajectories[3].observation",
+        "trajectories[4].observation",
+        "trajectories[5].observation",
+        "trajectories[6].observation",
+        "trajectories[7].observation",
+        "trajectories[8].observation",
+        "trajectories[9].observation",
+        "trajectories[10].observation",
+        "trajectories[11].observation",
+        "trajectories[12].observation",
+        "trajectories[13].observation"
+      ],
+      "downstreamImpact": "Observation lineage and duplicate-read accounting remain attributable."
+    },
+    {
+      "dimension": "FINAL_CLAIM",
+      "status": "SATISFIED",
+      "stage": "PRESENT_RESULTS",
+      "requirement": "A terminal presentation must agree with the independently checked, candidate-specific request and evidence records.",
+      "observations": [
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "presentedCandidates=3"
+      ],
+      "directCause": "Terminal presentation and independently evaluated evidence agree.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "loop",
+        "finalSnapshot.domainState.presentedResults",
+        "finalSnapshot.domainState.availability",
+        "finalSnapshot.domainState.readEvidence"
+      ],
+      "downstreamImpact": "Execution produced a qualified read-only result."
+    },
+    {
+      "dimension": "COMPLETION_OUTCOME",
+      "status": "SATISFIED",
+      "stage": "TERMINATION",
+      "requirement": "A scoped no-result outcome, user-input pause, controlled cancellation, budget/deadline stop, and internal execution failure must remain distinguishable from one another and from independently verified presentation.",
+      "observations": [
+        "completion=PRESENTATION_RECORDED",
+        "phase=PRESENT_RESULTS",
+        "loop=TERMINAL",
+        "noVerifiedResult=missing",
+        "failureCode=missing"
+      ],
+      "directCause": "A presentation was recorded and is checked independently above.",
+      "rootCauseHypothesis": "Not applicable.",
+      "certainty": "CONFIRMED",
+      "evidenceRefs": [
+        "status",
+        "execution.failureCode",
+        "loop.status",
+        "finalSnapshot.domainState.phase",
+        "finalSnapshot.domainState.noVerifiedResult",
+        "finalSnapshot.domainState.failure"
+      ],
+      "downstreamImpact": "Presentation support remains independently auditable."
+    },
+    {
+      "dimension": "RESOURCES",
+      "status": "NOT_EVALUATED",
+      "stage": "RUN_ACCOUNTING",
+      "requirement": "Compare readable usage to recorded effective executor limits and declared run ceilings separately. Missing effectiveLimits is not budget compliance.",
+      "observations": [
+        "missing=browserModelCalls",
+        "missingLimit=maxSteps",
+        "NOT_EVALUATED=diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings."
+      ],
+      "directCause": "Actual executor limits or required accounting is missing; declarations alone cannot prove enforcement.",
+      "rootCauseHypothesis": "Historical artifact or interrupted execution lacks complete accounting.",
+      "certainty": "UNKNOWN",
+      "evidenceRefs": [
+        "resourceUsage",
+        "limits",
+        "modelInvocations"
+      ],
+      "downstreamImpact": "Do not infer limit compliance or a stopping cause."
+    }
+  ],
+  "unassessedDimensions": [
+    "diagnostics.browserExecution[*].effectiveLimits / browserTrace.EXECUTOR_DIAGNOSTIC.effectiveLimits missing; no actual limit compliance inferred from runCeilings.",
+    "Full navigation query values were not retained; sanitized-path reloads are descriptive only, not exact-URL failures.",
+    "No subjective ranking, provider reliability, long-term inventory freshness, or model-quality score is produced.",
+    "Cost is not inferred without explicit configured price inputs.",
+    "Investigation sufficiency and search exhaustiveness are not inferred from terminal labels, call counts or remainingGaps prose."
+  ]
+}

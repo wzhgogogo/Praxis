@@ -1,0 +1,3788 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-D02-1794275541220-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "6 of us want robatayaki near Nakano on Thursday, November 19, any time between 6 and 8 PM. An English menu would be nice.",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "6 of us want robatayaki near Nakano on Thursday, November 19, any tim…",
+          "status": "COMPLETED",
+          "phase": "NO_VERIFIED_RESULT",
+          "taskVersion": 9,
+          "updatedAt": "2026-11-10T01:55:07.629Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "6 of us want robatayaki near Nakano on Thursday, November 19, any time between 6 and 8 PM. An English menu would be nice.",
+              "createdAt": "2026-11-10T01:52:26.318Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Nakano City.\nThis bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.\nNakano Robata Sumika: availability AVAILABLE (no request-bound slot established); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)\n鉄板焼 奥里火: availability NOT_CHECKED (no request-bound slot established); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)\nOkajoki: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED\nAburiya Nakano: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED (WEBSITE_FACT_READ_FAILED)\nDai Ni Chikara Shu Zo: availability NOT_CHECKED (no request-bound slot established); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)\n本格地酒と旬の逸品 十七番地 中野レンガ坂: availability NOT_CHECKED (no request-bound slot established); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)\n中野製作所 まんてん別館: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED\n最魚の晩餐～寿司と牡蠣と日本酒の裏切り～: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED\nGuttsu: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED\nCandidate praxis:restaurant:b8153abad1f84fa5c19c239f has no evidence for HARD criterion robatayaki\nCandidate praxis:restaurant:776889de3aaa5cc62164d040 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:c3ac690aea8a7ef8076ac19b lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:89d44e809dc2381f57193c6e lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:c7ceea0792973fa81816746a lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:590f4111274e95419c2b2875 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:8e3a09511d095d01aa3a3746 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:f0e0a869ce3a405c5444c346 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:b306abb541c5b3e9d61e122d lacks fresh evidenced availability for the authoritative request\nThe bounded discovery plan ended without a grounded result; wider source coverage was not evaluated\nMODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats.\nYou can refine the request to start a new investigation.",
+              "createdAt": "2026-11-10T01:55:07.689Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Nakano"
+            },
+            "date": "2026-11-19",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Robatayaki restaurant near Nakano for 6 people on Thursday, November 19, 6–8 PM, with an English menu",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "robatayaki",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              },
+              {
+                "text": "English menu",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 6,
+            "timeWindow": {
+              "latest": "20:00",
+              "earliest": "18:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Thursday, November 19",
+                "resolvedDate": "2026-11-19"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "any time between 6 and 8 PM",
+                "resolvedTimeWindow": {
+                  "latest": "20:00",
+                  "earliest": "18:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T01:52:24.130Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Nakano City",
+            "latitude": 35.7075331,
+            "longitude": 139.6637591,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Nakano City",
+                "shortText": "Nakano City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              },
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 3,
+          "readyCandidateIds": [],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 9,
+            "checkedCount": 3
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+                "sourceIds": {
+                  "phone": "03-4400-3404",
+                  "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                  "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Nakano Robata Sumika",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:56a2448af3610b645044c5dc",
+                  "sourceIds": "evidence:restaurant:google-discovery:56a2448af3610b645044c5dc",
+                  "outletName": "evidence:restaurant:google-discovery:56a2448af3610b645044c5dc"
+                },
+                "coordinates": {
+                  "lat": 35.708869,
+                  "lng": 139.6661176
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 260,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:776889de3aaa5cc62164d040",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−49−７ 2F",
+                "sourceIds": {
+                  "phone": "03-5942-7322",
+                  "googlePlaces": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+                  "googleMapsUri": "https://maps.google.com/?cid=6379578298962152974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131902/13319294/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "鉄板焼 奥里火",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:a0041f472cb6491eaa36ccbe",
+                  "sourceIds": "evidence:restaurant:google-discovery:a0041f472cb6491eaa36ccbe",
+                  "outletName": "evidence:restaurant:google-discovery:a0041f472cb6491eaa36ccbe"
+                },
+                "coordinates": {
+                  "lat": 35.7098873,
+                  "lng": 139.6669565
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 390,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "sourceIds": {
+                  "phone": "03-3228-1230",
+                  "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                  "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Okajoki",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:ca77a44d48fad5f96b4076ba",
+                  "sourceIds": "evidence:restaurant:google-discovery:ca77a44d48fad5f96b4076ba",
+                  "outletName": "evidence:restaurant:google-discovery:ca77a44d48fad5f96b4076ba"
+                },
+                "coordinates": {
+                  "lat": 35.707592999999996,
+                  "lng": 139.6660992
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 212,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:89d44e809dc2381f57193c6e",
+                "address": "5-chōme-56-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "sourceIds": {
+                  "phone": "03-3388-5941",
+                  "googlePlaces": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+                  "googleMapsUri": "https://maps.google.com/?cid=751540202718262909&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://aburiya-nakano.owst.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Aburiya Nakano",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:79abece4dbd2e9711caf13e3",
+                  "sourceIds": "evidence:restaurant:google-discovery:79abece4dbd2e9711caf13e3",
+                  "outletName": "evidence:restaurant:google-discovery:79abece4dbd2e9711caf13e3"
+                },
+                "coordinates": {
+                  "lat": 35.7081848,
+                  "lng": 139.66647620000003
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 256,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:c7ceea0792973fa81816746a",
+                "address": "5-chōme-32-15 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "sourceIds": {
+                  "phone": "03-3385-6471",
+                  "googlePlaces": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+                  "googleMapsUri": "https://maps.google.com/?cid=9544178521189769859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://dai2-chikara.gorp.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Dai Ni Chikara Shu Zo",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:df1cba2177f78702ea1b3fb7",
+                  "sourceIds": "evidence:restaurant:google-discovery:df1cba2177f78702ea1b3fb7",
+                  "outletName": "evidence:restaurant:google-discovery:df1cba2177f78702ea1b3fb7"
+                },
+                "coordinates": {
+                  "lat": 35.7066829,
+                  "lng": 139.6667582
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 287,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:590f4111274e95419c2b2875",
+                "address": "3-chōme-35-6 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "sourceIds": {
+                  "googlePlaces": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+                  "googleMapsUri": "https://maps.google.com/?cid=10287703308469661252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://r.gnavi.co.jp/fxvctmwc0000/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "本格地酒と旬の逸品 十七番地 中野レンガ坂",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:119130703a781146068383a1",
+                  "sourceIds": "evidence:restaurant:google-discovery:119130703a781146068383a1",
+                  "outletName": "evidence:restaurant:google-discovery:119130703a781146068383a1"
+                },
+                "coordinates": {
+                  "lat": 35.7050182,
+                  "lng": 139.6644355
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 287,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F",
+                "sourceIds": {
+                  "phone": "03-5942-6711",
+                  "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                  "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "中野製作所 まんてん別館",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:5756298f66ee17c4bb1cfa81",
+                  "sourceIds": "evidence:restaurant:google-discovery:5756298f66ee17c4bb1cfa81",
+                  "outletName": "evidence:restaurant:google-discovery:5756298f66ee17c4bb1cfa81"
+                },
+                "coordinates": {
+                  "lat": 35.7092966,
+                  "lng": 139.6668329
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 340,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+                "address": "5-chōme-46-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "sourceIds": {
+                  "phone": "03-5942-7767",
+                  "googlePlaces": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+                  "googleMapsUri": "https://maps.google.com/?cid=7547434262048016086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://saigyonobansan.foodre.jp/?utm_source=gbp&utm_medium=organic&utm_contents=website_link",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "最魚の晩餐～寿司と牡蠣と日本酒の裏切り～",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:e5711fdd40224f4d93c6e6f3",
+                  "sourceIds": "evidence:restaurant:google-discovery:e5711fdd40224f4d93c6e6f3",
+                  "outletName": "evidence:restaurant:google-discovery:e5711fdd40224f4d93c6e6f3"
+                },
+                "coordinates": {
+                  "lat": 35.708039899999996,
+                  "lng": 139.6669928
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 298,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "sourceIds": {
+                  "phone": "03-5318-2538",
+                  "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                  "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Guttsu",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:5927152268169bddd4925623",
+                  "sourceIds": "evidence:restaurant:google-discovery:5927152268169bddd4925623",
+                  "outletName": "evidence:restaurant:google-discovery:5927152268169bddd4925623"
+                },
+                "coordinates": {
+                  "lat": 35.70658280000001,
+                  "lng": 139.6670285
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: near Nakano"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 314,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            }
+          ],
+          "availability": {
+            "praxis:restaurant:89d44e809dc2381f57193c6e": [],
+            "praxis:restaurant:b8153abad1f84fa5c19c239f": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:18:00:6",
+                "source": "TABELOG",
+                "dateTime": "2026-11-19T18:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T01:54:06.705Z",
+                "expiresAt": "2026-11-10T01:54:06.705Z",
+                "partySize": 6,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                "bookingRecheckRequired": true
+              },
+              {
+                "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:18:30:6",
+                "source": "TABELOG",
+                "dateTime": "2026-11-19T18:30:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T01:54:06.705Z",
+                "expiresAt": "2026-11-10T01:54:06.705Z",
+                "partySize": 6,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                "bookingRecheckRequired": true
+              },
+              {
+                "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:19:00:6",
+                "source": "TABELOG",
+                "dateTime": "2026-11-19T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T01:54:06.705Z",
+                "expiresAt": "2026-11-10T01:54:06.705Z",
+                "partySize": 6,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                "bookingRecheckRequired": true
+              },
+              {
+                "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:19:30:6",
+                "source": "TABELOG",
+                "dateTime": "2026-11-19T19:30:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T01:54:06.705Z",
+                "expiresAt": "2026-11-10T01:54:06.705Z",
+                "partySize": 6,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                "bookingRecheckRequired": true
+              },
+              {
+                "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:20:00:6",
+                "source": "TABELOG",
+                "dateTime": "2026-11-19T20:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T01:54:06.705Z",
+                "expiresAt": "2026-11-10T01:54:06.705Z",
+                "partySize": 6,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                "bookingRecheckRequired": true
+              }
+            ],
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b": []
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:89d44e809dc2381f57193c6e": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T01:54:08.405Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-19\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"18:00\"},\"partySize\":6}"
+            },
+            "praxis:restaurant:b8153abad1f84fa5c19c239f": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-10T01:54:06.705Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:e80cb43cdce954c87ec46230",
+                "evidence:restaurant:tabelog-hard-criteria:6b679d7b2f5691c8d8a36257",
+                "evidence:restaurant:tabelog-availability:0764c6ee01ecd29361d614c8"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+              "requestFingerprint": "{\"date\":\"2026-11-19\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"18:00\"},\"partySize\":6}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T01:54:06.713Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-19\",\"timeWindow\":{\"latest\":\"20:00\",\"earliest\":\"18:00\"},\"partySize\":6}"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+                "placeId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Nakano Robata Sumika",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 260,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Tuesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Wednesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Thursday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Friday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Saturday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Sunday: 11:00 AM – 2:30 PM, 5:00 – 10:00 PM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:56a2448af3610b645044c5dc",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+                "placeId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "outletName": "Nakano Robata Sumika"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:56a2448af3610b645044c5dc",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Tuesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Wednesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Thursday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Friday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Saturday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Sunday: 11:00 AM – 2:30 PM, 5:00 – 10:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:d7b0cd0f4425a51ca5b8340e",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−49−７ 2F",
+                "placeId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "鉄板焼 奥里火",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 390,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Tuesday: Closed",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Friday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Saturday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Sunday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6379578298962152974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:a0041f472cb6491eaa36ccbe",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−49−７ 2F",
+                "placeId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+                "outletName": "鉄板焼 奥里火"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6379578298962152974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:a0041f472cb6491eaa36ccbe",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1319/A131902/13319294/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Tuesday: Closed",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Friday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Saturday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Sunday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6379578298962152974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:29c2355b8051b4b5c53cba94",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "seafood_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Okajoki",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 212,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Tuesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Wednesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Thursday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Friday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Saturday: 4:00 – 9:00 PM",
+                  "Sunday: 4:00 – 9:00 PM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:ca77a44d48fad5f96b4076ba",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "outletName": "Okajoki"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:ca77a44d48fad5f96b4076ba",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Tuesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Wednesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Thursday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Friday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Saturday: 4:00 – 9:00 PM",
+                  "Sunday: 4:00 – 9:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:f97ffce95cc2db177869485f",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "5-chōme-56-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Aburiya Nakano",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 256,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 4:00 AM",
+                  "Tuesday: 5:00 PM – 4:00 AM",
+                  "Wednesday: 5:00 PM – 4:00 AM",
+                  "Thursday: 5:00 PM – 4:00 AM",
+                  "Friday: 5:00 PM – 4:00 AM",
+                  "Saturday: 5:00 PM – 4:00 AM",
+                  "Sunday: 5:00 PM – 11:30 AM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=751540202718262909&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:79abece4dbd2e9711caf13e3",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-56-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+                "outletName": "Aburiya Nakano"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=751540202718262909&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:79abece4dbd2e9711caf13e3",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://aburiya-nakano.owst.jp/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 4:00 AM",
+                  "Tuesday: 5:00 PM – 4:00 AM",
+                  "Wednesday: 5:00 PM – 4:00 AM",
+                  "Thursday: 5:00 PM – 4:00 AM",
+                  "Friday: 5:00 PM – 4:00 AM",
+                  "Saturday: 5:00 PM – 4:00 AM",
+                  "Sunday: 5:00 PM – 11:30 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=751540202718262909&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:9b82b9eb73c7f67678e9167b",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "5-chōme-32-15 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Dai Ni Chikara Shu Zo",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 287,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 2:00 – 11:00 PM",
+                  "Tuesday: 2:00 – 11:00 PM",
+                  "Wednesday: 2:00 – 11:00 PM",
+                  "Thursday: 2:00 – 11:00 PM",
+                  "Friday: 2:00 – 11:00 PM",
+                  "Saturday: 2:00 – 11:00 PM",
+                  "Sunday: Closed"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=9544178521189769859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:df1cba2177f78702ea1b3fb7",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-32-15 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+                "outletName": "Dai Ni Chikara Shu Zo"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=9544178521189769859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:df1cba2177f78702ea1b3fb7",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://dai2-chikara.gorp.jp/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 2:00 – 11:00 PM",
+                  "Tuesday: 2:00 – 11:00 PM",
+                  "Wednesday: 2:00 – 11:00 PM",
+                  "Thursday: 2:00 – 11:00 PM",
+                  "Friday: 2:00 – 11:00 PM",
+                  "Saturday: 2:00 – 11:00 PM",
+                  "Sunday: Closed"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=9544178521189769859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:a490601fa361dc233d36c937",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "yakitori_restaurant",
+                  "seafood_restaurant",
+                  "japanese_restaurant",
+                  "hot_pot_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "3-chōme-35-6 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "本格地酒と旬の逸品 十七番地 中野レンガ坂",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 287,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 4:00 – 11:30 PM",
+                  "Tuesday: 4:00 – 11:30 PM",
+                  "Wednesday: 4:00 – 11:30 PM",
+                  "Thursday: 4:00 – 11:30 PM",
+                  "Friday: 4:00 – 11:30 PM",
+                  "Saturday: 3:00 – 11:30 PM",
+                  "Sunday: 3:00 – 11:00 PM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10287703308469661252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:119130703a781146068383a1",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-35-6 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+                "outletName": "本格地酒と旬の逸品 十七番地 中野レンガ坂"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10287703308469661252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:119130703a781146068383a1",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://r.gnavi.co.jp/fxvctmwc0000/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 4:00 – 11:30 PM",
+                  "Tuesday: 4:00 – 11:30 PM",
+                  "Wednesday: 4:00 – 11:30 PM",
+                  "Thursday: 4:00 – 11:30 PM",
+                  "Friday: 4:00 – 11:30 PM",
+                  "Saturday: 3:00 – 11:30 PM",
+                  "Sunday: 3:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "yakitori restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "hot pot restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10287703308469661252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:039a7c77d11d811c22840c09",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F",
+                "placeId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "中野製作所 まんてん別館",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 340,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 4:00 PM – 12:00 AM",
+                  "Sunday: 4:00 – 11:00 PM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:5756298f66ee17c4bb1cfa81",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F",
+                "placeId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                "outletName": "中野製作所 まんてん別館"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:5756298f66ee17c4bb1cfa81",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 4:00 PM – 12:00 AM",
+                  "Sunday: 4:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:b9db47f2ee9654b26a0f7ae1",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "sushi_restaurant",
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "5-chōme-46-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "最魚の晩餐～寿司と牡蠣と日本酒の裏切り～",
+                "primaryType": "sushi_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 298,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 5:00 – 11:00 PM",
+                  "Tuesday: 5:00 – 11:00 PM",
+                  "Wednesday: 5:00 – 11:00 PM",
+                  "Thursday: 5:00 – 11:00 PM",
+                  "Friday: 5:00 – 11:00 PM",
+                  "Saturday: 5:00 – 11:00 PM",
+                  "Sunday: 5:00 – 11:00 PM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7547434262048016086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:e5711fdd40224f4d93c6e6f3",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+              "sourceEntityId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-46-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+                "outletName": "最魚の晩餐～寿司と牡蠣と日本酒の裏切り～"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7547434262048016086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:e5711fdd40224f4d93c6e6f3",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://saigyonobansan.foodre.jp/?utm_source=gbp&utm_medium=organic&utm_contents=website_link",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 – 11:00 PM",
+                  "Tuesday: 5:00 – 11:00 PM",
+                  "Wednesday: 5:00 – 11:00 PM",
+                  "Thursday: 5:00 – 11:00 PM",
+                  "Friday: 5:00 – 11:00 PM",
+                  "Saturday: 5:00 – 11:00 PM",
+                  "Sunday: 5:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "sushi restaurant",
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7547434262048016086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:8926022b06a88a9926a4e5ea",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+              "sourceEntityId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                "areaMatch": true,
+                "areaQuery": "near Nakano",
+                "outletName": "Guttsu",
+                "primaryType": "japanese_izakaya_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 314,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: Closed",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 5:00 PM – 12:00 AM",
+                  "Sunday: 5:00 PM – 12:00 AM"
+                ],
+                "evaluationLocationLabel": "Nakano City",
+                "matchedAddressComponent": "Nakano",
+                "matchedAddressComponentTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:5927152268169bddd4925623",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                "outletName": "Guttsu"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:5927152268169bddd4925623",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: Closed",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 5:00 PM – 12:00 AM",
+                  "Sunday: 5:00 PM – 12:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:aad505a11aa0e18266e2932e",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Nakano Robata Sumika",
+                "observedOutletName": "sumika"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:e80cb43cdce954c87ec46230",
+              "observedAt": "2026-11-10T01:54:06.705Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "sumika",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                }
+              ],
+              "requestFingerprint": "a9b5528f3089f57fd8637a8067e7731a2084089cbd653871f7c39077bce9eed4"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:6b679d7b2f5691c8d8a36257",
+              "observedAt": "2026-11-10T01:54:06.705Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                }
+              ],
+              "requestFingerprint": "e004d57e7c7cf8ea6c107bd9720015be40d8fc226546a7fa4cc562667c8d0833"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-19",
+                "partySize": 6,
+                "visibleSlots": [
+                  "18:00",
+                  "18:30",
+                  "19:00",
+                  "19:30",
+                  "20:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:0764c6ee01ecd29361d614c8",
+              "observedAt": "2026-11-10T01:54:06.705Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:0517734d3ff3deb7afa0fedc7d9331b9e781c1151468350c44b0ea90698f14b6"
+              },
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+              "requestFingerprint": "029f2bf5d856a59d345d8852ffb101bd0fb03508386750f113bda949a00a4ecd",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+                "placeId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "outletName": "Nakano Robata Sumika"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:a95cd3136439ae1f23997dbc",
+              "observedAt": "2026-11-10T01:54:11.986Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "b5744ac102f655dad4061114d3c1ea55d776bcd67998e1b1571b71fc5778d389"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Tuesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Wednesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Thursday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Friday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Saturday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Sunday: 11:00 AM – 2:30 PM, 5:00 – 10:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:10cbfbeb8bd1802a591b3fac",
+              "observedAt": "2026-11-10T01:54:11.986Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "b5744ac102f655dad4061114d3c1ea55d776bcd67998e1b1571b71fc5778d389"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−49−７ 2F",
+                "placeId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+                "outletName": "鉄板焼 奥里火"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6379578298962152974&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:2fd1183c9ab631b16c080e75",
+              "observedAt": "2026-11-10T01:54:21.187Z",
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "requestFingerprint": "385bffd2046a4e461545ad34b731b5dc72265b7d4f6b655b730b4d547ca5d5bb"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1319/A131902/13319294/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Tuesday: Closed",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Friday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Saturday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Sunday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6379578298962152974&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:7d7e652a44098e63acca4b45",
+              "observedAt": "2026-11-10T01:54:21.187Z",
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "requestFingerprint": "385bffd2046a4e461545ad34b731b5dc72265b7d4f6b655b730b4d547ca5d5bb"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "outletName": "Okajoki"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:d6545ca11f3024244e421936",
+              "observedAt": "2026-11-10T01:54:27.875Z",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "4ced07b0f68c47cd1d91514e9bb192c5064373246a028ce48d4cb14f10f07204"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Tuesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Wednesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Thursday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Friday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Saturday: 4:00 – 9:00 PM",
+                  "Sunday: 4:00 – 9:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:2f31fe23b6b0f7cdffb06369",
+              "observedAt": "2026-11-10T01:54:27.875Z",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "4ced07b0f68c47cd1d91514e9bb192c5064373246a028ce48d4cb14f10f07204"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-56-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+                "outletName": "Aburiya Nakano"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=751540202718262909&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:4823198cc2140be824e8223c",
+              "observedAt": "2026-11-10T01:54:31.790Z",
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "requestFingerprint": "5bd72b565df5d126ab073271548a2ddfefb957235de506ede6af706818afa3ac"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://aburiya-nakano.owst.jp/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 4:00 AM",
+                  "Tuesday: 5:00 PM – 4:00 AM",
+                  "Wednesday: 5:00 PM – 4:00 AM",
+                  "Thursday: 5:00 PM – 4:00 AM",
+                  "Friday: 5:00 PM – 4:00 AM",
+                  "Saturday: 5:00 PM – 4:00 AM",
+                  "Sunday: 5:00 PM – 11:30 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=751540202718262909&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:38a79fc88c383528b7b080d6",
+              "observedAt": "2026-11-10T01:54:31.790Z",
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "requestFingerprint": "5bd72b565df5d126ab073271548a2ddfefb957235de506ede6af706818afa3ac"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Aburiya Nakano",
+                "observationKind": "PUBLIC_PAGE",
+                "sourceAssociation": "GOOGLE_LISTED_WEBSITE_URI",
+                "officialWebsiteVerified": false
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/",
+              "evidenceId": "evidence:restaurant:website-entity:d955776e91e3c9b7fa72ff6e",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:286b63fb6f71d774ccfca6df325f433d48a5d4aa83ad444e1719c5924aef60a7"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:a0af647118825cea1d21a7c9",
+              "requestFingerprint": "5513593aa846d0a84aa6bd80e7b426940f0607ca16f6a44461194ff3eacdeca5"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "restaurantTypeFacts": [
+                  "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備!",
+                  "コースじゃなくてもok!こだわり料理と地酒を楽しむ大人の隠れ家",
+                  "料理"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/",
+              "evidenceId": "evidence:restaurant:website-facts:fd7402e3fa1f2b5be87cfabb",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:286b63fb6f71d774ccfca6df325f433d48a5d4aa83ad444e1719c5924aef60a7"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:a0af647118825cea1d21a7c9",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備！",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "コースじゃなくてもOK！こだわり料理と地酒を楽しむ大人の隠れ家",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "おすすめ料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "豊洲仕入れ店内活け〆や北海道オホーツク空輸便など日替わりの新鮮な旬の魚介料理は絶品！特に人気のお刺身は板前おまかせの七種盛り、選べる三種盛りなどの盛り合わせでもご用意しております。もちろんお好みで”炙り”も承ります♪",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                }
+              ],
+              "requestFingerprint": "10b73f588b6279b33e02aa9d9525c2635a6cc77494d6f9306eb28bbd218c68a0"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Aburiya Nakano",
+                "observationKind": "PUBLIC_PAGE",
+                "sourceAssociation": "GOOGLE_LISTED_WEBSITE_URI",
+                "officialWebsiteVerified": false
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/foods",
+              "evidenceId": "evidence:restaurant:website-entity:ebe63a2d410c3937b7105671",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:822a60aa99f11ca2ed87dab9dcad2d064990fb0502ff2c86cd0b2fc93d12587b"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:af6cbe28b3890ed06f24d1ab",
+              "requestFingerprint": "68f0c4550578cac24112ac9adf9847c36bb3116c802eedc0ee5b58219ef6583d"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "restaurantTypeFacts": [
+                  "料理"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/foods",
+              "evidenceId": "evidence:restaurant:website-facts:d6c868a3d5092f6f1e6e4d52",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:822a60aa99f11ca2ed87dab9dcad2d064990fb0502ff2c86cd0b2fc93d12587b"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:af6cbe28b3890ed06f24d1ab",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                }
+              ],
+              "requestFingerprint": "fa14450456247a41cd02137914c26765e16d62e06d79af6092977bc30b70a9d5"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Aburiya Nakano",
+                "observationKind": "PUBLIC_PAGE",
+                "sourceAssociation": "GOOGLE_LISTED_WEBSITE_URI",
+                "officialWebsiteVerified": false
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/courses",
+              "evidenceId": "evidence:restaurant:website-entity:7339d08f09b7dc257e7aceed",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:a0bf57f92c931dd06aa64e77632c08c6fc91caf9c37f6dbdf914aab8aaf30575"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:d94df08a7cc270fbd9ad2d66",
+              "requestFingerprint": "00c29425f751198db3bd245fd90b30157f6b769f96c5af84ed0ad60d429a055d"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "restaurantTypeFacts": [
+                  "料理",
+                  "特選の宴 税込5500円(税込) 本日の特選肉料理&季節の食材 懐石コース お席3h 飲み放題2.5h",
+                  "月~土: 17:00~翌2:00 (料理l.o. 翌1:00 ドリンクl.o. 翌1:30) 日: 17:00~翌0:00 (料理l.o. 22:30 ドリンクl.o. 23:00)"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/courses",
+              "evidenceId": "evidence:restaurant:website-facts:1df6a5c6c27edc9bc08a5bab",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:a0bf57f92c931dd06aa64e77632c08c6fc91caf9c37f6dbdf914aab8aaf30575"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:d94df08a7cc270fbd9ad2d66",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/courses"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "特選の宴　税込5500円（税込） 本日の特選肉料理＆季節の食材 懐石コース　お席3h　飲み放題2.5h",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/courses"
+                }
+              ],
+              "requestFingerprint": "4b460dd777ace91837e76bfbbff4278313b1dc6e38c8737e7895e81f2191d634"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "13",
+                  "43",
+                  "53"
+                ],
+                "restaurantTypeFacts": [
+                  "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備！",
+                  "豊洲仕入れ店内活け〆や北海道オホーツク空輸便など日替わりの新鮮な旬の魚介料理は絶品！特に人気のお刺身は板前おまかせの七種盛り、選べる三種盛りなどの盛り合わせでもご用意しております。もちろんお好みで”炙り”も承ります♪",
+                  "【カウンター席】店内は古民家を思わせる落ち着きと温かみのあるデザイン◎中野駅から徒歩圏内の利便性の良さもポイントです。カウンター席では職人の手仕事を間近に楽しめる特別感を満喫できます！地酒とのペアリングを提案するスタッフの知識も豊富で、初めての方でも安心。"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/",
+              "evidenceId": "website-document:ef854dbfc7d34c2b88e63565e1c71e57ae53893411fd19a8287f140e422d0d4f",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-document:ef854dbfc7d34c2b88e63565e1c71e57ae53893411fd19a8287f140e422d0d4f"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:a0af647118825cea1d21a7c9",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備！",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "豊洲仕入れ店内活け〆や北海道オホーツク空輸便など日替わりの新鮮な旬の魚介料理は絶品！特に人気のお刺身は板前おまかせの七種盛り、選べる三種盛りなどの盛り合わせでもご用意しております。もちろんお好みで”炙り”も承ります♪",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "【カウンター席】店内は古民家を思わせる落ち着きと温かみのあるデザイン◎中野駅から徒歩圏内の利便性の良さもポイントです。カウンター席では職人の手仕事を間近に楽しめる特別感を満喫できます！地酒とのペアリングを提案するスタッフの知識も豊富で、初めての方でも安心。",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"website-document:ef854dbfc7d34c2b88e63565e1c71e57ae53893411fd19a8287f140e422d0d4f\",\"statementIds\":[\"13\",\"43\",\"53\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "166",
+                  "167",
+                  "219"
+                ],
+                "restaurantTypeFacts": [
+                  "炙",
+                  "肉厚縞ほっけ炙り焼き",
+                  "海鮮居酒屋だから出来る！至高の一品。少し醤油をたらしてマゼマゼ、海苔に巻いてお召し上がり下さい"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/foods",
+              "evidenceId": "website-document:14bce1ae821710245084db0d6a1dbb2017b7abf739b795df3bc9c07488b938df",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-document:14bce1ae821710245084db0d6a1dbb2017b7abf739b795df3bc9c07488b938df"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:af6cbe28b3890ed06f24d1ab",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "炙",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "肉厚縞ほっけ炙り焼き",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "海鮮居酒屋だから出来る！至高の一品。少し醤油をたらしてマゼマゼ、海苔に巻いてお召し上がり下さい",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"website-document:14bce1ae821710245084db0d6a1dbb2017b7abf739b795df3bc9c07488b938df\",\"statementIds\":[\"166\",\"167\",\"219\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "5-chōme-32-15 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+                "outletName": "Dai Ni Chikara Shu Zo"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=9544178521189769859&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:f11ec5ac717869021d1df47d",
+              "observedAt": "2026-11-10T01:54:51.023Z",
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "requestFingerprint": "dc009d62e57d2aba6e2dd26a8bea41e19f1f51e831f656ec5745d98cfa01a499"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://dai2-chikara.gorp.jp/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 2:00 – 11:00 PM",
+                  "Tuesday: 2:00 – 11:00 PM",
+                  "Wednesday: 2:00 – 11:00 PM",
+                  "Thursday: 2:00 – 11:00 PM",
+                  "Friday: 2:00 – 11:00 PM",
+                  "Saturday: 2:00 – 11:00 PM",
+                  "Sunday: Closed"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=9544178521189769859&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:37c5ebe3bb53092802ce6930",
+              "observedAt": "2026-11-10T01:54:51.023Z",
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "requestFingerprint": "dc009d62e57d2aba6e2dd26a8bea41e19f1f51e831f656ec5745d98cfa01a499"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-35-6 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                "placeId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+                "outletName": "本格地酒と旬の逸品 十七番地 中野レンガ坂"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10287703308469661252&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-entity:2eaa908484f15a14b28e2971",
+              "observedAt": "2026-11-10T01:55:01.515Z",
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "requestFingerprint": "28c6974fc987dd341aa96ec2e0b9284a0ade31f7ea67b3029a7a389d5396c816"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://r.gnavi.co.jp/fxvctmwc0000/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 4:00 – 11:30 PM",
+                  "Tuesday: 4:00 – 11:30 PM",
+                  "Wednesday: 4:00 – 11:30 PM",
+                  "Thursday: 4:00 – 11:30 PM",
+                  "Friday: 4:00 – 11:30 PM",
+                  "Saturday: 3:00 – 11:30 PM",
+                  "Sunday: 3:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "yakitori restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "hot pot restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10287703308469661252&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:d48667a5b677760603b03ddb",
+              "observedAt": "2026-11-10T01:55:01.515Z",
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "requestFingerprint": "28c6974fc987dd341aa96ec2e0b9284a0ade31f7ea67b3029a7a389d5396c816"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:6b679d7b2f5691c8d8a36257",
+              "observedAt": "2026-11-10T01:54:06.705Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern), Robatayaki, Seafood",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/"
+                }
+              ],
+              "requestFingerprint": "e004d57e7c7cf8ea6c107bd9720015be40d8fc226546a7fa4cc562667c8d0833"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Tuesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Wednesday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Thursday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Friday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Saturday: 11:00 AM – 2:30 PM, 5:00 – 11:00 PM",
+                  "Sunday: 11:00 AM – 2:30 PM, 5:00 – 10:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=1634481854204385363&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:10cbfbeb8bd1802a591b3fac",
+              "observedAt": "2026-11-10T01:54:11.986Z",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "requestFingerprint": "b5744ac102f655dad4061114d3c1ea55d776bcd67998e1b1571b71fc5778d389"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://tabelog.com/tokyo/A1319/A131902/13319294/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Tuesday: Closed",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Friday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Saturday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM",
+                  "Sunday: 11:30 AM – 2:30 PM, 5:00 PM – 12:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6379578298962152974&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:7d7e652a44098e63acca4b45",
+              "observedAt": "2026-11-10T01:54:21.187Z",
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "requestFingerprint": "385bffd2046a4e461545ad34b731b5dc72265b7d4f6b655b730b4d547ca5d5bb"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Tuesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Wednesday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Thursday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Friday: 11:20 AM – 1:00 PM, 4:00 – 9:00 PM",
+                  "Saturday: 4:00 – 9:00 PM",
+                  "Sunday: 4:00 – 9:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=5505628021740649816&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:2f31fe23b6b0f7cdffb06369",
+              "observedAt": "2026-11-10T01:54:27.875Z",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "requestFingerprint": "4ced07b0f68c47cd1d91514e9bb192c5064373246a028ce48d4cb14f10f07204"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://aburiya-nakano.owst.jp/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 4:00 AM",
+                  "Tuesday: 5:00 PM – 4:00 AM",
+                  "Wednesday: 5:00 PM – 4:00 AM",
+                  "Thursday: 5:00 PM – 4:00 AM",
+                  "Friday: 5:00 PM – 4:00 AM",
+                  "Saturday: 5:00 PM – 4:00 AM",
+                  "Sunday: 5:00 PM – 11:30 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=751540202718262909&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:38a79fc88c383528b7b080d6",
+              "observedAt": "2026-11-10T01:54:31.790Z",
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "requestFingerprint": "5bd72b565df5d126ab073271548a2ddfefb957235de506ede6af706818afa3ac"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "restaurantTypeFacts": [
+                  "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備!",
+                  "コースじゃなくてもok!こだわり料理と地酒を楽しむ大人の隠れ家",
+                  "料理"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/",
+              "evidenceId": "evidence:restaurant:website-facts:fd7402e3fa1f2b5be87cfabb",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:286b63fb6f71d774ccfca6df325f433d48a5d4aa83ad444e1719c5924aef60a7"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:a0af647118825cea1d21a7c9",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備！",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "コースじゃなくてもOK！こだわり料理と地酒を楽しむ大人の隠れ家",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "おすすめ料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "豊洲仕入れ店内活け〆や北海道オホーツク空輸便など日替わりの新鮮な旬の魚介料理は絶品！特に人気のお刺身は板前おまかせの七種盛り、選べる三種盛りなどの盛り合わせでもご用意しております。もちろんお好みで”炙り”も承ります♪",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                }
+              ],
+              "requestFingerprint": "10b73f588b6279b33e02aa9d9525c2635a6cc77494d6f9306eb28bbd218c68a0"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "restaurantTypeFacts": [
+                  "料理"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/foods",
+              "evidenceId": "evidence:restaurant:website-facts:d6c868a3d5092f6f1e6e4d52",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:822a60aa99f11ca2ed87dab9dcad2d064990fb0502ff2c86cd0b2fc93d12587b"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:af6cbe28b3890ed06f24d1ab",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                }
+              ],
+              "requestFingerprint": "fa14450456247a41cd02137914c26765e16d62e06d79af6092977bc30b70a9d5"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE",
+                "restaurantTypeFacts": [
+                  "料理",
+                  "特選の宴 税込5500円(税込) 本日の特選肉料理&季節の食材 懐石コース お席3h 飲み放題2.5h",
+                  "月~土: 17:00~翌2:00 (料理l.o. 翌1:00 ドリンクl.o. 翌1:30) 日: 17:00~翌0:00 (料理l.o. 22:30 ドリンクl.o. 23:00)"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/courses",
+              "evidenceId": "evidence:restaurant:website-facts:1df6a5c6c27edc9bc08a5bab",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-visible:a0bf57f92c931dd06aa64e77632c08c6fc91caf9c37f6dbdf914aab8aaf30575"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:d94df08a7cc270fbd9ad2d66",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "料理",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/courses"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "特選の宴　税込5500円（税込） 本日の特選肉料理＆季節の食材 懐石コース　お席3h　飲み放題2.5h",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/courses"
+                }
+              ],
+              "requestFingerprint": "4b460dd777ace91837e76bfbbff4278313b1dc6e38c8737e7895e81f2191d634"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "13",
+                  "43",
+                  "53"
+                ],
+                "restaurantTypeFacts": [
+                  "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備！",
+                  "豊洲仕入れ店内活け〆や北海道オホーツク空輸便など日替わりの新鮮な旬の魚介料理は絶品！特に人気のお刺身は板前おまかせの七種盛り、選べる三種盛りなどの盛り合わせでもご用意しております。もちろんお好みで”炙り”も承ります♪",
+                  "【カウンター席】店内は古民家を思わせる落ち着きと温かみのあるデザイン◎中野駅から徒歩圏内の利便性の良さもポイントです。カウンター席では職人の手仕事を間近に楽しめる特別感を満喫できます！地酒とのペアリングを提案するスタッフの知識も豊富で、初めての方でも安心。"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/",
+              "evidenceId": "website-document:ef854dbfc7d34c2b88e63565e1c71e57ae53893411fd19a8287f140e422d0d4f",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-document:ef854dbfc7d34c2b88e63565e1c71e57ae53893411fd19a8287f140e422d0d4f"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:a0af647118825cea1d21a7c9",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "産地直送の新鮮魚介と職人技が織りなす料理の数々◎十四代や而今など希少銘酒も常備！",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "豊洲仕入れ店内活け〆や北海道オホーツク空輸便など日替わりの新鮮な旬の魚介料理は絶品！特に人気のお刺身は板前おまかせの七種盛り、選べる三種盛りなどの盛り合わせでもご用意しております。もちろんお好みで”炙り”も承ります♪",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "【カウンター席】店内は古民家を思わせる落ち着きと温かみのあるデザイン◎中野駅から徒歩圏内の利便性の良さもポイントです。カウンター席では職人の手仕事を間近に楽しめる特別感を満喫できます！地酒とのペアリングを提案するスタッフの知識も豊富で、初めての方でも安心。",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"website-document:ef854dbfc7d34c2b88e63565e1c71e57ae53893411fd19a8287f140e422d0d4f\",\"statementIds\":[\"13\",\"43\",\"53\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "166",
+                  "167",
+                  "219"
+                ],
+                "restaurantTypeFacts": [
+                  "炙",
+                  "肉厚縞ほっけ炙り焼き",
+                  "海鮮居酒屋だから出来る！至高の一品。少し醤油をたらしてマゼマゼ、海苔に巻いてお召し上がり下さい"
+                ]
+              },
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceUrl": "https://aburiya-nakano.owst.jp/foods",
+              "evidenceId": "website-document:14bce1ae821710245084db0d6a1dbb2017b7abf739b795df3bc9c07488b938df",
+              "observedAt": "2026-11-10T01:54:32.046Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "website-document:14bce1ae821710245084db0d6a1dbb2017b7abf739b795df3bc9c07488b938df"
+              },
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_LISTED_WEBSITE_EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "website:af6cbe28b3890ed06f24d1ab",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "炙",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "肉厚縞ほっけ炙り焼き",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "海鮮居酒屋だから出来る！至高の一品。少し醤油をたらしてマゼマゼ、海苔に巻いてお召し上がり下さい",
+                  "sourceUrl": "https://aburiya-nakano.owst.jp/foods"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"website-document:14bce1ae821710245084db0d6a1dbb2017b7abf739b795df3bc9c07488b938df\",\"statementIds\":[\"166\",\"167\",\"219\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://dai2-chikara.gorp.jp/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 2:00 – 11:00 PM",
+                  "Tuesday: 2:00 – 11:00 PM",
+                  "Wednesday: 2:00 – 11:00 PM",
+                  "Thursday: 2:00 – 11:00 PM",
+                  "Friday: 2:00 – 11:00 PM",
+                  "Saturday: 2:00 – 11:00 PM",
+                  "Sunday: Closed"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=9544178521189769859&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:37c5ebe3bb53092802ce6930",
+              "observedAt": "2026-11-10T01:54:51.023Z",
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "requestFingerprint": "dc009d62e57d2aba6e2dd26a8bea41e19f1f51e831f656ec5745d98cfa01a499"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://r.gnavi.co.jp/fxvctmwc0000/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 4:00 – 11:30 PM",
+                  "Tuesday: 4:00 – 11:30 PM",
+                  "Wednesday: 4:00 – 11:30 PM",
+                  "Thursday: 4:00 – 11:30 PM",
+                  "Friday: 4:00 – 11:30 PM",
+                  "Saturday: 3:00 – 11:30 PM",
+                  "Sunday: 3:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "yakitori restaurant",
+                  "seafood restaurant",
+                  "japanese restaurant",
+                  "hot pot restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10287703308469661252&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+              "evidenceId": "evidence:restaurant:google-facts:d48667a5b677760603b03ddb",
+              "observedAt": "2026-11-10T01:55:01.515Z",
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "requestFingerprint": "28c6974fc987dd341aa96ec2e0b9284a0ade31f7ea67b3029a7a389d5396c816"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 PM – 12:00 AM",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 4:00 PM – 12:00 AM",
+                  "Sunday: 4:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:b9db47f2ee9654b26a0f7ae1",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://saigyonobansan.foodre.jp/?utm_source=gbp&utm_medium=organic&utm_contents=website_link",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 5:00 – 11:00 PM",
+                  "Tuesday: 5:00 – 11:00 PM",
+                  "Wednesday: 5:00 – 11:00 PM",
+                  "Thursday: 5:00 – 11:00 PM",
+                  "Friday: 5:00 – 11:00 PM",
+                  "Saturday: 5:00 – 11:00 PM",
+                  "Sunday: 5:00 – 11:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "sushi restaurant",
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7547434262048016086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:8926022b06a88a9926a4e5ea",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+              "sourceEntityId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: Closed",
+                  "Tuesday: 5:00 PM – 12:00 AM",
+                  "Wednesday: 5:00 PM – 12:00 AM",
+                  "Thursday: 5:00 PM – 12:00 AM",
+                  "Friday: 5:00 PM – 12:00 AM",
+                  "Saturday: 5:00 PM – 12:00 AM",
+                  "Sunday: 5:00 PM – 12:00 AM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:00",
+                  "20:00"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:aad505a11aa0e18266e2932e",
+              "observedAt": "2026-11-10T01:53:30.305Z",
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "requestFingerprint": "3c65e3b2cfbd9261cf91e9c15bb0bbe2a7607f35a63cd17c0d3c2533fa8f3173"
+            }
+          ],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-10T01:52:24.127Z"
+          },
+          "bookingHandoffs": []
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:3",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 9,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                    "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA",
+                    "sourceIds": {
+                      "phone": "03-4400-3404",
+                      "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                      "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Nakano Robata Sumika",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:56a2448af3610b645044c5dc",
+                      "sourceIds": "evidence:restaurant:google-discovery:56a2448af3610b645044c5dc",
+                      "outletName": "evidence:restaurant:google-discovery:56a2448af3610b645044c5dc"
+                    },
+                    "coordinates": {
+                      "lat": 35.708869,
+                      "lng": 139.6661176
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 260,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:776889de3aaa5cc62164d040",
+                    "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−49−７ 2F",
+                    "sourceIds": {
+                      "phone": "03-5942-7322",
+                      "googlePlaces": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+                      "googleMapsUri": "https://maps.google.com/?cid=6379578298962152974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131902/13319294/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "鉄板焼 奥里火",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:a0041f472cb6491eaa36ccbe",
+                      "sourceIds": "evidence:restaurant:google-discovery:a0041f472cb6491eaa36ccbe",
+                      "outletName": "evidence:restaurant:google-discovery:a0041f472cb6491eaa36ccbe"
+                    },
+                    "coordinates": {
+                      "lat": 35.7098873,
+                      "lng": 139.6669565
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 390,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                    "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                    "sourceIds": {
+                      "phone": "03-3228-1230",
+                      "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                      "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Okajoki",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:ca77a44d48fad5f96b4076ba",
+                      "sourceIds": "evidence:restaurant:google-discovery:ca77a44d48fad5f96b4076ba",
+                      "outletName": "evidence:restaurant:google-discovery:ca77a44d48fad5f96b4076ba"
+                    },
+                    "coordinates": {
+                      "lat": 35.707592999999996,
+                      "lng": 139.6660992
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 212,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:89d44e809dc2381f57193c6e",
+                    "address": "5-chōme-56-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                    "sourceIds": {
+                      "phone": "03-3388-5941",
+                      "googlePlaces": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+                      "googleMapsUri": "https://maps.google.com/?cid=751540202718262909&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://aburiya-nakano.owst.jp/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Aburiya Nakano",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:79abece4dbd2e9711caf13e3",
+                      "sourceIds": "evidence:restaurant:google-discovery:79abece4dbd2e9711caf13e3",
+                      "outletName": "evidence:restaurant:google-discovery:79abece4dbd2e9711caf13e3"
+                    },
+                    "coordinates": {
+                      "lat": 35.7081848,
+                      "lng": 139.66647620000003
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 256,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:c7ceea0792973fa81816746a",
+                    "address": "5-chōme-32-15 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                    "sourceIds": {
+                      "phone": "03-3385-6471",
+                      "googlePlaces": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+                      "googleMapsUri": "https://maps.google.com/?cid=9544178521189769859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://dai2-chikara.gorp.jp/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Dai Ni Chikara Shu Zo",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:df1cba2177f78702ea1b3fb7",
+                      "sourceIds": "evidence:restaurant:google-discovery:df1cba2177f78702ea1b3fb7",
+                      "outletName": "evidence:restaurant:google-discovery:df1cba2177f78702ea1b3fb7"
+                    },
+                    "coordinates": {
+                      "lat": 35.7066829,
+                      "lng": 139.6667582
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 287,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:590f4111274e95419c2b2875",
+                    "address": "3-chōme-35-6 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                    "sourceIds": {
+                      "googlePlaces": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+                      "googleMapsUri": "https://maps.google.com/?cid=10287703308469661252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://r.gnavi.co.jp/fxvctmwc0000/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "本格地酒と旬の逸品 十七番地 中野レンガ坂",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:119130703a781146068383a1",
+                      "sourceIds": "evidence:restaurant:google-discovery:119130703a781146068383a1",
+                      "outletName": "evidence:restaurant:google-discovery:119130703a781146068383a1"
+                    },
+                    "coordinates": {
+                      "lat": 35.7050182,
+                      "lng": 139.6644355
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 287,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                    "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F",
+                    "sourceIds": {
+                      "phone": "03-5942-6711",
+                      "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                      "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "中野製作所 まんてん別館",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:5756298f66ee17c4bb1cfa81",
+                      "sourceIds": "evidence:restaurant:google-discovery:5756298f66ee17c4bb1cfa81",
+                      "outletName": "evidence:restaurant:google-discovery:5756298f66ee17c4bb1cfa81"
+                    },
+                    "coordinates": {
+                      "lat": 35.7092966,
+                      "lng": 139.6668329
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 340,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+                    "address": "5-chōme-46-2 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                    "sourceIds": {
+                      "phone": "03-5942-7767",
+                      "googlePlaces": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+                      "googleMapsUri": "https://maps.google.com/?cid=7547434262048016086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://saigyonobansan.foodre.jp/?utm_source=gbp&utm_medium=organic&utm_contents=website_link",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "最魚の晩餐～寿司と牡蠣と日本酒の裏切り～",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:e5711fdd40224f4d93c6e6f3",
+                      "sourceIds": "evidence:restaurant:google-discovery:e5711fdd40224f4d93c6e6f3",
+                      "outletName": "evidence:restaurant:google-discovery:e5711fdd40224f4d93c6e6f3"
+                    },
+                    "coordinates": {
+                      "lat": 35.708039899999996,
+                      "lng": 139.6669928
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 298,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+                    "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan",
+                    "sourceIds": {
+                      "phone": "03-5318-2538",
+                      "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                      "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Guttsu",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:5927152268169bddd4925623",
+                      "sourceIds": "evidence:restaurant:google-discovery:5927152268169bddd4925623",
+                      "outletName": "evidence:restaurant:google-discovery:5927152268169bddd4925623"
+                    },
+                    "coordinates": {
+                      "lat": 35.70658280000001,
+                      "lng": 139.6670285
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: near Nakano"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 314,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                }
+              ],
+              "availability": {
+                "praxis:restaurant:89d44e809dc2381f57193c6e": [],
+                "praxis:restaurant:b8153abad1f84fa5c19c239f": [
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:18:00:6",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-19T18:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T01:54:06.705Z",
+                    "expiresAt": "2026-11-10T01:54:06.705Z",
+                    "partySize": 6,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                    "bookingRecheckRequired": true
+                  },
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:18:30:6",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-19T18:30:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T01:54:06.705Z",
+                    "expiresAt": "2026-11-10T01:54:06.705Z",
+                    "partySize": 6,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                    "bookingRecheckRequired": true
+                  },
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:19:00:6",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-19T19:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T01:54:06.705Z",
+                    "expiresAt": "2026-11-10T01:54:06.705Z",
+                    "partySize": 6,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                    "bookingRecheckRequired": true
+                  },
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:19:30:6",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-19T19:30:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T01:54:06.705Z",
+                    "expiresAt": "2026-11-10T01:54:06.705Z",
+                    "partySize": 6,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                    "bookingRecheckRequired": true
+                  },
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:b8153abad1f84fa5c19c239f:2026-11-19:20:00:6",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-19T20:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T01:54:06.705Z",
+                    "expiresAt": "2026-11-10T01:54:06.705Z",
+                    "partySize": 6,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T02:04:06.705Z",
+                    "bookingRecheckRequired": true
+                  }
+                ],
+                "praxis:restaurant:c3ac690aea8a7ef8076ac19b": []
+              }
+            }
+          },
+          {
+            "artifactId": "artifact:outcome:restaurant:adfd4a4bd5922ec763f289d8:9",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "OUTCOME",
+            "sourceVersion": 9,
+            "data": {
+              "outcome": {
+                "status": "NO_VERIFIED_RESULT",
+                "remainingGaps": [
+                  "Nakano Robata Sumika: availability AVAILABLE (no request-bound slot established); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)",
+                  "鉄板焼 奥里火: availability NOT_CHECKED (no request-bound slot established); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)",
+                  "Okajoki: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED",
+                  "Aburiya Nakano: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts COMPLETED (WEBSITE_FACT_READ_FAILED)",
+                  "Dai Ni Chikara Shu Zo: availability NOT_CHECKED (no request-bound slot established); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)",
+                  "本格地酒と旬の逸品 十七番地 中野レンガ坂: availability NOT_CHECKED (no request-bound slot established); facts COMPLETED (WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED)",
+                  "中野製作所 まんてん別館: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED",
+                  "最魚の晩餐～寿司と牡蠣と日本酒の裏切り～: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED",
+                  "Guttsu: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED",
+                  "Candidate praxis:restaurant:b8153abad1f84fa5c19c239f has no evidence for HARD criterion robatayaki",
+                  "Candidate praxis:restaurant:776889de3aaa5cc62164d040 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:c3ac690aea8a7ef8076ac19b lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:89d44e809dc2381f57193c6e lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:c7ceea0792973fa81816746a lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:590f4111274e95419c2b2875 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:8e3a09511d095d01aa3a3746 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:f0e0a869ce3a405c5444c346 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:b306abb541c5b3e9d61e122d lacks fresh evidenced availability for the authoritative request",
+                  "The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated",
+                  "MODEL_CALL_RESERVE: This bounded investigation is ending before its call budget is exhausted, with no qualified candidate. Checked candidates and their unknown reasons are listed separately; unread sources, candidates and evidence remain gaps. This does not establish that every restaurant has no seats."
+                ],
+                "unresolvedCandidateIds": [
+                  "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                  "praxis:restaurant:776889de3aaa5cc62164d040",
+                  "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                  "praxis:restaurant:89d44e809dc2381f57193c6e",
+                  "praxis:restaurant:c7ceea0792973fa81816746a",
+                  "praxis:restaurant:590f4111274e95419c2b2875",
+                  "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                  "praxis:restaurant:f0e0a869ce3a405c5444c346",
+                  "praxis:restaurant:b306abb541c5b3e9d61e122d"
+                ],
+                "investigatedCandidateIds": [
+                  "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                  "praxis:restaurant:776889de3aaa5cc62164d040",
+                  "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                  "praxis:restaurant:89d44e809dc2381f57193c6e",
+                  "praxis:restaurant:c7ceea0792973fa81816746a",
+                  "praxis:restaurant:590f4111274e95419c2b2875"
+                ]
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-10T01:52:26.313Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:6e72fed3-616f-4898-9e90-d3ee1f106acb",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:6e72fed3-616f-4898-9e90-d3ee1f106acb"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "0 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T01:53:03.848Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:50cd7f18-1b5f-4a5d-86eb-4c87ebe7ed16",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:50cd7f18-1b5f-4a5d-86eb-4c87ebe7ed16"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "0 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T01:53:27.251Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:156366ce-2818-400e-aa71-fc674d4f9dbb",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:156366ce-2818-400e-aa71-fc674d4f9dbb"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "9 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T01:53:30.314Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:beaffae6-6c22-4073-80f2-aa87fe22f795",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:beaffae6-6c22-4073-80f2-aa87fe22f795"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "5 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T01:54:10.036Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:0660cc43-9791-49e8-8ee9-1c60e832e344",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:0660cc43-9791-49e8-8ee9-1c60e832e344"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T01:54:30.195Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:50c58661-a388-477e-8760-f5fde2ff3ba5",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:50c58661-a388-477e-8760-f5fde2ff3ba5"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T01:55:06.188Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:46f87a19-66bd-4b1b-853e-59e78bc33f8c",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:46f87a19-66bd-4b1b-853e-59e78bc33f8c"
+            },
+            "type": "READ_END_WINDOW_OPENED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T01:55:06.219Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:c4c30bb0-4af1-479d-b462-39c754ae6095",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:c4c30bb0-4af1-479d-b462-39c754ae6095"
+            },
+            "type": "READ_ENDED_NO_VERIFIED_RESULT",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T01:55:07.629Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794275544126,
+      "deadlineAtMs": 1794276044126,
+      "elapsedMs": 163547.80179199998,
+      "modelCalls": 47,
+      "googleRequests": 8,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "6 of us want robatayaki near Nakano on Thursday, November 19, any time between 6 and 8 PM. An English menu would be nice.",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "outletName": "Nakano Robata Sumika",
+                "sourceIds": {
+                  "phone": "03-4400-3404",
+                  "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                  "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:776889de3aaa5cc62164d040",
+                "outletName": "鉄板焼 奥里火",
+                "sourceIds": {
+                  "phone": "03-5942-7322",
+                  "googlePlaces": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+                  "googleMapsUri": "https://maps.google.com/?cid=6379578298962152974&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://tabelog.com/tokyo/A1319/A131902/13319294/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−49−７ 2F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                "outletName": "Okajoki",
+                "sourceIds": {
+                  "phone": "03-3228-1230",
+                  "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                  "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:89d44e809dc2381f57193c6e",
+                "outletName": "Aburiya Nakano",
+                "sourceIds": {
+                  "phone": "03-3388-5941",
+                  "googlePlaces": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+                  "googleMapsUri": "https://maps.google.com/?cid=751540202718262909&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://aburiya-nakano.owst.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-56-2 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:c7ceea0792973fa81816746a",
+                "outletName": "Dai Ni Chikara Shu Zo",
+                "sourceIds": {
+                  "phone": "03-3385-6471",
+                  "googlePlaces": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+                  "googleMapsUri": "https://maps.google.com/?cid=9544178521189769859&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://dai2-chikara.gorp.jp/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-32-15 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:590f4111274e95419c2b2875",
+                "outletName": "本格地酒と旬の逸品 十七番地 中野レンガ坂",
+                "sourceIds": {
+                  "googlePlaces": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+                  "googleMapsUri": "https://maps.google.com/?cid=10287703308469661252&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://r.gnavi.co.jp/fxvctmwc0000/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-35-6 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                "outletName": "中野製作所 まんてん別館",
+                "sourceIds": {
+                  "phone": "03-5942-6711",
+                  "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                  "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+                "outletName": "最魚の晩餐～寿司と牡蠣と日本酒の裏切り～",
+                "sourceIds": {
+                  "phone": "03-5942-7767",
+                  "googlePlaces": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+                  "googleMapsUri": "https://maps.google.com/?cid=7547434262048016086&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://saigyonobansan.foodre.jp/?utm_source=gbp&utm_medium=organic&utm_contents=website_link",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-46-2 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+                "outletName": "Guttsu",
+                "sourceIds": {
+                  "phone": "03-5318-2538",
+                  "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                  "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:f0e0a869ce3a405c5444c346",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJj749N0zzGGAR1gb8KnnfvWg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:776889de3aaa5cc62164d040",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJpZm-R7rzGGARDg5ulqnQiFg",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJTZ2SJpfyGGARfXZyIdUBbgo",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceEntityId": "website:a0af647118825cea1d21a7c9",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceEntityId": "website:af6cbe28b3890ed06f24d1ab",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:89d44e809dc2381f57193c6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "RESTAURANT_WEBSITE",
+              "sourceEntityId": "website:d94df08a7cc270fbd9ad2d66",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c7ceea0792973fa81816746a",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJx8njvZbyGGARg-JtPMy7c4Q",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:590f4111274e95419c2b2875",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJLVxqXpHyGGARRO7xB6dDxY4",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:6e72fed3-616f-4898-9e90-d3ee1f106acb",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:50cd7f18-1b5f-4a5d-86eb-4c87ebe7ed16",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:156366ce-2818-400e-aa71-fc674d4f9dbb",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:beaffae6-6c22-4073-80f2-aa87fe22f795",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:0660cc43-9791-49e8-8ee9-1c60e832e344",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:50c58661-a388-477e-8760-f5fde2ff3ba5",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:46f87a19-66bd-4b1b-853e-59e78bc33f8c",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_END_WINDOW_OPENED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:c4c30bb0-4af1-479d-b462-39c754ae6095",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_ENDED_NO_VERIFIED_RESULT"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

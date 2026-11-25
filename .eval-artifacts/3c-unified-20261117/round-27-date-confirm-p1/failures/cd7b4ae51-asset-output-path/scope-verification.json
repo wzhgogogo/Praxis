@@ -1,0 +1,28 @@
+{
+  "sha": "cd7b4ae51a801e5454a497a59310f6a4d984db79",
+  "baseline": "678a177391ce3b3b65a620e2521428f36c683274",
+  "sourceChanges": [
+    "src/application/restaurant-relative-date.test.ts",
+    "src/domains/restaurant/relative-date-binding.test.ts",
+    "src/domains/restaurant/relative-date-binding.ts"
+  ],
+  "productionSourceChanges": [
+    "src/domains/restaurant/relative-date-binding.ts"
+  ],
+  "webSourceDiff": [],
+  "productionDiff": "diff --git a/src/domains/restaurant/relative-date-binding.ts b/src/domains/restaurant/relative-date-binding.ts\nindex 5faf29be4..7625d2618 100644\n--- a/src/domains/restaurant/relative-date-binding.ts\n+++ b/src/domains/restaurant/relative-date-binding.ts\n@@ -67,8 +67,8 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,\n   const mentions = relativeExpressions(message);\n   const dateFacts = proposal.facts.filter(fact => fact.field === \"DATE\");\n   const fail = (reason: string) => ({ status: \"CONFLICT\" as const, conflict: { code: \"UNSUPPORTED_SEMANTIC_EXPRESSION\" as const, affectedFields: [\"DATE\" as const], message: reason } });\n-  if (dateFacts.every(fact => fact.operation === \"CONFIRM\") && (dateFacts.length\n-    || /\\bkeep\\s+(?:the\\s+)?(?:same\\s+)?date\\b|\\bdate\\s+(?:unchanged|the same)\\b|\u65e5\u671f\u4e0d\u53d8|\u65e5\u671f\u7167\u65e7|\u4fdd\u7559(?:\u539f|\u539f\u6765|\u539f\u6709)?\u65e5\u671f/iu.test(message)))\n+  if (dateFacts.every(fact => fact.operation === \"CONFIRM\")\n+    && /\\bkeep\\s+(?:the\\s+)?(?:same\\s+)?date\\b|\\bdate\\s+(?:unchanged|the same)\\b|\u65e5\u671f\u4e0d\u53d8|\u65e5\u671f\u7167\u65e7|\u4fdd\u7559(?:\u539f|\u539f\u6765|\u539f\u6709)?\u65e5\u671f/iu.test(message))\n     return { status: \"BOUND\", proposal };\n   const boundDates = dateFacts.flatMap(fact => {\n     if ((fact.operation !== \"ASSERT\" && fact.operation !== \"CORRECT\") || fact.value?.kind !== \"DATE\") return [];\n",
+  "sourceSHA256": {
+    "src/application/restaurant-relative-date.test.ts": {
+      "before": "ce858178b41d1c255fbb86cce75f06b47e4adfc30f9693ae285bc7c3677df3db",
+      "after": "75bb86300f5c520d6bbee75f43e07a55bcd852a917453fd2644724d7d641941e"
+    },
+    "src/domains/restaurant/relative-date-binding.test.ts": {
+      "before": "d6acefc3828a5646c0736580265aa97ac9f1d474558ca27cadbad58a226a4b1b",
+      "after": "89930f646bf4a61c5b5c63d2b183cfc604510508b00d1346773de3bb6f7105cb"
+    },
+    "src/domains/restaurant/relative-date-binding.ts": {
+      "before": "cd35c34c85c41344ddb3bc279bb3a05f37494606529e4cea6d463626ae708aab",
+      "after": "b61b137a687195edb898dfb5ff20152cadbfb089bedd61bc9d791656934065b2"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+✖ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (3553.28625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3869.712334
+
+✖ failing tests:
+
+test at src/harness/browser/cloudflare-cdp-isolation.test.ts:1:2245
+✖ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (3553.28625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PENDING'
+  - 'RESULTS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:13:293)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PENDING',
+    expected: 'RESULTS',
+    operator: 'strictEqual'
+  }
