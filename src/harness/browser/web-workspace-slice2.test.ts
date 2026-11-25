@@ -326,7 +326,7 @@ for(const size of sizes)test("Workspace 3c "+size.name+": each observed booking 
   assert.equal(await laterTime.getAttribute('aria-pressed'),'true');assert.equal(await laterTime.evaluate(n=>n.matches(':focus-visible')),false);assert.equal(await page.locator('.slot-time[aria-pressed=true]').count(),1);
   const style=await laterTime.evaluate(n=>{const s=getComputedStyle(n);return {background:s.backgroundColor,color:s.color,radius:s.borderRadius,weight:s.fontWeight,shadow:s.boxShadow};});
   const selectedBackground=await page.evaluate(()=>{const probe=document.createElement('span');probe.style.background='color-mix(in srgb,#3D5AFE 16%,#fff)';document.body.append(probe);const value=getComputedStyle(probe).backgroundColor;probe.remove();return value;});
-  assert.equal(style.background,selectedBackground);assert.equal(style.color,'rgb(21, 23, 43)');assert.equal(style.radius,'8px');assert.equal(style.weight,await page.locator('.slot-time[aria-pressed=false]').evaluate(n=>getComputedStyle(n).fontWeight));assert.equal(style.shadow,'none');
+  assert.equal(style.background,selectedBackground);assert.equal(style.color,'rgb(21, 23, 43)');assert.equal(style.radius,'8px');assert.equal(style.weight,await page.locator('.slot-time[aria-pressed=false]').evaluate(n=>getComputedStyle(n).fontWeight));assert.equal(style.shadow,'rgba(61, 90, 254, 0.24) 0px 0px 0px 1px inset');
   await page.reload();await page.locator('#candidate-panel').waitFor();assert.equal(await laterTime.getAttribute('aria-pressed'),'true');
   await capture(page,size.name+'-card-slot-summary');
   await page.locator('#choose').click();const selector=page.getByLabel('Booking time',{exact:true});
@@ -352,10 +352,11 @@ for(const size of sizes)test('Workspace inline condition '+size.name+': capped l
  let release:()=>void=()=>{};
  const host=await startWorkspaceFixture({questions:true});const browser=await chromium.launch({headless:true}),context=await browser.newContext({viewport:size}),page=await tracedPage(context);
  try{
-  const original='dinner in ginza with FRIENDS and enough space to talk and a late start';
+  const original='dinner in ginza with FRIENDS and room to talk';
+  const fullRequest=datedWorkspaceRequest(original);
   await start(page,host,original);
-  assert.equal(await page.locator('#case-title').textContent(),original.replace(/^d/,'D'));assert.equal(await page.locator('#case-title').getAttribute('title'),original);
-  assert.equal(await page.locator('.case-link.active span').textContent(),original.replace(/^d/,'D'));assert.equal(await page.locator('.case-link.active').getAttribute('title'),original);
+  assert.equal(await page.locator('#case-title').textContent(),fullRequest.replace(/^d/,'D'));assert.equal(await page.locator('#case-title').getAttribute('title'),fullRequest);
+  assert.equal(await page.locator('.case-link.active span').textContent(),fullRequest.replace(/^d/,'D'));assert.equal(await page.locator('.case-link.active').getAttribute('title'),fullRequest);
   for(const selector of ['#case-title','.case-link.active span'])assert.equal(await page.locator(selector).evaluate(n=>getComputedStyle(n).webkitLineClamp),'2');
   assert.equal(await page.locator('#saved-count').isVisible(),false);assert.equal(await page.locator('#saved-count').textContent(),'0');assert.equal(await page.locator('#saved').innerText(),'Saved');
   assert.equal(await page.locator('#saved-count').evaluate(n=>getComputedStyle(n).color),'rgb(95, 98, 117)');
@@ -552,9 +553,10 @@ for(const size of sizes)test('Workspace composer keyboard '+size.name+': Enter s
   const message=page.locator('#message'),height=()=>message.evaluate(e=>e.getBoundingClientRect().height);
   await message.fill('Line\n'.repeat(10));assert.equal(await height(),64,'home retains its default height');
   await page.locator('#composer').evaluate(e=>{e.setAttribute('data-submits','0');e.addEventListener('submit',()=>e.setAttribute('data-submits',String(Number(e.getAttribute('data-submits'))+1)));});
-  await message.fill('Dinner for two');await message.dispatchEvent('compositionstart');await message.dispatchEvent('keydown',{key:'Enter',code:'Enter',isComposing:true});await message.dispatchEvent('compositionend');
+  const request=datedWorkspaceRequest('Dinner for two');
+  await message.fill(request);await message.dispatchEvent('compositionstart');await message.dispatchEvent('keydown',{key:'Enter',code:'Enter',isComposing:true});await message.dispatchEvent('compositionend');
   assert.equal(await page.locator('#composer').getAttribute('data-submits'),'0','IME Enter must not submit');
-  await message.press('End');await message.press('Shift+Enter');assert.equal(await message.inputValue(),'Dinner for two\n');assert.equal(await page.locator('#composer').getAttribute('data-submits'),'0');
+  await message.press('End');await message.press('Shift+Enter');assert.equal(await message.inputValue(),request+'\n');assert.equal(await page.locator('#composer').getAttribute('data-submits'),'0');
   const [created]=await Promise.all([page.waitForResponse(r=>new URL(r.url()).pathname==='/api/cases'&&r.request().method()==='POST'),(async()=>{await message.press('Enter');assert.equal(await page.locator('#composer').getAttribute('data-submits'),'1','Enter submits the home form');})()]);assert.equal(created.status(),201);await ready(page);assert.equal(await message.inputValue(),'');
   const oneLine=await height();await message.fill('Line\n'.repeat(3));assert.ok(await height()>oneLine);await message.fill('Line\n'.repeat(30));assert.equal(await height(),140);await message.fill('Short');assert.ok(Math.abs(await height()-oneLine)<1);
   await message.fill('Same dinner, please\n\n');const gate=new Promise<void>(resolve=>{release=resolve;});let posts=0;
