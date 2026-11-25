@@ -6591,3 +6591,10 @@ Slice B维持严格浏览器DAG，新增显式researching请求态并对齐defer
 冻结`98b35466bd0f37f662eabb5750b2f9c43e95fd04`（src`a2e7df8b08e6bae1031e8dcba6f37ea7afa8764c`，frozen offline regression / draft, not integrated）。日期组按原文位置绑定，结构化目标/明确改期优先，背景到离/预算未定不误拦，保留周限定；补Loop semanticConflict等待。实际Chromium证明旧首次NEEDS_INPUT并非停读，此处更正前P1将首帧0查位推断为最终0查位，旧报告不改。65实际消息=44查位+17语义澄清零决策/搜索/查位+2推荐+1no-op+1普通ASK_USER；日期editor双尺寸8/8。默认2013、G2 5、Chromium601、G6 159、type/arch/build全通过，distC1 4/4、独立49/49、strict18模块0环/any/抑制，19JS+HTML/CSS与原Round27一致；原UI15及42PNG/JSON核对目检。
 
 **最终执行器exit1：保护失败**。14370历史现存10846匹配、现存变更0，缺3524=652已登记受跟踪+另发现2872未跟踪，加137旧缺件总3661。运行前后Git仅652历史删除，源码/42输入干净，不是净树；不改保护断言、不暂存删除、不伪造恢复。主/env/closeout950/稀疏/八配置不变；整体BLOCKED_BY_MISSING_HISTORICAL_ORIGINALS，已请求原始备份。e1默认4失败、原SHA SCRIPT隔离1/1与最终完整复跑保留，SCRIPT首次根因未定。0Live/真实PG/4312/推送/合main，真机/真实来源S0及P3未测/未修。 [报告](../../.eval-artifacts/3c-unified-20261117/round-27-dining-date-p2/REPORT.md)。
+
+
+<a id="unified-round28-final-offline-20261125"></a>
+
+### 2026-11-25 — Round 28 3C 终稿离线验收
+
+冻结 `5f8d4344018b9acae8352cd3fa0757f6dad10d2d`（src `8e119ea69672583714a46cd0493dc1559a68df5b`）。ADR-0053 将自由文本日期选择交回模型。普通星期复用东京物化并比较完整日期，11 月 24 日的周五为 11 月 27 日，12 月 4 日错配在实际读轮结束后查位 0。结构化日期 8/8，首页 no-store，七项工作区细节完成双尺寸离线回归。默认 1984/1984，G2 5/5，Chromium 603/603，G6 159/159，dist C1 4/4。Typecheck、Arch 和 Build 通过，19 JS 与 HTML/CSS parity、strict 18 模块 0 环。既有 652 受跟踪删除及 2872+137 未跟踪缺件原样保留，历史完整性阻塞。无 Live、真实PG、远端CDP、4312 和真机验收。 [Round 28 报告](../../.eval-artifacts/3c-unified-20261117/round-28/REPORT.md)。

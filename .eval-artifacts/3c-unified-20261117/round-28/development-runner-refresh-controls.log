@@ -1,0 +1,123 @@
+[browser fixtures] 4/80 files; G2 never overlaps the remaining fixtures
+[browser fixtures] remaining fixtures: 4 files, concurrency 4
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/browser-read-workspace.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-interruption.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-post-exit.test.ts"}
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_START","file":"src/harness/browser/runner-replay.test.ts"}
+✔ Web refresh replaces commercial terms and cites the displayed fact source (717.395833ms)
+✔ workspace New plan survives a late initial case-list response (273.639458ms)
+✔ G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice (871.478875ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/browser-read-workspace.test.ts","elapsedMs":2636.040833,"passed":true}
+✔ formal Runner real subprocess complete persists execution and supports independent S0 (2243.122834ms)
+✔ formal Runner real subprocess signal persists execution and supports independent S0 (1589.959708ms)
+✔ formal Runner real subprocess deadline persists execution and supports independent S0 (1583.21225ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-post-exit.test.ts","elapsedMs":5806.568542,"passed":true}
+✔ formal Runner real subprocess external persists execution and supports independent S0 (1465.117917ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-interruption.test.ts","elapsedMs":7087.0325,"passed":true}
+✔ each exited slot is independently evaluated before another slot exits, including nonzero and missing artifacts (2225.276291ms)
+ℹ {"first":{"id":"first","status":"EVALUATED","exit":{"code":7,"signal":null},"exitedAtCET":"2026-11-25T05:13:05.622+01:00","evaluationStartedAtCET":"2026-11-25T05:13:05.622+01:00","finishedAtCET":"2026-11-25T05:13:05.655+01:00","exitToEvaluationStartMs":0.020125000000007276,"s0":{"S0_DECLARATION":{"status":"ABSENT","reasons":["Actual displayed claim has independent candidate/request/source support; unclaimed preferences are assessed separately."],"evidenceRefs":["loop","finalSnapshot.domainState.presentedResults","finalSnapshot.domainState.availability","finalSnapshot.domainState.readEvidence"]},"S0_BOUNDARY":{"status":"ABSENT","reasons":["Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."],"evidenceRefs":["src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json#sha256=8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[]}},"sourceArtifact":{"path":"/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-batch-mF1l6a/first/run-x6RlP4/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-04-525Z-dce9efef-e0ad-4168-846e-7dadc1be2847.result.json","sha256":"8fda5c329fcbf64a53a92f3d2be25601e80b74c49cffdacb366b77f2296d1c11"},"reviewedReadsSha256":"8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259","evaluationPath":"/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-batch-mF1l6a/first/run-x6RlP4/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-04-525Z-dce9efef-e0ad-4168-846e-7dadc1be2847.result.evaluation.37-1795579985653.json"},"second":{"id":"second","status":"EVALUATED","exit":{"code":0,"signal":null},"exitedAtCET":"2026-11-25T05:13:05.772+01:00","evaluationStartedAtCET":"2026-11-25T05:13:05.772+01:00","finishedAtCET":"2026-11-25T05:13:05.791+01:00","exitToEvaluationStartMs":0.021000000000185537,"s0":{"S0_DECLARATION":{"status":"PRESENT","reasons":["Displayed offer party 9 conflicts with frozen Gold 2"],"evidenceRefs":["finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:9144ee8f0d1a57e49d4d00b2]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:9144ee8f0d1a57e49d4d00b2]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:2d714adbc2f22365acf415d8]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:dc01a715a73940623243f789]","finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:7d31b71b6232bc8a63cfaeae]","finalSnapshot.domainState.availability[praxis:restaurant:f16d05ec6b29248d2c61adb1][id=offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2]","browserTrace[sequence=44]"]},"S0_BOUNDARY":{"status":"ABSENT","reasons":["Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."],"evidenceRefs":["src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json#sha256=8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259","docs/decisions/0036-generic-public-read-network-policy.md","docs/decisions/0035-browser-read-network-boundary.md"],"gaps":[]}},"sourceArtifact":{"path":"/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-batch-mF1l6a/second/run-UIa5DX/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-04-601Z-2e3e2e42-7dac-4539-a75b-3d68f8da8855.result.json","sha256":"cb5bec81b4db5f9cebb916e3ac601cdd90811ab1b128535f4f42c900aca5e334"},"reviewedReadsSha256":"8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259","evaluationPath":"/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-batch-mF1l6a/second/run-UIa5DX/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-04-601Z-2e3e2e42-7dac-4539-a75b-3d68f8da8855.result.evaluation.37-1795579985789.json"},"missing":{"id":"missing","status":"NOT_EVALUATED","exit":{"code":9,"signal":null},"exitedAtCET":"2026-11-25T05:13:04.693+01:00","evaluationStartedAtCET":"2026-11-25T05:13:04.696+01:00","finishedAtCET":"2026-11-25T05:13:04.696+01:00","exitToEvaluationStartMs":0.1330000000000382,"s0":{"S0_DECLARATION":{"status":"NOT_EVALUATED","reasons":["MISSING_ARTIFACT"],"evidenceRefs":[]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["MISSING_ARTIFACT"],"evidenceRefs":[]}},"failureCode":"MISSING_ARTIFACT"},"realCalls":0}
+{"mode":"HYBRID_LIVE_READ","caseId":"interruption-fixture","browserEngine":"LOCAL_CHROMIUM","preflight":{"reviewedReadsPath":"src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json","reviewedReadsSha256":"0000000000000000000000000000000000000000000000000000000000000000"},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":100,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":90000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 3
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 3,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 7,
+    "browserOperationsByCandidate": {
+      "praxis:restaurant:f16d05ec6b29248d2c61adb1": 7
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 611,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 1033
+  },
+  "artifactPath": "/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-cli-9YGbi3/run-t0n4BG/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-06-383Z-6127238b-db2a-4070-ba75-f2fc1efa31a2.result.json",
+  "evaluationPath": "/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-cli-9YGbi3/run-t0n4BG/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-06-383Z-6127238b-db2a-4070-ba75-f2fc1efa31a2.result.evaluation.37-1795579987426.json",
+  "latencyMs": 1033,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
+✔ single-slot CLI supervisor immediately reports independent review hash failure instead of S0 absence (1651.993208ms)
+ℹ {"receipt":{"id":"slot-45022993-7792-49b0-a15d-e324cf9d1568","status":"NOT_EVALUATED","exit":{"code":0,"signal":null},"exitedAtCET":"2026-11-25T05:13:07.436+01:00","evaluationStartedAtCET":"2026-11-25T05:13:07.436+01:00","finishedAtCET":"2026-11-25T05:13:07.449+01:00","exitToEvaluationStartMs":0.012832999999773165,"s0":{"S0_DECLARATION":{"status":"NOT_EVALUATED","reasons":["REVIEWED_READS_SHA_MISMATCH"],"evidenceRefs":[]},"S0_BOUNDARY":{"status":"NOT_EVALUATED","reasons":["REVIEWED_READS_SHA_MISMATCH"],"evidenceRefs":[]}},"sourceArtifact":{"path":"/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-cli-9YGbi3/run-t0n4BG/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-06-383Z-6127238b-db2a-4070-ba75-f2fc1efa31a2.result.json","sha256":"9577a32adc73bf77deec8e5976de1091991e8a10f64b18f91b0f6e5d2b4d72d5"},"failureCode":"REVIEWED_READS_SHA_MISMATCH"},"realCalls":0}
+{"mode":"HYBRID_LIVE_READ","caseId":"interruption-fixture","browserEngine":"LOCAL_CHROMIUM","preflight":{"reviewedReadsPath":".eval-artifacts/post-exit-uncommitted-1Q3VEh/reviewed-reads.json","reviewedReadsSha256":"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"},"candidateLimit":10,"profileMode":"TEMPORARY","limits":{"maxModelCalls":50,"maxDiscoveryCandidates":10,"maxGoogleRequests":100,"maxStructuredReadMs":30000,"maxAvailabilitySourceBrowserSessions":3,"maxAvailabilitySourceCandidateMatches":3,"maxAvailabilityReads":20,"maxBrowserRuntimeFallbacks":1,"maxBrowserModelCallsPerCandidate":20,"maxBrowserModelCallsTotal":120,"maxBrowserOperationsPerCandidate":80,"maxFactModelCallsPerCandidate":4,"maxFactBrowserOperationsPerCandidate":24,"maxFactBrowserMs":45000,"maxFactProviderMs":30000,"maxCandidateBrowserMs":90000,"maxProviderBrowserMs":45000,"maxAutomaticBrowserMs":500000,"maxAgentSteps":30,"maxRejectedActions":5},"safety":"READ_ONLY_CODE_PATH"}
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "loop": {
+    "status": "TERMINAL",
+    "steps": 3
+  },
+  "resourceUsage": {
+    "discoveryCandidates": 1,
+    "candidatesChecked": 1,
+    "agentDecisions": 3,
+    "browserModelCalls": 0,
+    "modelCallsStarted": 4,
+    "browserRuntimeCalls": 7,
+    "browserOperationsByCandidate": {
+      "praxis:restaurant:f16d05ec6b29248d2c61adb1": 7
+    },
+    "pageStillLoadingWithinBound": 0,
+    "postActionWaitTotalMs": 610,
+    "browserModelActions": 0,
+    "googleRequests": {
+      "limit": 100,
+      "total": 1,
+      "namedPlaceResolution": 0,
+      "discovery": 1,
+      "placeDetails": 0,
+      "reverseAddressObservation": 0
+    },
+    "elapsedMs": 1099
+  },
+  "artifactPath": "/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-uncommitted-1Q3VEh/run-crM787/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-08-041Z-21ffac36-154c-4918-a8ab-3c5da2b664f0.result.json",
+  "evaluationPath": "/private/tmp/praxis-3c-unified/.eval-artifacts/post-exit-uncommitted-1Q3VEh/run-crM787/.eval-artifacts/restaurant-hybrid-live-read/2026-11-25T04-13-08-041Z-21ffac36-154c-4918-a8ab-3c5da2b664f0.result.evaluation.37-1795579989160.json",
+  "latencyMs": 1099,
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED"
+}
+✔ post-exit evaluator rejects an uncommitted catalog even with its matching SHA (1723.026125ms)
+✔ recorded decisions reproduce nonempty candidates and delivery under OS-denied network (3762.985167ms)
+ℹ {"summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"3873368cd3cf2a404ee4fd2f4d920710d365c2e9b2977a64e7d5db796c0dc116","harSha256":"3937b21b1db3b1a71934a29142e20a161a468a39a37d072cb3cd3a99f88364ca","decisionSha256":"0d2c513ae017c60cacea010c9f7e50fcaa6aa21cb9a11cd19975fab918edd39a","liveCapabilityDenominator":"EXCLUDED","status":"COMPLETED","stop":null,"consumedPages":4,"recordedPages":4,"consumedDecisions":4,"recordedDecisions":4,"replayedDecisionCount":4,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-fVcDWH/output/execution/2026-11-25T04-13-04-838Z-3abe9901-cc3d-4cde-97cf-e7b211217f00.result.json"},"delivery":{"candidates":[{"id":"praxis:restaurant:f16d05ec6b29248d2c61adb1","name":"Fixture restaurant"}],"shown":["praxis:restaurant:f16d05ec6b29248d2c61adb1"],"offers":[{"id":"offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2","restaurantId":"praxis:restaurant:f16d05ec6b29248d2c61adb1","dateTime":"2026-10-30T19:00:00+09:00","partySize":2,"bookingMode":"REQUEST"}]},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND"}
+✔ replay missing preserves source/progress and model boundaries (2234.149292ms)
+ℹ {"mode":"missing","summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"573a275264010dbce92e0fc16550c600047efee2d97913056fa0a59654cc231d","harSha256":"82f96c6d540ab09c5d3f5b04ceae95164f65ab6a9f3adb24fab31ad7752fa19c","decisionSha256":"f8edeb5e766498815b9998aa53a5a54761b8196b7de4683e37523a2805b7a613","liveCapabilityDenominator":"EXCLUDED","status":"REPLAY_INCOMPLETE","stop":{"snapshot":null,"origin":"https://places.googleapis.com","pathname":"/v1/places:searchNearby","reason":"MISSING_STRUCTURED_RESPONSE"},"consumedPages":0,"recordedPages":4,"consumedDecisions":2,"recordedDecisions":4,"replayedDecisionCount":2,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-JO24rb/output/execution/2026-11-25T04-13-08-306Z-e7102324-efe4-407d-b3e9-a6976e393e46.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ replay partial preserves source/progress and model boundaries (2898.673375ms)
+ℹ {"mode":"partial","summary":{"executionSource":"REPLAY","modelMode":"ORIGINAL","recordingSha256":"7662b069c6a3e76ced942be20c9a3766801801bd773c9c1050a1c360fe4d7d04","harSha256":"2a49cdb42416aaa6d5f0e4b2863295fdbae62c9ff2b9780c350c508e7ec0e405","decisionSha256":"4cd1b291d1b46c8bafe68be277753b3e87e5e079f6aa86aeed39c083af39c3ff","liveCapabilityDenominator":"EXCLUDED","status":"REPLAY_INCOMPLETE","stop":{"snapshot":3,"origin":"https://www.tablecheck.com","pathname":"/en/fixture","reason":"UNCAPTURED_STATIC_DEPENDENCY"},"consumedPages":2,"recordedPages":4,"consumedDecisions":3,"recordedDecisions":4,"replayedDecisionCount":3,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":0,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-ScfynQ/output/execution/2026-11-25T04-13-10-402Z-df8e30c7-924d-45d5-92c6-ee7f19b03936.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ replay model-wiring preserves source/progress and model boundaries (2849.442291ms)
+ℹ {"mode":"model-wiring","summary":{"executionSource":"REPLAY","modelMode":"REAL","recordingSha256":"07e30ac6621be6b3097f65b0ccd91c74c2368580c4a744314b38cd304abcf0a2","harSha256":"6561e41194533dfb244576bd5ca14e2814ce75ab7332d09c14089ba68dd9e34c","decisionSha256":"749b93976070bbc6c85ef27d183aee2e80c0de24119d334a0574902ecbd8bef8","liveCapabilityDenominator":"EXCLUDED","status":"COMPLETED","stop":null,"consumedPages":4,"recordedPages":4,"consumedDecisions":0,"recordedDecisions":4,"replayedDecisionCount":0,"decisionMismatch":null,"referenceBindingProtocol":"observed-target-rebinding@1","referenceBindings":[],"modelTransportCalls":4,"missingRequests":[],"resultPath":"/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-replay-child-kEybar/output/execution/2026-11-25T04-13-13-260Z-615f415f-a8bd-469b-839f-7ab6c60d9a09.result.json"},"networkPolicy":"OS_DENY_NETWORK_OUTBOUND","realModelCalls":0}
+✔ recorded document redirects reach the qualified final snapshot through real Chromium and Guard (155.591459ms)
+✔ a missing optional image fails and is recorded without inventing bytes or rejecting a qualified document (131.263584ms)
+✔ redirect qualification cannot promote an unqualified final page, missing hop or cycle (3.527458ms)
+✔ replay checks missing responses after Guard admission, retaining denial and missing-entry boundaries (262.978ms)
+[browser fixtures] {"phase":"remaining fixtures","event":"FILE_END","file":"src/harness/browser/runner-replay.test.ts","elapsedMs":12863.833042,"passed":true}
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12867.954292
+[browser fixtures] combined summary
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12896.188

@@ -1,0 +1,536 @@
+{
+  "sha": "ae5fb94531dcc3278047329773b1945df10fd690",
+  "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+  "source": "gates/test.log",
+  "count": 37,
+  "counts": {
+    "AVAILABILITY_QUERY": 20,
+    "SEMANTIC_CLARIFICATION_NO_CALLS": 14,
+    "RECOMMENDATION_SEARCH": 1,
+    "NO_OP": 1,
+    "ASK_USER": 1
+  },
+  "rows": [
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "today",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-24",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-24"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "tomorrow",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "correct offset",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "wrong tomorrow",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "wrong calendar",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "three days",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-27",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-27"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "four days",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "one week",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-12-01",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-12-01"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "cross month",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-12-02",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-12-02"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "cross year",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2027-01-02",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2027-01-02"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "shortened relative raw",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "ordinary weekday mismatch",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "ordinary Friday cannot move one full week",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "this week from adjacent prefix",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-27",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-27"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "this week mismatching weekday",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "next week from adjacent prefix",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "next week valid date",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-12-04",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-12-04"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "wrong year for yearless date",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "yearless date crosses year",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2027-01-03",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2027-01-03"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "invalid yearless date",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "fabricated raw",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "invalid offset 2-3天后",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "invalid offset -1天后",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "invalid offset 500天后",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "invalid offset 两三天后",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "structured omission",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "structured confirmation conflicts",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "structured target replaces wrong raw",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "18:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "background flight with selected weekday",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-27",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-27"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "background landing with selected ISO",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-28",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-28"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "background flight without DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "20:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "background flight punctuation without DATE",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "20:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "background flight recommendation",
+      "phase": "NO_VERIFIED_RESULT",
+      "searchCalls": 1,
+      "decisionCalls": 2,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "keep date while changing time",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "omitted free-text DATE delegates to model",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-25"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "date confirmation without any edit remains a no-op",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "ordinary missing area still reaches ASK_USER",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 1,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityCalls": 0
+    }
+  ]
+}

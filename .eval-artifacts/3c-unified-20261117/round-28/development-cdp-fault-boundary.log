@@ -1,0 +1,33 @@
+✔ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (8039.697958ms)
+CDP_FAULT_BINDING {"held":{"connection":1,"mode":"READ","event":"HELD_READ","sessionId":"2CDC762073FAA613E31D7D41F26C0524","targetId":"13848B8B4491B1F5BFA840ED14C4E0E2"},"duplicate":{"connection":1,"mode":"READ","event":"DUPLICATE_DURING_READ","sessionId":"2CDC762073FAA613E31D7D41F26C0524","targetId":"13848B8B4491B1F5BFA840ED14C4E0E2"}}
+✔ Round25 C1: real CDP read duplicate isolates concurrent healthy HTTP read and subsequent request (14570.337791ms)
+✔ Round25 C1: unrelated host uncaught exceptions still terminate the real HTTP host (4545.667292ms)
+✖ Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable (2660.11925ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30680.50625
+
+✖ failing tests:
+
+test at src/harness/browser/cloudflare-cdp-isolation.test.ts:1:4972
+✖ Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable (2660.11925ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNEXPECTED_SUCCESS'
+  - 'BROWSER_RUNTIME_FAILED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:24:511)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNEXPECTED_SUCCESS',
+    expected: 'BROWSER_RUNTIME_FAILED',
+    operator: 'strictEqual'
+  }

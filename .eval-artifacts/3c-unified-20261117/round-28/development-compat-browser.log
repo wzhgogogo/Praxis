@@ -1,0 +1,73 @@
+✔ Round25 C1: real CDP init duplicate fails only its session; AUTO next engine reads through HTTP/PGlite (13661.830625ms)
+CDP_FAULT_BINDING {"held":{"connection":1,"mode":"READ","event":"HELD_READ","sessionId":"9328970D67F7C335093FBD533CC96075","targetId":"5451A30F184C6A4E892CE5F867432C49"},"duplicate":{"connection":1,"mode":"READ","event":"DUPLICATE_DURING_READ","sessionId":"9328970D67F7C335093FBD533CC96075","targetId":"5451A30F184C6A4E892CE5F867432C49"}}
+✔ Round25 C1: real CDP read duplicate isolates concurrent healthy HTTP read and subsequent request (23779.655375ms)
+✔ Round25 C1: unrelated host uncaught exceptions still terminate the real HTTP host (7347.732ms)
+✖ Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable (3343.090125ms)
+✔ Round24 UI: B4 390 beer-triple keeps unrevoked intent through the next Google request (7378.139458ms)
+✔ Round24 UI: B4 390 beer-double keeps unrevoked intent through the next Google request (5123.698041ms)
+✔ Round24 UI: B4 390 japanese-niaru keeps unrevoked intent through the next Google request (5265.903959ms)
+✔ Round24 UI: B4 390 japanese-shuhen keeps unrevoked intent through the next Google request (6203.144541ms)
+✔ Round24 UI: B4 390 japanese-fukin keeps unrevoked intent through the next Google request (5973.172959ms)
+✔ Round24 UI: B4 390 japanese-compound-control keeps unrevoked intent through the next Google request (5236.461625ms)
+✔ Round24 UI: B4 1440 beer-triple keeps unrevoked intent through the next Google request (5255.192625ms)
+✔ Round24 UI: B4 1440 beer-double keeps unrevoked intent through the next Google request (5316.316042ms)
+✔ Round24 UI: B4 1440 japanese-niaru keeps unrevoked intent through the next Google request (3771.289709ms)
+✔ Round24 UI: B4 1440 japanese-shuhen keeps unrevoked intent through the next Google request (3744.506666ms)
+✔ Round24 UI: B4 1440 japanese-fukin keeps unrevoked intent through the next Google request (4217.071667ms)
+✔ Round24 UI: B4 1440 japanese-compound-control keeps unrevoked intent through the next Google request (3845.53975ms)
+✖ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (7520.428625ms)
+✔ Workspace mobile: stop and request revision discard late source responses (5655.592542ms)
+✖ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (6450.867792ms)
+✔ Workspace desktop: stop and request revision discard late source responses (6153.433833ms)
+✔ Workspace B1 mobile: long conflict terms keep the departure visible without a duplicate source action (5610.076959ms)
+✔ Workspace B1 desktop: long conflict terms keep the departure visible without a duplicate source action (5205.817833ms)
+✔ Workspace mobile: cuisine source disagreement remains visible without changing qualification (3984.991792ms)
+✔ Workspace desktop: cuisine source disagreement remains visible without changing qualification (4711.23375ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 21
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 63915.437333
+
+✖ failing tests:
+
+test at src/harness/browser/cloudflare-cdp-isolation.test.ts:1:4972
+✖ Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable (3343.090125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNEXPECTED_SUCCESS'
+  - 'BROWSER_RUNTIME_FAILED'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/cloudflare-cdp-isolation.test.ts:24:511)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNEXPECTED_SUCCESS',
+    expected: 'BROWSER_RUNTIME_FAILED',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:3426
+✖ Workspace mobile: progressive card, saved isolation, preserved position, current reference and B1 return (7520.428625ms)
+  locator.evaluate: ReferenceError: __name is not defined
+      at eval (eval at evaluate (:311:30), <anonymous>:1:19)
+      at UtilityScript.evaluate (<anonymous>:313:16)
+      at UtilityScript.<anonymous> (<anonymous>:1:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace.test.ts:129:62) {
+    log: []
+  }
+
+test at src/harness/browser/web-workspace.test.ts:1:3426
+✖ Workspace desktop: progressive card, saved isolation, preserved position, current reference and B1 return (6450.867792ms)
+  locator.evaluate: ReferenceError: __name is not defined
+      at eval (eval at evaluate (:311:30), <anonymous>:1:19)
+      at UtilityScript.evaluate (<anonymous>:313:16)
+      at UtilityScript.<anonymous> (<anonymous>:1:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace.test.ts:129:62) {
+    log: []
+  }
