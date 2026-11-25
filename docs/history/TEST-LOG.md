@@ -20,3 +20,9 @@
 | `PRAXIS_CDP_DIST=1 node --import tsx --test src/harness/browser/cloudflare-cdp-isolation.test.ts` | 4/4 | 0 | 17.142 秒 |
 
 测试使用 Offline、Fixture 和录制回放。模型、网站、真实 PostgreSQL 和预约写入未在门禁中调用。真实 DeepSeek 日期抽测另计有效提议 10/10、编译 9/10。D04 修复后同一批回包离线回放 10/10，新增真实请求 0 次。2026-11-25 局域网 4312 用户走查单列，未纳入门禁分母。规模化 Live Read-only 与 Controlled Live-write 尚待验收。[状态及证据](../STATUS.md#验收证据)
+
+<a id="post-change-verify-20261116"></a>
+
+## 2026-11-26 · Post-change Verify 1.2 合入主线
+
+采用原本地暂存的 Post-change Verify 1.2（2026-11-16 修订，原 stash `4e4691549`）。核对全部相对链接与锚点（`../arch-guard/SKILL.md`、`../test/SKILL.md#验证矩阵`、`../eval/SKILL.md`、`../../INDEX.md#文档治理`、`../../REPOSITORY-CONVENTIONS.md#交付检查`），`git diff --check`、`npm run arch:check` 与 `npm run check:worktree` 通过。纯文档规程更新，不涉及代码或测试改动。

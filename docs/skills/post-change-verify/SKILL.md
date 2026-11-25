@@ -1,19 +1,16 @@
 ---
 name: praxis-post-change-verify
-description: 按Praxis Test和Eval规程完成改动验证、事实同步与交付，保留真实证据和未验证边界。
+description: 核对 Praxis 仓库改动的验收证据、遗留问题和交付状态。
 ---
 
 # Praxis Post-change Verify
 
-- Document revision: 1.1
-- Last updated: 2026-09-26
+- Document revision: 1.2
+- Last updated: 2026-11-16
 
-本文件负责适用检查、事实同步与交付；验证矩阵、覆盖/检错和故障关闭只由[Test](../test/SKILL.md)维护，质量oracle、评分和门槛只由[Eval](../eval/SKILL.md)维护。
+实际修改仓库文件后使用本清单。只读评审直接给出判断、依据和仍待核实的问题。
 
-1. 确认本次diff与已有用户改动的边界，复核实际影响的ADR和[Arch Guard](../arch-guard/SKILL.md)边界。
-2. 按[Test](../test/SKILL.md)运行适用检查，修复本次引入的问题；对照实施前的关键假设，交付实际入口、复用/补强的检错证据、未覆盖边界及Eval影响。验证充分后按[Test的停止原则](../test/SKILL.md#验证投入与停止)结束；既有失败和环境阻塞单独报告，不声称未运行的模式通过。
-3. 按[Eval](../eval/SKILL.md)核对评价对象、证据状态、分母、门槛和独立evaluation；执行artifact与evaluation分开保存，评价失败不得覆盖执行结果。
-4. 只更新确实变化的权威文档；当前能力/证据/下一门槛变化时更新STATUS，非trivial实现与验证分别追加DEVLOG、TEST-LOG。产品、架构、Domain、平台、入口和命名的归属以[INDEX](../../INDEX.md)和[Conventions](../../REPOSITORY-CONVENTIONS.md)为准。
-5. 检查diff和命名，说明覆盖的合并/退役去向、行为、实际检查、失败/未运行及原因、模式、副作用和限制。提交/推送遵守Conventions；未获授权不推送。
-
-交付先对照[Planning的切片承诺](../planning/SKILL.md#切片收敛与偏离提醒)说明改善是否兑现、证据及首个剩余阻断。区分探针、离线组合、真实只读和受控写入；发生范围或口径偏离时按Planning说明并收敛，不自动扩展下一轮。
+1. 对照用户约定的范围和验收条件检查本次 diff，区分工作树中原有的改动。涉及架构或执行权限时，复核相关 Accepted ADR 和 [Arch Guard](../arch-guard/SKILL.md)。
+2. 按改动类型运行适用检查。设计、执行评测或引用评测结论时，再核对评测输入、执行记录和独立评价。[Test 验证矩阵](../test/SKILL.md#验证矩阵) · [Eval](../eval/SKILL.md)
+3. 逐项说明验收结果和对应证据。涉及 Mock、Replay、Live Read-only 或 Controlled Live-write 时，分别报告实际结果。对仍失败或未验证的条件，说明原因及其对交付的影响。
+4. 按文档归属更新本次影响的记录。涉及 Git 交付时，说明实际提交、合入或推送状态。远端推送须有用户明确授权。[文档治理](../../INDEX.md#文档治理) · [仓库交付约定](../../REPOSITORY-CONVENTIONS.md#交付检查)
