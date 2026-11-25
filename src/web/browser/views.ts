@@ -119,7 +119,10 @@ function renderAboutSources(target:HTMLElement,conditions:Condition[],facts:Evid
   }
   if(typeof claims.coursePriceYen==='number')addValue('Course '+money(claims.coursePriceYen));
   else for(const price of priceFacts?.listedCoursePricesYen??[]){
-   if(price.kind!=='MEAL')continue;
+   const quoted=normalizeAboutText(price.quote);
+   const supportsBudget=conditions.some(item=>item.evidenceIds?.includes(fact.evidenceId)&&item.sources?.some(q=>
+    q.field==='PRICE'&&q.sourceUrl===price.sourceUrl&&(!q.evidenceId||q.evidenceId===fact.evidenceId)&&normalizeAboutText(q.quote)===quoted));
+   if(price.kind!=='MEAL'||!supportsBudget)continue;
    addValue('Course '+money(price.amount),price.sourceUrl);
    addQuote(sourceGroup(price.sourceUrl,observedAt),price.quote);
   }

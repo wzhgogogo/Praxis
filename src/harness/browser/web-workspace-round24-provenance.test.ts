@@ -66,13 +66,8 @@ for(const width of [390,1440])for(const budget of [false,true])for(const provide
   const retained=projected.restaurant.currentFactEvidence.find(item=>item.evidenceId===fact.evidenceId);
   assert.deepEqual(retained?.claims.listedCourseDetails,fact.claims.listedCourseDetails);
   assert.deepEqual(retained?.sourceFieldQuotes,fact.sourceFieldQuotes);
-  if(provider==='website'){
-   const row=(await groups(page)).find(row=>row.key[0]===fact.sourceUrl&&row.key[1]===fact.observedAt)!;
-   assert.ok(row);
-   assert.deepEqual(row.values,['Course ¥3,800','Course ¥5,500','Course ¥7,000']);
-   assert.equal(row.href,fact.sourceUrl);
-   assert.match(row.footer!,/ ↗ · Checked /);
-  }else assert.equal(await content.locator('.about-term').count(),0);
+  assert.equal(await content.locator('.about-term').count(),0,
+   'raw menus and course prices without applicable price evidence stay out of About');
   await capture(page,`round24-u2-${width}-${provider}-${budget?'budget':'no-budget'}`);
  });
 });
