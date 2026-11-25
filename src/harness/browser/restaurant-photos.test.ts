@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { chromium, type Page } from "playwright-core";
 import sharp from "sharp";
-import { startWorkspaceFixture } from "../workspace-fixture-server.js";
+import { datedWorkspaceRequest, startWorkspaceFixture } from "../workspace-fixture-server.js";
 import { createPhotoSourceFixture } from "../restaurant-photo-fixtures.js";
 import { observePageImages } from "../../infrastructure/browser/observe-page-images.js";
 import { extractRestaurantPhotos } from "../../integrations/restaurant-photos/extract-photos.js";
@@ -13,7 +13,7 @@ const sizes=[{name:'mobile',width:390,height:844},{name:'desktop',width:1280,hei
 async function start(page:Page,host:Awaited<ReturnType<typeof startWorkspaceFixture>>) {
   page.setDefaultTimeout(10_000);await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);
   await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();
-  await page.locator('#message').fill('Dinner with photos');await page.getByRole('button',{name:'Send',exact:true}).click();
+  await page.locator('#message').fill(datedWorkspaceRequest('Dinner with photos'));await page.getByRole('button',{name:'Send',exact:true}).click();
   await page.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3');
 }
 async function capture(page:Page,name:string){const root=process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!root)return;await mkdir(root,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));await page.screenshot({path:join(root,name+'.png'),animations:'disabled'});}

@@ -235,6 +235,7 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       if (method === "GET" && url.pathname === "/") {
         response.writeHead(200, {
           "content-type": "text/html; charset=utf-8",
+          "cache-control": "no-store",
           "content-security-policy": "default-src 'self'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'self'",
           "x-content-type-options": "nosniff",
         });

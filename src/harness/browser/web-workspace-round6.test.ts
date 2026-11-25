@@ -3,14 +3,14 @@ import test from "node:test";
 import { mkdir,writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { chromium,type Page } from "playwright-core";
-import { startWorkspaceFixture } from "../workspace-fixture-server.js";
+import { datedWorkspaceRequest, startWorkspaceFixture } from "../workspace-fixture-server.js";
 import { createPhotoSourceFixture } from "../restaurant-photo-fixtures.js";
 
 type Host=Awaited<ReturnType<typeof startWorkspaceFixture>>;
 async function open(page:Page,host:Host){
   page.setDefaultTimeout(10_000);await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);
   await page.getByLabel("Access token",{exact:true}).fill("workspace-fixture");await page.getByRole("button",{name:"Sign in",exact:true}).click();
-  await page.locator("#message").fill("Dinner in Tokyo");await page.locator("#send").click();
+  await page.locator("#message").fill(datedWorkspaceRequest("Dinner in Tokyo"));await page.locator("#send").click();
   await page.waitForFunction(()=>document.getElementById("card-counter")?.textContent==="1 of 3");
   const id=await page.locator(".case-link.active").getAttribute("data-case-id");return(await(await page.request.get("/api/cases/"+id)).json()).view;
 }
@@ -82,7 +82,7 @@ for(const size of [{width:390,height:844},{width:768,height:1024},{width:1440,he
     assert.doesNotMatch(await page.locator("#delivery-conditions").innerText(),/—|not checked|not met|·/);
     const metrics=await page.locator("#delivery-conditions").evaluate(node=>{const style=getComputedStyle(node);const buttonGap=document.getElementById("choose")!.getBoundingClientRect().top-node.getBoundingClientRect().bottom;return{buttonGap,font:style.fontSize,line:style.lineHeight,margin:style.marginTop,gap:style.rowGap,rows:[...node.querySelectorAll(".condition-row")].map(row=>{const style=getComputedStyle(row),name=row.querySelector(".condition-name")!,status=row.querySelector(".condition-status")!,a=name.getBoundingClientRect(),b=status.getBoundingClientRect();return{display:style.display,align:style.alignItems,justify:style.justifyContent,gap:style.columnGap,color:getComputedStyle(name).color,status:getComputedStyle(status).color,statusText:status.textContent,distance:b.left-a.right,rightGap:node.getBoundingClientRect().right-b.right};})};});
     assert.ok(metrics.buttonGap>=12, `Expected 12px between conditions and booking, got ${metrics.buttonGap}px`);
-    assert.equal(metrics.font,"13px");assert.equal(metrics.margin,"10px");assert.equal(metrics.gap,"6px");assert.ok(Math.abs(parseFloat(metrics.line)-18.85)<0.1);for(const row of metrics.rows){assert.equal(row.display,"flex");assert.equal(row.align,"baseline");assert.equal(row.justify,"space-between");assert.equal(row.gap,"12px");assert.equal(row.color,"rgb(21, 23, 43)");assert.equal(row.status,row.statusText==='Confirmed'?"rgb(54, 75, 138)":"rgb(95, 98, 117)");assert.ok(row.distance>=12);assert.ok(Math.abs(row.rightGap)<1);}
+    assert.equal(metrics.font,"13px");assert.equal(metrics.margin,"10px");assert.equal(metrics.gap,"6px");assert.ok(Math.abs(parseFloat(metrics.line)-18.85)<0.1);for(const row of metrics.rows){assert.equal(row.display,"flex");assert.equal(row.align,"baseline");assert.equal(row.justify,"space-between");assert.equal(row.gap,"12px");assert.equal(row.color,"rgb(21, 23, 43)");assert.equal(row.status,"rgb(95, 98, 117)");assert.ok(row.distance>=12);assert.ok(Math.abs(row.rightGap)<1);}
     assert.equal(await page.locator("#recommendation").isVisible(),false);
     const availability=await page.locator("#availability-status").evaluate(n=>{const s=getComputedStyle(n),before=getComputedStyle(n,"::before");return{text:n.textContent,font:s.fontSize,weight:s.fontWeight,color:s.color,before:before.content};});
     if(available){assert.match(availability.text!,/^Mon, Nov 2$/);assert.equal(availability.font,"13px");assert.equal(availability.weight,"600");assert.equal(availability.color,"rgb(21, 23, 43)");assert.equal(await page.locator(".slot-time").first().evaluate(n=>getComputedStyle(n).borderRadius),"8px");}
@@ -137,7 +137,7 @@ test("Round8 UI: real Stop retains About and never offers an unavailable refresh
     await page.goto(host.baseUrl);
     await page.getByLabel("Access token",{exact:true}).fill("workspace-fixture");
     await page.getByRole("button",{name:"Sign in",exact:true}).click();
-    await page.locator("#message").fill("Dinner in Tokyo");
+    await page.locator("#message").fill(datedWorkspaceRequest("Dinner in Tokyo"));
     await page.locator("#send").click();
     await host.waitForCheck();
     await page.locator("#progress.has-card").waitFor();
@@ -242,7 +242,7 @@ test("Round8 UI: the original request and later reply appear beside the current 
     await page.route(host.baseUrl+"/api/cases/"+encodeURIComponent(view.case.caseId),r=>r.fulfill({json:{view}}));
     await page.reload();
     await page.locator("#messages").waitFor();
-    assert.equal(await page.locator("#clarification-reply").innerText(),"Dinner in Tokyo");
+    assert.equal(await page.locator("#clarification-reply").innerText(),datedWorkspaceRequest("Dinner in Tokyo"));
     assert.equal(await page.locator("#messages").innerText(),view.restaurant.clarificationQuestion);
     assert.doesNotMatch(await page.locator("#case-workspace").innerText(),/historical answer/i);
     await captureRound8(page,"clarification-first");
@@ -285,7 +285,7 @@ test("Round8 UI: case list orders initial, new, and SSE-updated cases without re
     const firstId=first.case.caseId as string;
     host.clock.advance(1000);
     await page.locator("#new-case").click();
-    await page.locator("#message").fill("Dinner on my next visit");
+    await page.locator("#message").fill(datedWorkspaceRequest("Dinner on my next visit"));
     await page.locator("#send").click();
     await page.waitForFunction(firstId=>{
       const row=document.querySelector<HTMLElement>(".case-link.active");

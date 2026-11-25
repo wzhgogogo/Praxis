@@ -5,13 +5,13 @@ import { test } from "node:test";
 import { chromium, type Page } from "playwright-core";
 import type { RestaurantCaseView } from "../../application/agent-workspace.js";
 import type { RestaurantTaskState } from "../../domains/restaurant/contracts.js";
-import { startWorkspaceFixture } from "../workspace-fixture-server.js";
+import { datedWorkspaceRequest, startWorkspaceFixture } from "../workspace-fixture-server.js";
 
 // Real browser -> HTTP/SSE -> application, interpreter/compiler, Router, reducer and PGlite.
 // Only model and source transports are synthetic. This is not a model or live-site evaluation.
-const sizes=[{name:"mobile",width:390,height:844},{name:"desktop",width:1280,height:900}];
+const sizes=[{name:"mobile",width:390,height:844},{name:"desktop",width:1440,height:900}];
 async function capture(page:Page,name:string,scrollTarget?:string){
-  const folder=process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!folder)return;
+  const folder=process.env.PRAXIS_ROUND28_HANDOFF_VISUAL_OUTPUT??process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!folder)return;
   await mkdir(folder,{recursive:true});await page.evaluate(()=>{window.scrollTo(0,0);return document.fonts.ready.then(()=>undefined);});
   const interrupted=await page.evaluate(async()=>{const finite=document.getAnimations().filter(a=>a.effect?.getTiming().iterations!==Infinity),settled=await Promise.allSettled(finite.map(a=>a.finished));return settled.flatMap((r,i)=>r.status==='rejected'?[{kind:finite[i]!.constructor.name,error:String(r.reason?.name)}]:[]);});
   assert.deepEqual(interrupted.filter(row=>row.error!=='AbortError'),[],"only a natively cancelled visual transition may settle without finishing");
@@ -20,7 +20,7 @@ async function capture(page:Page,name:string,scrollTarget?:string){
   await page.screenshot({path:join(folder,name+".png"),fullPage:false,animations:"disabled"});
 }
 async function createPlan(page:Page,message:string){
-  await page.locator("#message").fill(message);
+  await page.locator("#message").fill(datedWorkspaceRequest(message));
   const reply=page.waitForResponse(r=>new URL(r.url()).pathname==="/api/cases"&&r.request().method()==="POST");
   await page.locator("#send").click();const response=await reply;assert.equal(response.status(),201);
   return (await response.json()).view as RestaurantCaseView;
@@ -105,8 +105,7 @@ for(const size of sizes){
       assert.equal(await page.locator("#selection-hint").innerText(),"Pick Omakase Nigiri ¥9,800");
       assert.equal(await page.locator("#verification-hint").innerText(),"Check date and guests on the website");
       assert.match(await page.locator("#request-conditions").innerText(),/Mon, Nov 2/);
-      assert.equal(await page.locator("#handoff-provider-name").evaluate(n=>getComputedStyle(n).color),"rgb(21, 23, 43)");
-      assert.equal(await page.locator("#handoff-recommended").evaluate(n=>getComputedStyle(n).color),"rgb(61, 90, 254)");
+      assert.equal(await page.locator("#handoff-provider").isVisible(),false);
       const departureText=await page.locator("#departure").innerText();
       assert.match(departureText,/^Continue on TableCheck ↗$/);
       assert.equal(await page.locator("#departure-fields").innerText(),"Date, time, 2 guests filled in");
@@ -126,7 +125,23 @@ for(const size of sizes){
       assert.equal(destinationRequests,1);await popup.close();await page.bringToFront();
       // Chromium headless focus is explicit, using the real window focus event consumed by the client.
       await page.evaluate(()=>window.dispatchEvent(new Event("focus")));
-      await page.getByText("Did you get the booking?",{exact:true}).waitFor();await capture(page,size.name+"-feedback");
+      await page.getByText("Did you get the booking?",{exact:true}).waitFor();
+      const feedbackLayout = await page.locator("#feedback").evaluate(root => {
+        const title = root.querySelector(".feedback-head p")!.getBoundingClientRect();
+        const close = root.querySelector("#feedback-dismiss")!.getBoundingClientRect();
+        const yes = root.querySelector('[data-answer="YES"]')!.getBoundingClientRect();
+        const no = root.querySelector('[data-answer="NO"]')!.getBoundingClientRect();
+        const answers = root.querySelector(".answers")!.getBoundingClientRect();
+        return { head: root.querySelector(".feedback-head")!.getBoundingClientRect().right, titleRight: title.right, titleMiddle: (title.top + title.bottom) / 2,
+          closeLeft: close.left, closeRight: close.right, closeHeight: close.height, closeBottom: close.bottom, closeMiddle: (close.top + close.bottom) / 2,
+          answersCenter: (answers.left + answers.right) / 2, buttonsCenter: (yes.left + no.right) / 2, buttonTop: Math.min(yes.top, no.top) };
+      });
+      assert.equal(feedbackLayout.closeRight, feedbackLayout.head);
+      assert.equal(feedbackLayout.closeMiddle, feedbackLayout.titleMiddle);
+      assert.ok(feedbackLayout.closeLeft > feedbackLayout.titleRight && feedbackLayout.closeHeight >= 44);
+      assert.ok(feedbackLayout.buttonTop >= feedbackLayout.closeBottom);
+      assert.ok(Math.abs(feedbackLayout.answersCenter - feedbackLayout.buttonsCenter) < 1);
+      await capture(page,size.name+"-feedback");
       await page.getByRole("button",{name:"Not yet",exact:true}).click();
       await page.locator("#feedback").waitFor({state:"hidden"});
       await page.reload();await page.locator("#handoff").waitFor({state:"visible"});
@@ -216,6 +231,8 @@ for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms ke
   try{
     await signIn(page,host.baseUrl,host.clock.now());await createPlan(page,"Dinner and booking terms");await ready(page);
     await page.locator("#choose").click();await page.locator("#departure").waitFor({state:"visible"});
+    assert.equal(await page.locator("#handoff-provider").isVisible(),false);
+    assert.equal(await page.locator("#departure").innerText(),"Continue on Tabelog ↗");
     const conflict=page.locator('[data-kind="cancellation-conflict"]');
     assert.match(await conflict.innerText(),/English page: Same-day cancellation costs 100%[\s\S]*Confirm cancellation terms on the website/);
     assert.doesNotMatch(await page.locator("#handoff").innerText(),/Cancellation terms differ/);

@@ -154,10 +154,10 @@ export async function bookingTermsComposition(options:Options={}){
     }else if(continuity&&request.purpose==="restaurant_party_size_supplement"){
       rawOutput=realD6.get(10)!;body=JSON.parse(rawOutput);
     }else if(request.purpose==="restaurant_semantic_interpret"){
-      const raw=JSON.parse(request.messages.find(m=>m.role==="user")!.content.slice("User restaurant message as JSON string: ".length));
+      const raw=JSON.parse(request.messages.find(m=>m.role==="user")!.content.slice("User restaurant message as JSON string: ".length)) as string;
       body={schemaVersion:"4",facts:[
         {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:"AVAILABILITY",query:turn==="INITIAL"?"restaurant in Shibuya":source.outlet.name,selectionScope:turn==="INITIAL"?"OPEN_ENDED":"SPECIFIC_OUTLET",...(turn==="INITIAL"?{requestedResultCount:1}:{}),goalBasis:{type:"BOOKING_WORDING",reason:"Constructed explicit restaurant selection",quotes:[raw]}}},
-        {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:source.date,raw:"November 11, 2026"}},
+        ...(raw.includes("November 11, 2026") ? [{field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:source.date,raw:"November 11, 2026"}}] : []),
         {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:00",raw:"7 PM"}},
         {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2,source:"EXPLICIT"}},
         {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Shibuya"}}]};

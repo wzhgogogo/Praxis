@@ -6,8 +6,7 @@ import {chromium,type Page} from 'playwright-core';
 import type {RestaurantCaseView} from '../../application/agent-workspace.js';
 import type {RestaurantReadEvidence} from '../../domains/restaurant/contracts.js';
 import type {RestaurantSemanticProposal} from '../../domains/restaurant/semantic-proposal.js';
-import {assessRestaurantConditions} from '../../domains/restaurant/condition-states.js';
-import {startWorkspaceFixture} from '../workspace-fixture-server.js';
+import {datedWorkspaceRequest, startWorkspaceFixture} from '../workspace-fixture-server.js';
 import {questionRowFixture} from '../question-row-fixture.js';
 
 type Host=Awaited<ReturnType<typeof startWorkspaceFixture>>;
@@ -48,10 +47,10 @@ async function capture(page:Page,name:string){const root=process.env.PRAXIS_ROUN
 async function snapshot(page:Page){const id=(await page.locator('.case-link.active').getAttribute('data-case-id'))!;return(await(await page.request.get('/api/cases/'+encodeURIComponent(id))).json()).view as RestaurantCaseView;}
 async function projection(page:Page,view:RestaurantCaseView){await page.evaluate(async view=>{const path='/assets/workspace/transport.js';const {closeStream,accept}=await import(path);closeStream();accept(view);},view);}
 async function settled(host:Host,id:string,assistantCount=0){await until(async()=>{const view=await host.application.getCase('workspace-user',id);return !view.restaurant.progress.active&&!view.restaurant.sourceReadContext?.handleId&&view.conversation.messages.filter(message=>message.role==='ASSISTANT').length>=assistantCount;});return host.application.getCase('workspace-user',id);}
-async function journey(width:number,options:Parameters<typeof startWorkspaceFixture>[0],ready:'card'|'empty'|'running',run:(page:Page,host:Host)=>Promise<void>){
- const host=await startWorkspaceFixture(options),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:width===390,reducedMotion:'reduce'}),page=await context.newPage(),errors:string[]=[];
- await context.route('**/*',route=>new URL(route.request().url()).origin===host.baseUrl?route.continue():route.abort());page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));
- try{await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.locator('#home').waitFor();await page.locator('#message').fill('Dinner in Tokyo');await page.locator('#send').click();
+async function journey(width:number,options:Parameters<typeof startWorkspaceFixture>[0],ready:'card'|'empty'|'running',run:(page:Page,host:Host)=>Promise<void>,message=datedWorkspaceRequest('Dinner in Tokyo')){
+ const host=await startWorkspaceFixture(options),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:width===390,reducedMotion:'reduce'}),errors:string[]=[];
+ await context.route('**/*',route=>new URL(route.request().url()).origin===host.baseUrl?route.continue():route.abort());const page=await context.newPage();page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));
+ try{await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.locator('#home').waitFor();await page.locator('#message').fill(message);await page.locator('#send').click();
   if(ready==='card')await page.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3'&&document.getElementById('progress')?.hidden);
   else await page.locator(ready==='empty'?'#empty-state':'#stop').waitFor();
   await run(page,host);assert.deepEqual(errors,[]);
@@ -73,25 +72,51 @@ for(const width of [390,1440])test(`Round27 UI: UI-1 ${width} pending question S
 for(const width of [390,1440])test(`Round27 UI: UI-4 ${width} Source history absolute top and sheet relative top stay fixed`,{timeout:35000},async()=>{
  await journey(width,{questions:{beforeAnswer:async()=>{},answer:input=>questionRowFixture(input.candidate,'same-row')}},'card',async(page)=>{
   await page.locator('#details-button').click();await page.locator('#message').fill('Does this restaurant have private rooms?');await page.locator('#send').click();await page.locator('#answer-sheet').waitFor();await page.evaluate(()=>document.fonts.ready);
-  const summary=page.locator('#question-result summary');await summary.scrollIntoViewIfNeeded();const sheetAt=()=>summary.evaluate(n=>({top:n.getBoundingClientRect().top,sheet:document.getElementById('answer-sheet')!.getBoundingClientRect().top,tap:getComputedStyle(n).getPropertyValue('-webkit-tap-highlight-color')}));
-  const before=await sheetAt();await capture(page,`round27-ui4-${width}-sheet-before`);await summary.click();const after=await sheetAt();assert.equal(after.top-after.sheet,before.top-before.sheet);assert.equal(after.tap,'rgba(0, 0, 0, 0)');await capture(page,`round27-ui4-${width}-sheet-after`);
+  const summary=page.locator('#question-result summary');await summary.scrollIntoViewIfNeeded();const sheetAt=()=>summary.evaluate(n=>({top:n.getBoundingClientRect().top,sheet:document.getElementById('answer-sheet')!.getBoundingClientRect().top,left:n.getBoundingClientRect().left,tap:getComputedStyle(n).getPropertyValue('-webkit-tap-highlight-color')}));
+  const before=await sheetAt();await capture(page,`round27-ui4-${width}-sheet-before`);await summary.click();const after=await sheetAt();assert.equal(after.top-after.sheet,before.top-before.sheet);assert.equal(after.left,before.left);assert.equal(after.tap,'rgba(0, 0, 0, 0)');await capture(page,`round27-ui4-${width}-sheet-after`);
   assert.deepEqual(await page.locator('#question-result blockquote').allTextContents(),['Private rooms: Available','For 2 people or more.']);await page.locator('#answer-close').click();
-  const history=page.locator('#asked-history #asked-result summary');await history.scrollIntoViewIfNeeded();const first=await history.evaluate(n=>n.getBoundingClientRect().top);await capture(page,`round27-ui4-${width}-history-before`);await history.click();assert.equal(await history.evaluate(n=>n.getBoundingClientRect().top),first);await capture(page,`round27-ui4-${width}-history-after`);
+  const history=page.locator('#asked-history #asked-result summary');await history.scrollIntoViewIfNeeded();const coordinates=()=>history.evaluate(n=>{const r=n.getBoundingClientRect();return {top:r.top,left:r.left};});const first=await coordinates();await capture(page,`round27-ui4-${width}-history-before`);await history.click();assert.deepEqual(await coordinates(),first);await capture(page,`round27-ui4-${width}-history-after`);
  });
 });
 
-for(const width of [390,1440])test(`Round27 UI: UI-2 UI-7 ${width} restrained colors and rendered-category-only deduplication`,{timeout:35000},async()=>{
+for(const width of [390,1440])test(`Round28 UI: ${width} neutral text and About category and Source states`,{timeout:35000},async()=>{
  await journey(width,{},'card',async(page)=>{
   const view=await snapshot(page),id=view.restaurant.presentedCandidateIds![0]!,url='https://tabelog.com/en/tokyo/A1301/A130101/13123456/';
-  const merchant:RestaurantReadEvidence={evidenceId:'round27-category',kind:'RESTAURANT_FACT',provider:'TABELOG',candidateId:id,sourceEntityId:'13123456',sourceUrl:url,observedAt:'2026-11-21T08:05:00Z',requestFingerprint:'round27-fixture',claims:{restaurantTypeFacts:['Steak']},sourceFieldQuotes:[{field:'CATEGORY',quote:'Steak',sourceUrl:url}]};
-  view.restaurant.readEvidence.push(merchant);view.restaurant.currentFactEvidence=[merchant];view.restaurant.conditionStates={[id]:assessRestaurantConditions({criteria:[{text:'Steak',polarity:'POSITIVE',strength:'SOFT'}]},[merchant])};view.restaurant.shortlistCandidateIds=[id];view.case.taskVersion++;
-  await projection(page,view);const color=await page.locator('#delivery-conditions .condition-status').evaluate(n=>{const s=getComputedStyle(n);return{color:s.color,weight:s.fontWeight,bg:s.backgroundColor};});assert.deepEqual(color,{color:'rgb(54, 75, 138)',weight:'500',bg:'rgba(0, 0, 0, 0)'});assert.equal(await page.locator('#details-button').evaluate(n=>getComputedStyle(n).color),'rgb(21, 23, 43)');assert.equal(await page.locator('#bookmark svg').evaluate(n=>getComputedStyle(n).fill),'rgb(61, 90, 254)');await capture(page,`round27-ui2-${width}-card`);
+  const original='Sushi, Seafood, Izakaya (Japanese style tavern)';
+  const merchant:RestaurantReadEvidence={evidenceId:'round28-category',kind:'RESTAURANT_FACT',provider:'TABELOG',candidateId:id,sourceEntityId:'13123456',sourceUrl:url,observedAt:'2026-11-21T08:05:00Z',requestFingerprint:'fixture',claims:{restaurantTypeFacts:['Izakaya']},sourceFieldQuotes:[{field:'CATEGORY',quote:original,sourceUrl:url}]};
+  view.restaurant.readEvidence.push(merchant);view.restaurant.currentFactEvidence=[merchant];
+  const condition={criterionRef:'izakaya',text:'Izakaya',polarity:'POSITIVE' as const,strength:'SOFT' as const,status:'MET' as const,explanation:'Fixture source category',evidenceIds:[merchant.evidenceId],sources:[{field:'CATEGORY' as const,quote:original,sourceUrl:url,evidenceId:merchant.evidenceId}]};
+  view.restaurant.conditionStates={[id]:[condition]};view.restaurant.shortlistCandidateIds=[id];view.case.taskVersion++;
+  await projection(page,view);
+  const color=await page.locator('#delivery-conditions .condition-status').evaluate(n=>{const css=getComputedStyle(n);return{color:css.color,weight:css.fontWeight,bg:css.backgroundColor};});
+  assert.deepEqual(color,{color:'rgb(95, 98, 117)',weight:'500',bg:'rgba(0, 0, 0, 0)'});
+  assert.equal(await page.locator('#details-button').evaluate(n=>getComputedStyle(n).color),'rgb(21, 23, 43)');
+  assert.equal(await page.locator('#bookmark svg').evaluate(n=>getComputedStyle(n).fill),'rgb(61, 90, 254)');
+  await capture(page,`round28-${width}-neutral-card`);
   await page.locator('#details-button').click();
-  // Projection-only UI oracle: keep the quoted category distinct from its condition label.
-  view.restaurant.conditionStates[id]![0]!.text='Cuisine preference';view.case.taskVersion++;await projection(page,view);
-  assert.equal(await page.locator('#details-content blockquote').count(),1);assert.equal(await page.locator('.about-categories').count(),0);assert.equal(await page.locator('#details-content a').evaluate(n=>getComputedStyle(n).color),'rgb(95, 98, 117)');assert.equal(await page.locator('#details-content blockquote').evaluate(n=>getComputedStyle(n).borderLeftColor),'rgb(61, 90, 254)');await capture(page,`round27-ui7-${width}-same-rendered-category`);
-  const google:RestaurantReadEvidence={...merchant,evidenceId:'round27-google-category',provider:'GOOGLE_PLACES',sourceUrl:'https://maps.google.com/?cid=fixture0',claims:{restaurantTypeFacts:['Sushi']},sourceFieldQuotes:[]};view.restaurant.currentFactEvidence=[merchant,google];view.restaurant.readEvidence.push(google);view.case.taskVersion++;await projection(page,view);assert.match(await page.locator('.about-categories').innerText(),/Sushi.*Steak/);await capture(page,`round27-ui7-${width}-extra-google-category`);
-  view.restaurant.currentFactEvidence=[merchant];view.restaurant.conditionStates[id]![0]!.text='Steak';view.case.taskVersion++;await projection(page,view);assert.equal(await page.locator('#details-content blockquote').count(),0);assert.equal(await page.locator('.about-categories').innerText(),'Categories: Steak');await capture(page,`round27-ui7-${width}-footer-only-category`);
+  const content=page.locator('#details-content'),summary=content.locator('summary'),quote=content.locator('blockquote');
+  assert.match(await content.innerText(),/Izakaya\s+Confirmed/);
+  assert.equal(await page.locator('.about-categories').innerText(),'Categories: Sushi, Seafood');
+  assert.equal(await quote.isVisible(),false);
+  await page.evaluate(()=>document.fonts.ready);await summary.scrollIntoViewIfNeeded();
+  const coordinates=()=>summary.evaluate(n=>{const r=n.getBoundingClientRect();return {top:r.top,left:r.left};});
+  const before=await coordinates();await capture(page,`round28-${width}-about-collapsed`);
+  await summary.click();assert.deepEqual(await coordinates(),before);
+  assert.equal(await quote.innerText(),original);
+  assert.equal(await content.locator('.citation-footer').innerText(),'Tabelog ↗ · Checked Nov 21');
+  assert.equal(await content.locator('a').evaluate(n=>getComputedStyle(n).color),'rgb(95, 98, 117)');
+  assert.equal(await quote.evaluate(n=>getComputedStyle(n).borderLeftColor),'rgb(61, 90, 254)');
+  await capture(page,`round28-${width}-about-expanded`);
+  view.restaurant.conditionStates[id]!.push({...condition,text:'Sushi',sources:[]},{...condition,text:'Seafood',sources:[]});
+  view.case.taskVersion++;await projection(page,view);assert.equal(await page.locator('.about-categories').count(),0);
+  const steak={...merchant,evidenceId:'steak',claims:{restaurantTypeFacts:['Steak']},sourceFieldQuotes:[{field:'CATEGORY' as const,quote:'Steak',sourceUrl:url}]};
+  view.restaurant.currentFactEvidence=[steak];view.restaurant.readEvidence.push(steak);
+  view.restaurant.conditionStates[id]=[{...condition,text:'Quiet',sources:[{field:'SOURCE_TEXT',quote:'Quiet',sourceUrl:url,evidenceId:steak.evidenceId}],evidenceIds:[steak.evidenceId]}];
+  view.case.taskVersion++;await projection(page,view);
+  assert.equal(await content.locator('summary').count(),0);
+  assert.equal(await content.locator('.citation-footer').innerText(),'Tabelog ↗ · Checked Nov 21');
+  assert.equal(await page.locator('.about-categories').innerText(),'Categories: Steak');
+  await capture(page,`round28-${width}-about-footer-only`);
  });
 });
 
@@ -141,7 +166,7 @@ test('Round27 UI: UI-6 390 keyboard exposes Stop and cancels the paused current 
 });
 
 test('Round27 UI: UI-6 390 time and removable editors flow full-width without overlapping neighbors',{timeout:35000},async()=>{
- const semanticProposal=(message:string):RestaurantSemanticProposal|undefined=>message==='Dinner in Tokyo'?{schemaVersion:'4',facts:[
+ const semanticProposal=(message:string):RestaurantSemanticProposal|undefined=>message===datedWorkspaceRequest('Dinner in Tokyo')?{schemaVersion:'4',facts:[
   {field:'TARGET',operation:'ASSERT',value:{kind:'TARGET',goal:'AVAILABILITY',query:'dinner in Tokyo',selectionScope:'OPEN_ENDED',goalBasis:{type:'JUDGMENT',reason:'Fixture',quotes:[message]}}},
   {field:'DATE',operation:'ASSERT',value:{kind:'DATE',value:'2026-11-02',raw:'2026-11-02'}},{field:'TIME_WINDOW',operation:'ASSERT',value:{kind:'TIME_WINDOW',earliest:'19:00',latest:'19:30',raw:'19:00-19:30'}},{field:'PARTY_SIZE',operation:'ASSERT',value:{kind:'PARTY_SIZE',value:2}},{field:'AREA',operation:'ASSERT',value:{kind:'AREA',query:'Tokyo'}},{field:'CRITERION',operation:'ASSERT',value:{kind:'CRITERION',text:'quiet',polarity:'POSITIVE',strength:'SOFT'}},
  ]}:undefined;
@@ -149,5 +174,65 @@ test('Round27 UI: UI-6 390 time and removable editors flow full-width without ov
   const check=async(name:string)=>{const metrics=await page.locator('.condition-editor').evaluate(form=>{const r=form.getBoundingClientRect(),neighbors=[...document.querySelectorAll('#request-conditions>button')].map(n=>n.getBoundingClientRect());return{left:r.left,right:r.right,position:getComputedStyle(form).position,inlineWidth:(form.parentElement as HTMLElement).style.width,inlineHeight:(form.parentElement as HTMLElement).style.height,overlap:neighbors.some(n=>Math.min(n.right,r.right)>Math.max(n.left,r.left)&&Math.min(n.bottom,r.bottom)>Math.max(n.top,r.top)),controls:[...form.querySelectorAll('input,button')].map(n=>{const r=n.getBoundingClientRect();return{left:r.left,right:r.right,width:r.width};})};});assert.equal(metrics.position,'static');assert.equal(metrics.inlineWidth,'');assert.equal(metrics.inlineHeight,'');assert.ok(!metrics.overlap);assert.ok(metrics.left>=0&&metrics.right<=390);assert.ok(metrics.controls.every(r=>r.left>=0&&r.right<=390&&r.width>0),JSON.stringify(metrics));await capture(page,'round27-ui6-390-'+name);};
   await page.getByRole('button',{name:'19:00–19:30',exact:true}).click();await check('time-editor');await page.locator('.condition-editor input[type=time]').last().fill('20:00');const save=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/messages'));await page.getByRole('button',{name:'Save',exact:true}).click();assert.equal((await save).status(),200);await page.getByRole('button',{name:'19:00–20:00',exact:true}).waitFor();await page.waitForFunction(()=>document.getElementById('progress')!.hidden);
   await page.getByRole('button',{name:'quiet',exact:true}).click();await check('removable-editor');await page.getByRole('button',{name:'Cancel condition change',exact:true}).click();await page.getByRole('button',{name:'quiet',exact:true}).click();const remove=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/messages'));await page.getByRole('button',{name:'Remove quiet',exact:true}).click();assert.equal((await remove).status(),200);await page.getByRole('button',{name:'quiet',exact:true}).waitFor({state:'hidden'});assert.ok(!(await snapshot(page)).restaurant.intentDraft?.criteria.some(c=>c.text==='quiet'));
+ });
+});
+
+test('Round28 UI: one mobile tap switches from the date capsule to each neighboring editor',{timeout:35000},async()=>{
+ const seed='Find a table for two in Shibuya on 2026-11-28 at 18:00 somewhere quiet';
+ const semanticProposal=(message:string):RestaurantSemanticProposal|undefined=>message===seed?{schemaVersion:'4',facts:[
+  {field:'TARGET',operation:'ASSERT',value:{kind:'TARGET',goal:'AVAILABILITY',query:'dinner in Shibuya',selectionScope:'OPEN_ENDED',goalBasis:{type:'BOOKING_WORDING',reason:'User requests a table',quotes:['Find a table']}}},
+  {field:'DATE',operation:'ASSERT',value:{kind:'DATE',value:'2026-11-28',raw:'2026-11-28'}},
+  {field:'TIME_WINDOW',operation:'ASSERT',value:{kind:'TIME_WINDOW',earliest:'18:00',latest:'18:00',raw:'18:00'}},
+  {field:'PARTY_SIZE',operation:'ASSERT',value:{kind:'PARTY_SIZE',value:2}},
+  {field:'AREA',operation:'ASSERT',value:{kind:'AREA',query:'Shibuya'}},
+  {field:'CRITERION',operation:'ASSERT',value:{kind:'CRITERION',text:'quiet',polarity:'POSITIVE',strength:'SOFT'}},
+ ]}:undefined;
+ await journey(390,{semanticProposal},'card',async(page,host)=>{
+  const capsule=(name:string)=>page.locator('#request-conditions').getByRole('button',{name,exact:true});
+  const editor=page.locator('.condition-editor');
+  const messageResponse=()=>page.waitForResponse(response=>response.request().method()==='POST'&&response.url().endsWith('/messages'));
+  for(const name of ['Shibuya','18:00','2 guests','quiet']){
+   await capsule('Sat, Nov 28').tap();
+   assert.equal(await page.getByLabel('Edit Sat, Nov 28',{exact:true}).isVisible(),true);
+   const layout=await editor.evaluate(form=>{
+    const strip=document.getElementById('request-conditions')!;
+    return {top:form.getBoundingClientRect().top,buttonBottom:Math.max(...Array.from(strip.querySelectorAll(':scope > button'),n=>n.getBoundingClientRect().bottom)),scrollLeft:strip.scrollLeft,snap:getComputedStyle(strip).scrollSnapType};
+   });
+   assert.equal(layout.snap,'none');
+   assert.equal(layout.scrollLeft,0);
+   assert.ok(layout.top>=layout.buttonBottom);
+   await capsule(name).tap();
+   assert.equal(await page.getByLabel('Edit '+name,{exact:true}).isVisible(),true);
+   await capture(page,'round28-390-tap-'+name.replaceAll(/[^a-z0-9]/gi,'-').toLowerCase());
+   if(name==='18:00'){
+    await page.getByLabel('Edit 18:00',{exact:true}).fill('19:00');
+    await page.getByLabel('End time',{exact:true}).fill('19:00');
+    const response=messageResponse();await page.getByRole('button',{name:'Save',exact:true}).tap();assert.equal((await response).status(),200);
+    const id=(await snapshot(page)).case.caseId;await settled(host,id,2);await capsule('19:00').waitFor();
+   }else if(name==='quiet'){
+    const response=messageResponse();await page.getByRole('button',{name:'Remove quiet',exact:true}).tap();assert.equal((await response).status(),200);
+    const id=(await snapshot(page)).case.caseId;const final=await settled(host,id,3);assert.ok(!final.restaurant.intentDraft?.criteria.some(c=>c.text==='quiet'));
+    await capsule('quiet').waitFor({state:'hidden'});
+   }else{
+    await page.getByRole('button',{name:'Cancel condition change',exact:true}).tap();
+    await capsule(name).waitFor();
+   }
+   await editor.waitFor({state:'detached'});
+  }
+ },seed);
+});
+
+test('Round28 UI: failed revision renders MODEL_FAILURE before requesting the scroll',{timeout:35000},async()=>{
+ await journey(390,{semanticFailureMessage:'Unreadable revision'},'card',async(page)=>{
+  await page.evaluate(()=>{
+   const error=document.getElementById('understanding-error')!;
+   const scroll=error.scrollIntoView.bind(error);
+   error.scrollIntoView=(options)=>{error.dataset.visibleAtScroll=String(!error.hidden&&error.getBoundingClientRect().height>0);scroll(options);};
+  });
+  await page.locator('#message').fill('Unreadable revision');await page.locator('#send').click();
+  await page.locator('#understanding-error').waitFor();
+  assert.equal(await page.locator('#understanding-error').getAttribute('data-visible-at-scroll'),'true');
+  assert.equal(await page.locator('#message').inputValue(),'Unreadable revision');
+  await capture(page,'round28-390-model-failure-visible-before-scroll');
  });
 });

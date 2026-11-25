@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { chromium, type Page } from "playwright-core";
-import { startWorkspaceFixture } from "../workspace-fixture-server.js";
+import { datedWorkspaceRequest, startWorkspaceFixture } from "../workspace-fixture-server.js";
 
 async function noOverflow(page: Page) {
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
@@ -125,16 +125,16 @@ for (const width of [390, 960, 1440]) test(`Workspace navigation ${width}: respo
       assert.equal(await page.locator('#menu').evaluate(e => e === document.activeElement), true);
       await page.locator('#topbar').evaluate(e => e.classList.add('scrolled'));assert.equal(await page.locator('#topbar').evaluate(e => getComputedStyle(e).boxShadow), 'none');await page.locator('#topbar').evaluate(e => e.classList.remove('scrolled'));
     }
-    await page.locator('#message').fill('Dinner in ginza');await page.locator('#send').click();
+    await page.locator('#message').fill(datedWorkspaceRequest('Dinner in ginza'));await page.locator('#send').click();
     await page.waitForFunction(() => document.getElementById('card-counter')?.textContent === '1 of 3');
     // Same titles must still identify one current Case; old visited rows cannot stay active.
     const plans = [await page.locator('.case-link.active').getAttribute('data-case-id')];
     for (let i = 0; i < 2; i++) {
       await page.locator('#new-case').click();await page.locator('#home').waitFor();assert.equal(await page.locator('.case-link.active').count(), 0);
-      await page.locator('#message').fill('Dinner in ginza');await page.locator('#send').click();await page.locator('#candidate-panel').waitFor();await page.waitForFunction(() => document.getElementById('card-counter')?.textContent === '1 of 3');
+      await page.locator('#message').fill(datedWorkspaceRequest('Dinner in ginza'));await page.locator('#send').click();await page.locator('#candidate-panel').waitFor();await page.waitForFunction(() => document.getElementById('card-counter')?.textContent === '1 of 3');
       plans.push(await page.locator('.case-link.active').getAttribute('data-case-id'));
     }
-    assert.equal(new Set(plans).size, 3);assert.deepEqual(await page.locator('.case-link span').allTextContents(), ['Dinner in ginza', 'Dinner in ginza', 'Dinner in ginza']);
+    assert.equal(new Set(plans).size, 3);assert.deepEqual(await page.locator('.case-link span').allTextContents(), Array(3).fill(datedWorkspaceRequest('Dinner in ginza')));
     for (const id of [plans[0], plans[1], plans[2], plans[0]]) {
       if (width < 960) await page.locator('#menu').click();
       await page.locator('.case-link[data-case-id="' + id + '"]').click();
@@ -247,7 +247,7 @@ for (const width of [390, 960, 1440]) test(`Workspace geometry ${width}: shared 
     await pointerControl(page,'#collapse-plans',width===390);await page.locator('#menu').focus();await page.keyboard.press('Space');assert.equal(await page.locator('#collapse-plans').evaluate(e=>e.matches(':focus-visible')),true,'keyboard opening keeps focus ring');
     if(width===390)await page.keyboard.press('Escape');else await pointerControl(page,'#collapse-plans',false);
     if(width>=960)await pointerControl(page,'#menu',false);await alignedBrand(page);await controlTypography(page);await geometryCapture(page,width,stage);await geometrySides(page,width,'home');
-    await page.locator('#message').fill('Dinner in ginza');await page.locator('#send').click();await page.locator('#candidate-panel').waitFor();await page.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3');
+    await page.locator('#message').fill(datedWorkspaceRequest('Dinner in ginza'));await page.locator('#send').click();await page.locator('#candidate-panel').waitFor();await page.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3');
     stage='candidates';await sameGrid(page,['.workspace-conditions','#candidate-panel','#candidate-card','#workspace-composer']);await centered(page,'#request-conditions>button','#saved');await centered(page,'#message','#send');
     if(width===390)await pointerControl(page,'#menu',true);
     for(const row of await page.locator('.case-link span').all())withinPixel((await row.boundingBox())!.x,(await geometryBox(page,'#brand')).x,'sidebar plan');
@@ -268,7 +268,7 @@ for (const width of [390, 960, 1440]) test(`Workspace geometry ${width}: shared 
     await revealControl(page,'#next');await page.locator('#next').click();await revealControl(page,'#previous');await page.locator('#previous').click();assert.equal(await page.locator('.slot-time[aria-pressed=true]').textContent(),'19:00','switching restaurants clears the previous slot choice');
     stage='handoff';await revealControl(page,'#choose');await page.locator('#choose').click();await page.locator('#handoff').waitFor();await sameGrid(page,['#handoff']);assert.equal(await page.locator('.workspace-conditions').isVisible(),false);assert.equal(await page.locator('#workspace-composer').isVisible(),false);await controlTypography(page);await geometryCapture(page,width,stage);await page.locator('#handoff-back').click();assert.equal(await page.locator('#workspace-composer').isVisible(),true);
     for(let i=0;i<3;i++){await revealControl(page,'#next');await page.locator('#next').click();}stage='batch-end';await page.locator('#batch-end').waitFor();await sameGrid(page,['#batch-end','#workspace-composer']);await controlTypography(page);await geometryCapture(page,width,stage);
-    options.outcome='empty';await page.locator('#new-case').click();await page.locator('#message').fill('Dinner with no matching result');await page.locator('#send').click();stage='empty';await page.locator('#empty-state').waitFor();await sameGrid(page,['#empty-state','#workspace-composer']);await controlTypography(page);await geometryCapture(page,width,stage);assert.deepEqual(errors,[]);
+    options.outcome='empty';await page.locator('#new-case').click();await page.locator('#message').fill(datedWorkspaceRequest('Dinner with no matching result'));await page.locator('#send').click();stage='empty';await page.locator('#empty-state').waitFor();await sameGrid(page,['#empty-state','#workspace-composer']);await controlTypography(page);await geometryCapture(page,width,stage);assert.deepEqual(errors,[]);
   } catch(error) {
     const output=await mkdtemp(join(tmpdir(),'praxis-web-geometry-'));await page.screenshot({path:join(output,'failure.png')}).catch(()=>{});await context.tracing.stop({path:join(output,'trace.zip')}).catch(()=>{});await writeFile(join(output,'state.json'),JSON.stringify({width,stage,errors}));console.log('GEOMETRY_FAILURE '+JSON.stringify({width,stage,output}));throw error;
   } finally {await context.close();await browser.close();await host.close();}

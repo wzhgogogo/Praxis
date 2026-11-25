@@ -8,44 +8,6 @@ const offset = (days: number): RestaurantSemanticProposal => ({ schemaVersion: "
   { field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeOffsetDays: days, raw: `in ${days} days` } },
 ] });
 
-test("ADR-0052 validates the selected dining-date occurrence and its own uncertainty", () => {
-  const clock = (raw: string, time = "19:00"): RestaurantSemanticProposal["facts"][number] => ({ field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: time, latest: time, raw } });
-  const tomorrow: RestaurantSemanticProposal["facts"][number] = { field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } };
-  const confirm: RestaurantSemanticProposal["facts"][number] = { field: "DATE", operation: "CONFIRM" };
-  const rows: { message: string; facts: RestaurantSemanticProposal["facts"]; expected?: string; conflict?: boolean }[] = [
-    { message: "不要明天中午，我们明天晚上7点去吃寿喜锅", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" } }, clock("晚上7点")], expected: "2026-11-25" },
-    { message: "我明天或后天到东京，但晚餐就订周五晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", weekday: "FRIDAY", raw: "周五" } }, clock("晚上7点")], expected: "2026-11-27" },
-    { message: "大概3天后到东京，推荐几家涩谷寿喜锅", facts: [] },
-    { message: "我还有2-3天后才飞，只把时间改成8点", facts: [clock("8点", "20:00")] },
-    { message: "I haven't decided on a restaurant for dinner tomorrow. Make it 7 pm.", facts: [tomorrow, clock("7 pm")], expected: "2026-11-25" },
-    { message: "I haven't decided how much to spend on dinner tomorrow. Make it 7 pm.", facts: [tomorrow, clock("7 pm")], expected: "2026-11-25" },
-    { message: "其余条件不变，日期改成后天晚上7点", facts: [clock("晚上7点")], expected: "2026-11-26" },
-    { message: "把日期改到2026-11-28，晚上7点", facts: [confirm, clock("晚上7点")], conflict: true },
-    { message: "改成周五晚上7点", facts: [confirm, clock("晚上7点")], conflict: true },
-    { message: "Dinner tomorrow or the day after tomorrow at 7 pm.", facts: [tomorrow, clock("7 pm")], conflict: true },
-    { message: "把日期改到2026-11-28，晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-27", raw: "2026-11-28" } }, clock("晚上7点")], expected: "2026-11-28" },
-    { message: "改成周五晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", weekday: "SATURDAY", raw: "周五" } }, clock("晚上7点")], expected: "2026-11-27" },
-    { message: "我朋友明天或后天到东京，不过我自己的晚餐就订明天晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" } }, clock("晚上7点")], expected: "2026-11-25" },
-    { message: "我自己的晚餐就订明天晚上7点，我朋友明天或后天到东京", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "明天" } }, clock("晚上7点")], expected: "2026-11-25" },
-    { message: "Change Thu, Nov 26 to 2026-11-28", facts: [confirm], conflict: true },
-    { message: "Change Thu, Nov 26 to 2026-11-28", facts: [], conflict: true },
-    { message: "改成下周五晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-12-04", raw: "下周五" } }, clock("晚上7点")], expected: "2026-12-04" },
-    { message: "改成下周五晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-27", raw: "下周五" } }, clock("晚上7点")], conflict: true },
-    { message: "Make it this Friday at 7 pm.", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", weekday: "FRIDAY", raw: "this Friday" } }, clock("7 pm")], expected: "2026-11-27" },
-    { message: "Make it this Saturday at 7 pm.", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-28", raw: "this Saturday" } }, clock("7 pm")], expected: "2026-11-28" },
-    { message: "把日期改到2026年11月28日，晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-27", raw: "2026年11月28日" } }, clock("晚上7点")], expected: "2026-11-28" },
-    { message: "把日期改到2026-11-28，晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "2026-11-28" } }, clock("晚上7点")], expected: "2026-11-28" },
-    { message: "Change Thu, Nov 26 to 2026-11-28", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-27", raw: "2026-11-27" } }], expected: "2026-11-28" },
-    { message: "改成2026-11-28晚上7点", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-27", raw: "2026-11-27" } }, clock("晚上7点")], expected: "2026-11-28" },
-  ];
-  for (const row of rows) {
-    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: row.facts }, { ...context, message: row.message });
-    assert.equal(result.status, row.conflict ? "CONFLICT" : "COMPILED", row.message);
-    if (result.status === "COMPILED") assert.equal(result.patch.date, row.expected, row.message);
-  }
-  assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [{ field: "DATE", operation: "CORRECT", value: { kind: "DATE", weekday: "FRIDAY", raw: "this Friday" } }, clock("7 pm")] }, { ...context, referenceTime: "2026-11-28T10:00:00+09:00", message: "Make it this Friday at 7 pm." }).status, "CONFLICT", "Past this-week weekdays cannot roll forward into next week");
-});
-
 test("ADR-0052 DATE offset schema is bounded and compiler preserves distinct conflict identities", () => {
   assert.match(JSON.stringify(RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA), /"relativeOffsetDays":\{"type":"integer","minimum":2,"maximum":365\}/);
   for (const days of [2, 3, 365]) assert.equal(validateRestaurantSemanticProposal(offset(days)).valid, true);
@@ -57,102 +19,54 @@ test("ADR-0052 DATE offset schema is bounded and compiler preserves distinct con
   }
 });
 
-test("ADR-0052 dining DATE scope excludes unrelated relative-day background", () => {
-  const clock: RestaurantSemanticProposal["facts"][number] = { field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } };
-  for (const relativeDay of ["TODAY", "TOMORROW"] as const) {
-    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [
-      { field: "DATE", operation: "CORRECT", value: { kind: "DATE", relativeDay, raw: "tonight" } }, clock,
-    ] }, { ...context, message: "I'm flying out tomorrow, so make dinner tonight at 7 pm." });
-    assert.equal(result.status, "COMPILED");
-    if (result.status === "COMPILED") assert.equal(result.patch.date, "2026-11-24");
-  }
-  for (const message of ["Keep the date, just change dinner to 7 pm.", "I land in Tokyo tomorrow. Keep the date, just change dinner to 7 pm.", "Tomorrow I arrive in Tokyo. Change dinner to 7 pm.", "我明天到东京，日期不变，只改时间为7 pm"]) {
-    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [clock] }, { ...context, message });
-    assert.equal(result.status, "COMPILED", message);
-    if (result.status === "COMPILED") assert.equal(result.patch.date, undefined, message);
-  }
-  const confirmed = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [{ field: "DATE", operation: "CONFIRM" }, clock] }, { ...context, message: "日期不变，还是后天，只改时间为7 pm" });
-  assert.equal(confirmed.status, "COMPILED");
-  if (confirmed.status === "COMPILED") assert.equal(confirmed.patch.date, undefined);
-  const confirmProposal: RestaurantSemanticProposal = { schemaVersion: "4", facts: [{ field: "DATE", operation: "CONFIRM" }, clock] };
-  assert.equal(compileRestaurantSemanticProposal(confirmProposal, { ...context, message: "改成后天晚上7点" }).status, "CONFLICT", "DATE CONFIRM cannot bypass an explicit dining-date correction");
-  for (const message of ["日期不变，只改晚上7点", "只改晚上7点", "I land in Tokyo tomorrow. Just change dinner to 7 pm."]) {
-    const result = compileRestaurantSemanticProposal(confirmProposal, { ...context, message });
-    assert.equal(result.status, "COMPILED", message);
-    if (result.status === "COMPILED") assert.equal(result.patch.date, undefined, message);
-  }
-  for (const command of ["Make it", "Move it to", "Change it to"]) {
-    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [clock] }, { ...context, message: `${command} tomorrow at 7 pm.` });
-    assert.equal(result.status, "COMPILED", command);
-    if (result.status === "COMPILED") assert.equal(result.patch.date, "2026-11-25", command);
-  }
-  const cased = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [
-    { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } }, clock,
-  ] }, { ...context, message: "Tomorrow at 7 pm near Shinjuku for two." });
-  assert.equal(cased.status, "COMPILED");
-  if (cased.status === "COMPILED") assert.equal(cased.patch.date, "2026-11-25");
-  for (const [message, expected] of [["Dinner tonight at 7 pm.", "2026-11-24"], ["I have dinner tomorrow elsewhere. Just change this plan's dinner to 7 pm.", undefined]] as const) {
-    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [clock] }, { ...context, message });
-    assert.equal(result.status, "COMPILED", message);
-    if (result.status === "COMPILED") assert.equal(result.patch.date, expected, message);
-  }
-  assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [clock] }, { ...context, message: "Tomorrow at 7 pm might be my arrival time or dinner time." }).status, "CONFLICT");
+type DateValue = Extract<NonNullable<RestaurantSemanticProposal["facts"][number]["value"]>, { kind: "DATE" }>;
+function compile(message: string, date?: DateValue, operation: "ASSERT" | "CONFIRM" | "NEGATE" = "ASSERT", referenceTime = context.referenceTime) {
+  const facts: RestaurantSemanticProposal["facts"] = [
+    { field: "TIME_WINDOW", operation: "CORRECT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
+    ...(date || operation !== "ASSERT" ? [{ field: "DATE" as const, operation, ...(date ? { value: date } : {}) }] : []),
+  ];
+  return compileRestaurantSemanticProposal({ schemaVersion: "4", facts }, { ...context, referenceTime, message });
+}
+function expectDate(result: ReturnType<typeof compile>, date: string | undefined) {
+  assert.equal(result.status, "COMPILED");
+  if (result.status === "COMPILED") assert.equal(result.patch.date, date);
+}
+const literal = (raw: string, value: string): DateValue => ({ kind: "DATE", raw, value });
+const friday = (raw: string): DateValue => ({ kind: "DATE", weekday: "FRIDAY", raw });
+
+test("ADR-0053 ordinary and qualified weekdays compare the complete Tokyo date", () => {
+  expectDate(compile("周五晚上7点", friday("周五")), "2026-11-27");
+  assert.equal(compile("周五晚上7点", literal("周五", "2026-12-04")).status, "CONFLICT", "A different Friday is still a different date");
+  assert.equal(compile("周五晚上7点", { kind: "DATE", weekday: "SATURDAY", raw: "周五" }).status, "CONFLICT");
+  expectDate(compile("本周五，4人，izakaya，涩谷，19:00", friday("周五")), "2026-11-27");
+  assert.equal(compile("下周五晚上7点", friday("周五")).status, "CONFLICT");
+  expectDate(compile("next Friday at 7 pm", literal("Friday", "2026-12-04")), "2026-12-04");
+  assert.equal(compile("this Friday", friday("this Friday"), "ASSERT", "2026-11-28T10:00:00+09:00").status, "CONFLICT");
 });
 
-test("ADR-0052 supported current-message phrases repair DATE omission from trusted Tokyo day", () => {
-  for (const [message, expected] of [
-    ["今天", "2026-11-24"], ["today", "2026-11-24"], ["明天", "2026-11-25"], ["tomorrow", "2026-11-25"],
-    ["后天", "2026-11-26"], ["day after tomorrow", "2026-11-26"], ["大后天", "2026-11-27"],
-    ["3天后", "2026-11-27"], ["三天后", "2026-11-27"], ["in 3 days", "2026-11-27"], ["两天后", "2026-11-26"], ["三百六十五天后", "2027-11-24"],
-    ["一周后", "2026-12-01"], ["in a week", "2026-12-01"], ["in 30 days", "2026-12-24"],
-  ] as const) {
-    const result = compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [] }, { ...context, message });
-    assert.equal(result.status, "COMPILED", message);
-    if (result.status === "COMPILED") assert.equal(result.patch.date, expected, message);
-  }
-  for (const message of ["后天或大后天", "today or tomorrow", "in 366 days", "-2天后", "in 2.5 days"]) {
-    assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [] }, { ...context, message }).status, "CONFLICT", message);
-  }
-  assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [{ field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } }] }, { ...context, message: "Only change the time to seven" }).status, "CONFLICT", "model-only raw cannot invent a relative date");
+test("ADR-0053 complete DATE quotes bind offsets and reject truncated, invented and invalid dates", () => {
+  for (const [message, raw] of [
+    ["大后天晚上7点", "后天"], ["day after tomorrow", "tomorrow"], ["11月28日", "11月2日"], ["123天后", "23天后"],
+    ["2026年11月28日", "11月28日"], ["yesterdayish", "yesterday"], ["2026-11-28", "2026-11-27"],
+    ["2-3天后", "2-3天后"], ["-1天后", "-1天后"], ["500天后", "500天后"], ["两三天后", "两三天后"],
+    ["2026-02-30", "2026-02-30"], ["2月30日", "2月30日"], ["11月28日", "11月28日"],
+  ] as const) assert.equal(compile(message, literal(raw, "2027-11-28")).status, "CONFLICT", message + " / " + raw);
+  expectDate(compile("改成后天晚上7点", literal("后天", "2026-11-25")), "2026-11-26");
+  expectDate(compile("Dinner ＴＯＭＯＲＲＯＷ", literal("Tomorrow", "2026-11-28")), "2026-11-25");
+  expectDate(compile("2026年11月28日", literal("2026年11月28日", "2026-11-28")), "2026-11-28");
+  expectDate(compile("1/3", literal("1/3", "2027-01-03"), "ASSERT", "2026-12-28T10:00:00+09:00"), "2027-01-03");
 });
 
-test("ADR-0052 day offsets use Tokyo natural days across month, year and UTC date boundaries", () => {
-  for (const [referenceTime, days, expected] of [
-    ["2026-11-30T23:55:00+09:00", 2, "2026-12-02"],
-    ["2026-12-30T23:55:00+09:00", 3, "2027-01-02"],
-    ["2026-11-23T16:05:00Z", 2, "2026-11-26"],
-  ] as const) {
-    const result = compileRestaurantSemanticProposal(offset(days), { referenceTime, timezone: "Asia/Tokyo" });
-    assert.equal(result.status, "COMPILED");
-    if (result.status === "COMPILED") {
-      assert.equal(result.patch.date, expected);
-      assert.equal(result.patch.temporalResolution?.date?.basis, `RELATIVE_OFFSET_DAYS:${days}`);
-      assert.equal(result.patch.temporalResolution?.referenceTime, referenceTime);
-    }
-  }
+test("ADR-0053 treats the structured date chooser as authoritative", () => {
+  const message = "Change Thu, Nov 26 to 2026-11-28";
+  for (const operation of ["ASSERT", "CONFIRM", "NEGATE"] as const) assert.equal(compile(message, undefined, operation).status, "CONFLICT");
+  expectDate(compile(message, literal("2026-11-27", "2026-11-27")), "2026-11-28");
+  assert.equal(compile("Change Thu, Nov 26 to 2026-02-30", literal("2026-02-30", "2026-02-30")).status, "CONFLICT");
 });
 
-test("ADR-0052 binds selected dates, not excluded mentions or uncertain day ranges", () => {
-  const calendar: RestaurantSemanticProposal = { schemaVersion: "4", facts: [
-    { field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-11-28", raw: "11月28日" } },
-  ] };
-  for (const message of ["后天不行，改成11月28日晚上七点", "后天我没空，改成11月28日晚上七点", "后天我有安排，11月28日晚上七点"]) {
-    const corrected = compileRestaurantSemanticProposal(calendar, { ...context, message });
-    assert.equal(corrected.status, "COMPILED", message);
-    if (corrected.status === "COMPILED") assert.equal(corrected.patch.date, "2026-11-28", message);
-  }
-  for (const message of ["大概两三天后晚上七点", "两三天后", "两到三天后", "大约三天后", "三天后左右", "后天不行，只改晚上七点", "后天还是11月28日我还没定，晚上七点", "后天我还没定，晚上七点", "后天还是周六晚上七点", "周六还是后天晚上七点", "day after tomorrow or Saturday", "Saturday or day after tomorrow"]) {
-    assert.equal(compileRestaurantSemanticProposal({ schemaVersion: "4", facts: [] }, { ...context, message }).status, "CONFLICT", message);
-  }
-  assert.equal(compileRestaurantSemanticProposal(calendar, { ...context, message: "后天还是11月28日晚上七点" }).status, "CONFLICT");
-  for (const raw of ["周六", "Saturday"]) {
-    const weekday: RestaurantSemanticProposal = { schemaVersion: "4", facts: [
-      { field: "DATE", operation: "CORRECT", value: { kind: "DATE", weekday: "SATURDAY", raw } },
-    ] };
-    const result = compileRestaurantSemanticProposal(weekday, { ...context, message: `后天我没空，改成${raw}晚上七点` });
-    assert.equal(result.status, "COMPILED", raw);
-    if (result.status === "COMPILED") assert.equal(result.patch.date, "2026-11-28", raw);
-    assert.equal(compileRestaurantSemanticProposal(weekday, { ...context, message: `后天还是${raw}晚上七点` }).status, "CONFLICT", raw);
-    assert.equal(compileRestaurantSemanticProposal(weekday, { ...context, message: `后天，还是${raw}晚上七点？` }).status, "CONFLICT", raw);
-  }
+test("ADR-0053 leaves sentence interpretation and DATE omission to the model", () => {
+  expectDate(compile("明天早上飞东京，帮我订周五晚上7点", friday("周五")), "2026-11-27");
+  expectDate(compile("Tomorrow morning I land, please book 2026-11-28 at 7pm", literal("2026-11-28", "2026-11-28")), "2026-11-28");
+  for (const text of ["明天早上飞东京，把晚餐时间改成8点", "明天早上，到东京，把晚餐时间改成8点", "明天早上飞东京，推荐几家涩谷寿喜锅", "改成后天晚上七点"]) expectDate(compile(text), undefined);
+  expectDate(compile("晚餐日期不变，只把时间改成晚上7点", undefined, "CONFIRM"), undefined);
 });

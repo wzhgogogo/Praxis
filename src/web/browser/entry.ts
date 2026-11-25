@@ -75,6 +75,7 @@ export function editCondition(button:HTMLButtonElement,label:string,kind:Conditi
   form.append(input);if(kind==='time')form.append(element('span','–'),inputs[1]);form.append(save,cancel);
   if(remove){remove.onclick=()=>{void submitEdit('Remove '+label,remove);};form.append(remove);}
   anchor.append(form);button.replaceWith(anchor);
+  if(!desktopLayout.matches)$('request-conditions').scrollLeft=0;
   state.conditionEditor={form,anchor,caseId:requireView().case.caseId,get busy(){return busy;},cancel:()=>{if(!busy)close(false);},position};update();input.focus({preventScroll:true});if(kind==='text')input.select();
 }
 
@@ -119,6 +120,7 @@ export async function submitRequirement(message:string,preserveComposer=false){
   state.detailKey='';state.handoffKey='';
   if(!old&&modelFailed&&!$('message').value)setMessage(draft);
   if(!old&&previewPace&&fixturePresentation(p.view))state.entryPace=startedAt;
+  if(modelFailed)state.researching=false;
   accept(p.view);
   if(modelFailed)$('understanding-error').scrollIntoView({block:'nearest',behavior:'instant'});
   if(!old||state.streamCaseId!==p.view.case.caseId)openStream(p.view.case.caseId,nav);
@@ -264,7 +266,12 @@ $('menu').onclick=event=>{
 };$('backdrop').onclick=()=>closePlans();
 document.addEventListener('pointerdown',event=>{
  if(!(event.target instanceof Node))return;
- const editor=state.conditionEditor;if(editor&&!editor.busy&&!editor.form.contains(event.target)&&!editor.anchor.contains(event.target))editor.cancel();
+ const editor=state.conditionEditor;
+ if(editor&&!editor.busy&&!editor.anchor.contains(event.target)){
+  const otherCondition=event.target instanceof Element&&event.target.closest('#request-conditions > button');
+  if(otherCondition)event.preventDefault();
+  else editor.cancel();
+ }
  if($('profile').open&&!$('profile').contains(event.target))$('profile').open=false;
 });
 document.addEventListener('keydown',event=>{

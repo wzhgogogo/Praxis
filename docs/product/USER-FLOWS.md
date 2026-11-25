@@ -335,9 +335,15 @@ Round25 recovery refinement: a local proxy200 only establishes that the server o
 
 ## Round 27 relative-day correction boundary
 
-Under accepted ADR-0052, current-message explicit relative dates are bound before compilation. Today/tomorrow remain directives; day after tomorrow and bounded N-day offsets use the trusted Tokyo natural day. A missing or incorrectly calculated model DATE cannot retain an old plan date against an unambiguous current-message offset. Conflicting dates require clarification and cause no availability query. A time-only edit keeps the prior dining date. This does not add a general natural-language date parser or change booking authorization.
+Round 27 (free-text binding superseded by ADR-0053 below): Under ADR-0052, current-message explicit relative dates were bound before compilation. Today/tomorrow remain directives; day after tomorrow and bounded N-day offsets use the trusted Tokyo natural day. A missing or incorrectly calculated model DATE cannot retain an old plan date against an unambiguous current-message offset. Conflicting dates require clarification and cause no availability query. A time-only edit keeps the prior dining date. This does not add a general natural-language date parser or change booking authorization.
 
 
 ## Round27 workspace presentation refinements
 
 Pure fact recommendations no longer expose Refresh details; presented availability and slot-capable recommendations keep Refresh availability. Re-search requests, including saving/removing capsules, hide a prior empty-state card immediately, including deferred SSE running snapshots; failure restores available retry/continue/adjust controls. Mobile editors occupy their own flow row and focused progress keeps the current read Stop accessible. A Stop test must cancel a known active read and observe stopped:true, rather than infer cancellation from HTTP200 alone. Source expansion does not move its summary within the history/sheet coordinate frame. Categories are suppressed only against a visible matching CATEGORY quotation; source-footnote-only categories keep their label text.
+
+### Round 28 date edits and booking presentation
+
+The calendar capsule uses the selected valid date. If the semantic response omits the date or confirms or rejects the old choice, the workspace asks for clarification and waits. Free text lets the model choose whether and which date to edit. Emitted dates pass a literal quote and consistency check using trusted Tokyo time. An ordinary Friday must match the full date resolved by the Tokyo materializer. Background travel and alternative dates remain semantic evaluation cases. See [ADR-0053](../decisions/0053-structured-date-edit-and-raw-consistency-guard.md).
+
+A single-channel booking handoff names the source on the departure button and keeps the verified prefill hints. About shows source quotes behind Source, with compact footers for groups that have no quote. The visible category summary omits only individual items already covered by visible condition rows. On mobile an open editor sits below the capsule buttons, and tapping a second capsule switches directly to its editor.

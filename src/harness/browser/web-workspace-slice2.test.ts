@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 import { chromium, type Page, type BrowserContext } from "playwright-core";
-import { startWorkspaceFixture } from "../workspace-fixture-server.js";
+import { datedWorkspaceRequest, startWorkspaceFixture } from "../workspace-fixture-server.js";
 
 // Actual Chromium -> HTTP/SSE -> application, interpreter/compiler, Router,
 // Runtime and PGlite. Only model/source/question transports are fixed fixtures.
@@ -23,7 +23,7 @@ async function start(page:Page,host:Awaited<ReturnType<typeof startWorkspaceFixt
     let posts=0;const record=(r:import('playwright-core').Request)=>{if(r.method()==='POST')posts++;};page.on('request',record);await page.getByRole('button',{name:'Send',exact:true}).click();page.off('request',record);
     assert.equal(posts,0);assert.equal(await page.locator('#message').getAttribute('data-invalid'),'0');assert.equal(await page.locator('#error').isVisible(),false);
   }
-  await page.locator("#message").fill(message);await page.getByRole("button",{name:"Send",exact:true}).click();
+  await page.locator("#message").fill(datedWorkspaceRequest(message));await page.getByRole("button",{name:"Send",exact:true}).click();
   if(count>0)await ready(page,count);else await page.locator("#empty-state").waitFor({state:"visible"});
 }
 async function ready(page:Page,count=3){await page.waitForFunction(value=>document.getElementById("card-counter")?.textContent===value,"1 of "+count);await page.locator("#progress").waitFor({state:"hidden"});}

@@ -40,6 +40,11 @@ class Database implements SqlDatabase {
   }
 }
 
+/** Date-bearing input for UI fixtures that exercise a complete availability request. */
+export function datedWorkspaceRequest(message: string): string {
+  return message + " on 2026-11-02";
+}
+
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
 export async function startWorkspaceFixture(options:{semanticProposal?:(message:string)=>RestaurantSemanticProposal|undefined;photoHttp?:PhotoHttpPort;photoGoogle?:GooglePhotoTransport;photoLongAddress?:boolean;revisionCuisine?:boolean;questionCitations?:boolean;naturalRecommendation?:boolean;matchReasons?:string[];staged?:boolean;multiSlot?:boolean|string[];offerRevision?:string;cuisineDisagreement?:boolean|string;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean|{beforeAnswer:(input:RestaurantPageQuestionRequest,signal:AbortSignal)=>Promise<void>;answer?:(input:RestaurantPageQuestionRequest)=>Promise<RestaurantPageAnswer>};inferredParty?:boolean;extraCandidates?:boolean;checkWholePool?:boolean;laterBatchFirstOnRevision?:boolean;cachedCrossSourceDuplicate?:boolean|{newCandidates:number;beforeDecision?:()=>Promise<void>};sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";beerDiscoveryQuery?:string;discoveryCriterion?:string;beforeSemantic?:(message:string)=>Promise<void>;beforeSearch?:(signal:AbortSignal)=>Promise<void>;semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
@@ -73,11 +78,15 @@ export async function startWorkspaceFixture(options:{semanticProposal?:(message:
       const removed=text.startsWith("Remove ")?text.slice("Remove ".length):undefined;
       const criterion=removed&&semanticContext.criteria?.find((item:{text:string})=>item.text===removed);
       const budget=semanticContext.budgetPerPerson;
+      const requestedDate = /\b\d{4}-\d{2}-\d{2}\b/u.exec(text)?.[0];
+      const dateFacts: RestaurantSemanticProposal["facts"] = requestedDate
+        ? [{ field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: requestedDate, raw: requestedDate } }]
+        : [];
       let inlineFacts:RestaurantSemanticProposal["facts"]|undefined;
-      if (options.beerDiscoveryQuery && (text === "Find me a restaurant that serves beer" || text === options.beerDiscoveryQuery)) {
+      if (options.beerDiscoveryQuery && (text === datedWorkspaceRequest("Find me a restaurant that serves beer") || text === datedWorkspaceRequest(options.beerDiscoveryQuery) || text === options.beerDiscoveryQuery)) {
         inlineFacts = [
           { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: options.beerDiscoveryQuery, selectionScope: "OPEN_ENDED", goalBasis: {type:"JUDGMENT",reason:"Fixture discovery",quotes:[text]} } },
-          { field: "DATE", operation: "ASSERT", value: {kind:"DATE",value:"2026-11-02",raw:"2026-11-02"} },
+          ...dateFacts,
           { field: "TIME_WINDOW", operation: "ASSERT", value: {kind:"TIME_WINDOW",earliest:"19:00",latest:"19:30",raw:"19:00"} },
           { field: "PARTY_SIZE", operation: "ASSERT", value: {kind:"PARTY_SIZE",value:2,source:"EXPLICIT"} },
           { field: "CRITERION", operation: "ASSERT", value: {kind:"CRITERION",text:options.discoveryCriterion ?? "serves beer",polarity:"POSITIVE",strength:"SOFT"} },
@@ -112,7 +121,7 @@ export async function startWorkspaceFixture(options:{semanticProposal?:(message:
         {field:"TARGET",operation:"CORRECT",value:{kind:"TARGET",goal:"AVAILABILITY",query:viewed?.outletName??"UNRESOLVED",selectionScope:"SPECIFIC_OUTLET",goalBasis:{type:"JUDGMENT",reason:"Fixture current reference",quotes:[text]}}},
       ]:[
         {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:"AVAILABILITY",query:"sushi in Tokyo",selectionScope:"OPEN_ENDED",...(options.outcome==="partial"?{requestedResultCount:2}:{}),goalBasis:{type:"BOOKING_WORDING",reason:"Fixture booking wording",quotes:[text]}}},
-        {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:"2026-11-02",raw:"2026-11-02"}},
+        ...dateFacts,
         {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:30",raw:"19:00"}},
         {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:options.inferredParty?4:2,source:options.inferredParty?"INFERRED_CLOSED_PARTY":"EXPLICIT"}},
         {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Tokyo"}},

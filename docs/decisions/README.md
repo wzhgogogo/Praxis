@@ -92,3 +92,4 @@ Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) ad
 0047/0048 are reserved by B’s G3 branch. C’s reviewed0048 draft is renumbered0049 by user decision; original draft/report remain historical evidence at6b867b34.
 
 - [ADR-0052 Relative day offsets and current-message date binding](0052-relative-day-offset-and-date-binding.md): Accepted, user-directed Round27; supplements ADR-0024 with bounded DATE offsets and omission/wrong-date protection.
+- [ADR-0053 Structured date edits and DATE.raw consistency](0053-structured-date-edit-and-raw-consistency-guard.md): Accepted, user-directed Round28. Replaces ADR-0052’s free-text date inference rules.

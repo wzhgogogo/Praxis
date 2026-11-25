@@ -3,13 +3,13 @@ import test from 'node:test';
 import { chromium, type Page } from 'playwright-core';
 import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
-import { startWorkspaceFixture } from '../workspace-fixture-server.js';
+import { datedWorkspaceRequest, startWorkspaceFixture } from '../workspace-fixture-server.js';
 const sizes=[{width:390,height:844},{width:1280,height:900}];
 async function ready(page:Page,count=3){await page.waitForFunction(count=>document.getElementById('card-counter')?.textContent==='1 of '+count,count);await page.locator('#progress').waitFor({state:'hidden'});}
 async function open(page:Page,host:Awaited<ReturnType<typeof startWorkspaceFixture>>,empty=false){
  page.setDefaultTimeout(10_000);await page.clock.install({time:host.clock.now()});await page.goto(host.baseUrl);
  await page.getByLabel('Access token',{exact:true}).fill('workspace-fixture');await page.getByRole('button',{name:'Sign in',exact:true}).click();
- await page.locator('#message').fill('Dinner in Tokyo');await page.locator('#send').click();
+ await page.locator('#message').fill(datedWorkspaceRequest('Dinner in Tokyo'));await page.locator('#send').click();
  if(empty)await page.locator('#empty-state').waitFor({state:'visible'});else await ready(page);
 }
 async function view(page:Page){const id=await page.locator('.case-link.active').getAttribute('data-case-id');return (await(await page.request.get('/api/cases/'+encodeURIComponent(id!))).json()).view;}
@@ -68,7 +68,7 @@ for(const size of sizes){
    await page.locator('#message').fill('Does this place require a card?');await page.locator('#send').click();await page.locator('#answer-sheet').waitFor({state:'visible'});
    for(const selector of ['#question-result','#asked-result']){assert.equal(await page.locator(selector+' details').count(),1);assert.equal(await page.locator(selector+' blockquote').count(),3);assert.equal(await page.locator(selector+' a').count(),3);assert.equal(await page.locator(selector+' .citation-group').count(),3);assert.equal((await page.locator(selector).textContent()||'').match(/Checked/g)?.length,3);}
    assert.equal(await page.locator('#asked-history h3').textContent(),'Q&A');await page.locator('#answer-dismiss').click();await page.locator('#details-back').click();await page.locator('#message').fill('Make it three guests');await page.locator('#send').click();await ready(page,2);assert.equal((await view(page)).restaurant.intentDraft.partySize,3);await page.locator('#details-button').click();
-   assert.ok(await page.locator('#details-content [data-source-id]').count()>0);assert.match(await page.locator('#details-content').innerText(),/Dinner course ¥5000/);assert.match(await page.locator('#details-content').innerText(),/Checked Oct 29/);for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])assert.equal(await page.locator('#'+id).isVisible(),false,id);await shot(page,'round4-'+size.width+'-about-sources');
+   assert.ok(await page.locator('#details-content [data-source-id]').count()>0);for(const summary of await page.locator('#details-content details:not([open]) summary').all())await summary.click();assert.match(await page.locator('#details-content').innerText(),/Dinner course ¥5000/);assert.match(await page.locator('#details-content').innerText(),/Checked Oct 29/);for(const id of ['progress','empty-state','understanding-error','partial-source-note','messages'])assert.equal(await page.locator('#'+id).isVisible(),false,id);await shot(page,'round4-'+size.width+'-about-sources');
   }finally{await context.close();await browser.close();await host.close();}
  });
  test('Round4 '+size.width+': exhausted empty state has a full-width Adjust with transient focus guidance',{timeout:25_000},async()=>{

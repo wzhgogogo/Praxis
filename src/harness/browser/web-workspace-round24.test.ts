@@ -8,7 +8,7 @@ import type {ModelGateway,ModelResponse} from '../../core/model/contracts.js';
 import {bookingTermsComposition} from '../../application/fixtures/booking-terms-composition.js';
 import {PilotSessionService} from '../../application/persistent-restaurant-agent.js';
 import {createLocalWebServer} from '../../server/local-web-server.js';
-import {startWorkspaceFixture} from '../workspace-fixture-server.js';
+import {datedWorkspaceRequest, startWorkspaceFixture} from '../workspace-fixture-server.js';
 
 const latch=()=>{let release!:()=>void;const promise=new Promise<void>(r=>{release=r;});return{release,promise};};
 async function until(read:()=>Promise<boolean>|boolean){const deadline=Date.now()+12000;while(!await read()){if(Date.now()>deadline)throw Error('Round24 Fixture boundary timeout');await new Promise(r=>setTimeout(r,15));}}
@@ -40,7 +40,7 @@ for(const width of [390,1440])for(const pending of [false,true])test(`Round24 UI
 for(const width of [390,1440])for(const changes of [1,2])test(`Round24 UI: B3 ${width} answer survives ${changes} concurrent shortlist changes after reload`,{timeout:45000},async()=>{
  const host=await startWorkspaceFixture({questions:true}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:width===390,reducedMotion:'reduce'}),a=await context.newPage(),b=await context.newPage(),release=latch();
  await context.route('**/*',r=>new URL(r.request().url()).origin===host.baseUrl?r.continue():r.abort());type Runtime=typeof host.application['runtime'];const runtime=(host.application as unknown as {runtime:Runtime}).runtime,dispatch=runtime.dispatch.bind(runtime);let requestId='',question:Promise<import('playwright-core').Response>|undefined;
- try{a.setDefaultTimeout(10000);b.setDefaultTimeout(10000);await login(a,host.baseUrl,host.clock);await a.locator('#message').fill('Dinner in Tokyo');await a.locator('#send').click();await a.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3'&&document.getElementById('progress')?.hidden);const id=(await a.locator('.case-link.active').getAttribute('data-case-id'))!;
+ try{a.setDefaultTimeout(10000);b.setDefaultTimeout(10000);await login(a,host.baseUrl,host.clock);await a.locator('#message').fill(datedWorkspaceRequest('Dinner in Tokyo'));await a.locator('#send').click();await a.waitForFunction(()=>document.getElementById('card-counter')?.textContent==='1 of 3'&&document.getElementById('progress')?.hidden);const id=(await a.locator('.case-link.active').getAttribute('data-case-id'))!;
   await b.clock.install({time:host.clock.now()});await b.goto(host.baseUrl);await b.locator('#app').waitFor();await select(b,id,width);
   runtime.dispatch=async(envelope,version)=>{if(!requestId&&envelope.event.type==='PAGE_QUESTION_COMPLETED'&&envelope.event.result.status==='ANSWERED'){requestId=envelope.event.requestId;await release.promise;}return dispatch(envelope,version);};await a.locator('#details-button').click();question=a.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/questions'));await a.locator('#message').fill('Does this place require a card?');await a.locator('#send').click();await until(()=>!!requestId);
   for(let i=0;i<changes;i++){await b.reload();await b.locator('#candidate-panel').waitFor();const save=b.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/shortlist'));await b.locator('#bookmark').click();assert.equal((await save).status(),200);}

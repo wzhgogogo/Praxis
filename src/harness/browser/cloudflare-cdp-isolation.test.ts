@@ -9,7 +9,7 @@ async function service(cdp:Awaited<ReturnType<typeof loopbackCdp>>,auto=false){
  const built=process.env.PRAXIS_CDP_DIST==='1',file=new URL(built?'../../../dist/harness/fixtures/cdp-service-host.js':'../fixtures/cdp-service-host.ts',import.meta.url);let stderr='',reports:NonNullable<HostMessage['reports']>=[];
  const child=fork(file,[],{execArgv:built?[]:['--import','tsx'],env:{PATH:process.env.PATH!,HOME:process.env.HOME!,TMPDIR:process.env.TMPDIR!,PRAXIS_CDP_FIXTURE_ENDPOINT:cdp.endpoint,PRAXIS_CDP_FIXTURE_PAGE:cdp.page,PRAXIS_CDP_FIXTURE_AUTO:auto?'1':'0'},stdio:['ignore','ignore','pipe','ipc']});child.stderr!.on('data',b=>stderr+=String(b));child.on('message',(m:HostMessage)=>{if(m.kind==='reports')reports=m.reports!;});
  const ready=await Promise.race([new Promise<HostMessage>(resolve=>child.on('message',(m:HostMessage)=>{if(m.kind==='ready')resolve(m);})),once(child,'exit').then(()=>{throw Error('Host exited at startup: '+stderr);})]);assert.equal(ready.uncaughtListeners,0);const login=await fetch(ready.url+'/api/session',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({accessToken:'workspace-fixture'})});assert.equal(login.status,201);const cookie=login.headers.get('set-cookie')!.split(';')[0]!;let sequence=0;
- return {child,get stderr(){return stderr;},get reports(){return reports;},async read(){const r=await fetch(ready.url+'/api/cases',{method:'POST',signal:AbortSignal.timeout(15000),headers:{'content-type':'application/json',cookie},body:JSON.stringify({requestId:'cdp:'+ ++sequence,message:'Dinner in Tokyo',viewContext:{view:'HOME',comparedCandidateIds:[]}})});type Result={view:{case:{caseId:string;phase:string};restaurant:{readStatus:{kind:string};progress:{active:boolean}}}};let body=await r.json() as Result;const until=Date.now()+12000;while(body.view.restaurant.progress.active&&Date.now()<until){await new Promise(resolve=>setTimeout(resolve,30));try{const next=await fetch(ready.url+'/api/cases/'+body.view.case.caseId,{headers:{cookie},signal:AbortSignal.timeout(3000)});body=await next.json() as Result;}catch(error){throw Error('HTTP host failed: '+stderr,{cause:error});}}return{status:r.status,body};},async alive(){return(await fetch(ready.url+'/api/session',{headers:{cookie}})).status;},async close(){if(child.exitCode===null&&child.signalCode===null){child.send('close');await Promise.race([once(child,'exit'),new Promise<void>(r=>{const timer=setTimeout(()=>{child.kill('SIGKILL');r();},5000);timer.unref();})]);}}};
+ return {child,get stderr(){return stderr;},get reports(){return reports;},async read(){const r=await fetch(ready.url+'/api/cases',{method:'POST',signal:AbortSignal.timeout(15000),headers:{'content-type':'application/json',cookie},body:JSON.stringify({requestId:'cdp:'+ ++sequence,message:'Dinner in Tokyo on 2026-11-02',viewContext:{view:'HOME',comparedCandidateIds:[]}})});type Result={view:{case:{caseId:string;phase:string};restaurant:{readStatus:{kind:string};progress:{active:boolean}}}};let body=await r.json() as Result;const until=Date.now()+12000;while(body.view.restaurant.progress.active&&Date.now()<until){await new Promise(resolve=>setTimeout(resolve,30));try{const next=await fetch(ready.url+'/api/cases/'+body.view.case.caseId,{headers:{cookie},signal:AbortSignal.timeout(3000)});body=await next.json() as Result;}catch(error){throw Error('HTTP host failed: '+stderr,{cause:error});}}return{status:r.status,body};},async alive(){return(await fetch(ready.url+'/api/session',{headers:{cookie}})).status;},async close(){if(child.exitCode===null&&child.signalCode===null){child.send('close');await Promise.race([once(child,'exit'),new Promise<void>(r=>{const timer=setTimeout(()=>{child.kill('SIGKILL');r();},5000);timer.unref();})]);}}};
 }
 function assertReadFaultBinding(cdp:Awaited<ReturnType<typeof loopbackCdp>>){
  const held=cdp.events.find(e=>e.event==='HELD_READ'),duplicate=cdp.events.find(e=>e.event==='DUPLICATE_DURING_READ');
@@ -21,6 +21,30 @@ test('Round25 C1: real CDP read duplicate isolates concurrent healthy HTTP read 
 test('Round25 C1: unrelated host uncaught exceptions still terminate the real HTTP host',{timeout:20000},async()=>{const cdp=await loopbackCdp(),host=await service(cdp);try{const exited=once(host.child,'exit');host.child.send('unrelated');const [code]=await exited;assert.equal(code,1);assert.match(host.stderr,/UNRELATED_HOST_ERROR_SENTINEL/);}finally{await host.close();await cdp.close();}});
 test('Round25 C1: failed CDP operation rejects while a parallel session and next session remain readable',{timeout:20000},async()=>{
  const cdp=await loopbackCdp();cdp.plan('READ','HEALTHY','HEALTHY');const Runtime=process.env.PRAXIS_CDP_DIST==='1'?(await import(new URL('../../../dist/infrastructure/browser/cloudflare-browser-run.js',import.meta.url).href)).CloudflareBrowserRun as typeof CloudflareBrowserRun:CloudflareBrowserRun;const runtime=new Runtime({accountId:'fixture',apiToken:'fixture',engineMode:'CHROMIUM_ONLY',cdpEndpoint:cdp.endpoint});const sessions:Awaited<ReturnType<typeof runtime.openSession>>[]=[];
- try{const a=await runtime.openSession({signal:new AbortController().signal});sessions.push(a);await a.navigate(cdp.page);const failed=a.snapshot().then(()=>({code:'UNEXPECTED_SUCCESS',cause:undefined}),error=>({code:error.code,cause:error.cause}));await cdp.waitForRead();const b=await runtime.openSession({signal:new AbortController().signal});sessions.push(b);await b.navigate(cdp.page);assert.match((await b.snapshot()).text,/Controlled read succeeded/);cdp.releaseRead();const failure=await failed;assert.equal(failure.code,'BROWSER_RUNTIME_FAILED');assert.match(JSON.stringify(failure.cause),/Duplicate target/);assertReadFaultBinding(cdp);assert.equal(a.isClosed?.(),true);assert.match((await b.snapshot()).text,/Controlled read succeeded/);const next=await runtime.openSession({signal:new AbortController().signal});sessions.push(next);await next.navigate(cdp.page);assert.match((await next.snapshot()).text,/Controlled read succeeded/);
+ const open = async () => {
+  // Match the production HTTP host: each session owns a distinct isolated page.
+  const session = await runtime.openSession({signal:new AbortController().signal,networkPolicy:{
+   documentOrigins:[new URL(cdp.page).origin],startupDocuments:[cdp.page],staticResources:[],dynamicReads:[],
+  }});
+  sessions.push(session);
+  await session.prepareNavigation?.(cdp.page,{timeoutMs:3000});
+  await session.navigate(cdp.page,{timeoutMs:3000});
+  return session;
+ };
+ try {
+  const a = await open();
+  const failed = a.snapshot().then(()=>({code:'UNEXPECTED_SUCCESS',cause:undefined}),error=>({code:error.code,cause:error.cause}));
+  await cdp.waitForRead();
+  const b = await open();
+  assert.match((await b.snapshot()).text,/Controlled read succeeded/);
+  cdp.releaseRead();
+  const failure = await failed;
+  assert.equal(failure.code,'BROWSER_RUNTIME_FAILED');
+  assert.match(JSON.stringify(failure.cause),/Duplicate target/);
+  assertReadFaultBinding(cdp);
+  assert.equal(a.isClosed?.(),true);
+  assert.match((await b.snapshot()).text,/Controlled read succeeded/);
+  const next = await open();
+  assert.match((await next.snapshot()).text,/Controlled read succeeded/);
  }finally{await Promise.all(sessions.map(s=>s.close()));await cdp.close();}
 });

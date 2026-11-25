@@ -77,12 +77,13 @@ export function renderDetails(){
  text('details-name',c.restaurant.outletName);const source=sourceFor(id);show('evidence',!!source?.observedAt);if(source)text('evidence',sourceName(source.provider,source.sourceUrl)+' · '+readAt(source.observedAt));
  const signature=JSON.stringify([id,facts,conditions]);if(signature!==state.detailKey){state.detailKey=signature;preserveSources($('details-content'),target=>{
   target.append(element('p',c.restaurant.address,'about-address'));
-  const groups=new Map<string,{url:string;readAt?:string;quotes:Array<SourceExcerpt & {category?:boolean}>;values:Set<string>}>(),categories=new Map<string,string>(),quotedCategories:string[]=[];
-  const categoryKey=(value:string)=>{const key=value.normalize('NFKC').toLowerCase().replace(/_/g,' ').replace(/\s+/g,' ').trim();return ['steak','steak house','steakhouse'].includes(key)?'steak':key;};
+  const groups=new Map<string,{url:string;readAt?:string;quotes:SourceExcerpt[];values:Set<string>}>(),categories=new Map<string,string>(),quotedCategories:string[]=[];
+  const categoryKey=(value:string)=>{const key=value.normalize('NFKC').toLowerCase().replace(/\s*\([^()]*\)\s*$/u,'').replace(/_/g,' ').replace(/\s+/g,' ').trim();return ['steak','steak house','steakhouse'].includes(key)?'steak':key;};
   const generic=new Set(['','restaurant','food','point of interest','establishment','store','food store']);
+  const categoryLabels=(quote:string)=>quote.split(/[,、\n]/u).map(label=>label.trim()).filter(Boolean);
   const sourceGroup=(url:string,at:string|undefined)=>{const key=JSON.stringify([url,at??null]);let group=groups.get(key);if(!group){group={url,readAt:at,quotes:[],values:new Set()};groups.set(key,group);}return group;};
   for(const item of conditions){const row=element('div',undefined,'fact');row.append(conditionRow(item));
-   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.filter(e=>e.candidateId===id&&(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl&&(!q.evidenceId||e.evidenceId===q.evidenceId));const readings=[...new Set(evidence.map(e=>e.observedAt))],at=readings.length===1?readings[0]:undefined;const group=sourceGroup(q.sourceUrl,at);if(q.quote.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim()!==item.text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim())group.quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='CATEGORY'?{category:true}:{}),...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(at?{readAt:at}:{})});}
+   for(const q of item.sources||[]){if(!q.sourceUrl)continue;const evidence=r.readEvidence.filter(e=>e.candidateId===id&&(item.evidenceIds||[]).includes(e.evidenceId)&&e.sourceUrl===q.sourceUrl&&(!q.evidenceId||e.evidenceId===q.evidenceId));const readings=[...new Set(evidence.map(e=>e.observedAt))],at=readings.length===1?readings[0]:undefined;const group=sourceGroup(q.sourceUrl,at);if(q.quote.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim()!==item.text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim())group.quotes.push({url:q.sourceUrl,text:q.quote,...(q.field==='PRICE'?{label:'Observed price:'}:{}),...(at?{readAt:at}:{})});}
    if(!(item.sources||[]).length&&item.status==='MET'&&item.explanation)row.append(element('p',item.explanation,'muted'));target.append(row);
   }
   for(const fact of facts){
@@ -91,17 +92,29 @@ export function renderDetails(){
     for(const quote of fact.sourceFieldQuotes||[])if(['COURSE_TITLE','COURSE_DESCRIPTION','PRICE'].includes(quote.field))sourceGroup(quote.sourceUrl||fact.sourceUrl,fact.observedAt).quotes.push({url:quote.sourceUrl||fact.sourceUrl,readAt:fact.observedAt,text:quote.quote});
    }else for(const value of values)target.append(element('p',value,'about-term'));}
    if(fact.provider==='GOOGLE_PLACES'&&Array.isArray(claims.restaurantTypeFacts))for(const raw of claims.restaurantTypeFacts){const key=categoryKey(raw);if(!generic.has(key)&&!categories.has(key))categories.set(key,raw.replace(/_/g,' '));}
-   for(const quote of fact.sourceFieldQuotes||[])if(quote.field==='CATEGORY')quotedCategories.push(quote.quote);
+   for(const quote of fact.sourceFieldQuotes||[]){
+    if(quote.field!=='CATEGORY')continue;
+    quotedCategories.push(quote.quote);
+    // The summary can split a list, while its original remains available in Source.
+    const url=quote.sourceUrl||fact.sourceUrl;
+    if(url&&categoryLabels(quote.quote).length>1)sourceGroup(url,fact.observedAt).quotes.push({url,readAt:fact.observedAt,text:quote.quote});
+   }
   }
-  const originals=new Map<string,string>();for(const quote of quotedCategories){for(const token of quote.split(/[,、\n]/))categories.delete(categoryKey(token));const key=categoryKey(quote);categories.delete(key);if(!originals.has(key))originals.set(key,quote);}
-  const normalizeBody=(value:string)=>value.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
-  const renderedCategories=new Set([...groups.values()].flatMap(group=>group.quotes.filter(quote=>quote.category).map(quote=>normalizeBody(quote.text??''))));
-  const labels=[...categories.values(),...originals.values()];if(labels.length&&!renderedCategories.has(normalizeBody(labels.join(', '))))target.append(element('p','Categories: '+labels.join(', '),'about-categories'));
+  const sourceCategoryKeys=new Set<string>();
+  for(const quote of quotedCategories){
+   for(const label of categoryLabels(quote)){
+    const key=categoryKey(label);
+    if(!generic.has(key)&&!sourceCategoryKeys.has(key)){categories.set(key,label);sourceCategoryKeys.add(key);}
+   }
+  }
+  const visibleConditions=new Set(conditions.map(item=>categoryKey(item.text)));
+  const labels=[...categories].filter(([key])=>!visibleConditions.has(key)).map(([,label])=>label);
+  if(labels.length)target.append(element('p','Categories: '+labels.join(', '),'about-categories'));
   for(const group of groups.values()){
    const normalize=(text:string)=>text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
    const quotes=new Map<string,SourceExcerpt>();for(const quote of group.quotes){const key=normalize(quote.text??''),previous=quotes.get(key);if(!previous||!previous.label&&quote.label)quotes.set(key,quote);}
    const row=element('section',undefined,group.values.size?'about-commercial':'about-source');row.dataset.sourceId=JSON.stringify([group.url,group.readAt??null]);for(const value of group.values)if(!quotes.has(normalize(value)))row.append(element('p',value,'about-term'));
-   if(quotes.size)renderCitations(row,[...quotes.values()],false);else row.append(citationFooter(group));target.append(row);
+   if(quotes.size)renderCitations(row,[...quotes.values()],true);else row.append(citationFooter(group));target.append(row);
   }
  });}renderAsked(id);
 }
@@ -174,7 +187,6 @@ export function renderHandoff(){
   if(h)selector.value=h.offerId;else{const placeholder=element('option','Choose a time');placeholder.value='';placeholder.disabled=true;placeholder.selected=true;selector.prepend(placeholder);}
   const selectedOffer=h&&(requireView().restaurant.availability[c.restaurant.id]||[]).find(o=>o.id===h.offerId),price=selectedOffer&&selectedOffer.price;show('handoff-price',!!price);text('handoff-price',price?money(price.amount)+(price.basis==='PER_PERSON'?' per guest':price.basis==='TOTAL'?' total':''):'');
   selector.onchange=()=>{const offer=freshOffers(c.restaurant.id).find(o=>o.id===selector.value);if(offer){selectSlot(offer);savePosition();renderHandoff();}};
-  text('handoff-provider-name',h?sourceName(h.provider,h.url):'');show('handoff-provider',!!h);
   const refreshable=canRefresh(),refresh=refreshable&&availabilityExpired(c.restaurant.id);
   show('departure',!!h||refresh);show('departure-fields',!!h);show('handoff-unavailable',!h&&!refresh);
   if(!h&&refresh){text('departure-title','Check availability again');$('departure').href='#';}

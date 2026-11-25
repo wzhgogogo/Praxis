@@ -325,12 +325,12 @@ async function withinTestTimeout<T>(promise: Promise<T>, label: string, timeoutM
   }
 }
 
-function availabilityProposal(partySize?: number): RestaurantSemanticProposal {
+function availabilityProposal(partySize?: number, rawDate = "2026-08-09"): RestaurantSemanticProposal {
   return {
     schemaVersion: "4",
     facts: [
       { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT" as const, reason: "Controlled fixture target.", quotes: ["find"] }, kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
-      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "2026-08-09" } },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: rawDate } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7pm" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shibuya" } },
       ...(partySize === undefined ? [] : [{ field: "PARTY_SIZE" as const, operation: "ASSERT" as const, value: { kind: "PARTY_SIZE" as const, value: partySize, source: "EXPLICIT" as const } }]),
@@ -342,7 +342,8 @@ class MessageProposalInterpreter implements RestaurantSemanticInterpreterPort {
   async interpret(input: { message: string }): ReturnType<RestaurantSemanticInterpreterPort["interpret"]> {
     const proposal = input.message === "recommendation"
       ? { schemaVersion: "4" as const, facts: [{ field: "TARGET" as const, operation: "ASSERT" as const, value: { goalBasis: { type: "JUDGMENT" as const, reason: "Controlled fixture target.", quotes: ["recommend"] }, kind: "TARGET" as const, goal: "RECOMMENDATION" as const, query: "recommend a cafe" } }] }
-      : input.message === "explicit" ? availabilityProposal(4) : availabilityProposal();
+      : input.message === "explicit on 2026-08-09" ? availabilityProposal(4) : availabilityProposal();
+    if (!input.message.includes("2026-08-09")) proposal.facts = proposal.facts.filter(fact => fact.field !== "DATE");
     return { status: "PROPOSED", proposal, attempts: [] };
   }
 }
@@ -542,6 +543,7 @@ test("Stage 2B serves the fixture workspace and rejects unauthenticated case acc
     try {
       const response = await fetch(running.baseUrl);
       assert.equal(response.status, 200);
+      assert.equal(response.headers.get("cache-control"), "no-store");
       const page = await response.text();
       assert.match(page, /type="module" src="\/assets\/workspace\/entry.js"/);
       const module = await fetch(running.baseUrl + "/assets/workspace/views.js");
@@ -559,14 +561,14 @@ test("Stage 2B serves the fixture workspace and rejects unauthenticated case acc
 test("H002 persistent Runtime preserves explicit or inferred party size and safely asks when the supplement is unknown or fails", async () => {
   await withDatabase(async ({ database, clock }) => {
     const resolver = new MessagePartySupplementResolver((message) => {
-      if (message === "relational") {
+      if (message === "relational on 2026-08-09") {
         return {
           status: "RESOLVED",
           partySize: 3,
           attempts: [{ invocationId: "supplement-relational", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
         };
       }
-      if (message === "unknown") {
+      if (message === "unknown on 2026-08-09") {
         return {
           status: "UNKNOWN",
           attempts: [{ invocationId: "supplement-unknown", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
@@ -581,22 +583,22 @@ test("H002 persistent Runtime preserves explicit or inferred party size and safe
     });
     try {
       const cookie = await login(running.baseUrl, "token-a");
-      const explicit = await createCase(running.baseUrl, cookie, "h002-explicit", "explicit");
+      const explicit = await createCase(running.baseUrl, cookie, "h002-explicit", "explicit on 2026-08-09");
       assert.equal(explicit.restaurant.intentDraft?.partySize, 4);
       assert.equal(explicit.restaurant.intentDraft?.partySizeSource, "EXPLICIT");
       assert.deepEqual(resolver.messages, [], "T1 primary explicit party must not call the supplement");
 
-      const relational = await createCase(running.baseUrl, cookie, "h002-relational", "relational");
+      const relational = await createCase(running.baseUrl, cookie, "h002-relational", "relational on 2026-08-09");
       assert.equal(relational.restaurant.intentDraft?.partySize, 3);
       assert.equal(relational.restaurant.intentDraft?.partySizeSource, "INFERRED_CLOSED_PARTY");
-      assert.deepEqual(resolver.messages, ["relational"], "T2 closed-party result is applied once by the real Runtime");
+      assert.deepEqual(resolver.messages, ["relational on 2026-08-09"], "T2 closed-party result is applied once by the real Runtime");
 
-      const unknown = await createCase(running.baseUrl, cookie, "h002-unknown", "unknown");
+      const unknown = await createCase(running.baseUrl, cookie, "h002-unknown", "unknown on 2026-08-09");
       assert.equal(unknown.case.phase, "NEEDS_INPUT");
       assert.equal(unknown.restaurant.intentDraft?.partySize, undefined);
       assert.ok(unknown.restaurant.missingRequiredFields.includes("partySize"), "T4 UNKNOWN remains a user-input requirement");
 
-      const failed = await createCase(running.baseUrl, cookie, "h002-failed", "failure");
+      const failed = await createCase(running.baseUrl, cookie, "h002-failed", "failure on 2026-08-09");
       assert.equal(failed.case.phase, "NEEDS_INPUT");
       assert.equal(failed.restaurant.intentDraft?.partySize, undefined);
       assert.ok(failed.restaurant.missingRequiredFields.includes("partySize"), "T5 model failure must not invent a party size");
@@ -608,11 +610,11 @@ test("H002 persistent Runtime preserves explicit or inferred party size and safe
       assert.equal(revised.response.status, 200, String(revised.payload.error));
       const revisedView = revised.payload.view as RestaurantCaseView;
       assert.equal(revisedView.restaurant.intentDraft?.partySize, 4, "a later omitted party must not overwrite the current Draft");
-      assert.deepEqual(resolver.messages, ["relational", "unknown", "failure"], "existing party suppresses a second supplement invocation");
+      assert.deepEqual(resolver.messages, ["relational on 2026-08-09", "unknown on 2026-08-09", "failure on 2026-08-09"], "existing party suppresses a second supplement invocation");
 
       const recommendation = await createCase(running.baseUrl, cookie, "h002-recommendation", "recommendation");
       assert.equal(recommendation.restaurant.intentDraft?.target?.goal, "RECOMMENDATION");
-      assert.deepEqual(resolver.messages, ["relational", "unknown", "failure"], "T6 recommendation requests never invoke party supplementation");
+      assert.deepEqual(resolver.messages, ["relational on 2026-08-09", "unknown on 2026-08-09", "failure on 2026-08-09"], "T6 recommendation requests never invoke party supplementation");
     } finally {
       await running.close();
     }
@@ -629,7 +631,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
     const secondCall = new Promise<void>((resolve) => { secondResolverCall = resolve; });
     let relationalCalls = 0;
     const resolver = new MessagePartySupplementResolver(async (message) => {
-      if (message === "initial") {
+      if (message === "initial on 2026-08-09") {
         return {
           status: "UNKNOWN",
           attempts: [{ invocationId: "supplement-initial", provider: "FIXTURE", model: "fixture", purpose: "restaurant_party_size_supplement", promptVersion: "v2", outputSchema: { name: "restaurant-party-size-supplement", version: "2" }, finishReason: "TOOL_CALLS", latencyMs: 0 }],
@@ -655,7 +657,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
     });
     try {
       const cookie = await login(running.baseUrl, "token-a");
-      const initial = await createCase(running.baseUrl, cookie, "h002-duplicate-create", "initial");
+      const initial = await createCase(running.baseUrl, cookie, "h002-duplicate-create", "initial on 2026-08-09");
       assert.equal(initial.case.phase, "NEEDS_INPUT");
       let readsFinished = 0;
       running.application.subscribeReadFinished(() => { readsFinished++; });
@@ -685,7 +687,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       // resolver and is independently observable below.
       const messagePath = `/api/conversations/${encodeURIComponent(initial.conversation.id)}/messages`;
       const originalRequest = { method: "POST", body: JSON.stringify({
-        message: "relational", requestId: "h002-duplicate-submit", taskVersion: initial.case.taskVersion,
+        message: "relational on 2026-08-09", requestId: "h002-duplicate-submit", taskVersion: initial.case.taskVersion,
       }) };
       const first = api(running.baseUrl, cookie, messagePath, originalRequest);
       const duplicate = api(running.baseUrl, cookie, messagePath, originalRequest);
@@ -704,7 +706,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       assert.ok(settled.every(result => result.status === "fulfilled" && result.value.response.status === 200),
         "both concurrent HTTP deliveries must resolve from one durable event");
       const firstView = settled[0].status === "fulfilled" ? settled[0].value.payload.view as RestaurantCaseView : undefined;
-      assert.deepEqual(resolver.messages, ["initial", "relational"], "concurrent delivery shares one in-flight supplement");
+      assert.deepEqual(resolver.messages, ["initial on 2026-08-09", "relational on 2026-08-09"], "concurrent delivery shares one in-flight supplement");
       assert.equal(firstView?.restaurant.intentDraft?.partySize, 2);
       const retried = await api(running.baseUrl, cookie, messagePath, originalRequest);
       assert.equal(retried.response.status, 200);
@@ -712,7 +714,7 @@ test("H002 persistent duplicate message delivery invokes the supplement once; co
       const events = (await running.application.exportReadArtifact(initial.case.caseId)).events as Array<{trace:{actor:string},event:{type:string}}>;
       assert.equal(events.filter(e => e.trace.actor === "USER").length, 2, "one create and one accepted user message");
       assert.equal(readsFinished,1,"the concurrent deliveries and durable retry share one read");
-      assert.deepEqual(resolver.messages, ["initial", "relational"], "a completed message retry is idempotent");
+      assert.deepEqual(resolver.messages, ["initial on 2026-08-09", "relational on 2026-08-09"], "a completed message retry is idempotent");
       const persisted = await running.application.getCase("user-a", initial.case.caseId);
       assert.equal(persisted.restaurant.intentDraft?.partySize, 2, "the persisted replay result remains authoritative");
     } finally {
@@ -1996,7 +1998,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
     const fixture: ModelGateway = {async complete(request) {
       const observed=scriptedBrowserObservation(request);if(observed)return observed;
       let output: unknown;
-      if (request.purpose === "restaurant_semantic_interpret") output = availabilityProposal(2);
+      if (request.purpose === "restaurant_semantic_interpret") output = availabilityProposal(2, "Tomorrow");
       else if (request.purpose === "restaurant_source_facts") output = {selections: []};
       else if (request.purpose === "restaurant_named_source_query") output = {field:"name",fragment:"Fixture Sushi"};
       else {

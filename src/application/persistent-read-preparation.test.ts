@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
 import { StaleTaskVersionError } from "./persistent-restaurant-agent.js";
-import { startWorkspaceFixture } from "../harness/workspace-fixture-server.js";
+import { datedWorkspaceRequest, startWorkspaceFixture } from "../harness/workspace-fixture-server.js";
 
 type Host=Awaited<ReturnType<typeof startWorkspaceFixture>>;
 const userId="workspace-user";
 async function create(host:Host){
   await host.application.store.upsertUser({id:userId,displayName:"Fixture"},host.clock.now().toISOString());
-  return host.application.createCase(userId,"Dinner for two in Tokyo","preparation-initial");
+  return host.application.createCase(userId,datedWorkspaceRequest("Dinner for two in Tokyo"),"preparation-initial");
 }
 async function settled(host:Host,caseId:string){
   const until=Date.now()+10_000;
@@ -454,7 +454,7 @@ test("Round18 immutable handle cancels its active read after run ID and version 
 
 
 test('Round20 illegal terminal Cases reject page questions without source calls',async()=>{
- for(const options of [{outcome:'empty' as const},{semanticFailureMessage:'Dinner for two in Tokyo'}]){
+ for(const options of [{outcome:'empty' as const},{semanticFailureMessage:datedWorkspaceRequest('Dinner for two in Tokyo')}]){
   const host=await startWorkspaceFixture({...options,questions:true});
   try{const first=await create(host),v=await settled(host,first.case.caseId);
    assert.ok(['NO_VERIFIED_RESULT','FAILED'].includes(v.case.phase));

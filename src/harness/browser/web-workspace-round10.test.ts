@@ -4,7 +4,7 @@ import { join } from "node:path";
 import test from "node:test";
 import { chromium, type Page, type Route } from "playwright-core";
 import type { RestaurantCaseView } from "../../application/agent-workspace.js";
-import { startWorkspaceFixture } from "../workspace-fixture-server.js";
+import { datedWorkspaceRequest, startWorkspaceFixture } from "../workspace-fixture-server.js";
 
 type Options = NonNullable<Parameters<typeof startWorkspaceFixture>[0]>;
 type Host = Awaited<ReturnType<typeof startWorkspaceFixture>>;
@@ -53,7 +53,7 @@ async function ready(page: Page) {
 }
 
 async function createPlan(page: Page, text: string, settled = true) {
-  await page.locator("#message").fill(text);
+  await page.locator("#message").fill(datedWorkspaceRequest(text));
   const creating = page.waitForResponse(r => r.request().method() === "POST" && new URL(r.url()).pathname === "/api/cases");
   await page.locator("#send").click();
   const response = await creating;
@@ -225,7 +225,7 @@ for (const action of ["shortlist", "questions"] as const) {
         const { view: b } = await createPlan(page, newText);
         assert.notEqual(b.case.caseId, a.case.caseId);
         const readA = await host.application.getCase(userId, a.case.caseId);
-        assert.ok(!readA.conversation.messages.some(message => message.content === newText));
+        assert.ok(!readA.conversation.messages.some(message => message.content === datedWorkspaceRequest(newText)));
         if (action === "questions") {
           const questionId = (await delayed).request().postDataJSON().requestId;
           await page.waitForFunction(async ({path,questionId}) => {
@@ -234,7 +234,7 @@ for (const action of ["shortlist", "questions"] as const) {
           },{path:pathFor(a),questionId});
           assert.equal(await page.locator("#answer-sheet").isVisible(),false,"the original answer stays in its plan history");
         }
-        assert.ok((await host.application.getCase(userId, b.case.caseId)).conversation.messages.some(message => message.content === newText));
+        assert.ok((await host.application.getCase(userId, b.case.caseId)).conversation.messages.some(message => message.content === datedWorkspaceRequest(newText)));
       } finally {
         deliver.release();
       }
@@ -721,7 +721,14 @@ test("Round13 UI: the card shows short source labels and About keeps the origina
     await screenshot(page, "round13-compact-source-categories");
 
     await page.locator("#details-button").click();
-    assert.ok((await page.locator("#details-content .about-categories").textContent())?.includes(sourceText));
+    const matchingQuote = page.locator("blockquote").filter({hasText:"Private dining rooms for your next company celebration"});
+    const source = page.locator("#details-content details").filter({has:matchingQuote});
+    const excerpt = source.locator("blockquote").filter({hasText:"Private dining rooms for your next company celebration"});
+    assert.equal(await excerpt.count(),1);
+    assert.equal(await excerpt.isVisible(),false);
+    await source.locator("summary").click();
+    assert.equal(await excerpt.textContent(),sourceText);
+    assert.equal(await excerpt.isVisible(),true);
   });
 });
 
@@ -739,9 +746,10 @@ test("Round13 UI: selected slot keeps its place in the two-row mobile grid", { t
     await options.last().scrollIntoViewIfNeeded();
     const before = await measure();
     assert.equal(new Set(before.map(slot => slot.y)).size, 2);
-    assert.ok(before.every(slot => slot.width === 72 && slot.weight === "500" && slot.align === "center"), JSON.stringify(before));
-    assert.equal(before[0]?.x, before[4]?.x);
-    assert.equal(before[1]?.x, before[5]?.x);
+    assert.ok(before.every(slot => slot.width === 60 && slot.weight === "500" && slot.align === "center"), JSON.stringify(before));
+    const secondRow = before.findIndex(slot => slot.y !== before[0]?.y);
+    assert.ok(secondRow > 0);
+    for (const [column, slot] of before.slice(secondRow).entries()) assert.equal(slot.x, before[column]?.x);
     await options.last().click();
     assert.equal(await options.last().getAttribute("aria-pressed"), "true");
     assert.equal(await page.locator('.slot-time[aria-pressed="true"]').count(), 1);
@@ -1278,11 +1286,11 @@ for(const mobile of [false,true])for(const navigation of ["next","Saved","own ed
 
 for(const mobile of [false,true])test(`Round18 UI: ${mobile?"mobile":"desktop"} delayed version0 Stop cannot cancel a replacement version0 preparation`,{timeout:30_000},async()=>{
  const first=latch(),firstRelease=latch(),replacement=latch(),replacementRelease=latch(),stop=latch(),stopRelease=latch();
- await fixture({beforeSemantic:async text=>{if(text==="Dinner in Tokyo"){first.release();await firstRelease.ready;}if(text==="Replacement dinner in Tokyo"){replacement.release();await replacementRelease.ready;}}},async(page,host)=>{
+ await fixture({beforeSemantic:async text=>{if(text===datedWorkspaceRequest("Dinner in Tokyo")){first.release();await firstRelease.ready;}if(text===datedWorkspaceRequest("Replacement dinner in Tokyo")){replacement.release();await replacementRelease.ready;}}},async(page,host)=>{
   let b:Page|undefined,c:Page|undefined;
   try{
    await signin(page);const initialResponse=page.waitForResponse(r=>r.request().method()==="POST"&&new URL(r.url()).pathname==="/api/cases",{timeout:25000});void initialResponse.catch(()=>{});
-   await page.locator("#message").fill("Dinner in Tokyo");await page.locator("#send").click();await first.ready;
+   await page.locator("#message").fill(datedWorkspaceRequest("Dinner in Tokyo"));await page.locator("#send").click();await first.ready;
    const initial=(await host.application.listCases(userId))[0]!;
    b=await page.context().newPage();await b.clock.install({time:host.clock.now()});await b.goto("/");if(mobile)await b.locator("#menu").click();await byCase(b,initial.caseId).click();await b.locator("#stop").waitFor();
    const before=await host.application.getCase(userId,initial.caseId);assert.equal(before.case.taskVersion,0);
@@ -1291,7 +1299,7 @@ for(const mobile of [false,true])test(`Round18 UI: ${mobile?"mobile":"desktop"} 
    const cancelled=b.waitForResponse(r=>r.request().method()==="DELETE"&&r.url().endsWith("/run"));await b.locator("#stop").click();await stop.ready;
    c=await page.context().newPage();await c.clock.install({time:host.clock.now()});await c.goto("/");await c.locator("#stop").waitFor();
    const accepted=c.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/messages"),{timeout:25000});void accepted.catch(()=>{});
-   await c.locator("#message").fill("Replacement dinner in Tokyo");await c.locator("#send").click();await replacement.ready;
+   await c.locator("#message").fill(datedWorkspaceRequest("Replacement dinner in Tokyo"));await c.locator("#send").click();await replacement.ready;
    const pending=await host.application.getCase(userId,initial.caseId);assert.equal(pending.case.taskVersion,0);assert.equal(pending.restaurant.sourceReadContext!.runId,before.restaurant.sourceReadContext!.runId);
    stopRelease.release();const rejected=await cancelled;assert.equal(rejected.status(),409,JSON.stringify(await rejected.json()));
    const oldHandle=(before.restaurant.sourceReadContext as {handleId?:string}).handleId,newHandle=(pending.restaurant.sourceReadContext as {handleId?:string}).handleId;
