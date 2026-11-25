@@ -126,7 +126,7 @@ Status: `implemented: Stage 2B Fixture subset + local Live Read-only composition
 
 当前未实现生产身份提供方、后台主动通知、跨任务Memory、Authorization UI、远程Takeover或生产执行进度。Live Read-only页面只展示已grounded的结果、来源链接和稳定失败原因；它没有预约、付款、取消、登录、PII提交、远程验证码控制或公网部署承诺。SSE重连采用“先发送最新完整Snapshot”的简单协议，不是持久消息队列；Activity由持久化Event ID确定性生成，从而允许客户端替换和去重。
 
-ADR-0049的B1交接、来源二次校验和独立持久化`USER_REPORTED`反馈已在main `00519783`整合；普通启动的来源链接读者/G3接线仍未启用，不据此宣称真实来源已验收。这里的取消不支持现实预约取消。当前SSE完整Snapshot协议可继续作为服务端投影输入；新前端须按ID合并，不能把它当作整页重建理由。新工作区外壳、查看上下文、逐家显示与恢复交互已在前端第一段工作分支完成本地Fixture浏览器链路，独立视觉复核及门禁状态见[计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。进度从当前轮持久事件与活动生命周期投影，首家复用生产证据资格；SSE完整Snapshot按候选ID保留交互位置。查找中SHORTLIST_UPDATED与完成的只读事件发生版本冲突时，Application仅在证明同run且所有中间事件均为备选编辑后，将该只读事件按最新版本重交一次；需求/停止/其他状态变化均不适用，不重跑来源读取。
+ADR-0049的B1交接、来源二次校验和独立持久化`USER_REPORTED`反馈已在main `00519783`整合；普通启动的来源链接读者/G3接线仍未启用，不据此宣称真实来源已验收。这里的取消不支持现实预约取消。当前SSE完整Snapshot协议可继续作为服务端投影输入；新前端须按ID合并，不能把它当作整页重建理由。新工作区外壳、查看上下文、逐家显示与恢复交互已在前端第一段工作分支完成本地Fixture浏览器链路，独立视觉复核及门禁状态见[计划](../superseded/plans/WEB-WORKSPACE-SLICE1-PLAN.md)。进度从当前轮持久事件与活动生命周期投影，首家复用生产证据资格；SSE完整Snapshot按候选ID保留交互位置。查找中SHORTLIST_UPDATED与完成的只读事件发生版本冲突时，Application仅在证明同run且所有中间事件均为备选编辑后，将该只读事件按最新版本重交一次；需求/停止/其他状态变化均不适用，不重跑来源读取。
 
 ## G1 displayed-restaurant follow-up (offline implementation)
 
@@ -145,7 +145,7 @@ Per ADR0049, an accepted SPECIFIC_OUTLET / BOOKING_WORDING message can record a 
 
 ## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
 
-以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/superseded/plans/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
 
 After results are displayed, the main composer in DETAILS calls the existing question interface for the outlet currently in view; cards have no second question input. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; code selects the sole legal `ANSWER_PAGE_QUESTION` without an Agent model call, still through Validator, Router and Reducer. In CANDIDATES/CONVERSATION, the composer continues to edit the restaurant request. The UI view determines routing; a model does not choose it.
 Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.
@@ -158,7 +158,7 @@ Case project复用已读取的同一用户/Case事件，不新增表、State字�
 
 readStatus区分已有结果、无合格结果、明确的全部来源失败、语义MODEL_FAILURE及其他故障。全部失败须逐店有非空的显式失败尝试且无成功检查；UNKNOWN、正常无位、未查或缺少attempt细节不冒充来源失败。按用户2026-10-30批准，TaskDefinition22→23，State24形状不变：NO_VERIFIED_RESULT可经NEXT_BATCH_REPLENISHMENT_REQUESTED回到SEARCHING，但服务端canContinue必须证明必要条件齐全、池内有未调查对象或已有匹配条件的观察游标/发现计划仍有未查工作。保留旧检查和游标，不重置来源计划；已有失败/不合格对象在Context及Validator中排除，模型不能改写这个边界。前端只消费canContinue，不自行推断。
 
-全部来源失败不走another-batch；服务端canRetry允许原refresh通过AVAILABILITY_REFRESH_REQUESTED显式重查全部已确认失败的候选，保留原有展示结果刷新，不运行语义。两个入口均先核对归属，requestId重交不再读取，其他请求仍核对版本；沿用原有界读取、Stop、迟到丢弃和预算。只清除上一轮收尾窗口，不清空检查/备选或新增条件修改事件。实现与验证见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
+全部来源失败不走another-batch；服务端canRetry允许原refresh通过AVAILABILITY_REFRESH_REQUESTED显式重查全部已确认失败的候选，保留原有展示结果刷新，不运行语义。两个入口均先核对归属，requestId重交不再读取，其他请求仍核对版本；沿用原有界读取、Stop、迟到丢弃和预算。只清除上一轮收尾窗口，不清空检查/备选或新增条件修改事件。实现与验证见[第2段计划](../superseded/plans/WEB-WORKSPACE-SLICE2-PLAN.md)。
 
 
 ### Round-4 workspace projection (2026-11-18, draft / not integrated)

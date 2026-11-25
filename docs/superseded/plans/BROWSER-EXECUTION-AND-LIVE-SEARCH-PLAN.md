@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # 浏览器执行优化与真实搜索体验实施计划
 
 - Status: Draft

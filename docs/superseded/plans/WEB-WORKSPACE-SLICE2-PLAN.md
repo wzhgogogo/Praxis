@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # Web Workspace Slice 2 Plan
 
 - Status: Draft

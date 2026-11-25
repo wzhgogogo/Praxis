@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # Web photos unified slice
 
 - Status: Draft

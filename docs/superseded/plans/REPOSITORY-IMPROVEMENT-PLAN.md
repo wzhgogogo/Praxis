@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # Repository Improvement Plan
 
 - Status: In progress

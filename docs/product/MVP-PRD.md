@@ -42,9 +42,9 @@ Praxis第一版是一个面向在日外国人的Responsive English Web Agent，�
 → 跨来源搜索与实体合并
 → 检查指定时间、人数的真实空位
 → 有界调查后返回首批目标为 3 家不同、证据充分的候选
-→ 用户明确选定一家
-→ 直接去来源网站，或先比较渠道与方案后出发
-→ 服务端按ADR-0049核对来源、当前请求、证据和交接链接
+→ 用户点击 Let's book 打开交接准备，空位过期则先刷新
+→ 用户点击 Continue on TableCheck 或 Continue on Tabelog
+→ 服务端二次核验来源入口；记录离开后打开该入口
 → 用户自行在来源网站确认并提交
 → 返回后可选自报一次结果
 → 在同一安排工作区继续查看候选、准备信息和自报记录
@@ -62,14 +62,14 @@ Praxis第一版是一个面向在日外国人的Responsive English Web Agent，�
 4. 空位候选保留来源和查询时间；价格、条款、信用卡及手续费只展示有当前同店、同渠道证据支持的内容。过敏等安全关键要求须展示来源和确认要求，不能由交接代替餐厅接受。
 5. 开放式找店的首批目标是3家不同、证据充分的候选；用户明确的数量取代默认目标，指定门店不机械扩展。空位目标中每家仍须有已验证对应slot；进入预约时还须有可执行预约路径。普通推荐按事实要求展示，不声称已有座位；不足目标时返回实际数量和受限原因，不以安全停止冒充用户目标完成。
 6. 结果批次是可恢复的只读选店会话：用户可查看、加入/移除备选、要求同条件另一批或提交明确反馈。已有合格未展示候选优先返回；池内不足才由现有有界调查续接，且不自动预约或形成长期偏好。
-7. 用户通过`Choose this`明确选定一家；查看、备选和指代上下文不等于选定，选定也不授权任何外部提交或自动换店。
-8. 有合格来源交接时即可直接出发，不必等待渠道比较；出发前复用ADR-0049的服务端二次校验，条件变化或证据失效时旧交接失效，不拼造链接。
+7. `Let's book` 只打开前端交接准备页，空位过期时先刷新。查看、备选、指代与交接准备均保持原有明确选定状态和预约授权。
+8. 点击 `Continue on TableCheck` 或 `Continue on Tabelog` 后，`POST /booking-departures` 记录离开并打开按 ADR-0049 二次核验的来源入口。条件变化或证据失效时旧交接失效。
 9. 无API网站的受控读取继续建设；来源网站的登录、验证码、银行卡、支付和最终预约提交由用户独立完成，第一版不提供远程代订或接管后代提交。
 10. 按 [ADR-0054](../decisions/0054-per-departure-booking-feedback-prompt.md)，每次明确离开后返回至多一次可跳过的 `USER_REPORTED` 自报。只询问最近一次离开，不追问。
 11. 用户修改需求或停止当前查找后，旧请求的迟到进度、卡片和交接不得重新出现；查找中提供`Stop`并使用服务端已有取消路径。
 12. 用户可以关闭页面后恢复同一Case；候选、备选按Case隔离，恢复原来的工作区视图和当前候选。
 13. 前端有首页、`My plans`抽屉（桌面常驻侧栏）和安排工作区三个位置；对话、候选、详情、备选、比较及预约准备在同一工作区内切换。
-14. 首家合格候选就绪后自动显示，其余逐家出现；只展示流程实际知道的进度数值，不编造百分比。前端第一段已在工作分支完成本地Fixture浏览器链路验证，五门禁与独立视觉复核见当前[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)；不代表Live或Pilot验收。
+14. 首家合格候选就绪后自动显示，其余逐家出现；只展示流程实际知道的进度数值，不编造百分比。Phase 3c 的交付证据见 [STATUS](../STATUS.md)，早期取舍见 [原切片计划](../superseded/plans/WEB-WORKSPACE-SLICE1-PLAN.md)。
 15. SSE按ID局部更新，保留当前卡片、未发送输入和展开状态；消息携带服务端校验后的当前查看上下文，用于理解`this one`等指代。
 16. Conversation、解释文本、模型Working Plan和前端查看状态不作为权威预约状态；事实和业务动作仍从服务端Domain/Application及Runtime投影。
 
@@ -77,7 +77,7 @@ Praxis第一版是一个面向在日外国人的Responsive English Web Agent，�
 
 ## 选择与交接边界
 
-`Choose this`仅表示明确选店；书签仅表示留作备选。来源出发按钮由用户主动点击，只打开服务端核验过的来源入口，不创建预约Authorization或提交Attempt。参数只可描述为`filled in`，不能从URL推断来源网站实际选中了条件、方案或座位。
+书签只保存备选，`Let's book` 只打开交接准备。明确离开由用户点击来源按钮触发，服务端记录的是交接离开事件。界面只把实际核验的 URL 参数描述为 `filled in`，来源网站上的实际选中状态和预约结果由用户确认。
 
 当前请求、门店、渠道、Offer或证据新鲜度不再匹配时，旧交接不得显示或沿用。合法同店来源入口与带参交接的可用范围均沿用ADR-0049；“直接去来源网站”的路径不得被渠道比较完成与否阻断，也不得绕过来源或证据校验。
 
@@ -153,48 +153,4 @@ Independent review of the original 102 model answers was reported by the user: z
 
 ## G5 B1 approved follow-up
 
-B1 hands a current, server-checked source URL to the user. Each explicit departure is recorded separately from Task State. On return, an authenticated durable claim asks “Did you get the booking?” once for the latest explicit departure under [ADR-0054](../decisions/0054-per-departure-booking-feedback-prompt.md). Yes, No and Skip record USER_REPORTED feedback. Japanese/English cancellation conflicts show both original quotations and one English paraphrase per page, the explicit conflict notice, and website-confirmation hint; neither model nor code ranks strictness. A fixed Tabelog English system-fee rule is supported by the2026-10-29 public help GET and date/SHA; TableCheck gets no inferred fee. Ordinary G3 source-link activation is implemented with the reviewed main release below. No real booking/model/Live is run. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
-
-
-## B1 G3 wiring preparation branch (2026-10-30 CET)
-
-On the preparation branch, a current verified Tabelog slot provides Book on Tabelog and Continue without waiting for comparison completion. The link carries the checked date, time and guests; actual source selection remains unknown. Missing, unsupported or expired link evidence hides these controls. This remains offline preparation; main activation and current-site preselection are not yet verified. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
-
-Historical B1 rebase checkpoint (2026-10-30 CET): the C branch now includes published G3 and retains the approved ADR-0050 presentation. Source-link behavior has been rechecked offline; C wiring still awaits review and its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
-
-Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).
-
-
-## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
-
-用户2026-11-01决定：选店且有当前B1交接后，主动读取同店同渠道的取消与订位信用卡条款；原文、英文转述、URL及读取时间上卡片，不为全部候选读取。已接纳的当前同页答案复用；缺证/过期/预算/取消不显示条款，链接照常。日英冲突并列，手续费配置保持。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
-
-
-## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
-
-选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。
-
-## Explicit booking message records user choice (2026-11-02 CET; approved main integration)
-
-When the user explicitly asks to book one specific restaurant and the reference is unambiguous, Praxis records that restaurant as the user's choice. An ambiguous or partial name stays unselected. Missing guests are asked first, and the requested slot is still checked before a source handoff and optional card terms appear. This does not submit or authorize a reservation. See the appended user decision in [ADR0049](../decisions/0049-source-bound-b1-booking-handoff.md); this local implementation passed independent review and is approved for main integration. Live limitations remain separate.
-
-### Named outlet with source-owned name variants (2026-11-03; offline candidate)
-
-A specific named Tokyo outlet can be found without asking for a separate area. Google and the booking source may use different names: exact source-owned full names require same-store identity, and a containing short name requires a unique candidate plus address-supported locality/cuisine/branch terms. Multiple branches, unknown abbreviations and conflicting identity require clarification. The source address does not become a user-supplied area. Availability, qualified presentation and both B1 server checks remain required before a booking handoff. Validation and remaining Live uncertainty are in the [C report](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md).
-
-### Booking a selected outlet after supplying missing details (2026-11-03; offline candidate)
-
-If the user books a displayed restaurant and then supplies the party size or another missing visit field, the next result remains bound to that restaurant's source identity. The area cannot replace the selected store with nearby results. If it cannot be verified for that visit, the reply names the store and visit and asks whether other nearby restaurants are acceptable; only a subsequent accepted open request permits those alternatives. A selection still requires fresh availability before B1/terms and does not authorize booking submission.
-
-## 2026-11-03 named-brand clarification (offline implementation candidate)
-
-A named request with several possible branches may inspect the original-order first three identities under the same read budget, even if five possible candidates exist. It proceeds only after those three are investigated and exactly one identity-bound full source name matches; otherwise it asks which branch. This investigation never selects or presents the other branches. Selected-outlet terms may be omitted when a page remains incomplete or the read budget/reserve/cancellation blocks them; the current verified departure link remains available. Exportable reasons distinguish these cases from a page that genuinely does not state terms. This is offline evidence awaiting review, not a new Live completion claim.
-
-
-## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
-
-以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
-
-14. 首家合格候选就绪后自动显示，其余逐家出现；只展示流程实际知道的进度数值，不编造百分比。前端第一段已复核并快进合main4cbc521b，本地Fixture及视觉证据见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)；不代表Live或Pilot验收。
-17. 前端第2段由视图确定唯一输入框的路由：详情问当前店，候选/对话调整需求；已问记录按店展示。可点条件只预填需求输入；候选变化及不匹配备选原因来自服务端投影，未知不编；新增和移除均0时不显示变化行。空结果只在服务端证明仍有未查工作时提供Find more；已失败/不合格对象不再调查。全部来源失败的Try again走显式刷新，不能伪装为续查。工作分支实现与短状态验收见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，不代表Live或Pilot。
-Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.
+B1 hands a current, server-checked source URL to the user. Each explicit departure is recorded separately from Task State. On return, an authenticated durable claim asks “Did you get the booking?” once for the latest explicit departure under [ADR-0054](../decisions/0054-per-departure-booking-feedback-prompt.md). Yes, No and Skip record USER_REPORTED feedback. Japanese/English cancellation conflicts show both original quotations and one English paraphrase per page, the explicit conflict notice, and website-confirmation hint; neither model nor code ranks strictness. A fixed Tabelog English system-fee rule is supported by the2026-10-29 public help GET and date/SHA; TableCheck gets no inferred fee. Phase 3c exit evidence is recorded in [STATUS](../STATUS.md). See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

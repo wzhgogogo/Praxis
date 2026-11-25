@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # H001 两站原生发现接入 Playbook
 
 - Status: Draft

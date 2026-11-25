@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # 前端slice2同步与3c收尾
 
 - Status: draft / not integrated

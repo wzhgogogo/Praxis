@@ -27,7 +27,7 @@ Accepted ADR
 
 ## 阅读路径
 
-入口顺序：INDEX → Repository Conventions → Arch Guard → STATUS。STATUS先读最新结论和与本次切片直接相关的能力／门槛；其历史检查点按需定位，不默认通读。根据下表进入本次范围；同一会话已读且未变化的文档可复用。需要追溯历史时，先从[月度历史入口](history/README.md)读相关月份摘要，再按逐条索引定位同一失效机制的原始记录；不默认通读两份完整日志。当前月份有新记录时同步对应逐条索引，摘要只在工作方向或证据结论变化时更新。
+入口顺序：[INDEX](INDEX.md) → [Repository Conventions](REPOSITORY-CONVENTIONS.md) → [Arch Guard](skills/arch-guard/SKILL.md) → [STATUS](STATUS.md)。STATUS 汇总当前能力和下一道门槛；历史检查点由归档或月度索引定位。根据下表进入本次范围；同一会话已读且未变化的文档可复用。需要追溯历史时，先从[月度历史入口](history/README.md)读相关月份摘要，再按逐条索引定位同一失效机制的原始记录；不默认通读两份完整日志。当前月份有新记录时同步对应逐条索引，摘要只在工作方向或证据结论变化时更新。
 
 | 本次工作 | 追加阅读 |
 |---|---|
@@ -91,8 +91,8 @@ Accepted ADR
 - [Restaurant Semantic Holdout](harness/RESTAURANT-SEMANTIC-HOLDOUT.md)：`restaurant-semantic-holdout@2`的空模板、开放`criteria`标注格式、冻结清单、Preflight与一次性Baseline协议。
 - [Roadmap](roadmap.md)：后续阶段及退出条件，不记录每次实施细节。
 - [月度历史入口](history/README.md)：2026年8月起的月度摘要与逐条索引；按需追溯入口。
-- [原始 Dev Log](history/DEVLOG.md)：完整保留设计、实现与取舍记录，由月度索引定位。
-- [原始 Test Log](history/TEST-LOG.md)：完整保留验证命令、模式、结果与未覆盖项，由月度索引定位。
+- [开发日志](history/DEVLOG.md)：当前记录，早期原文由月度索引定位。
+- [验证日志](history/TEST-LOG.md)：当前门禁、结果与未测边界，早期原文由月度索引定位。
 - [2026-09-05全量测试审查](history/TEST-SUITE-REVIEW-2026-09-05.md)：2026-09-06完成的逐文件/逐测试历史快照，不是需随每次改动维护的门禁清单。
 - [2026-09-24 Test/Eval Skill纸面审查](history/TEST-EVAL-SKILL-REVIEW-2026-09-24.md)：覆盖与评价规程的draft / not integrated审查，不是运行或产品能力证据。
 
@@ -119,32 +119,27 @@ Accepted ADR
 - [Eval](skills/eval/SKILL.md)
 - [Post-change Verify](skills/post-change-verify/SKILL.md)
 
-## 当前阶段计划
+## 当前阶段与历史计划
 
-- [Web Workspace Slice 2 Plan](WEB-WORKSPACE-SLICE2-PLAN.md)：从已快进合main的第1段4cbc521b开始，单输入框/条件/差异/收尾/错误及用户批准的有未查工作才续接；真实调用0。
-
-- [Web Workspace Slice 1 Plan](WEB-WORKSPACE-SLICE1-PLAN.md)：当前前端纵向切片范围、现有取消/进度链路、两尺寸浏览器验收与停止条件；业务真实调用0。
-
-- [Agent 网站操作第一阶段 Playbook](AGENT-WEB-OPERATION-PHASE-1-PLAYBOOK.md)：第一阶段的目标、工作包、退出条件、预算与签收口径；当前进度见 STATUS。
-- [H001–H005 已知可行基线 Playbook](H001-H005-KNOWN-FEASIBLE-BASELINE-PLAYBOOK.md)：P1-A 细则（已完成）；已暴露开发诊断，非 Clean Baseline。其结论分类只用于 P1-A 至 P1-F，此后按 Eval Skill 的四层结构评价。
-- 独立复核文件随各批次原样提交在 `.eval-artifacts/<批次>/` 下，由对应报告和 STATUS 条目链接。
+- 当前进展和验收从 [STATUS](STATUS.md) 进入，阶段边界见 [Roadmap](roadmap.md)。
+- 旧阶段计划、Playbook 和完整状态见 [归档入口](superseded/README.md) 与 [plans/](superseded/plans/)。
 
 ## 仓库治理
 
 - [工作树复用与创建入口](WORKTREE-CREATION.md)：同任务复用原树；仅并行代码或另一版本验证新建，首次检出只展开必需样本。
 
 - [浏览器只读可靠性独立复核（2026-10-07）](history/BROWSER-READ-RELIABILITY-REVIEW-2026-10-07.md)：通用执行、来源网络规则、受控交付及三次Live的证据；代码局部通过，完整交付仍FAIL。
-- [H001 可信结果交付 Playbook](H001-QUALIFIED-DELIVERY-PLAYBOOK.md)：已被第一阶段 Playbook 取代的历史计划；其中的命令和门槛不再使用。
+- [H001 可信结果交付 Playbook](superseded/plans/H001-QUALIFIED-DELIVERY-PLAYBOOK.md)：已被第一阶段 Playbook 取代的历史计划；其中的命令和门槛不再使用。
 - [H001 可信交付独立复核（2026-10-07）](history/H001-QUALIFIED-DELIVERY-REVIEW-2026-10-07.md)：固定来源模型通过，完整Live交付FAIL；后续仅发现Live证明TableCheck查询建议选择，Tabelog类别扩查仍FAIL，锚点修复仅获离线验证。
-- [Browser Agent 通用操作与会话可靠性 Playbook](BROWSER-AGENT-GENERIC-OPERATIONS-PLAYBOOK.md)：2026-09-26 的历史实施切片，已被第一阶段 Playbook 取代；不代表已验收能力。
-- [Browser Agent 餐厅实施与 Review 计划](BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md)：当前 P0–P4 只读切片及 P5 边界；早期交接状态和额度属于历史记录，后续授权与最终结果单列。
+- [Browser Agent 通用操作与会话可靠性 Playbook](superseded/plans/BROWSER-AGENT-GENERIC-OPERATIONS-PLAYBOOK.md)：2026-09-26 的历史实施切片，已被第一阶段 Playbook 取代；不代表已验收能力。
+- [Browser Agent 餐厅实施与 Review 计划](superseded/plans/BROWSER-AGENT-RESTAURANT-IMPLEMENTATION-PLAN.md)：当前 P0–P4 只读切片及 P5 边界；早期交接状态和额度属于历史记录，后续授权与最终结果单列。
 - [Browser Agent 最终复核（2026-09-16）](history/BROWSER-AGENT-FINAL-REVIEW-2026-09-16.md)：本轮实现、真实两店比较/修订、新商户失败、独立结果复核、测试和未覆盖范围。
 - [Browser Agent P0–P4 交付记录（2026-09-16）](history/BROWSER-AGENT-RESTAURANT-P0-P4-DELIVERY-2026-09-16.md)：本轮改动、B1–B14 实际证据、命令和未完成项；不是独立 Review 或 Live 验收。
 
-- [Restaurant Read Execution Design](RESTAURANT-READ-EXECUTION-DESIGN.md)：已执行的只读调查工具语义、证据接纳、正常无结果收尾与验证设计，关联ADR-0025；真实模型/来源验收仍单独记录。
-- [Browser Execution and Live Search Plan](BROWSER-EXECUTION-AND-LIVE-SEARCH-PLAN.md)：历史交接计划（draft / not integrated），已被第一阶段 Playbook 取代，不代表当前能力。
+- [Restaurant Read Execution Design](architecture/RESTAURANT-READ-EXECUTION-DESIGN.md)：已执行的只读调查工具语义、证据接纳、正常无结果收尾与验证设计，关联ADR-0025；真实模型/来源验收仍单独记录。
+- [Browser Execution and Live Search Plan](superseded/plans/BROWSER-EXECUTION-AND-LIVE-SEARCH-PLAN.md)：历史交接计划（draft / not integrated），已被第一阶段 Playbook 取代，不代表当前能力。
 - [Repository Naming and Version Conventions](REPOSITORY-CONVENTIONS.md)：Git branch/tag、版本轴、源码、Eval、文档和命令命名的唯一Source of Truth。
-- [Repository Improvement Plan](REPOSITORY-IMPROVEMENT-PLAN.md)：2026-09-05仓库Review的整改执行进度与延后项，不替代当前权威设计，不包含人工标注数据和已有测试artifact的修改。
+- [Repository Improvement Plan](superseded/plans/REPOSITORY-IMPROVEMENT-PLAN.md)：2026-09-05仓库Review的整改执行进度与延后项，不替代当前权威设计，不包含人工标注数据和已有测试artifact的修改。
 
 ## 文档治理
 

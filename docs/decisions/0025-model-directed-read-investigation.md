@@ -6,7 +6,7 @@
 - Source of truth for: 拟调整的 Restaurant 调查权限、最小观察反馈与只读无结果终态
 - Proposed partial supersession: [ADR-0012](0012-migration-and-agent-loop-hardening.md) 的极窄Context范围、[ADR-0014](0014-search-only-results-completion.md) 的只读终态范围、[ADR-0022](0022-current-source-fact-lifecycle-and-identity.md) 的候选级当前事实集合与精确地点名称规则
 - Supplements: [ADR-0020](0020-goal-driven-restaurant-read-path.md)、[ADR-0024](0024-deterministic-time-and-diagnostic-read-completion.md)
-- Related documents: [执行设计与验收](../RESTAURANT-READ-EXECUTION-DESIGN.md)
+- Related documents: [执行设计与验收](../architecture/RESTAURANT-READ-EXECUTION-DESIGN.md)
 
 ## Context
 

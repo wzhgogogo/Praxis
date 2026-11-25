@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # Praxis H001 Native Live 下一阶段 Playbook
 
 ## 1. 本轮目标

@@ -2,13 +2,19 @@
 
 - Status: Accepted
 - Document revision: 1.1
-- Last updated: 2026-09-24
+- Last updated: 2026-11-25
 - Source of truth for: 已退出当前主链但仍有Retro、Review或审计价值的材料索引
 - Related documents: [Documentation Index](../INDEX.md), [Current Status](../STATUS.md), [Dev Log](../history/DEVLOG.md)
 
 本目录内容统一属于`superseded retrospective`：保留历史Plan、Golden、Annotation Guide与设计口径，但不进入当前阅读主链、默认命令、产品能力或Clean Baseline。历史正文不按当前命名机械改写；当前结论只从链接的Source of Truth判断。
 
 - [Roadmap before repository review](ROADMAP-BEFORE-REPOSITORY-REVIEW.md)：2026-09-05整改前路线正文，superseded retrospective，不作为当前阶段门槛。
+
+## 阶段计划与状态
+
+- [plans/](plans/) 收录 Phase 2–3c 收尾前的根目录计划、Playbook 与实施说明。文件开头标明历史状态，正文和历史链接保留供追溯。
+- [旧 STATUS](STATUS-ARCHIVE-PHASE1-TO-3B.md) 保存收尾前整份记录，包含 Phase 3c 开发轨迹。
+- 滚动日志见 [历史入口](../history/README.md)。仍有效的 [只读调查执行设计](../architecture/RESTAURANT-READ-EXECUTION-DESIGN.md) 由 ADR-0025 引用。
 
 ## Restaurant Harness与Eval
 

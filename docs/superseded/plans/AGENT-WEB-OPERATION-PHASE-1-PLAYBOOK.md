@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # Agent 网站操作第一阶段 Playbook
 
 - Status: Signed off（2026-10-15，第一阶段完成，新地点泛化目标转入第二阶段）

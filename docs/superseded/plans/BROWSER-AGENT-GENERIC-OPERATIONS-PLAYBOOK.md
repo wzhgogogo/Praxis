@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # Browser Agent 通用操作与会话可靠性 Playbook
 
 - Status: Draft — authorized implementation plan; not capability acceptance

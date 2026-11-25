@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # Agent 网站操作第二阶段 Playbook
 
 - Status: Approved（用户 2026-10-16 22:29 批准，第 9 节四项均按建议）

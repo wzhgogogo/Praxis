@@ -4,8 +4,8 @@
 - Document revision: 1.1
 - Last updated: 2026-09-15
 - Source of truth for: 当前只读调查契约、保留边界与验收设计；真实模型/来源结果仍不由本文替代
-- Related ADRs: [ADR-0025](decisions/0025-model-directed-read-investigation.md)、[ADR-0026](decisions/0026-concrete-visit-goal-and-reception-semantics.md)、[ADR-0024](decisions/0024-deterministic-time-and-diagnostic-read-completion.md)
-- Related documents: [STATUS](STATUS.md)、[Test](skills/test/SKILL.md)、[Eval](skills/eval/SKILL.md)
+- Related ADRs: [ADR-0025](../decisions/0025-model-directed-read-investigation.md)、[ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md)、[ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md)
+- Related documents: [STATUS](../STATUS.md)、[Test](../skills/test/SKILL.md)、[Eval](../skills/eval/SKILL.md)
 
 ## 1. 要交付什么
 
@@ -19,7 +19,7 @@
 
 ## 2. 已知证据与诊断边界
 
-依据：[08时批次报告](../.eval-artifacts/hybrid-schema-fixed-2026-09-14/1789373476/REPORT.md)、[09时 Terra 修改审查](../.eval-artifacts/hybrid-schema-fixed-2026-09-14/1789373476/terra-followup-review.md)。两者为本地忽略目录中的 exposed development diagnostic，不能称 Clean Baseline。
+依据：[08时批次报告](../../.eval-artifacts/hybrid-schema-fixed-2026-09-14/1789373476/REPORT.md)、[09时 Terra 修改审查](../../.eval-artifacts/hybrid-schema-fixed-2026-09-14/1789373476/terra-followup-review.md)。两者为本地忽略目录中的 exposed development diagnostic，不能称 Clean Baseline。
 
 | 已观察问题 | 本设计处理 |
 |---|---|
@@ -213,7 +213,7 @@ Live 的 now/相对日期独立物化到该 run 的可信参考时刻；离线�
 
 ## 13. 测试与Eval的具体改造清单
 
-验证矩阵仍唯一维护于[Test Skill](skills/test/SKILL.md)，本节是这次设计的具体落点，不另建一份通用门禁。本轮必须调整测试，不是保留原断言后只追加若干成功用例。以下均是待实施工作，当前没有据此修改测试代码或运行新的测试。
+验证矩阵仍唯一维护于[Test Skill](../skills/test/SKILL.md)，本节是这次设计的具体落点，不另建一份通用门禁。本轮必须调整测试，不是保留原断言后只追加若干成功用例。以下均是待实施工作，当前没有据此修改测试代码或运行新的测试。
 
 ### 13.1 模块测试：验证契约，不固定调查路线
 

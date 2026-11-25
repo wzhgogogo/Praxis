@@ -21,7 +21,7 @@ A current, identity-bound merchant menu, introduction or recognized source categ
 
 顶部仅有菜单、`praxis`加群青方块光标及新安排入口。工作区底部输入框为`Adjust anything?`。查看、展开、备选和明确选定分别处理；返回候选视图时回到原来的卡片。
 
-前端第一段在工作分支接通了本节的外壳、当前指代、逐家候选和B1呈现，本地Fixture两尺寸浏览器链路已通过；五门禁/独立视觉复核状态见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
+Phase 3c 交付本节的工作区、逐家候选和 B1 交接。点击 `Let's book` 打开当前候选的交接准备页，库存过期时先刷新。该操作只更新视图定位，预约授权与明确选定候选均由各自的业务入口处理。[原切片计划](../superseded/plans/WEB-WORKSPACE-SLICE1-PLAN.md)
 
 ## 明确空位与来源交接
 
@@ -45,13 +45,13 @@ flowchart TD
     J --> K{"用户选择一家？"}
     K -- "修改需求" --> B
     K -- "暂不预约" --> X2["终态：保存但未预约"]
-    K -- "Choose this" --> L["明确选定；在工作区展开预约准备"]
+    K -- "Let's book" --> L["打开预约交接准备；过期先刷新"]
     L --> M{"如何继续？"}
-    M -- "直接去来源网站" --> N["核验合法同店来源入口"]
+    M -- "Continue on TableCheck / Tabelog" --> N["核验合法同店来源入口"]
     M -- "先比较：设计，第一段不实现" --> O["比较渠道与方案后选择出发入口"]
     O --> N
     N --> P["带参B1还须通过当前slot、来源证据与链接二次校验"]
-    P --> Q["用户主动出发，在来源网站自行确认并提交"]
+    P --> Q["POST booking-departures；用户在来源网站自行确认并提交"]
     Q --> R{"返回后，首次可选自报"}
     R -- "Yes" --> S["只记USER_REPORTED"]
     R -- "Not yet" --> S
@@ -61,7 +61,7 @@ flowchart TD
 
 直接去来源网站不等待比较完成。已有合法同店公开来源页可供用户自行查看；带参B1缺少当前空位或链接证据时不得生成或展示，不以公开页入口声称有位或已带入。Praxis不进入预约工作流页验证链接、不接管来源会话、不提交预约。方案、价格、手续费、信用卡、取消规定沿用ADR-0049的证据与措辞规则；提示按ADR-0050最多两行（一行选择项、一行核对项），取消冲突确认提醒位于推荐卡片的取消规定旁。
 
-返回问题为`Did you get the booking?`，非阻断、每Case至多一次。新界面`Not yet`展示标签映射已有`NO`回答，关闭/跳过沿用已有Skip语义；不新增预约Outcome或反馈枚举。仍以服务端持久化claim保证并发、刷新和重启不重复询问，不能用前端记忆替代。
+返回问题为 `Did you get the booking?`，对最近一次明确离开至多询问一次，可跳过。新界面`Not yet`展示标签映射已有`NO`回答，关闭/跳过沿用已有Skip语义；不新增预约Outcome或反馈枚举。仍以服务端持久化claim保证并发、刷新和重启不重复询问，不能用前端记忆替代。
 
 ## 查找中、增量候选与停止
 
@@ -75,7 +75,7 @@ SSE按ID局部更新；当前卡片、未发送的输入内容和展开状态保
 
 消息请求携带当前视图、正在看的候选ID、正在比较的候选ID集合。服务端核对用户、Conversation/Case归属和候选身份，随后才用于解析`this one`。没有有效对象时要求澄清，不猜为第一家、最近展示或已选定的店。
 
-正在看、留作备选、正在比较均不更新明确选定状态；`Choose this`才表达选择，仍不授权外部提交。比较上下文在比较界面实际存在时才提供，第一段不虚构比较对象。
+正在看、留作备选、正在比较和打开交接准备均保持原有明确选定状态。比较上下文只在比较界面实际存在时提供。
 
 ## 跨会话与Mobile Web恢复
 
@@ -122,8 +122,8 @@ flowchart TD
 
 ## 用户确认点
 
-1. `Choose this`：明确选定一家，不创建外部写Authorization；查看和保存书签均不触发此动作。
-2. 出发按钮：用户主动打开已核验的来源链接；只描述实际核验的`filled in`字段，不描述来源实际已选中或预约成功。
+1. `Let's book` 打开交接准备。当前空位过期则先刷新。
+2. `Continue on TableCheck` 或 `Continue on Tabelog` 通过 `POST /booking-departures` 记录离开，打开服务端二次核验的来源入口。界面只描述实际核验的 `filled in` 字段。
 3. 来源网站：用户独立确认方案、条件、条款、登录、验证码、银行卡并提交，Praxis不读取或控制该会话。
 4. 返回自报：`Yes / Not yet`及可跳过，不阻断继续使用，也不追问；只记`USER_REPORTED`。
 5. 条件变更、旧交接失效或读取受限：说明实际限制，允许修改需求，不自动换店或重订。
@@ -202,9 +202,9 @@ For an explicit full outlet name with multiple possible branches, Praxis can inv
 
 ## slice2 原始补充（frozen regression；2026-10-30历史，非本次验证）
 
-以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
+以下保留slice2新增内容；旧State/TaskDefinition及“当前/待合入”表述是当时记录，不能覆盖上方main权威定义或本轮状态。新同步与验收见 `docs/superseded/plans/WEB-WORKSPACE-SLICE2-SYNC-PLAN.md`。
 
-前端第一段已复核并快进合main4cbc521b，接通了本节的外壳、当前指代、逐家候选和B1呈现；本地Fixture两尺寸浏览器链路、五门禁与视觉证据见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
+前端第一段已复核并快进合main4cbc521b，接通了本节的外壳、当前指代、逐家候选和B1呈现；本地Fixture两尺寸浏览器链路、五门禁与视觉证据见[切片计划](../superseded/plans/WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
 Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.
 
 ## 第2段：问答、条件、变化与收尾
@@ -215,7 +215,7 @@ Current-run identity-bound pages are reused first. Each question now has an inde
 
 翻过最后候选显示Any of these work?，Saved/Adjust为文字动作，Find more调用原another-batch，返回仍是最后候选。来源读取失败但有合格结果时继续展示，末尾短提示；模型理解失败保留输入，断线Reconnecting自动恢复，明确过期的交接调用原refresh。没有合格结果只写Nothing matched yet.，不能写附近没店/没有空位。
 
-按用户2026-10-30批准，TaskDefinition22→23（State24形状不变）：NO_VERIFIED_RESULT只有服务端证明池内尚未调查的候选或既有同条件搜索续接仍有工作，且必要条件齐全时，canContinue才为true，显示Find more；否则只显示Adjust。使用原NEXT_BATCH_REPLENISHMENT_REQUESTED，保留检查/游标/备选，不重新调查已失败或不合格的店；版本、requestId幂等、预算、Stop和迟到丢弃沿用原路径。全部来源失败不使用续查，Try again复用refresh和显式刷新事件，仅重查确认失败的候选，不跑语义。工作分支验证状态见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，不是Live能力。
+按用户2026-10-30批准，TaskDefinition22→23（State24形状不变）：NO_VERIFIED_RESULT只有服务端证明池内尚未调查的候选或既有同条件搜索续接仍有工作，且必要条件齐全时，canContinue才为true，显示Find more；否则只显示Adjust。使用原NEXT_BATCH_REPLENISHMENT_REQUESTED，保留检查/游标/备选，不重新调查已失败或不合格的店；版本、requestId幂等、预算、Stop和迟到丢弃沿用原路径。全部来源失败不使用续查，Try again复用refresh和显式刷新事件，仅重查确认失败的候选，不跑语义。工作分支验证状态见[第2段计划](../superseded/plans/WEB-WORKSPACE-SLICE2-PLAN.md)，不是Live能力。
 
 
 ## 2026-11-11 CET 用户追加：条件原位修改

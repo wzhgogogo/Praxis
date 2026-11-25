@@ -5,7 +5,7 @@
 - Last updated: 2026-11-24
 - Source of truth for: current English Web presentation; product behavior and safety remain governed by accepted PRD and ADRs
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
-- Related documents: [User flows](USER-FLOWS.md), [Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [integration plan](../WEB-PHOTOS-UNIFIED-PLAN.md)
+- Related documents: [User flows](USER-FLOWS.md), [Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [integration plan](../superseded/plans/WEB-PHOTOS-UNIFIED-PLAN.md)
 - Evidence status: work branch implementation; acceptance results are recorded in STATUS and TEST-LOG, not inferred from this specification.
 
 ## Typography and navigation

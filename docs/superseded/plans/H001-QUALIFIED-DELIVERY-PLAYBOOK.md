@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # H001 可信结果交付 Playbook
 
 - Status: Draft

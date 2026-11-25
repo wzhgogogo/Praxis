@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # Browser Agent 餐厅只读调查实施与 Review 计划
 
 - Status: Accepted；范围与验收计划，实际完成证据见最终复核，不代表 P5 或任意网站能力

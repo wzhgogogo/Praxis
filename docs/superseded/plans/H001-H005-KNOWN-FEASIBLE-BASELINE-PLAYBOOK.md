@@ -1,3 +1,5 @@
+Status: superseded retrospective
+
 # H001–H005 已知可行基线 Playbook
 
 - Status: Draft
