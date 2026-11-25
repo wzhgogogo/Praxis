@@ -178,7 +178,25 @@ for(const width of [390,1440])test(`Round23 UI: R8 ${width} About and fullscreen
  const {createGooglePhotoFixture}=await import('../google-photo-fixtures.js');const google=await createGooglePhotoFixture(),source=await createPhotoSourceFixture();
  const host=await startWorkspaceFixture({photoHttp:source.http,photoGoogle:google.transport,provider:'TABELOG'}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width,height:width===390?844:900},hasTouch:true,reducedMotion:'reduce'});
  const destinations:string[]=[];await context.route('**/*',r=>{const url=r.request().url();if(new URL(url).origin===host.baseUrl)return r.continue();if(r.request().isNavigationRequest()){destinations.push(url);return r.fulfill({contentType:'text/html',body:'<title>Offline attribution target</title>'});}return r.abort();});const page=await context.newPage(),cdp=await context.newCDPSession(page);
- const swipe=async(selector:string,dx:number,dy=0)=>{const box=await page.locator(selector).boundingBox();assert.ok(box);const x=box.x+box.width*.5,y=box.y+box.height*.5;await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});for(let i=1;i<=6;i++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+dx*i/6,y:y+dy*i/6}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});};
+ const swipe=async(selector:string,dx:number,dy=0)=>{
+  const box=await page.locator(selector).boundingBox();assert.ok(box);
+  const x=box.x+box.width/2;
+  let y=box.y+box.height/2;
+  if(dy){
+   const visible=await page.locator('#case-workspace').evaluate(workspace=>{
+    const frame=workspace.getBoundingClientRect();
+    const composer=document.getElementById('workspace-composer')!.getBoundingClientRect();
+    return {top:Math.max(frame.top,0),bottom:Math.min(frame.bottom,composer.top,innerHeight)};
+   });
+   const top=Math.max(box.y,visible.top),bottom=Math.min(box.y+box.height,visible.bottom);
+   assert.ok(bottom>top,'The photo must have a visible area inside About');
+   y=(top+bottom)/2;
+   assert.equal(await page.evaluate(({x,y,selector})=>document.elementFromPoint(x,y)?.matches(selector),{x,y,selector}),true);
+  }
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]});
+  for(let i=1;i<=6;i++)await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+dx*i/6,y:y+dy*i/6}]});
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+ };
  const credits=async(selector:string)=>{for(const index of [0,1]){const a=page.locator(selector+' a').nth(index),href=await a.getAttribute('href');assert.ok(href?.startsWith('https:'));const popup=context.waitForEvent('page');await a.tap();const opened=await popup;await opened.waitForLoadState('domcontentloaded');assert.equal(opened.url(),href);assert.ok(destinations.includes(href!));await opened.close();}};
  try{await start(page,host);await photoLoaded(page);const galleryResponse=page.waitForResponse(r=>r.url().endsWith('/photos?scope=gallery'));await page.locator('#details-button').click();const gallery=await(await galleryResponse).json();await assertCurrentPhoto(page,'detail-photo','detail-photo-counter',gallery.photos[0],1,8);
   await swipe('#detail-photo',-90);await assertCurrentPhoto(page,'detail-photo','detail-photo-counter',gallery.photos[1],2,8);assert.equal(await page.locator('#details').isVisible(),true);assert.equal(await page.locator('#photo-viewer').isVisible(),false);await capture(page,`round23-r8-${width}-about-swiped`);
