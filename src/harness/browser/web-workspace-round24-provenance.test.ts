@@ -36,17 +36,51 @@ for(const width of [390,1440])for(const legacy of [false,true])test(`Round24 UI:
   if(legacy)for(const condition of conditions)for(const quote of condition.sources)delete quote.evidenceId;
   state.presentedResults!.conditionStates[id]=conditions;await persist();const rows=await groups(page);
   if(legacy){const unknown=rows.find(r=>r.key[0]===url&&r.key[1]===null)!;assert.ok(unknown);assert.equal(unknown.href,url);assert.doesNotMatch(unknown.footer!,/Checked|17:04|17:05/);assert.equal(unknown.quotes.length,2);assert.ok(rows.filter(row=>row.key[1]!==null).every(row=>row.quotes.every(q=>!q.label)),'legacy price labels never borrow an earlier reading time');}
-  else for(const [i,fact] of facts.entries()){for(const quote of fact.claims.listedCourseDetails as string[]){const matches=rows.filter(row=>row.quotes.some(q=>q.text===quote));assert.deepEqual(matches.map(r=>r.key[1]),[times[i]]);const row=matches[0]!;assert.equal(row.quotes.filter(q=>q.text===quote).length,1);assert.equal(row.values.filter(q=>q===quote).length,0);assert.equal(row.quotes.filter(q=>q.label==='Observed price:').length,1);}}
+  else for(const [i,fact] of facts.entries()){for(const quote of fact.claims.listedCourseDetails as string[]){const matches=rows.filter(row=>row.quotes.some(q=>q.text===quote));assert.deepEqual(matches.map(r=>r.key[1]),[times[i]]);const row=matches[0]!;assert.equal(row.quotes.filter(q=>q.text===quote).length,1);assert.equal(row.values.filter(q=>q===quote).length,1);assert.equal(row.quotes.filter(q=>q.label==='Observed price:').length,1);}}
   await capture(page,`round24-u1-u2-${width}-${legacy?'legacy-unknown-time':'exact-price-times'}`);
  });
 });
-for(const width of [390,1440])for(const budget of [false,true])for(const provider of ['tabelog','website'] as const)test(`Round24 UI: U2 ${width} archived ${provider} menu budget=${budget} appears once per reading`,{timeout:35000},async()=>{
+async function assertTermsAndOpenSource(page: Page, expected: readonly string[]) {
+ const section = page.locator('#details-content .about-commercial');
+ const terms = section.locator(':scope > .about-term');
+ const source = section.locator('details.citation-sources');
+ const originals = source.locator('blockquote');
+ const termTexts = await terms.allTextContents();
+ const originalTexts = await originals.allTextContents();
+ assert.equal(await source.evaluate((node: HTMLDetailsElement) => node.open), false);
+ for (const text of expected) {
+  assert.equal(termTexts.filter(value => value === text).length, 1, text);
+  assert.equal(originalTexts.filter(value => value === text).length, 1, text);
+  assert.ok(await terms.nth(termTexts.indexOf(text)).isVisible(), text);
+  assert.equal(await originals.nth(originalTexts.indexOf(text)).isVisible(), false, text);
+ }
+ await source.locator('summary').click();
+ for (const text of expected) assert.ok(await originals.nth(originalTexts.indexOf(text)).isVisible(), text);
+}
+for(const width of [390,1440])for(const budget of [false,true])for(const provider of ['tabelog','website'] as const)test(`Round24 UI: U2 ${width} archived ${provider} menu budget=${budget} keeps menu terms visible and originals in Source`,{timeout:35000},async()=>{
  const input=JSON.parse(await readFile(new URL('./fixtures/round24-provenance/'+provider+'-menu.json',import.meta.url),'utf8')) as {fact:RestaurantReadEvidence;identity:RestaurantReadEvidence;matchingQuotes:string[]};
  await projected(width,async(page,_host,_id,state,persist)=>{
   const id=state.presentedResults!.candidateIds[0]!,fact={...input.fact,candidateId:id},identity={...input.identity,candidateId:id};state.readEvidence.push(identity,fact);state.factChecks![id]={status:'COMPLETED',sourceProvider:fact.provider as 'TABELOG'|'RESTAURANT_WEBSITE',checkedAt:fact.observedAt,evidenceIds:[fact.evidenceId]};
   state.presentedResults!.conditionStates[id]=budget?assessRestaurantConditions({criteria:[],budgetPerPerson:{max:9000,currency:'JPY'},timeWindow:{earliest:'19:00',latest:'20:00'}},[fact]):[];await persist();
-  for(const text of input.matchingQuotes){const nodes=await page.locator('#details-content .about-term,#details-content blockquote').allTextContents();assert.equal(nodes.filter(x=>x===text).length,1,text);}
+  await assertTermsAndOpenSource(page, input.matchingQuotes);
   const rows=await groups(page),same=rows.find(row=>row.key[0]===fact.sourceUrl&&row.key[1]===fact.observedAt)!;assert.ok(same);assert.equal(same.footer,`${provider==='tabelog'?'Tabelog':new URL(fact.sourceUrl!).hostname.replace(/^www\./,'')} ↗ · Checked ${new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Tokyo',month:'short',day:'numeric'}).format(new Date(fact.observedAt))}`);assert.equal(same.href,fact.sourceUrl);await capture(page,`round24-u2-${width}-${provider}-${budget?'budget':'no-budget'}-menu`);
+ });
+});
+
+test("Round28 follow-up: 390 About keeps Chef's omakase visible with identical original in Source", { timeout: 35_000 }, async () => {
+ await projected(390, async (page, _host, _id, state, persist) => {
+  const candidateId = state.presentedResults!.candidateIds[0]!;
+  const input = JSON.parse(await readFile(new URL('./fixtures/round24-provenance/tabelog-menu.json', import.meta.url), 'utf8')) as { fact: RestaurantReadEvidence; identity: RestaurantReadEvidence };
+  const title = "Chef's omakase";
+  const fact = { ...input.fact, candidateId, claims: { listedCourseDetails: [title] },
+   sourceFieldQuotes: [{ field: 'COURSE_TITLE' as const, quote: title, sourceUrl: input.fact.sourceUrl! }] };
+  state.readEvidence.push({ ...input.identity, candidateId }, fact);
+  state.factChecks![candidateId] = { status: 'COMPLETED', sourceProvider: 'TABELOG', checkedAt: fact.observedAt, evidenceIds: [fact.evidenceId] };
+  state.presentedResults!.conditionStates[candidateId] = [];
+  await persist();
+  await capture(page, 'round28-follow-up-390-course-source-collapsed');
+  await assertTermsAndOpenSource(page, [title]);
+  await capture(page, 'round28-follow-up-390-course-source-expanded');
  });
 });
 

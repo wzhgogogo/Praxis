@@ -113,7 +113,7 @@ export function renderDetails(){
   for(const group of groups.values()){
    const normalize=(text:string)=>text.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
    const quotes=new Map<string,SourceExcerpt>();for(const quote of group.quotes){const key=normalize(quote.text??''),previous=quotes.get(key);if(!previous||!previous.label&&quote.label)quotes.set(key,quote);}
-   const row=element('section',undefined,group.values.size?'about-commercial':'about-source');row.dataset.sourceId=JSON.stringify([group.url,group.readAt??null]);for(const value of group.values)if(!quotes.has(normalize(value)))row.append(element('p',value,'about-term'));
+   const row=element('section',undefined,group.values.size?'about-commercial':'about-source');row.dataset.sourceId=JSON.stringify([group.url,group.readAt??null]);for(const value of group.values)row.append(element('p',value,'about-term'));
    if(quotes.size)renderCitations(row,[...quotes.values()],true);else row.append(citationFooter(group));target.append(row);
   }
  });}renderAsked(id);

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { bindRestaurantRelativeDate } from "./relative-date-binding.js";
 import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
 import { RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA, validateRestaurantSemanticProposal, type RestaurantSemanticProposal } from "./semantic-proposal.js";
 
@@ -55,6 +56,39 @@ test("ADR-0053 complete DATE quotes bind offsets and reject truncated, invented 
   expectDate(compile("Dinner ＴＯＭＯＲＲＯＷ", literal("Tomorrow", "2026-11-28")), "2026-11-25");
   expectDate(compile("2026年11月28日", literal("2026年11月28日", "2026-11-28")), "2026-11-28");
   expectDate(compile("1/3", literal("1/3", "2027-01-03"), "ASSERT", "2026-12-28T10:00:00+09:00"), "2027-01-03");
+});
+
+test("ADR-0053 binds a date quoted with time and keeps the model's original DATE.raw", () => {
+  const raw = "后天晚上7点";
+  const tomorrow: DateValue = { kind: "DATE", raw, relativeDay: "TOMORROW" };
+  expectDate(compile("改成" + raw, tomorrow), "2026-11-26");
+  expectDate(compile(raw + "，就" + raw, tomorrow), "2026-11-26");
+  expectDate(compile("后天，还是后天", { ...tomorrow, raw: "后天，还是后天" }), "2026-11-26");
+  const bound = bindRestaurantRelativeDate({ schemaVersion: "4", facts: [
+    { field: "DATE", operation: "CORRECT", value: tomorrow },
+  ] }, raw, context);
+  assert.equal(bound.status, "BOUND");
+  if (bound.status === "BOUND") {
+    assert.deepEqual(bound.proposal.facts[0]?.value, { kind: "DATE", raw, relativeOffsetDays: 2 });
+  }
+
+  expectDate(compile("下周五晚上7点", literal("下周五晚上7点", "2026-12-04")), "2026-12-04");
+  expectDate(compile("2026-11-28 19:00", literal("2026-11-28 19:00", "2026-11-28")), "2026-11-28");
+  expectDate(compile("11月28日晚上7点", literal("11月28日晚上7点", "2026-11-28")), "2026-11-28");
+  expectDate(compile("周五前一天", literal("前一天", "2026-11-26")), "2026-11-26");
+});
+
+test("ADR-0053 rejects ambiguous or clipped quotes and checks dates inside longer quotes", () => {
+  const tomorrow: DateValue = { kind: "DATE", raw: "明天或后天", relativeDay: "TOMORROW" };
+  const examples: ReadonlyArray<readonly [string, DateValue]> = [
+    ["下周五晚上7点", literal("下周五晚上7点", "2026-11-27")],
+    ["2026-11-28 19:00", literal("2026-11-28 19:00", "2026-11-25")],
+    ["11月28日晚上7点", literal("11月28日晚上7点", "2026-11-25")],
+    ["明天或后天晚上7点", tomorrow],
+    ["大后天晚上7点", { kind: "DATE", raw: "后天晚上7点", relativeOffsetDays: 2 }],
+    ["本周五，下周五", friday("周五")],
+  ];
+  for (const [message, date] of examples) assert.equal(compile(message, date).status, "CONFLICT", message);
 });
 
 test("ADR-0053 treats the structured date chooser as authoritative", () => {

@@ -22,16 +22,27 @@ function normalize(value: string): string {
 function dateTokens(message: string, raw: string): string[] {
   const recognized = /(?<!\d)\d{4}-\d{2}-\d{2}(?!\d)|(?<!\d)(?:\d{4}年)?\d{1,2}月\d{1,2}[日号]|(?<![\d/])\d{1,2}\/\d{1,2}(?![\d/])|(?:这|本|下)?个?(?:周|星期|礼拜)[一二三四五六日天]|大后天|后天|明天|今天|一周后|[-+\d.零〇一二两三四五六七八九十百]+(?:\s*[–~至到或-]\s*[-+\d.零〇一二两三四五六七八九十百]+)?天后|\b(?:day after tomorrow|tomorrow|today|tonight|in a week|in -?(?:\d+(?:\.\d+)?(?:\s*[-–~]\s*\d+)?|one|two|three|four|five|six|seven|eight|nine|ten) days?|(?:(?:this|next)\s+)?(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday))\b/gu;
   const tokens = [...message.matchAll(recognized)];
-  const matches: string[] = [];
-  for (let start = message.indexOf(raw); start !== -1; start = message.indexOf(raw, start + raw.length)) {
+  const matches = new Set<string>();
+  for (let start = message.indexOf(raw); start !== -1; start = message.indexOf(raw, start + 1)) {
     const end = start + raw.length;
     if ((/^[a-z0-9]/u.test(raw) && /[a-z0-9_]/u.test(message[start - 1] ?? ""))
       || (/[a-z0-9]$/u.test(raw) && /[a-z0-9_]/u.test(message[end] ?? ""))) continue;
-    const covering = tokens.find(token => token.index <= start && end <= token.index + token[0].length);
-    if (!covering || covering[0] === raw) matches.push(raw);
-    else if (covering[0].endsWith(raw) && weekdayOf(raw) && weekdayOf(covering[0])) matches.push(covering[0]);
+    const overlapping = tokens.filter(token => start < token.index + token[0].length && token.index < end);
+    const first = overlapping[0];
+    if (!first) {
+      matches.add(raw);
+      continue;
+    }
+    const wholeWord = overlapping.every(token => {
+      if (token[0] !== first[0]) return false;
+      const tokenEnd = token.index + token[0].length;
+      const includesDate = start <= token.index && tokenEnd <= end;
+      const qualifiedWeekdaySuffix = token.index <= start && end === tokenEnd && weekdayOf(raw) && weekdayOf(token[0]);
+      return includesDate || qualifiedWeekdaySuffix;
+    });
+    if (wholeWord) matches.add(first[0]);
   }
-  return matches;
+  return [...matches];
 }
 
 function offsetDays(raw: string): number | undefined {
@@ -115,8 +126,9 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
     }
     const raw = normalize(value.raw);
     const tokens = raw ? dateTokens(normalized, raw) : [];
-    if (!tokens.length) return fail("The date expression does not appear as a complete term in this message");
-    const days = offsetDays(raw);
+    const [token] = tokens;
+    if (!token || tokens.length !== 1) return fail("The date expression must match one complete date term in this message");
+    const days = offsetDays(token);
     if (days !== undefined) {
       if (!Number.isInteger(days) || days < 0 || days > 365) return fail("Clarify one supported relative date");
       const date: DateValue = days <= 1
@@ -127,13 +139,13 @@ export function bindRestaurantRelativeDate(proposal: RestaurantSemanticProposal,
     }
     const today = materializeRestaurantTemporalFacts({ ...context, date: { kind: "DATE", relativeDay: "TODAY", raw: "today" } }).date!;
     const actual = materializeRestaurantTemporalFacts({ ...context, date: value }).date;
-    const expected = calendarDate(raw, today);
+    const expected = calendarDate(token, today);
     if (expected && (!validDate(expected) || actual !== expected
-      || Date.parse(expected) - Date.parse(today) > 365 * 86_400_000 && !/^\d{4}[-年]/u.test(raw))) {
+      || Date.parse(expected) - Date.parse(today) > 365 * 86_400_000 && !/^\d{4}[-年]/u.test(token))) {
       return fail("The model date disagrees with the calendar expression");
     }
-    const weekday = weekdayOf(raw);
-    if (weekday && !tokens.some(token => actual === weekdayDate(weekday, token, today, context))) {
+    const weekday = weekdayOf(token);
+    if (weekday && actual !== weekdayDate(weekday, token, today, context)) {
       return fail("The model date disagrees with the complete Tokyo date for this weekday");
     }
     facts.push(fact);
