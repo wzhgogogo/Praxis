@@ -1497,3 +1497,10 @@ Fixed 5 P2 findings from Round 25 independent review (`V3`, `R1`, `M2`, `R3`, `R
 ### 2026-11-25 — Round 28 3C 终稿离线验收
 
 冻结 `5f8d4344018b9acae8352cd3fa0757f6dad10d2d`（src `8e119ea69672583714a46cd0493dc1559a68df5b`）。ADR-0053 将自由文本日期选择交回模型。普通星期复用东京物化并比较完整日期，11 月 24 日的周五为 11 月 27 日，12 月 4 日错配在实际读轮结束后查位 0。结构化日期 8/8，首页 no-store，七项工作区细节完成双尺寸离线回归。默认 1984/1984，G2 5/5，Chromium 603/603，G6 159/159，dist C1 4/4。Typecheck、Arch 和 Build 通过，19 JS 与 HTML/CSS parity、strict 18 模块 0 环。既有 652 受跟踪删除及 2872+137 未跟踪缺件原样保留，历史完整性阻塞。无 Live、真实PG、远端CDP、4312 和真机验收。 [Round 28 报告](../.eval-artifacts/3c-unified-20261117/round-28/REPORT.md)。
+
+
+<a id="unified-round28-date-raw-about-follow-up-20261125"></a>
+
+### 2026-11-25 — Round 28 DATE.raw 与 About 定向复核
+
+冻结 `d2ec1b51971deac6f269e07e9d289ff8cd1cb2cc`。按既有日期词重叠区间校验较长 DATE.raw，保留原引文。东京 11 月 24 日的错标 TOMORROW 实际查位 11 月 26 日 19:00，另五条读轮结束后查位 0。About 的同名套餐摘要默认可见，原文在 Source。默认 1992/1992，G2 5/5，Chromium 604/604，G6 159/159，dist C1 4/4。五门禁、构建资产、严格浏览器模块图与历史增量保护核验通过，历史原件完整性仍阻塞。 [报告](../.eval-artifacts/3c-unified-20261117/round-28-follow-up/REPORT.md)

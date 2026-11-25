@@ -1,0 +1,32 @@
+✖ Round28 follow-up: 390 About keeps Chef's omakase visible with identical original in Source (1651.977334ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2321.877959
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-round24-provenance.test.ts:1:8785
+✖ Round28 follow-up: 390 About keeps Chef's omakase visible with identical original in Source (1651.977334ms)
+  AssertionError [ERR_ASSERTION]: Chef's omakase
+  
+  0 !== 1
+  
+      at assertTermsAndOpenSource (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:52:10)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:473:9)
+      at async <anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:82:3)
+      at async projected (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:20:3)
+      at async TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/harness/browser/web-workspace-round24-provenance.test.ts:71:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

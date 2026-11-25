@@ -1,0 +1,83 @@
+{
+  "sha": "d2ec1b51971deac6f269e07e9d289ff8cd1cb2cc",
+  "referenceTime": "2026-11-24T10:00:00+09:00",
+  "source": "gates/test.log",
+  "observations": [
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "long DATE.raw corrects TOMORROW",
+      "phase": "PRESENT_RESULTS",
+      "persistedDate": "2026-11-26",
+      "searchCalls": 1,
+      "decisionCalls": 5,
+      "readHandleIdle": true,
+      "availabilityDates": [
+        "2026-11-26"
+      ],
+      "availabilityTimes": [
+        "19:00"
+      ],
+      "availabilityCalls": 3
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "long DATE.raw rejects wrong qualified weekday",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "long DATE.raw rejects wrong ISO date",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "long DATE.raw rejects wrong yearless date",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "long DATE.raw rejects two date words",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    },
+    {
+      "mode": "OFFLINE_FAKE_MODEL_PGLITE",
+      "scenario": "long DATE.raw rejects clipped offset",
+      "phase": "NEEDS_INPUT",
+      "persistedDate": "2026-11-25",
+      "searchCalls": 0,
+      "decisionCalls": 0,
+      "readHandleIdle": true,
+      "availabilityDates": [],
+      "availabilityTimes": [],
+      "availabilityCalls": 0
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"long DATE.raw corrects TOMORROW","phase":"PRESENT_RESULTS","persistedDate":"2026-11-25","searchCalls":1,"decisionCalls":5,"readHandleIdle":true,"availabilityDates":["2026-11-25"],"availabilityTimes":["19:00"],"availabilityCalls":3}
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw corrects TOMORROW (1064.065208ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"long DATE.raw rejects wrong qualified weekday","phase":"PRESENT_RESULTS","persistedDate":"2026-11-27","searchCalls":1,"decisionCalls":5,"readHandleIdle":true,"availabilityDates":["2026-11-27"],"availabilityTimes":["19:00"],"availabilityCalls":3}
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects wrong qualified weekday (655.467083ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"long DATE.raw rejects wrong ISO date","phase":"PRESENT_RESULTS","persistedDate":"2026-11-25","searchCalls":1,"decisionCalls":5,"readHandleIdle":true,"availabilityDates":["2026-11-25"],"availabilityTimes":["19:00"],"availabilityCalls":3}
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects wrong ISO date (553.468416ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"long DATE.raw rejects wrong yearless date","phase":"PRESENT_RESULTS","persistedDate":"2026-11-25","searchCalls":1,"decisionCalls":5,"readHandleIdle":true,"availabilityDates":["2026-11-25"],"availabilityTimes":["19:00"],"availabilityCalls":3}
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects wrong yearless date (532.728584ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"long DATE.raw rejects two date words","phase":"PRESENT_RESULTS","persistedDate":"2026-11-25","searchCalls":1,"decisionCalls":5,"readHandleIdle":true,"availabilityDates":["2026-11-25"],"availabilityTimes":["19:00"],"availabilityCalls":3}
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects two date words (535.356958ms)
+{"mode":"OFFLINE_FAKE_MODEL_PGLITE","scenario":"long DATE.raw rejects clipped offset","phase":"PRESENT_RESULTS","persistedDate":"2026-11-26","searchCalls":1,"decisionCalls":5,"readHandleIdle":true,"availabilityDates":["2026-11-26"],"availabilityTimes":["19:00"],"availabilityCalls":3}
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects clipped offset (528.495833ms)
+✖ ADR-0053 binds a date quoted with time and keeps the model's original DATE.raw (16.348125ms)
+✖ ADR-0053 rejects ambiguous or clipped quotes and checks dates inside longer quotes (0.661083ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 0
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4611.963583
+
+✖ failing tests:
+
+test at src/application/restaurant-relative-date.test.ts:1:8149
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw corrects TOMORROW (1064.065208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2026-11-25'
+  - '2026-11-26'
+              ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:134:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-25',
+    expected: '2026-11-26',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:8149
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects wrong qualified weekday (655.467083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PRESENT_RESULTS'
+  - 'NEEDS_INPUT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:139:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT_RESULTS',
+    expected: 'NEEDS_INPUT',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:8149
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects wrong ISO date (553.468416ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PRESENT_RESULTS'
+  - 'NEEDS_INPUT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:139:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT_RESULTS',
+    expected: 'NEEDS_INPUT',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:8149
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects wrong yearless date (532.728584ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PRESENT_RESULTS'
+  - 'NEEDS_INPUT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:139:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT_RESULTS',
+    expected: 'NEEDS_INPUT',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:8149
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects two date words (535.356958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PRESENT_RESULTS'
+  - 'NEEDS_INPUT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:139:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT_RESULTS',
+    expected: 'NEEDS_INPUT',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-relative-date.test.ts:1:8149
+✖ Round28 ADR-0053 actual message and availability: long DATE.raw rejects clipped offset (528.495833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PRESENT_RESULTS'
+  - 'NEEDS_INPUT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/application/restaurant-relative-date.test.ts:139:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PRESENT_RESULTS',
+    expected: 'NEEDS_INPUT',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/relative-date-binding.test.ts:1:4337
+✖ ADR-0053 binds a date quoted with time and keeps the model's original DATE.raw (16.348125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '2026-11-25'
+  - '2026-11-26'
+              ^
+  
+      at expectDate (/private/tmp/praxis-3c-unified/src/domains/restaurant/relative-date-binding.test.ts:33:44)
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/relative-date-binding.test.ts:64:3)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '2026-11-25',
+    expected: '2026-11-26',
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/relative-date-binding.test.ts:1:5552
+✖ ADR-0053 rejects ambiguous or clipped quotes and checks dates inside longer quotes (0.661083ms)
+  AssertionError [ERR_ASSERTION]: 下周五晚上7点
+  + actual - expected
+  
+  + 'COMPILED'
+  - 'CONFLICT'
+       ^
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-3c-unified/src/domains/restaurant/relative-date-binding.test.ts:91:50)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'COMPILED',
+    expected: 'CONFLICT',
+    operator: 'strictEqual'
+  }
